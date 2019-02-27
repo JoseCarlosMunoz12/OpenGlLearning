@@ -1,6 +1,7 @@
 #include "libs.h"
 int main()
 {
+	glm::vec3(0.0f);
 	int d;
 	glewExperimental = GL_TRUE;
 	if (glewInit != GLEW_OK)
