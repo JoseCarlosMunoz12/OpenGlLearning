@@ -1,8 +1,17 @@
 #include "libs.h"
+
+void updateInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
+}
 void FrameBufferResize(GLFWwindow* window, int fbw, int fbh)
 {
 	glViewport(0, 0, fbw, fbh);
 }
+
 
 bool loadShaders(GLuint &program)
 {
@@ -97,7 +106,6 @@ bool loadShaders(GLuint &program)
 	return loadSuccess;
 }
 
-
 int main()
 {
 	//INIT GLFW
@@ -129,6 +137,19 @@ int main()
 		std::cout << "ERROR:MAIN>CPP::GLEW_INIT_FAILED" << "\n";
 		glfwTerminate();
 	}
+	//OPENGL OPTIONS
+	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
 	//Shader INIT
 	GLuint core_program;
 	if (!loadShaders(core_program))
@@ -142,7 +163,7 @@ int main()
 		//Update Input---
 		glfwPollEvents();
 		//UPdate--
-
+		updateInput(window);
 		//Draw---
 		//Clear
 		glClearColor(0.f,0.f,0.f,1.f);
