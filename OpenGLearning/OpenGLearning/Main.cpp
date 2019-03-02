@@ -1,5 +1,23 @@
 #include "libs.h"
 
+
+//void 
+Vertex vertices[] =
+{
+	//Position                     //Color                     //TexCoords
+	glm::vec3(0.0f ,0.5f ,0.0f),   glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.f,1.f),
+	glm::vec3(-0.5f,-0.5f,0.0f),   glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.f,0.f),
+	glm::vec3(0.5f ,-.5f ,0.0f),   glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.f,0.f)
+
+};
+unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
+
+GLuint indices[] =
+{
+	0,1,2
+};
+unsigned nrOfIndices = sizeof(indices) / sizeof(GLuint);
+
 void updateInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -7,11 +25,11 @@ void updateInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
 }
+
 void FrameBufferResize(GLFWwindow* window, int fbw, int fbh)
 {
 	glViewport(0, 0, fbw, fbh);
 }
-
 
 bool loadShaders(GLuint &program)
 {
@@ -117,13 +135,12 @@ int main()
 	int framebufferWidth = 0;
 	int framebufferHeight = 0;
 
-	glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
-	glfwWindowHint(GLFW_RESIZABLE,GL_TRUE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-	
-	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_WIEGHT,"Title Used",NULL,NULL);
+	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_WIEGHT, "Title Used", NULL, NULL);
 	glfwSetFramebufferSizeCallback(window, FrameBufferResize);
 	/*glfwGetFramebufferSize(window, &framebufferWidth,&framebufferHeight);
 	glViewport(0, 0,framebufferWidth,framebufferWidth );*/
@@ -156,7 +173,39 @@ int main()
 	{
 		glfwTerminate();
 	}
+	//MODEL
 
+	//VAP,VBO, EBO
+
+	//GEN VAO and BIND
+	GLuint VAO;
+	glCreateVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	
+	//GEN VBO AND BIND AND SEND DATA
+	GLuint VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	//GEN EBO and BIND And Send Data
+	GLuint EBO;
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	//Set VerttexAttribPointers and Enable (input assembly)
+	//Position
+   	glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE, sizeof(Vertex),(GLvoid*)offsetof(Vertex, position));
+	glEnableVertexAttribArray(0);
+	//Color
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, color));
+	glEnableVertexAttribArray(1);
+	//TexCoord
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texcoord));
+	glEnableVertexAttribArray(2);
+	//BIND VAO 0
+	glBindVertexArray(0);
 	// MAIN LOOP
 	while (!glfwWindowShouldClose(window))
 	{
@@ -164,12 +213,19 @@ int main()
 		glfwPollEvents();
 		//UPdate--
 		updateInput(window);
-		//Draw---
-		//Clear
-		glClearColor(0.f,0.f,0.f,1.f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		//DRAW---
 
-		//DRAW
+		//Clear
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		//Use a Program
+		glUseProgram(core_program);  
+		//Bind Vertex Array object
+		glBindVertexArray(VAO);
+
+		//Draw
+		//glDrawArrays(GL_TRIANGLES, 0, nrOfVertices);
+		glDrawElements(GL_TRIANGLES, nrOfIndices, GL_UNSIGNED_INT, 0);
 
 		//End Draw
 		glfwSwapBuffers(window);
