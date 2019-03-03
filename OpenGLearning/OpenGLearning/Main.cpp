@@ -5,16 +5,19 @@
 Vertex vertices[] =
 {
 	//Position                     //Color                     //TexCoords
-	glm::vec3(0.0f ,0.5f ,0.0f),   glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.f,1.f),
-	glm::vec3(-0.5f,-0.5f,0.0f),   glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.f,0.f),
-	glm::vec3(0.5f ,-.5f ,0.0f),   glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.f,0.f)
+	glm::vec3(-0.5f ,0.5f ,0.0f),   glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.f,1.f),
+	glm::vec3(-0.5f ,-0.5f,0.0f),   glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.f,0.f),
+	glm::vec3(0.5f ,-.5f ,0.0f),   glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.f,0.f),
+
+	glm::vec3(0.5f,0.5f,0.0f),     glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.f,0.f)
 
 };
 unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
 GLuint indices[] =
 {
-	0,1,2
+	0,1,2, //Trianlge 1
+	0,2,3  //Triangle 2
 };
 unsigned nrOfIndices = sizeof(indices) / sizeof(GLuint);
 
@@ -39,9 +42,7 @@ bool loadShaders(GLuint &program)
 
 	std::string temp = "";
 	std::string src = "";
-
 	std::ifstream in_file;
-
 	//Vertex
 	in_file.open("vertex_core.glsl");
 
@@ -62,7 +63,6 @@ bool loadShaders(GLuint &program)
 	const GLchar* vertSrc = src.c_str();
 	glShaderSource(vertexShader,1, &vertSrc, NULL);
 	glCompileShader(vertexShader);
-
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 
 	if (!success)
@@ -74,7 +74,6 @@ bool loadShaders(GLuint &program)
 
 	temp = "";
 	src = "";
-
 	//fragment
 	in_file.open("fragment_core.glsl");
 
@@ -93,7 +92,6 @@ bool loadShaders(GLuint &program)
 	const GLchar* fragSrc = src.c_str();
 	glShaderSource(fragmentShader, 1, &fragSrc, NULL);
 	glCompileShader(fragmentShader);
-
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 
 	if (!success)
@@ -108,7 +106,6 @@ bool loadShaders(GLuint &program)
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, fragmentShader);
 	glLinkProgram(program);
-
 	glGetProgramiv(program, GL_LINK_STATUS, &success);
 	if (!success)
 	{
