@@ -7,7 +7,7 @@ Vertex vertices[] =
 	glm::vec3(-0.5f,-0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),
 	glm::vec3( 0.5f,-0.5f, 0.0f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),
 
-	glm::vec3( 0.5f, 0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f)
+	glm::vec3( 0.5f, 0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,1.0f)
 };
 unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
@@ -230,21 +230,28 @@ int main()
 	{
 		//Update Input---
 		glfwPollEvents();
+
 		//UPdate--
 		updateInput(window);
+
 		//DRAW---
 		//Clear
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
 		//Use a Program
 		glUseProgram(core_program);  
+
 		//Update uniforms
 		glUniform1i(glGetUniformLocation(core_program,"texture0"),0);
+
 		//Activate Texture
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
+
 		//Bind Vertex Array object
 		glBindVertexArray(VAO);
+
 		//Draw
 		//glDrawArrays(GL_TRIANGLES, 0, nrOfVertices);
 		glDrawElements(GL_TRIANGLES, nrOfIndices, GL_UNSIGNED_INT, 0);
