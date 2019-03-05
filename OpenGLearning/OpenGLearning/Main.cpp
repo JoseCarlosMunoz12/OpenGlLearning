@@ -7,7 +7,7 @@ Vertex vertices[] =
 	glm::vec3(-0.5f,-0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),
 	glm::vec3( 0.5f,-0.5f, 0.0f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),
 
-	glm::vec3( 0.5f, 0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,1.0f)
+	glm::vec3( 0.5f, 0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f)
 };
 unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
@@ -160,15 +160,15 @@ int main()
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	
-	//Shader INIT
+	//Shader INIT-----
 	GLuint core_program;
 	if (!loadShaders(core_program))
 	{
 		glfwTerminate();
 	}
-	//MODEL
+	//MODEL----------
 
-	//VAP,VBO, EBO
+	//VAP,VBO, EBO-----
 
 	//GEN VAO and BIND
 	GLuint VAO;
@@ -180,8 +180,8 @@ int main()
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER,VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	//GEN EBO and BIND And Send Data
+	
+	//GEN EBO and BIND And Send Data---------
 	GLuint EBO;
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -199,10 +199,12 @@ int main()
 	glEnableVertexAttribArray(2);
 	//BIND VAO 0
 	glBindVertexArray(0);
-	//Texture INIT
+
+
+	//Texture INIT----------
 	int image_width = 0;
 	int image_height = 0;
-	unsigned char* image = SOIL_load_image("Images/Untitled1.png",&image_width,&image_height,NULL,SOIL_LOAD_RGBA);
+	unsigned char* image = SOIL_load_image("Images/Test1.png",&image_width,&image_height,NULL,SOIL_LOAD_RGBA);
 
 	GLuint texture0;
 	glGenTextures(1, &texture0);
@@ -225,6 +227,33 @@ int main()
 	glActiveTexture(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	SOIL_free_image_data(image);
+	//Second Texture
+	int image1_width = 0;
+	int image1_height = 0;
+	unsigned char* image1 = SOIL_load_image("Images/Untitled1.png", &image1_width, &image1_height, NULL, SOIL_LOAD_RGBA);
+
+	GLuint texture1;
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	if (image1)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image1_width, image1_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image1);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "ERROR::TEXTURE_LOADING_FAILED" << "\n";
+	}
+	glActiveTexture(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	SOIL_free_image_data(image1);
+
 	// MAIN LOOP
 	while (!glfwWindowShouldClose(window))
 	{
@@ -244,11 +273,13 @@ int main()
 
 		//Update uniforms
 		glUniform1i(glGetUniformLocation(core_program,"texture0"),0);
+		glUniform1i(glGetUniformLocation(core_program, "texture1"), 1);
 
 		//Activate Texture
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
-
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture1);
 		//Bind Vertex Array object
 		glBindVertexArray(VAO);
 
