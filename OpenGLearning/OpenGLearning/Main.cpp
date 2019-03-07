@@ -1,4 +1,5 @@
 #include "libs.h"
+float Rotate = 0.f;
 //void 
 Vertex vertices[] =
 {
@@ -23,6 +24,18 @@ void updateInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
+	else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		Rotate += 0.1f;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		Rotate -= 0.1f;
+		if (Rotate <= 0.f)
+		{
+			Rotate = 0.f;
+		}
 	}
 }
 
@@ -256,7 +269,7 @@ int main()
 
 	glm::mat4 ModelMatrix(1.f);
 	ModelMatrix = glm::translate(ModelMatrix,glm::vec3(0.f,0.f,0.f));
-	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(1.f), glm::vec3(1.f,0.f,0.f));
+	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(0.f), glm::vec3(1.f,0.f,0.f));
 	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f));
 	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));
 	ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.f));
@@ -288,9 +301,9 @@ int main()
 		glUniform1i(glGetUniformLocation(core_program,"texture0"),0);
 		glUniform1i(glGetUniformLocation(core_program, "texture1"), 1);
 		//MOve, rotate and scale
-		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(3.f), glm::vec3(1.f, 0.f, 0.f));
-		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(3.f), glm::vec3(0.f, 1.f, 0.f));
-		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(3.f), glm::vec3(0.f, 0.f, 1.f));
+		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
+		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f));
+		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(Rotate), glm::vec3(0.f, 0.f, 1.f));
 		glUniformMatrix4fv(glGetUniformLocation(core_program, "ModelMatrix"), 1, GL_FALSE, glm::value_ptr(ModelMatrix));
 
 		//Activate Texture
