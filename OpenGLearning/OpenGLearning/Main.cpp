@@ -3,11 +3,11 @@ float Rotate = 0.f;
 //void 
 Vertex vertices[] =
 {
-	//Position                    //Color                     //TexCoords
-	glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),
-	glm::vec3(-0.5f,-0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),
-	glm::vec3( 0.5f,-0.5f, 0.0f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),
-	glm::vec3( 0.5f, 0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f)
+	//Position                    //Color                     //TexCoords			 //Normals
+	glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3(0.0f,0.0f,-1.0f),
+	glm::vec3(-0.5f,-0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3(0.0f,0.0f,-1.0f),
+	glm::vec3( 0.5f,-0.5f, 0.0f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f,-1.0f),
+	glm::vec3( 0.5f, 0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3(0.0f,0.0f,-1.0f)
 };
 unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
@@ -54,6 +54,14 @@ void updateInput(GLFWwindow* window, glm::vec3& position, glm::vec3& rotation, g
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 	{
 		rotation.y += 2.f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
+ 		position.y += 0.01f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
+	{
+		position.y -= 0.01f;
 	}
 }
 
@@ -230,6 +238,9 @@ int main()
 	//TexCoord
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texcoord));
 	glEnableVertexAttribArray(2);
+	//Normal
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, normal));
+	glEnableVertexAttribArray(3);
 	//BIND VAO 0
 	glBindVertexArray(0);
 
@@ -312,12 +323,17 @@ int main()
 	Projectionmatrix = glm::perspective(glm::radians(fov),
 		static_cast<float>(framebufferWidth) / framebufferHeight,
 		nearPlane, farPlane);
+	//Lights
+	glm::vec3 LightPos0(0.f, 0.f, 2.f);
+
 	//INIT UNIFORMS
 	glUseProgram(core_program);
 
 	glUniformMatrix4fv(glGetUniformLocation(core_program, "ModelMatrix"), 1, GL_FALSE, glm::value_ptr(ModelMatrix));
 	glUniformMatrix4fv(glGetUniformLocation(core_program, "ViewMatrix"), 1, GL_FALSE, glm::value_ptr(ViewMatrix));
 	glUniformMatrix4fv(glGetUniformLocation(core_program, "ProjectionMatrix"), 1, GL_FALSE, glm::value_ptr(Projectionmatrix));
+
+	glUniform3fv(glGetUniformLocation(core_program, "lightPos0"), 1, glm::value_ptr(LightPos0));
 
 	glUseProgram(0);
 
