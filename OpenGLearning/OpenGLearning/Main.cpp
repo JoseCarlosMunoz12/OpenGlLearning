@@ -202,11 +202,12 @@ int main()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	
 	//Shader INIT-----
-	GLuint core_program;
+	Shader core_program("vertex_core.glsl","fragment_core.glsl");
+	/*GLuint core_program;
 	if (!loadShaders(core_program))
 	{
 		glfwTerminate();
-	}
+	}*/
 	//MODEL----------
 
 	//VAP,VBO, EBO-----
@@ -327,16 +328,13 @@ int main()
 	glm::vec3 LightPos0(0.f, 0.f, 2.f);
 
 	//INIT UNIFORMS
-	glUseProgram(core_program);
+	core_program.use();
+	core_program.setMat4fv(ModelMatrix, "ModelMatrix");
+	core_program.setMat4fv(ViewMatrix, "ViewMatrix");
+	core_program.setMat4fv(Projectionmatrix, "ProjectionMatrix");
 
-	glUniformMatrix4fv(glGetUniformLocation(core_program, "ModelMatrix"), 1, GL_FALSE, glm::value_ptr(ModelMatrix));
-	glUniformMatrix4fv(glGetUniformLocation(core_program, "ViewMatrix"), 1, GL_FALSE, glm::value_ptr(ViewMatrix));
-	glUniformMatrix4fv(glGetUniformLocation(core_program, "ProjectionMatrix"), 1, GL_FALSE, glm::value_ptr(Projectionmatrix));
-
-	glUniform3fv(glGetUniformLocation(core_program, "lightPos0"), 1, glm::value_ptr(LightPos0));
-	glUniform3fv(glGetUniformLocation(core_program, "cameraPos"), 1, glm::value_ptr(camPosition));
-
-	glUseProgram(0);
+	core_program.setVec3f(LightPos0, "lightPos0");
+	core_program.setVec3f(camPosition, "cameraPos");
 
 	// MAIN LOOP
 	while (!glfwWindowShouldClose(window))
@@ -352,12 +350,9 @@ int main()
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		//Use a Program
-		glUseProgram(core_program);  
-
 		//Update uniforms
-		glUniform1i(glGetUniformLocation(core_program, "texture0") , 0);
-		glUniform1i(glGetUniformLocation(core_program, "texture1") , 1);
+		core_program.set1i(0, "texture0");
+		core_program.set1i(1, "texture1");
 
 	
 		//Move, rotate and scale
@@ -368,15 +363,18 @@ int main()
 		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.z), glm::vec3(0.f, 0.f, 1.f));
 		ModelMatrix = glm::scale(ModelMatrix, scale);
 	
+
 		glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
 
 		Projectionmatrix = glm::mat4(1.f);
 		Projectionmatrix = glm::perspective(glm::radians(fov),
 			static_cast<float>(framebufferWidth) / framebufferHeight,
 			nearPlane, farPlane);
+		core_program.setMat4fv(ModelMatrix, "ModelMatrix");
+		core_program.setMat4fv(Projectionmatrix, "ProjectionMatrix");
 
-		glUniformMatrix4fv(glGetUniformLocation(core_program, "ModelMatrix"), 1, GL_FALSE, glm::value_ptr(ModelMatrix));
-		glUniformMatrix4fv(glGetUniformLocation(core_program, "ProjectionMatrix"), 1, GL_FALSE, glm::value_ptr(Projectionmatrix));
+		//Use a Program
+		core_program.use();
 
 		//Activate Texture
 		glActiveTexture(GL_TEXTURE0);
@@ -401,9 +399,6 @@ int main()
 	// END OF PROGRAM
 	glfwDestroyWindow(window);
 	glfwTerminate();
-	//DELETE PROGRAM
-	glDeleteProgram(core_program);
-	//DELETE VAO AND BUFFERS
 
 	return 0;
 }

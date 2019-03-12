@@ -33,6 +33,7 @@ void main()
 	float specularConstant = pow(max(dot(posToViewDirVec,reflectDirVec),0),300);
 	vec3 specularFinal = vec3(1.f,1.f,1.f)*specularConstant;
 	//Attenuation
+
 	//Final Color
 	fs_color = texture(texture0, vs_texcoord) * vec4(vs_color,1.f) 
 	* (vec4(ambientLight,1.f) + vec4(diffuseFinal,1.f)+vec4(specularFinal,1.f));
