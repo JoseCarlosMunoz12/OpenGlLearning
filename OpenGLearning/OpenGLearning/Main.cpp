@@ -161,10 +161,13 @@ int main()
 
 	//Texture INIT----------
 	Texture texture0("Images/Test1.png", GL_TEXTURE_2D, 0);
-	
 	//Second Texture
 	Texture texture1("Images/Untitled1.png",GL_TEXTURE_2D,1);
-	//init Matrices
+	//Material
+	Material material0(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(10.f),
+		texture0.getID(), texture1.getID());
+
+	//INT Matrices ------------
 	glm::vec3 position(0.f);
 	glm::vec3 rotation(0.f);
 	glm::vec3 scale(1.f);
@@ -191,7 +194,7 @@ int main()
 		static_cast<float>(framebufferWidth) / framebufferHeight,
 		nearPlane, farPlane);
 	//Lights
-	glm::vec3 LightPos0(0.f, 0.f, 2.f);
+	glm::vec3 LightPos0(0.f, 0.f, 1.f);
 
 	//INIT UNIFORMS
 	core_program.use();
@@ -219,7 +222,7 @@ int main()
 		//Update uniforms
 		core_program.set1i(0, "texture0");
 		core_program.set1i(1, "texture1");
-
+		material0.sendToShader(core_program);
 	
 		//Move, rotate and scale
 		glm::mat4 ModelMatrix(1.f);
