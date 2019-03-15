@@ -121,8 +121,8 @@ int main()
 	{
 		glfwTerminate();
 	}*/
-	//MODEL----------
-
+	//MODELMESH----------
+	Mesh test(vertices, nrOfVertices, indices, nrOfIndices);
 	//VAP,VBO, EBO-----
 
 	//GEN VAO and BIND
@@ -162,9 +162,9 @@ int main()
 	//Texture INIT----------
 	Texture texture0("Images/Test1.png", GL_TEXTURE_2D, 0);
 	//Second Texture
-	Texture texture1("Images/Untitled1.png",GL_TEXTURE_2D,1);
+	Texture texture1("Images/pusheen.png",GL_TEXTURE_2D,1);
 	//Material
-	Material material0(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(10.f),
+	Material material0(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		texture0.getID(), texture1.getID());
 
 	//INT Matrices ------------
@@ -254,8 +254,10 @@ int main()
 
 		//Draw
 		//glDrawArrays(GL_TRIANGLES, 0, nrOfVertices);
-		glDrawElements(GL_TRIANGLES, nrOfIndices, GL_UNSIGNED_INT, 0);
 
+
+		glDrawElements(GL_TRIANGLES, nrOfIndices, GL_UNSIGNED_INT, 0);
+		test.render(&core_program);
 		//End Draw
 		glfwSwapBuffers(window);
 		glFlush();
