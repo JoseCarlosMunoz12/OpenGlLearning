@@ -68,11 +68,11 @@ void updateInput(GLFWwindow* window, Mesh &mesh)
 
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
 	{
-		mesh.scaleUp(glm::vec3(1.f));
+		mesh.scaleUp(glm::vec3(0.1f));
 	}
 	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
 	{
-		mesh.scaleUp(glm::vec3(-1.f));
+		mesh.scaleUp(glm::vec3(-0.1f));
 	}
 }
 
