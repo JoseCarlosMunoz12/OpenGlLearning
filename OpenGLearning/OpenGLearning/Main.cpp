@@ -4,10 +4,10 @@ float Rotate = 0.f;
 Vertex vertices[] =
 {
 	//Position                    //Color                     //TexCoords			 //Normals
-	glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3(0.0f,0.0f,-1.0f),
-	glm::vec3(-0.5f,-0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3(0.0f,0.0f,-1.0f),
-	glm::vec3( 0.5f,-0.5f, 0.0f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f,-1.0f),
-	glm::vec3( 0.5f, 0.5f, 0.0f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3(0.0f,0.0f,-1.0f)
+	glm::vec3(-0.5f, 0.5f, 0.f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3(0.0f,0.0f, 1.0f),
+	glm::vec3(-0.5f,-0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f),
+	glm::vec3( 0.5f,-0.5f, 0.f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f),
+	glm::vec3( 0.5f, 0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3(0.0f,0.0f, 1.0f)
 };
 unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
