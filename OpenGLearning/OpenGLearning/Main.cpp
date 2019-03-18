@@ -1,6 +1,6 @@
 #include "libs.h"
-float Rotate = 0.f;
 //void 
+
 Vertex vertices[] =
 {
 	//Position                    //Color                     //TexCoords			 //Normals
@@ -16,6 +16,7 @@ GLuint indices[] =
 	0,1,2, //Trianlge 1
 	0,2,3  //Triangle 2
 };
+
 unsigned nrOfIndices = sizeof(indices) / sizeof(GLuint);
 
 void updateInput(GLFWwindow* window)
@@ -98,7 +99,7 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_WIEGHT, "Title Used", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_WIEGHT, "OpenGl Learning", NULL, NULL);
 	glfwGetFramebufferSize(window, &framebufferWidth,&framebufferHeight);
 	glfwSetFramebufferSizeCallback(window, FrameBufferResize);
 	
@@ -132,8 +133,9 @@ int main()
 	{
 		glfwTerminate();
 	}*/
-	//MODELMESH----------
-	Mesh test(vertices, nrOfVertices, indices, nrOfIndices);
+	//MODELMESH---------
+
+	Mesh test(&Quad());
 	//Texture INIT----------
 	Texture texture0("Images/Test1.png", GL_TEXTURE_2D, 0);
 	//Second Texture
