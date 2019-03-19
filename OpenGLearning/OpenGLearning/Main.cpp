@@ -83,28 +83,46 @@ void FrameBufferResize(GLFWwindow* window, int fbw, int fbh)
 	glViewport(0, 0, fbw, fbh);
 }
 
+GLFWwindow* creatWindow(
+	const char* title,
+	const int width, const int height,
+	int& fbwidth, int& fbheight,
+	int GLmajorVer, int GLminorVer,
+	bool resizable)
+{
+
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GLmajorVer);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GLminorVer);
+	glfwWindowHint(GLFW_RESIZABLE, resizable);
+
+	GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
+	glfwGetFramebufferSize(window, &fbwidth, &fbheight);
+	glfwSetFramebufferSizeCallback(window, FrameBufferResize);
+
+	//glViewport(0, 0,framebufferWidth,framebufferWidth );
+	glfwMakeContextCurrent(window);//IMPORTANT
+	return window;
+}
+
 int main()
 {
 	//INIT GLFW
 	glfwInit();
 
 	//CREATE WINDOW
+	const int GLmajorVersion = 4;
+	const int GLminorVersion = 5;
 	const int WINDOW_WIDTH = 640;
 	const int WINDOW_WIEGHT = 480;
-	int framebufferWidth = 0;
-	int framebufferHeight = 0;
+	int framebufferWidth = WINDOW_WIDTH;
+	int framebufferHeight = WINDOW_WIEGHT;
 
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
-	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
-	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_WIEGHT, "OpenGl Learning", NULL, NULL);
-	glfwGetFramebufferSize(window, &framebufferWidth,&framebufferHeight);
-	glfwSetFramebufferSizeCallback(window, FrameBufferResize);
-	
-	//glViewport(0, 0,framebufferWidth,framebufferWidth );
-	glfwMakeContextCurrent(window);//IMPORTANT
+	GLFWwindow* window = creatWindow("Title change", 
+		WINDOW_WIDTH, WINDOW_WIEGHT,
+		framebufferWidth,framebufferHeight,
+		GLmajorVersion,GLminorVersion,
+		false);
 
 	//INIT GLEW (NEEDS WINDOW AND OPENGL CONTEXT)	
 	glewExperimental = GL_TRUE;
@@ -127,13 +145,13 @@ int main()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	
 	//Shader INIT-----
-	Shader core_program("vertex_core.glsl","fragment_core.glsl");
+	Shader core_program(GLmajorVersion,GLminorVersion,"vertex_core.glsl","fragment_core.glsl");
 	/*GLuint core_program;
 	if (!loadShaders(core_program))
 	{
 		glfwTerminate();
 	}*/
-	//MODELMESH---------
+	//MODELMESH---------sd
 
 	Mesh test(&Quad());
 	//Texture INIT----------
