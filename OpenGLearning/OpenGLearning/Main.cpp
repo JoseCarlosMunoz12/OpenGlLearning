@@ -1,4 +1,5 @@
 #include "libs.h"
+#include "Game.h"
 //#include "Game.h"
 //void 
 
@@ -79,10 +80,6 @@ void updateInput(GLFWwindow* window, Mesh &mesh)
 }
 
 
-void FrameBufferResize(GLFWwindow* window, int fbw, int fbh)
-{
-	glViewport(0, 0, fbw, fbh);
-}
 
 GLFWwindow* creatWindow(
 	const char* title,
@@ -99,7 +96,7 @@ GLFWwindow* creatWindow(
 
 	GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
 	glfwGetFramebufferSize(window, &fbwidth, &fbheight);
-	glfwSetFramebufferSizeCallback(window, FrameBufferResize);
+	glfwSetFramebufferSizeCallback(window, Game::framebuffer_resize_callback );
 
 	//glViewport(0, 0,framebufferWidth,framebufferWidth );
 	glfwMakeContextCurrent(window);//IMPORTANT
