@@ -2,7 +2,11 @@
 
 #include "libs.h"
 
-
+//Enumerations
+enum shader_enums{SHADER_CORE_PROGRAM = 0};
+enum texture_enum {TEX_PUSHEEM0,TEX_CONTAINER1};
+enum material_ennum{MAT_1 = 0};
+enum mesh_enum{MESH_QUAD = 0};
 class Game
 {
 private:
@@ -25,20 +29,34 @@ private:
 	float fov;
 	float nearPlane;
 	float farPlane;
-	
+	//Shaders
+	std::vector<Shader*> shaders;
+	//Textures
+	std::vector<Texture*> textures;
+	//Materials
+	std::vector<Material*> materials;
+	//Meshes
+	std::vector<Mesh*> meshes;
+	//Lights
+	std::vector<glm::vec3*> lights;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
 	void initGLEW();
 	void initOpenGLOptions();
 	void initMatrices();
+	void initShaders();
+	void initTextures();
+	void initMaterials();
+	void initMeshes();
+	void initLights();
+	void initUniforms();
 	//Static variables
 public:
 	//Constructors/destructors
 	Game(const char * title,
 		const int width, const int height,
 		int GLmajorVer, int GLminorVer, bool resizable);
-
 	virtual ~Game();
 	//Accessors
 	int getWindowShouldClose();
