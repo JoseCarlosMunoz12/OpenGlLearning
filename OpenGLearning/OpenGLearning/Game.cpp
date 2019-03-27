@@ -84,15 +84,15 @@ void Game::initShaders()
 void Game::initTextures()
 {
 	//Texture INIT----------
-	this->textures.push_back(new Texture("Images/Test1.png", GL_TEXTURE_2D, 0));
+	this->textures.push_back(new Texture("Images/Test1.png", GL_TEXTURE_2D));
 	//Second Texture
-	this->textures.push_back(new Texture("Images/pusheen.png", GL_TEXTURE_2D, 1));
+	this->textures.push_back(new Texture("Images/pusheen.png", GL_TEXTURE_2D));
 }
 
 void Game::initMaterials()
 {
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		this->textures[TEX_PUSHEEM0]->getID(),this->textures[TEX_CONTAINER1]->getID()));
+		0,1));
 }
 
 void Game::initMeshes()
@@ -117,6 +117,74 @@ void Game::initUniforms()
 
 	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(*this->lights[0], "lightPos0");
 	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(this->camPosition , "cameraPos");
+}
+
+void Game::updateInput(GLFWwindow * window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
+}
+
+void Game::updateInput(GLFWwindow *window, Mesh &mesh)
+{
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		mesh.move(glm::vec3(0.f,0.f,-0.01f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		mesh.move(glm::vec3(0.f, 0.f, 0.01f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		mesh.move(glm::vec3(-0.01f, 0.f, 0.f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		mesh.move(glm::vec3(0.01f, 0.f, 0.f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		mesh.rotate(glm::vec3(0.f,1.f,0.f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		mesh.rotate(glm::vec3(0.f,-1.f, 0.f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
+		mesh.move(glm::vec3(0.f,0.01f,0.f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
+	{
+		mesh.move(glm::vec3(0.f,-0.01f, 0.f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+	{
+		mesh.scaleUp(glm::vec3(0.1f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+	{
+		mesh.scaleUp(glm::vec3(-0.1f));
+	}
+}
+
+void Game::updateUniforms()
+{
+	//Update uniforms
+
+	this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
+	//Update FramgeBuffer size and projection matrix
+	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
+
+	ProjectionMatrix = glm::mat4(1.f);
+	ProjectionMatrix = glm::perspective(glm::radians(fov),
+		static_cast<float>(frameBufferWidth) / frameBufferHeight,
+		nearPlane, farPlane);
+	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
+
 }
 
 Game::Game(const char * title,
@@ -187,8 +255,8 @@ void Game::update()
 	glfwPollEvents();
 	//UPDATE--
 
-
-}
+	this->updateInput(this->window);
+	}
 
 void Game::render()
 {
@@ -198,24 +266,13 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	//Update uniforms
-	this->shaders[SHADER_CORE_PROGRAM]->set1i(this->textures[TEX_PUSHEEM0]->getID(), "texture0");
-	this->shaders[SHADER_CORE_PROGRAM]->set1i(this->textures[TEX_CONTAINER1]->getID(), "texture1");
-	this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
-	//Update FramgeBuffer size and projection matrix
-	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
-
-	ProjectionMatrix = glm::mat4(1.f);
-	ProjectionMatrix = glm::perspective(glm::radians(fov),
-		static_cast<float>(frameBufferWidth) / frameBufferHeight,
-		nearPlane, farPlane);
-	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
+	this->updateUniforms();
 
 	//Use a Program
 	this->shaders[SHADER_CORE_PROGRAM]->use();
-
 	//Activate Texture
-	this->textures[TEX_PUSHEEM0]->bind();
-	this->textures[TEX_CONTAINER1]->bind();
+	this->textures[TEX_PUSHEEM0]->bind(0);
+	this->textures[TEX_CONTAINER1]->bind(1);
 
 	//Draw
 	this->meshes[MESH_QUAD]->render(this->shaders[SHADER_CORE_PROGRAM]);
