@@ -84,9 +84,11 @@ void Game::initShaders()
 void Game::initTextures()
 {
 	//Texture INIT----------
-	this->textures.push_back(new Texture("Images/Test1.png", GL_TEXTURE_2D));
-	//Second Texture
 	this->textures.push_back(new Texture("Images/pusheen.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/pusheen_specular.png", GL_TEXTURE_2D));
+	//Second Texture
+	this->textures.push_back(new Texture("Images/container.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/container_specular.png", GL_TEXTURE_2D));
 }
 
 void Game::initMaterials()
@@ -256,6 +258,7 @@ void Game::update()
 	//UPDATE--
 
 	this->updateInput(this->window);
+	this->updateInput(this->window,*this->meshes[MESH_QUAD]);
 	}
 
 void Game::render()
@@ -267,12 +270,13 @@ void Game::render()
 
 	//Update uniforms
 	this->updateUniforms();
-
+	//Update uniforms
+	this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
 	//Use a Program
 	this->shaders[SHADER_CORE_PROGRAM]->use();
 	//Activate Texture
-	this->textures[TEX_PUSHEEM0]->bind(0);
-	this->textures[TEX_CONTAINER1]->bind(1);
+	this->textures[TEX_CONTAINER]->bind(0);
+	this->textures[TEX_CONTAINER_SPECULAR]->bind(1);
 
 	//Draw
 	this->meshes[MESH_QUAD]->render(this->shaders[SHADER_CORE_PROGRAM]);

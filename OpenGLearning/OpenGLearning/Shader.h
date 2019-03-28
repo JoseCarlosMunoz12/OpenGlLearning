@@ -47,7 +47,6 @@ private:
 			std::to_string(versionMinor) +
 			"0";
 		 src.replace(src.find("#version"), 12, ("#version " + versionNr));
-		 std::cout << src ;
 		return src;
 	}
 	GLuint loadShader(GLenum type, const char* filename)
