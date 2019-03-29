@@ -37,10 +37,13 @@ private:
 		glBufferData(GL_ARRAY_BUFFER, this->nrOfVertices * sizeof(Vertex), primitive->getVertices(), GL_STATIC_DRAW);
 
 		//GEN EBO and BIND And Send Data---------
-
-		glGenBuffers(1, &this->EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->nrOfIndices* sizeof(GLuint), primitive->getIndices(), GL_STATIC_DRAW);
+		if (this->nrOfIndices > 0)
+		{
+			glGenBuffers(1, &this->EBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->nrOfIndices* sizeof(GLuint), primitive->getIndices(), GL_STATIC_DRAW);
+		}
+		
 
 		//Set VerttexAttribPointers and Enable (input assembly)
 		//Position
@@ -75,10 +78,13 @@ private:
 		glBufferData(GL_ARRAY_BUFFER, this->nrOfVertices * sizeof(Vertex), VertexArray, GL_STATIC_DRAW);
 
 		//GEN EBO and BIND And Send Data---------
-
-		glGenBuffers(1, &this->EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,this->EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->nrOfIndices * sizeof(GLuint), indexArray, GL_STATIC_DRAW);
+		if (this->nrOfVertices > 0)
+		{
+			glGenBuffers(1, &this->EBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,this->EBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->nrOfIndices * sizeof(GLuint), indexArray, GL_STATIC_DRAW);
+		}
+		
 
 		//Set VerttexAttribPointers and Enable (input assembly)
 		//Position
@@ -153,7 +159,11 @@ public:
 	{
 		glDeleteVertexArrays(1, &this->VAO);
 		glDeleteBuffers(1, &this->VBO);
-		glDeleteBuffers(1, &this->EBO);
+		if (this->nrOfIndices > 0)
+		{
+			glDeleteBuffers(1, &this->EBO);
+		}
+		
 	}
 	//Accessors
 
@@ -198,8 +208,16 @@ public:
 		shader->use();
 		//BInd VAO
 		glBindVertexArray(this->VAO);
-		//Draw
-		glDrawElements(GL_TRIANGLES, this->nrOfIndices, GL_UNSIGNED_INT, 0);
+		//Render
+		if (this->nrOfIndices == 0)
+		{
+			glDrawArrays(GL_TRIANGLES, 0, this->nrOfVertices);
+		}
+		else
+		{
+			glDrawElements(GL_TRIANGLES, this->nrOfIndices, GL_UNSIGNED_INT, 0);
+		}
+			
 	}
 
 };
