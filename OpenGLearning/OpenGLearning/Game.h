@@ -11,6 +11,19 @@ class Game
 {
 private:
 	//Variables
+	//Delta Time
+	float dt;
+	float cuTime;
+	float lastTime;
+	//Mouse Input
+	double lastMouseX;
+	double lastMouseY;
+	double MouseX;
+	double MouseY;
+	double mouseOffsetX;
+	double mouseOffsetY;
+	bool firstMouse;
+
 	//window
 	GLFWwindow* window;
 	const int Window_Width;
@@ -52,8 +65,10 @@ private:
 	void initLights();
 	void initUniforms();
 
+	void updateDT();
+	void updateKeyboardInput();
+	void updateMouseInput();
 	void updateInput();
-	void updateInput(GLFWwindow* window);
 
 	void updateUniforms();
 	//Static variables

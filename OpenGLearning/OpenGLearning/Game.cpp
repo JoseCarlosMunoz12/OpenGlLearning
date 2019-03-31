@@ -57,6 +57,8 @@ void Game::initOpenGLOptions()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//
+//	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
 }
 
 void Game::initMatrices()
@@ -121,7 +123,15 @@ void Game::initUniforms()
 	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(this->camPosition , "cameraPos");
 }
 
-void Game::updateInput()
+void Game::updateDT()
+{
+	this->cuTime = static_cast<float>(glfwGetTime());
+	this->dt = this->cuTime - this->lastTime;
+	this->lastTime = this->cuTime;
+	
+}
+
+void Game::updateKeyboardInput()
 {
 
 	if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -157,15 +167,33 @@ void Game::updateInput()
 
 }
 
-void Game::updateInput(GLFWwindow * window)
+void Game::updateMouseInput()
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
+	if (this->firstMouse)
 	{
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
+		this->lastMouseX = this->MouseX;
+		this->lastMouseY = this->MouseY;
+		this->firstMouse = false;
 	}
+
+	//Calc offset
+	this->mouseOffsetX = this->MouseX;
+	this->mouseOffsetY = this->MouseY;
+
+	//Set last X and Y
+	this->lastMouseX = this->MouseX;
+	this->lastMouseY = this->MouseY;
+
 }
 
+void Game::updateInput()
+{
+	glfwPollEvents();
+	this->updateKeyboardInput();
+	this->updateMouseInput();
 
+}
 
 void Game::updateUniforms()
 {
@@ -206,7 +234,18 @@ Game::Game(const char * title,
 	this-> nearPlane = 0.1f;
 	this-> farPlane = 1000.f;
 	
+	this->dt = 0.f;
+	this->cuTime = 0.f;
+	this->lastTime = 0.f;
 	
+	this->lastMouseX = 0.f;
+	this->lastMouseY = 0.f;
+	this->MouseX = 0.f;
+	this->MouseY = 0.f;
+	this->mouseOffsetX = 0.f;
+	this->mouseOffsetY = 0.f;
+	this->firstMouse = true;
+	  	
 	this->initGLFW();
 	this->initWindow(title,resizable);
 	this->initGLEW();
@@ -251,11 +290,12 @@ void Game::setWindowShouldClose()
 void Game::update()
 {
 	//Update Input---
-	glfwPollEvents();
-	//UPDATE--
-
+	this->updateDT();
 	this->updateInput();
-	}
+	std::cout << "DT a= " << this->dt << '\n'
+		<<"Mouse offsetX =" <<this->mouseOffsetX <<" Mosue offsetY=" <<this->mouseOffsetY<< "\n";
+	//UPDATE--
+}
 
 void Game::render()
 {
