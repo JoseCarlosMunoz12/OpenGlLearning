@@ -10,6 +10,8 @@
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
 
+enum direction{FORWARD, BACKWARD, LEFT, RIGHT};
+
 class Camera
 {
 private:
@@ -28,12 +30,28 @@ private:
 	GLfloat yaw;
 	GLfloat roll;
 
-	void UpdateCameraVectors();
+	void UpdateCameraVectors()
+	{
+
+	}
 
 public:
 	Camera(glm::vec3 position, glm::vec3 direction, glm::vec3 worldUp)
 	{
+		this->ViewMatrix = glm::mat4(1.f);
+		this->movementSpeed = 3.f;
+		this->sensitivity = 5.f;
 
+		this->worldUp = worldUp;
+		this->position = position;
+		this->right = glm::vec3(0.f);
+		this->up = worldUp;
+
+		this->pitch = 0.f;
+		this->yaw =-90.f;
+		this->roll = 0.f;
+
+		this->UpdateCameraVectors();
 	}
 	~Camera();
 
@@ -53,11 +71,38 @@ public:
 	void updateKeyboardInpuit(const float& dt, const int direction)
 	{
 		//update position vector
+		switch (direction)
+		{
+		case FORWARD:
+			this->position += this->front * this->movementSpeed * dt;
+			break;
+		case BACKWARD:
+			this->position -= this->front * this->movementSpeed * dt;
+			break;
+		case LEFT:
+			this->position -= this->right * this->movementSpeed * dt;
+			break;
+		case RIGHT:
+			this->position += this->right * this->movementSpeed * dt;
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	void updateMouseInput(const float& dt, const double& offsetX, const double& offsetY)
 	{
 		//Update pitch, yaw and roll
+		this->pitch += static_cast<GLfloat>(offsetY) * this->sensitivity *dt;
+		this->pitch += static_cast<GLfloat>(offsetX) * this->sensitivity *dt;
+		if (this->pitch > 80.f)
+			this->pitch = 80.f;
+		else if (this->pitch < -80.f)
+			this->pitch = 80.f;
+
+		if (this->yaw > 360.f || this->yaw < -360.f)
+			this->yaw = 0.f;
 	}
 
 	void updateInput(const float& dt, const int direction, const double& offsetX, const double& offsetY)
