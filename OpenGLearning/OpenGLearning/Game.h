@@ -1,6 +1,7 @@
 #pragma once
 
 #include "libs.h"
+#include "Camera.h"
 
 //Enumerations
 enum shader_enums{SHADER_CORE_PROGRAM = 0};
@@ -42,6 +43,7 @@ private:
 	float fov;
 	float nearPlane;
 	float farPlane;
+
 	//Shaders
 	std::vector<Shader*> shaders;
 	//Textures

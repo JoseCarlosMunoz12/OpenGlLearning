@@ -103,7 +103,7 @@ void Game::initMeshes()
 {
 	this->meshes.push_back(
 		new Mesh(
-			&Cube(),
+			&Pyramid(),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
@@ -120,7 +120,7 @@ void Game::initUniforms()
 	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
 
 	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(*this->lights[0], "lightPos0");
-	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(this->camPosition , "cameraPos");
+
 }
 
 void Game::updateDT()
@@ -192,7 +192,7 @@ void Game::updateInput()
 	glfwPollEvents();
 	this->updateKeyboardInput();
 	this->updateMouseInput();
-
+	this->meshes[0]->rotate(glm::vec3(0.f, 1.f, 0.f));
 }
 
 void Game::updateUniforms()
@@ -200,7 +200,7 @@ void Game::updateUniforms()
 	//Update uniforms
 	this->ViewMatrix = glm::lookAt(this->camPosition, this->camPosition + this->camFront, this->worldUp);
 	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(this->ViewMatrix, "ViewMatrix");
-
+	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(this->camPosition, "cameraPos");
 	this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
 	//Update FramgeBuffer size and projection matrix
 	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
@@ -292,8 +292,8 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	std::cout << "DT a= " << this->dt << '\n'
-		<<"Mouse offsetX =" <<this->mouseOffsetX <<" Mosue offsetY=" <<this->mouseOffsetY<< "\n";
+	std::cout << "DT a= " << this->dt *1000<< '\n'
+		<<"Mouse offset X =" <<this->mouseOffsetX <<" Mouse offset Y =" <<this->mouseOffsetY<< "\n";
 	//UPDATE--
 }
 
