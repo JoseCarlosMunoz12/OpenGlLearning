@@ -54,6 +54,8 @@ private:
 	std::vector<Material*> materials;
 	//Meshes
 	std::vector<Mesh*> meshes;
+	//Models
+	std::vector<Model*> models;
 	//Lights
 	std::vector<glm::vec3*> lights;
 	//Private Functions
@@ -66,6 +68,7 @@ private:
 	void initTextures();
 	void initMaterials();
 	void initMeshes();
+	void initModels();
 	void initLights();
 	void initUniforms();
 
