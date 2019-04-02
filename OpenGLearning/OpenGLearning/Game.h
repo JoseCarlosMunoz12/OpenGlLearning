@@ -31,6 +31,8 @@ private:
 	const int Window_Height;
 	int frameBufferWidth;
 	int frameBufferHeight;
+	//Camera
+	Camera camera;
 	//OpenGl context
 	const int GLVerMajor;
 	const int GLVerMinor;

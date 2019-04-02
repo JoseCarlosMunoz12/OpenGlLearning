@@ -57,8 +57,8 @@ void Game::initOpenGLOptions()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//
-//	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+	
+	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
 }
 
 void Game::initMatrices()
@@ -141,30 +141,20 @@ void Game::updateKeyboardInput()
 	//Camera
 	if (glfwGetKey(this->window , GLFW_KEY_W) == GLFW_PRESS)
 	{
-		this->camPosition.z += 0.05f;
+		this->camera.move(this->dt, FORWARD);
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		this->camPosition.z -= 0.05f;
+		this->camera.move(this->dt, BACKWARD);
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		this->camPosition.x +=0.05f;
+		this->camera.move(this->dt, LEFT);
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		this->camPosition.x -= 0.05f;
+		this->camera.move(this->dt, RIGHT);
 	}
-	if (glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
-	{
-		this->camPosition.y += 0.05f;
-	}
-	if (glfwGetKey(this->window, GLFW_KEY_SPACE) == GLFW_PRESS)
-	{
-		this->camPosition.y -= 0.05f;
-	}
-
-
 }
 
 void Game::updateMouseInput()
@@ -178,14 +168,13 @@ void Game::updateMouseInput()
 	}
 
 	//Calc offset
-	this->mouseOffsetX = this->MouseX;
-	this->mouseOffsetY = this->MouseY;
+	this->mouseOffsetX = this->MouseX - this->lastMouseX;
+	this->mouseOffsetY = this->lastMouseY - this->MouseY;
 
 	//Set last X and Y
 	this->lastMouseX = this->MouseX;
 	this->lastMouseY = this->MouseY;
-
-}
+	}
 
 void Game::updateInput()
 {
@@ -193,14 +182,15 @@ void Game::updateInput()
 	this->updateKeyboardInput();
 	this->updateMouseInput();
 	this->meshes[0]->rotate(glm::vec3(0.f, 1.f, 0.f));
+	this->camera.updateInput(dt,-1,this->mouseOffsetX, this->mouseOffsetY);
 }
 
 void Game::updateUniforms()
 {
 	//Update uniforms
-	this->ViewMatrix = glm::lookAt(this->camPosition, this->camPosition + this->camFront, this->worldUp);
+	this->ViewMatrix = this->camera.GetViewMatrix();
 	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(this->ViewMatrix, "ViewMatrix");
-	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(this->camPosition, "cameraPos");
+	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(this->camera.getPosition(), "cameraPos");
 	this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
 	//Update FramgeBuffer size and projection matrix
 	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
@@ -218,7 +208,8 @@ Game::Game(const char * title,
 	const int width, const int height,
 	const int GLmajorVer, const int GLminorVer, bool resizable)
 	: Window_Width(width), Window_Height(height),
-	GLVerMajor(GLmajorVer),GLVerMinor(GLminorVer)
+	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
+	camera(glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f))
 {
 	this->window = NULL;
 	this->frameBufferHeight = this->Window_Height;
@@ -292,7 +283,7 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	std::cout << "DT a= " << this->dt *1000<< '\n'
+	std::cout << "DT a= " << 1.f / this->dt << '\n'
 		<<"Mouse offset X =" <<this->mouseOffsetX <<" Mouse offset Y =" <<this->mouseOffsetY<< "\n";
 	//UPDATE--
 }
