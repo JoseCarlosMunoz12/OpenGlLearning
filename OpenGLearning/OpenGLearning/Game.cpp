@@ -101,25 +101,39 @@ void Game::initMaterials()
 
 void Game::initModels()
 {
-	this->meshes.push_back(
+	std::vector<Mesh*> meshes;
+	meshes.push_back(
 		new Mesh(
 			&Pyramid(),
+			glm::vec3(0.f,0.f,0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
+
 	this->models.push_back(new Model(
-		glm::vec3(1.f),
+		glm::vec3(0.f),
 		this->materials[0],
 		this->textures[TEX_CONTAINER],
 		this->textures[TEX_CONTAINER_SPECULAR],
-		this->meshes));
+		meshes));
+	this->models.push_back(new Model(
+		glm::vec3(0.f,1.f,1.f),
+		this->materials[0],
+		this->textures[TEX_PUSHEEM],
+		this->textures[TEX_PUSHEEN_SPECULAR],
+		meshes));
+	this->models.push_back(new Model(
+		glm::vec3(2.f,0.f,2.f),
+		this->materials[0],
+		this->textures[TEX_CONTAINER],
+		this->textures[TEX_CONTAINER_SPECULAR],
+		meshes));
 
-	for (auto*& i : this -> meshes)
+	for (auto*& i : meshes)
 	{
 		delete i;
 	}
 
-	this->meshes.clear();
 }
 
 void Game::initLights()
@@ -296,9 +310,9 @@ void Game::update()
 	this->updateDT();
 	this->updateInput();
 	this->models[0]->rotate(glm::vec3(0.f, 1.f, 0.f));
-	std::cout << "DT a= " << 1.f / this->dt << '\n'
-		<<"Mouse offset X =" <<this->mouseOffsetX <<" Mouse offset Y =" <<this->mouseOffsetY<< "\n";
-	//UPDATE--
+	this->models[1]->rotate(glm::vec3(0.f, 1.f, 0.f));
+	this->models[2]->rotate(glm::vec3(0.f, 1.f, 0.f));
+
 }
 
 void Game::render()
@@ -311,7 +325,11 @@ void Game::render()
 	//Update uniforms
 	this->updateUniforms();
 	//render Models
-	this->models[0]->render(this->shaders[SHADER_CORE_PROGRAM]);
+
+	for (auto&i : this->models)
+	{
+		i->render(this->shaders[SHADER_CORE_PROGRAM]);
+	}
 	//End Draw
 	glfwSwapBuffers(window);
 	glFlush();

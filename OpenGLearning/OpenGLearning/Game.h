@@ -52,8 +52,6 @@ private:
 	std::vector<Texture*> textures;
 	//Materials
 	std::vector<Material*> materials;
-	//Meshes
-	std::vector<Mesh*> meshes;
 	//Models
 	std::vector<Model*> models;
 	//Lights

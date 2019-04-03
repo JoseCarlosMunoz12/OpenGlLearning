@@ -28,7 +28,11 @@ public:
 		{
 			this->meshes.push_back(new Mesh(*i));
 		}
-		
+		for (auto& i : this->meshes)
+		{
+			i->move(this->Position);
+			i->setOrigin(this->Position);
+		}
 	}
 	~Model()
 	{
