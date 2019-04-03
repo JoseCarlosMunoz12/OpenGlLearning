@@ -99,7 +99,7 @@ void Game::initMaterials()
 		0,1));
 }
 
-void Game::initMeshes()
+void Game::initModels()
 {
 	this->meshes.push_back(
 		new Mesh(
@@ -107,16 +107,19 @@ void Game::initMeshes()
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
-}
-
-void Game::initModels()
-{
 	this->models.push_back(new Model(
 		glm::vec3(1.f),
 		this->materials[0],
 		this->textures[TEX_CONTAINER],
 		this->textures[TEX_CONTAINER_SPECULAR],
 		this->meshes));
+
+	for (auto*& i : this -> meshes)
+	{
+		delete i;
+	}
+
+	this->meshes.clear();
 }
 
 void Game::initLights()
@@ -191,7 +194,6 @@ void Game::updateInput()
 	glfwPollEvents();
 	this->updateKeyboardInput();
 	this->updateMouseInput();
-	this->meshes[0]->rotate(glm::vec3(0.f, 1.f, 0.f));
 	this->camera.updateInput(dt,-1,this->mouseOffsetX, this->mouseOffsetY);
 }
 
@@ -255,7 +257,6 @@ Game::Game(const char * title,
 	this->initShaders();
 	this->initTextures();
 	this->initMaterials();
-	this->initMeshes();
 	this->initModels();
 	this->initLights();
 	this->initUniforms();
@@ -271,8 +272,6 @@ Game::~Game()
 		delete this->textures[i];
 	for (size_t i = 0; i < this->materials.size(); i++)
 		delete this->materials[i];
-	for (size_t i = 0; i < this->meshes.size(); i++)
-		delete this->meshes[i];
 	for (auto*& i : this->models)
 		delete i;
 	for (size_t i = 0; i < this->lights.size(); i++)
@@ -296,6 +295,7 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
+	this->models[0]->rotate(glm::vec3(0.f, 1.f, 0.f));
 	std::cout << "DT a= " << 1.f / this->dt << '\n'
 		<<"Mouse offset X =" <<this->mouseOffsetX <<" Mouse offset Y =" <<this->mouseOffsetY<< "\n";
 	//UPDATE--

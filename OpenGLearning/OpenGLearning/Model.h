@@ -37,6 +37,13 @@ public:
 			delete i;
 		}
 	}
+	void rotate(const glm::vec3 rotation)
+	{
+		for (auto& i : this->meshes)
+		{
+			i->rotate(rotation);
+		}
+	}
 	void update()
 	{
 
