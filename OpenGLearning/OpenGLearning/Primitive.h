@@ -68,6 +68,7 @@ public:
 		this->set(vertices, nrOfVertices, indices, nrOfIndices);
 	}
 };
+
 class Triangle : public Primitive
 {
 public:

@@ -118,6 +118,7 @@ public:
 		this->InitVAO();
 		this->updateModelMatrix();
 	}
+
 	Mesh(Vertex* VertexArray, 
 		const unsigned& nrOfVertices, GLuint* indexArray,
 		const unsigned& nrOfIndices,
@@ -171,6 +172,7 @@ public:
 		this->updateModelMatrix();
 
 	}
+
 	~Mesh()
 	{
 		glDeleteVertexArrays(1, &this->VAO);
