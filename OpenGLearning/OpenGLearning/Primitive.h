@@ -33,6 +33,11 @@ public:
 			this->indices.push_back(indices[i]);
 		}
 	}
+	void set(std::vector<Vertex> Vertices, std::vector<GLuint> indices)
+	{
+		this->vertices = Vertices;
+		this->indices = indices;
+	}
 
 	inline Vertex* getVertices() { return this->vertices.data();}
 	inline GLuint* getIndices() { return this->indices.data();}
@@ -87,13 +92,32 @@ public:
 
 		GLuint indices[] =
 		{
-			0,1,2, //Trianlge 1
-			0,2,3  //Triangle 2
+			2,0,1,  //Triangle 2
+			2,3,0 //Trianlge 1
+			
 		};
 		unsigned nrOfIndices = sizeof(indices) / sizeof(GLuint);
 
 		this->set(vertices, nrOfVertices, indices, nrOfIndices);
 	}
+};
+
+class CustomTerrain :Primitive
+{
+	CustomTerrain(int Size,const int NumVertex)
+		:Primitive()
+	{
+		
+		std::vector<Vertex> vertex;
+		std::vector<GLuint> indices;
+		for (size_t ii =0; ii < NumVertex; ii++)
+		{
+
+		}
+		this->set(vertex, indices);
+
+	}
+
 };
 
 class Triangle : public Primitive

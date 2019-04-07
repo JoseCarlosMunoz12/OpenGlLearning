@@ -305,10 +305,10 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	//for (auto& i : this->models)
-	//{
-	//	i->rotate(glm::vec3(0.f, 0.f, 1.f));
-	//}
+	/*for (auto& i : this->models)
+	{
+		i->rotate(glm::vec3(0.f, 1.f, 0.f));
+	}*/
 	
 }
 
