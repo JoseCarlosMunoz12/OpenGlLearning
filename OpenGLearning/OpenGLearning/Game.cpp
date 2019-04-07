@@ -91,6 +91,7 @@ void Game::initTextures()
 	//Second Texture
 	this->textures.push_back(new Texture("Images/container.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/container_specular.png", GL_TEXTURE_2D));
+	
 }
 
 void Game::initMaterials()
@@ -105,8 +106,15 @@ void Game::initModels()
 	std::vector<Mesh*> meshes;
 	meshes.push_back(
 		new Mesh(
-			&Pyramid(),
+			&Cube(),
 			glm::vec3(0.f,0.f,0.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(
+			&PlaneTerrain(),
+			glm::vec3(0.f, -1.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
@@ -304,11 +312,11 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	for (auto& i : this->models)
-	{
-		i->rotate(glm::vec3(0.f, 1.f, 0.f));
-	}
-
+	//for (auto& i : this->models)
+	//{
+	//	i->rotate(glm::vec3(0.f, 0.f, 1.f));
+	//}
+	
 }
 
 void Game::render()
