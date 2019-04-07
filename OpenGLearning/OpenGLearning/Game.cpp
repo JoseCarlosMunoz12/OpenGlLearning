@@ -104,14 +104,7 @@ void Game::initMaterials()
 void Game::initModels()
 {
 	std::vector<Mesh*> meshes;
-	meshes.push_back(
-		new Mesh(
-			&Cube(),
-			glm::vec3(0.f,0.f,0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
-	meshes.push_back(
+		meshes.push_back(
 		new Mesh(
 			&PlaneTerrain(),
 			glm::vec3(0.f, -1.f, 0.f),

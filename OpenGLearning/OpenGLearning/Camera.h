@@ -104,8 +104,8 @@ public:
 		this->yaw += static_cast<GLfloat>(offsetX) * this->sensitivity *dt;
 		if (this->pitch > 80.f)
 			this->pitch = 80.f;
-		else if (this->pitch < -80.f)
-			this->pitch = 80.f;
+		else if (this->pitch < -90.f)
+			this->pitch = -89.9f;
 
 		if (this->yaw > 360.f || this->yaw < -360.f)
 			this->yaw = 0.f;
