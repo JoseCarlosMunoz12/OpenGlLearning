@@ -86,14 +86,19 @@ public:
 			glm::vec3( 0.5f, 0.f, 0.5f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3( 0.0f, 0.0f, 1.0f),
 			glm::vec3( 0.5f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3( 0.0f, 0.0f, 1.0f),
 			glm::vec3(-0.5f, 0.f,-0.5f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3( 0.0f, 0.0f, 1.0f),
-			glm::vec3(-0.5f, 0.f, 0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3( 0.0f, 0.0f, 1.0f)
+			glm::vec3(-0.5f, 0.f, 0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3( 0.0f, 0.0f, 1.0f),
+
+			glm::vec3(1.f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f, 0.0f, 1.0f),
+			glm::vec3(1.f, 0.f, 0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3(0.0f, 0.0f, 1.0f)
 		};
 		unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
 		GLuint indices[] =
 		{
-			2,0,1,  //Triangle 2
-			2,3,0 //Trianlge 1
+			2,3,0,  //Triangle 1
+			2,0,1,  //Trianlge 2
+			1,0,5,  //Triangle 3
+			1,5,4   //Triangle 4
 			
 		};
 		unsigned nrOfIndices = sizeof(indices) / sizeof(GLuint);
@@ -110,11 +115,11 @@ class CustomTerrain :Primitive
 		
 		std::vector<Vertex> vertex;
 		std::vector<GLuint> indices;
-		for (size_t ii =0; ii < NumVertex; ii++)
-		{
+		//for (size_t ii =0; ii < NumVertex; ii++)
+		//{
 
-		}
-		this->set(vertex, indices);
+		//}
+		//this->set(vertex, indices);
 
 	}
 
