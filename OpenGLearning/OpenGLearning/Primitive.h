@@ -33,11 +33,6 @@ public:
 			this->indices.push_back(indices[i]);
 		}
 	}
-	void set(std::vector<Vertex> Vertices, std::vector<GLuint> indices)
-	{
-		this->vertices = Vertices;
-		this->indices = indices;
-	}
 
 	inline Vertex* getVertices() { return this->vertices.data();}
 	inline GLuint* getIndices() { return this->indices.data();}
@@ -83,23 +78,17 @@ public:
 		Vertex vertices[] = 
 		{
 			//Position                    //Color                     //TexCoords			 //Normals
-			glm::vec3( 0.5f, 0.f, 0.5f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3( 0.0f, 0.0f, 1.0f),
-			glm::vec3( 0.5f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3( 0.0f, 0.0f, 1.0f),
-			glm::vec3(-0.5f, 0.f,-0.5f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3( 0.0f, 0.0f, 1.0f),
-			glm::vec3(-0.5f, 0.f, 0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3( 0.0f, 0.0f, 1.0f),
-
-			glm::vec3(1.f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f, 0.0f, 1.0f),
-			glm::vec3(1.f, 0.f, 0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3(0.0f, 0.0f, 1.0f)
+			glm::vec3(-0.5f, 0.f, 0.5f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,9.0f),  glm::vec3( 0.0f, 1.0f, 0.0f),
+			glm::vec3(-0.5f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3( 0.0f, 1.0f, 0.0f),
+			glm::vec3( 0.5f, 0.f, 0.5f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(9.0f,9.0f),  glm::vec3( 0.0f, 1.0f, 0.0f),
+			glm::vec3( 0.5f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(9.0f,0.0f),  glm::vec3( 0.0f, 1.0f, 0.0f)
 		};
 		unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
 		GLuint indices[] =
 		{
-			2,3,0,  //Triangle 1
-			2,0,1,  //Trianlge 2
-			1,0,5,  //Triangle 3
-			1,5,4   //Triangle 4
-			
+			1,0,2,  //Triangle 1
+			1,2,3,  //Trianlge 2
 		};
 		unsigned nrOfIndices = sizeof(indices) / sizeof(GLuint);
 
@@ -107,20 +96,57 @@ public:
 	}
 };
 
-class CustomTerrain :Primitive
+class CustomTerrain :public Primitive
 {
-	CustomTerrain(int Size,const int NumVertex)
+public:
+	CustomTerrain()
 		:Primitive()
 	{
+		Vertex v[3*3];
+		GLuint ind[3 * 3];
+		glm::vec3 positions;
+		glm::vec3 colors = glm::vec3(1.f,1.f,1.f);
+		glm::vec2 texCoords;
+		glm::vec3 normals;
+		int vertexPointer = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j <3; j++) {
+				//Position
+				positions.y = 0;
+				positions.x = (float)j / ((float)3-1 ) * 1;
+				positions.z = (float)i / ((float)3-1 ) * 1;
+				//normals
+				normals.x = 0;
+				normals.y = 11;
+				normals.z = 0;
+				//Tex Coords
+				texCoords.x = (float)j / ((float)3-1);
+				texCoords.y = (float)i / ((float)3-1);
+
+				v[vertexPointer]= {positions,colors,texCoords,normals};
+				vertexPointer++;
+			}
+		}
+		unsigned nrOfVertices = sizeof(v) / sizeof(Vertex);
+		int pointer = 0;
+		for (GLuint gz = 0; gz < 3 - 1; gz++) {
+			for (GLuint gx = 0; gx < 3 - 1; gx++) {
+				GLuint topLeft = (gz*3) + gx;
+				GLuint topRight = topLeft + 1;
+				GLuint bottomLeft = ((gz + 3)*2) + gx;
+				GLuint bottomRight = bottomLeft + 1;
+				//Indices
+				ind[pointer++] = topLeft;
+				ind[pointer++] = bottomLeft;
+				ind[pointer++] = topRight;
+				ind[pointer++] = topRight;
+				ind[pointer++] = bottomLeft;
+				ind[pointer++] = bottomRight;
+			}
+		}
+		unsigned nrOfIndices = sizeof(ind) / sizeof(GLuint);
 		
-		std::vector<Vertex> vertex;
-		std::vector<GLuint> indices;
-		//for (size_t ii =0; ii < NumVertex; ii++)
-		//{
-
-		//}
-		//this->set(vertex, indices);
-
+		this->set(v,nrOfVertices,ind,nrOfIndices);
 	}
 
 };
@@ -212,11 +238,11 @@ public:
 			0, 1, 2,
 			0, 2, 3,
 
-			7, 6, 1,
+			7, 2, 1,
 			7, 1, 0,
 
-			4, 5, 6,
-			4, 6, 7,
+			4, 5, 2,
+			4, 2, 7,
 
 			3, 2, 5,
 			3, 5, 4

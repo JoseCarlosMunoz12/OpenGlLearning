@@ -115,15 +115,10 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
 		this->materials[0],
-		this->textures[TEX_CONTAINER],
-		this->textures[TEX_CONTAINER_SPECULAR],
-		meshes));
-	this->models.push_back(new Model(
-		glm::vec3(0.f,1.f,0.f),
-		this->materials[0],
 		this->textures[TEX_PUSHEEM],
 		this->textures[TEX_PUSHEEN_SPECULAR],
 		meshes));
+
 	   
 	for (auto*& i : meshes)
 	{
@@ -305,10 +300,10 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	/*for (auto& i : this->models)
-	{
-		i->rotate(glm::vec3(0.f, 1.f, 0.f));
-	}*/
+	//for (auto& i : this->models)
+	//{
+	//	i->rotate(glm::vec3(0.f, 1.f, 0.f));
+	//}
 	
 }
 
