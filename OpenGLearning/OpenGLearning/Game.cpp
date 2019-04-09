@@ -56,7 +56,7 @@ void Game::initOpenGLOptions()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
 	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
 }
@@ -106,7 +106,7 @@ void Game::initModels()
 	std::vector<Mesh*> meshes;
 		meshes.push_back(
 		new Mesh(
-			&PlaneTerrain(),
+			&CustomTerrain(),
 			glm::vec3(0.f, -1.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
@@ -115,8 +115,8 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
 		this->materials[0],
-		this->textures[TEX_PUSHEEM],
-		this->textures[TEX_PUSHEEN_SPECULAR],
+		this->textures[TEX_CONTAINER],
+		this->textures[TEX_CONTAINER_SPECULAR],
 		meshes));
 
 	   

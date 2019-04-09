@@ -78,10 +78,10 @@ public:
 		Vertex vertices[] = 
 		{
 			//Position                    //Color                     //TexCoords			 //Normals
-			glm::vec3(-0.5f, 0.f, 0.5f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,9.0f),  glm::vec3( 0.0f, 1.0f, 0.0f),
+			glm::vec3(-0.5f, 0.f, 0.5f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3( 0.0f, 1.0f, 0.0f),
 			glm::vec3(-0.5f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3( 0.0f, 1.0f, 0.0f),
-			glm::vec3( 0.5f, 0.f, 0.5f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(9.0f,9.0f),  glm::vec3( 0.0f, 1.0f, 0.0f),
-			glm::vec3( 0.5f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(9.0f,0.0f),  glm::vec3( 0.0f, 1.0f, 0.0f)
+			glm::vec3( 0.5f, 0.f, 0.5f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,1.0f),  glm::vec3( 0.0f, 1.0f, 0.0f),
+			glm::vec3( 0.5f, 0.f,-0.5f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,0.0f),  glm::vec3( 0.0f, 1.0f, 0.0f)
 		};
 		unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
@@ -102,38 +102,39 @@ public:
 	CustomTerrain()
 		:Primitive()
 	{
-		Vertex v[3*3];
-		GLuint ind[3 * 3];
+		Vertex v[9 * 9];
+		GLuint ind[9 * 9 * 3 * 2];
 		glm::vec3 positions;
 		glm::vec3 colors = glm::vec3(1.f,1.f,1.f);
 		glm::vec2 texCoords;
 		glm::vec3 normals;
 		int vertexPointer = 0;
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j <3; j++) {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j <9; j++) {
 				//Position
 				positions.y = 0;
-				positions.x = (float)j / ((float)3-1 ) * 1;
-				positions.z = (float)i / ((float)3-1 ) * 1;
+				positions.x = (float)j / ((float)9-1 ) * 8;
+				positions.z = (float)i / ((float)9-1 ) * 8;
 				//normals
 				normals.x = 0;
 				normals.y = 11;
 				normals.z = 0;
 				//Tex Coords
-				texCoords.x = (float)j / ((float)3-1);
-				texCoords.y = (float)i / ((float)3-1);
+				texCoords.x = (float)j / ((float)9-1);
+				texCoords.y = (float)i / ((float)9-1);
 
 				v[vertexPointer]= {positions,colors,texCoords,normals};
-				vertexPointer++;
+				if (i * j < 9*9)
+					vertexPointer++;
 			}
 		}
 		unsigned nrOfVertices = sizeof(v) / sizeof(Vertex);
 		int pointer = 0;
-		for (GLuint gz = 0; gz < 3 - 1; gz++) {
-			for (GLuint gx = 0; gx < 3 - 1; gx++) {
-				GLuint topLeft = (gz*3) + gx;
+		for (GLuint gz = 0; gz < 9 - 1; gz++) {
+			for (GLuint gx = 0; gx < 9 - 1; gx++) {
+				GLuint topLeft = (gz*9) + gx;
 				GLuint topRight = topLeft + 1;
-				GLuint bottomLeft = ((gz + 3)*2) + gx;
+				GLuint bottomLeft = ((gz+1)*9) + gx;
 				GLuint bottomRight = bottomLeft + 1;
 				//Indices
 				ind[pointer++] = topLeft;
