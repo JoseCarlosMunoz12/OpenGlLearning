@@ -106,7 +106,7 @@ void Game::initModels()
 	std::vector<Mesh*> meshes;
 		meshes.push_back(
 		new Mesh(
-			&CustomTerrain(40,50),
+			&CustomTerrain(400,20),
 			glm::vec3(0.f, -1.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
@@ -197,6 +197,7 @@ void Game::updateMouseInput()
 void Game::updateInput()
 {
 	glfwPollEvents();
+	this->updateOpenGLOptions();
 	this->updateKeyboardInput();
 	this->updateMouseInput();
 	this->camera.updateInput(dt,-1,this->mouseOffsetX, this->mouseOffsetY);
@@ -219,6 +220,18 @@ void Game::updateUniforms()
 		this->farPlane);
 	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
 
+}
+
+void Game::updateOpenGLOptions()
+{
+	if (glfwGetKey(this->window, GLFW_KEY_L) == GLFW_PRESS)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_F) == GLFW_PRESS)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }
 
 Game::Game(const char * title,

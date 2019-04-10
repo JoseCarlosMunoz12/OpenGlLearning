@@ -75,6 +75,7 @@ private:
 	void updateInput();
 
 	void updateUniforms();
+	void updateOpenGLOptions();
 	//Static variables
 public:
 	//Constructors/destructors

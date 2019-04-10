@@ -117,8 +117,8 @@ public:
 			for (int j = 0; j <9; j++) {
 				//Position
 				positions.y = 0;
-				positions.x = (float)j / ((float)9-1 ) * 8;
-				positions.z = (float)i / ((float)9-1 ) * 8;
+				positions.x = (((float)j-4.5f) / ((float)9-1 )) * 1;
+				positions.z = (((float)i-4.5f) / ((float)9-1 )) * 1;
 				//normals
 				normals.x = 0;
 				normals.y = 11;
@@ -166,8 +166,8 @@ public:
 			for (int ii = 0; ii < Dimension; ii++)
 			{
 				positions.y = 0;
-				positions.x = (float)ii / ((float)Dimension - 1) * Size;
-				positions.z = (float)jj / ((float)Dimension - 1) * Size;
+				positions.x = ((float)ii - Dimension/2)/ ((float)Dimension - 1) * Size;
+				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 				normals.x = 0;
 				normals.y = 11;
 				normals.z = 0;
