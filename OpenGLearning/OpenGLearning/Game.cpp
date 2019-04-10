@@ -106,11 +106,18 @@ void Game::initModels()
 	std::vector<Mesh*> meshes;
 		meshes.push_back(
 		new Mesh(
-			&CustomTerrain(400,20),
+			&CustomTerrain(400,200),
 			glm::vec3(0.f, -1.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
+		meshes.push_back(
+			new Mesh(
+				&CustomTerrain(4, 20),
+				glm::vec3(0.f, -3.f, 0.f),
+				glm::vec3(0.f),
+				glm::vec3(0.f),
+				glm::vec3(1.f)));
 
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
@@ -227,10 +234,15 @@ void Game::updateOpenGLOptions()
 	if (glfwGetKey(this->window, GLFW_KEY_L) == GLFW_PRESS)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDisable(GL_CULL_FACE);
+		
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_F) == GLFW_PRESS)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CCW);
 	}
 }
 
