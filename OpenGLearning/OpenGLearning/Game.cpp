@@ -56,7 +56,7 @@ void Game::initOpenGLOptions()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	
 	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
 }
@@ -106,7 +106,7 @@ void Game::initModels()
 	std::vector<Mesh*> meshes;
 		meshes.push_back(
 		new Mesh(
-			&CustomTerrain(),
+			&CustomTerrain(40,50),
 			glm::vec3(0.f, -1.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
@@ -146,7 +146,7 @@ void Game::updateDT()
 	this->cuTime = static_cast<float>(glfwGetTime());
 	this->dt = this->cuTime - this->lastTime;
 	this->lastTime = this->cuTime;
-	
+	std::cout << 1 / dt <<"\n";
 }
 
 void Game::updateKeyboardInput()
