@@ -113,7 +113,7 @@ void Game::initModels()
 			glm::vec3(1.f)));
 		meshes.push_back(
 			new Mesh(
-				&CustomTerrain(4, 20),
+				&Cube(),
 				glm::vec3(0.f, -3.f, 0.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
@@ -124,7 +124,13 @@ void Game::initModels()
 		this->materials[0],
 		this->textures[TEX_CONTAINER],
 		this->textures[TEX_CONTAINER_SPECULAR],
-		meshes));
+		meshes[0]));
+	this->models.push_back(new Model(
+		glm::vec3(0.f),
+		this->materials[0],
+		this->textures[TEX_PUSHEEM],
+		this->textures[TEX_PUSHEEN_SPECULAR],
+		meshes[1]));
 
 	   
 	for (auto*& i : meshes)
@@ -343,10 +349,9 @@ void Game::render()
 	this->updateUniforms();
 	//render Models
 
-	for (auto&i : this->models)
-	{
-		i->render(this->shaders[SHADER_CORE_PROGRAM]);
-	}
+	this->models[0]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	this->models[1]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	
 	//End Draw
 	glfwSwapBuffers(window);
 	glFlush();

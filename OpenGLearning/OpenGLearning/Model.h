@@ -34,6 +34,20 @@ public:
 			i->setOrigin(this->Position);
 		}
 	}
+
+	Model(glm::vec3 position, Material* material, Texture* orTexDif, Texture* orTexSpec, Mesh* meshesUse)
+	{
+		this->Position = position;
+		this->material = material;
+		this->overrideTextureDiffuse = orTexDif;
+		this->overrideTextureSpecular = orTexSpec;
+		this->meshes.push_back(new Mesh(*meshesUse));
+		for (auto& i : this->meshes)
+		{
+			i->move(this->Position);
+			i->setOrigin(this->Position);
+		}
+	}
 	~Model()
 	{
 		for (auto*& i: this->meshes)
