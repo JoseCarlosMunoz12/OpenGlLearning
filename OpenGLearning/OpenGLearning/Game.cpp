@@ -91,6 +91,9 @@ void Game::initTextures()
 	//Second Texture
 	this->textures.push_back(new Texture("Images/container.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/container_specular.png", GL_TEXTURE_2D));
+	//Third Image
+	this->textures.push_back(new Texture("Images/Test1.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/Test1_specular.png", GL_TEXTURE_2D));
 	
 }
 
@@ -116,7 +119,7 @@ void Game::initModels()
 		meshes.push_back(
 			new Mesh(
 				&Cube(),
-				glm::vec3(0.f, 6.f, 0.f),
+				glm::vec3(0.f, 0.f, 0.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
@@ -142,9 +145,9 @@ void Game::initModels()
 		meshes[1]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[0],
-		this->textures[TEX_PUSHEEM],
-		this->textures[TEX_PUSHEEN_SPECULAR],
+		this->materials[1],
+		this->textures[TEX_FLOWER],
+		this->textures[TEX_FLOWER_SPECULAR],
 		meshes[2]));
 
 	   
