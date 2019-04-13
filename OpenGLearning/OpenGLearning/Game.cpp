@@ -98,6 +98,8 @@ void Game::initMaterials()
 {
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1));
+	this->materials.push_back(new Material(glm::vec3(1.0f), glm::vec3(1.f), glm::vec3(1.f),
+		0, 1));
 	
 }
 
@@ -114,14 +116,21 @@ void Game::initModels()
 		meshes.push_back(
 			new Mesh(
 				&Cube(),
-				glm::vec3(0.f, -3.f, 0.f),
+				glm::vec3(0.f, 6.f, 0.f),
+				glm::vec3(0.f),
+				glm::vec3(0.f),
+				glm::vec3(1.f)));
+		meshes.push_back(
+			new Mesh(
+				&Pyramid(),
+				glm::vec3(0.f, -2.f, 1.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
 
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[0],
+		this->materials[1],
 		this->textures[TEX_CONTAINER],
 		this->textures[TEX_CONTAINER_SPECULAR],
 		meshes[0]));
@@ -131,6 +140,12 @@ void Game::initModels()
 		this->textures[TEX_PUSHEEM],
 		this->textures[TEX_PUSHEEN_SPECULAR],
 		meshes[1]));
+	this->models.push_back(new Model(
+		glm::vec3(0.f),
+		this->materials[0],
+		this->textures[TEX_PUSHEEM],
+		this->textures[TEX_PUSHEEN_SPECULAR],
+		meshes[2]));
 
 	   
 	for (auto*& i : meshes)
@@ -351,6 +366,7 @@ void Game::render()
 
 	this->models[0]->render(this->shaders[SHADER_CORE_PROGRAM]);
 	this->models[1]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
 	
 	//End Draw
 	glfwSwapBuffers(window);
