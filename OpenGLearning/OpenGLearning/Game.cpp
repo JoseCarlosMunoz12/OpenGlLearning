@@ -130,7 +130,6 @@ void Game::initModels()
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
-
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
 		this->materials[1],
@@ -145,17 +144,14 @@ void Game::initModels()
 		meshes[1]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[1],
+		this->materials[0],
 		this->textures[TEX_FLOWER],
 		this->textures[TEX_FLOWER_SPECULAR],
 		meshes[2]));
-
-	   
 	for (auto*& i : meshes)
 	{
 		delete i;
 	}
-
 }
 
 void Game::initLights()
@@ -167,9 +163,7 @@ void Game::initUniforms()
 {
 	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ViewMatrix, "ViewMatrix");
 	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
-
 	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(*this->lights[0], "lightPos0");
-
 }
 
 void Game::updateDT()
@@ -177,7 +171,7 @@ void Game::updateDT()
 	this->cuTime = static_cast<float>(glfwGetTime());
 	this->dt = this->cuTime - this->lastTime;
 	this->lastTime = this->cuTime;
-	std::cout << 1 / dt <<"\n";
+	//std::cout << 1 / dt <<"\n";
 }
 
 void Game::updateKeyboardInput()
