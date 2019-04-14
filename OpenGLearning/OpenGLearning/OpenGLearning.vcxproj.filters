@@ -57,5 +57,7 @@
   <ItemGroup>
     <None Include="vertex_core.glsl" />
     <None Include="fragment_core.glsl" />
+    <None Include="terrain_fragment.glsl" />
+    <None Include="terrain_vertex.glsl" />
   </ItemGroup>
 </Project>

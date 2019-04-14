@@ -80,6 +80,8 @@ void Game::initShaders()
 {
 	this->shaders.push_back(new Shader(this->GLVerMajor , this->GLVerMinor ,
 		"vertex_core.glsl", "fragment_core.glsl"));
+	this->shaders.push_back(new Shader(this->GLVerMajor, this->GLVerMinor,
+		"terrain_vertex.glsl", "terrain_fragment.glsl"));
 
 }
 
@@ -161,9 +163,15 @@ void Game::initLights()
 
 void Game::initUniforms()
 {
-	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ViewMatrix, "ViewMatrix");
+	for (auto& i : this->shaders)
+	{
+		i->setMat4fv(ViewMatrix, "ViewMatrix");
+		i->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
+		i->setVec3f(*this->lights[0], "lightPos0");
+	}
+	/*this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ViewMatrix, "ViewMatrix");
 	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
-	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(*this->lights[0], "lightPos0");
+	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(*this->lights[0], "lightPos0");*/
 }
 
 void Game::updateDT()
@@ -232,9 +240,12 @@ void Game::updateUniforms()
 {
 	//Update uniforms
 	this->ViewMatrix = this->camera.GetViewMatrix();
-	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(this->ViewMatrix, "ViewMatrix");
-	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(this->camera.getPosition(), "cameraPos");
-	this->materials[MAT_1]->sendToShader(*this->shaders[SHADER_CORE_PROGRAM]);
+	for (auto& i : this->shaders)
+	{
+		i->setMat4fv(this->ViewMatrix, "ViewMatrix");
+		i->setVec3f(this->camera.getPosition(), "cameraPos");
+		this->materials[MAT_1]->sendToShader(*i);
+	}
 	//Update FramgeBuffer size and projection matrix
 	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
 	   
@@ -243,8 +254,10 @@ void Game::updateUniforms()
 		static_cast<float>(this->frameBufferWidth) /this-> frameBufferHeight,
 		this->nearPlane,
 		this->farPlane);
-	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
-
+	for (auto& i : this->shaders)
+	{
+		i->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
+	}
 }
 
 void Game::updateOpenGLOptions()
@@ -362,7 +375,7 @@ void Game::render()
 	//render Models
 
 	this->models[0]->render(this->shaders[SHADER_CORE_PROGRAM]);
-	this->models[1]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	this->models[1]->render(this->shaders[1]);
 	this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
 	
 	//End Draw
