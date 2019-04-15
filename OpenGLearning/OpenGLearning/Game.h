@@ -2,6 +2,7 @@
 
 #include "libs.h"
 #include "Camera.h"
+#include <random>
 
 //Enumerations
 enum shader_enums{SHADER_CORE_PROGRAM = 0,
@@ -14,6 +15,9 @@ enum mesh_enum{MESH_QUAD = 0};
 class Game
 {
 private:
+	std::mt19937 rng;
+	std::uniform_int_distribution<int> xDist;
+	std::uniform_int_distribution<int> yDist;
 	//Variables
 	//Delta Time
 	float dt;

@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "libs.h"
 
 void Game::initGLFW()
 {
@@ -121,13 +120,13 @@ void Game::initModels()
 		meshes.push_back(
 			new Mesh(
 				&Cube(),
-				glm::vec3(0.f, 0.f, 0.f),
+				glm::vec3(0.f, 0.f, 1.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
 		meshes.push_back(
 			new Mesh(
-				&Pyramid(),
+				&Cube(),
 				glm::vec3(0.f, 0.f, 5.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
@@ -169,9 +168,6 @@ void Game::initUniforms()
 		i->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
 		i->setVec3f(*this->lights[0], "lightPos0");
 	}
-	/*this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ViewMatrix, "ViewMatrix");
-	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
-	this->shaders[SHADER_CORE_PROGRAM]->setVec3f(*this->lights[0], "lightPos0");*/
 }
 
 void Game::updateDT()
@@ -213,7 +209,7 @@ void Game::updateKeyboardInput()
 		meshes.push_back(
 			new Mesh(
 				&Cube(),
-				glm::vec3(0.f, 0.f, Amount),
+				glm::vec3((float)xDist(rng), 0.f, (float)yDist(rng)),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
@@ -223,7 +219,6 @@ void Game::updateKeyboardInput()
 			this->textures[TEX_PUSHEEM],
 			this->textures[TEX_PUSHEEN_SPECULAR],
 			meshes[0]));
-		Amount += 1.f;
 		for (auto*& i : meshes)
 		{
 			delete i;
@@ -231,7 +226,10 @@ void Game::updateKeyboardInput()
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_O) == GLFW_PRESS)
 	{
-		models.pop_back();
+		if (this->models.size() > 3)
+		{
+			models.pop_back();
+		}
 	}
 }
 
@@ -271,7 +269,6 @@ void Game::updateUniforms()
 	{
 		i->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		i->setVec3f(this->camera.getPosition(), "cameraPos");
-		this->materials[MAT_1]->sendToShader(*i);
 	}
 	//Update FramgeBuffer size and projection matrix
 	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
@@ -309,7 +306,9 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f))
+	camera(glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
+	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
+
 {
 	this->window = NULL;
 	this->frameBufferHeight = this->Window_Height;
@@ -383,10 +382,10 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	for(size_t ii = 1; ii < this->models.size(); ii++)
-	{
-		this->models[ii]->rotate(glm::vec3(0.f, 1.f, 0.f));
-	}
+	//for(size_t ii = 1; ii < this->models.size(); ii++)
+	//{
+	//	this->models[ii]->rotate(glm::vec3(0.f, 1.f, 0.f));
+	//}
 }
 
 void Game::render()
