@@ -128,7 +128,7 @@ void Game::initModels()
 		meshes.push_back(
 			new Mesh(
 				&Pyramid(),
-				glm::vec3(0.f, -2.f, 1.f),
+				glm::vec3(0.f, 0.f, 5.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
@@ -205,6 +205,29 @@ void Game::updateKeyboardInput()
 	if (glfwGetKey(this->window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		this->camera.move(this->dt, RIGHT);
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_P) == GLFW_PRESS)
+	{
+		std::vector<Mesh*> meshes;
+		
+		meshes.push_back(
+			new Mesh(
+				&Cube(),
+				glm::vec3(0.f, 0.f, Amount),
+				glm::vec3(0.f),
+				glm::vec3(0.f),
+				glm::vec3(1.f)));
+		this->models.push_back(new Model(
+			glm::vec3(0.f),
+			this->materials[0],
+			this->textures[TEX_PUSHEEM],
+			this->textures[TEX_PUSHEEN_SPECULAR],
+			meshes[0]));
+		Amount += 1.f;
+		for (auto*& i : meshes)
+		{
+			delete i;
+		}
 	}
 }
 
@@ -356,6 +379,10 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
+	//for(size_t ii = 1; ii <= 2; ii++)
+	//{
+	//	this->models[ii]->rotate(glm::vec3(0.f, 1.f, 0.f));
+	//}
 	//for (auto& i : this->models)
 	//{
 	//	i->rotate(glm::vec3(0.f, 1.f, 0.f));
@@ -374,9 +401,12 @@ void Game::render()
 	this->updateUniforms();
 	//render Models
 
-	this->models[0]->render(this->shaders[SHADER_CORE_PROGRAM]);
-	this->models[1]->render(this->shaders[1]);
-	this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	this->models[0]->render(this->shaders[1]);
+
+	for (int ii = 1; ii <= this->models.size() - 1; ii++)
+	{
+		this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	}
 	
 	//End Draw
 	glfwSwapBuffers(window);

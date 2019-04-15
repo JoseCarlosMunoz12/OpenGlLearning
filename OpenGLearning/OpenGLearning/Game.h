@@ -27,6 +27,7 @@ private:
 	double mouseOffsetX;
 	double mouseOffsetY;
 	bool firstMouse;
+	float Amount = 0;
 
 	//window
 	GLFWwindow* window;
