@@ -32,6 +32,7 @@ private:
 	double mouseOffsetY;
 	bool firstMouse;
 	float Amount = 0;
+	float AmountZ = 0;
 
 	//window
 	GLFWwindow* window;

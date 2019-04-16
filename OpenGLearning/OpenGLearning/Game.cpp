@@ -102,7 +102,7 @@ void Game::initMaterials()
 {
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1));
-	this->materials.push_back(new Material(glm::vec3(1.0f), glm::vec3(1.f), glm::vec3(1.f),
+	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0, 1));
 	
 }
@@ -119,8 +119,8 @@ void Game::initModels()
 			glm::vec3(1.f)));
 		meshes.push_back(
 			new Mesh(
-				&Cube(),
-				glm::vec3(0.f, 0.f, 1.f),
+				&Pyramid(),
+				glm::vec3(0.f, 0.f, 0.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
@@ -146,8 +146,8 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
 		this->materials[0],
-		this->textures[TEX_FLOWER],
-		this->textures[TEX_FLOWER_SPECULAR],
+		this->textures[TEX_PUSHEEM],
+		this->textures[TEX_PUSHEEN_SPECULAR],
 		meshes[2]));
 	for (auto*& i : meshes)
 	{
@@ -180,7 +180,26 @@ void Game::updateDT()
 
 void Game::updateKeyboardInput()
 {
-
+	if (glfwGetKey(this->window, GLFW_KEY_J) == GLFW_PRESS)
+	{
+		this->lights[0] = new glm::vec3(AmountZ, 0.f, Amount);
+		AmountZ += 1;
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_K) == GLFW_PRESS)
+	{
+		this->lights[0] = new glm::vec3(AmountZ, 0.f, Amount);
+		AmountZ -= 1;
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_I) == GLFW_PRESS)
+	{
+		this->lights[0] = new glm::vec3(AmountZ,0.f,Amount);
+		Amount += 1;
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_U) == GLFW_PRESS)
+	{
+		this->lights[0] = new glm::vec3(AmountZ, 0.f,Amount);
+		Amount -= 1;
+	}
 	if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(this->window, GLFW_TRUE);
@@ -267,15 +286,17 @@ void Game::updateUniforms()
 	this->ViewMatrix = this->camera.GetViewMatrix();
 	for (auto& i : this->shaders)
 	{
+		i->setVec3f(*this->lights[0], "lightPos0");
 		i->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		i->setVec3f(this->camera.getPosition(), "cameraPos");
+		
 	}
 	//Update FramgeBuffer size and projection matrix
 	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
 	   
 	this->ProjectionMatrix = glm::mat4(1.f);
 	this->ProjectionMatrix = glm::perspective(glm::radians(this->fov),
-		static_cast<float>(this->frameBufferWidth) /this-> frameBufferHeight,
+		static_cast<float>(this->frameBufferWidth) / this-> frameBufferHeight,
 		this->nearPlane,
 		this->farPlane);
 	for (auto& i : this->shaders)
