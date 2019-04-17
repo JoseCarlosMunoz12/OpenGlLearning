@@ -297,4 +297,75 @@ public:
 
 		this->set(vertices, nrOfVertices, indices, nrOfIndices);
 	}
+	Cube(int Temp)
+		:Primitive()
+	{
+		std::vector<Vertex> VertexOfCube;
+		std::vector<GLuint> IndecesOfCube;
+		glm::vec3 Normals[] =
+		{
+			glm::vec3(0.f,0.f,1.f), glm::vec3(-1.f,0.f,0.f),
+			glm::vec3(0.f,0.f,-1.f),glm::vec3(1.f,0.f,0.f),
+		};
+		glm::vec2 TexCoords[] = 
+		{
+			glm::vec2(1.f,1.f),glm::vec2(0.f,1.f),
+			glm::vec2(0.f,0.f),glm::vec2(1.f,0.f)
+		};
+		glm::vec3 ColorsUsed = glm::vec3(0.f, 0.f, 1.f);
+		glm::vec3 Positions[] = 
+		{
+			//Top Plane
+			glm::vec3(0.5f,0.5f,0.5f),glm::vec3(-0.5f,0.5f,0.5f),
+			glm::vec3(-0.5f,0.5f,-0.5f),glm::vec3(0.5f,0.5f,-0.5f),
+			//Bottom Plane
+			glm::vec3(0.5f,-0.5f,0.5f),glm::vec3(-0.5f,-0.5f,0.5f),
+			glm::vec3(-0.5f,-0.5f,-0.5f),glm::vec3(0.5f,-0.5f,-0.5f)
+		};
+		int Part0 = 0;
+		int Part1 = 1;
+		int Part2 = 5;
+		int Part3 = 4;
+		for (size_t ii = 1; ii < 5; ii++)
+		{
+		
+			Vertex Vertex0 = {Positions[Part0],ColorsUsed,TexCoords[0],Normals[ii-1]};
+			Vertex Vertex1 = {Positions[Part1],ColorsUsed,TexCoords[1],Normals[ii-1]};
+			Vertex Vertex2 = {Positions[Part2],ColorsUsed,TexCoords[2],Normals[ii-1]};
+			Vertex Vertex3 = {Positions[Part3],ColorsUsed,TexCoords[3],Normals[ii-1]};
+			
+			VertexOfCube.push_back(Vertex1);
+			VertexOfCube.push_back(Vertex2);
+			VertexOfCube.push_back(Vertex0);
+			VertexOfCube.push_back(Vertex0);
+			VertexOfCube.push_back(Vertex2);
+			VertexOfCube.push_back(Vertex3);
+			
+			if (Part1 == 3)
+			{
+				Part1 = 0;
+			}
+			else
+			{
+				Part1 += 1;
+			}
+			if (Part2 == 7)
+			{
+				Part2 = 4;
+			}
+			else
+			{
+				Part2 += 1;
+			}
+			Part0 += 1;
+			Part3 += 1;
+		}
+			   
+		for (size_t ii = 0; ii < VertexOfCube.size(); ii++)
+		{
+			IndecesOfCube.push_back(ii);
+		}
+
+		this->set(VertexOfCube, IndecesOfCube);
+	}
 }; 
