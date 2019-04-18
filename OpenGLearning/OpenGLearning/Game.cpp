@@ -120,14 +120,14 @@ void Game::initModels()
 		meshes.push_back(
 			new Mesh(
 				&Pyramid(),
-				glm::vec3(0.f, 0.f, 0.f),
+				glm::vec3(-1.f, 0.f, 0.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
 		meshes.push_back(
 			new Mesh(
-				&Cube(1),
-				glm::vec3(4.f, 0.f, 0.f),
+				&Cube(),
+				glm::vec3(3.f, 0.f, 1.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
@@ -157,7 +157,7 @@ void Game::initModels()
 
 void Game::initLights()
 {
-	this->lights.push_back(new glm::vec3(0.f, 0.f, 1.f));
+	this->lights.push_back(new glm::vec3(0.f, 0.f, 0.f));
 }
 
 void Game::initUniforms()
@@ -227,7 +227,7 @@ void Game::updateKeyboardInput()
 		
 		meshes.push_back(
 			new Mesh(
-				&Cube(1),
+				&Cube(),
 				glm::vec3((float)xDist(rng), 0.f, (float)yDist(rng)),
 				glm::vec3(0.f),
 				glm::vec3(0.f),

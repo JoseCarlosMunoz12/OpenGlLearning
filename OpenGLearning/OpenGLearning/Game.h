@@ -5,13 +5,13 @@
 #include <random>
 
 //Enumerations
-enum shader_enums{SHADER_CORE_PROGRAM = 0,
+enum shader_enums{SHADER_CORE_PROGRAM,
 					SHADER_TERRAIN};
 enum texture_enum {TEX_PUSHEEM,TEX_PUSHEEN_SPECULAR,
 					TEX_CONTAINER,TEX_CONTAINER_SPECULAR,
 					TEX_FLOWER,TEX_FLOWER_SPECULAR};
-enum material_ennum{MAT_1 = 0};
-enum mesh_enum{MESH_QUAD = 0};
+enum material_ennum {MAT_1 = 0};
+enum mesh_enum {MESH_QUAD = 0};
 class Game
 {
 private:
