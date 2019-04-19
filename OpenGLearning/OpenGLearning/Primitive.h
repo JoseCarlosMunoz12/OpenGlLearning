@@ -338,6 +338,21 @@ public:
 	}
 	Cube(int WIDTH, int LENGTH, int HEIGHT, float WidthSize, float LengthSize, float HeightSize)
 	{
+		std::vector<Vertex> VertexOfCube;
+		std::vector<GLuint> IndecesOfCube;
+		glm::vec3 Normals[] =
+		{
+			glm::vec3(0.f,0.f,1.f), glm::vec3(-1.f,0.f,0.f),
+			glm::vec3(0.f,0.f,-1.f),glm::vec3(1.f,0.f,0.f),
+		};
+		int EndIndex[] = {0 , WIDTH , WIDTH + LENGTH , 2 *  WIDTH + LENGTH};
+		int width = WIDTH - 1;
+		int height = HEIGHT - 1;
 
+
+		for (size_t ii = 0; ii < VertexOfCube.size() - 1; ii++)
+		{
+			IndecesOfCube.push_back(ii);
+		}
 	}
 }; 
