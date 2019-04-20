@@ -340,6 +340,7 @@ public:
 	{
 		std::vector<Vertex> VertexOfCube;
 		std::vector<GLuint> IndecesOfCube;
+		glm::vec3 Colors = glm::vec3(0.f, 0.f, 1.f);
 		glm::vec3 Normals[] =
 		{
 			glm::vec3(0.f,0.f,1.f), glm::vec3(-1.f,0.f,0.f),
@@ -348,11 +349,30 @@ public:
 		int EndIndex[] = {0 , WIDTH , WIDTH + LENGTH , 2 *  WIDTH + LENGTH};
 		int width = WIDTH - 1;
 		int height = HEIGHT - 1;
+		for (size_t kk = 0; kk < 4; kk++)
+		{
+			for (size_t ii = 0; ii < HEIGHT; ii++)
+			{
+				for (size_t jj = 0; jj < WIDTH; jj++)
+				{
 
+					glm::vec2 TexCord[] = { glm::vec2((height - jj) / height,(width - ii) / width),
+											glm::vec2((height - jj) / height,((LENGTH - 1) - ii) / (LENGTH - 1)) };
+					glm::vec3 Positions = glm::vec3(1.f, 1.f, 1.f);
+					Vertex TempVertex = {Positions,Colors,TexCord[0],Normals[kk]};
+					VertexOfCube.push_back(TempVertex);
+				}
+			}
+		}
 
-		for (size_t ii = 0; ii < VertexOfCube.size() - 1; ii++)
+		for (size_t ii = 0; ii < VertexOfCube.size() ; ii++)
 		{
 			IndecesOfCube.push_back(ii);
 		}
+	}
+private:
+	glm::vec3 CalculatePosition(int Length, int Height, int width)
+	{
+
 	}
 }; 
