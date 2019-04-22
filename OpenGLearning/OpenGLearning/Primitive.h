@@ -3,6 +3,7 @@
 #include <glew.h>
 #include <glfw3.h>
 #include <glm.hpp>
+#include <iostream>
 
 #include "Vertex.h"
 
@@ -363,10 +364,13 @@ public:
 			}
 		}
 
-		for (size_t ii = 0; ii < VertexOfCube.size() ; ii++)
+		for (auto& i : VertexOfCube)
 		{
-			IndecesOfCube.push_back(ii);
+			std::cout << i.position.x << " " <<  i.position.y << " " << i.position.z << "\n";
+			std::cout << i.texcoord.x << " " << i.texcoord.y << "\n";
+			std::cout << "===========" << "\n";
 		}
+		Cube();
 	}
 private:
 	glm::vec3 CalculatePosition(int Length, int Height, int width, int Mode,int IndexX, int IndexY)
@@ -375,24 +379,24 @@ private:
 		switch (Mode)
 		{
 		case 0 :
-			TempPos.x = (Height+1) * (Height -2*IndexY)/(2*Height);
-			TempPos.y = (width + 1) * (width - 2 * IndexY) / (2 * width);
-			TempPos.z = (Length + 1) /2;
+			TempPos.x = float(Height+1) * float(Height -2*IndexX)/ float(2*Height);
+			TempPos.y = float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
+			TempPos.z = float(Length + 1) /2;
 			break;
 		case 1:
-			TempPos.x = (Height + 1) * (Height - 2 * IndexY) / (2 * Height);
-			TempPos.y = (width + 1) / 2;
-			TempPos.z = -1 * (width + 1) * (width - 2 * IndexY) / (2 * width);
+			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
+			TempPos.y = float(width + 1) / 2;
+			TempPos.z = -1 * float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
 			break;
 		case 2:
-			TempPos.x = (Height + 1) * (Height - 2 * IndexY) / (2 * Height);
-			TempPos.y = -1 * (width + 1) * (width - 2 * IndexY) / (2 * width);
-			TempPos.z = -1 * (Length + 1) / 2;
+			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
+			TempPos.y = -1 * float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
+			TempPos.z = -1 * float(Length + 1) / 2;
 			break;
 		case 3:
-			TempPos.x = (Height + 1) * (Height - 2 * IndexY) / (2 * Height);
-			TempPos.y = -1*(width + 1) / 2;
-			TempPos.z =  (width + 1) * (width - 2 * IndexY) / (2 * width);
+			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
+			TempPos.y = -1* float(width + 1) / 2;
+			TempPos.z = float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
 			break;
 		}
 		return TempPos;
