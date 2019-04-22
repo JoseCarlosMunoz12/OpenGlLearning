@@ -358,7 +358,7 @@ public:
 					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1,kk,jj,ii);
 					Vertex TempVertex = {Positions,Colors,TexCord,Normals[kk]};
 					VertexOfCube.push_back(TempVertex);
-					//Temp Message
+					//Temp Message Testing if it wil record as my Name
 				}
 			}
 		}
