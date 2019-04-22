@@ -346,20 +346,17 @@ public:
 			glm::vec3(0.f,0.f,1.f), glm::vec3(-1.f,0.f,0.f),
 			glm::vec3(0.f,0.f,-1.f),glm::vec3(1.f,0.f,0.f),
 		};
-		int EndIndex[] = {0 , WIDTH , WIDTH + LENGTH , 2 *  WIDTH + LENGTH};
-		int width = WIDTH - 1;
-		int height = HEIGHT - 1;
-		for (size_t kk = 0; kk < 4; kk++)
+		int EndIndex[] = {0	, WIDTH , WIDTH + LENGTH ,
+							2 *  WIDTH + LENGTH,2 * (WIDTH+LENGTH)};
+			for (size_t kk = 0; kk < 4; kk++)
 		{
 			for (size_t ii = 0; ii < HEIGHT; ii++)
 			{
 				for (size_t jj = 0; jj < WIDTH; jj++)
 				{
-
-					glm::vec2 TexCord[] = { glm::vec2((height - jj) / height,(width - ii) / width),
-											glm::vec2((height - jj) / height,((LENGTH - 1) - ii) / (LENGTH - 1)) };
-					glm::vec3 Positions = glm::vec3(1.f, 1.f, 1.f);
-					Vertex TempVertex = {Positions,Colors,TexCord[0],Normals[kk]};
+					glm::vec2 TexCord = CalcTexcoords(WIDTH - 1, LENGTH - 1, HEIGHT - 1, kk,jj,ii);
+					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1,kk,jj,ii);
+					Vertex TempVertex = {Positions,Colors,TexCord,Normals[kk]};
 					VertexOfCube.push_back(TempVertex);
 				}
 			}
@@ -371,8 +368,50 @@ public:
 		}
 	}
 private:
-	glm::vec3 CalculatePosition(int Length, int Height, int width)
+	glm::vec3 CalculatePosition(int Length, int Height, int width, int Mode,int IndexX, int IndexY)
 	{
-
+		glm::vec3 TempPos;
+		switch (Mode)
+		{
+		case 0 :
+			TempPos.x = (Height+1) * (Height -2*IndexY)/(2*Height);
+			TempPos.y = (width + 1) * (width - 2 * IndexY) / (2 * width);
+			TempPos.z = (Length + 1) /2;
+			break;
+		case 1:
+			TempPos.x = (Height + 1) * (Height - 2 * IndexY) / (2 * Height);
+			TempPos.y = (width + 1) / 2;
+			TempPos.z = -1 * (width + 1) * (width - 2 * IndexY) / (2 * width);
+			break;
+		case 2:
+			TempPos.x = (Height + 1) * (Height - 2 * IndexY) / (2 * Height);
+			TempPos.y = -1 * (width + 1) * (width - 2 * IndexY) / (2 * width);
+			TempPos.z = -1 * (Length + 1) / 2;
+			break;
+		case 3:
+			TempPos.x = (Height + 1) * (Height - 2 * IndexY) / (2 * Height);
+			TempPos.y = -1*(width + 1) / 2;
+			TempPos.z =  (width + 1) * (width - 2 * IndexY) / (2 * width);
+			break;
+		}
+		return TempPos;
+	}
+	glm::vec2 CalcTexcoords(int Width, int Length, int Height, int Mode, int ii, int jj)
+	{
+		glm::vec2 TempTexCoord;
+		switch (Mode)
+		{
+		case 0:
+		case 2:
+			TempTexCoord.x = (float)(Height - ii) / ((float)Height);
+			TempTexCoord.y = (float)(Width - jj) / ((float)Width);
+			break;
+		case 1:
+		case 3:
+			TempTexCoord.y = (float)(Height - ii) / ((float)Height);
+			TempTexCoord.x = (float)(Length - jj) / ((float)Length);
+			break;
+		}
+		return TempTexCoord;
 	}
 }; 
