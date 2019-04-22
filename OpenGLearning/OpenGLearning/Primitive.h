@@ -366,8 +366,9 @@ public:
 
 		for (auto& i : VertexOfCube)
 		{
-			std::cout << i.position.x << " " <<  i.position.y << " " << i.position.z << "\n";
-			std::cout << i.texcoord.x << " " << i.texcoord.y << "\n";
+			std::cout << "===========" << "\n";
+			std::cout << i.position.x << "," <<  i.position.y << "," << i.position.z << "\n";
+			std::cout << i.texcoord.x << "," << i.texcoord.y << "\n";
 			std::cout << "===========" << "\n";
 		}
 		Cube();
@@ -379,13 +380,13 @@ private:
 		switch (Mode)
 		{
 		case 0 :
-			TempPos.x = float(Height+1) * float(Height -2*IndexX)/ float(2*Height);
+			TempPos.x = float(Height + 1) * float(Height -2*IndexX)/ float(2*Height);
 			TempPos.y = float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
 			TempPos.z = float(Length + 1) /2;
 			break;
 		case 1:
 			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
-			TempPos.y = float(width + 1) / 2;
+			TempPos.y = float(width +1) / 2;
 			TempPos.z = -1 * float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
 			break;
 		case 2:
@@ -396,7 +397,7 @@ private:
 		case 3:
 			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
 			TempPos.y = -1* float(width + 1) / 2;
-			TempPos.z = float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
+			TempPos.z = float(width +1) * float(width - 2 * IndexY) / float(2 * width);
 			break;
 		}
 		return TempPos;
@@ -408,13 +409,13 @@ private:
 		{
 		case 0:
 		case 2:
-			TempTexCoord.x = (float)(Height - ii) / ((float)Height);
-			TempTexCoord.y = (float)(Width - jj) / ((float)Width);
+			TempTexCoord.y = (float)(Height - ii) / ((float)Height);
+			TempTexCoord.x = (float)(Width - jj) / ((float)Width);
 			break;
 		case 1:
 		case 3:
-			TempTexCoord.y = (float)(Height - ii) / ((float)Height);
-			TempTexCoord.x = (float)(Length - jj) / ((float)Length);
+			TempTexCoord.x = (float)(Height - ii) / ((float)Height);
+			TempTexCoord.y = (float)(Length - jj) / ((float)Length);
 			break;
 		}
 		return TempTexCoord;
