@@ -394,19 +394,19 @@ private:
 			TempPos.z = float(Length + 1) /2;
 			break;
 		case 1:
-			TempPos.x = float(Height + 1) * float(2 * IndexX - Height ) / float(2 * Height);
-			TempPos.y = float(width + 1) / 2;
-			TempPos.z = -1 * float(Length + 1) * float(Length - 2 * IndexY) / float(2 * Length);
+			TempPos.x = -1 * float(width + 1) / 2;
+			TempPos.y = -1 * float(Height + 1) * float(2 * IndexX - Height) / float(2 * Height);
+			TempPos.z = float(Length + 1) * float(Length - 2 * IndexY) / float(2 * Length);
 			break;
 		case 2:
-			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
-			TempPos.y = -1 * float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
+			TempPos.x = float(Height + 1) * float( 2 * IndexX - Height) / float(2 * Height);
+			TempPos.y = -1 * float(width + 1) * float(2 * IndexY - width) / float(2 * width);
 			TempPos.z = -1 * float(Length + 1) / 2;
 			break;
 		case 3:
-			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
-			TempPos.y = -1* float(width + 1) / 2;
-			TempPos.z = float(width +1) * float(width - 2 * IndexY) / float(2 * width);
+			TempPos.x = float(width + 1) / 2;
+			TempPos.y = -1 * float(Height + 1) * float(2 * IndexX - Height) / float(2 * Height);
+			TempPos.z = -1 * float(Length + 1) * float(Length - 2 * IndexY) / float(2 * Length);
 			break;
 		}
 		return TempPos;
