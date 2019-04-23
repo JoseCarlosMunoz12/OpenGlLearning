@@ -126,7 +126,7 @@ void Game::initModels()
 		//		glm::vec3(1.f)));
 		meshes.push_back(
 			new Mesh(
-				&Cube(2,2),
+				&Cube(3,2),
 				glm::vec3(3.f, 0.f, 1.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),

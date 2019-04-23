@@ -350,32 +350,35 @@ public:
 		};
 		int EndIndex[] = {0	, WIDTH , WIDTH + LENGTH ,
 							2 *  WIDTH + LENGTH,2 * (WIDTH+LENGTH)};
-			for (size_t kk = 0; kk < 4; kk++)
+		for (size_t kk = 0; kk < 4; kk++)
 		{
 			for (size_t ii = 0; ii < HEIGHT; ii++)
 			{
 				for (size_t jj = 0; jj < WIDTH; jj++)
 				{
-					glm::vec2 TexCord = CalcTexcoords(WIDTH - 1, LENGTH - 1, HEIGHT - 1, kk,jj,ii);
-					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1,kk,jj,ii);
-					Vertex TempVertex = {Positions,Colors,TexCord,Normals[kk]};
+					glm::vec2 TexCord = CalcTexcoords(WIDTH - 1, LENGTH - 1, HEIGHT - 1, kk, jj, ii);
+					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1, kk, jj, ii);
+					Vertex TempVertex = { Positions,Colors,TexCord,Normals[kk] };
 					VertexOfCube.push_back(TempVertex);
 					//Temp Message Testing if it wil record as my Name
 				}
 			}
 		}
-
 		for (size_t ii = 0; ii < VertexOfCube.size(); ii++)
 		{
 			IndecesOfCube.push_back(ii);
 		}
 		//this->set(VertexOfCube, IndecesOfCube);
+		int Count = 0;
 		for (auto& i : VertexOfCube)
 		{
 			std::cout << "===========" << "\n";
+			std::cout << Count << "\n";
 			std::cout << i.position.x << "," <<  i.position.y << "," << i.position.z << "\n";
+			std::cout << i.normal.x << "," << i.normal.y << "," << i.normal.z << "\n";
 			std::cout << i.texcoord.x << "," << i.texcoord.y << "\n";
 			std::cout << "===========" << "\n";
+			Count++;
 		}
 		
 	}
@@ -386,14 +389,14 @@ private:
 		switch (Mode)
 		{
 		case 0 :
-			TempPos.x = float(Height + 1) * float(Height -2*IndexX)/ float(2*Height);
+			TempPos.x = float(Height + 1) * float(Height -2 * IndexX)/ float(2*Height);
 			TempPos.y = float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
 			TempPos.z = float(Length + 1) /2;
 			break;
 		case 1:
-			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
-			TempPos.y = float(width +1) / 2;
-			TempPos.z = -1 * float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
+			TempPos.x = float(Height + 1) * float(2 * IndexX - Height ) / float(2 * Height);
+			TempPos.y = float(width + 1) / 2;
+			TempPos.z = -1 * float(Length + 1) * float(Length - 2 * IndexY) / float(2 * Length);
 			break;
 		case 2:
 			TempPos.x = float(Height + 1) * float(Height - 2 * IndexX) / float(2 * Height);
@@ -415,8 +418,8 @@ private:
 		{
 		case 0:
 		case 2:
-			TempTexCoord.y = (float)(Height - ii) / ((float)Height);
-			TempTexCoord.x = (float)(Width - jj) / ((float)Width);
+			TempTexCoord.x = (float)(Height - ii) / ((float)Height);
+			TempTexCoord.y = (float)(Width - jj) / ((float)Width);
 			break;
 		case 1:
 		case 3:
