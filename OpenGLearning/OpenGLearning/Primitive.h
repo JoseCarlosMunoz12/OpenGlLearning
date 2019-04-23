@@ -338,6 +338,7 @@ public:
 		Cube(CubeVertex, CubeVertex, CubeVertex, CubeSize,CubeSize, CubeSize);
 	}
 	Cube(int WIDTH, int LENGTH, int HEIGHT, float WidthSize, float LengthSize, float HeightSize)
+		:Primitive()
 	{
 		std::vector<Vertex> VertexOfCube;
 		std::vector<GLuint> IndecesOfCube;
@@ -364,6 +365,11 @@ public:
 			}
 		}
 
+		for (size_t ii = 0; ii < VertexOfCube.size(); ii++)
+		{
+			IndecesOfCube.push_back(ii);
+		}
+		//this->set(VertexOfCube, IndecesOfCube);
 		for (auto& i : VertexOfCube)
 		{
 			std::cout << "===========" << "\n";
@@ -371,7 +377,7 @@ public:
 			std::cout << i.texcoord.x << "," << i.texcoord.y << "\n";
 			std::cout << "===========" << "\n";
 		}
-		Cube();
+		
 	}
 private:
 	glm::vec3 CalculatePosition(int Length, int Height, int width, int Mode,int IndexX, int IndexY)
