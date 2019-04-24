@@ -357,7 +357,7 @@ public:
 				for (size_t jj = 0; jj < WIDTH; jj++)
 				{
 					glm::vec2 TexCord = CalcTexcoords(WIDTH - 1, LENGTH - 1, HEIGHT - 1, kk, jj, ii);
-					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1, kk, jj, ii);
+					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1, kk, jj,ii);
 					Vertex TempVertex = { Positions,Colors,TexCord,Normals[kk] };
 					VertexOfCube.push_back(TempVertex);
 					//Temp Message Testing if it wil record as my Name
@@ -395,25 +395,25 @@ private:
 			break;
 		case 1:
 			TempPos.x = -1 * float(width + 1) / 2;
-			TempPos.y = -1 * float(Height + 1) * float(2 * IndexX - Height) / float(2 * Height);
-			TempPos.z = float(Length + 1) * float(Length - 2 * IndexY) / float(2 * Length);
+			TempPos.y = float(Height + 1) * float(Height - 2 * IndexY) / float(2 * Height);
+			TempPos.z = float(Length + 1) * float(Length - 2 * IndexX ) / float(2 * Length);
 			break;
 		case 2:
 			TempPos.x = float(Height + 1) * float( 2 * IndexX - Height) / float(2 * Height);
-			TempPos.y = -1 * float(width + 1) * float(2 * IndexY - width) / float(2 * width);
+			TempPos.y =  float(width + 1) * float(2 * IndexY - width) / float(2 * width);
 			TempPos.z = -1 * float(Length + 1) / 2;
 			break;
 		case 3:
 			TempPos.x = float(width + 1) / 2;
-			TempPos.y = -1 * float(Height + 1) * float(2 * IndexX - Height) / float(2 * Height);
-			TempPos.z = -1 * float(Length + 1) * float(Length - 2 * IndexY) / float(2 * Length);
+			TempPos.y = float(Height + 1) * float(Height - 2 * IndexY) / float(2 * Height);
+			TempPos.z = -1 * float(Length + 1) * float(Length - 2 * IndexX) / float(2 * Length);
 			break;
 		}
 		return TempPos;
 	}
 	glm::vec2 CalcTexcoords(int Width, int Length, int Height, int Mode, int ii, int jj)
 	{
-		glm::vec2 TempTexCoord;
+		glm::vec2 TempTexCoord ;
 		switch (Mode)
 		{
 		case 0:
