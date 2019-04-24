@@ -337,12 +337,13 @@ public:
 	{
 		Cube(CubeVertex, CubeVertex, CubeVertex, CubeSize,CubeSize, CubeSize);
 	}
-	Cube(int WIDTH, int LENGTH, int HEIGHT, float WidthSize, float LengthSize, float HeightSize)
+	Cube(int WIDTH, int LENGTH, int HEIGHT,
+		float WidthSize, float LengthSize, float HeightSize)
 		:Primitive()
 	{
 		std::vector<Vertex> VertexOfCube;
 		std::vector<GLuint> IndecesOfCube;
-		glm::vec3 Colors = glm::vec3(0.f, 0.f, 1.f);
+		glm::vec3 Colors = glm::vec3(0.f, 1.f, 1.f);
 		glm::vec3 Normals[] =
 		{
 			glm::vec3(0.f,0.f,1.f), glm::vec3(-1.f,0.f,0.f),
@@ -357,63 +358,67 @@ public:
 				for (size_t jj = 0; jj < WIDTH; jj++)
 				{
 					glm::vec2 TexCord = CalcTexcoords(WIDTH - 1, LENGTH - 1, HEIGHT - 1, kk, jj, ii);
-					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1, kk, jj,ii);
+					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1,
+															LengthSize, HeightSize,WidthSize, kk, jj,ii);
 					Vertex TempVertex = { Positions,Colors,TexCord,Normals[kk] };
 					VertexOfCube.push_back(TempVertex);
-					//Temp Message Testing if it wil record as my Name
 				}
 			}
 		}
-		for (size_t ii = 0; ii < VertexOfCube.size(); ii++)
+
+			//Need to Create ALgorithm to make the Indicies of the Box
+			//For each of the four size
+		int Name = 0;
+		for (size_t kk = 0; kk < 4; kk++)
 		{
-			IndecesOfCube.push_back(ii);
+			for (size_t ii = 0; ii < HEIGHT;ii++)
+			{
+				for (size_t jj = EndIndex[kk]; jj < EndIndex[kk + 1]; jj++)
+				{
+					std::cout << Name << " ";
+					Name++;
+				}
+				std::cout << "\n";
+			}
+			std::cout <<"---"<< "\n";
 		}
+
 		//this->set(VertexOfCube, IndecesOfCube);
-		int Count = 0;
-		for (auto& i : VertexOfCube)
-		{
-			std::cout << "===========" << "\n";
-			std::cout << Count << "\n";
-			std::cout << i.position.x << "," <<  i.position.y << "," << i.position.z << "\n";
-			std::cout << i.normal.x << "," << i.normal.y << "," << i.normal.z << "\n";
-			std::cout << i.texcoord.x << "," << i.texcoord.y << "\n";
-			std::cout << "===========" << "\n";
-			Count++;
-		}
-		
 	}
 private:
-	glm::vec3 CalculatePosition(int Length, int Height, int width, int Mode,int IndexX, int IndexY)
+	glm::vec3 CalculatePosition(int Length, int Height, int width,
+								float LengthSize, float HeightSize, float WidthSize,
+								int Mode,int IndexX, int IndexY)
 	{
-		glm::vec3 TempPos;
+		glm::vec3 TempPos = glm::vec3(1.f,1.f,1.f);
 		switch (Mode)
 		{
 		case 0 :
-			TempPos.x = float(Height + 1) * float(Height -2 * IndexX)/ float(2*Height);
-			TempPos.y = float(width + 1) * float(width - 2 * IndexY) / float(2 * width);
-			TempPos.z = float(Length + 1) /2;
+			TempPos.x = float(HeightSize) * float(Height -2 * IndexX)/ float(2*Height);
+			TempPos.y = float(WidthSize) * float(width - 2 * IndexY) / float(2 * width);
+			TempPos.z = float(LengthSize) /2;
 			break;
 		case 1:
-			TempPos.x = -1 * float(width + 1) / 2;
-			TempPos.y = float(Height + 1) * float(Height - 2 * IndexY) / float(2 * Height);
-			TempPos.z = float(Length + 1) * float(Length - 2 * IndexX ) / float(2 * Length);
+			TempPos.x = -1 * float(WidthSize) / 2;
+			TempPos.y = float(HeightSize) * float(Height - 2 * IndexY) / float(2 * Height);
+			TempPos.z = float(LengthSize) * float(Length - 2 * IndexX ) / float(2 * Length);
 			break;
 		case 2:
-			TempPos.x = float(Height + 1) * float( 2 * IndexX - Height) / float(2 * Height);
-			TempPos.y =  float(width + 1) * float(2 * IndexY - width) / float(2 * width);
-			TempPos.z = -1 * float(Length + 1) / 2;
+			TempPos.x = float(HeightSize) * float( 2 * IndexX - Height) / float(2 * Height);
+			TempPos.y =  float(WidthSize) * float(2 * IndexY - width) / float(2 * width);
+			TempPos.z = -1 * float(LengthSize) / 2;
 			break;
 		case 3:
-			TempPos.x = float(width + 1) / 2;
-			TempPos.y = float(Height + 1) * float(Height - 2 * IndexY) / float(2 * Height);
-			TempPos.z = -1 * float(Length + 1) * float(Length - 2 * IndexX) / float(2 * Length);
+			TempPos.x = float(WidthSize) / 2;
+			TempPos.y = float(HeightSize) * float(Height - 2 * IndexY) / float(2 * Height);
+			TempPos.z = -1 * float(LengthSize) * float(Length - 2 * IndexX) / float(2 * Length);
 			break;
 		}
 		return TempPos;
 	}
 	glm::vec2 CalcTexcoords(int Width, int Length, int Height, int Mode, int ii, int jj)
 	{
-		glm::vec2 TempTexCoord ;
+		glm::vec2 TempTexCoord = glm::vec2(1.f,1.f);
 		switch (Mode)
 		{
 		case 0:

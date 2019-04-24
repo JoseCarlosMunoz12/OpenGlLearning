@@ -126,7 +126,7 @@ void Game::initModels()
 		//		glm::vec3(1.f)));
 		meshes.push_back(
 			new Mesh(
-				&Cube(2,2),
+				&Cube(3,10),
 				glm::vec3(3.f, 0.f, 1.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
@@ -422,7 +422,7 @@ void Game::render()
 
 	this->models[0]->render(this->shaders[SHADER_TERRAIN]);
 
-	for (int ii = 1; ii <= this->models.size() - 1; ii++)
+	for (int ii = 1; ii < this->models.size(); ii++)
 	{
 		this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
 	}
