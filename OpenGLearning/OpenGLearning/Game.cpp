@@ -102,7 +102,7 @@ void Game::initMaterials()
 {
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1));
-	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
+	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(10.f), glm::vec3(1.f),
 		0, 1));
 	
 }

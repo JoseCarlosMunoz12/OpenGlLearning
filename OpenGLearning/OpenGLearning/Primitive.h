@@ -159,7 +159,7 @@ public:
 		std::vector<Vertex> VertexOfTerrain;
 		std::vector<GLuint> IndecesOfTerrain;
 		glm::vec3 positions;
-		glm::vec3 colors = glm::vec3(1.f, 1.f, 1.f);
+		glm::vec3 colors = glm::vec3(1.f, 0.f, 1.f);
 		glm::vec2 texCoords;
 		glm::vec3 normals;
 		for (int jj = 0;jj < Dimension;jj++)
