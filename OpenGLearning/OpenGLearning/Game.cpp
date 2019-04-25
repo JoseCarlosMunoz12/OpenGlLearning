@@ -126,8 +126,8 @@ void Game::initModels()
 		//		glm::vec3(1.f)));
 		meshes.push_back(
 			new Mesh(
-				&Cube(3,10),
-				glm::vec3(3.f, 0.f, 1.f),
+				&Cube(20,2),
+				glm::vec3(0.f, 0.f, 1.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
@@ -403,10 +403,10 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	for(size_t ii = 1; ii < this->models.size(); ii++)
+	/*for(size_t ii = 1; ii < this->models.size(); ii++)
 	{
 		this->models[ii]->rotate(glm::vec3(0.f, 1.f, 0.f));
-	}
+	}*/
 }
 
 void Game::render()

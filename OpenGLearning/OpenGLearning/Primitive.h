@@ -333,12 +333,8 @@ public:
 
 		this->set(VertexOfCube, IndecesOfCube);
 	}
-	Cube(int CubeVertex, float CubeSize)
-	{
-		Cube(CubeVertex, CubeVertex, CubeVertex, CubeSize,CubeSize, CubeSize);
-	}
-	Cube(int WIDTH, int LENGTH, int HEIGHT,
-		float WidthSize, float LengthSize, float HeightSize)
+
+	Cube(int Dimension, float DimensionSize)
 		:Primitive()
 	{
 		std::vector<Vertex> VertexOfCube;
@@ -349,41 +345,47 @@ public:
 			glm::vec3(0.f,0.f,1.f), glm::vec3(-1.f,0.f,0.f),
 			glm::vec3(0.f,0.f,-1.f),glm::vec3(1.f,0.f,0.f),
 		};
-		int EndIndex[] = {0	, WIDTH , WIDTH + LENGTH ,
-							2 *  WIDTH + LENGTH,2 * (WIDTH+LENGTH)};
+		int EndIndex[] = {0	, Dimension , 2*Dimension ,
+							3 *  Dimension , 4 * Dimension};
+		int SizeIndex[] = { Dimension, Dimension, Dimension, Dimension };
+		int DimensionFaces[] = { 0	, Dimension * Dimension, (2*Dimension ) * Dimension ,
+							(3 * Dimension ) * Dimension};
 		for (size_t kk = 0; kk < 4; kk++)
 		{
-			for (size_t ii = 0; ii < HEIGHT; ii++)
+			for (size_t ii = 0; ii < Dimension; ii++)
 			{
-				for (size_t jj = 0; jj < WIDTH; jj++)
+				for (size_t jj = 0; jj < Dimension; jj++)
 				{
-					glm::vec2 TexCord = CalcTexcoords(WIDTH - 1, LENGTH - 1, HEIGHT - 1, kk, jj, ii);
-					glm::vec3 Positions = CalculatePosition(LENGTH - 1, HEIGHT - 1, WIDTH - 1,
-															LengthSize, HeightSize,WidthSize, kk, jj,ii);
+					glm::vec2 TexCord = CalcTexcoords(Dimension - 1, Dimension - 1, Dimension - 1, kk, jj, ii);
+					glm::vec3 Positions = CalculatePosition(Dimension - 1, Dimension - 1, Dimension - 1,
+															DimensionSize, DimensionSize,DimensionSize, kk, jj,ii);
 					Vertex TempVertex = { Positions,Colors,TexCord,Normals[kk] };
 					VertexOfCube.push_back(TempVertex);
 				}
 			}
 		}
-
 			//Need to Create ALgorithm to make the Indicies of the Box
 			//For each of the four size
-		int Name = 0;
 		for (size_t kk = 0; kk < 4; kk++)
 		{
-			for (size_t ii = 0; ii < HEIGHT;ii++)
+			for (size_t ii = 0; ii < Dimension-1;ii++)
 			{
-				for (size_t jj = EndIndex[kk]; jj < EndIndex[kk + 1]; jj++)
+				for (size_t jj = 0; jj < Dimension-1; jj++)
 				{
-					std::cout << Name << " ";
-					Name++;
+					GLuint TopRight = (ii * Dimension) + jj + DimensionFaces[kk];
+					GLuint TopLeft = TopRight + 1;
+					GLuint BottomRight = ((ii + 1) * Dimension) + jj + DimensionFaces[kk];
+					GLuint BottomLeft = BottomRight + 1;
+					IndecesOfCube.push_back(TopLeft);
+					IndecesOfCube.push_back(BottomLeft);
+					IndecesOfCube.push_back(TopRight);
+					IndecesOfCube.push_back(TopRight);
+					IndecesOfCube.push_back(BottomLeft);
+					IndecesOfCube.push_back(BottomRight);
 				}
-				std::cout << "\n";
 			}
-			std::cout <<"---"<< "\n";
 		}
-
-		//this->set(VertexOfCube, IndecesOfCube);
+		this->set(VertexOfCube, IndecesOfCube);
 	}
 private:
 	glm::vec3 CalculatePosition(int Length, int Height, int width,
@@ -405,7 +407,7 @@ private:
 			break;
 		case 2:
 			TempPos.x = float(HeightSize) * float( 2 * IndexX - Height) / float(2 * Height);
-			TempPos.y =  float(WidthSize) * float(2 * IndexY - width) / float(2 * width);
+			TempPos.y = -1 * float(WidthSize) * float(2 * IndexY - width) / float(2 * width);
 			TempPos.z = -1 * float(LengthSize) / 2;
 			break;
 		case 3:
