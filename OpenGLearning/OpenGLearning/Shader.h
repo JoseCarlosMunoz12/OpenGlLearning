@@ -12,7 +12,9 @@
 #include <vec4.hpp>
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
-
+///TODO need to make a new shader construtctor to handle mutliple shaders and path shaders.
+///TODO need to make a shader to handle many different light source
+///TODO need to add new .glsl files for said new shader constructor
 class Shader
 {
 private:
