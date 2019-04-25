@@ -117,17 +117,17 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
-		//meshes.push_back(
-		//	new Mesh(
-		//		&Pyramid(),
-		//		glm::vec3(-1.f, 0.f, 0.f),
-		//		glm::vec3(0.f),
-		//		glm::vec3(0.f),
-		//		glm::vec3(1.f)));
+		meshes.push_back(
+			new Mesh(
+				&Pyramid(),
+				glm::vec3(-1.f, 0.f, 0.f),
+				glm::vec3(0.f),
+				glm::vec3(0.f),
+				glm::vec3(1.f)));
 		meshes.push_back(
 			new Mesh(
 				&Cube(20,2),
-				glm::vec3(0.f, 0.f, 1.f),
+				glm::vec3(3.f, 0.f, 1.f),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
 				glm::vec3(1.f)));
@@ -143,12 +143,12 @@ void Game::initModels()
 		this->textures[TEX_PUSHEEM],
 		this->textures[TEX_PUSHEEN_SPECULAR],
 		meshes[1]));
-	//this->models.push_back(new Model(
-	//	glm::vec3(0.f),
-	//	this->materials[0],
-	//	this->textures[TEX_PUSHEEM],
-	//	this->textures[TEX_PUSHEEN_SPECULAR],
-	//	meshes[2]));
+	this->models.push_back(new Model(
+		glm::vec3(0.f),
+		this->materials[0],
+		this->textures[TEX_PUSHEEM],
+		this->textures[TEX_PUSHEEN_SPECULAR],
+		meshes[2]));
 	for (auto*& i : meshes)
 	{
 		delete i;
@@ -403,10 +403,10 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	/*for(size_t ii = 1; ii < this->models.size(); ii++)
+	for(size_t ii = 1; ii < this->models.size(); ii++)
 	{
 		this->models[ii]->rotate(glm::vec3(0.f, 1.f, 0.f));
-	}*/
+	}
 }
 
 void Game::render()
