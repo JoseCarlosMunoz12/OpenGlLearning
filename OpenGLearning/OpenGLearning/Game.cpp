@@ -299,9 +299,9 @@ void Game::updateUniforms()
 		static_cast<float>(this->frameBufferWidth) / this-> frameBufferHeight,
 		this->nearPlane,
 		this->farPlane);
-	for (auto& i : this->shaders)
+	for (size_t ii = 0; ii < 2; ii++)
 	{
-		i->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
+		this->shaders[ii]->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
 	}
 }
 
