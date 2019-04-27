@@ -284,11 +284,11 @@ void Game::updateUniforms()
 {
 	//Update uniforms
 	this->ViewMatrix = this->camera.GetViewMatrix();
-	for (auto& i : this->shaders)
+	for (size_t ii = 0; ii < 2; ii++)
 	{
-		i->setVec3f(*this->lights[0], "lightPos0");
-		i->setMat4fv(this->ViewMatrix, "ViewMatrix");
-		i->setVec3f(this->camera.getPosition(), "cameraPos");
+		this->shaders[ii]->setVec3f(*this->lights[0], "lightPos0");
+		this->shaders[ii]->setMat4fv(this->ViewMatrix, "ViewMatrix");
+		this->shaders[ii]->setVec3f(this->camera.getPosition(), "cameraPos");
 		
 	}
 	//Update FramgeBuffer size and projection matrix

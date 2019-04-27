@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Material.h"
-
+#include <iostream>
 
 class Model
 {
