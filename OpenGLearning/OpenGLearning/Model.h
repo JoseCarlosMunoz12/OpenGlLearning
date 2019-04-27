@@ -9,8 +9,7 @@ class Model
 {
 private:
 	Material* material;
-	Texture* overrideTextureDiffuse;
-	Texture* overrideTextureSpecular;
+	std::vector<Texture*> Tex;
 	std::vector<Mesh*> meshes;
 	glm::vec3 Position;
 	void updateUniform()
@@ -22,8 +21,8 @@ public:
 	{
 		this->Position = position;
 		this->material = material;
-		this->overrideTextureDiffuse = orTexDif;
-		this->overrideTextureSpecular = orTexSpec;
+		this->Tex.push_back(orTexDif);
+		this->Tex.push_back(orTexSpec);
 		for (auto* i : meshes)
 		{
 			this->meshes.push_back(new Mesh(*i));
@@ -34,13 +33,39 @@ public:
 			i->setOrigin(this->Position);
 		}
 	}
-
+	Model(glm::vec3 position, Material* material, std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshes)
+	{
+		this->Position = position;
+		this->material = material;
+		this->Tex = orTexSpec;
+		for (auto* i : meshes)
+		{
+			this->meshes.push_back(new Mesh(*i));
+		}
+		for (auto& i : this->meshes)
+		{
+			i->move(this->Position);
+			i->setOrigin(this->Position);
+		}
+	}
 	Model(glm::vec3 position, Material* material, Texture* orTexDif, Texture* orTexSpec, Mesh* meshesUse)
 	{
 		this->Position = position;
 		this->material = material;
-		this->overrideTextureDiffuse = orTexDif;
-		this->overrideTextureSpecular = orTexSpec;
+		this->Tex.push_back(orTexDif);
+		this->Tex.push_back(orTexSpec);
+		this->meshes.push_back(new Mesh(*meshesUse));
+		for (auto& i : this->meshes)
+		{
+			i->move(this->Position);
+			i->setOrigin(this->Position);
+		}
+	}
+	Model(glm::vec3 position, Material* material, std::vector<Texture*> orTexSpec, Mesh* meshesUse)
+	{
+		this->Position = position;
+		this->material = material;
+		this->Tex = orTexSpec;
 		this->meshes.push_back(new Mesh(*meshesUse));
 		for (auto& i : this->meshes)
 		{
@@ -73,8 +98,12 @@ public:
 		//Update Uniforms
 		this->material->sendToShader(*shader);
 		shader->use();
-		this->overrideTextureDiffuse->bind(0);
-		this->overrideTextureSpecular->bind(1);
+		int Num = 0;
+		for (auto& i : Tex)
+		{
+			i->bind(Num);
+			Num++;
+		}
 
 		for (auto& i : this->meshes)
 		{
