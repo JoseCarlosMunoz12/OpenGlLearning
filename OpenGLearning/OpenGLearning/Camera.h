@@ -10,7 +10,10 @@
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
 
-enum direction{FORWARD = 0, BACKWARD, LEFT, RIGHT};
+enum direction{FORWARD = 0,
+				BACKWARD,
+				LEFT,
+				RIGHT};
 
 class Camera
 {
@@ -44,6 +47,7 @@ private:
 
 public:
 	Camera(glm::vec3 position, glm::vec3 direction, glm::vec3 worldUp)
+		:front(1.f)
 	{
 		this->ViewMatrix = glm::mat4(1.f);
 		this->movementSpeed = 3.f;
