@@ -102,7 +102,7 @@ void Game::initMaterials()
 {
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1));
-	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(10.f), glm::vec3(1.f),
+	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0, 1));
 	
 }
@@ -139,13 +139,13 @@ void Game::initModels()
 		meshes[0]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[0],
+		this->materials[1],
 		this->textures[TEX_PUSHEEM],
 		this->textures[TEX_PUSHEEN_SPECULAR],
 		meshes[1]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[0],
+		this->materials[1],
 		this->textures[TEX_PUSHEEM],
 		this->textures[TEX_PUSHEEN_SPECULAR],
 		meshes[2]));
