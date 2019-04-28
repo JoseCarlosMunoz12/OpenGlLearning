@@ -19,8 +19,6 @@ private:
 	glm::vec3 diffuse;
 	glm::vec3 specular;
 	std::vector<GLint> TexIndex;
-	GLint diffuseTex;
-	GLint specularTex;
 public:
 	Material(glm::vec3 ambient,	glm::vec3 diffuse, glm::vec3 specular,
 		GLint diffuseTex, GLint specularTex)
@@ -30,6 +28,10 @@ public:
 		this->specular = specular;
 		this->TexIndex.push_back(diffuseTex);
 		this->TexIndex.push_back(specularTex);
+	}
+	Material(std::vector<GLint> TexIndex)
+	{
+		this->TexIndex = TexIndex;
 	}
 	~Material()
 	{
@@ -46,11 +48,9 @@ public:
 	}
 	void sendManyTexToShader(Shader& program)
 	{
-		int Count = 0;
-		for (auto& ii : TexIndex)
-		{
-			program.set1i(ii,"Texture" + Count);
-		}
-		
+		program.set1i(this->TexIndex[0], "Texture0");
+		program.set1i(this->TexIndex[1], "Texture1");
+		program.set1i(this->TexIndex[2], "Texture2");
+		program.set1i(this->TexIndex[3], "Texture3");
 	}
 };

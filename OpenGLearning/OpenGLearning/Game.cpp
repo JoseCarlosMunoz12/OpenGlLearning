@@ -95,7 +95,6 @@ void Game::initTextures()
 	//Third Image
 	this->textures.push_back(new Texture("Images/Test1.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/Test1_specular.png", GL_TEXTURE_2D));
-	
 }
 
 void Game::initMaterials()
@@ -104,6 +103,7 @@ void Game::initMaterials()
 		0,1));
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0, 1));
+	this->materials.push_back(new Material({0,1,2,3}));
 	
 }
 
@@ -112,7 +112,7 @@ void Game::initModels()
 	std::vector<Mesh*> meshes;
 		meshes.push_back(
 		new Mesh(
-			&CustomTerrain(400,200),
+			&CustomTerrain(400,400),
 			glm::vec3(0.f, -1.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),

@@ -110,5 +110,24 @@ public:
 			i->render(shader);
 		}
 	}
+	void renderManyTextures(Shader* shader)
+	{
+		//Update Uniforms
+		this->updateUniform();
+		//Update Uniforms
+		this->material->sendManyTexToShader(*shader);
+		shader->use();
+		int Num = 0;
+		for (auto& i : Tex)
+		{
+			i->bind(Num);
+			Num++;
+		}
+
+		for (auto& i : this->meshes)
+		{
+			i->render(shader);
+		}
+	}
 };
 
