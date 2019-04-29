@@ -48,9 +48,9 @@ public:
 	}
 	void sendManyTexToShader(Shader& program)
 	{
-		program.set1i(this->TexIndex[0], "Texture0");
+		/*program.set1i(this->TexIndex[0], "Texture0");
 		program.set1i(this->TexIndex[1], "Texture1");
 		program.set1i(this->TexIndex[2], "Texture2");
-		program.set1i(this->TexIndex[3], "Texture3");
+		program.set1i(this->TexIndex[3], "Texture3");*/
 	}
 };

@@ -81,7 +81,8 @@ void Game::initShaders()
 		"vertex_core.glsl", "fragment_core.glsl"));
 	this->shaders.push_back(new Shader(this->GLVerMajor, this->GLVerMinor,
 		"terrain_vertex.glsl", "terrain_fragment.glsl"));
-
+	this->shaders.push_back(new Shader(this->GLVerMajor, this->GLVerMinor,
+		"MultiTexVertex.glsl", "MultiTexFragment.glsl"));
 }
 
 void Game::initTextures()
@@ -139,9 +140,8 @@ void Game::initModels()
 		meshes[0]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[1],
-		this->textures[TEX_PUSHEEM],
-		this->textures[TEX_PUSHEEN_SPECULAR],
+		this->materials[2],
+		{this->textures[0],this->textures[1], this->textures[2], this->textures[3]},
 		meshes[1]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
@@ -284,11 +284,11 @@ void Game::updateUniforms()
 {
 	//Update uniforms
 	this->ViewMatrix = this->camera.GetViewMatrix();
-	for (size_t ii = 0; ii < 2; ii++)
+	for (auto& ii :this->shaders)
 	{
-		this->shaders[ii]->setVec3f(*this->lights[0], "lightPos0");
-		this->shaders[ii]->setMat4fv(this->ViewMatrix, "ViewMatrix");
-		this->shaders[ii]->setVec3f(this->camera.getPosition(), "cameraPos");
+		ii->setVec3f(*this->lights[0], "lightPos0");
+		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
+		ii->setVec3f(this->camera.getPosition(), "cameraPos");
 		
 	}
 	//Update FramgeBuffer size and projection matrix
@@ -299,9 +299,9 @@ void Game::updateUniforms()
 		static_cast<float>(this->frameBufferWidth) / this-> frameBufferHeight,
 		this->nearPlane,
 		this->farPlane);
-	for (size_t ii = 0; ii < 2; ii++)
+	for (auto& ii : this->shaders)
 	{
-		this->shaders[ii]->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
+		ii->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
 	}
 }
 
@@ -421,11 +421,9 @@ void Game::render()
 	//render Models
 
 	this->models[0]->render(this->shaders[SHADER_TERRAIN]);
+	this->models[1]->render(this->shaders[2]);
+	this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
 
-	for (int ii = 1; ii < this->models.size(); ii++)
-	{
-		this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
-	}
 	
 	//End Draw
 	glfwSwapBuffers(window);

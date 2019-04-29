@@ -33,7 +33,8 @@ public:
 			i->setOrigin(this->Position);
 		}
 	}
-	Model(glm::vec3 position, Material* material, std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshes)
+	Model(glm::vec3 position, Material* material,
+		std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshes)
 	{
 		this->Position = position;
 		this->material = material;
