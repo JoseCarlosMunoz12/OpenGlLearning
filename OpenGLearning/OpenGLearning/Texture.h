@@ -51,8 +51,6 @@ public:
 
 	void bind(const GLint texture_unit)
 	{
-		std::cout << this->name <<"\n";
-		std::cout << this->id << "\n";
 		glActiveTexture(GL_TEXTURE0 + texture_unit);
 		glBindTexture(this->type, this->id);
 	}

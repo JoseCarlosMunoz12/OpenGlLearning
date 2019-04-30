@@ -16,6 +16,15 @@ uniform sampler2D Texture4;
 
 void main()
 {
+	vec4 blendMapColor = texture(Texture4,vs_texcoord);
+	float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
+	vec2 tiledCoords = vs_texcoord * 40.0;
+	vec4 backgroundTextureColor = texture(Texture0,tiledCoords) * backTextureAmount;
+	vec4 rTextureColor = texture(Texture1,tiledCoords) * blendMapColor.r;
+	vec4 gTextureColor = texture(Texture2,tiledCoords) * blendMapColor.g;
+	vec4 bTextureColor = texture(Texture3,tiledCoords) * blendMapColor.b;
+
+
 	//Final light
-	fs_color = texture(Texture3,vs_texcoord) * vec4(vs_color, 1.f);
+	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 }
