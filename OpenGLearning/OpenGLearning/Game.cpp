@@ -96,6 +96,12 @@ void Game::initTextures()
 	//Third Image
 	this->textures.push_back(new Texture("Images/Test1.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/Test1_specular.png", GL_TEXTURE_2D));
+	//Blend Map Images
+	this->textures.push_back(new Texture("Images/grassFlowers.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/grassy2.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/mud.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/path.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/blendMap.png", GL_TEXTURE_2D));
 }
 
 void Game::initMaterials()
@@ -104,7 +110,7 @@ void Game::initMaterials()
 		0,1));
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1));
-	this->materials.push_back(new Material({0,1,2,3}));
+	this->materials.push_back(new Material({0,1,2,3,4}));
 }
 
 void Game::initModels()
@@ -140,7 +146,7 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
 		this->materials[2],
-		{this->textures[0],this->textures[1], this->textures[2], this->textures[3]},
+		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},
 		meshes[1]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
