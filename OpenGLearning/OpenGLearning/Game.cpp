@@ -139,14 +139,14 @@ void Game::initModels()
 			glm::vec3(1.f)));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[1],
-		this->textures[TEX_CONTAINER],
-		this->textures[TEX_CONTAINER_SPECULAR],
+		this->materials[2],
+		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},		
 		meshes[0]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[2],
-		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},
+		this->materials[0],
+		this->textures[TEX_CONTAINER],
+		this->textures[TEX_CONTAINER_SPECULAR],
 		meshes[1]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
@@ -425,8 +425,8 @@ void Game::render()
 	this->updateUniforms();
 	//render Models
 
-	this->models[0]->render(this->shaders[SHADER_TERRAIN]);
-	this->models[1]->renderManyTextures(this->shaders[2]);
+	this->models[0]->renderManyTextures(this->shaders[2]);
+	this->models[1]->render(this->shaders[SHADER_CORE_PROGRAM]);
 	this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
 
 	
