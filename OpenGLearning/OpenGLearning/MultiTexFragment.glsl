@@ -16,5 +16,5 @@ uniform sampler2D Texture3;
 void main()
 {
 	//Final light
-	fs_color = vec4(vs_color, 1.f);
+	fs_color = texture(Texture2,vs_texcoord) * texture(Texture0,vs_texcoord) ;
 }

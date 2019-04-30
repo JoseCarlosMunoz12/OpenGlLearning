@@ -103,35 +103,34 @@ void Game::initMaterials()
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1));
 	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0, 1));
+		0,1));
 	this->materials.push_back(new Material({0,1,2,3}));
-	
 }
 
 void Game::initModels()
 {
 	std::vector<Mesh*> meshes;
-		meshes.push_back(
+	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(400,400),
+			&CustomTerrain(800, 400),
 			glm::vec3(0.f, -1.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
-		meshes.push_back(
-			new Mesh(
-				&Pyramid(),
-				glm::vec3(-1.f, 0.f, 0.f),
-				glm::vec3(0.f),
-				glm::vec3(0.f),
-				glm::vec3(1.f)));
-		meshes.push_back(
-			new Mesh(
-				&Cube(20,2),
-				glm::vec3(3.f, 0.f, 1.f),
-				glm::vec3(0.f),
-				glm::vec3(0.f),
-				glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(
+			&Pyramid(),
+			glm::vec3(-1.f, 0.f, 0.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(
+			&Cube(20, 2),
+			glm::vec3(3.f, 0.f, 1.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
 		this->materials[1],
@@ -146,8 +145,8 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
 		this->materials[1],
-		this->textures[TEX_PUSHEEM],
-		this->textures[TEX_PUSHEEN_SPECULAR],
+		this->textures[TEX_CONTAINER],
+		this->textures[TEX_CONTAINER_SPECULAR],
 		meshes[2]));
 	for (auto*& i : meshes)
 	{
@@ -421,7 +420,7 @@ void Game::render()
 	//render Models
 
 	this->models[0]->render(this->shaders[SHADER_TERRAIN]);
-	this->models[1]->render(this->shaders[2]);
+	this->models[1]->renderManyTextures(this->shaders[2]);
 	this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
 
 	

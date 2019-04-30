@@ -13,11 +13,12 @@ private:
 	int width;
 	int height;
 	unsigned int type;
+	const char* name;
 public:
 	Texture(const char* fileName, GLenum type)
 	{
 		this->type = type;
-		
+		this->name = fileName;
 		unsigned char* image = SOIL_load_image(fileName, &this->width, &this->height, NULL, SOIL_LOAD_RGBA);
 
 		glGenTextures(1, &this->id);
@@ -50,6 +51,8 @@ public:
 
 	void bind(const GLint texture_unit)
 	{
+		std::cout << this->name <<"\n";
+		std::cout << this->id << "\n";
 		glActiveTexture(GL_TEXTURE0 + texture_unit);
 		glBindTexture(this->type, this->id);
 	}
