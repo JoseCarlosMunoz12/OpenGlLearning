@@ -54,6 +54,7 @@ private:
 	float fov;
 	float nearPlane;
 	float farPlane;
+	glm::vec3 SkyColor;
 
 	//Shaders
 	std::vector<Shader*> shaders;
@@ -90,7 +91,7 @@ public:
 	//Constructors/destructors
 	Game(const char * title,
 		const int width, const int height,
-		int GLmajorVer, int GLminorVer, bool resizable);
+		int GLmajorVer, int GLminorVer, bool resizable,glm::vec3 SkyColor);
 	virtual ~Game();
 	//Accessors
 	int getWindowShouldClose();

@@ -4,6 +4,7 @@ in vec3 vs_position;
 in vec3 vs_color;
 in vec2 vs_texcoord;
 in vec3 vs_normal;
+in float visibility;
 
 out vec4 fs_color;
 
@@ -12,7 +13,7 @@ uniform sampler2D Texture1;
 uniform sampler2D Texture2;
 uniform sampler2D Texture3;
 uniform sampler2D Texture4;
-
+uniform vec3 SkyColor;
 
 void main()
 {
@@ -26,4 +27,5 @@ void main()
 	
 	//Final light
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
+	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }

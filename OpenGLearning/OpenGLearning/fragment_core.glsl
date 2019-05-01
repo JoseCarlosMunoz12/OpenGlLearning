@@ -13,6 +13,7 @@ in vec3 vs_position;
 in vec3 vs_color;
 in vec2 vs_texcoord;
 in vec3 vs_normal;
+in float visibility;
 
 out vec4 fs_color;
 
@@ -20,6 +21,7 @@ out vec4 fs_color;
 uniform Material material;
 uniform vec3 lightPos0;
 uniform vec3 cameraPos;
+uniform vec3 SkyColor;
 
 //Functions
 vec3 calculateAmbient(Material material)
@@ -68,4 +70,5 @@ void main()
 	fs_color = 
 	texture(material.diffuseTex, vs_texcoord)
 	* (vec4(ambientFinal, 1.f) + vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f));
+	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }

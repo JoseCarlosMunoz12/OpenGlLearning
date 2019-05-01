@@ -106,11 +106,11 @@ void Game::initTextures()
 
 void Game::initMaterials()
 {
-	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
+	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1));
-	this->materials.push_back(new Material(glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
+	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1));
-	this->materials.push_back(new Material({0,1,2,3,4}));
+	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4}));
 }
 
 void Game::initModels()
@@ -329,13 +329,14 @@ void Game::updateOpenGLOptions()
 
 Game::Game(const char * title,
 	const int width, const int height,
-	const int GLmajorVer, const int GLminorVer, bool resizable)
+	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
 	camera(glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 
 {
+	this->SkyColor = SkyColor;
 	this->window = NULL;
 	this->frameBufferHeight = this->Window_Height;
 	this->frameBufferWidth = this->Window_Width;
@@ -418,7 +419,7 @@ void Game::render()
 {
 	//DRAW---
 	//Clear
-	glClearColor(0.f, 0.f, 0.f, 1.f);
+	glClearColor(1.f,0.f,0.f,1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	//Update uniforms
