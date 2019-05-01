@@ -97,9 +97,9 @@ void Game::initTextures()
 	this->textures.push_back(new Texture("Images/Test1.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/Test1_specular.png", GL_TEXTURE_2D));
 	//Blend Map Images
-	this->textures.push_back(new Texture("Images/grassFlowers.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/grassy2.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/mud.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/grassFlowers.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/path.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/blendMap.png", GL_TEXTURE_2D));
 }
