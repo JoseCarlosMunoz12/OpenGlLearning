@@ -334,7 +334,6 @@ Game::Game(const char * title,
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
 	camera(glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
-
 {
 	this->SkyColor = SkyColor;
 	this->window = NULL;

@@ -8,6 +8,7 @@
 #include "Vertex.h"
 
 class Primitive
+
 {
 private:
 	std::vector<Vertex> vertices;
@@ -437,3 +438,21 @@ private:
 		return TempTexCoord;
 	}
 }; 
+
+class CustomObject : public Primitive
+{
+public:
+	CustomObject(const char* filename)
+		:Primitive()
+	{
+		std::string temp = "";
+		std::string src = "";
+		std::ifstream in_file;
+		in_file.open(filename);
+		if (in_file.is_open())
+		{
+
+		}
+	}
+
+};
