@@ -447,12 +447,20 @@ public:
 	{
 		std::string temp = "";
 		std::string src = "";
+		std::vector<glm::vec3> PositionsFound;
+		std::vector<glm::vec2> TexCoordsFound;
+		std::vector<glm::vec3> NormalsFound;
+		glm::vec3 ColorDetermined = glm::vec3(1.f,1.f,1.f);
 		std::ifstream in_file;
 		in_file.open(filename);
 		if (in_file.is_open())
 		{
-
+			while (std::getline(in_file, temp))
+			{
+				src += temp + "\n";
+			}
 		}
+		std::cout << src;
 	}
 
 };

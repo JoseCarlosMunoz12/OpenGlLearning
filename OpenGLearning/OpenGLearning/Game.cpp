@@ -340,6 +340,7 @@ Game::Game(const char * title,
 	this->frameBufferHeight = this->Window_Height;
 	this->frameBufferWidth = this->Window_Width;
 
+	CustomObject sent("Images/stall.obj");
 	
 	this-> camPosition = glm::vec3(0.f, 0.f, 1.f);
 	this-> worldUp = glm::vec3(0.f, 1.f, 0.f);
