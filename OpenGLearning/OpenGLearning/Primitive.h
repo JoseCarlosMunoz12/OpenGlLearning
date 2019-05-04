@@ -477,6 +477,10 @@ public:
 					ReturnStringArray(temp, ' ', out);
 					NormalsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
 				}
+				else if (temp.find("vn ") == 0)
+				{
+
+				}
 			}
 		}
 		
