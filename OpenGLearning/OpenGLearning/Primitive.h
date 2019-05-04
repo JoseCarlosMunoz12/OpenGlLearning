@@ -4,6 +4,7 @@
 #include <glfw3.h>
 #include <glm.hpp>
 #include <iostream>
+#include <string>
 
 #include "Vertex.h"
 
@@ -453,14 +454,42 @@ public:
 		glm::vec3 ColorDetermined = glm::vec3(1.f,1.f,1.f);
 		std::ifstream in_file;
 		in_file.open(filename);
+		
 		if (in_file.is_open())
 		{
 			while (std::getline(in_file, temp))
 			{
-				src += temp + "\n";
+				if (temp.find("v ") == 0)
+				{
+					std::vector<std::string> out;
+					ReturnStringArray(temp,' ',out);
+					PositionsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
+				}
+				else if (temp.find("vt ") == 0)
+				{
+					std::vector<std::string> out;
+					ReturnStringArray(temp, ' ', out);
+					TexCoordsFound.push_back(glm::vec2(std::atof(out[1].c_str()), std::atof(out[2].c_str())));
+				}
+				else if (temp.find("vn ") == 0)
+				{
+					std::vector<std::string> out;
+					ReturnStringArray(temp, ' ', out);
+					NormalsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
+				}
 			}
 		}
-		std::cout << src;
+		
 	}
-
+private:
+	void ReturnStringArray(std::string const &str, const char delim, std::vector<std::string> &out)
+	{
+		size_t start;
+		size_t end = 0;
+		while((start = str.find_first_not_of(delim, end)) != std::string::npos)
+		{
+			end = str.find(delim, start);
+			out.push_back(str.substr(start, end - start));
+		}
+	}
 };
