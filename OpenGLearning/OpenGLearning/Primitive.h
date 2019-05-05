@@ -447,11 +447,11 @@ public:
 		:Primitive()
 	{
 		std::string temp = "";
-		std::string src = "";
 		std::vector<glm::vec3> PositionsFound;
 		std::vector<glm::vec2> TexCoordsFound;
 		std::vector<glm::vec3> NormalsFound;
 		glm::vec3 ColorDetermined = glm::vec3(1.f,1.f,1.f);
+		std::vector<std::string> IndexToUse;
 		std::ifstream in_file;
 		in_file.open(filename);
 		
@@ -477,9 +477,13 @@ public:
 					ReturnStringArray(temp, ' ', out);
 					NormalsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
 				}
-				else if (temp.find("vn ") == 0)
+				else if (temp.find("f ") == 0)
 				{
-
+					std::vector<std::string> out;
+					ReturnStringArray(temp, ' ', out);
+					IndexToUse.push_back(out[1]);
+					IndexToUse.push_back(out[2]);
+					IndexToUse.push_back(out[3]);
 				}
 			}
 		}
