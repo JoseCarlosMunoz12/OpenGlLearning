@@ -446,6 +446,7 @@ public:
 	CustomObject(const char* filename)
 		:Primitive()
 	{
+		//Variables to Get info from the obj file
 		std::string temp = "";
 		std::vector<glm::vec3> PositionsFound;
 		std::vector<glm::vec2> TexCoordsFound;
@@ -453,8 +454,12 @@ public:
 		glm::vec3 ColorDetermined = glm::vec3(1.f,1.f,1.f);
 		std::vector<std::string> IndexToUse;
 		std::ifstream in_file;
+		//Vertex and Index Info
+		std::vector<Vertex> VertexFound;
+		std::vector<GLuint> IndecesFound;
+		//Opens Obj File
 		in_file.open(filename);
-		
+		//Searches the obj file and get all neccesssary info
 		if (in_file.is_open())
 		{
 			while (std::getline(in_file, temp))
@@ -462,32 +467,49 @@ public:
 				if (temp.find("v ") == 0)
 				{
 					std::vector<std::string> out;
-					ReturnStringArray(temp,' ',out);
+					this->ReturnStringArray(temp,' ',out);
 					PositionsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
 				}
 				else if (temp.find("vt ") == 0)
 				{
 					std::vector<std::string> out;
-					ReturnStringArray(temp, ' ', out);
+					this->ReturnStringArray(temp, ' ', out);
 					TexCoordsFound.push_back(glm::vec2(std::atof(out[1].c_str()), std::atof(out[2].c_str())));
 				}
 				else if (temp.find("vn ") == 0)
 				{
 					std::vector<std::string> out;
-					ReturnStringArray(temp, ' ', out);
+					this->ReturnStringArray(temp, ' ', out);
 					NormalsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
 				}
 				else if (temp.find("f ") == 0)
 				{
 					std::vector<std::string> out;
-					ReturnStringArray(temp, ' ', out);
+					this->ReturnStringArray(temp, ' ', out);
 					IndexToUse.push_back(out[1]);
 					IndexToUse.push_back(out[2]);
 					IndexToUse.push_back(out[3]);
 				}
 			}
 		}
-		
+		//Sorts all Data and makes the Vertex and Indeces
+		for (auto& ii : IndexToUse)
+		{
+			std::vector<std::string> out;
+			this->ReturnStringArray(ii,'/', out);
+			;
+			std::cout << out[0] <<" " << out[1] << " " << out[2] << "\n";
+			VertexFound.push_back({ PositionsFound[std::atof(out[0].c_str())-1],
+									ColorDetermined,
+									TexCoordsFound[std::atof(out[1].c_str()) - 1],
+									NormalsFound[std::atof(out[2].c_str()) - 1]});
+		}
+		for (size_t ii = 0; ii < VertexFound.size(); ii++)
+		{
+			IndecesFound.push_back(ii);
+		}
+		this->set(VertexFound, IndecesFound);
+	
 	}
 private:
 	void ReturnStringArray(std::string const &str, const char delim, std::vector<std::string> &out)

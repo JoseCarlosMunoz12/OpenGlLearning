@@ -125,8 +125,8 @@ void Game::initModels()
 			glm::vec3(1.f)));
 	meshes.push_back(
 		new Mesh(
-			&Pyramid(),
-			glm::vec3(-1.f, 0.f, 0.f),
+			&CustomObject("Images/stall.obj"),
+			glm::vec3(0.f, 0.f, -9.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
@@ -339,9 +339,7 @@ Game::Game(const char * title,
 	this->window = NULL;
 	this->frameBufferHeight = this->Window_Height;
 	this->frameBufferWidth = this->Window_Width;
-
-	CustomObject sent("Images/stall.obj");
-	
+		
 	this-> camPosition = glm::vec3(0.f, 0.f, 1.f);
 	this-> worldUp = glm::vec3(0.f, 1.f, 0.f);
 	this-> camFront = glm::vec3(0.f, 0.f, -1.f);
@@ -409,10 +407,6 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	for(size_t ii = 1; ii < this->models.size(); ii++)
-	{
-		this->models[ii]->rotate(glm::vec3(0.f, 1.f, 0.f));
-	}
 }
 
 void Game::render()
@@ -428,7 +422,7 @@ void Game::render()
 
 	this->models[0]->renderManyTextures(this->shaders[SHADERS_TERRAIN]);
 	this->models[1]->render(this->shaders[SHADER_CORE_PROGRAM]);
-	this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	//this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
 
 	
 	//End Draw
