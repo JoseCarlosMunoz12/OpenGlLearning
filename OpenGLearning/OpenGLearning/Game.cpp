@@ -102,6 +102,8 @@ void Game::initTextures()
 	this->textures.push_back(new Texture("Images/grassFlowers.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/path.png", GL_TEXTURE_2D));
 	this->textures.push_back(new Texture("Images/blendMap.png", GL_TEXTURE_2D));
+	//Stall Texture
+	this->textures.push_back(new Texture("Images/stallTexture.png", GL_TEXTURE_2D));
 }
 
 void Game::initMaterials()
@@ -126,10 +128,10 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("Images/stall.obj"),
-			glm::vec3(0.f, 0.f, -9.f),
+			glm::vec3(0.f, -1.f, -9.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
-			glm::vec3(1.f)));
+			glm::vec3(0.5f)));
 	meshes.push_back(
 		new Mesh(
 			&Cube(20, 2),
@@ -145,8 +147,8 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
 		this->materials[0],
-		this->textures[TEX_CONTAINER],
-		this->textures[TEX_CONTAINER_SPECULAR],
+		this->textures[11],
+		this->textures[11],
 		meshes[1]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
