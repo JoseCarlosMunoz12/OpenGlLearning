@@ -497,8 +497,6 @@ public:
 		{
 			std::vector<std::string> out;
 			this->ReturnStringArray(ii,'/', out);
-			;
-			std::cout << out[0] <<" " << out[1] << " " << out[2] << "\n";
 			VertexFound.push_back({ PositionsFound[std::atof(out[0].c_str())-1],
 									ColorDetermined,
 									TexCoordsFound[std::atof(out[1].c_str()) - 1],

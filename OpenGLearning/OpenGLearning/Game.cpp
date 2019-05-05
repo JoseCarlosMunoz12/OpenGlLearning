@@ -104,6 +104,8 @@ void Game::initTextures()
 	this->textures.push_back(new Texture("Images/blendMap.png", GL_TEXTURE_2D));
 	//Stall Texture
 	this->textures.push_back(new Texture("Images/stallTexture.png", GL_TEXTURE_2D));
+	//Tree Texture
+	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D));
 }
 
 void Game::initMaterials()
@@ -121,40 +123,40 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(
 			&CustomTerrain(800, 400),
-			glm::vec3(0.f, -1.f, 0.f),
+			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("Images/stall.obj"),
-			glm::vec3(0.f, -1.f, -9.f),
+			glm::vec3(0.f, 0.f, -9.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.5f)));
 	meshes.push_back(
 		new Mesh(
-			&Cube(20, 2),
+			&CustomObject("Images/tree.obj"),
 			glm::vec3(3.f, 0.f, 1.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[2],
+		this->materials[TERRAIN_MAT],
 		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},		
 		meshes[0]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[0],
+		this->materials[MAT_1],
 		this->textures[11],
 		this->textures[11],
 		meshes[1]));
 	this->models.push_back(new Model(
 		glm::vec3(0.f),
-		this->materials[1],
-		this->textures[TEX_CONTAINER],
-		this->textures[TEX_CONTAINER_SPECULAR],
+		this->materials[MAT_2],
+		this->textures[12],
+		this->textures[12],
 		meshes[2]));
 	for (auto*& i : meshes)
 	{
@@ -234,7 +236,7 @@ void Game::updateKeyboardInput()
 		
 		meshes.push_back(
 			new Mesh(
-				&Cube(),
+				&CustomObject("Images/tree.obj"),
 				glm::vec3((float)xDist(rng), 0.f, (float)yDist(rng)),
 				glm::vec3(0.f),
 				glm::vec3(0.f),
@@ -242,8 +244,8 @@ void Game::updateKeyboardInput()
 		this->models.push_back(new Model(
 			glm::vec3(0.f),
 			this->materials[0],
-			this->textures[TEX_PUSHEEM],
-			this->textures[TEX_PUSHEEN_SPECULAR],
+			this->textures[12],
+			this->textures[12],
 			meshes[0]));
 		for (auto*& i : meshes)
 		{
@@ -334,7 +336,7 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
+	camera(glm::vec3(0.f,1.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 {
 	this->SkyColor = SkyColor;
@@ -423,10 +425,11 @@ void Game::render()
 	//render Models
 
 	this->models[0]->renderManyTextures(this->shaders[SHADERS_TERRAIN]);
-	this->models[1]->render(this->shaders[SHADER_CORE_PROGRAM]);
-	//this->models[2]->render(this->shaders[SHADER_CORE_PROGRAM]);
-
-	
+	for (size_t ii = 1; ii < models.size(); ii++)
+	{
+		this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	}
+		
 	//End Draw
 	glfwSwapBuffers(window);
 	glFlush();
