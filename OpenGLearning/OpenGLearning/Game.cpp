@@ -119,7 +119,6 @@ void Game::initMaterials()
 
 void Game::initModels()
 {
-	std::vector<Mesh*> meshes;
 	meshes.push_back(
 		new Mesh(
 			&CustomTerrain(800, 400),
@@ -158,9 +157,9 @@ void Game::initModels()
 		this->textures[12],
 		this->textures[12],
 		meshes[2]));
-	for (auto*& i : meshes)
+	for (size_t ii = 0; ii < 2; ii++)
 	{
-		delete i;
+		meshes.pop_back();
 	}
 }
 
@@ -232,25 +231,24 @@ void Game::updateKeyboardInput()
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_P) == GLFW_PRESS)
 	{
-		std::vector<Mesh*> meshes;
+		if (meshes.size() < 2)
+		{
+			meshes.push_back(
+				new Mesh(&CustomObject("Images/tree.obj"),
+					glm::vec3(0.f),
+					glm::vec3(0.f),
+					glm::vec3(0.f),
+					glm::vec3(1.f)));
+		}
+
 		
-		meshes.push_back(
-			new Mesh(
-				&CustomObject("Images/tree.obj"),
-				glm::vec3((float)xDist(rng), 0.f, (float)yDist(rng)),
-				glm::vec3(0.f),
-				glm::vec3(0.f),
-				glm::vec3(1.f)));
 		this->models.push_back(new Model(
-			glm::vec3(0.f),
+			glm::vec3((float)xDist(rng), 0.f, (float)yDist(rng)),
 			this->materials[0],
 			this->textures[12],
 			this->textures[12],
-			meshes[0]));
-		for (auto*& i : meshes)
-		{
-			delete i;
-		}
+			meshes[1]));
+	
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_O) == GLFW_PRESS)
 	{

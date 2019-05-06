@@ -70,6 +70,8 @@ private:
 	std::vector<Model*> models;
 	//Lights
 	std::vector<glm::vec3*> lights;
+	// Meshes to reuse and not refind and make.
+	std::vector<Mesh*> meshes;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
