@@ -1,7 +1,5 @@
 #include "Game.h"
 
-#include "ImGui/imgui.h"
-
 void Game::initGLFW()
 {
 	//INIT GLFW
@@ -59,7 +57,7 @@ void Game::initOpenGLOptions()
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	
-	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_NORMAL);
 }
 
 void Game::initMatrices()
@@ -283,6 +281,8 @@ void Game::updateMouseInput()
 void Game::updateInput()
 {
 	glfwPollEvents();
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	this->updateOpenGLOptions();
 	this->updateKeyboardInput();
@@ -340,13 +340,7 @@ Game::Game(const char * title,
 	camera(glm::vec3(0.f,1.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 {
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-	ImGui::StyleColorsClassic();
-
+	
 	this->SkyColor = SkyColor;
 	this->window = NULL;
 	this->frameBufferHeight = this->Window_Height;
@@ -384,6 +378,16 @@ Game::Game(const char * title,
 	this->initModels();
 	this->initLights();
 	this->initUniforms();
+
+	const char* glsl_version = "#version 130";
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	ImGui::StyleColorsClassic();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init(glsl_version);
 }
 
 Game::~Game()
@@ -420,17 +424,35 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	ImGui::Begin("Hello, world!");
-	ImGui::End();
+	{
+		static float f = 0.0f;
+		static int counter = 0;
+
+		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+		
+
+		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+
+		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+			counter++;
+		ImGui::SameLine();
+		ImGui::Text("counter = %d", counter);
+
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+	}
 }
 
 void Game::render()
 {
 	//DRAW---
 	//Clear
+	ImGui::Render();
 	glClearColor(0.f,0.f,1.f,1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	ImGui::Render();
+	
 	//Update uniforms
 	this->updateUniforms();
 	//render Models
@@ -442,6 +464,8 @@ void Game::render()
 	}
 		
 	//End Draw
+
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
 	glBindVertexArray(0);
