@@ -413,6 +413,8 @@ Game::~Game()
 		delete i;
 	for (size_t i = 0; i < this->lights.size(); i++)
 		delete this->lights[i];
+	for (auto& i : meshes)
+		delete i;
 }
 //Acessor
 int Game::getWindowShouldClose()
