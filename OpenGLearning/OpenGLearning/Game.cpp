@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "ImGui/imgui.h"
+
 void Game::initGLFW()
 {
 	//INIT GLFW
@@ -281,6 +283,7 @@ void Game::updateMouseInput()
 void Game::updateInput()
 {
 	glfwPollEvents();
+	ImGui::NewFrame();
 	this->updateOpenGLOptions();
 	this->updateKeyboardInput();
 	this->updateMouseInput();
@@ -337,6 +340,13 @@ Game::Game(const char * title,
 	camera(glm::vec3(0.f,1.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 {
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	ImGui::StyleColorsClassic();
+
 	this->SkyColor = SkyColor;
 	this->window = NULL;
 	this->frameBufferHeight = this->Window_Height;
@@ -378,6 +388,7 @@ Game::Game(const char * title,
 
 Game::~Game()
 {
+	ImGui::DestroyContext();
 	glfwDestroyWindow(this->window );
 	glfwTerminate();
 	for (size_t i = 0; i < this->shaders.size(); i++)
@@ -409,6 +420,8 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
+	ImGui::Begin("Hello, world!");
+	ImGui::End();
 }
 
 void Game::render()
@@ -417,7 +430,7 @@ void Game::render()
 	//Clear
 	glClearColor(0.f,0.f,1.f,1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
+	ImGui::Render();
 	//Update uniforms
 	this->updateUniforms();
 	//render Models
