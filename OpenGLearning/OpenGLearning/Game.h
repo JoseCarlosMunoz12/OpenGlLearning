@@ -94,6 +94,8 @@ private:
 	void updateMouseInput();
 	void updateInput();
 
+	void ImGuiOptions();
+
 	void updateUniforms();
 	void updateOpenGLOptions();
 	//Static variables

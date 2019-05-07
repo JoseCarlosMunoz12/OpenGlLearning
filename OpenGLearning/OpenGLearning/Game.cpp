@@ -229,34 +229,7 @@ void Game::updateKeyboardInput()
 	{
 		this->camera.move(this->dt, RIGHT);
 	}
-	if (glfwGetKey(this->window, GLFW_KEY_P) == GLFW_PRESS)
-	{
-		if (meshes.size() < 2)
-		{
-			meshes.push_back(
-				new Mesh(&CustomObject("Images/tree.obj"),
-					glm::vec3(0.f),
-					glm::vec3(0.f),
-					glm::vec3(0.f),
-					glm::vec3(1.f)));
-		}
-
-		
-		this->models.push_back(new Model(
-			glm::vec3((float)xDist(rng), 0.f, (float)yDist(rng)),
-			this->materials[0],
-			this->textures[12],
-			this->textures[12],
-			meshes[1]));
 	
-	}
-	if (glfwGetKey(this->window, GLFW_KEY_O) == GLFW_PRESS)
-	{
-		if (this->models.size() > 3)
-		{
-			models.pop_back();
-		}
-	}
 }
 
 void Game::updateMouseInput()
@@ -288,6 +261,41 @@ void Game::updateInput()
 	this->updateKeyboardInput();
 	this->updateMouseInput();
 	this->camera.updateInput(dt,-1,this->mouseOffsetX, this->mouseOffsetY);
+}
+
+void Game::ImGuiOptions()
+{
+	{
+		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+		if (ImGui::Button("Create Trees Randomly"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+		{
+			if (meshes.size() < 2)
+				{
+					meshes.push_back(
+						new Mesh(&CustomObject("Images/tree.obj"),
+							glm::vec3(0.f),
+							glm::vec3(0.f),
+							glm::vec3(0.f),
+							glm::vec3(1.f)));
+				}
+			this->models.push_back(new Model(
+				glm::vec3((float)xDist(rng), 0.f, (float)yDist(rng)),
+				this->materials[0],
+				this->textures[12],
+				this->textures[12],
+				meshes[1]));
+		}
+		ImGui::Text("%d",models.size());
+		if (ImGui::Button("Destroy Last Tree Created"))
+		{
+			if (this->models.size() > 3)
+			{
+				models.pop_back();
+			}
+		}
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+	}
 }
 
 void Game::updateUniforms()
@@ -424,25 +432,7 @@ void Game::update()
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
-	{
-		static float f = 0.0f;
-		static int counter = 0;
-
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-		
-
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::End();
-	}
+	this->ImGuiOptions();
 }
 
 void Game::render()
