@@ -212,7 +212,7 @@ void Game::updateKeyboardInput()
 	{
 		glfwSetWindowShouldClose(this->window, GLFW_TRUE);
 	}
-	//Camera
+	//Camera	
 	if (glfwGetKey(this->window , GLFW_KEY_W) == GLFW_PRESS)
 	{
 		this->camera.move(this->dt, FORWARD);
@@ -235,6 +235,10 @@ void Game::updateKeyboardInput()
 void Game::updateMouseInput()
 {
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
+	if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+	{
+		std::cout << this->MouseX << " " << this->MouseY << "\n";
+	}
 	if (this->firstMouse)
 	{
 		this->lastMouseX = this->MouseX;

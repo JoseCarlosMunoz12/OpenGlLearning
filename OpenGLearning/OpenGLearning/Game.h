@@ -76,7 +76,6 @@ private:
 	std::vector<glm::vec3*> lights;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
-	//IO For the ImGui to use
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
