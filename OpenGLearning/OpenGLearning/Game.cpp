@@ -266,7 +266,10 @@ void Game::updateInput()
 void Game::ImGuiOptions()
 {
 	{
+		static float XPosition, YPosition;
 		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+		ImGui::SliderFloat("X position of the Tree",&XPosition,-40,40);
+		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40);
 		if (ImGui::Button("Create Trees Randomly"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
 		{
 			if (meshes.size() < 2)
@@ -279,13 +282,13 @@ void Game::ImGuiOptions()
 							glm::vec3(1.f)));
 				}
 			this->models.push_back(new Model(
-				glm::vec3((float)xDist(rng), 0.f, (float)yDist(rng)),
+				glm::vec3(XPosition, 0.f, YPosition),
 				this->materials[0],
 				this->textures[12],
 				this->textures[12],
 				meshes[1]));
 		}
-		ImGui::Text("%d",models.size());
+		ImGui::Text("%d",models.size() - 2);
 		if (ImGui::Button("Destroy Last Tree Created"))
 		{
 			if (this->models.size() > 3)
