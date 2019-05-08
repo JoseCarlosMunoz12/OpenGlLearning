@@ -266,11 +266,20 @@ void Game::updateInput()
 void Game::ImGuiOptions()
 {
 	{
+		ImGuiIO& io = ImGui::GetIO();
 		static float XPosition, YPosition;
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+		ImGui::Begin("Hello, world!");
 		ImGui::SliderFloat("X position of the Tree",&XPosition,-40,40);
-		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40);
-		if (ImGui::Button("Create Trees Randomly"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40); 
+		ImGui::Text("%g,%g",io.MousePos.x, io.MousePos.y);
+		ImGui::Text("Mouse down:");
+		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
+			if (io.MouseDownDuration[i] >= 0.0f)
+			{ 
+				ImGui::SameLine();
+				ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]);
+			}
+		if (ImGui::Button("Create Trees Randomly"))
 		{
 			if (meshes.size() < 2)
 				{
@@ -394,8 +403,8 @@ Game::Game(const char * title,
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-
+	ImGuiIO& io = ImGui::GetIO();
+	(void)io;
 	ImGui::StyleColorsClassic();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
