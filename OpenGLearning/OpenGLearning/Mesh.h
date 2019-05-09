@@ -225,7 +225,7 @@ public:
 
 	}
 
-	glm::mat3 ReturnModelMatrix()
+	glm::mat4 ReturnModelMatrix()
 	{
 		return this->ModelMatrix;
 	}

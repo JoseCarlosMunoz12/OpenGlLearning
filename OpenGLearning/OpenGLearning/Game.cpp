@@ -236,8 +236,8 @@ void Game::updateMouseInput()
 		glReadPixels(this->MouseX, this->MouseY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &mouse_current_z);
 		glm::vec3 windowCoordinates = glm::vec3(this->MouseX, this->MouseY, mouse_current_z);
 		glm::vec4 viewport = glm::vec4(0.0f, 0.0f, (float)1920, (float)1080);
-		glm::vec3 worldCoordinates = glm::unProject(windowCoordinates, this->ViewMatrix, this->ProjectionMatrix, viewport);
-		printf("(%f, %f, %f)\n", worldCoordinates.x, worldCoordinates.y, worldCoordinates.z);
+		this->worldCoordinates = glm::unProject(windowCoordinates, this->meshes[0]->ReturnModelMatrix(), this->ProjectionMatrix, viewport);
+
 	}
 	if (this->firstMouse)
 	{
@@ -276,6 +276,7 @@ void Game::ImGuiOptions()
 		ImGui::SliderFloat("X position of the Tree",&XPosition,-40,40);
 		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40); 
 		ImGui::Text("%g,%g",io.MousePos.x, io.MousePos.y);
+		ImGui::Text("%f,%f,%f",worldCoordinates.x, worldCoordinates.y, worldCoordinates.z );
 		ImGui::Text("Mouse down:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
 			if (io.MouseDownDuration[i] >= 0.0f)
@@ -360,7 +361,7 @@ Game::Game(const char * title,
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
 	camera(glm::vec3(0.f,1.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
-	rng(std::random_device()()),xDist(-100,100),yDist(-100,100),MousePick(camera)
+	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 {
 	
 	this->SkyColor = SkyColor;
