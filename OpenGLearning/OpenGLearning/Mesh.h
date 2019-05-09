@@ -13,6 +13,7 @@ class Mesh
 private:
 	Vertex* vertexArray;
 	GLuint* indexArray;
+	std::vector<Vertex> VertexTofind;
 	unsigned nrOfVertices;
 	unsigned nrOfIndices;
 	GLuint VAO;
@@ -108,6 +109,8 @@ public:
 		for (size_t i = 0; i < this->nrOfVertices; i++)
 		{
 			this->vertexArray[i] = primitive->getVertices()[i];
+			VertexTofind.push_back(vertexArray[i]);
+
 		}
 		this->indexArray = new GLuint[this->nrOfIndices];
 		for (size_t i = 0; i <this-> nrOfIndices; i++)
@@ -221,6 +224,7 @@ public:
 	{
 
 	}
+
 
 	void render(Shader* shader)
 	{

@@ -64,7 +64,6 @@ void Game::initMatrices()
 {
 	this->ViewMatrix = glm::mat4(1.f);
 	this->ViewMatrix = glm::lookAt(this->camPosition, this->camPosition + this->camFront, this->worldUp);
-
 	
 	this->ProjectionMatrix = glm::mat4(1.f);
 
@@ -157,10 +156,6 @@ void Game::initModels()
 		this->textures[12],
 		this->textures[12],
 		meshes[2]));
-	for (size_t ii = 0; ii < 2; ii++)
-	{
-		meshes.pop_back();
-	}
 }
 
 void Game::initLights()
@@ -237,7 +232,7 @@ void Game::updateMouseInput()
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 	{
-		std::cout << this->MouseX << " " << this->MouseY << "\n";
+
 	}
 	if (this->firstMouse)
 	{
@@ -299,7 +294,7 @@ void Game::ImGuiOptions()
 				this->materials[0],
 				this->textures[12],
 				this->textures[12],
-				meshes[1]));
+				meshes[2]));
 		}
 		ImGui::Text("%d",models.size() - 2);
 		if (ImGui::Button("Destroy Last Tree Created"))
@@ -323,11 +318,9 @@ void Game::updateUniforms()
 		ii->setVec3f(*this->lights[0], "lightPos0");
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		ii->setVec3f(this->camera.getPosition(), "cameraPos");
-		
 	}
 	//Update FramgeBuffer size and projection matrix
 	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
-	   
 	this->ProjectionMatrix = glm::mat4(1.f);
 	this->ProjectionMatrix = glm::perspective(glm::radians(this->fov),
 		static_cast<float>(this->frameBufferWidth) / this-> frameBufferHeight,
@@ -447,6 +440,7 @@ void Game::setWindowShouldClose()
 //Functions
 void Game::update()
 {
+
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
