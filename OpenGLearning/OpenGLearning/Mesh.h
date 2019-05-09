@@ -225,7 +225,10 @@ public:
 
 	}
 
-
+	glm::mat3 ReturnModelMatrix()
+	{
+		return this->ModelMatrix;
+	}
 	void render(Shader* shader)
 	{
 		//Update Uniforms

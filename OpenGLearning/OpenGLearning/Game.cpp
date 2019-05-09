@@ -235,11 +235,9 @@ void Game::updateMouseInput()
 		float mouse_current_z;
 		glReadPixels(this->MouseX, this->MouseY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &mouse_current_z);
 		glm::vec3 windowCoordinates = glm::vec3(this->MouseX, this->MouseY, mouse_current_z);
-		//glm::vec4 viewport = glm::vec4(0.0f, 0.0f, (float)1920, (float)1080);
-		//glm::vec3 worldCoordinates = glm::unProject(windowCoordinates, ViewMatrix, ProjectionMatrix, viewport);
-		glm::vec3 same = camera.getPosition();
-		printf("(%f, %f, %f) \n", this->MouseX, this->MouseY, same.z);
-		printf("(%f, %f, %f) \n", windowCoordinates.x, windowCoordinates.y, windowCoordinates.z);
+		glm::vec4 viewport = glm::vec4(0.0f, 0.0f, (float)1920, (float)1080);
+		glm::vec3 worldCoordinates = glm::unProject(windowCoordinates, this->ViewMatrix, this->ProjectionMatrix, viewport);
+		printf("(%f, %f, %f)\n", worldCoordinates.x, worldCoordinates.y, worldCoordinates.z);
 	}
 	if (this->firstMouse)
 	{
@@ -362,7 +360,7 @@ Game::Game(const char * title,
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
 	camera(glm::vec3(0.f,1.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
-	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
+	rng(std::random_device()()),xDist(-100,100),yDist(-100,100),MousePick(camera)
 {
 	
 	this->SkyColor = SkyColor;
