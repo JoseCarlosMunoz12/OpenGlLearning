@@ -15,3 +15,18 @@
 
 #include "Vertex.h"
 #include "Primitive.h"
+class MousePicker
+{
+private:
+
+public:
+	MousePicker()
+	{
+
+	}
+	~MousePicker()
+	{
+
+	}
+
+};

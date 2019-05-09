@@ -76,6 +76,8 @@ private:
 	std::vector<glm::vec3*> lights;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
+	//MousePickerclass
+	MousePicker MousePick;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
