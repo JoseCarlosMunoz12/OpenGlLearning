@@ -239,7 +239,16 @@ void Game::updateMouseInput()
 	{
 		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / this->Window_Width) - 1.f;
 		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / this->Window_Height); 
-		glm::mat4 viewProjectInverse = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
+		glm::vec4 temp = glm::vec4(this->NormalizedDeviceCoordinates, -1.f, 1.f);
+		glm::mat4 viewProjectInverse = glm::inverse(this->ProjectionMatrix);
+		glm::vec4 eyeCoordst = viewProjectInverse * temp;
+		glm::vec4 eyecoords = glm::vec4(eyeCoordst.x, eyeCoordst.y, -1.f, 0.f);
+		glm::mat4 viewMatri = glm::inverse(this->ViewMatrix);
+		glm::vec4 ste = viewMatri * eyecoords;
+		this->worldSpace = glm::vec3(ste.x, ste.y, ste.z);
+		this->worldSpace = glm::normalize(this->worldSpace);
+
+
 	}
 	if (this->firstMouse)
 	{
@@ -283,6 +292,8 @@ void Game::ImGuiOptions()
 		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40); 
 		ImGui::Text("%g,%g",io.MousePos.x, io.MousePos.y);
 		ImGui::Text("%g,%g", this->NormalizedDeviceCoordinates.x, this->NormalizedDeviceCoordinates.y);
+		ImGui::Text("%g,%g,%g", this->worldSpace.x, this->worldSpace.y,this->worldSpace.z);
+
 		ImGui::Text("Mouse down:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
 			if (io.MouseDownDuration[i] >= 0.0f)

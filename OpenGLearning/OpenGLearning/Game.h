@@ -60,6 +60,7 @@ private:
 	glm::vec3 camFront;
 	glm::mat4 ProjectionMatrix;
 	glm::vec2 NormalizedDeviceCoordinates;
+	glm::vec3 worldSpace;
 	float fov;
 	float nearPlane;
 	float farPlane;
