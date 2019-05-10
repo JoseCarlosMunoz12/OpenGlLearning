@@ -57,7 +57,7 @@ void Game::initOpenGLOptions()
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	
-	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_NORMAL);
+	glfwSetInputMode(this->window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
 }
 
 void Game::initMatrices()
@@ -128,14 +128,14 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("Images/stall.obj"),
-			glm::vec3(0.f, 0.f, -9.f),
+			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
-			glm::vec3(0.5f)));
+			glm::vec3(0.25f)));
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("Images/tree.obj"),
-			glm::vec3(3.f, 0.f, 1.f),
+			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
@@ -145,13 +145,13 @@ void Game::initModels()
 		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},		
 		meshes[0]));
 	this->models.push_back(new Model(
-		glm::vec3(0.f),
+		glm::vec3(9.f, 0.f, 0.f),
 		this->materials[MAT_1],
 		this->textures[11],
 		this->textures[11],
 		meshes[1]));
 	this->models.push_back(new Model(
-		glm::vec3(0.f),
+		glm::vec3(0.f, 0.f, 9.f),
 		this->materials[MAT_2],
 		this->textures[12],
 		this->textures[12],
@@ -224,7 +224,12 @@ void Game::updateKeyboardInput()
 	{
 		this->camera.move(this->dt, RIGHT);
 	}
-	
+	if (glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		this->MouseX = this->Window_Width/2;
+		this->MouseY = this->Window_Height/2;
+		glfwSetCursorPos(this->window, this->MouseX, this->MouseY);
+	}
 }
 
 void Game::updateMouseInput()
@@ -232,12 +237,9 @@ void Game::updateMouseInput()
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 	{
-		float mouse_current_z;
-		glReadPixels(this->MouseX, this->MouseY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &mouse_current_z);
-		glm::vec3 windowCoordinates = glm::vec3(this->MouseX, this->MouseY, mouse_current_z);
-		glm::vec4 viewport = glm::vec4(0.0f, 0.0f, (float)1920, (float)1080);
-		this->worldCoordinates = glm::unProject(windowCoordinates, this->meshes[0]->ReturnModelMatrix(), this->ProjectionMatrix, viewport);
-
+		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / this->Window_Width) - 1.f;
+		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / this->Window_Height); 
+		glm::mat4 viewProjectInverse = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
 	}
 	if (this->firstMouse)
 	{
@@ -247,12 +249,16 @@ void Game::updateMouseInput()
 	}
 
 	//Calc offset
-	this->mouseOffsetX = this->MouseX - this->lastMouseX;
-	this->mouseOffsetY = this->lastMouseY - this->MouseY;
-
-	//Set last X and Y
-	this->lastMouseX = this->MouseX;
-	this->lastMouseY = this->MouseY;
+	if (!glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		this->mouseOffsetX = this->MouseX - this->lastMouseX;
+		this->mouseOffsetY = this->lastMouseY - this->MouseY;
+}
+		//Set last X and Y
+		this->lastMouseX = this->MouseX;
+		this->lastMouseY = this->MouseY;
+	
+	
 	}
 
 void Game::updateInput()
@@ -276,7 +282,7 @@ void Game::ImGuiOptions()
 		ImGui::SliderFloat("X position of the Tree",&XPosition,-40,40);
 		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40); 
 		ImGui::Text("%g,%g",io.MousePos.x, io.MousePos.y);
-		ImGui::Text("%f,%f,%f",worldCoordinates.x, worldCoordinates.y, worldCoordinates.z );
+		ImGui::Text("%g,%g", this->NormalizedDeviceCoordinates.x, this->NormalizedDeviceCoordinates.y);
 		ImGui::Text("Mouse down:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
 			if (io.MouseDownDuration[i] >= 0.0f)
@@ -346,6 +352,14 @@ void Game::updateOpenGLOptions()
 		glDisable(GL_CULL_FACE);
 		
 	}
+	if (glfwGetKey(this->window, GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
 	if (glfwGetKey(this->window, GLFW_KEY_F) == GLFW_PRESS)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -360,7 +374,7 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,1.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
+	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 {
 	
