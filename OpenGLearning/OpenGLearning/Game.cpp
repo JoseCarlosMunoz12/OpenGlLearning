@@ -237,47 +237,50 @@ void Game::updateMouseInput()
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (this->MakeMesh)
 	{
+		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / this->Window_Width) - 1.f;
+		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / this->Window_Height);
+		glm::vec4 temp = glm::vec4(this->NormalizedDeviceCoordinates, -1.f, 1.f);
+		glm::mat4 viewProjectInverse = glm::inverse(this->ProjectionMatrix);
+		glm::vec4 eyeCoordst = viewProjectInverse * temp;
+		glm::vec4 eyecoords = glm::vec4(eyeCoordst.x, eyeCoordst.y, -1.f, 0.f);
+		glm::mat4 viewMatri = glm::inverse(this->camera.GetViewMatrix());
+		glm::vec4 ste = viewMatri * eyecoords;
+		this->worldSpace = glm::vec3(ste.x, ste.y, ste.z);
+		this->worldSpace = glm::normalize(this->worldSpace);
 		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 		{
-			this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / this->Window_Width) - 1.f;
-			this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / this->Window_Height);
-			glm::vec4 temp = glm::vec4(this->NormalizedDeviceCoordinates, -1.f, 1.f);
-			glm::mat4 viewProjectInverse = glm::inverse(this->ProjectionMatrix);
-			glm::vec4 eyeCoordst = viewProjectInverse * temp;
-			glm::vec4 eyecoords = glm::vec4(eyeCoordst.x, eyeCoordst.y, -1.f, 0.f);
-			glm::mat4 viewMatri = glm::inverse(this->ViewMatrix);
-			glm::vec4 ste = viewMatri * eyecoords;
-			this->worldSpace = glm::vec3(ste.x, ste.y, ste.z);
-			this->worldSpace = glm::normalize(this->worldSpace);
+			
 
 			glm::vec3 MousePosition = this->camera.getPosition();
-/*			if (this->worldSpace.y < 0.f)
-			{
-				if (meshes.size() < 2)
-				{
-					meshes.push_back(
-						new Mesh(&CustomObject("Images/tree.obj"),
-							glm::vec3(0.f),
-							glm::vec3(0.f),
-							glm::vec3(0.f),
-							glm::vec3(1.f)));
-				}
-				this->models.push_back(new Model(
-					glm::vec3(-1 * ( MousePosition.y * this->worldSpace.x / this->worldSpace.y - MousePosition.x),
-						0.f,
-						-1 *(MousePosition.y * this->worldSpace.z / this->worldSpace.y - MousePosition.y)),
-					this->materials[0],
-					this->textures[12],
-					this->textures[12],
-					meshes[2]));
-			}
-	*/
-			std::cout << -1 * ( MousePosition.y * this->worldSpace.x - MousePosition.x) << " "
-				<< 0.f << " "  << -1 * (MousePosition.y * this->worldSpace.z  - MousePosition.y) << "\n";	
+			//if (this->worldSpace.y < 0.f)
+			//{
+			//	if (meshes.size() < 2)
+			//	{
+			//		meshes.push_back(
+			//			new Mesh(&CustomObject("Images/tree.obj"),
+			//				glm::vec3(0.f),
+			//				glm::vec3(0.f),
+			//				glm::vec3(0.f),
+			//				glm::vec3(1.f)));
+			//	}
+			//	this->models.push_back(new Model(
+			//		glm::vec3((-1 *  MousePosition.y * this->worldSpace.x / this->worldSpace.y + MousePosition.x),
+			//			0.f,
+			//			(-1 * MousePosition.z * this->worldSpace.z / this->worldSpace.y + MousePosition.z)),
+			//		this->materials[0],
+			//		this->textures[12],
+			//		this->textures[12],
+			//		meshes[2]));
+			//}
+	
+			std::cout <<  (-1 * MousePosition.y * this->worldSpace.x /this->worldSpace.y) + MousePosition.x << " "
+				<< 0.f << " "  <<  (-1 * MousePosition.y * this->worldSpace.z / this->worldSpace.y ) + MousePosition.z << "\n";	
+			std::cout << (-1 * MousePosition.y * this->worldSpace.x / this->worldSpace.y) << " "
+				<< 0.f << " " << (-1 * MousePosition.y * this->worldSpace.z / this->worldSpace.y) << "\n";
+			std::cout << "--------------------------\n";
 		}
 	}
-	else
-	{
+
 		if (!glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
 		{
 			this->mouseOffsetX = this->MouseX - this->lastMouseX;
@@ -285,8 +288,6 @@ void Game::updateMouseInput()
 			//Set last X and Y
 		}
 
-
-	}
 	if (this->firstMouse)
 	{
 		this->lastMouseX = this->MouseX;
