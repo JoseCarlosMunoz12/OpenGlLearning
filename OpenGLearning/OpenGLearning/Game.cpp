@@ -235,18 +235,30 @@ void Game::updateKeyboardInput()
 void Game::updateMouseInput()
 {
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
-	if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+	if (this->MakeMesh)
 	{
-		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / this->Window_Width) - 1.f;
-		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / this->Window_Height); 
-		glm::vec4 temp = glm::vec4(this->NormalizedDeviceCoordinates, -1.f, 1.f);
-		glm::mat4 viewProjectInverse = glm::inverse(this->ProjectionMatrix);
-		glm::vec4 eyeCoordst = viewProjectInverse * temp;
-		glm::vec4 eyecoords = glm::vec4(eyeCoordst.x, eyeCoordst.y, -1.f, 0.f);
-		glm::mat4 viewMatri = glm::inverse(this->ViewMatrix);
-		glm::vec4 ste = viewMatri * eyecoords;
-		this->worldSpace = glm::vec3(ste.x, ste.y, ste.z);
-		this->worldSpace = glm::normalize(this->worldSpace);
+		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+		{
+			this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / this->Window_Width) - 1.f;
+			this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / this->Window_Height);
+			glm::vec4 temp = glm::vec4(this->NormalizedDeviceCoordinates, -1.f, 1.f);
+			glm::mat4 viewProjectInverse = glm::inverse(this->ProjectionMatrix);
+			glm::vec4 eyeCoordst = viewProjectInverse * temp;
+			glm::vec4 eyecoords = glm::vec4(eyeCoordst.x, eyeCoordst.y, -1.f, 0.f);
+			glm::mat4 viewMatri = glm::inverse(this->ViewMatrix);
+			glm::vec4 ste = viewMatri * eyecoords;
+			this->worldSpace = glm::vec3(ste.x, ste.y, ste.z);
+			this->worldSpace = glm::normalize(this->worldSpace);
+		}
+	}
+	else
+	{
+		if (!glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
+		{
+			this->mouseOffsetX = this->MouseX - this->lastMouseX;
+			this->mouseOffsetY = this->lastMouseY - this->MouseY;
+			//Set last X and Y
+		}
 
 
 	}
@@ -256,19 +268,10 @@ void Game::updateMouseInput()
 		this->lastMouseY = this->MouseY;
 		this->firstMouse = false;
 	}
-
-	//Calc offset
-	if (!glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
-	{
-		this->mouseOffsetX = this->MouseX - this->lastMouseX;
-		this->mouseOffsetY = this->lastMouseY - this->MouseY;
-}
-		//Set last X and Y
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
-	
-	
-	}
+	//Calc offset
+}
 
 void Game::updateInput()
 {
@@ -285,6 +288,7 @@ void Game::updateInput()
 void Game::ImGuiOptions()
 {
 	{
+		glm::vec3 MousePosition = this->camera.getPosition();
 		ImGuiIO& io = ImGui::GetIO();
 		static float XPosition, YPosition;
 		ImGui::Begin("Hello, world!");
@@ -293,6 +297,7 @@ void Game::ImGuiOptions()
 		ImGui::Text("%g,%g",io.MousePos.x, io.MousePos.y);
 		ImGui::Text("%g,%g", this->NormalizedDeviceCoordinates.x, this->NormalizedDeviceCoordinates.y);
 		ImGui::Text("%g,%g,%g", this->worldSpace.x, this->worldSpace.y,this->worldSpace.z);
+		ImGui::Text("%g,%g,%g", MousePosition.x, MousePosition.y, MousePosition.z);
 
 		ImGui::Text("Mouse down:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
@@ -366,10 +371,12 @@ void Game::updateOpenGLOptions()
 	if (glfwGetKey(this->window, GLFW_KEY_Q) == GLFW_PRESS)
 	{
 		glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		this->MakeMesh = false;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_E) == GLFW_PRESS)
 	{
 		glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		this->MakeMesh = true;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_F) == GLFW_PRESS)
 	{

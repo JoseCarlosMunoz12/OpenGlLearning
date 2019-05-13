@@ -65,6 +65,7 @@ private:
 	float nearPlane;
 	float farPlane;
 	glm::vec3 SkyColor;
+	bool MakeMesh = false;
 
 	//Shaders
 	std::vector<Shader*> shaders;
