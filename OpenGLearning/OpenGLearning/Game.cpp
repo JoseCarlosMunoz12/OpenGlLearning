@@ -120,7 +120,7 @@ void Game::initModels()
 {
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(800, 400),
+			&CustomTerrain(800, 800),
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
@@ -239,13 +239,10 @@ void Game::updateMouseInput()
 	{
 		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / this->Window_Width) - 1.f;
 		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / this->Window_Height);
-		glm::vec4 temp = glm::vec4(this->NormalizedDeviceCoordinates, -1.f, 1.f);
-		glm::mat4 viewProjectInverse = glm::inverse(this->ProjectionMatrix);
-		glm::vec4 eyeCoordst = viewProjectInverse * temp;
-		glm::vec4 eyecoords = glm::vec4(eyeCoordst.x, eyeCoordst.y, -1.f, 0.f);
-		glm::mat4 viewMatri = glm::inverse(this->camera.GetViewMatrix());
-		glm::vec4 ste = viewMatri * eyecoords;
-		this->worldSpace = glm::vec3(ste.x, ste.y, ste.z);
+		glm::mat4 inVP = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
+		glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,1.f,1.f);
+		glm::vec4 worldPos = inVP * screenPos;
+		this->worldSpace = glm::vec3(worldPos);
 		this->worldSpace = glm::normalize(this->worldSpace);
 		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 		{
@@ -273,20 +270,18 @@ void Game::updateMouseInput()
 			//		meshes[2]));
 			//}
 	
-			std::cout <<  (-1 * MousePosition.y * this->worldSpace.x /this->worldSpace.y) + MousePosition.x << " "
-				<< 0.f << " "  <<  (-1 * MousePosition.y * this->worldSpace.z / this->worldSpace.y ) + MousePosition.z << "\n";	
-			std::cout << (-1 * MousePosition.y * this->worldSpace.x / this->worldSpace.y) << " "
-				<< 0.f << " " << (-1 * MousePosition.y * this->worldSpace.z / this->worldSpace.y) << "\n";
+			std::cout << -1 * ( MousePosition.y * this->worldSpace.x /this->worldSpace.y - MousePosition.x )<< " "
+				<< 0.f << " "  << -1 * ( MousePosition.y * this->worldSpace.z / this->worldSpace.y  - MousePosition.z) << "\n";
 			std::cout << "--------------------------\n";
 		}
 	}
 
-		if (!glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
-		{
-			this->mouseOffsetX = this->MouseX - this->lastMouseX;
-			this->mouseOffsetY = this->lastMouseY - this->MouseY;
-			//Set last X and Y
-		}
+	if (!glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		this->mouseOffsetX = this->MouseX - this->lastMouseX;
+		this->mouseOffsetY = this->lastMouseY - this->MouseY;
+		//Set last X and Y
+	}
 
 	if (this->firstMouse)
 	{
