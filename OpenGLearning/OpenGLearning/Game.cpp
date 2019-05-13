@@ -249,6 +249,31 @@ void Game::updateMouseInput()
 			glm::vec4 ste = viewMatri * eyecoords;
 			this->worldSpace = glm::vec3(ste.x, ste.y, ste.z);
 			this->worldSpace = glm::normalize(this->worldSpace);
+
+			glm::vec3 MousePosition = this->camera.getPosition();
+/*			if (this->worldSpace.y < 0.f)
+			{
+				if (meshes.size() < 2)
+				{
+					meshes.push_back(
+						new Mesh(&CustomObject("Images/tree.obj"),
+							glm::vec3(0.f),
+							glm::vec3(0.f),
+							glm::vec3(0.f),
+							glm::vec3(1.f)));
+				}
+				this->models.push_back(new Model(
+					glm::vec3(-1 * ( MousePosition.y * this->worldSpace.x / this->worldSpace.y - MousePosition.x),
+						0.f,
+						-1 *(MousePosition.y * this->worldSpace.z / this->worldSpace.y - MousePosition.y)),
+					this->materials[0],
+					this->textures[12],
+					this->textures[12],
+					meshes[2]));
+			}
+	*/
+			std::cout << -1 * ( MousePosition.y * this->worldSpace.x - MousePosition.x) << " "
+				<< 0.f << " "  << -1 * (MousePosition.y * this->worldSpace.z  - MousePosition.y) << "\n";	
 		}
 	}
 	else
@@ -288,7 +313,6 @@ void Game::updateInput()
 void Game::ImGuiOptions()
 {
 	{
-		glm::vec3 MousePosition = this->camera.getPosition();
 		ImGuiIO& io = ImGui::GetIO();
 		static float XPosition, YPosition;
 		ImGui::Begin("Hello, world!");
@@ -297,7 +321,8 @@ void Game::ImGuiOptions()
 		ImGui::Text("%g,%g",io.MousePos.x, io.MousePos.y);
 		ImGui::Text("%g,%g", this->NormalizedDeviceCoordinates.x, this->NormalizedDeviceCoordinates.y);
 		ImGui::Text("%g,%g,%g", this->worldSpace.x, this->worldSpace.y,this->worldSpace.z);
-		ImGui::Text("%g,%g,%g", MousePosition.x, MousePosition.y, MousePosition.z);
+		glm::vec3 GetMousePosition = this->camera.getPosition();
+		ImGui::Text("%g,%g,%g", GetMousePosition.x, GetMousePosition.y, GetMousePosition.z);
 
 		ImGui::Text("Mouse down:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
