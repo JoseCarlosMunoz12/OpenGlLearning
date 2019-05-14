@@ -323,7 +323,7 @@ void Game::ImGuiOptions()
 				this->textures[12],
 				meshes[2]));
 		}
-		ImGui::Text("%d",models.size() - 2);
+			ImGui::Text("%d",models.size() - 2);
 		if (ImGui::Button("Destroy Last Tree Created"))
 		{
 			if (this->models.size() > 3)
