@@ -246,33 +246,11 @@ void Game::updateMouseInput()
 		this->worldSpace = glm::normalize(this->worldSpace);
 		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 		{
-			
-
 			glm::vec3 MousePosition = this->camera.getPosition();
-			//if (this->worldSpace.y < 0.f)
-			//{
-			//	if (meshes.size() < 2)
-			//	{
-			//		meshes.push_back(
-			//			new Mesh(&CustomObject("Images/tree.obj"),
-			//				glm::vec3(0.f),
-			//				glm::vec3(0.f),
-			//				glm::vec3(0.f),
-			//				glm::vec3(1.f)));
-			//	}
-			//	this->models.push_back(new Model(
-			//		glm::vec3((-1 *  MousePosition.y * this->worldSpace.x / this->worldSpace.y + MousePosition.x),
-			//			0.f,
-			//			(-1 * MousePosition.z * this->worldSpace.z / this->worldSpace.y + MousePosition.z)),
-			//		this->materials[0],
-			//		this->textures[12],
-			//		this->textures[12],
-			//		meshes[2]));
-			//}
-	
-			std::cout << -1 * ( MousePosition.y * this->worldSpace.x /this->worldSpace.y - MousePosition.x )<< " "
-				<< 0.f << " "  << -1 * ( MousePosition.y * this->worldSpace.z / this->worldSpace.y  - MousePosition.z) << "\n";
-			std::cout << "--------------------------\n";
+			this->SpaceLoc.x = -1 * ( MousePosition.y * this->worldSpace.x /this->worldSpace.y - MousePosition.x );
+			this->SpaceLoc.y = 0;
+			this->SpaceLoc.z = -1 * ( MousePosition.y * this->worldSpace.z / this->worldSpace.y  - MousePosition.z);
+
 		}
 	}
 
@@ -318,7 +296,7 @@ void Game::ImGuiOptions()
 		ImGui::Text("%g,%g", this->NormalizedDeviceCoordinates.x, this->NormalizedDeviceCoordinates.y);
 		ImGui::Text("%g,%g,%g", this->worldSpace.x, this->worldSpace.y,this->worldSpace.z);
 		glm::vec3 GetMousePosition = this->camera.getPosition();
-		ImGui::Text("%g,%g,%g", GetMousePosition.x, GetMousePosition.y, GetMousePosition.z);
+		ImGui::Text("%g,%g,%g", this->SpaceLoc.x, this->SpaceLoc.y, this->SpaceLoc.z);
 
 		ImGui::Text("Mouse down:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 

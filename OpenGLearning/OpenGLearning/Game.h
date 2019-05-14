@@ -61,6 +61,8 @@ private:
 	glm::mat4 ProjectionMatrix;
 	glm::vec2 NormalizedDeviceCoordinates;
 	glm::vec3 worldSpace;
+	// Location of the ray when it hits the ground
+	glm::vec3 SpaceLoc;
 	float fov;
 	float nearPlane;
 	float farPlane;
