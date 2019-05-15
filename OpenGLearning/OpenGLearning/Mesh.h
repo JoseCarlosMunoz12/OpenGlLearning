@@ -8,6 +8,8 @@
 #include "Texture.h"
 #include "Material.h"
 #include "Primitive.h"
+#include "Collision.h"
+
 class Mesh
 {
 private:
@@ -24,6 +26,7 @@ private:
 	glm::vec3 scale;
 	glm::vec3 origin;
 	glm::mat4 ModelMatrix;
+	Collision MeshCollisionBox;
 
 	void InitVAO()
 	{

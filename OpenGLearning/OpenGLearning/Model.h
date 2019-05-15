@@ -12,10 +12,6 @@ private:
 	std::vector<Texture*> Tex;
 	std::vector<Mesh*> meshes;
 	glm::vec3 Position;
-	void updatePosition(glm::vec3 NewPosition)
-	{
-		this->Position = NewPosition;
-	}
 	void updateUniform()
 	{
 
