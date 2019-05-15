@@ -15,11 +15,9 @@
 class Collision
 {
 private:
-	Vertex* VertexOfMesh;
 	float XHighest, XLowest,
 		YHighest, YLowest,
 		ZHighest, ZLowest;
-
 public:
 	Collision()
 	{

@@ -123,6 +123,7 @@ public:
 
 		this->InitVAO();
 		this->updateModelMatrix();
+		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 
 	Mesh(Vertex* VertexArray, 
@@ -152,7 +153,7 @@ public:
 		}
 		this->InitVAO();
 		this->updateModelMatrix();
-	
+		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 
 	Mesh(const Mesh& obj)
@@ -176,7 +177,7 @@ public:
 		}
 		this->InitVAO();
 		this->updateModelMatrix();
-
+		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 
 	~Mesh()
