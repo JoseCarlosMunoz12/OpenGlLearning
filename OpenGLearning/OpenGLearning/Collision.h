@@ -80,8 +80,15 @@ public:
 		this->ZHighest += position.z;
 		this->ZLowest += position.z;
 	}
+	void ShowPos()
+	{
+		std::cout << this->XHighest << " " << this->XLowest <<"\n";
+		std::cout << this->YHighest << " " << this->YLowest << "\n";
+		std::cout << this->ZHighest << " " << this->ZLowest << "\n";
+	}
 	bool CheckForCollision(glm::vec3 RayPos)
 	{
+
 		return false;
 	}
 };

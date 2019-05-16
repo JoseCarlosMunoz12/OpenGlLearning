@@ -16,6 +16,10 @@ private:
 	{
 
 	}
+	void updateCollision(glm::vec3 Collisiontest)
+	{
+		meshes[0]->Update(Collisiontest);
+	}
 public:
 	Model(glm::vec3 position, Material* material, Texture* orTexDif, Texture* orTexSpec,std::vector<Mesh*> meshes)
 	{
@@ -88,9 +92,9 @@ public:
 			i->rotate(rotation);
 		}
 	}
-	void update()
+	void update(glm::vec3 CollisionTest)
 	{
-
+		this->updateCollision(CollisionTest);
 	}
 
 	void CheckForIntersection()

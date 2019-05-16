@@ -482,6 +482,11 @@ void Game::update()
 	this->updateDT();
 	this->updateInput();
 	this->ImGuiOptions();
+	for (auto& ii : this->models)
+	{
+		ii->update(glm::vec3(1.f,1.f,1.f));
+
+	}
 }
 
 void Game::render()

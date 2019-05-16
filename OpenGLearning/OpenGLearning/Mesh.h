@@ -124,6 +124,7 @@ public:
 		this->InitVAO();
 		this->updateModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
+		this->MeshCollisionBox.ShowPos();
 	}
 
 	Mesh(Vertex* VertexArray, 
@@ -145,6 +146,7 @@ public:
 		for (size_t i = 0; i < nrOfVertices; i++)
 		{
 			this->vertexArray[i] = VertexArray[i];
+			VertexTofind.push_back(vertexArray[i]);
 		}
 		this->indexArray = new GLuint[this->nrOfIndices];
 		for (size_t i = 0; i < nrOfIndices; i++)
@@ -169,6 +171,7 @@ public:
 		for (size_t i = 0; i < nrOfVertices; i++)
 		{
 			this->vertexArray[i] = obj.vertexArray[i];
+			VertexTofind.push_back(vertexArray[i]);
 		}
 		this->indexArray = new GLuint[this->nrOfIndices];
 		for (size_t i = 0; i < nrOfIndices; i++)
@@ -214,6 +217,7 @@ public:
 	void move(const glm::vec3 position)
 	{
 		this->position += position;
+		this->MeshCollisionBox.UpdateBoxPos(position);
 	}
 	void rotate(const glm::vec3 rotation)
 	{
@@ -224,9 +228,9 @@ public:
 		this->scale += rescale;
 	}
 
-	void Update()
+	void Update(glm::vec3 RayPos)
 	{
-
+		this->MeshCollisionBox.CheckForCollision(RayPos);
 	}
 
 	glm::mat4 ReturnModelMatrix()
