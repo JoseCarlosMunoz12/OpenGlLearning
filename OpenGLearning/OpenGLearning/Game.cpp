@@ -68,7 +68,7 @@ void Game::initMatrices()
 	this->ProjectionMatrix = glm::mat4(1.f);
 
 	this->ProjectionMatrix = glm::perspective(glm::radians(this->fov),
-		static_cast<float>(this->frameBufferWidth) / this->frameBufferHeight,
+		static_cast<float>(this->frameBufferWidth) / static_cast<float>(this->frameBufferHeight),
 		this->nearPlane,
 		this->farPlane);
 
@@ -237,13 +237,12 @@ void Game::updateMouseInput()
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (this->MakeMesh)
 	{
-		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / this->Window_Width) - 1.f;
-		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / this->Window_Height);
+		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->Window_Width)) - 1.f;
+		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->Window_Height));
 		glm::mat4 inVP = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
 		glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,1.f,1.f);
 		glm::vec4 worldPos = inVP * screenPos;
-		this->worldSpace = glm::vec3(worldPos);
-		this->worldSpace = glm::normalize(this->worldSpace);
+		this->worldSpace = glm::normalize(glm::vec3(worldPos));
 		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 		{
 			glm::vec3 MousePosition = this->camera.getPosition();
@@ -253,23 +252,18 @@ void Game::updateMouseInput()
 
 		}
 	}
-
-	if (!glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
-	{
-		this->mouseOffsetX = this->MouseX - this->lastMouseX;
-		this->mouseOffsetY = this->lastMouseY - this->MouseY;
-		//Set last X and Y
-	}
-
+	
 	if (this->firstMouse)
 	{
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
 		this->firstMouse = false;
 	}
+	//Calc offset
+		this->mouseOffsetX = this->MouseX - this->lastMouseX;
+		this->mouseOffsetY = this->lastMouseY - this->MouseY;
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
-	//Calc offset
 }
 
 void Game::updateInput()
@@ -296,6 +290,7 @@ void Game::ImGuiOptions()
 		ImGui::Text("%g,%g", this->NormalizedDeviceCoordinates.x, this->NormalizedDeviceCoordinates.y);
 		ImGui::Text("%g,%g,%g", this->worldSpace.x, this->worldSpace.y,this->worldSpace.z);
 		glm::vec3 GetMousePosition = this->camera.getPosition();
+		ImGui::Text("%g,%g,%g", GetMousePosition.x, GetMousePosition.y, GetMousePosition.z);
 		ImGui::Text("%g,%g,%g", this->SpaceLoc.x, this->SpaceLoc.y, this->SpaceLoc.z);
 
 		ImGui::Text("Mouse down:");
@@ -350,7 +345,7 @@ void Game::updateUniforms()
 	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
 	this->ProjectionMatrix = glm::mat4(1.f);
 	this->ProjectionMatrix = glm::perspective(glm::radians(this->fov),
-		static_cast<float>(this->frameBufferWidth) / this-> frameBufferHeight,
+		static_cast<float>(this->frameBufferWidth) / static_cast<float>(this-> frameBufferHeight),
 		this->nearPlane,
 		this->farPlane);
 	for (auto& ii : this->shaders)
@@ -391,7 +386,7 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
+	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,-1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 {
 	
@@ -402,7 +397,7 @@ Game::Game(const char * title,
 		
 	this-> camPosition = glm::vec3(0.f, 0.f, 1.f);
 	this-> worldUp = glm::vec3(0.f, 1.f, 0.f);
-	this-> camFront = glm::vec3(0.f, 0.f, -1.f);
+	this-> camFront = glm::vec3(0.f, 0.f, 1.f);
 
 
 	this-> fov = 90.f;

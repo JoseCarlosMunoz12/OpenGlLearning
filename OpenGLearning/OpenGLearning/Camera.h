@@ -47,7 +47,7 @@ private:
 
 public:
 	Camera(glm::vec3 position, glm::vec3 direction, glm::vec3 worldUp)
-		:front(1.f)
+		:front(-1.f)
 	{
 		this->ViewMatrix = glm::mat4(1.f);
 		this->movementSpeed = 3.f;
@@ -59,7 +59,7 @@ public:
 		this->up = worldUp;
 
 		this->pitch = 0.f;
-		this->yaw =-90.f;
+		this->yaw = -90.f;
 		this->roll = 0.f;
 
 		this->UpdateCameraVectors();
