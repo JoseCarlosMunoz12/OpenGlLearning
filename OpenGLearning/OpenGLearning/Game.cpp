@@ -251,9 +251,11 @@ void Game::updateMouseInput()
 			this->SpaceLoc.z = -1 * ( MousePosition.y * this->worldSpace.z / this->worldSpace.y  - MousePosition.z);
 
 		}
+		
 	}
-	
-	if (this->firstMouse)
+	else
+	{
+if (this->firstMouse)
 	{
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
@@ -264,6 +266,9 @@ void Game::updateMouseInput()
 		this->mouseOffsetY = this->lastMouseY - this->MouseY;
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
+	}
+	
+	
 }
 
 void Game::updateInput()
@@ -386,7 +391,7 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,-1.f),glm::vec3(0.f,1.f,0.f)),
+	camera(glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 {
 	
@@ -397,7 +402,7 @@ Game::Game(const char * title,
 		
 	this-> camPosition = glm::vec3(0.f, 0.f, 1.f);
 	this-> worldUp = glm::vec3(0.f, 1.f, 0.f);
-	this-> camFront = glm::vec3(0.f, 0.f, 1.f);
+	this-> camFront = glm::vec3(0.f, 0.f, -1.f);
 
 
 	this-> fov = 90.f;
@@ -477,11 +482,12 @@ void Game::update()
 	this->updateDT();
 	this->updateInput();
 	this->ImGuiOptions();
-	for (auto& ii : this->models)
+	if (this->MakeMesh)
 	{
-		ii->update(glm::vec3(1.f,1.f,1.f));
 
+	this->models[2]->update(glm::vec3(1.f,1.f,1.f),SpaceLoc);
 	}
+
 }
 
 void Game::render()

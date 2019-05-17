@@ -92,9 +92,13 @@ public:
 			i->rotate(rotation);
 		}
 	}
-	void update(glm::vec3 CollisionTest)
+	void update(glm::vec3 CollisionTest,glm::vec3 newPos)
 	{
 		this->updateCollision(CollisionTest);
+		for (auto& ii : this->meshes)
+		{
+			ii->setPosition(newPos);
+		}
 	}
 
 	void CheckForIntersection()

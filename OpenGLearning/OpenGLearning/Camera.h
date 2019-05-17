@@ -47,7 +47,6 @@ private:
 
 public:
 	Camera(glm::vec3 position, glm::vec3 direction, glm::vec3 worldUp)
-		:front(-1.f)
 	{
 		this->ViewMatrix = glm::mat4(1.f);
 		this->movementSpeed = 3.f;
