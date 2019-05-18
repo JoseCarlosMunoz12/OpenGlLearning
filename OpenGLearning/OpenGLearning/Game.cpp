@@ -239,8 +239,9 @@ void Game::updateMouseInput()
 	{
 		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->Window_Width)) - 1.f;
 		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->Window_Height));
-		glm::mat4 inVP = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
 		glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,1.f,1.f);
+
+		glm::mat4 inVP = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
 		glm::vec4 worldPos = inVP * screenPos;
 		this->worldSpace = glm::normalize(glm::vec3(worldPos));
 		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
@@ -297,7 +298,7 @@ void Game::ImGuiOptions()
 		glm::vec3 GetMousePosition = this->camera.getPosition();
 		ImGui::Text("%g,%g,%g", GetMousePosition.x, GetMousePosition.y, GetMousePosition.z);
 		ImGui::Text("%g,%g,%g", this->SpaceLoc.x, this->SpaceLoc.y, this->SpaceLoc.z);
-
+		ImGui::Text("%f",cos(glm::radians(-90.f)));		
 		ImGui::Text("Mouse down:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
 			if (io.MouseDownDuration[i] >= 0.0f)
@@ -391,7 +392,7 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
+	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
 	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
 {
 	
