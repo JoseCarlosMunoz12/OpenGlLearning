@@ -239,11 +239,15 @@ void Game::updateMouseInput()
 	{
 		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->Window_Width)) - 1.f;
 		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->Window_Height));
-		glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,1.f,1.f);
-
-		glm::mat4 inVP = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
-		glm::vec4 worldPos = inVP * screenPos;
-		this->worldSpace = glm::normalize(glm::vec3(worldPos));
+		glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,-1.f,1.f);
+		glm::vec4 ray_eye = glm::inverse(this->ProjectionMatrix) * screenPos;
+		ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1, 0);
+		glm::vec4 temp = glm::inverse(this->ViewMatrix) * ray_eye;
+		this->worldSpace = glm::vec3(temp.x, temp.y, temp.z);
+		this->worldSpace = glm::normalize(this->worldSpace);
+		//glm::mat4 inVP = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
+		//glm::vec4 worldPos = inVP * screenPos;
+		//this->worldSpace = glm::normalize(glm::vec3(worldPos));
 		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 		{
 			glm::vec3 MousePosition = this->camera.getPosition();
@@ -401,13 +405,13 @@ Game::Game(const char * title,
 	this->frameBufferHeight = this->Window_Height;
 	this->frameBufferWidth = this->Window_Width;
 		
-	this-> camPosition = glm::vec3(0.f, 0.f, 1.f);
+	this-> camPosition = glm::vec3(0.f, 1.f, 0.f);
 	this-> worldUp = glm::vec3(0.f, 1.f, 0.f);
-	this-> camFront = glm::vec3(0.f, 0.f, -1.f);
+	this-> camFront = glm::vec3(0.f, 0.f,-1.f);
 
 
 	this-> fov = 90.f;
-	this-> nearPlane = 0.1f;
+	this-> nearPlane = .1f;
 	this-> farPlane = 1000.f;
 	
 	this->dt = 0.f;
