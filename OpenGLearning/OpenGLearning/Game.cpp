@@ -237,8 +237,8 @@ void Game::updateMouseInput()
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (this->MakeMesh)
 	{
-		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->Window_Width)) - 1.f;
-		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->Window_Height));
+		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->frameBufferWidth)) - 1.f;
+		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->frameBufferHeight));
 		glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,-1.f,1.f);
 		glm::vec4 ray_eye = glm::inverse(this->ProjectionMatrix) * screenPos;
 		ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1, 0);
@@ -260,7 +260,7 @@ void Game::updateMouseInput()
 	}
 	else
 	{
-if (this->firstMouse)
+	if (this->firstMouse)
 	{
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
@@ -272,8 +272,6 @@ if (this->firstMouse)
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
 	}
-	
-	
 }
 
 void Game::updateInput()
@@ -295,14 +293,7 @@ void Game::ImGuiOptions()
 		static float XPosition, YPosition;
 		ImGui::Begin("Hello, world!");
 		ImGui::SliderFloat("X position of the Tree",&XPosition,-40,40);
-		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40); 
-		ImGui::Text("%g,%g",io.MousePos.x, io.MousePos.y);
-		ImGui::Text("%g,%g", this->NormalizedDeviceCoordinates.x, this->NormalizedDeviceCoordinates.y);
-		ImGui::Text("%g,%g,%g", this->worldSpace.x, this->worldSpace.y,this->worldSpace.z);
-		glm::vec3 GetMousePosition = this->camera.getPosition();
-		ImGui::Text("%g,%g,%g", GetMousePosition.x, GetMousePosition.y, GetMousePosition.z);
-		ImGui::Text("%g,%g,%g", this->SpaceLoc.x, this->SpaceLoc.y, this->SpaceLoc.z);
-		ImGui::Text("%f",cos(glm::radians(-90.f)));		
+		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40); 	
 		ImGui::Text("Mouse down:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
 			if (io.MouseDownDuration[i] >= 0.0f)
