@@ -245,9 +245,6 @@ void Game::updateMouseInput()
 		glm::vec4 temp = glm::inverse(this->ViewMatrix) * ray_eye;
 		this->worldSpace = glm::vec3(temp.x, temp.y, temp.z);
 		this->worldSpace = glm::normalize(this->worldSpace);
-		//glm::mat4 inVP = glm::inverse(this->ProjectionMatrix * this->ViewMatrix);
-		//glm::vec4 worldPos = inVP * screenPos;
-		//this->worldSpace = glm::normalize(glm::vec3(worldPos));
 		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 		{
 			glm::vec3 MousePosition = this->camera.getPosition();
@@ -328,6 +325,7 @@ void Game::ImGuiOptions()
 			}
 		}
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		
 		ImGui::End();
 	}
 }
@@ -473,17 +471,10 @@ void Game::setWindowShouldClose()
 //Functions
 void Game::update()
 {
-
 	//Update Input---
 	this->updateDT();
 	this->updateInput();
 	this->ImGuiOptions();
-	if (this->MakeMesh)
-	{
-
-	this->models[2]->update(glm::vec3(1.f,1.f,1.f),SpaceLoc);
-	}
-
 }
 
 void Game::render()
