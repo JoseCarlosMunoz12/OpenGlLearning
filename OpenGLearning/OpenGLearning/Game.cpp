@@ -121,6 +121,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(
 			&CustomTerrain(800, 800),
+			"Terrain",
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
@@ -128,6 +129,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("Images/stall.obj"),
+			"StallImage" + 0,
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
@@ -135,6 +137,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("Images/tree.obj"),
+			"Tree",
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
@@ -251,9 +254,13 @@ void Game::updateMouseInput()
 			this->SpaceLoc.x = -1 * ( MousePosition.y * this->worldSpace.x /this->worldSpace.y - MousePosition.x );
 			this->SpaceLoc.y = 0;
 			this->SpaceLoc.z = -1 * ( MousePosition.y * this->worldSpace.z / this->worldSpace.y  - MousePosition.z);
-
 		}
-		
+		static int oldState = GLFW_RELEASE;
+		int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
+		if (newState == GLFW_RELEASE && oldState == GLFW_PRESS) {
+			std::cout << "clicked!\n";
+		}
+		oldState = newState;
 	}
 	else
 	{
@@ -269,6 +276,13 @@ void Game::updateMouseInput()
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
 	}
+	static int oldState = GLFW_RELEASE;
+	int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
+	if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
+	{
+		std::cout << "clicked!\n";
+	}
+	oldState = newState;
 }
 
 void Game::updateInput()
@@ -298,12 +312,19 @@ void Game::ImGuiOptions()
 				ImGui::SameLine();
 				ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]);
 			}
+		ImGui::Text("Mouse clicked:");
+		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
+			if (ImGui::IsMouseClicked(i))
+			{ 
+				ImGui::SameLine(); ImGui::Text("b%d", i); 
+			}
 		if (ImGui::Button("Create Trees Randomly"))
 		{
 			if (meshes.size() < 2)
 				{
 					meshes.push_back(
 						new Mesh(&CustomObject("Images/tree.obj"),
+							"StallImage" + 1 ,
 							glm::vec3(0.f),
 							glm::vec3(0.f),
 							glm::vec3(0.f),
