@@ -257,8 +257,24 @@ void Game::updateMouseInput()
 		}
 		static int oldState = GLFW_RELEASE;
 		int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
-		if (newState == GLFW_RELEASE && oldState == GLFW_PRESS) {
-			std::cout << "clicked!\n";
+		if (newState == GLFW_RELEASE && oldState == GLFW_PRESS) 
+		{
+			if (meshes.size() < 2)
+			{
+				meshes.push_back(
+					new Mesh(&CustomObject("Images/tree.obj"),
+						"StallImage" + 1,
+						glm::vec3(0.f),
+						glm::vec3(0.f),
+						glm::vec3(0.f),
+						glm::vec3(1.f)));
+			}
+			this->models.push_back(new Model(
+				glm::vec3(this->SpaceLoc.x, 0.f, this->SpaceLoc.z),
+				this->materials[0],
+				this->textures[12],
+				this->textures[12],
+				meshes[2]));
 		}
 		oldState = newState;
 	}
@@ -276,13 +292,6 @@ void Game::updateMouseInput()
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
 	}
-	static int oldState = GLFW_RELEASE;
-	int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
-	if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
-	{
-		std::cout << "clicked!\n";
-	}
-	oldState = newState;
 }
 
 void Game::updateInput()
@@ -306,18 +315,24 @@ void Game::ImGuiOptions()
 		ImGui::SliderFloat("X position of the Tree",&XPosition,-40,40);
 		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40); 	
 		ImGui::Text("Mouse down:");
-		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) 
+		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
+		{
 			if (io.MouseDownDuration[i] >= 0.0f)
 			{ 
 				ImGui::SameLine();
 				ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]);
 			}
+
+		}			
 		ImGui::Text("Mouse clicked:");
 		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
+		{
 			if (ImGui::IsMouseClicked(i))
 			{ 
 				ImGui::SameLine(); ImGui::Text("b%d", i); 
 			}
+		}
+			
 		if (ImGui::Button("Create Trees Randomly"))
 		{
 			if (meshes.size() < 2)
