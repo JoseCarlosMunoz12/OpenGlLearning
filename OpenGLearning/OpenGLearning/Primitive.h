@@ -443,7 +443,7 @@ private:
 class CustomObject : public Primitive
 {
 public:
-	CustomObject(const char* filename)
+	CustomObject(const char* fileScreenPos)
 		:Primitive()
 	{
 		//Variables to Get info from the obj file
@@ -458,7 +458,7 @@ public:
 		std::vector<Vertex> VertexFound;
 		std::vector<GLuint> IndecesFound;
 		//Opens Obj File
-		in_file.open(filename);
+		in_file.open(fileScreenPos);
 		//Searches the obj file and get all neccesssary info
 		if (in_file.is_open())
 		{

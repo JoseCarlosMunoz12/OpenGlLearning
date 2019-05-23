@@ -4,7 +4,7 @@
 // You can use ImGui::SetAllocatorFunctions() before calling ImGui::CreateContext() to rewire memory allocation functions.
 //-----------------------------------------------------------------------------
 // A) You may edit imconfig.h (and not overwrite it when updating imgui, or maintain a patch/branch with your modifications to imconfig.h)
-// B) or add configuration directives in your own file and compile with #define IMGUI_USER_CONFIG "myfilename.h"
+// B) or add configuration directives in your own file and compile with #define IMGUI_USER_CONFIG "myfileScreenPos.h"
 // If you do so you need to make sure that configuration settings are defined consistently _everywhere_ dear imgui is used, which include
 // the imgui*.cpp files but also _any_ of your code that uses imgui. This is because some compile-time options have an affect on data structures.
 // Defining those options in imconfig.h will ensure every compilation unit gets to see the same data structure layouts.
@@ -21,7 +21,7 @@
 //#define IMGUI_API __declspec( dllexport )
 //#define IMGUI_API __declspec( dllimport )
 
-//---- Don't define obsolete functions/enums names. Consider enabling from time to time after updating to avoid using soon-to-be obsolete function/names.
+//---- Don't define obsolete functions/enums ScreenPoss. Consider enabling from time to time after updating to avoid using soon-to-be obsolete function/ScreenPoss.
 //#define IMGUI_DISABLE_OBSOLETE_FUNCTIONS
 
 //---- Don't implement demo windows functionality (ShowDemoWindow()/ShowStyleEditor()/ShowUserGuide() methods will be empty)
@@ -42,10 +42,10 @@
 //---- Pack colors to BGRA8 instead of RGBA8 (to avoid converting from one to another)
 //#define IMGUI_USE_BGRA_PACKED_COLOR
 
-//---- Avoid multiple STB libraries implementations, or redefine path/filenames to prioritize another version
+//---- Avoid multiple STB libraries implementations, or redefine path/fileScreenPoss to prioritize another version
 // By default the embedded implementations are declared static and not available outside of imgui cpp files.
-//#define IMGUI_STB_TRUETYPE_FILENAME   "my_folder/stb_truetype.h"
-//#define IMGUI_STB_RECT_PACK_FILENAME  "my_folder/stb_rect_pack.h"
+//#define IMGUI_STB_TRUETYPE_FILEScreenPos   "my_folder/stb_truetype.h"
+//#define IMGUI_STB_RECT_PACK_FILEScreenPos  "my_folder/stb_rect_pack.h"
 //#define IMGUI_DISABLE_STB_TRUETYPE_IMPLEMENTATION
 //#define IMGUI_DISABLE_STB_RECT_PACK_IMPLEMENTATION
 
@@ -64,10 +64,10 @@
 //---- Use 32-bit vertex indices (default is 16-bit) to allow meshes with more than 64K vertices. Render function needs to support it.
 //#define ImDrawIdx unsigned int
 
-//---- Tip: You can add extra functions within the ImGui:: namespace, here or in your own headers files.
+//---- Tip: You can add extra functions within the ImGui:: ScreenPosspace, here or in your own headers files.
 /*
-namespace ImGui
+ScreenPosspace ImGui
 {
-    void MyFunction(const char* name, const MyMatrix44& v);
+    void MyFunction(const char* ScreenPos, const MyMatrix44& v);
 }
 */

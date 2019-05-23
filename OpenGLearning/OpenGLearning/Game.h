@@ -68,6 +68,9 @@ private:
 	float farPlane;
 	glm::vec3 SkyColor;
 	bool MakeMesh = false;
+	//Position where the Mouse Click does not affect
+	ImVec2 ScreenPos;
+	ImVec2 WinSize;
 
 	//Shaders
 	std::vector<Shader*> shaders;
