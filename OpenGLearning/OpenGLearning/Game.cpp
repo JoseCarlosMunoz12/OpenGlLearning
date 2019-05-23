@@ -238,45 +238,60 @@ void Game::updateKeyboardInput()
 void Game::updateMouseInput()
 {
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
-	if (false)
+	if (this->MakeMesh)
 	{
-		this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->frameBufferWidth)) - 1.f;
-		this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->frameBufferHeight));
-		glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,-1.f,1.f);
-		glm::vec4 ray_eye = glm::inverse(this->ProjectionMatrix) * screenPos;
-		ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1, 0);
-		glm::vec4 temp = glm::inverse(this->ViewMatrix) * ray_eye;
-		this->worldSpace = glm::vec3(temp.x, temp.y, temp.z);
-		this->worldSpace = glm::normalize(this->worldSpace);
-		if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+		if (this->MouseX > this->ScreenPos.x && this->MouseX < this->WinSize.x
+			&&
+			this->MouseY > this->ScreenPos.y && this->MouseY < this->WinSize.y)
 		{
-			glm::vec3 MousePosition = this->camera.getPosition();
-			this->SpaceLoc.x = -1 * ( MousePosition.y * this->worldSpace.x /this->worldSpace.y - MousePosition.x );
-			this->SpaceLoc.y = 0;
-			this->SpaceLoc.z = -1 * ( MousePosition.y * this->worldSpace.z / this->worldSpace.y  - MousePosition.z);
+			std::cout << "in\n";
+
 		}
-		static int oldState = GLFW_RELEASE;
-		int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
-		if (newState == GLFW_RELEASE && oldState == GLFW_PRESS) 
+		else
 		{
-			if (meshes.size() < 2)
+			std::cout << "out\n";
+		}
+		if (false)
+		{
+			this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->frameBufferWidth)) - 1.f;
+			this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->frameBufferHeight));
+			glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,-1.f,1.f);
+			glm::vec4 ray_eye = glm::inverse(this->ProjectionMatrix) * screenPos;
+			ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1, 0);
+			glm::vec4 temp = glm::inverse(this->ViewMatrix) * ray_eye;
+			this->worldSpace = glm::vec3(temp.x, temp.y, temp.z);
+			this->worldSpace = glm::normalize(this->worldSpace);
+			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{
-				meshes.push_back(
-					new Mesh(&CustomObject("Images/tree.obj"),
-						"StallImage" + 1,
-						glm::vec3(0.f),
-						glm::vec3(0.f),
-						glm::vec3(0.f),
-						glm::vec3(1.f)));
+				glm::vec3 MousePosition = this->camera.getPosition();
+				this->SpaceLoc.x = -1 * ( MousePosition.y * this->worldSpace.x /this->worldSpace.y - MousePosition.x );
+				this->SpaceLoc.y = 0;
+				this->SpaceLoc.z = -1 * ( MousePosition.y * this->worldSpace.z / this->worldSpace.y  - MousePosition.z);
 			}
-			this->models.push_back(new Model(
-				glm::vec3(this->SpaceLoc.x, 0.f, this->SpaceLoc.z),
-				this->materials[0],
-				this->textures[12],
-				this->textures[12],
-				meshes[2]));
-		}
+			static int oldState = GLFW_RELEASE;
+			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
+			if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
+			{
+				if (meshes.size() < 2)
+				{
+					meshes.push_back(
+						new Mesh(&CustomObject("Images/tree.obj"),
+							"StallImage" + 1,
+							glm::vec3(0.f),
+							glm::vec3(0.f),
+							glm::vec3(0.f),
+							glm::vec3(1.f)));
+				}
+				this->models.push_back(new Model(
+					glm::vec3(this->SpaceLoc.x, 0.f, this->SpaceLoc.z),
+					this->materials[0],
+					this->textures[12],
+					this->textures[12],
+					meshes[2]));
+			}
 		oldState = newState;
+		}
+		
 	}
 	else
 	{
@@ -309,11 +324,13 @@ void Game::updateInput()
 void Game::ImGuiOptions()
 {
 	ImGui::Begin("Test #1490, v2");
-	this->ScreenPos = ImGui::GetCursorScreenPos();
-	this->WinSize = ImGui::GetWindowSize();
+	this->ScreenPos.x = ImGui::GetCursorScreenPos().x -.8f;
+	this->ScreenPos.y = ImGui::GetCursorScreenPos().y - 27.f;
+	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x;
+	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y;
 	ImGui::Text("Screen Position");
 	ImGui::SameLine();
-	ImGui::Text("%f,%f",(ScreenPos.x-8.f), (ScreenPos.y - 27.f));
+	ImGui::Text("%f,%f",ScreenPos.x,ScreenPos.y);
 	ImGui::Text("Screen Size");
 	ImGui::SameLine();
 	ImGui::Text("%f, %f",(WinSize.x),(WinSize.y));

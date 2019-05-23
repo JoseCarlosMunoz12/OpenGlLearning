@@ -71,7 +71,8 @@ private:
 	//Position where the Mouse Click does not affect
 	ImVec2 ScreenPos;
 	ImVec2 WinSize;
-
+	//Colors of the ImGui name
+	glm::vec3 ColorOfBackground = glm::vec3(1.f, 1.f, 1.f);
 	//Shaders
 	std::vector<Shader*> shaders;
 	//Textures
