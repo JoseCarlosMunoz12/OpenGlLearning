@@ -323,17 +323,12 @@ void Game::updateInput()
 
 void Game::ImGuiOptions()
 {
-	ImGui::Begin("Test #1490, v2");
+	ImGui::Begin("Added DifferentModels");
 	this->ScreenPos.x = ImGui::GetCursorScreenPos().x -.8f;
 	this->ScreenPos.y = ImGui::GetCursorScreenPos().y - 27.f;
 	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x;
 	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y;
-	ImGui::Text("Screen Position");
-	ImGui::SameLine();
-	ImGui::Text("%f,%f",ScreenPos.x,ScreenPos.y);
-	ImGui::Text("Screen Size");
-	ImGui::SameLine();
-	ImGui::Text("%f, %f",(WinSize.x),(WinSize.y));
+	
 	ImGui::End();
 	/*{
 		ImGuiIO& io = ImGui::GetIO();
