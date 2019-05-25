@@ -27,7 +27,7 @@ private:
 	glm::vec3 origin;
 	glm::mat4 ModelMatrix;
 	Collision MeshCollisionBox;
-	std::string ScreenPosOfMesh;
+	std::string NameOfMesh;
 
 	void InitVAO()
 	{
@@ -98,14 +98,14 @@ private:
 	}
 public:
 	Mesh(Primitive* primitive,
-		std::string ScreenPos,
+		std::string Name,
 		glm::vec3 position = glm::vec3(0.f),
 		glm::vec3 origin = glm::vec3(0.f),
 		glm::vec3 rotation = glm::vec3(0.f),
 		glm::vec3 scale = glm::vec3(1.f))
 	{
-		this->ScreenPosOfMesh = ScreenPos;
-		std::cout << ScreenPos << "\n";
+		this->NameOfMesh = Name;
+		std::cout << Name << "\n";
 		this->position = position;
 		this->origin = origin;
 		this->rotation = rotation;
@@ -132,7 +132,7 @@ public:
 	}
 
 	Mesh(Vertex* VertexArray,
-		std::string ScreenPos,
+		std::string Name,
 		const unsigned& nrOfVertices, GLuint* indexArray,
 		const unsigned& nrOfIndices,
 		glm::vec3 position = glm::vec3(0.f),
@@ -140,7 +140,7 @@ public:
 		glm::vec3 rotation = glm::vec3(0.f),
 		glm::vec3 scale = glm::vec3(1.f))
 	{
-		this->ScreenPosOfMesh = ScreenPos;
+		this->NameOfMesh = Name;
 		this->position = position;
 		this->origin = origin;
 		this->rotation = rotation;
@@ -170,7 +170,7 @@ public:
 		this->origin = obj.origin;
 		this->rotation = obj.rotation;
 		this->scale = obj.scale;
-		this->ScreenPosOfMesh = obj.ScreenPosOfMesh;
+		this->NameOfMesh = obj.NameOfMesh;
 		this->nrOfIndices = obj.nrOfIndices;
 		this->nrOfVertices = obj.nrOfVertices;
 		this->vertexArray = new Vertex[this->nrOfVertices];
@@ -266,9 +266,9 @@ public:
 		glActiveTexture(0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	std::string GiveScreenPos()
+	std::string GiveName()
 	{
-		return this->ScreenPosOfMesh;
+		return this->NameOfMesh;
 	}
 
 };

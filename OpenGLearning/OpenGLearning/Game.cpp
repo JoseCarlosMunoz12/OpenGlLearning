@@ -328,7 +328,21 @@ void Game::ImGuiOptions()
 	this->ScreenPos.y = ImGui::GetCursorScreenPos().y - 27.f;
 	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x;
 	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y;
-	
+	if (ImGui::TreeNode("Basic"))
+	{
+		int Count = 0;
+		for (auto& ii : this->meshes)
+		{
+			if(ImGui::Selectable(ii->GiveName().c_str(),this->TypeOfMesh == Count))
+			{
+				this->TypeOfMesh = Count;
+			}
+			Count += 1;
+		}
+
+		ImGui::TreePop();
+	}
+
 	ImGui::End();
 	/*{
 		ImGuiIO& io = ImGui::GetIO();
