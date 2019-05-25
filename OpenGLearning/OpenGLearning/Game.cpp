@@ -240,18 +240,24 @@ void Game::updateMouseInput()
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (this->MakeMesh)
 	{
+		//if (this->MouseX > this->ScreenPos.x && this->MouseX < this->WinSize.x
+		//	&&
+		//	this->MouseY > this->ScreenPos.y && this->MouseY < this->WinSize.y)
+		//{
+		//	std::cout << "in\n";
+
+		//}
+		//else
+		//{
+		//	std::cout << "out\n";
+		//}
 		if (this->MouseX > this->ScreenPos.x && this->MouseX < this->WinSize.x
 			&&
 			this->MouseY > this->ScreenPos.y && this->MouseY < this->WinSize.y)
 		{
-			std::cout << "in\n";
-
+			
 		}
 		else
-		{
-			std::cout << "out\n";
-		}
-		if (false)
 		{
 			this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->frameBufferWidth)) - 1.f;
 			this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->frameBufferHeight));
@@ -290,8 +296,7 @@ void Game::updateMouseInput()
 					meshes[2]));
 			}
 		oldState = newState;
-		}
-		
+		}		
 	}
 	else
 	{
@@ -342,6 +347,7 @@ void Game::ImGuiOptions()
 
 		ImGui::TreePop();
 	}
+	ImGui::Text("%i",this->models.size());
 
 	ImGui::End();
 	/*{
