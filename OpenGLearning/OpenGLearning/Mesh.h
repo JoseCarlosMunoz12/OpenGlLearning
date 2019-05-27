@@ -105,7 +105,6 @@ public:
 		glm::vec3 scale = glm::vec3(1.f))
 	{
 		this->NameOfMesh = Name;
-		std::cout << Name << "\n";
 		this->position = position;
 		this->origin = origin;
 		this->rotation = rotation;

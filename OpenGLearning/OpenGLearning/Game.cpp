@@ -349,7 +349,15 @@ void Game::ImGuiOptions()
 	}
 	if (ImGui::TreeNode("Get The Texture for each of the Models"))
 	{
-
+		for (auto& ii : this->models)
+		{
+			if (ImGui::TreeNode(ii->GetMeshes()[0]->GiveName().c_str()))
+			{
+				ImGui::Text("Temp");
+				ImGui::TreePop();
+			}
+			
+		}
 		ImGui::TreePop();
 	}
 
