@@ -240,17 +240,6 @@ void Game::updateMouseInput()
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (this->MakeMesh)
 	{
-		//if (this->MouseX > this->ScreenPos.x && this->MouseX < this->WinSize.x
-		//	&&
-		//	this->MouseY > this->ScreenPos.y && this->MouseY < this->WinSize.y)
-		//{
-		//	std::cout << "in\n";
-
-		//}
-		//else
-		//{
-		//	std::cout << "out\n";
-		//}
 		if (this->MouseX > this->ScreenPos.x && this->MouseX < this->WinSize.x
 			&&
 			this->MouseY > this->ScreenPos.y && this->MouseY < this->WinSize.y)
@@ -353,7 +342,10 @@ void Game::ImGuiOptions()
 		{
 			if (ImGui::TreeNode(ii->GetMeshes()[0]->GiveName().c_str()))
 			{
-				ImGui::Text("Temp");
+				for (auto& kk : ii->getTexture())
+				{
+					ImGui::Text(kk->GiveChar());
+				}
 				ImGui::TreePop();
 			}
 			
