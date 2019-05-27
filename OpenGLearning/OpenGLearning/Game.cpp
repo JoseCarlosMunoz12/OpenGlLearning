@@ -348,7 +348,6 @@ void Game::ImGuiOptions()
 				}
 				ImGui::TreePop();
 			}
-			
 		}
 		ImGui::TreePop();
 	}
