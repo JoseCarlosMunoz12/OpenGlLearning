@@ -143,5 +143,10 @@ public:
 			i->render(shader);
 		}
 	}
+	std::vector<Texture*> getTexture()
+	{
+		return this->Tex;
+	}
+
 };
 

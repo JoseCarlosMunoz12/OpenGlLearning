@@ -13,13 +13,13 @@ private:
 	int width;
 	int height;
 	unsigned int type;
-	const char* ScreenPos;
+	const char* Name;
 public:
-	Texture(const char* fileScreenPos, GLenum type)
+	Texture(const char* fileName, GLenum type)
 	{
 		this->type = type;
-		this->ScreenPos = fileScreenPos;
-		unsigned char* image = SOIL_load_image(fileScreenPos, &this->width, &this->height, NULL, SOIL_LOAD_RGBA);
+		this->Name = fileName;
+		unsigned char* image = SOIL_load_image(fileName, &this->width, &this->height, NULL, SOIL_LOAD_RGBA);
 
 		glGenTextures(1, &this->id);
 		glBindTexture(type, this->id);
@@ -36,7 +36,7 @@ public:
 		}
 		else
 		{
-			std::cout << "ERROR::TEXTURE::TEXTURE_LOADING_FAILED" << fileScreenPos << "\n";
+			std::cout << "ERROR::TEXTURE::TEXTURE_LOADING_FAILED" << fileName << "\n";
 		}
 		glActiveTexture(0);
 		glBindTexture(type, 0);
@@ -59,5 +59,9 @@ public:
 	{
 		glActiveTexture(0);
 		glBindTexture(this->type, 0);
+	}
+	const char* GiveChar()
+	{
+		return this->Name;
 	}
 };

@@ -347,8 +347,14 @@ void Game::ImGuiOptions()
 
 		ImGui::TreePop();
 	}
-	ImGui::Text("%i",this->models.size());
+	if (ImGui::TreeNode("Get The Texture for each of the Models"))
+	{
 
+		ImGui::TreePop();
+	}
+
+	ImGui::Text("%i",this->textures.size());
+	
 	ImGui::End();
 	/*{
 		ImGuiIO& io = ImGui::GetIO();
