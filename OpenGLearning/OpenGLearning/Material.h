@@ -20,6 +20,7 @@ private:
 	glm::vec3 specular;
 	glm::vec3 SkyColor;
 	std::vector<GLint> TexIndex;
+	const char* MatName;
 public:
 	Material(glm::vec3 SkyColor,glm::vec3 ambient,	glm::vec3 diffuse, glm::vec3 specular,
 			GLint diffuseTex, GLint specularTex)
@@ -59,5 +60,9 @@ public:
 		program.set1i(this->TexIndex[4], "Texture4");
 		program.setVec3f(this->SkyColor, "SkyColor");
 
+	}
+	const char* GetName()
+	{
+		this->MatName;
 	}
 };

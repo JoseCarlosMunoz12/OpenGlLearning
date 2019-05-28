@@ -327,7 +327,8 @@ void Game::ImGuiOptions()
 		int Count = 0;
 		for (size_t name = 1; name < 3; name++)
 		{
-			if (ImGui::Selectable(this->models[name]->GetMeshes()[0]->GiveName().c_str(), this->ModelToMake == Count))
+			Model* Temp = this->models[name];
+			if (ImGui::Selectable(Temp->GetMeshes()[0]->GiveName().c_str(), this->ModelToMake == Count))
 			{
 				this->ModelToMake = Count;
 			}
@@ -358,6 +359,8 @@ void Game::ImGuiOptions()
 
 	ImGui::Text("%i", this->textures.size());
 	ImGui::Text("%i", this->models.size());
+	ImGui::Text("%i", this->materials.size());
+	ImGui::Text("%i", this->meshes.size());
 
 	ImGui::End();
 }

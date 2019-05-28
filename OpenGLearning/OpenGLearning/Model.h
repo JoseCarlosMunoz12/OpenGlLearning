@@ -101,7 +101,6 @@ public:
 			ii->setPosition(newPos);
 		}
 	}
-
 	void CheckForIntersection()
 	{
 
@@ -144,6 +143,7 @@ public:
 			i->render(shader);
 		}
 	}
+	//Get the names for Tex, Mesh, Pos, and Material
 	std::vector<Texture*> getTexture()
 	{
 		return this->Tex;
@@ -151,6 +151,14 @@ public:
 	std::vector<Mesh*> GetMeshes()
 	{
 		return this->meshes;
+	}
+	glm::vec3 GetPosition()
+	{
+		return this->Position;
+	}
+	Material* Material()
+	{
+		return this->material;
 	}
 };
 
