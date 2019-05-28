@@ -337,9 +337,12 @@ void Game::ImGuiOptions()
 	}
 	if (ImGui::TreeNode("Get The Texture for each of the Models"))
 	{
+		int QuanModels = 0;
 		for (auto& ii : this->models)
 		{
-			if (ImGui::TreeNode(ii->GetMeshes()[0]->GiveName().c_str()))
+			std::string TempName = ii->GetMeshes()[0]->GiveName();
+			TempName.append(' ' + std::to_string(QuanModels)) ; 
+			if (ImGui::TreeNode(TempName.c_str()))
 			{
 				for (auto& kk : ii->getTexture())
 				{
@@ -347,6 +350,8 @@ void Game::ImGuiOptions()
 				}
 				ImGui::TreePop();
 			}
+			QuanModels++;
+
 		}
 		ImGui::TreePop();
 	}
