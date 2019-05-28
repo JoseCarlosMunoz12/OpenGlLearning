@@ -278,11 +278,11 @@ void Game::updateMouseInput()
 							glm::vec3(1.f)));
 				}
 				this->models.push_back(new Model(
-					glm::vec3(this->SpaceLoc.x, 0.f, this->SpaceLoc.z),
+					this->SpaceLoc,
 					this->materials[0],
 					this->textures[12],
 					this->textures[12],
-					meshes[2]));
+					this->meshes[2]));
 			}
 		oldState = newState;
 		}		
@@ -318,22 +318,21 @@ void Game::updateInput()
 void Game::ImGuiOptions()
 {
 	ImGui::Begin("Added DifferentModels");
-	this->ScreenPos.x = ImGui::GetCursorScreenPos().x -.8f;
+	this->ScreenPos.x = ImGui::GetCursorScreenPos().x - .8f;
 	this->ScreenPos.y = ImGui::GetCursorScreenPos().y - 27.f;
 	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x;
 	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y;
-	if (ImGui::TreeNode("Basic"))
+	if (ImGui::TreeNode("Model to make"))
 	{
 		int Count = 0;
-		for (auto& ii : this->meshes)
+		for (size_t name = 1; name < 3; name++)
 		{
-			if(ImGui::Selectable(ii->GiveName().c_str(),this->TypeOfMesh == Count))
+			if (ImGui::Selectable(this->models[name]->GetMeshes()[0]->GiveName().c_str(), this->ModelToMake == Count))
 			{
-				this->TypeOfMesh = Count;
+				this->ModelToMake = Count;
 			}
-			Count += 1;
+			Count++;
 		}
-
 		ImGui::TreePop();
 	}
 	if (ImGui::TreeNode("Get The Texture for each of the Models"))
@@ -352,65 +351,9 @@ void Game::ImGuiOptions()
 		ImGui::TreePop();
 	}
 
-	ImGui::Text("%i",this->textures.size());
-	
-	ImGui::End();
-	/*{
-		ImGuiIO& io = ImGui::GetIO();
-		static float XPosition, YPosition;
-		ImGui::Begin("Hello, world!");
-		ImGui::SliderFloat("X position of the Tree",&XPosition,-40,40);
-		ImGui::SliderFloat("Y position of the Tree",&YPosition,-40,40); 	
-		ImGui::Text("Mouse down:");
-		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
-		{
-			if (io.MouseDownDuration[i] >= 0.0f)
-			{ 
-				ImGui::SameLine();
-				ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]);
-			}
+	ImGui::Text("%i", this->textures.size());
 
-		}			
-		ImGui::Text("Mouse clicked:");
-		for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
-		{
-			if (ImGui::IsMouseClicked(i))
-			{ 
-				ImGui::SameLine(); ImGui::Text("b%d", i); 
-			}
-		}
-			
-		if (ImGui::Button("Create Trees Randomly"))
-		{
-			if (meshes.size() < 2)
-				{
-					meshes.push_back(
-						new Mesh(&CustomObject("Images/tree.obj"),
-							"StallImage" + 1 ,
-							glm::vec3(0.f),
-							glm::vec3(0.f),
-							glm::vec3(0.f),
-							glm::vec3(1.f)));
-				}
-			this->models.push_back(new Model(
-				glm::vec3(XPosition, 0.f, YPosition),
-				this->materials[0],
-				this->textures[12],
-				this->textures[12],
-				meshes[2]));
-		}
-			ImGui::Text("%d",models.size() - 2);
-		if (ImGui::Button("Destroy Last Tree Created"))
-		{
-			if (this->models.size() > 3)
-			{
-				models.pop_back();
-			}
-		}
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		
-		ImGui::End();
-	}*/
+	ImGui::End();
 }
 
 void Game::updateUniforms()

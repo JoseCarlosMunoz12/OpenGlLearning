@@ -79,18 +79,6 @@ public:
 			i->setOrigin(this->Position);
 		}
 	}
-	Model(Model* ModelReuse, glm::vec3 position)
-	{
-		this->Position = position;
-		this->material = ModelReuse->material;
-		this->Tex = ModelReuse->Tex;
-		this->meshes = ModelReuse->meshes;
-		for (auto& i : this->meshes)
-		{
-			i->move(this->Position);
-			i->setOrigin(this->Position);
-		}
-	}
 	~Model()
 	{
 		for (auto*& i: this->meshes)
