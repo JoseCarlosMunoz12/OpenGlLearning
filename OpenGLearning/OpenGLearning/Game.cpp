@@ -357,6 +357,7 @@ void Game::ImGuiOptions()
 	}
 
 	ImGui::Text("%i", this->textures.size());
+	ImGui::Text("%i", this->models.size());
 
 	ImGui::End();
 }
