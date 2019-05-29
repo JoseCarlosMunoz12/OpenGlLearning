@@ -110,10 +110,10 @@ void Game::initTextures()
 void Game::initMaterials()
 {
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1,"Material1"));
+		0,1,"Material 1"));
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1,"Material2"));
-	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4}, "Material3"));
+		0,1, "Material 2"));
+	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4},"Material 3"));
 }
 
 void Game::initModels()
@@ -328,11 +328,12 @@ void Game::ImGuiOptions()
 		for (size_t name = 1; name < 3; name++)
 		{
 			Model* Temp = this->models[name];
-			if (ImGui::Selectable(Temp->GetMeshes()[0]->GiveName().c_str(), this->ModelToMake == Count))
+			if (ImGui::Selectable(Temp->GetMeshes()[0]->GiveName(), this->ModelToMake == Count))
 			{
 				this->ModelToMake = Count;
 			}
 			Count++;
+
 		}
 		ImGui::TreePop();
 	}
@@ -353,6 +354,14 @@ void Game::ImGuiOptions()
 			}
 			QuanModels++;
 
+		}
+		ImGui::TreePop();
+	}
+	if (ImGui::TreeNode("Get Mat Names"))
+	{
+		for (auto& ii : this->materials)
+		{
+			ImGui::Text(ii->GetName());
 		}
 		ImGui::TreePop();
 	}

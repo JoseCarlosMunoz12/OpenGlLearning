@@ -265,9 +265,9 @@ public:
 		glActiveTexture(0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	std::string GiveName()
+	const char* GiveName()
 	{
-		return this->NameOfMesh;
+		return this->NameOfMesh.c_str();
 	}
 
 };

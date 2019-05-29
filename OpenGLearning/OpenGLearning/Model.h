@@ -12,7 +12,7 @@ private:
 	std::vector<Texture*> Tex;
 	std::vector<Mesh*> meshes;
 	glm::vec3 Position;
-	const char* Name;
+	const char* Name = "NameTest";
 	void updateUniform()
 	{
 
@@ -156,7 +156,7 @@ public:
 	{
 		return this->Position;
 	}
-	Material* Material()
+	Material* GetMaterial()
 	{
 		return this->material;
 	}
