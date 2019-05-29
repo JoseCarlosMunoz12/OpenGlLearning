@@ -360,11 +360,10 @@ void Game::ImGuiOptions()
 		{
 			if (ImGui::Selectable(ModelsFound->GetName(), this->ModelToMake == Count))
 			{
-
+				this->ModelToMake = Count;
 			}
 			Count++;
 		}
-		ImGui::Text("Temp");
 		ImGui::TreePop();
 	}
 	ImGui::Text("%i", this->textures.size());
