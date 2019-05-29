@@ -328,7 +328,6 @@ void Game::ImGuiOptions()
 	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y;
 	if (ImGui::TreeNode("Models information"))
 	{
-		int Count = 0;
 		for (auto& ModelCheck: this->models)
 		{
 			Model* Temp = ModelCheck;
@@ -354,7 +353,21 @@ void Game::ImGuiOptions()
 		}
 		ImGui::TreePop();
 	}
-
+	if (ImGui::TreeNode("Change Features of Chosen Model"))
+	{
+		int Count = 0;
+		if (ImGui::Selectable("Name",Count == this->ModelToMake))
+		{
+			Count = this->ModelToMake;
+		}
+		Count++;
+		if (ImGui::Selectable("Name", Count == this->ModelToMake))
+		{
+			Count = this->ModelToMake;
+		}
+		ImGui::Text("Temp");
+		ImGui::TreePop();
+	}
 	ImGui::Text("%i", this->textures.size());
 	ImGui::Text("%i", this->models.size());
 	ImGui::Text("%i", this->materials.size());
