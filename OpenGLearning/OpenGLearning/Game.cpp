@@ -356,14 +356,13 @@ void Game::ImGuiOptions()
 	if (ImGui::TreeNode("Change Features of Chosen Model"))
 	{
 		int Count = 0;
-		if (ImGui::Selectable("Name",Count == this->ModelToMake))
+		for (auto& ModelsFound : this->models)
 		{
-			Count = this->ModelToMake;
-		}
-		Count++;
-		if (ImGui::Selectable("Name", Count == this->ModelToMake))
-		{
-			Count = this->ModelToMake;
+			if (ImGui::Selectable(ModelsFound->GetName(), this->ModelToMake == Count))
+			{
+
+			}
+			Count++;
 		}
 		ImGui::Text("Temp");
 		ImGui::TreePop();

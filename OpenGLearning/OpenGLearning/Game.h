@@ -69,7 +69,7 @@ private:
 	glm::vec3 SkyColor;
 	bool MakeMesh = false;
 	//Variable that changes item to click
-	int ModelToMake = 0;
+	int ModelToMake = -1;
 	//Position where the Mouse Click does not affect
 	ImVec2 ScreenPos;
 	ImVec2 WinSize;
