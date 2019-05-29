@@ -22,8 +22,11 @@ private:
 		meshes[0]->Update(Collisiontest);
 	}
 public:
-	Model(glm::vec3 position, Material* material, Texture* orTexDif, Texture* orTexSpec,std::vector<Mesh*> meshes)
+	Model(glm::vec3 position, Material* material,
+		Texture* orTexDif, Texture* orTexSpec,
+		std::vector<Mesh*> meshes, const char* ModelName)
 	{
+		this->Name = ModelName;
 		this->Position = position;
 		this->material = material;
 		this->Tex.push_back(orTexDif);
@@ -39,8 +42,10 @@ public:
 		}
 	}
 	Model(glm::vec3 position, Material* material,
-		std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshes)
+		std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshes,
+		const char* ModelName)
 	{
+		this->Name = ModelName;
 		this->Position = position;
 		this->material = material;
 		this->Tex = orTexSpec;
@@ -54,8 +59,11 @@ public:
 			i->setOrigin(this->Position);
 		}
 	}
-	Model(glm::vec3 position, Material* material, Texture* orTexDif, Texture* orTexSpec, Mesh* meshesUse)
+	Model(glm::vec3 position, Material* material,
+		Texture* orTexDif, Texture* orTexSpec, Mesh* meshesUse,
+		const char* ModelName)
 	{
+		this->Name = ModelName;
 		this->Position = position;
 		this->material = material;
 		this->Tex.push_back(orTexDif);
@@ -67,8 +75,11 @@ public:
 			i->setOrigin(this->Position);
 		}
 	}
-	Model(glm::vec3 position, Material* material, std::vector<Texture*> orTexSpec, Mesh* meshesUse)
+	Model(glm::vec3 position, Material* material,
+		std::vector<Texture*> orTexSpec, Mesh* meshesUse,
+		const char* ModelName)
 	{
+		this->Name = ModelName;
 		this->Position = position;
 		this->material = material;
 		this->Tex = orTexSpec;

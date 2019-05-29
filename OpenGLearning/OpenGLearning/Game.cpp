@@ -146,19 +146,22 @@ void Game::initModels()
 		glm::vec3(0.f),
 		this->materials[TERRAIN_MAT],
 		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},		
-		meshes[0]));
+		meshes[0],
+		"Terrain"));
 	this->models.push_back(new Model(
 		glm::vec3(9.f, 0.f, 0.f),
 		this->materials[MAT_1],
 		this->textures[11],
 		this->textures[11],
-		meshes[1]));
+		meshes[1],
+		"Stall Image"));
 	this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 9.f),
 		this->materials[MAT_2],
 		this->textures[12],
 		this->textures[12],
-		meshes[2]));
+		meshes[2],
+		"Tree"));
 }
 
 void Game::initLights()
@@ -282,7 +285,8 @@ void Game::updateMouseInput()
 					this->materials[0],
 					this->textures[12],
 					this->textures[12],
-					this->meshes[2]));
+					this->meshes[2],
+					"New Tree"));
 			}
 		oldState = newState;
 		}		
@@ -325,9 +329,9 @@ void Game::ImGuiOptions()
 	if (ImGui::TreeNode("Models information"))
 	{
 		int Count = 0;
-		for (size_t name = 1; name < 3; name++)
+		for (auto& ModelCheck: this->models)
 		{
-			Model* Temp = this->models[name];
+			Model* Temp = ModelCheck;
 			Material* ModMat = Temp->GetMaterial();
 			glm::vec3 ModPos = Temp->GetPosition();
 			std::vector<Texture*> ModTex = Temp->getTexture();
@@ -336,9 +340,17 @@ void Game::ImGuiOptions()
 			{
 				ImGui::Text("Model Material Name = ");ImGui::SameLine();ImGui::Text(ModMat->GetName());
 				ImGui::Text("Model Position = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
+				ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ModMesh[0]->GiveName());
+				if (ImGui::TreeNode("Textures Used"))
+				{
+					for (auto& ii : ModTex)
+					{
+						ImGui::Text(ii->GiveChar());
+					}
+					ImGui::TreePop();
+				}
 				ImGui::TreePop();
 			}
-
 		}
 		ImGui::TreePop();
 	}
