@@ -322,46 +322,23 @@ void Game::ImGuiOptions()
 	this->ScreenPos.y = ImGui::GetCursorScreenPos().y - 27.f;
 	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x;
 	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y;
-	if (ImGui::TreeNode("Model to make"))
+	if (ImGui::TreeNode("Models information"))
 	{
 		int Count = 0;
 		for (size_t name = 1; name < 3; name++)
 		{
 			Model* Temp = this->models[name];
-			if (ImGui::Selectable(Temp->GetMeshes()[0]->GiveName(), this->ModelToMake == Count))
+			Material* ModMat = Temp->GetMaterial();
+			glm::vec3 ModPos = Temp->GetPosition();
+			std::vector<Texture*> ModTex = Temp->getTexture();
+			std::vector<Mesh*> ModMesh = Temp->GetMeshes();
+			if (ImGui::TreeNode(Temp->GetName()))
 			{
-				this->ModelToMake = Count;
-			}
-			Count++;
-
-		}
-		ImGui::TreePop();
-	}
-	if (ImGui::TreeNode("Get The Texture for each of the Models"))
-	{
-		int QuanModels = 0;
-		for (auto& ii : this->models)
-		{
-			std::string TempName = ii->GetMeshes()[0]->GiveName();
-			TempName.append(' ' + std::to_string(QuanModels)) ; 
-			if (ImGui::TreeNode(TempName.c_str()))
-			{
-				for (auto& kk : ii->getTexture())
-				{
-					ImGui::Text(kk->GiveChar());
-				}
+				ImGui::Text("Model Material Name = ");ImGui::SameLine();ImGui::Text(ModMat->GetName());
+				ImGui::Text("Model Position = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
 				ImGui::TreePop();
 			}
-			QuanModels++;
 
-		}
-		ImGui::TreePop();
-	}
-	if (ImGui::TreeNode("Get Mat Names"))
-	{
-		for (auto& ii : this->materials)
-		{
-			ImGui::Text(ii->GetName());
 		}
 		ImGui::TreePop();
 	}
