@@ -160,5 +160,8 @@ public:
 	{
 		return this->material;
 	}
+	const char* GetName()
+	{
+		return this->Name;
+	}
 };
-

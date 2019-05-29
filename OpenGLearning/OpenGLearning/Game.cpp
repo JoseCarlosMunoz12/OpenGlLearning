@@ -110,10 +110,10 @@ void Game::initTextures()
 void Game::initMaterials()
 {
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1));
+		0,1,"Material1"));
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1));
-	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4}));
+		0,1,"Material2"));
+	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4}, "Material3"));
 }
 
 void Game::initModels()

@@ -23,8 +23,9 @@ private:
 	const char* MatName;
 public:
 	Material(glm::vec3 SkyColor,glm::vec3 ambient,	glm::vec3 diffuse, glm::vec3 specular,
-			GLint diffuseTex, GLint specularTex)
+			GLint diffuseTex, GLint specularTex, const char* MaterialName)
 	{
+		this->MatName = MaterialName;
 		this-> SkyColor = SkyColor;
 		this->ambient = ambient;
 		this->diffuse = diffuse;
@@ -32,8 +33,10 @@ public:
 		this->TexIndex.push_back(diffuseTex);
 		this->TexIndex.push_back(specularTex);
 	}
-	Material(glm::vec3 SkyColor,std::vector<GLint> TexIndex)
+	Material(glm::vec3 SkyColor,std::vector<GLint> TexIndex,const char* MaterialName)
 	{
+		this->MatName = MaterialName;
+
 		this->TexIndex = TexIndex;
 		this->SkyColor = SkyColor;
 	}
