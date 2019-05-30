@@ -326,33 +326,6 @@ void Game::ImGuiOptions()
 	this->ScreenPos.y = ImGui::GetCursorScreenPos().y - 27.f;
 	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x;
 	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y;
-	if (ImGui::TreeNode("Models information"))
-	{
-		for (auto& ModelCheck: this->models)
-		{
-			Model* Temp = ModelCheck;
-			Material* ModMat = Temp->GetMaterial();
-			glm::vec3 ModPos = Temp->GetPosition();
-			std::vector<Texture*> ModTex = Temp->getTexture();
-			std::vector<Mesh*> ModMesh = Temp->GetMeshes();
-			if (ImGui::TreeNode(Temp->GetName()))
-			{
-				ImGui::Text("Model Material Name = ");ImGui::SameLine();ImGui::Text(ModMat->GetName());
-				ImGui::Text("Model Position = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
-				ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ModMesh[0]->GiveName());
-				if (ImGui::TreeNode("Textures Used"))
-				{
-					for (auto& ii : ModTex)
-					{
-						ImGui::Text(ii->GiveChar());
-					}
-					ImGui::TreePop();
-				}
-				ImGui::TreePop();
-			}
-		}
-		ImGui::TreePop();
-	}
 	if (ImGui::TreeNode("Change Features of Chosen Model"))
 	{
 		int Count = 0;
@@ -364,13 +337,29 @@ void Game::ImGuiOptions()
 			}
 			Count++;
 		}
+		ImGui::Spacing();
+		ImGui::Text("--Model Chosen--");
+		if (this->ModelToMake != -1)
+		{
+			ImGui::Text(this->models[this->ModelToMake]->GetName());
+			Material* ModMat = this->models[this->ModelToMake]->GetMaterial();
+			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
+			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
+			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
+			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
+			ImGui::Text("Model Position = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
+			ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ModMesh[0]->GiveName());
+			if (ImGui::TreeNode("Textures Used"))
+			{
+				for (auto& ii : ModTex)
+				{
+					ImGui::Text(ii->GiveChar());
+				}
+				ImGui::TreePop();
+			}
+		}
 		ImGui::TreePop();
 	}
-	ImGui::Text("%i", this->textures.size());
-	ImGui::Text("%i", this->models.size());
-	ImGui::Text("%i", this->materials.size());
-	ImGui::Text("%i", this->meshes.size());
-
 	ImGui::End();
 }
 
