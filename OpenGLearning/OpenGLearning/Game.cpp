@@ -109,11 +109,11 @@ void Game::initTextures()
 
 void Game::initMaterials()
 {
+	this->materials.push_back(new Material(SkyColor, glm::vec3(1.f), glm::vec3(1.f), glm::vec3(1.f),
+		0,1,"Material 1",0));
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1,"Material 1"));
-	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1, "Material 2"));
-	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4},"Material 3"));
+		0,1, "Material 2",1));
+	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4},"Material 3",2));
 }
 
 void Game::initModels()
@@ -334,6 +334,7 @@ void Game::ImGuiOptions()
 			if (ImGui::Selectable(ModelsFound->GetName(), this->ModelToMake == Count))
 			{
 				this->ModelToMake = Count;
+				this->MatIdTochange = ModelsFound->GetMaterial()->GetMatId();
 			}
 			Count++;
 		}
@@ -346,7 +347,11 @@ void Game::ImGuiOptions()
 			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
 			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
-			ImGui::Selectable(ModMat->GetName());
+			if(ImGui::Selectable(ModMat->GetName()))
+			{
+				this->ChangeType = true;
+				this->MatIdTochange = ModMat->GetMatId();
+			}
 			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
 			ImGui::Text("Model Position = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
 			ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ModMesh[0]->GiveName());
@@ -364,12 +369,17 @@ void Game::ImGuiOptions()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Spacing();
-	if (true)
+	if (this->ChangeType)
 	{
 		ImGui::Text("---Materials Found---");
 		for (auto& MatCurrent : this->materials)
 		{
-			ImGui::Selectable(MatCurrent->GetName());
+			if (ImGui::Selectable(MatCurrent->GetName(), this->MatIdTochange == MatCurrent->GetMatId()))
+			{
+				this->MatIdTochange = MatCurrent->GetMatId();
+				this->models[this->ModelToMake]->GetMaterial()->ChangeMaterials(MatCurrent);
+			}
+			
 		}
 	}
 	ImGui::End();

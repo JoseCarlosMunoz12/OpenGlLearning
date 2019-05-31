@@ -87,8 +87,9 @@ private:
 	std::vector<glm::vec3*> lights;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
-	//Bool to let the user change their tyle
+	//Bool to let the user change their style
 	bool ChangeType = false;
+	int MatIdTochange = -1;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);

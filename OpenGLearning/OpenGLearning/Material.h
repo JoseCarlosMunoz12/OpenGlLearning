@@ -21,9 +21,10 @@ private:
 	glm::vec3 SkyColor;
 	std::vector<GLint> TexIndex;
 	std::string Name = "Test";
+	int MatId;
 public:
 	Material(glm::vec3 SkyColor,glm::vec3 ambient,	glm::vec3 diffuse, glm::vec3 specular,
-			GLint diffuseTex, GLint specularTex,std::string MatName)
+			GLint diffuseTex, GLint specularTex,std::string MatName,int SetId)
 	{
 		this->Name = MatName;
 		this-> SkyColor = SkyColor;
@@ -32,12 +33,14 @@ public:
 		this->specular = specular;
 		this->TexIndex.push_back(diffuseTex);
 		this->TexIndex.push_back(specularTex);
+		this->MatId = SetId;
 	}
-	Material(glm::vec3 SkyColor,std::vector<GLint> TexIndex,std::string MatName)
+	Material(glm::vec3 SkyColor,std::vector<GLint> TexIndex,std::string MatName,int SetId)
 	{
 		this->Name = MatName;
 		this->TexIndex = TexIndex;
 		this->SkyColor = SkyColor;
+		this->MatId = SetId;
 	}
 	~Material()
 	{
@@ -72,6 +75,13 @@ public:
 		this->Name = NewMat->Name;
 		this->SkyColor = NewMat->SkyColor;
 		this->TexIndex = NewMat->TexIndex;
+		this->ambient = NewMat->ambient;
+		this->diffuse = NewMat->diffuse;
+		this->specular = NewMat->specular;
+	}
+	int GetMatId()
+	{
+		return this->MatId;
 	}
 
 };
