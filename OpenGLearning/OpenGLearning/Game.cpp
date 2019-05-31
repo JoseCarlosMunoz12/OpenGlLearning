@@ -346,6 +346,7 @@ void Game::ImGuiOptions()
 			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
 			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
+			ImGui::Selectable(ModMat->GetName());
 			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
 			ImGui::Text("Model Position = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
 			ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ModMesh[0]->GiveName());
@@ -359,6 +360,17 @@ void Game::ImGuiOptions()
 			}
 		}
 		ImGui::TreePop();
+	}
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	if (true)
+	{
+		ImGui::Text("---Materials Found---");
+		for (auto& MatCurrent : this->materials)
+		{
+			ImGui::Selectable(MatCurrent->GetName());
+		}
 	}
 	ImGui::End();
 }
