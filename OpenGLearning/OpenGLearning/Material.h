@@ -70,15 +70,6 @@ public:
 	{
 		return this->Name.c_str();
 	}
-	void ChangeMaterials(Material* NewMat)
-	{
-		this->Name = NewMat->Name;
-		this->SkyColor = NewMat->SkyColor;
-		this->TexIndex = NewMat->TexIndex;
-		this->ambient = NewMat->ambient;
-		this->diffuse = NewMat->diffuse;
-		this->specular = NewMat->specular;
-	}
 	int GetMatId()
 	{
 		return this->MatId;

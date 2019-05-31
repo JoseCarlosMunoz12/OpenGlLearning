@@ -372,15 +372,12 @@ void Game::ImGuiOptions()
 	if (this->ChangeType)
 	{
 		ImGui::Text("---Materials Found---");
+		
 		for (auto& MatCurrent : this->materials)
 		{
-			if (ImGui::Selectable(MatCurrent->GetName(), this->MatIdTochange == MatCurrent->GetMatId()))
-			{
-				this->MatIdTochange = MatCurrent->GetMatId();
-				this->models[this->ModelToMake]->GetMaterial()->ChangeMaterials(MatCurrent);
-			}
-			
+			ImGui::Selectable(MatCurrent->GetName());
 		}
+		
 	}
 	ImGui::End();
 }
