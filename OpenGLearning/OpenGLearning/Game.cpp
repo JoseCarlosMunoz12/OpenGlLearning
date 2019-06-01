@@ -334,7 +334,6 @@ void Game::ImGuiOptions()
 			if (ImGui::Selectable(ModelsFound->GetName(), this->ModelToMake == Count))
 			{
 				this->ModelToMake = Count;
-				this->MatIdTochange = ModelsFound->GetMaterial()->GetMatId();
 			}
 			Count++;
 		}
@@ -347,11 +346,6 @@ void Game::ImGuiOptions()
 			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
 			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
-			if(ImGui::Selectable(ModMat->GetName()))
-			{
-				this->ChangeType = true;
-				this->MatIdTochange = ModMat->GetMatId();
-			}
 			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
 			ImGui::Text("Model Position = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
 			ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ModMesh[0]->GiveName());
@@ -369,16 +363,33 @@ void Game::ImGuiOptions()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Spacing();
-	if (this->ChangeType)
+	if (ImGui::TreeNode("---Change Info of New Model---"))
 	{
-		ImGui::Text("---Materials Found---");
-		
+		ImGui::Text("--Materials--");
 		for (auto& MatCurrent : this->materials)
 		{
 			ImGui::Selectable(MatCurrent->GetName());
 		}
-		
+		ImGui::Text("--Shaders--");
+		for (auto& ShatCurrent : this->shaders)
+		{
+			ImGui::Selectable(ShatCurrent->GetName());
+		}
+		ImGui::Text("--Lights--");
+		int Count = 0;
+		for (auto& LightCurrent : this->lights)
+		{
+			ImGui::Selectable("1");
+		}
+		ImGui::Text("--Meshes--");
+		for (auto& MeshCurrent : this->meshes)
+		{
+			ImGui::Selectable(MeshCurrent->GiveName());
+		}
+		ImGui::TreePop();
 	}
+	
+		
 	ImGui::End();
 }
 

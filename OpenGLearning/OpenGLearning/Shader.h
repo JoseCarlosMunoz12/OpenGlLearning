@@ -19,14 +19,16 @@ private:
 	GLuint id;
 	int versionMajor;
 	int versionMinor;
+	const char* TextName;
 	//Private Functions
-	std::string loadShaderSource(const char* fileScreenPos)
+	std::string loadShaderSource(const char* fileName)
 	{
 		std::string temp = "";
 		std::string src = "";
 		std::ifstream in_file;
+		this->TextName = fileName;
 		//Vertex
-		in_file.open(fileScreenPos);
+		in_file.open(fileName);
 
 		if (in_file.is_open())
 		{
@@ -38,7 +40,7 @@ private:
 		}
 		else
 		{
-			std::cout << "ERROR::SHADERS::COULD_NOT_OPEN_FILE :"<<fileScreenPos << "\n";
+			std::cout << "ERROR::SHADERS::COULD_NOT_OPEN_FILE :"<<fileName << "\n";
 		}
 		in_file.close();
 		std::string versionNr = 
@@ -48,14 +50,14 @@ private:
 		 src.replace(src.find("#version"), 12, ("#version " + versionNr));
 		return src;
 	}
-	GLuint loadShader(GLenum type, const char* fileScreenPos)
+	GLuint loadShader(GLenum type, const char* fileName)
 	{
 		bool loadSuccess = true;
 		char infolog[512];
 		GLint success;
 
 		GLuint shader = glCreateShader(type);
-		std::string str_src = this->loadShaderSource(fileScreenPos);
+		std::string str_src = this->loadShaderSource(fileName);
 		const GLchar* src = str_src.c_str();
 		glShaderSource(shader, 1, &src, NULL);
 		glCompileShader(shader);
@@ -64,7 +66,7 @@ private:
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 512, NULL, infolog);
-			std::cout << "ERROR::SHADERS::COULD_NOT_COMPILE_SHADER" << fileScreenPos << "\n";
+			std::cout << "ERROR::SHADERS::COULD_NOT_COMPILE_SHADER" << fileName << "\n";
 			std::cout << infolog << "\n";
 		}
 		return shader;
@@ -128,57 +130,61 @@ public:
 		glUseProgram(0);
 	}
 
-	void set1i(GLint value, const GLchar* ScreenPos)
+	void set1i(GLint value, const GLchar* Name)
 	{
 		this->use();
-		glUniform1i(glGetUniformLocation(this->id, ScreenPos), value);
+		glUniform1i(glGetUniformLocation(this->id, Name), value);
 		this->unuse();
 	}
 
-	void setVec1f(GLfloat value, const GLchar* ScreenPos)
+	void setVec1f(GLfloat value, const GLchar* Name)
 	{
 		this->use();
 
-		glUniform1f(glGetUniformLocation(this->id, ScreenPos), value);
+		glUniform1f(glGetUniformLocation(this->id, Name), value);
 
 		this->unuse();
 	}
-	void setVec2f(glm::fvec2 value, const GLchar* ScreenPos)
+	void setVec2f(glm::fvec2 value, const GLchar* Name)
 	{
 		this->use();
 
-		glUniform2fv(glGetUniformLocation(this->id, ScreenPos), 1, glm::value_ptr(value));
+		glUniform2fv(glGetUniformLocation(this->id, Name), 1, glm::value_ptr(value));
 
 		this->unuse();
 	}
-	void setVec3f(glm::fvec3 value,const GLchar* ScreenPos)
+	void setVec3f(glm::fvec3 value,const GLchar* Name)
 	{
 		this->use();
 
-		glUniform3fv(glGetUniformLocation(this->id, ScreenPos), 1, glm::value_ptr(value));
+		glUniform3fv(glGetUniformLocation(this->id, Name), 1, glm::value_ptr(value));
 
 		this->unuse();
 	}
-	void setVec4f(glm::vec4 value, const GLchar* ScreenPos, GLboolean transpose = GL_FALSE)
+	void setVec4f(glm::vec4 value, const GLchar* Name, GLboolean transpose = GL_FALSE)
 	{
 		this->use();
-		glUniformMatrix4fv(glGetUniformLocation(this->id, ScreenPos), 1, transpose, glm::value_ptr(value));
+		glUniformMatrix4fv(glGetUniformLocation(this->id, Name), 1, transpose, glm::value_ptr(value));
 
 		this->unuse();
 	}
-	void setMat3fv(glm::mat3 value, const GLchar* ScreenPos, GLboolean transpose = GL_FALSE)
+	void setMat3fv(glm::mat3 value, const GLchar* Name, GLboolean transpose = GL_FALSE)
 	{
 		this->use();
-		glUniformMatrix4fv(glGetUniformLocation(this->id, ScreenPos), 1, transpose, glm::value_ptr(value));
+		glUniformMatrix4fv(glGetUniformLocation(this->id, Name), 1, transpose, glm::value_ptr(value));
 
 		this->unuse();
 	}
-	void setMat4fv(glm::mat4 value, const GLchar* ScreenPos,GLboolean transpose = GL_FALSE)
+	void setMat4fv(glm::mat4 value, const GLchar* Name,GLboolean transpose = GL_FALSE)
 	{
 		this->use();
-		glUniformMatrix4fv(glGetUniformLocation(this->id,ScreenPos), 1, transpose, glm::value_ptr(value));
+		glUniformMatrix4fv(glGetUniformLocation(this->id,Name), 1, transpose, glm::value_ptr(value));
 
 		this->unuse();
+	}
+	const char* GetName()
+	{
+		return this->TextName;
 	}
 
 };
