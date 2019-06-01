@@ -379,12 +379,18 @@ void Game::ImGuiOptions()
 		int Count = 0;
 		for (auto& LightCurrent : this->lights)
 		{
-			ImGui::Selectable("1");
+			std::string TempName = std::to_string(Count);
+			ImGui::Selectable(TempName.c_str());
 		}
 		ImGui::Text("--Meshes--");
 		for (auto& MeshCurrent : this->meshes)
 		{
 			ImGui::Selectable(MeshCurrent->GiveName());
+		}
+		ImGui::Text("--Textures--");
+		for (auto& TexCurrent : this->textures)
+		{
+			ImGui::Selectable(TexCurrent->GiveChar());
 		}
 		ImGui::TreePop();
 	}
