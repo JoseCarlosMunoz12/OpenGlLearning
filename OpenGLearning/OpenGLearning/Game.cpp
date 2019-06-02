@@ -243,9 +243,9 @@ void Game::updateMouseInput()
 	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (this->MakeMesh)
 	{
-		if (this->MouseX > this->ScreenPos.x && this->MouseX < this->WinSize.x
+		if (this->MouseX >= this->ScreenPos.x && this->MouseX <= this->WinSize.x
 			&&
-			this->MouseY > this->ScreenPos.y && this->MouseY < this->WinSize.y)
+			this->MouseY >= this->ScreenPos.y && this->MouseY <= this->WinSize.y)
 		{
 			
 		}
@@ -270,21 +270,12 @@ void Game::updateMouseInput()
 			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
 			if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
 			{
-				if (meshes.size() < 2)
-				{
-					meshes.push_back(
-						new Mesh(&CustomObject("Images/tree.obj"),
-							"StallImage" + 1,
-							glm::vec3(0.f),
-							glm::vec3(0.f),
-							glm::vec3(0.f),
-							glm::vec3(1.f)));
-				}
+				
 				this->models.push_back(new Model(
 					this->SpaceLoc,
-					this->materials[0],
+					this->materials[1],
 					this->textures[12],
-					this->textures[12],
+					this->textures[10],
 					this->meshes[2],
 					"New Tree"));
 			}
@@ -322,10 +313,11 @@ void Game::updateInput()
 void Game::ImGuiOptions()
 {
 	ImGui::Begin("Added DifferentModels");
-	this->ScreenPos.x = ImGui::GetCursorScreenPos().x - .8f;
-	this->ScreenPos.y = ImGui::GetCursorScreenPos().y - 27.f;
-	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x;
-	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y;
+	this->ScreenPos.x = ImGui::GetWindowPos().x;
+	this->ScreenPos.y = ImGui::GetWindowPos().y;
+	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x + 7.f;
+	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y + 7.f;
+	//Info of each Model
 	if (ImGui::TreeNode("Change Features of Chosen Model"))
 	{
 		int Count = 0;
@@ -347,7 +339,7 @@ void Game::ImGuiOptions()
 			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
 			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
-			ImGui::Text("Model Position = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
+			ImGui::Text("Model Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
 			ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ModMesh[0]->GiveName());
 			if (ImGui::TreeNode("Textures Used"))
 			{
@@ -362,7 +354,7 @@ void Game::ImGuiOptions()
 	}
 	ImGui::Spacing();
 	ImGui::Spacing();
-	ImGui::Spacing();
+	//New Model Customization
 	if (ImGui::TreeNode("---Change Info of New Model---"))
 	{
 		ImGui::Text("--Materials--");
@@ -370,11 +362,13 @@ void Game::ImGuiOptions()
 		{
 			ImGui::Selectable(MatCurrent->GetName());
 		}
+		ImGui::Spacing();
 		ImGui::Text("--Shaders--");
 		for (auto& ShatCurrent : this->shaders)
 		{
 			ImGui::Selectable(ShatCurrent->GetName());
 		}
+		ImGui::Spacing();
 		ImGui::Text("--Lights--");
 		int Count = 0;
 		for (auto& LightCurrent : this->lights)
@@ -382,20 +376,30 @@ void Game::ImGuiOptions()
 			std::string TempName = std::to_string(Count);
 			ImGui::Selectable(TempName.c_str());
 		}
+		ImGui::Spacing();
 		ImGui::Text("--Meshes--");
 		for (auto& MeshCurrent : this->meshes)
 		{
 			ImGui::Selectable(MeshCurrent->GiveName());
 		}
+		ImGui::Spacing();
 		ImGui::Text("--Textures--");
 		for (auto& TexCurrent : this->textures)
 		{
 			ImGui::Selectable(TexCurrent->GiveChar());
 		}
+		ImGui::Selectable("--Press to get Info of new Model--");
 		ImGui::TreePop();
 	}
 	
 		
+	ImGui::End();
+
+	ImGui::Begin("Temp");
+
+	ImGui::Text("%g,%g", this->ScreenPos.x, this->ScreenPos.y);
+	ImGui::Text("%g,%g", this->WinSize.x, this->WinSize.y);
+	ImGui::Text("%g,%g", ImGui::GetMousePos().x, ImGui::GetMousePos().y);
 	ImGui::End();
 }
 
