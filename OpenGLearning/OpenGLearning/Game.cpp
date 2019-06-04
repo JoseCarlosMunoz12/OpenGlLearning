@@ -273,10 +273,10 @@ void Game::updateMouseInput()
 				
 				this->models.push_back(new Model(
 					this->SpaceLoc,
-					this->materials[1],
-					this->textures[12],
-					this->textures[10],
-					this->meshes[2],
+					this->NewMat,
+					this->NewTex0[0],
+					this->NewTex0[1],
+					this->NewMesh,
 					"New Tree"));
 			}
 		oldState = newState;
@@ -383,23 +383,24 @@ void Game::ImGuiOptions()
 			ImGui::Selectable(MeshCurrent->GiveName());
 		}
 		ImGui::Spacing();
-		ImGui::Text("--Textures--");
+		ImGui::Text("--Textures 0--");
 		for (auto& TexCurrent : this->textures)
 		{
 			ImGui::Selectable(TexCurrent->GiveChar());
 		}
-		ImGui::Selectable("--Press to get Info of new Model--");
+		ImGui::Spacing();
+		ImGui::Text("--Textures 0--");
+		for (auto& TexCurrent : this->textures)
+		{
+			ImGui::Selectable(TexCurrent->GiveChar());
+		}
+		char CharName[256];
+		if (ImGui::InputText("Text", CharName, sizeof(CharName)))
+		{
+			this->NewName = CharName;
+		}
 		ImGui::TreePop();
-	}
-	
-		
-	ImGui::End();
-
-	ImGui::Begin("Temp");
-
-	ImGui::Text("%g,%g", this->ScreenPos.x, this->ScreenPos.y);
-	ImGui::Text("%g,%g", this->WinSize.x, this->WinSize.y);
-	ImGui::Text("%g,%g", ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+	}	
 	ImGui::End();
 }
 

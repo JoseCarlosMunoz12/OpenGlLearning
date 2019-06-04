@@ -61,8 +61,6 @@ private:
 	glm::mat4 ProjectionMatrix;
 	glm::vec2 NormalizedDeviceCoordinates;
 	glm::vec3 worldSpace;
-	// Location of the ray when it hits the ground
-	glm::vec3 SpaceLoc;
 	float fov;
 	float nearPlane;
 	float farPlane;
@@ -87,6 +85,13 @@ private:
 	std::vector<glm::vec3*> lights;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
+	// Empty Variables for new models
+	Material* NewMat;
+	std::vector<Texture*> NewTex0;
+	glm::vec3 SpaceLoc;
+	Mesh* NewMesh;
+	const char* NewName; 
+	
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
