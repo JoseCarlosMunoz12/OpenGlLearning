@@ -109,7 +109,7 @@ void Game::initTextures()
 
 void Game::initMaterials()
 {
-	this->materials.push_back(new Material(SkyColor, glm::vec3(1.f), glm::vec3(1.f), glm::vec3(1.f),
+	this->materials.push_back(new Material(SkyColor, glm::vec3(10.f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1,"Material 1",0));
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1, "Material 2",1));
@@ -270,14 +270,16 @@ void Game::updateMouseInput()
 			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
 			if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
 			{
-				
+				this->CountMesh = this->models.size();
+				std::string TempString = std::to_string(this->CountMesh);
 				this->models.push_back(new Model(
 					this->SpaceLoc,
 					this->NewMat,
 					this->NewTex0[0],
 					this->NewTex0[1],
 					this->NewMesh,
-					"New Tree"));
+					TempString.c_str()));
+				this->NewTex0.clear();
 			}
 		oldState = newState;
 		}		
@@ -360,47 +362,43 @@ void Game::ImGuiOptions()
 		ImGui::Text("--Materials--");
 		for (auto& MatCurrent : this->materials)
 		{
-			ImGui::Selectable(MatCurrent->GetName());
-		}
-		ImGui::Spacing();
-		ImGui::Text("--Shaders--");
-		for (auto& ShatCurrent : this->shaders)
-		{
-			ImGui::Selectable(ShatCurrent->GetName());
-		}
-		ImGui::Spacing();
-		ImGui::Text("--Lights--");
-		int Count = 0;
-		for (auto& LightCurrent : this->lights)
-		{
-			std::string TempName = std::to_string(Count);
-			ImGui::Selectable(TempName.c_str());
+			if (ImGui::Selectable(MatCurrent->GetName()))
+			{
+				this->NewMat = MatCurrent;
+			}
 		}
 		ImGui::Spacing();
 		ImGui::Text("--Meshes--");
 		for (auto& MeshCurrent : this->meshes)
 		{
-			ImGui::Selectable(MeshCurrent->GiveName());
+			if (ImGui::Selectable(MeshCurrent->GiveName()))
+			{
+				this->NewMesh = MeshCurrent;
+			}
 		}
 		ImGui::Spacing();
 		ImGui::Text("--Textures 0--");
 		for (auto& TexCurrent : this->textures)
 		{
-			ImGui::Selectable(TexCurrent->GiveChar());
+			if (ImGui::Selectable(TexCurrent->GiveChar()))
+			{
+				this->NewTex0.push_back(TexCurrent);
+				std::cout << this->NewTex0.size() << "\n";
+			}
 		}
 		ImGui::Spacing();
-		ImGui::Text("--Textures 0--");
+		ImGui::Text("--Textures 1--");
 		for (auto& TexCurrent : this->textures)
 		{
-			ImGui::Selectable(TexCurrent->GiveChar());
+			if (ImGui::Selectable(TexCurrent->GiveChar()))
+			{
+				this->NewTex0.push_back(TexCurrent);
+				std::cout << this->NewTex0.size() << "\n";
+			}
 		}
-		char CharName[256];
-		if (ImGui::InputText("Text", CharName, sizeof(CharName)))
-		{
-			this->NewName = CharName;
-		}
+
 		ImGui::TreePop();
-	}	
+	}
 	ImGui::End();
 }
 

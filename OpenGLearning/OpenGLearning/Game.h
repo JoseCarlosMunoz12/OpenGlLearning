@@ -90,7 +90,7 @@ private:
 	std::vector<Texture*> NewTex0;
 	glm::vec3 SpaceLoc;
 	Mesh* NewMesh;
-	const char* NewName; 
+	int CountMesh;
 	
 	//Private Functions
 	void initGLFW();
