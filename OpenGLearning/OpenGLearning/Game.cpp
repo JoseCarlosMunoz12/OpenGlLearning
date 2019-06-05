@@ -362,41 +362,44 @@ void Game::ImGuiOptions()
 		ImGui::Text("--Materials--");
 		for (auto& MatCurrent : this->materials)
 		{
-			if (ImGui::Selectable(MatCurrent->GetName()))
+			if (ImGui::Selectable(MatCurrent->GetName(),
+				MatCurrent->GetMatId() == this->NewMatId))
 			{
 				this->NewMat = MatCurrent;
+				this->NewMatId = MatCurrent->GetMatId();
 			}
 		}
 		ImGui::Spacing();
 		ImGui::Text("--Meshes--");
+		int MeshCount = 0;
 		for (auto& MeshCurrent : this->meshes)
 		{
-			if (ImGui::Selectable(MeshCurrent->GiveName()))
+			if (ImGui::Selectable(MeshCurrent->GiveName(),
+				MeshCount == NewMeshID))
 			{
 				this->NewMesh = MeshCurrent;
+				this->NewMeshID = MeshCount;
 			}
+			MeshCount++;
 		}
 		ImGui::Spacing();
-		ImGui::Text("--Textures 0--");
+		ImGui::Text("--Textures to use--");
+		int TexCount = 0;
 		for (auto& TexCurrent : this->textures)
 		{
-			if (ImGui::Selectable(TexCurrent->GiveChar()))
+			if (ImGui::Selectable(TexCurrent->GiveChar(),
+				TexCount == this->NewTexId0
+				||
+				TexCount == this->NewTexId1))
 			{
-				this->NewTex0.push_back(TexCurrent);
-				std::cout << this->NewTex0.size() << "\n";
+				if (this->NewTex0.size() != 2)
+				{
+					this->NewTex0.push_back(TexCurrent);
+					
+				}
+				TexCount++;
 			}
 		}
-		ImGui::Spacing();
-		ImGui::Text("--Textures 1--");
-		for (auto& TexCurrent : this->textures)
-		{
-			if (ImGui::Selectable(TexCurrent->GiveChar()))
-			{
-				this->NewTex0.push_back(TexCurrent);
-				std::cout << this->NewTex0.size() << "\n";
-			}
-		}
-
 		ImGui::TreePop();
 	}
 	ImGui::End();

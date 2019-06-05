@@ -91,7 +91,12 @@ private:
 	glm::vec3 SpaceLoc;
 	Mesh* NewMesh;
 	int CountMesh;
-	
+	//Values To Show Int
+	int NewMatId = -1;
+	int NewTexId0 = -1;
+	int NewTexId1 = -1;
+	int NewMeshID = -1;
+
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
