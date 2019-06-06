@@ -270,6 +270,8 @@ void Game::updateMouseInput()
 			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
 			if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
 			{
+				if (this->NewTexId1 != -1)
+				{
 				this->CountMesh = this->models.size();
 				std::string TempString = std::to_string(this->CountMesh);
 				this->models.push_back(new Model(
@@ -280,6 +282,11 @@ void Game::updateMouseInput()
 					this->NewMesh,
 					TempString.c_str()));
 				this->NewTex0.clear();
+				this->NewMatId = -1;
+				this->NewTexId0 = -1;
+				this->NewTexId1 = -1;
+				this->NewMeshID = -1;
+				}
 			}
 		oldState = newState;
 		}		
@@ -389,14 +396,23 @@ void Game::ImGuiOptions()
 		{
 			if (ImGui::Selectable(TexCurrent->GiveChar(),
 				TexCount == this->NewTexId0
-				||
+				&&
 				TexCount == this->NewTexId1))
 			{
 				if (this->NewTex0.size() != 2)
 				{
 					this->NewTex0.push_back(TexCurrent);
+					if (this->NewTex0.size() == 1)
+					{
+						this->NewTexId0 = TexCount;
+					}
+					else
+					{ 
+						this->NewTexId1 = TexCount;
+					}
 					
 				}
+
 				TexCount++;
 			}
 		}
