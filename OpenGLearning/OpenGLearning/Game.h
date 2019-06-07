@@ -135,5 +135,7 @@ public:
 	void render();
 	//Static Functions
 	static void framebuffer_resize_callback(GLFWwindow* window, int fbW, int fbH);
+	//ImGui Functions
+	bool CheckNum(int Num);
 };
 

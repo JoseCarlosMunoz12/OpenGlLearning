@@ -395,9 +395,7 @@ void Game::ImGuiOptions()
 		for (auto& TexCurrent : this->textures)
 		{
 			if (ImGui::Selectable(TexCurrent->GiveChar(),
-				TexCount == this->NewTexId0
-				&&
-				TexCount == this->NewTexId1))
+				this->CheckNum(TexCount)))
 			{
 				if (this->NewTex0.size() != 2)
 				{
@@ -410,11 +408,9 @@ void Game::ImGuiOptions()
 					{ 
 						this->NewTexId1 = TexCount;
 					}
-					
 				}
-
-				TexCount++;
 			}
+			TexCount++;
 		}
 		ImGui::TreePop();
 	}
@@ -600,4 +596,20 @@ void Game::render()
 void Game::framebuffer_resize_callback(GLFWwindow * window, int fbW, int fbH)
 {
 	glViewport(0, 0, fbW, fbH);
+}
+
+bool Game::CheckNum(int Num)
+{
+	if (Num == this->NewTexId0)
+	{
+		return true;
+	}
+	else if (Num == this->NewTexId1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
