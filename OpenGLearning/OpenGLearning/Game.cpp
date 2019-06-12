@@ -109,7 +109,7 @@ void Game::initTextures()
 
 void Game::initMaterials()
 {
-	this->materials.push_back(new Material(SkyColor, glm::vec3(10.f), glm::vec3(1.f), glm::vec3(1.f),
+	this->materials.push_back(new Material(SkyColor, glm::vec3(1.f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1,"Material 1",0));
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1, "Material 2",1));
@@ -273,14 +273,15 @@ void Game::updateMouseInput()
 				if (this->NewTexId1 != -1)
 				{
 				this->CountMesh = this->models.size();
-				std::string TempString = std::to_string(this->CountMesh);
+				std::string TempString = "Name" + std::to_string(this->CountMesh);
+				char const *c =  TempString.data();
 				this->models.push_back(new Model(
 					this->SpaceLoc,
 					this->NewMat,
 					this->NewTex0[0],
 					this->NewTex0[1],
 					this->NewMesh,
-					TempString.c_str()));
+					c));
 				this->NewTex0.clear();
 				this->NewMatId = -1;
 				this->NewTexId0 = -1;
