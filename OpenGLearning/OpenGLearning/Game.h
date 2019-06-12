@@ -85,6 +85,8 @@ private:
 	std::vector<glm::vec3*> lights;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
+	//Names of each Model
+	std::vector<std::string> NamesOfModels;
 	// Empty Variables for new models
 	Material* NewMat;
 	std::vector<Texture*> NewTex0;

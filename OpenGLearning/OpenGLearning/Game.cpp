@@ -148,6 +148,7 @@ void Game::initModels()
 		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},		
 		meshes[0],
 		"Terrain"));
+	this->NamesOfModels.push_back("Terrain");
 	this->models.push_back(new Model(
 		glm::vec3(9.f, 0.f, 0.f),
 		this->materials[MAT_1],
@@ -155,6 +156,7 @@ void Game::initModels()
 		this->textures[11],
 		meshes[1],
 		"Stall Image"));
+	this->NamesOfModels.push_back("Stall Image");
 	this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 9.f),
 		this->materials[MAT_2],
@@ -162,6 +164,7 @@ void Game::initModels()
 		this->textures[12],
 		meshes[2],
 		"Tree"));
+	this->NamesOfModels.push_back("Tree");
 }
 
 void Game::initLights()
@@ -273,15 +276,15 @@ void Game::updateMouseInput()
 				if (this->NewTexId1 != -1)
 				{
 				this->CountMesh = this->models.size();
-				std::string TempString = "Name" + std::to_string(this->CountMesh);
-				char const *c =  TempString.data();
+				std::string TempName = "Name" + std::to_string(this->CountMesh);
+				this->NamesOfModels.push_back(TempName);
 				this->models.push_back(new Model(
 					this->SpaceLoc,
 					this->NewMat,
 					this->NewTex0[0],
 					this->NewTex0[1],
 					this->NewMesh,
-					c));
+					this->NamesOfModels[this->CountMesh].c_str()));
 				this->NewTex0.clear();
 				this->NewMatId = -1;
 				this->NewTexId0 = -1;
