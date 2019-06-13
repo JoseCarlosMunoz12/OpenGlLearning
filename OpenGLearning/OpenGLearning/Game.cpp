@@ -104,7 +104,9 @@ void Game::initTextures()
 	//Stall Texture
 	this->textures.push_back(new Texture("Images/stallTexture.png", GL_TEXTURE_2D));
 	//Tree Texture
-	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D));
+	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D)); 
+	//HeightMap
+	this->textures.push_back(new Texture("Images/heightmap.png", GL_TEXTURE_2D));
 }
 
 void Game::initMaterials()

@@ -198,6 +198,11 @@ public:
 		}
 		this->set(VertexOfTerrain, IndecesOfTerrain);
 	}
+	CustomTerrain(int Size, int Dimension,const char* Filename)
+		:Primitive()
+	{
+
+	}
 };
 
 class Triangle : public Primitive
