@@ -122,7 +122,7 @@ void Game::initModels()
 {
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(800, 800),
+			&CustomTerrain(800, 800,"set"),
 			"Terrain",
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
