@@ -124,7 +124,7 @@ public:
 				positions.z = (((float)i-4.5f) / ((float)9-1 )) * 1;
 				//normals
 				normals.x = 0;
-				normals.y = 11;
+				normals.y = 1;
 				normals.z = 0;
 				//Tex Coords
 				texCoords.x = (float)j / ((float)9-1);

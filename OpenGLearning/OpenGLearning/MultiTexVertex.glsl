@@ -23,13 +23,15 @@ const float gradient = 1.5;
 
 void main()
 {
-	vs_position = vec4(ModelMatrix * vec4(vertex_position,1.f)).xyz;
+	vec4 p = vec4(vertex_position,1.0f) + vec4((vertex_normal * (texture(Texture4,vertex_texcoord).b )) , 1.0f);
+	//vs_position = vec4(ModelMatrix * vec4(vertex_position,1.f)).xyz;
+	vs_position = (ModelMatrix * p).xyz;
 	vec4 positionRelativeToCam = ViewMatrix * ModelMatrix * vec4(vertex_position, 1.f);
 	vs_color = vertex_color;
-	vs_texcoord = vec2(vertex_texcoord.x, vertex_texcoord.y *-1.f);
+	vs_texcoord = vec2(vertex_texcoord.x, vertex_texcoord.y);
 	vs_normal = mat3(ModelMatrix) * vertex_normal;
 
-	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(vertex_position, 1.f);
+	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * p;
 
 	float distance = length(positionRelativeToCam.xyz);
 
