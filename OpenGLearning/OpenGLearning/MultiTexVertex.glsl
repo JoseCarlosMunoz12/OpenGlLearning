@@ -23,7 +23,7 @@ const float gradient = 1.5;
 
 void main()
 {
-	vec4 p = vec4(vertex_position,1.0f) + vec4((vertex_normal * (texture(Texture5,vertex_texcoord).r )) , 1.0f);
+	vec4 p = vec4(vertex_position,1.0f) + vec4((vertex_normal * ((1.f - texture(Texture5,vertex_texcoord).r) * 5.f)) , 1.0f);
 	//vs_position = vec4(ModelMatrix * vec4(vertex_position,1.f)).xyz;
 	vs_position = (ModelMatrix * p).xyz;
 	vec4 positionRelativeToCam = ViewMatrix * ModelMatrix * vec4(vertex_position, 1.f);
