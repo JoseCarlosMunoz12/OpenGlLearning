@@ -106,7 +106,7 @@ void Game::initTextures()
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA));
 	//HeightMap
-	this->textures.push_back(new Texture("Images/heightmap.png", GL_TEXTURE_2D, GL_RGBA));
+	this->textures.push_back(new Texture("Images/sset.png", GL_TEXTURE_2D, GL_RGBA));
 }
 
 void Game::initMaterials()
@@ -145,7 +145,7 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
 	this->models.push_back(new Model(
-		glm::vec3(0.f),
+		glm::vec3(0.f,0.f,0.f),
 		this->materials[TERRAIN_MAT],
 		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],this->textures[13] },
 		meshes[0],

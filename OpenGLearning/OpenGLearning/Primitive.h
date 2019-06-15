@@ -168,58 +168,15 @@ public:
 		{
 			for (int ii = 0; ii < Dimension; ii++)
 			{
-				positions.y = 1;
+				positions.y = 0;
 				positions.x = ((float)ii - Dimension/2)/ ((float)Dimension - 1) * Size;
-				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
-				normals.x = 0;
-				normals.y = 11;
-				normals.z = 0;
-				texCoords.x = (float)ii / ((float)Dimension - 1);
-				texCoords.y = (float)jj / ((float)Dimension - 1);
-				Vertex TempVertex = {positions,colors,texCoords,normals};
-				VertexOfTerrain.push_back(TempVertex);
-			}
-		}
-		for (int jj = 0; jj < Dimension - 1; jj++)
-		{
-			for (int ii = 0; ii < Dimension - 1; ii++)
-			{
-				GLuint TopLeft = (jj * Dimension) + ii;
-				GLuint TopRight = TopLeft + 1;
-				GLuint BottomLeft = ((jj + 1) * Dimension) + ii;
-				GLuint BottomRight = BottomLeft + 1;
-				IndecesOfTerrain.push_back(TopLeft);
-				IndecesOfTerrain.push_back(BottomLeft);
-				IndecesOfTerrain.push_back(TopRight);
-				IndecesOfTerrain.push_back(TopRight);
-				IndecesOfTerrain.push_back(BottomLeft);
-				IndecesOfTerrain.push_back(BottomRight);
-			}
-		}
-		this->set(VertexOfTerrain, IndecesOfTerrain);
-	}
-	CustomTerrain(int Size, int Dimension,const char* Filename)
-		:Primitive()
-	{
-		std::vector<Vertex> VertexOfTerrain;
-		std::vector<GLuint> IndecesOfTerrain;
-		glm::vec3 positions;
-		glm::vec3 colors = glm::vec3(1.f, 0.f, 1.f);
-		glm::vec2 texCoords;
-		glm::vec3 normals;
-		for (int jj = 0; jj < Dimension; jj++)
-		{
-			for (int ii = 0; ii < Dimension; ii++)
-			{
-				positions.y =  cos(glm::radians((float(jj)) * 20.f)) + sin(glm::radians(float(ii) * 40.f));
-				positions.x = ((float)ii - Dimension / 2) / ((float)Dimension - 1) * Size;
 				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 				normals.x = 0;
 				normals.y = 1;
 				normals.z = 0;
 				texCoords.x = (float)ii / ((float)Dimension - 1);
 				texCoords.y = (float)jj / ((float)Dimension - 1);
-				Vertex TempVertex = { positions,colors,texCoords,normals };
+				Vertex TempVertex = {positions,colors,texCoords,normals};
 				VertexOfTerrain.push_back(TempVertex);
 			}
 		}
