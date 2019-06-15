@@ -63,6 +63,7 @@ public:
 		program.set1i(this->TexIndex[2], "Texture2");
 		program.set1i(this->TexIndex[3], "Texture3");
 		program.set1i(this->TexIndex[4], "Texture4");
+		program.set1i(this->TexIndex[5], "Texture5");
 		program.setVec3f(this->SkyColor, "SkyColor");
 
 	}

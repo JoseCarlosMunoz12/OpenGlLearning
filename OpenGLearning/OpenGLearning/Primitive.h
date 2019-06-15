@@ -168,7 +168,7 @@ public:
 		{
 			for (int ii = 0; ii < Dimension; ii++)
 			{
-				positions.y = 0;
+				positions.y = 1;
 				positions.x = ((float)ii - Dimension/2)/ ((float)Dimension - 1) * Size;
 				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 				normals.x = 0;

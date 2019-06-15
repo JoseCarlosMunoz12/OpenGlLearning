@@ -15,11 +15,12 @@ private:
 	unsigned int type;
 	const char* Name;
 public:
-	Texture(const char* fileName, GLenum type)
+	Texture(const char* fileName, GLenum type, GLenum ColorType)
 	{
 		this->type = type;
 		this->Name = fileName;
 		unsigned char* image = SOIL_load_image(fileName, &this->width, &this->height, NULL, SOIL_LOAD_RGBA);
+		
 
 		glGenTextures(1, &this->id);
 		glBindTexture(type, this->id);
@@ -31,7 +32,7 @@ public:
 
 		if (image)
 		{
-			glTexImage2D(type, 0, GL_RGBA, this->width, this->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+			glTexImage2D(type, 0, GL_RGBA, this->width, this->height, 0, ColorType, GL_UNSIGNED_BYTE, image);
 			glGenerateMipmap(type);
 		}
 		else
