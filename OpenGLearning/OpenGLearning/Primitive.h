@@ -448,6 +448,7 @@ public:
 		:Primitive()
 	{
 		//Variables to Get info from the obj file
+		this->InitStringZFound();
 		std::string temp = "";
 		std::vector<glm::vec3> PositionsFound;
 		std::vector<glm::vec2> TexCoordsFound;
@@ -465,43 +466,27 @@ public:
 		{
 			while (std::getline(in_file, temp))
 			{
-				int TempValue = 0;
-				switch (TempValue)
+				std::vector<std::string> out;
+				this->ReturnStringArray(temp, ' ', out);
+				switch (this->StringFound[out[0]])
 				{
 				case V:
+					PositionsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
 					break;
 				case VT:
+					TexCoordsFound.push_back(glm::vec2(std::atof(out[1].c_str()), std::atof(out[2].c_str())));
 					break;
 				case VN:
+					NormalsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
 					break;
 				case F:
-					break;
-				}
-				if (temp.find("v ") == 0)
-				{
-					std::vector<std::string> out;
-					this->ReturnStringArray(temp,' ',out);
-					PositionsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
-				}
-				else if (temp.find("vt ") == 0)
-				{
-					std::vector<std::string> out;
-					this->ReturnStringArray(temp, ' ', out);
-					TexCoordsFound.push_back(glm::vec2(std::atof(out[1].c_str()), std::atof(out[2].c_str())));
-				}
-				else if (temp.find("vn ") == 0)
-				{
-					std::vector<std::string> out;
-					this->ReturnStringArray(temp, ' ', out);
-					NormalsFound.push_back(glm::vec3(std::atof(out[1].c_str()), std::atof(out[2].c_str()), std::atof(out[3].c_str())));
-				}
-				else if (temp.find("f ") == 0)
-				{
-					std::vector<std::string> out;
-					this->ReturnStringArray(temp, ' ', out);
 					IndexToUse.push_back(out[1]);
 					IndexToUse.push_back(out[2]);
 					IndexToUse.push_back(out[3]);
+					break;
+				default:
+					break;
+
 				}
 			}
 		}
@@ -535,7 +520,7 @@ private:
 	}
 	static enum StringValue
 	{
-		V,
+		V =1,
 		VT,
 		VN,
 		F
@@ -543,9 +528,9 @@ private:
 	std::map<std::string, StringValue> StringFound;
 	void InitStringZFound()
 	{
-		StringFound["V "] = V;
-		StringFound["vt "] = VT;
-		StringFound["V "] = V;
-		StringFound["V "] = V;
+		StringFound["v"] = V;
+		StringFound["vt"] = VT;
+		StringFound["vn"] = VN;
+		StringFound["f"] = F;
 	}
 };
