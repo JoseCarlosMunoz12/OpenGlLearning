@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <map>
 #include <glew.h>
 #include <glfw3.h>
 #include <glm.hpp>
@@ -464,6 +465,18 @@ public:
 		{
 			while (std::getline(in_file, temp))
 			{
+				int TempValue = 0;
+				switch (TempValue)
+				{
+				case V:
+					break;
+				case VT:
+					break;
+				case VN:
+					break;
+				case F:
+					break;
+				}
 				if (temp.find("v ") == 0)
 				{
 					std::vector<std::string> out;
@@ -519,5 +532,20 @@ private:
 			end = str.find(delim, start);
 			out.push_back(str.substr(start, end - start));
 		}
+	}
+	static enum StringValue
+	{
+		V,
+		VT,
+		VN,
+		F
+	 };
+	std::map<std::string, StringValue> StringFound;
+	void InitStringZFound()
+	{
+		StringFound["V "] = V;
+		StringFound["vt "] = VT;
+		StringFound["V "] = V;
+		StringFound["V "] = V;
 	}
 };
