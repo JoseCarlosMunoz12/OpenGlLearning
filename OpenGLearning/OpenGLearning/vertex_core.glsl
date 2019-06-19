@@ -21,7 +21,7 @@ const float gradient = 1.5;
 
 void main()
 {
-	vec4 p = vec4(vertex_position,1.0f);
+	vec4 p = vec4(vertex_position + vec3(0.f,1.f,0.f),1.0f);
 	vs_position = vec4(ModelMatrix *p).xyz;
 	vs_color = vertex_color;
 	vec4 positionRelativeToCam = ViewMatrix * ModelMatrix * p;
