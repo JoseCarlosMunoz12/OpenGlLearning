@@ -24,7 +24,7 @@ private:
 	int MatId;
 public:
 	Material(glm::vec3 SkyColor,glm::vec3 ambient,	glm::vec3 diffuse, glm::vec3 specular,
-			GLint diffuseTex, GLint specularTex,GLint HeigthMapint,std::string MatName,int SetId)
+			GLint diffuseTex, GLint specularTex,std::string MatName,int SetId)
 	{
 		this->Name = MatName;
 		this-> SkyColor = SkyColor;
@@ -33,7 +33,6 @@ public:
 		this->specular = specular;
 		this->TexIndex.push_back(diffuseTex);
 		this->TexIndex.push_back(specularTex);
-		this->TexIndex.push_back(HeigthMapint);
 		this->MatId = SetId;
 	}
 	Material(glm::vec3 SkyColor,std::vector<GLint> TexIndex,std::string MatName,int SetId)
@@ -55,7 +54,6 @@ public:
 		program.setVec3f(this->specular, "material.specular");
 		program.set1i(this->TexIndex[0], "material.diffuseTex");
 		program.set1i(this->TexIndex[1], "material.speculartex");
-		program.set1i(this->TexIndex[2], "HeightMap");
 		program.setVec3f(this->SkyColor, "SkyColor");
 	}
 	void sendManyTexToShader(Shader& program)
@@ -65,7 +63,6 @@ public:
 		program.set1i(this->TexIndex[2], "Texture2");
 		program.set1i(this->TexIndex[3], "Texture3");
 		program.set1i(this->TexIndex[4], "Texture4");
-		program.set1i(this->TexIndex[5], "Texture5");
 		program.setVec3f(this->SkyColor, "SkyColor");
 
 	}
