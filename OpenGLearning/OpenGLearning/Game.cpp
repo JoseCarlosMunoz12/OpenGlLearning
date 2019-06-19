@@ -112,9 +112,9 @@ void Game::initTextures()
 void Game::initMaterials()
 {
 	this->materials.push_back(new Material(SkyColor, glm::vec3(1.f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1,"Material 1",0));
+		0,1,2,"Material 1",0));
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1, "Material 2",1));
+		0,1,2, "Material 2",1));
 	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4,5},"Material 3",2));
 }
 
@@ -122,7 +122,7 @@ void Game::initModels()
 {
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(500,500),
+			&CustomTerrain(500, 500),
 			"Terrain",
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
@@ -145,25 +145,23 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
 	this->models.push_back(new Model(
-		glm::vec3(0.f,0.f,0.f),
+		glm::vec3(0.f, 0.f, 0.f),
 		this->materials[TERRAIN_MAT],
-		{this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],this->textures[13] },
+		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],this->textures[13] },
 		meshes[0],
 		"Terrain"));
 	this->NamesOfModels.push_back("Terrain");
 	this->models.push_back(new Model(
 		glm::vec3(9.f, 0.f, 0.f),
 		this->materials[MAT_1],
-		this->textures[11],
-		this->textures[11],
+		{ this->textures[11],this->textures[11], this->textures[13]},
 		meshes[1],
 		"Stall Image"));
 	this->NamesOfModels.push_back("Stall Image");
 	this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 9.f),
 		this->materials[MAT_2],
-		this->textures[12],
-		this->textures[12],
+		{this->textures[12], this->textures[12], this->textures[13]},
 		meshes[2],
 		"Tree"));
 	this->NamesOfModels.push_back("Tree");
