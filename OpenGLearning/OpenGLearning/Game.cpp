@@ -106,7 +106,7 @@ void Game::initTextures()
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA));
 	//HeightMap
-	this->textures.push_back(new Texture("Images/seets.png", GL_TEXTURE_2D, GL_RGBA));
+	this->textures.push_back(new Texture("Images/ssets.png", GL_TEXTURE_2D, GL_RGBA));
 }
 
 void Game::initMaterials()
