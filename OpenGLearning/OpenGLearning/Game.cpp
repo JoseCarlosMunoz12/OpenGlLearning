@@ -418,6 +418,12 @@ void Game::ImGuiOptions()
 		}
 		ImGui::TreePop();
 	}
+	ImGui::Spacing();
+	ImGui::Spacing();
+	if (ImGui::Selectable(textures[0]->GiveChar()))
+	{
+		
+	}
 	ImGui::End();
 }
 

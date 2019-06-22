@@ -14,14 +14,14 @@ private:
 	int height;
 	unsigned int type;
 	const char* Name;
+	unsigned char* ImageRGB;
 public:
 	Texture(const char* fileName, GLenum type, GLenum ColorType)
 	{
 		this->type = type;
 		this->Name = fileName;
 		unsigned char* image = SOIL_load_image(fileName, &this->width, &this->height, NULL, SOIL_LOAD_RGBA);
-		
-
+		this->ImageRGB = image;
 		glGenTextures(1, &this->id);
 		glBindTexture(type, this->id);
 
@@ -64,5 +64,9 @@ public:
 	const char* GiveChar()
 	{
 		return this->Name;
+	}
+	unsigned char* GetImageRGBInfo()
+	{
+		return this->ImageRGB;
 	}
 };
