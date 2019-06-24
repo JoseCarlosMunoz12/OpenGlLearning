@@ -9,16 +9,29 @@
 #include <random>
 
 //Enumerations
-enum shader_enums{SHADER_CORE_PROGRAM,
-					SHADER_TERRAIN,
-					SHADERS_TERRAIN};
-enum texture_enum {TEX_PUSHEEM,TEX_PUSHEEN_SPECULAR,
-					TEX_CONTAINER,TEX_CONTAINER_SPECULAR,
-					TEX_FLOWER,TEX_FLOWER_SPECULAR};
-enum material_ennum {MAT_1 = 0,
-					MAT_2,
-					TERRAIN_MAT};
+enum shader_enums
+{
+	SHADER_CORE_PROGRAM,
+	SHADER_TERRAIN,
+	SHADERS_TERRAIN
+};
+enum texture_enum 
+{
+	TEX_PUSHEEM,TEX_PUSHEEN_SPECULAR,
+	TEX_CONTAINER,TEX_CONTAINER_SPECULAR,
+	TEX_FLOWER,TEX_FLOWER_SPECULAR
+};
+enum material_ennum
+{
+	MAT_1 = 0,
+	MAT_2,
+	TERRAIN_MAT
+};
 enum mesh_enum {MESH_QUAD = 0};
+enum heighMaps_enum
+{
+	HEIGHTMAP_1
+};
 
 class Game
 {
@@ -77,6 +90,7 @@ private:
 	std::vector<Shader*> shaders;
 	//Textures
 	std::vector<Texture*> textures;
+	std::vector<Texture*> HeightMaps;
 	//Materials
 	std::vector<Material*> materials;
 	//Models

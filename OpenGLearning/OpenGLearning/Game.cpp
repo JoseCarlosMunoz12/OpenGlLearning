@@ -106,7 +106,8 @@ void Game::initTextures()
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA));
 	//HeightMap
-	this->textures.push_back(new Texture("Images/ssets.png", GL_TEXTURE_2D, GL_RGBA));
+	this->HeightMaps.push_back(new Texture("Images/heightmap.png", GL_TEXTURE_2D, GL_RGBA));
+
 }
 
 void Game::initMaterials()
@@ -558,13 +559,11 @@ int Game::getWindowShouldClose()
 {
 	return glfwWindowShouldClose(this->window);
 }
-
 //Modifiers
 void Game::setWindowShouldClose()
 {
 	glfwSetWindowShouldClose(this->window, GLFW_TRUE);
 }
-
 //Functions
 void Game::update()
 {
