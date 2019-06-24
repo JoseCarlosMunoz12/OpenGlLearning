@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "Texture.h"
 #include <map>
 #include <glew.h>
 #include <glfw3.h>
@@ -198,6 +199,10 @@ public:
 			}
 		}
 		this->set(VertexOfTerrain, IndecesOfTerrain);
+	}
+	CustomTerrain(int Size, int Dimension, Texture* HeightMap, int MaxHieght)
+	{
+		HeightMap->GetImageRGBInfo(0,0,Size, Size, RED_CHOSEN);
 	}
 };
 

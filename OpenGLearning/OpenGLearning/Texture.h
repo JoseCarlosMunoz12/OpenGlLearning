@@ -74,7 +74,7 @@ public:
 	{
 		return this->Name;
 	}
-	int GetImageRGBInfo(float XPos, float YPos, float WidthPos,float HeightPOs, float , RGBA_chosen ColorChosen)
+	int GetImageRGBInfo(float XPos, float YPos, float WidthPos,float HeightPOs, RGBA_chosen ColorChosen)
 	{
 		
 		unsigned int BytePerPixel = this->NumOfChannels;
