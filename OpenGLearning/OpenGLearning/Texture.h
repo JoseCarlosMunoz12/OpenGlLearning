@@ -74,13 +74,12 @@ public:
 	{
 		return this->Name;
 	}
-	int GetImageRGBInfo(float XPos, float YPos, float WidthPos,float HeightPOs, RGBA_chosen ColorChosen)
+	int GetImageRGBInfo(float XPos, float YPos, float WidthPos,float HeightPos, RGBA_chosen ColorChosen)
 	{
-		
 		unsigned int BytePerPixel = this->NumOfChannels;
-		unsigned int XPosConv;
-		unsigned int YPosConv;
-		unsigned char* PixelOffset = this->ImageRGB + (XPosConv +YPosConv * this->height ) * BytePerPixel;
+		unsigned int XPosConv = XPos / WidthPos * this->width;
+		unsigned int YPosConv = YPos / HeightPos * this->height;
+		unsigned char* PixelOffset = this->ImageRGB + (XPosConv + YPosConv * this->height ) * BytePerPixel;
 
 		switch (ColorChosen)
 		{

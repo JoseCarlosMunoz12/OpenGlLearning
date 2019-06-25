@@ -123,7 +123,7 @@ void Game::initModels()
 {
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(500, 500),
+			&CustomTerrain(500, 500,this->HeightMaps[HEIGHTMAP_1],10),
 			"Terrain",
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
@@ -155,7 +155,7 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(9.f, 0.f, 0.f),
 		this->materials[MAT_1],
-		{ this->textures[11],this->textures[11], this->textures[13]},
+		{ this->textures[11],this->textures[11], this->textures[12]},
 		meshes[1],
 		"Stall Image"));
 	this->NamesOfModels.push_back("Stall Image");

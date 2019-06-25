@@ -27,12 +27,15 @@ enum material_ennum
 	MAT_2,
 	TERRAIN_MAT
 };
-enum mesh_enum {MESH_QUAD = 0};
-enum heighMaps_enum
+enum mesh_enum
+{
+	MESH_QUAD = 0
+};
+enum heightMaps_enum
 {
 	HEIGHTMAP_1
 };
-
+//Class of File
 class Game
 {
 private:
