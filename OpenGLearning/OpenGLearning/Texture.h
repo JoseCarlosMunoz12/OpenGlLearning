@@ -12,6 +12,11 @@ enum RGBA_chosen {
 	BLUE_CHOSEN,
 	AlPHA_CHOSEN
 };
+enum file_type
+{
+	TEXTURE_FILE_TYPE,
+	HEIGHT_MAP_FILE_TYPE
+};
 
 class Texture
 {
@@ -24,7 +29,7 @@ private:
 	const char* Name;
 	unsigned char* ImageRGB;
 public:
-	Texture(const char* fileName, GLenum type, GLenum ColorType)
+	Texture(const char* fileName, GLenum type, GLenum ColorType, file_type FileChosen)
 	{
 		this->type = type;
 		this->Name = fileName;
@@ -50,7 +55,15 @@ public:
 		}
 		glActiveTexture(0);
 		glBindTexture(type, 0);
-		SOIL_free_image_data(image);
+		switch (FileChosen)
+		{
+			case TEXTURE_FILE_TYPE:
+				SOIL_free_image_data(image);
+				break;
+			default:
+				break;
+		}
+	
 	}
 	~Texture()
 	{
