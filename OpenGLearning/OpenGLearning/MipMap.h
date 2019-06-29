@@ -7,6 +7,11 @@
 #include <vector>
 #include <SOIL2.h>
 
+enum RGBA_chosen {
+	RED_CHOSEN,
+	GREEN_CHOSEN,
+	BLUE_CHOSEN
+};
 
 class MipMap
 {
@@ -26,19 +31,23 @@ private:
 			std::vector<glm::vec3> TempVec;
 			for (size_t jj = 0; jj < this->Height; jj++)
 			{
-				glm::vec4 TempVec4;
+				glm::vec3 TempVec3;
 				unsigned char* PixelOffset = image + (ii + jj * Height) * BytePerPixel;
-				
+				TempVec3.r = (int)PixelOffset[0];
+				TempVec3.g = (int)PixelOffset[1];
+				TempVec3.b = (int)PixelOffset[2];
+				TempVec.push_back(TempVec3);
 			}
+			this->MipMapHolder.push_back(TempVec);
 		}
-
+		SOIL_free_image_data(image);
 	}
 
 	~MipMap()
 	{
 
 	}
-	glm::vec3 ReturnValue(float XPos, float YPos, float WidthPos)
+	float ReturnValue(float XPos, float YPos, float WidthPos, RGBA_chosen ColorChosen)
 	{
 
 	}

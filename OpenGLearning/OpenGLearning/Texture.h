@@ -103,7 +103,7 @@ public:
 				return (int)PixelOffset[1];
 				break;
 			case BLUE_CHOSEN:
-				return (int)PixelOffset[3];
+				return (int)PixelOffset[2];
 				break;
 			case AlPHA_CHOSEN:
 				return this->NumOfChannels >= 4 ? (int)PixelOffset[3] : int(0xff);
