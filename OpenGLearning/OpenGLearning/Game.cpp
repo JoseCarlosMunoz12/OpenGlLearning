@@ -122,9 +122,9 @@ void Game::initModels()
 {
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1],5),
+			&CustomTerrain(750, 750, this->MipMapsData[HEIGHTMAP_1],80),
 			"Terrain",
-			glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(0.f, -20.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));

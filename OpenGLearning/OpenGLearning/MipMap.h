@@ -33,9 +33,9 @@ public:
 			{
 				glm::vec3 TempVec3;
 				unsigned char* PixelOffset = image + (ii + jj * Height) * BytePerPixel;
-				TempVec3.r = (int)PixelOffset[0];
-				TempVec3.g = (int)PixelOffset[1];
-				TempVec3.b = (int)PixelOffset[2];
+				TempVec3.r = (float)PixelOffset[0];
+				TempVec3.g = (float)PixelOffset[1];
+				TempVec3.b = (float)PixelOffset[2];
 				TempVec.push_back(TempVec3);
 			}
 			this->MipMapHolder.push_back(TempVec);
@@ -49,8 +49,8 @@ public:
 	}
 	float ReturnValue(float XPos, float YPos, float WidthPos, float HeightPos,  RGBA_chosen ColorChosen)
 	{
-		unsigned int XPosConv = (XPos + WidthPos/2) / WidthPos * this->Width;
-		unsigned int YPosConv = (YPos +HeightPos/2) / HeightPos * this->Height;
+		unsigned int XPosConv = ((int)XPos + WidthPos/2) / WidthPos * this->Width;
+		unsigned int YPosConv = ((int)YPos +HeightPos/2) / HeightPos * this->Height;
 		switch (ColorChosen)
 		{
 		case RED_CHOSEN:

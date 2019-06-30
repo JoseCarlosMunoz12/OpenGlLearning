@@ -216,9 +216,9 @@ public:
 				positions.x = ((float)ii - Dimension / 2) / ((float)Dimension - 1) * Size;
 				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 
-				float HMapRatio = HeightMap->ReturnValue(positions.x, positions.z,Size,Size, RED_CHOSEN) /255.f;
+				float HMapRatio = HeightMap->ReturnValue(positions.x, positions.z,Dimension,Dimension, RED_CHOSEN) /255.f;
 
-				int YPos = HMapRatio * MaxHieght;
+				float YPos = HMapRatio * MaxHieght;
 								
 				positions.y = YPos;
 
