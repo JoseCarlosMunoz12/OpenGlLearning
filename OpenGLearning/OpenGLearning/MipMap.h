@@ -49,8 +49,8 @@ public:
 	}
 	float ReturnValue(float XPos, float YPos, float WidthPos, float HeightPos,  RGBA_chosen ColorChosen)
 	{
-		unsigned int XPosConv = XPos / WidthPos * this->Width;
-		unsigned int YPosConv = YPos / HeightPos * this->Height;
+		unsigned int XPosConv = (XPos + WidthPos/2) / WidthPos * this->Width;
+		unsigned int YPosConv = (YPos +HeightPos/2) / HeightPos * this->Height;
 		switch (ColorChosen)
 		{
 		case RED_CHOSEN:
