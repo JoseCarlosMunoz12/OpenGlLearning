@@ -16,6 +16,7 @@
 
 #include <SOIL2.h>
 
+#include "MipMap.h"
 #include "Vertex.h"
 #include "Primitive.h"
 #include "Shader.h"

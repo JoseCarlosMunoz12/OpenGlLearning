@@ -90,7 +90,7 @@ private:
 	std::vector<Shader*> shaders;
 	//Textures
 	std::vector<Texture*> textures;
-	std::vector<Texture*> HeightMaps;
+	std::vector<MipMap*> MipMapsData;
 	//Materials
 	std::vector<Material*> materials;
 	//Models

@@ -6,17 +6,7 @@
 #include <glfw3.h>
 #include <SOIL2.h>
 
-enum RGBA_chosen {
-	RED_CHOSEN,
-	GREEN_CHOSEN,
-	BLUE_CHOSEN,
-	AlPHA_CHOSEN
-};
-enum file_type
-{
-	TEXTURE_FILE_TYPE,
-	HEIGHT_MAP_FILE_TYPE
-};
+
 
 class Texture
 {
@@ -29,7 +19,7 @@ private:
 	const char* Name;
 	unsigned char* ImageRGB;
 public:
-	Texture(const char* fileName, GLenum type, GLenum ColorType, file_type FileChosen)
+	Texture(const char* fileName, GLenum type, GLenum ColorType)
 	{
 		this->type = type;
 		this->Name = fileName;
@@ -38,7 +28,6 @@ public:
 		this->ImageRGB = image;
 		glGenTextures(1, &this->id);
 		glBindTexture(type, this->id);
-		std::cout << fileName << "  " << this->NumOfChannels << "\n";
 		glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -55,14 +44,8 @@ public:
 		}
 		glActiveTexture(0);
 		glBindTexture(type, 0);
-		switch (FileChosen)
-		{
-			case TEXTURE_FILE_TYPE:
-				SOIL_free_image_data(image);
-				break;
-			default:
-				break;
-		}
+
+		SOIL_free_image_data(image);
 	
 	}
 	~Texture()
@@ -86,31 +69,5 @@ public:
 	const char* GiveChar()
 	{
 		return this->Name;
-	}
-	int GetImageRGBInfo(float XPos, float YPos, float WidthPos,float HeightPos, RGBA_chosen ColorChosen)
-	{
-		unsigned int BytePerPixel = this->NumOfChannels;
-		unsigned int XPosConv = XPos / WidthPos * this->width;
-		unsigned int YPosConv = YPos / HeightPos * this->height;
-		unsigned char* PixelOffset = this->ImageRGB + (XPosConv + YPosConv * this->height ) * BytePerPixel;
-
-		switch (ColorChosen)
-		{
-			case RED_CHOSEN:
-				return (int)PixelOffset[0];
-				break;
-			case GREEN_CHOSEN:
-				return (int)PixelOffset[1];
-				break;
-			case BLUE_CHOSEN:
-				return (int)PixelOffset[2];
-				break;
-			case AlPHA_CHOSEN:
-				return this->NumOfChannels >= 4 ? (int)PixelOffset[3] : int(0xff);
-				break;
-			default:
-				return 0;
-		}
-		return 0;
 	}
 };

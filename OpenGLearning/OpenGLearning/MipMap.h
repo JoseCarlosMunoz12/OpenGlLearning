@@ -21,7 +21,7 @@ private:
 	int Width;
 	int Height;
 	int NumOfChannels;
-
+public:
 	MipMap(const char* filename)
 	{
 		unsigned char* image = SOIL_load_image(filename,&this->Width,&this->Height,&this->NumOfChannels, SOIL_LOAD_RGBA);
@@ -47,8 +47,24 @@ private:
 	{
 
 	}
-	float ReturnValue(float XPos, float YPos, float WidthPos, RGBA_chosen ColorChosen)
+	float ReturnValue(float XPos, float YPos, float WidthPos, float HeightPos,  RGBA_chosen ColorChosen)
 	{
+		unsigned int XPosConv = XPos / WidthPos * this->Width;
+		unsigned int YPosConv = YPos / HeightPos * this->Height;
+		switch (ColorChosen)
+		{
+		case RED_CHOSEN:
+			return this->MipMapHolder[XPosConv][YPosConv].r;
+			break;
+		case GREEN_CHOSEN:
+			return this->MipMapHolder[XPosConv][YPosConv].g;
+			break;
+		case BLUE_CHOSEN:
+			return this->MipMapHolder[XPosConv][YPosConv].b;
+			break;
+		default:
+			return 0.f;
+		}
 
 	}
 };

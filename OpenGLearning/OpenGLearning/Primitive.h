@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "Texture.h"
 #include <map>
 #include <glew.h>
 #include <glfw3.h>
@@ -9,6 +8,7 @@
 #include <string>
 
 #include "Vertex.h"
+#include "MipMap.h"
 
 class Primitive
 
@@ -200,7 +200,7 @@ public:
 		}
 		this->set(VertexOfTerrain, IndecesOfTerrain);
 	}
-	CustomTerrain(int Size, int Dimension, Texture* HeightMap, int MaxHieght)
+	CustomTerrain(int Size, int Dimension, MipMap* HeightMap, int MaxHieght)
 	{
 
 		std::vector<Vertex> VertexOfTerrain;
@@ -216,7 +216,7 @@ public:
 				positions.x = ((float)ii - Dimension / 2) / ((float)Dimension - 1) * Size;
 				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 
-				float HMapRatio = HeightMap->GetImageRGBInfo( ii, jj, Dimension, Dimension, RED_CHOSEN) /255.f;
+				float HMapRatio = HeightMap->ReturnValue(positions.x, positions.z,Size,Size, RED_CHOSEN) /255.f;
 
 				int YPos = HMapRatio * MaxHieght;
 								
