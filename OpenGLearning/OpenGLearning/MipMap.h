@@ -26,10 +26,10 @@ public:
 	{
 		unsigned char* image = SOIL_load_image(filename,&this->Width,&this->Height,&this->NumOfChannels, SOIL_LOAD_RGBA);
 		unsigned int BytePerPixel = this->NumOfChannels;
-		for (size_t ii = 0; ii < this->Width; ii++)
+		for (size_t ii = 0; ii < this->Height; ii++)
 		{
 			std::vector<glm::vec3> TempVec;
-			for (size_t jj = 0; jj < this->Height; jj++)
+			for (size_t jj = 0; jj < this->Width; jj++)
 			{
 				glm::vec3 TempVec3;
 				unsigned char* PixelOffset = image + (ii + jj * Height) * BytePerPixel;
@@ -49,18 +49,18 @@ public:
 	}
 	float ReturnValue(float XPos, float YPos, float WidthPos, float HeightPos,  RGBA_chosen ColorChosen)
 	{
-		unsigned int XPosConv = ((int)XPos + WidthPos/2) / WidthPos * this->Width;
-		unsigned int YPosConv = ((int)YPos +HeightPos/2) / HeightPos * this->Height;
+		unsigned int XPosConv = (int)(XPos + WidthPos/2) / WidthPos * this->Width;
+		unsigned int YPosConv = (int)(YPos + HeightPos/2) / HeightPos * this->Height;
 		switch (ColorChosen)
 		{
 		case RED_CHOSEN:
-			return this->MipMapHolder[XPosConv][YPosConv].r;
+			return this->MipMapHolder[YPosConv][XPosConv].r;
 			break;
 		case GREEN_CHOSEN:
-			return this->MipMapHolder[XPosConv][YPosConv].g;
+			return this->MipMapHolder[YPosConv][XPosConv].g;
 			break;
 		case BLUE_CHOSEN:
-			return this->MipMapHolder[XPosConv][YPosConv].b;
+			return this->MipMapHolder[YPosConv][XPosConv].b;
 			break;
 		default:
 			return 0.f;

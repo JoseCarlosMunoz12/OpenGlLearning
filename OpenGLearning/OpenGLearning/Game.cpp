@@ -106,7 +106,7 @@ void Game::initTextures()
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA ));
 	//HeightMap Info
-	this->MipMapsData.push_back(new MipMap("Images/heightmap.png"));
+	this->MipMapsData.push_back(new MipMap("Images/blendMap.png"));
 }
 
 void Game::initMaterials()
@@ -122,9 +122,9 @@ void Game::initModels()
 {
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(750, 750, this->MipMapsData[HEIGHTMAP_1],80),
+			&CustomTerrain(200, 500, this->MipMapsData[HEIGHTMAP_1],10),
 			"Terrain",
-			glm::vec3(0.f, -20.f, 0.f),
+			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
