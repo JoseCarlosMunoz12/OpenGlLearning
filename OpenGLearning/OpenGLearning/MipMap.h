@@ -22,9 +22,11 @@ private:
 	int Height;
 	int NumOfChannels;
 public:
-	MipMap(const char* filename)
+	MipMap(const char* filename,int& RecordWidth, int& RecordHeight)
 	{
 		unsigned char* image = SOIL_load_image(filename,&this->Width,&this->Height,&this->NumOfChannels, SOIL_LOAD_RGBA);
+		RecordWidth = this->Width;
+		RecordHeight = this->Height;
 		unsigned int BytePerPixel = this->NumOfChannels;
 		for (size_t ii = 0; ii < this->Height; ii++)
 		{
@@ -32,7 +34,7 @@ public:
 			for (size_t jj = 0; jj < this->Width; jj++)
 			{
 				glm::vec3 TempVec3;
-				unsigned char* PixelOffset = image + (jj + ii * Width) * BytePerPixel;
+				unsigned char* PixelOffset = image + (ii + jj * this->Width) * BytePerPixel;
 				TempVec3.r = (float)PixelOffset[0];
 				TempVec3.g = (float)PixelOffset[1];
 				TempVec3.b = (float)PixelOffset[2];
