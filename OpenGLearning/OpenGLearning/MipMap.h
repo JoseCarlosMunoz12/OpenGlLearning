@@ -69,6 +69,24 @@ public:
 		default:
 			return 0.f;
 		}
-
+	}
+	int ReturnColorChosen(float XPos, float YPos, float WidthPos, float HeightPos, RGBA_chosen ColorChosen)
+	{
+		unsigned int XPosConv = (int)(XPos + WidthPos / 2) / WidthPos * this->Width;
+		unsigned int YPosConv = (int)(YPos + HeightPos / 2) / HeightPos * this->Height;
+		switch (ColorChosen)
+		{
+		case RED_CHOSEN:
+			return this->MipMapHolder[YPosConv][XPosConv].r;
+			break;
+		case GREEN_CHOSEN:
+			return this->MipMapHolder[YPosConv][XPosConv].g;
+			break;
+		case BLUE_CHOSEN:
+			return this->MipMapHolder[YPosConv][XPosConv].b;
+			break;
+		default:
+			return 0.f;
+		}
 	}
 };
