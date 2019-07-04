@@ -122,7 +122,7 @@ void Game::initModels()
 {
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1],10),
+			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain",
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
@@ -152,14 +152,14 @@ void Game::initModels()
 		"Terrain"));
 	this->NamesOfModels.push_back("Terrain");
 	this->models.push_back(new Model(
-		glm::vec3(9.f, 0.f, 0.f),
+		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f, 500, 500, RED_CHOSEN), 0.f),
 		this->materials[MAT_1],
 		{ this->textures[11],this->textures[11], this->textures[12]},
 		meshes[1],
 		"Stall Image"));
 	this->NamesOfModels.push_back("Stall Image");
 	this->models.push_back(new Model(
-		glm::vec3(0.f, 0.f, 9.f),
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f, 500, 500, RED_CHOSEN), 9.f),
 		this->materials[MAT_2],
 		{this->textures[12], this->textures[12]},
 		meshes[2],

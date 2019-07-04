@@ -25,6 +25,7 @@ private:
 public:
 	MipMap(const char* filename,int& RecordWidth, int& RecordHeight, float MaxHeightChoosen)
 	{
+		this->MaxHeight = MaxHeightChoosen;
 		unsigned char* image = SOIL_load_image(filename,&this->Width,&this->Height,&this->NumOfChannels, SOIL_LOAD_RGBA);
 		RecordWidth = this->Width;
 		RecordHeight = this->Height;
@@ -58,13 +59,13 @@ public:
 		switch (ColorChosen)
 		{
 		case RED_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].r;
+			return this->MipMapHolder[YPosConv][XPosConv].r /255.f * this->MaxHeight;
 			break;
 		case GREEN_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].g;
+			return this->MipMapHolder[YPosConv][XPosConv].g / 255.f * this->MaxHeight;
 			break;
 		case BLUE_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].b;
+			return this->MipMapHolder[YPosConv][XPosConv].b / 255.f * this->MaxHeight;
 			break;
 		default:
 			return 0.f;

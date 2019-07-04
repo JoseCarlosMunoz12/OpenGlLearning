@@ -200,7 +200,7 @@ public:
 		}
 		this->set(VertexOfTerrain, IndecesOfTerrain);
 	}
-	CustomTerrain(int Size, int Dimension, MipMap* HeightMap, int MaxHieght)
+	CustomTerrain(int Size, int Dimension, MipMap* HeightMap)
 	{
 
 		std::vector<Vertex> VertexOfTerrain;
@@ -216,11 +216,8 @@ public:
 				positions.x = ((float)ii - Dimension / 2) / ((float)Dimension - 1) * Size;
 				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 
-				float HMapRatio = HeightMap->ReturnValue(positions.x, positions.z,Size,Size, RED_CHOSEN) /255.f;
-
-				float YPos = HMapRatio * MaxHieght;
 								
-				positions.y = YPos;
+				positions.y = HeightMap->ReturnValue(positions.x, positions.z,Size,Size, RED_CHOSEN);
 
 				normals.x = 0;
 				normals.y = 1;
