@@ -106,7 +106,7 @@ void Game::initTextures()
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA ));
 	//HeightMap Info
-	this->MipMapsData.push_back(new MipMap("Images/TestMap.png", this->MapWidth,this->MapHeigth,10.f));
+	this->MipMapsData.push_back(new MipMap("Images/heightMap.png", this->MapWidth,this->MapHeigth,10.f));
 }
 
 void Game::initMaterials()
