@@ -20,6 +20,7 @@ out vec4 fs_color;
 //Uniforms
 uniform Material material;
 uniform vec3 lightPos0;
+uniform vec3 lightColor;
 uniform vec3 cameraPos;
 uniform vec3 SkyColor;
 
@@ -67,8 +68,7 @@ void main()
 	//Attenuation
 
 	//Final light
-	fs_color = 
-	texture(material.diffuseTex, vs_texcoord)
+	fs_color = texture(material.diffuseTex, vs_texcoord)
 	* (vec4(ambientFinal, 1.f) + vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f));
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }

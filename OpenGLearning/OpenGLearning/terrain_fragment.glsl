@@ -22,6 +22,7 @@ uniform sampler2D texture0;
 uniform sampler2D texture1;
 
 uniform vec3 lightPos0;
+uniform vec3 lightColor;
 uniform vec3 cameraPos;
 
 vec3 calculateAmbient(Material material)
@@ -68,7 +69,7 @@ void main()
 	//Attenuation
 
 	//Final Color
-	fs_color = 
+	fs_color =
 	texture(material.diffuseTex, vs_texcoord)
 	* (vec4(ambientFinal, 1.f) + vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f));
 }
