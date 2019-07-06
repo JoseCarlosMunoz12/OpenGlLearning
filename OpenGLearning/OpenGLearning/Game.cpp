@@ -111,7 +111,7 @@ void Game::initTextures()
 
 void Game::initMaterials()
 {
-	this->materials.push_back(new Material(SkyColor, glm::vec3(1.f), glm::vec3(1.f), glm::vec3(1.f),
+	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1,"Material 1",0));
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1, "Material 2",1));
@@ -170,6 +170,8 @@ void Game::initModels()
 void Game::initLights()
 {
 	this->lights.push_back(new glm::vec3(0.f, 0.f, 0.f));
+	this->TestLights.push_back(new Lights({ glm::vec3(0.f,0.f,1.f),glm::vec3(1.f,1.f,1.f) }));
+	std::cout << this->TestLights[0]->position.x;
 }
 
 void Game::initUniforms()
@@ -433,7 +435,7 @@ void Game::updateUniforms()
 	this->ViewMatrix = this->camera.GetViewMatrix();
 	for (auto& ii :this->shaders)
 	{
-		ii->setVec3f(*this->lights[0], "lightPos0");
+		ii->setVec3f(this->TestLights[0]->position, "lightPos0");
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		ii->setVec3f(this->camera.getPosition(), "cameraPos");
 	}
