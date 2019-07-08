@@ -8,3 +8,9 @@ struct Vertex
 	glm::vec2 texcoord;
 	glm::vec3 normal;
 };
+
+struct MouseItems
+{
+	float MousePosX;
+	float MousePosY;
+};
