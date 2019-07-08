@@ -83,6 +83,7 @@ public:
 	//Functions
 	void move(const float& dt, const int direction)
 	{
+		glm::vec3 ChangePos = glm::vec3(this->front.x, 0.f, this->front.z);
 		switch (direction)
 		{
 		case FORWARD:
