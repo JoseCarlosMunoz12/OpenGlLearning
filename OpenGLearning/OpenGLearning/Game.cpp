@@ -196,21 +196,25 @@ void Game::updateKeyboardInput()
 	if (glfwGetKey(this->window, GLFW_KEY_J) == GLFW_PRESS)
 	{
 		this->lights[0] = new glm::vec3(AmountZ, 0.f, Amount);
+		this->TestLights[0]->position =  glm::vec3(AmountZ, 0.f, Amount);
 		AmountZ += 1;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_K) == GLFW_PRESS)
 	{
 		this->lights[0] = new glm::vec3(AmountZ, 0.f, Amount);
+		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
 		AmountZ -= 1;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_I) == GLFW_PRESS)
 	{
 		this->lights[0] = new glm::vec3(AmountZ,0.f,Amount);
+		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
 		Amount += 1;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_U) == GLFW_PRESS)
 	{
 		this->lights[0] = new glm::vec3(AmountZ, 0.f,Amount);
+		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
 		Amount -= 1;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
