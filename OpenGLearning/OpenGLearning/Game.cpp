@@ -238,6 +238,11 @@ void Game::updateKeyboardInput()
 	{
 		this->camera.move(this->dt, RIGHT);
 	}
+	if (glfwGetKey(this->window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
+		this->camera.move(this->dt, UP);
+	}
+	//None Camer inputs
 	if (glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
 	{
 		this->MouseX = this->Window_Width/2;
