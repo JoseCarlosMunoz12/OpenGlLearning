@@ -150,6 +150,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MipMap.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MouseClicker.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
