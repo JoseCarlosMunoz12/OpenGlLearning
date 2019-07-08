@@ -154,7 +154,7 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f, 500, 500, RED_CHOSEN), 0.f),
 		this->materials[MAT_1],
-		{ this->textures[11],this->textures[11], this->textures[12]},
+		{ this->textures[11],this->textures[11]},
 		meshes[1],
 		"Stall Image"));
 	this->NamesOfModels.push_back("Stall Image");
