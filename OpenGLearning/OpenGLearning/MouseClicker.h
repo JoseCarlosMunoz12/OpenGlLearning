@@ -10,7 +10,7 @@ private:
 	double MouseY;
 	double mouseOffsetX;
 	double mouseOffsetY;
-	bool firstMouse;
+	bool firstMouse = true;
 	float Amount = 0;
 	float AmountZ = 0;
 public:

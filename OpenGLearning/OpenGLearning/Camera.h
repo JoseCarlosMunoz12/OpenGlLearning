@@ -121,6 +121,6 @@ public:
 
 	void updateInput(const float& dt, const int direction, const double& offsetX, const double& offsetY)
 	{
-	this->updateMouseInput(dt, offsetX, offsetY);
+		this->updateMouseInput(dt, offsetX, offsetY);
 	}
 };
