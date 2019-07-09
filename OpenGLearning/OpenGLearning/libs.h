@@ -25,3 +25,4 @@
 #include "Mesh.h"
 #include "Model.h"
 #include "Lights.h"
+#include "MouseClicker.h"

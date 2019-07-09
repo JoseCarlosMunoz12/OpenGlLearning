@@ -22,9 +22,20 @@ public:
 	{
 
 	}
-	void UpdateMouseInput()
+	void UpdateMouseInput(GLFWwindow* window)
 	{
-		
+		glfwGetCursorPos(window, &this->MouseX, &this->MouseY);
+		std::cout << this->MouseX << "-" << this->MouseY <<"\n";
+		if (this->firstMouse)
+		{
+			this->lastMouseX = this->MouseX;
+			this->lastMouseY = this->MouseY;
+			this->firstMouse = false;
+		}
+		//Calc offset
+		this->mouseOffsetX = this->MouseX - this->lastMouseX;
+		this->mouseOffsetY = this->lastMouseY - this->MouseY;
+		this->lastMouseX = this->MouseX;
+		this->lastMouseY = this->MouseY;
 	}
-
 };

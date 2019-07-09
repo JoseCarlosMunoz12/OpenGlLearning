@@ -319,6 +319,7 @@ void Game::updateMouseInput()
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
 	}
+	MouseToUse.UpdateMouseInput(this->window);
 }
 
 void Game::updateInput()

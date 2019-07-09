@@ -45,6 +45,7 @@ private:
 	float cuTime;
 	float lastTime;
 	//Mouse Input
+	Mouse MouseToUse;
 	double lastMouseX;
 	double lastMouseY;
 	double MouseX;
