@@ -2,6 +2,9 @@
 #include <glew.h>
 #include <glfw3.h>
 
+#include <glm.hpp>
+#include <mat4x4.hpp>
+
 #include "Vertex.h"
 
 class Mouse
@@ -43,5 +46,9 @@ public:
 	MouseItems GetOffset()
 	{
 		return {this->mouseOffsetX,this->mouseOffsetY};
+	}
+	glm::vec3 MouseRay()
+	{
+
 	}
 };

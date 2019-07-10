@@ -272,6 +272,7 @@ void Game::updateMouseInput()
 			glm::vec4 temp = glm::inverse(this->ViewMatrix) * ray_eye;
 			this->worldSpace = glm::vec3(temp.x, temp.y, temp.z);
 			this->worldSpace = glm::normalize(this->worldSpace);
+
 			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{
 				glm::vec3 MousePosition = this->camera.getPosition();
