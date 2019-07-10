@@ -120,8 +120,8 @@ public:
 			this->yaw = 0.f;
 	}
 
-	void updateInput(const float& dt, const int direction, const double& offsetX, const double& offsetY)
+	void updateInput(const float& dt, const int direction, MouseItems MouseOffset)
 	{
-		this->updateMouseInput(dt, offsetX, offsetY);
+		this->updateMouseInput(dt, MouseOffset.offsetX, MouseOffset.offsetY);
 	}
 };

@@ -55,6 +55,7 @@ private:
 	bool firstMouse;
 	float Amount = 0;
 	float AmountZ = 0;
+
 	int MapWidth;
 	int MapHeigth;
 
