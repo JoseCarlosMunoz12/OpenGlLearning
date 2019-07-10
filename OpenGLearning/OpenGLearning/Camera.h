@@ -9,6 +9,7 @@
 #include <vec3.hpp>
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
+#include "Vertex.h"
 
 enum direction{FORWARD = 0,
 				BACKWARD,

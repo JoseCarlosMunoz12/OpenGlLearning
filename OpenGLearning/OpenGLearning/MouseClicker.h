@@ -1,5 +1,8 @@
 #pragma once
-#include "libs.h"
+#include <glew.h>
+#include <glfw3.h>
+
+#include "Vertex.h"
 
 class Mouse
 {
@@ -25,7 +28,6 @@ public:
 	void UpdateMouseInput(GLFWwindow* window)
 	{
 		glfwGetCursorPos(window, &this->MouseX, &this->MouseY);
-		std::cout << this->MouseX << "-" << this->MouseY <<"\n";
 		if (this->firstMouse)
 		{
 			this->lastMouseX = this->MouseX;
@@ -37,5 +39,9 @@ public:
 		this->mouseOffsetY = this->lastMouseY - this->MouseY;
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
+	}
+	MouseItems GetOffset()
+	{
+		return {this->mouseOffsetX,this->mouseOffsetY};
 	}
 };

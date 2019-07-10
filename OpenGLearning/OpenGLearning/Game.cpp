@@ -319,7 +319,12 @@ void Game::updateMouseInput()
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
 	}
-	MouseToUse.UpdateMouseInput(this->window);
+	this->MouseToUse.UpdateMouseInput(this->window);
+
+	MouseItems Temp = this->MouseToUse.GetOffset();
+	std::cout << Temp.offsetX << "--" << Temp.offsetY << "\n";
+
+
 }
 
 void Game::updateInput()
@@ -331,7 +336,8 @@ void Game::updateInput()
 	this->updateOpenGLOptions();
 	this->updateKeyboardInput();
 	this->updateMouseInput();
-	this->camera.updateInput(dt,-1,this->mouseOffsetX, this->mouseOffsetY);
+	MouseItems Temp = this->MouseToUse.GetOffset();
+	this->camera.updateInput(dt,-1,Temp.offsetX, Temp.offsetY);
 }
 
 void Game::ImGuiOptions()

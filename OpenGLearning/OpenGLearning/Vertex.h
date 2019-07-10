@@ -11,6 +11,6 @@ struct Vertex
 
 struct MouseItems
 {
-	float MousePosX;
-	float MousePosY;
+	double offsetX;
+	double offsetY;
 };
