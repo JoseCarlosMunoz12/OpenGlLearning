@@ -47,8 +47,17 @@ public:
 	{
 		return {this->mouseOffsetX,this->mouseOffsetY};
 	}
-	glm::vec3 MouseRay()
+	glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
+						glm::mat4 ProjectionMatrix,  glm::mat4 ViewMatrix)
 	{
-
+		glm::vec2 NormalizeCoord;
+		NormalizeCoord.x = (2.f * this->MouseX / float(FrameBufffer.Width)) - 1.f;
+		NormalizeCoord.y = 1.f - (2.f * this->MouseY / float(FrameBufffer.Height));
+		glm::vec4 ScreenPos = glm::vec4(NormalizeCoord, -1.f, 1.f);
+		glm::vec4 RayEye = glm::inverse(ProjectionMatrix) * ScreenPos;
+		RayEye = glm::vec4(RayEye.x, RayEye.y, -1, 0);
+		glm::vec4 Temp = glm::inverse(ViewMatrix) * RayEye;
+		glm::vec3 WorldSpace = glm::vec3(Temp.x, Temp.y, Temp.z);
+		return glm::normalize(WorldSpace);
 	}
 };

@@ -107,7 +107,7 @@ private:
 	//Names of each Model
 	std::vector<std::string> NamesOfModels;
 	// Empty Variables for new models
-	Material* NewMat;
+	Material* NewMat; 
 	std::vector<Texture*> NewTex0;
 	glm::vec3 SpaceLoc;
 	Mesh* NewMesh;
