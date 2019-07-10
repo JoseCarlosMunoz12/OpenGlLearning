@@ -313,15 +313,8 @@ void Game::updateMouseInput()
 		this->lastMouseY = this->MouseY;
 		this->firstMouse = false;
 	}
-	//Calc offset
-		this->mouseOffsetX = this->MouseX - this->lastMouseX;
-		this->mouseOffsetY = this->lastMouseY - this->MouseY;
-		this->lastMouseX = this->MouseX;
-		this->lastMouseY = this->MouseY;
+		this->MouseToUse.UpdateMouseInput(this->window);
 	}
-	this->MouseToUse.UpdateMouseInput(this->window);
-
-
 }
 
 void Game::updateInput()
