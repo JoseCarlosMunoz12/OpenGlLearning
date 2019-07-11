@@ -14,6 +14,12 @@ struct MouseItems
 	double offsetX;
 	double offsetY;
 };
+
+struct MousePositions
+{
+	double MousePosX;
+	double MousePosY;
+};
 struct FrameBufferItems
 {
 	int Width;

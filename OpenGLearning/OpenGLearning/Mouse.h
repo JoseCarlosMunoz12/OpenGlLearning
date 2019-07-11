@@ -60,4 +60,15 @@ public:
 		glm::vec3 WorldSpace = glm::vec3(Temp.x, Temp.y, Temp.z);
 		return glm::normalize(WorldSpace);
 	}
+	MousePositions getMousPos()
+	{
+		return {this->MouseX, this->MouseY};
+	}
+	void SetMouseCenter(GLFWwindow* window, int WindowWidth, int WindowHeight)
+	{
+		this->MouseX = WindowWidth / 2.f;
+		this->MouseY = WindowHeight / 2.f;
+		glfwSetCursorPos(window, this->MouseX, this->MouseY);
+	}
+
 };

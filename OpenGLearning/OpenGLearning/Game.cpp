@@ -245,9 +245,7 @@ void Game::updateKeyboardInput()
 	//None Camer inputs
 	if (glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
 	{
-		this->MouseX = this->Window_Width/2;
-		this->MouseY = this->Window_Height/2;
-		glfwSetCursorPos(this->window, this->MouseX, this->MouseY);
+		this->MouseToUse.SetMouseCenter(this->window,this->Window_Width, this->Window_Height);
 	}
 }
 
@@ -273,8 +271,11 @@ void Game::updateMouseInput()
 			this->worldSpace = glm::vec3(temp.x, temp.y, temp.z);
 			this->worldSpace = glm::normalize(this->worldSpace);
 
+			
 			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{
+				glm::vec3 TempVec = this->MouseToUse.MouseRay({frameBufferWidth,frameBufferHeight},
+										this->ProjectionMatrix,this->ViewMatrix);
 				glm::vec3 MousePosition = this->camera.getPosition();
 				this->SpaceLoc.x = -1 * ( MousePosition.y * this->worldSpace.x /this->worldSpace.y - MousePosition.x );
 				this->SpaceLoc.y = 0;
@@ -308,12 +309,7 @@ void Game::updateMouseInput()
 	}
 	else
 	{
-	if (this->firstMouse)
-	{
-		this->lastMouseX = this->MouseX;
-		this->lastMouseY = this->MouseY;
-		this->firstMouse = false;
-	}
+	
 		this->MouseToUse.UpdateMouseInput(this->window);
 	}
 }
@@ -508,15 +504,7 @@ Game::Game(const char * title,
 	this->dt = 0.f;
 	this->cuTime = 0.f;
 	this->lastTime = 0.f;
-	
-	this->lastMouseX = 0.f;
-	this->lastMouseY = 0.f;
-	this->MouseX = 0.f;
-	this->MouseY = 0.f;
-	this->mouseOffsetX = 0.f;
-	this->mouseOffsetY = 0.f;
-	this->firstMouse = true;
-	  	
+		  	
 	this->initGLFW();
 	this->initWindow(title,resizable);
 	this->initGLEW();
