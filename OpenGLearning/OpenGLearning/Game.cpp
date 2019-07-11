@@ -251,11 +251,10 @@ void Game::updateKeyboardInput()
 
 void Game::updateMouseInput()
 {
+	UICollision UICol;
 	if (this->MakeMesh)
 	{
-		if (this->MouseX >= this->ScreenPos.x && this->MouseX <= this->WinSize.x
-			&&
-			this->MouseY >= this->ScreenPos.y && this->MouseY <= this->WinSize.y)
+		if (! UICol.ImGuiCollisionDetection())
 		{
 			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{

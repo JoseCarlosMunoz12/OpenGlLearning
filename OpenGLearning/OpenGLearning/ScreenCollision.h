@@ -8,6 +8,7 @@
 
 class UICollision
 {
+public:
 	UICollision()
 	{
 
