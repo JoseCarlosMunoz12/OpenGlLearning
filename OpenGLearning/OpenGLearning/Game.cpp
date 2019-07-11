@@ -251,35 +251,20 @@ void Game::updateKeyboardInput()
 
 void Game::updateMouseInput()
 {
-	glfwGetCursorPos(this->window, &this->MouseX, &this->MouseY);
 	if (this->MakeMesh)
 	{
 		if (this->MouseX >= this->ScreenPos.x && this->MouseX <= this->WinSize.x
 			&&
 			this->MouseY >= this->ScreenPos.y && this->MouseY <= this->WinSize.y)
 		{
-			
-		}
-		else
-		{
-			this->NormalizedDeviceCoordinates.x = (2.f * this->MouseX / float(this->frameBufferWidth)) - 1.f;
-			this->NormalizedDeviceCoordinates.y = 1.f - (2.f * this->MouseY / float(this->frameBufferHeight));
-			glm::vec4 screenPos = glm::vec4(this->NormalizedDeviceCoordinates,-1.f,1.f);
-			glm::vec4 ray_eye = glm::inverse(this->ProjectionMatrix) * screenPos;
-			ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1, 0);
-			glm::vec4 temp = glm::inverse(this->ViewMatrix) * ray_eye;
-			this->worldSpace = glm::vec3(temp.x, temp.y, temp.z);
-			this->worldSpace = glm::normalize(this->worldSpace);
-
-			
 			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{
 				glm::vec3 TempVec = this->MouseToUse.MouseRay({frameBufferWidth,frameBufferHeight},
 										this->ProjectionMatrix,this->ViewMatrix);
 				glm::vec3 MousePosition = this->camera.getPosition();
-				this->SpaceLoc.x = -1 * ( MousePosition.y * this->worldSpace.x /this->worldSpace.y - MousePosition.x );
+				this->SpaceLoc.x = -1 * ( MousePosition.y * TempVec.x /TempVec.y - MousePosition.x );
 				this->SpaceLoc.y = 0;
-				this->SpaceLoc.z = -1 * ( MousePosition.y * this->worldSpace.z / this->worldSpace.y  - MousePosition.z);
+				this->SpaceLoc.z = -1 * ( MousePosition.y * TempVec.z / TempVec.y  - MousePosition.z);
 			}
 			static int oldState = GLFW_RELEASE;
 			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);

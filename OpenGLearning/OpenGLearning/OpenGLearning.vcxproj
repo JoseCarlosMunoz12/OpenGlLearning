@@ -152,6 +152,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Primitive.h" />
+    <ClInclude Include="ScreenCollision.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vertex.h" />
