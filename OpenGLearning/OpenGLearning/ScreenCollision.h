@@ -17,8 +17,12 @@ public:
 	{
 
 	}
-	bool ImGuiCollisionDetection()
+	bool ImGuiCollisionDetection(ImVec2 ScreenPos, ImVec2 WinSize,
+								 MousePositions MousePos)
 	{
-		return false;
+		bool XSide = MousePos.MousePosX >= ScreenPos.x && MousePos.MousePosX <= WinSize.x;
+		bool YSide = MousePos.MousePosY >= ScreenPos.y && MousePos.MousePosY <= WinSize.y;
+
+		return YSide && XSide ;
 	}
 };

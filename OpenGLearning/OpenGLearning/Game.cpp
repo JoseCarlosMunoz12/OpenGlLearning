@@ -251,12 +251,14 @@ void Game::updateKeyboardInput()
 
 void Game::updateMouseInput()
 {
+	this->MouseToUse.UpdateMouseInput(this->window);
 	UICollision UICol;
 	if (this->MakeMesh)
 	{
-		if (! UICol.ImGuiCollisionDetection())
+		if (!UICol.ImGuiCollisionDetection(this->ScreenPos,this->WinSize,
+											this->MouseToUse.getMousPos()))
 		{
-			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+			/*if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{
 				glm::vec3 TempVec = this->MouseToUse.MouseRay({frameBufferWidth,frameBufferHeight},
 										this->ProjectionMatrix,this->ViewMatrix);
@@ -288,13 +290,13 @@ void Game::updateMouseInput()
 				this->NewMeshID = -1;
 				}
 			}
-		oldState = newState;
-		}		
-	}
-	else
-	{
-	
-		this->MouseToUse.UpdateMouseInput(this->window);
+		oldState = newState;*/
+			std::cout << "out ImGui\n";
+		}
+		else
+		{
+			std::cout << "in the Mouse\n";
+		}
 	}
 }
 
@@ -307,8 +309,11 @@ void Game::updateInput()
 	this->updateOpenGLOptions();
 	this->updateKeyboardInput();
 	this->updateMouseInput();
+	if (!this->MakeMesh)
+	{
+		this->camera.updateInput(dt, -1, this->MouseToUse.GetOffset());
+	}
 	
-	this->camera.updateInput(dt,-1,this->MouseToUse.GetOffset());
 }
 
 void Game::ImGuiOptions()
