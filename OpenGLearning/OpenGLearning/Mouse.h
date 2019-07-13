@@ -5,6 +5,7 @@
 #include <glm.hpp>
 #include <mat4x4.hpp>
 
+#include "MipMap.h"
 #include "Vertex.h"
 
 class Mouse
@@ -69,6 +70,13 @@ public:
 		this->MouseX = WindowWidth / 2.f;
 		this->MouseY = WindowHeight / 2.f;
 		glfwSetCursorPos(window, this->MouseX, this->MouseY);
+	}
+
+	glm::vec3 NewPosition(MipMap MapToFind,FrameBufferItems FrameBuffer,
+						glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix)
+	{
+		glm::vec3 RayToUse = this->MouseRay(FrameBuffer, ProjectionMatrix, ViewMatrix);
+		
 	}
 
 };

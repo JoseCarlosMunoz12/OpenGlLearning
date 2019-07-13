@@ -106,7 +106,7 @@ void Game::initTextures()
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA ));
 	//HeightMap Info
-	this->MipMapsData.push_back(new MipMap("Images/heightMap.png", this->MapWidth,this->MapHeigth,10.f));
+	this->MipMapsData.push_back(new MipMap("Images/heightMap.png", this->MapWidth,this->MapHeigth,10.f,500.f,500.f));
 }
 
 void Game::initMaterials()
@@ -265,7 +265,9 @@ void Game::updateMouseInput()
 				glm::vec3 MousePosition = this->camera.getPosition();
 				this->SpaceLoc.x = -1 * ( MousePosition.y * TempVec.x /TempVec.y - MousePosition.x );
 				this->SpaceLoc.z = -1 * ( MousePosition.y * TempVec.z / TempVec.y  - MousePosition.z);
-				this->SpaceLoc.y = this->MipMapsData[HEIGHTMAP_1]->ReturnValue(this->SpaceLoc.x, this->SpaceLoc.z, 500, 500, RED_CHOSEN);
+				this->SpaceLoc.y = this->MipMapsData[HEIGHTMAP_1]->ReturnValue(this->SpaceLoc.x,
+																				this->SpaceLoc.z,
+																				500, 500, RED_CHOSEN);
 			}
 			static int oldState = GLFW_RELEASE;
 			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
