@@ -258,14 +258,14 @@ void Game::updateMouseInput()
 		if (!UICol.ImGuiCollisionDetection(this->ScreenPos,this->WinSize,
 											this->MouseToUse.getMousPos()))
 		{
-			/*if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{
 				glm::vec3 TempVec = this->MouseToUse.MouseRay({frameBufferWidth,frameBufferHeight},
 										this->ProjectionMatrix,this->ViewMatrix);
 				glm::vec3 MousePosition = this->camera.getPosition();
 				this->SpaceLoc.x = -1 * ( MousePosition.y * TempVec.x /TempVec.y - MousePosition.x );
-				this->SpaceLoc.y = 0;
 				this->SpaceLoc.z = -1 * ( MousePosition.y * TempVec.z / TempVec.y  - MousePosition.z);
+				this->SpaceLoc.y = this->MipMapsData[HEIGHTMAP_1]->ReturnValue(this->SpaceLoc.x, this->SpaceLoc.z, 500, 500, RED_CHOSEN);
 			}
 			static int oldState = GLFW_RELEASE;
 			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
@@ -290,12 +290,7 @@ void Game::updateMouseInput()
 				this->NewMeshID = -1;
 				}
 			}
-		oldState = newState;*/
-			std::cout << "out ImGui\n";
-		}
-		else
-		{
-			std::cout << "in the Mouse\n";
+		oldState = newState;
 		}
 	}
 }
