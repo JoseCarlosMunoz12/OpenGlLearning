@@ -217,7 +217,7 @@ public:
 				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 
 								
-				positions.y = HeightMap->ReturnValue(positions.x, positions.z,Size,Size, RED_CHOSEN);
+				positions.y = HeightMap->ReturnValue(positions.x, positions.z, RED_CHOSEN);
 
 				normals.x = 0;
 				normals.y = 1;

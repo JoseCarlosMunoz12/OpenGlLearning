@@ -56,11 +56,11 @@ public:
 	{
 
 	}
-	float ReturnValue(float XPos, float YPos, float WidthPos, float HeightPos,  RGBA_chosen ColorChosen)
+	float ReturnValue(float XPos, float YPos, RGBA_chosen ColorChosen)
 	{
 
-		unsigned int XPosConv = (int)(XPos + WidthPos/2) / WidthPos * this->Width;
-		unsigned int YPosConv = (int)(YPos + HeightPos/2) / HeightPos * this->Height;
+		unsigned int XPosConv = (int)(XPos + this->MapWidth/2) / this->MapWidth * this->Width;
+		unsigned int YPosConv = (int)(YPos + this->MapHeigth/2) / this->MapHeigth * this->Height;
 		switch (ColorChosen)
 		{
 		case RED_CHOSEN:
@@ -76,10 +76,10 @@ public:
 			return 0.f;
 		}
 	}
-	int ReturnColorChosen(float XPos, float YPos, float WidthPos, float HeightPos, RGBA_chosen ColorChosen)
+	int ReturnColorChosen(float XPos, float YPos, RGBA_chosen ColorChosen)
 	{
-		unsigned int XPosConv = (int)(XPos + WidthPos / 2) / WidthPos * this->Width;
-		unsigned int YPosConv = (int)(YPos + HeightPos / 2) / HeightPos * this->Height;
+		unsigned int XPosConv = (int)(XPos + this->MapWidth / 2) / this->MapWidth * this->Width;
+		unsigned int YPosConv = (int)(YPos + this->MapHeigth / 2) / this->MapHeigth * this->Height;
 		switch (ColorChosen)
 		{
 		case RED_CHOSEN:
