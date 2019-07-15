@@ -73,9 +73,14 @@ public:
 	}
 
 	glm::vec3 NewPosition(MipMap MapToFind,FrameBufferItems FrameBuffer,
-						glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix)
+						glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 MousePosition)
 	{
 		glm::vec3 RayToUse = this->MouseRay(FrameBuffer, ProjectionMatrix, ViewMatrix);
+
+		for (rsize_t t = 0; t < 200; t++)
+		{
+
+		}
 		
 	}
 

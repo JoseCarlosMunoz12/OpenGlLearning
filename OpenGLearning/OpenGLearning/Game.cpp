@@ -260,11 +260,11 @@ void Game::updateMouseInput()
 		{
 			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{
-				glm::vec3 TempVec = this->MouseToUse.MouseRay({frameBufferWidth,frameBufferHeight},
+				glm::vec3 RayRatio = this->MouseToUse.MouseRay({frameBufferWidth,frameBufferHeight},
 										this->ProjectionMatrix,this->ViewMatrix);
 				glm::vec3 MousePosition = this->camera.getPosition();
-				this->SpaceLoc.x = -1 * ( MousePosition.y * TempVec.x /TempVec.y - MousePosition.x );
-				this->SpaceLoc.z = -1 * ( MousePosition.y * TempVec.z / TempVec.y  - MousePosition.z);
+				this->SpaceLoc.x = -1 * ( MousePosition.y * RayRatio.x /RayRatio.y - MousePosition.x );
+				this->SpaceLoc.z = -1 * ( MousePosition.y * RayRatio.z / RayRatio.y  - MousePosition.z);
 				this->SpaceLoc.y = this->MipMapsData[HEIGHTMAP_1]->ReturnValue(this->SpaceLoc.x,
 																				this->SpaceLoc.z,
 																						RED_CHOSEN);
