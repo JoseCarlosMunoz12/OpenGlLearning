@@ -77,11 +77,9 @@ public:
 	{
 		glm::vec3 RayToUse = this->MouseRay(FrameBuffer, ProjectionMatrix, ViewMatrix);
 
-		for (rsize_t t = 0; t < 200; t++)
-		{
 
-		}
-		
 	}
+private:
 
+	 
 };
