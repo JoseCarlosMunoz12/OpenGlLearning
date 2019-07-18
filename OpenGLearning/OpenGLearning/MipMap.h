@@ -58,9 +58,28 @@ public:
 	}
 	float ReturnValue(float XPos, float YPos, RGBA_chosen ColorChosen)
 	{
+		float MidPointWidth = this->MapWidth / 2;
+		float MidPointHeight = this->MapHeigth / 2;
 
-		unsigned int XPosConv = (int)(XPos + this->MapWidth/2) / this->MapWidth * this->Width;
-		unsigned int YPosConv = (int)(YPos + this->MapHeigth/2) / this->MapHeigth * this->Height;
+		if (XPos > MidPointWidth)
+		{
+			XPos = MidPointWidth;
+		}
+		else if (XPos < -1 * MidPointWidth)
+		{
+			XPos = -1 * MidPointWidth;
+		}
+
+		if (YPos > MidPointHeight)
+		{
+			YPos > MidPointHeight;
+		}
+		else if (YPos < -1 * MidPointHeight)
+		{
+			YPos = -1 * MidPointHeight;
+		}
+		unsigned int XPosConv = (int)(XPos + MidPointWidth) / this->MapWidth * this->Width;
+		unsigned int YPosConv = (int)(YPos + MidPointWidth) / this->MapHeigth * this->Height;
 		switch (ColorChosen)
 		{
 		case RED_CHOSEN:

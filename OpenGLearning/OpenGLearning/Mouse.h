@@ -80,6 +80,10 @@ public:
 
 	}
 private:
+	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray)
+	{
+		float half = start + ( (finish - start) / 2.f);
 
+	}
 	 
 };
