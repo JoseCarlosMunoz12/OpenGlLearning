@@ -74,16 +74,16 @@ public:
 		glfwSetCursorPos(window, this->MouseX, this->MouseY);
 	}
 
-	glm::vec3 NewPosition(MipMap MapToFind,FrameBufferItems FrameBuffer,
+	glm::vec3 NewPosition(MipMap* MapToFind,FrameBufferItems FrameBuffer,
 						glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 CamPosition)
 	{
 		glm::vec3 RayToUse = this->MouseRay(FrameBuffer, ProjectionMatrix, ViewMatrix);
 		glm::vec3 NewPos = this->BinarySearch(0, 0, 200, RayToUse, CamPosition,MapToFind);
-		NewPos.y = MapToFind.ReturnValue(NewPos.x, NewPos.z);
+		NewPos.y = MapToFind->ReturnValue(NewPos.x, NewPos.z);
 		return NewPos;
 	}
 private:
-	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray, glm::vec3 CamPosition,MipMap Map)
+	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray, glm::vec3 CamPosition,MipMap* Map)
 	{
 		float half = start + ( (finish - start) / 2.f);
 		if (count >= this->RECURSION_COUNT)
@@ -91,7 +91,7 @@ private:
 			return this->GetPointOnRay(Ray, half, CamPosition);
 		}
 
-		if (Intersection(start, half, Ray,Map))
+		if (Intersection(start, half, Ray,Map,CamPosition))
 		{
 			return this->BinarySearch(count + 1, start, half, Ray, CamPosition, Map);
 		}
@@ -104,13 +104,23 @@ private:
 	{
 		return CamPosition + Ray * Distance;
 	}
-	bool Intersection(float start, float finish, glm::vec3 Ray,MipMap Map)
+	bool Intersection(float start, float finish, glm::vec3 Ray,MipMap* Map,glm::vec3 CamPos)
 	{
-
+		glm::vec3 StartPoint = this->GetPointOnRay(Ray, start, CamPos);
+		glm::vec3 EndPoint = this->GetPointOnRay(Ray, finish, CamPos);
+		if (!this->IsUnderGround(StartPoint, Map) && this->IsUnderGround(EndPoint,Map))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
-	bool IsUnderGround(glm::vec3 TestPoint, MipMap Map)
+	bool IsUnderGround(glm::vec3 TestPoint, MipMap* Map)
 	{
-		
+		float height = Map->ReturnValue(TestPoint.x, TestPoint.z);
+		return TestPoint.y < height;
 	}
 };
