@@ -56,7 +56,7 @@ public:
 	{
 
 	}
-	float ReturnValue(float XPos, float YPos, RGBA_chosen ColorChosen)
+	float ReturnValue(float XPos, float YPos, RGBA_chosen ColorChosen = RED_CHOSEN)
 	{
 		float MidPointWidth = this->MapWidth / 2;
 		float MidPointHeight = this->MapHeigth / 2;

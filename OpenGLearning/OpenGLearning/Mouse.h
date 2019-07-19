@@ -20,6 +20,8 @@ private:
 	bool firstMouse = true;
 	float Amount = 0;
 	float AmountZ = 0;
+	//Variables for the binary Search
+	int RECURSION_COUNT = 200;
 public:
 	Mouse()
 	{
@@ -73,17 +75,42 @@ public:
 	}
 
 	glm::vec3 NewPosition(MipMap MapToFind,FrameBufferItems FrameBuffer,
-						glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 MousePosition)
+						glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 CamPosition)
 	{
 		glm::vec3 RayToUse = this->MouseRay(FrameBuffer, ProjectionMatrix, ViewMatrix);
-
-
+		glm::vec3 NewPos = this->BinarySearch(0, 0, 200, RayToUse, CamPosition,MapToFind);
+		NewPos.y = MapToFind.ReturnValue(NewPos.x, NewPos.z);
+		return NewPos;
 	}
 private:
-	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray)
+	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray, glm::vec3 CamPosition,MipMap Map)
 	{
 		float half = start + ( (finish - start) / 2.f);
+		if (count >= this->RECURSION_COUNT)
+		{
+			return this->GetPointOnRay(Ray, half, CamPosition);
+		}
+
+		if (Intersection(start, half, Ray,Map))
+		{
+			return this->BinarySearch(count + 1, start, half, Ray, CamPosition, Map);
+		}
+		else
+		{
+			return this->BinarySearch(count + 1, half, finish, Ray, CamPosition, Map);
+		}
+	}
+	glm::vec3 GetPointOnRay(glm::vec3 Ray, float Distance,glm::vec3 CamPosition)
+	{
+		return CamPosition + Ray * Distance;
+	}
+	bool Intersection(float start, float finish, glm::vec3 Ray,MipMap Map)
+	{
 
 	}
-	 
+
+	bool IsUnderGround(glm::vec3 TestPoint, MipMap Map)
+	{
+		
+	}
 };
