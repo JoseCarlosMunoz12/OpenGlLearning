@@ -169,7 +169,6 @@ void Game::initModels()
 
 void Game::initLights()
 {
-	this->lights.push_back(new glm::vec3(0.f, 0.f, 0.f));
 	this->TestLights.push_back(new Lights({ glm::vec3(0.f,0.f,0.f),glm::vec3(1.f,0.f,0.f) }));
 }
 
@@ -179,7 +178,7 @@ void Game::initUniforms()
 	{
 		i->setMat4fv(ViewMatrix, "ViewMatrix");
 		i->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
-		i->setVec3f(*this->lights[0], "lightPos0");
+		i->setVec3f(this->TestLights[0]->position, "lightPos0");
 	}
 }
 
@@ -195,25 +194,21 @@ void Game::updateKeyboardInput()
 {
 	if (glfwGetKey(this->window, GLFW_KEY_J) == GLFW_PRESS)
 	{
-		this->lights[0] = new glm::vec3(AmountZ, 0.f, Amount);
 		this->TestLights[0]->position =  glm::vec3(AmountZ, 0.f, Amount);
 		AmountZ += 1;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_K) == GLFW_PRESS)
 	{
-		this->lights[0] = new glm::vec3(AmountZ, 0.f, Amount);
 		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
 		AmountZ -= 1;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_I) == GLFW_PRESS)
 	{
-		this->lights[0] = new glm::vec3(AmountZ,0.f,Amount);
 		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
 		Amount += 1;
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_U) == GLFW_PRESS)
 	{
-		this->lights[0] = new glm::vec3(AmountZ, 0.f,Amount);
 		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
 		Amount -= 1;
 	}
@@ -525,10 +520,13 @@ Game::~Game()
 		delete this->materials[i];
 	for (auto*& i : this->models)
 		delete i;
-	for (size_t i = 0; i < this->lights.size(); i++)
-		delete this->lights[i];
+	for (auto& ii : this->TestLights)
+		delete ii;
+	for (auto& ii : this->MipMapsData)
+		delete ii;
 	for (auto& i : meshes)
 		delete i;
+	
 }
 //Acessor
 int Game::getWindowShouldClose()

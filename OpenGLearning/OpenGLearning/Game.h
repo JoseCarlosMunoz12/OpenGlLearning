@@ -92,7 +92,6 @@ private:
 	//Models
 	std::vector<Model*> models;
 	//Lights
-	std::vector<glm::vec3*> lights;
 	std::vector<Lights*> TestLights;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
