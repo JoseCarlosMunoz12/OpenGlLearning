@@ -247,20 +247,22 @@ void Game::updateKeyboardInput()
 void Game::updateMouseInput()
 {
 	this->MouseToUse.UpdateMouseInput(this->window);
+
 	UICollision UICol;
 	if (this->MakeMesh)
 	{
-		if (!UICol.ImGuiCollisionDetection({ this->ScreenPos,this->WinSize },
+		if (!this->MouseToUse.UpdateMouse2dInput(this->window,
+											{this->ScreenPos,this->WinSize },
 											this->MouseToUse.getMousPos()))
 		{
 			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
 			{
-				glm::vec3 MousePosition = this->camera.getPosition();
 				this->SpaceLoc = this->MouseToUse.NewPosition(this->MipMapsData[0],
-																	{frameBufferWidth,frameBufferHeight },
-																	this->ProjectionMatrix,
-																	this->ViewMatrix,
-																	MousePosition);
+															{frameBufferWidth,
+															frameBufferHeight},
+															this->ProjectionMatrix,
+															this->ViewMatrix,
+															this->camera.getPosition());
 			}
 			static int oldState = GLFW_RELEASE;
 			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);

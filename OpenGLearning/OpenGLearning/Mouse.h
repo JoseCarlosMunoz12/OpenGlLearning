@@ -5,12 +5,14 @@
 #include <glm.hpp>
 #include <mat4x4.hpp>
 
+#include "ScreenCollision.h"
 #include "MipMap.h"
 #include "Vertex.h"
 
 class Mouse
 {
 private:
+	//Basic Mouse Details and information
 	double lastMouseX;
 	double lastMouseY;
 	double MouseX;
@@ -20,6 +22,9 @@ private:
 	bool firstMouse = true;
 	float Amount = 0;
 	float AmountZ = 0;
+	//2D information
+	bool In2d;
+	//Collision class
 	UICollision UICol;
 	//Variables for the binary Search
 	int RECURSION_COUNT = 200;
@@ -32,6 +37,13 @@ public:
 	{
 
 	}
+
+	//2d related functions
+	bool UpdateMouse2dInput(GLFWwindow* window,ImGuiItems IGItems, MousePositions MousePos)
+	{
+		return this->UICol.ImGuiCollisionDetection(IGItems,MousePos);
+	}
+	//3d related functions
 	void UpdateMouseInput(GLFWwindow* window)
 	{
 		glfwGetCursorPos(window, &this->MouseX, &this->MouseY);
@@ -47,6 +59,7 @@ public:
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
 	}
+	//Angle,
 	MouseItems GetOffset()
 	{
 		return {this->mouseOffsetX,this->mouseOffsetY};
