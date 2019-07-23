@@ -20,6 +20,7 @@ private:
 	bool firstMouse = true;
 	float Amount = 0;
 	float AmountZ = 0;
+	UICollision UICol;
 	//Variables for the binary Search
 	int RECURSION_COUNT = 200;
 public:
@@ -73,7 +74,6 @@ public:
 		this->MouseY = WindowHeight / 2.f;
 		glfwSetCursorPos(window, this->MouseX, this->MouseY);
 	}
-
 	glm::vec3 NewPosition(MipMap* MapToFind,FrameBufferItems FrameBuffer,
 						glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 CamPosition)
 	{

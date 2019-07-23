@@ -54,7 +54,6 @@ public:
 
 	~MipMap()
 	{
-
 	}
 	float ReturnValue(float XPos, float YPos, RGBA_chosen ColorChosen = RED_CHOSEN)
 	{

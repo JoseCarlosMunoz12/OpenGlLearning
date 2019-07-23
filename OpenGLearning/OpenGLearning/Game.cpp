@@ -250,7 +250,7 @@ void Game::updateMouseInput()
 	UICollision UICol;
 	if (this->MakeMesh)
 	{
-		if (!UICol.ImGuiCollisionDetection(this->ScreenPos,this->WinSize,
+		if (!UICol.ImGuiCollisionDetection({ this->ScreenPos,this->WinSize },
 											this->MouseToUse.getMousPos()))
 		{
 			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
