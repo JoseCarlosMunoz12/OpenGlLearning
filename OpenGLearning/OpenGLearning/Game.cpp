@@ -247,8 +247,6 @@ void Game::updateKeyboardInput()
 void Game::updateMouseInput()
 {
 	this->MouseToUse.UpdateMouseInput(this->window);
-
-	UICollision UICol;
 	if (this->MakeMesh)
 	{
 		if (!this->MouseToUse.UpdateMouse2dInput(this->window,

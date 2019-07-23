@@ -38,7 +38,7 @@ public:
 
 	}
 
-	//2d related functions
+	//2d related functions  collision of mouse with GUI
 	bool UpdateMouse2dInput(GLFWwindow* window,ImGuiItems IGItems, MousePositions MousePos)
 	{
 		return this->UICol.ImGuiCollisionDetection(IGItems,MousePos);
@@ -59,11 +59,12 @@ public:
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
 	}
-	//Angle,
+	//Angle information and offsets
 	MouseItems GetOffset()
 	{
 		return {this->mouseOffsetX,this->mouseOffsetY};
 	}
+
 	glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
 						glm::mat4 ProjectionMatrix,  glm::mat4 ViewMatrix)
 	{
@@ -130,7 +131,6 @@ private:
 			return false;
 		}
 	}
-
 	bool IsUnderGround(glm::vec3 TestPoint, MipMap* Map)
 	{
 		float height = Map->ReturnValue(TestPoint.x, TestPoint.z);
