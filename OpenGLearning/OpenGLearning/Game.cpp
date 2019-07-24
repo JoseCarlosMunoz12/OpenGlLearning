@@ -291,20 +291,10 @@ void Game::updateMouseInput()
 	}*/
 	if (this->MakeMesh)
 	{
-	;
-		 if (this->MouseToUse.MouseButtonChosen(this->window,GLFW_MOUSE_BUTTON_1))
+		 if (this->MouseToUse.MouseButtonClicked(this->window,GLFW_MOUSE_BUTTON_1))
 		 {
-			 std::cout << "CLicked \n";
+			 std::cout << "Clicked \n";
 		 }
-	/*	static int oldState = GLFW_RELEASE;
-		int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1);
-
-		if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
-		{
-			
-			std::cout << "Button Clicked \n";
-		}
-		oldState = newState;*/
 	}
 
 }
@@ -320,6 +310,12 @@ void Game::updateInput()
 	this->updateMouseInput();
 	if (!this->MakeMesh)
 	{
+		if (!this->MouseToUse.UpdateMouse2dInput(this->window,
+			{ this->ScreenPos,this->WinSize },
+			this->MouseToUse.getMousPos()))
+		{
+
+		}
 		this->camera.updateInput(dt, -1, this->MouseToUse.GetOffset());
 	}
 	

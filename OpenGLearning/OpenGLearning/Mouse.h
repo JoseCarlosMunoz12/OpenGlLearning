@@ -100,7 +100,7 @@ glm::vec3 NewPosition(MipMap* MapToFind, FrameBufferItems FrameBuffer,
 	return NewPos;
 }
 //Mouse Button Detection Button
-bool MouseButtonChosen(GLFWwindow* window)
+bool MouseButtonClicked(GLFWwindow* window)
 {
 	if (this->firstMouse)
 	{
@@ -113,7 +113,7 @@ bool MouseButtonChosen(GLFWwindow* window)
 	this->OldState = this->NewState;
 	return Found;
 }
-bool MouseButtonChosen(GLFWwindow* window, int MouseButton)
+bool MouseButtonClicked(GLFWwindow* window, int MouseButton)
 {
 	if (this->firstMouse)
 	{
@@ -125,6 +125,14 @@ bool MouseButtonChosen(GLFWwindow* window, int MouseButton)
 	bool Found = (NewState == GLFW_RELEASE && OldState == GLFW_PRESS);
 	this->OldState = this->NewState;
 	return Found;
+}
+bool MouseButtonHold(GLFWwindow* window)
+{
+	return glfwGetMouseButton(window, this->ButtonFound(window)) == GLFW_PRESS;
+}
+bool MouseButtonHold(GLFWwindow* window, int MouseButton)
+{
+	return glfwGetMouseButton(window, MouseButton) == GLFW_PRESS;
 }
 
 private:
