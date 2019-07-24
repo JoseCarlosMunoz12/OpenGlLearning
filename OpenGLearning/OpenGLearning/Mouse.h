@@ -24,6 +24,10 @@ private:
 	float AmountZ = 0;
 	//2D information
 	bool In2d;
+	//MouseClicks and Buttons use.
+	int BttnClicked;
+	int oldState;
+	int NewState;
 	//Collision class
 	UICollision UICol;
 	//Variables for the binary Search
@@ -43,69 +47,73 @@ public:
 	{
 		return this->UICol.ImGuiCollisionDetection(IGItems,MousePos);
 	}
-	//3d related functions
-	void UpdateMouseInput(GLFWwindow* window)
+//3d related functions
+void UpdateMouseInput(GLFWwindow* window)
+{
+	glfwGetCursorPos(window, &this->MouseX, &this->MouseY);
+	if (this->firstMouse)
 	{
-		glfwGetCursorPos(window, &this->MouseX, &this->MouseY);
-		if (this->firstMouse)
-		{
-			this->lastMouseX = this->MouseX;
-			this->lastMouseY = this->MouseY;
-			this->firstMouse = false;
-		}
-		//Calc offset
-		this->mouseOffsetX = this->MouseX - this->lastMouseX;
-		this->mouseOffsetY = this->lastMouseY - this->MouseY;
 		this->lastMouseX = this->MouseX;
 		this->lastMouseY = this->MouseY;
+		this->firstMouse = false;
 	}
-	//Angle information and offsets
-	MouseItems GetOffset()
-	{
-		return {this->mouseOffsetX,this->mouseOffsetY};
-	}
-
-	glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
-						glm::mat4 ProjectionMatrix,  glm::mat4 ViewMatrix)
-	{
-		glm::vec2 NormalizeCoord;
-		NormalizeCoord.x = (2.f * this->MouseX / float(FrameBufffer.Width)) - 1.f;
-		NormalizeCoord.y = 1.f - (2.f * this->MouseY / float(FrameBufffer.Height));
-		glm::vec4 ScreenPos = glm::vec4(NormalizeCoord, -1.f, 1.f);
-		glm::vec4 RayEye = glm::inverse(ProjectionMatrix) * ScreenPos;
-		RayEye = glm::vec4(RayEye.x, RayEye.y, -1, 0);
-		glm::vec4 Temp = glm::inverse(ViewMatrix) * RayEye;
-		glm::vec3 WorldSpace = glm::vec3(Temp.x, Temp.y, Temp.z);
-		return glm::normalize(WorldSpace);
-	}
-	MousePositions getMousPos()
-	{
-		return {this->MouseX, this->MouseY};
-	}
-	void SetMouseCenter(GLFWwindow* window, int WindowWidth, int WindowHeight)
-	{
-		this->MouseX = WindowWidth / 2.f;
-		this->MouseY = WindowHeight / 2.f;
-		glfwSetCursorPos(window, this->MouseX, this->MouseY);
-	}
-	glm::vec3 NewPosition(MipMap* MapToFind,FrameBufferItems FrameBuffer,
-						glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 CamPosition)
-	{
-		glm::vec3 RayToUse = this->MouseRay(FrameBuffer, ProjectionMatrix, ViewMatrix);
-		glm::vec3 NewPos = this->BinarySearch(0, 0, 200, RayToUse, CamPosition,MapToFind);
-		NewPos.y = MapToFind->ReturnValue(NewPos.x, NewPos.z);
-		return NewPos;
-	}
+	//Calc offset
+	this->mouseOffsetX = this->MouseX - this->lastMouseX;
+	this->mouseOffsetY = this->lastMouseY - this->MouseY;
+	this->lastMouseX = this->MouseX;
+	this->lastMouseY = this->MouseY;
+}
+//Angle information and offsets
+MouseItems GetOffset()
+{
+	return { this->mouseOffsetX,this->mouseOffsetY };
+}
+glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
+	glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix)
+{
+	glm::vec2 NormalizeCoord;
+	NormalizeCoord.x = (2.f * this->MouseX / float(FrameBufffer.Width)) - 1.f;
+	NormalizeCoord.y = 1.f - (2.f * this->MouseY / float(FrameBufffer.Height));
+	glm::vec4 ScreenPos = glm::vec4(NormalizeCoord, -1.f, 1.f);
+	glm::vec4 RayEye = glm::inverse(ProjectionMatrix) * ScreenPos;
+	RayEye = glm::vec4(RayEye.x, RayEye.y, -1, 0);
+	glm::vec4 Temp = glm::inverse(ViewMatrix) * RayEye;
+	glm::vec3 WorldSpace = glm::vec3(Temp.x, Temp.y, Temp.z);
+	return glm::normalize(WorldSpace);
+}
+MousePositions getMousPos()
+{
+	return { this->MouseX, this->MouseY };
+}
+void SetMouseCenter(GLFWwindow* window, int WindowWidth, int WindowHeight)
+{
+	this->MouseX = WindowWidth / 2.f;
+	this->MouseY = WindowHeight / 2.f;
+	glfwSetCursorPos(window, this->MouseX, this->MouseY);
+}
+glm::vec3 NewPosition(MipMap* MapToFind, FrameBufferItems FrameBuffer,
+	glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 CamPosition)
+{
+	glm::vec3 RayToUse = this->MouseRay(FrameBuffer, ProjectionMatrix, ViewMatrix);
+	glm::vec3 NewPos = this->BinarySearch(0, 0, 200, RayToUse, CamPosition, MapToFind);
+	NewPos.y = MapToFind->ReturnValue(NewPos.x, NewPos.z);
+	return NewPos;
+}
+//Mouse Button Detection Button
+int MouseButtonChossen(GLFWwindow* window)
+{
+	return this->ButtonFound(window);
+}
 private:
-	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray, glm::vec3 CamPosition,MipMap* Map)
+	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray, glm::vec3 CamPosition, MipMap* Map)
 	{
-		float half = start + ( (finish - start) / 2.f);
+		float half = start + ((finish - start) / 2.f);
 		if (count >= this->RECURSION_COUNT)
 		{
 			return this->GetPointOnRay(Ray, half, CamPosition);
 		}
 
-		if (Intersection(start, half, Ray,Map,CamPosition))
+		if (Intersection(start, half, Ray, Map, CamPosition))
 		{
 			return this->BinarySearch(count + 1, start, half, Ray, CamPosition, Map);
 		}
@@ -114,15 +122,15 @@ private:
 			return this->BinarySearch(count + 1, half, finish, Ray, CamPosition, Map);
 		}
 	}
-	glm::vec3 GetPointOnRay(glm::vec3 Ray, float Distance,glm::vec3 CamPosition)
+	glm::vec3 GetPointOnRay(glm::vec3 Ray, float Distance, glm::vec3 CamPosition)
 	{
 		return CamPosition + Ray * Distance;
 	}
-	bool Intersection(float start, float finish, glm::vec3 Ray,MipMap* Map,glm::vec3 CamPos)
+	bool Intersection(float start, float finish, glm::vec3 Ray, MipMap* Map, glm::vec3 CamPos)
 	{
 		glm::vec3 StartPoint = this->GetPointOnRay(Ray, start, CamPos);
 		glm::vec3 EndPoint = this->GetPointOnRay(Ray, finish, CamPos);
-		if (!this->IsUnderGround(StartPoint, Map) && this->IsUnderGround(EndPoint,Map))
+		if (!this->IsUnderGround(StartPoint, Map) && this->IsUnderGround(EndPoint, Map))
 		{
 			return true;
 		}
@@ -135,5 +143,41 @@ private:
 	{
 		float height = Map->ReturnValue(TestPoint.x, TestPoint.z);
 		return TestPoint.y < height;
+	}
+	int ButtonFound(GLFWwindow* window)
+	{
+		if (glfwGetMouseButton(window,GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
+		{
+			return GLFW_MOUSE_BUTTON_1;
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
+		{
+			return GLFW_MOUSE_BUTTON_2;
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_3) == GLFW_PRESS)
+		{
+			return GLFW_MOUSE_BUTTON_3;
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_4) == GLFW_PRESS)
+		{
+			return GLFW_MOUSE_BUTTON_4;
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_5) == GLFW_PRESS)
+		{
+			return GLFW_MOUSE_BUTTON_5;;
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_6) == GLFW_PRESS)
+		{
+			return GLFW_MOUSE_BUTTON_6;
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_7) == GLFW_PRESS)
+		{
+			return GLFW_MOUSE_BUTTON_7;
+		}
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_8) == GLFW_PRESS)
+		{
+			return GLFW_MOUSE_BUTTON_8;
+		}
+		return 8;
 	}
 };

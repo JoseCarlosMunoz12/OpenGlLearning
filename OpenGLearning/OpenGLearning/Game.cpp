@@ -247,6 +247,7 @@ void Game::updateKeyboardInput()
 void Game::updateMouseInput()
 {
 	this->MouseToUse.UpdateMouseInput(this->window);
+	/*
 	if (this->MakeMesh)
 	{
 		if (!this->MouseToUse.UpdateMouse2dInput(this->window,
@@ -287,7 +288,25 @@ void Game::updateMouseInput()
 			}
 		oldState = newState;
 		}
+	}*/
+	if (this->MakeMesh)
+	{
+		 int BttnFound =this->MouseToUse.MouseButtonChossen(this->window);
+		 if (BttnFound != 8)
+		 {
+			 std::cout << BttnFound << "\n";
+		 }
+	/*	static int oldState = GLFW_RELEASE;
+		int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1);
+
+		if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
+		{
+			
+			std::cout << "Button Clicked \n";
+		}
+		oldState = newState;*/
 	}
+
 }
 
 void Game::updateInput()
