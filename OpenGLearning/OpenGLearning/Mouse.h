@@ -26,7 +26,7 @@ private:
 	bool In2d;
 	//MouseClicks and Buttons use.
 	int BttnClicked;
-	int oldState;
+	int OldState;
 	int NewState;
 	//Collision class
 	UICollision UICol;
@@ -100,10 +100,33 @@ glm::vec3 NewPosition(MipMap* MapToFind, FrameBufferItems FrameBuffer,
 	return NewPos;
 }
 //Mouse Button Detection Button
-int MouseButtonChossen(GLFWwindow* window)
+bool MouseButtonChosen(GLFWwindow* window)
 {
-	return this->ButtonFound(window);
+	if (this->firstMouse)
+	{
+	this->OldState = GLFW_RELEASE;
+
+	}
+	this->NewState = glfwGetMouseButton(window, this->ButtonFound(window));
+
+	bool Found = ( NewState == GLFW_RELEASE && OldState == GLFW_PRESS);
+	this->OldState = this->NewState;
+	return Found;
 }
+bool MouseButtonChosen(GLFWwindow* window, int MouseButton)
+{
+	if (this->firstMouse)
+	{
+		this->OldState = GLFW_RELEASE;
+
+	}
+	this->NewState = glfwGetMouseButton(window, MouseButton);
+
+	bool Found = (NewState == GLFW_RELEASE && OldState == GLFW_PRESS);
+	this->OldState = this->NewState;
+	return Found;
+}
+
 private:
 	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray, glm::vec3 CamPosition, MipMap* Map)
 	{

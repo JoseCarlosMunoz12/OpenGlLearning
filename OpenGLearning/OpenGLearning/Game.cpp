@@ -291,10 +291,10 @@ void Game::updateMouseInput()
 	}*/
 	if (this->MakeMesh)
 	{
-		 int BttnFound =this->MouseToUse.MouseButtonChossen(this->window);
-		 if (BttnFound != 8)
+	;
+		 if (this->MouseToUse.MouseButtonChosen(this->window,GLFW_MOUSE_BUTTON_1))
 		 {
-			 std::cout << BttnFound << "\n";
+			 std::cout << "CLicked \n";
 		 }
 	/*	static int oldState = GLFW_RELEASE;
 		int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1);
