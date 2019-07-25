@@ -17,6 +17,7 @@ private:
 	double lastMouseY;
 	MousePositions LastMouse;
 	MousePositions CurrentMouse;
+	MouseItems MouseOffset;
 	double MouseX;
 	double MouseY;
 	double mouseOffsetX;
@@ -59,23 +60,21 @@ void UpdateMouseInput(GLFWwindow* window)
 		this->firstMouse = false;
 	}
 	//Calc offset
-	this->mouseOffsetX = this->MouseX - this->lastMouseX;
-	this->mouseOffsetY = this->lastMouseY - this->MouseY;
-	this->lastMouseX = this->MouseX;
-	this->lastMouseY = this->MouseY;
+	this->MouseOffset.X = this->CurrentMouse.X - this->LastMouse.X;
+	this->MouseOffset.Y = this->LastMouse.Y - this->CurrentMouse.Y;
 	this->LastMouse = this->CurrentMouse;
 }
 //Angle information and offsets
 MouseItems GetOffset()
 {
-	return { this->mouseOffsetX,this->mouseOffsetY };
+	return this->MouseOffset;
 }
 glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
 	glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix)
 {
 	glm::vec2 NormalizeCoord;
-	NormalizeCoord.x = (2.f * this->MouseX / float(FrameBufffer.Width)) - 1.f;
-	NormalizeCoord.y = 1.f - (2.f * this->MouseY / float(FrameBufffer.Height));
+	NormalizeCoord.x = (2.f * this->CurrentMouse.X / float(FrameBufffer.Width)) - 1.f;
+	NormalizeCoord.y = 1.f - (2.f * this->CurrentMouse.Y / float(FrameBufffer.Height));
 	glm::vec4 ScreenPos = glm::vec4(NormalizeCoord, -1.f, 1.f);
 	glm::vec4 RayEye = glm::inverse(ProjectionMatrix) * ScreenPos;
 	RayEye = glm::vec4(RayEye.x, RayEye.y, -1, 0);
@@ -85,7 +84,7 @@ glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
 }
 MousePositions getMousPos()
 {
-	return { this->MouseX, this->MouseY };
+	return this->CurrentMouse;
 }
 void SetMouseCenter(GLFWwindow* window, int WindowWidth, int WindowHeight)
 {
