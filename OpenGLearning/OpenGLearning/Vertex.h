@@ -13,13 +13,22 @@ struct Vertex
 };
 struct MouseItems
 {
-	double offsetX;
-	double offsetY;
+	double X;
+	double Y;
 };
 struct MousePositions
 {
-	double MousePosX;
-	double MousePosY;
+	double X;
+	double Y;
+	MousePositions operator = (MousePositions const& obj)
+	{
+		MousePositions res;
+		X = obj.X;
+		Y = obj.Y;
+		res.X =  obj.X;
+		res.Y =  obj.Y;
+		return res;
+	}
 };
 struct FrameBufferItems
 {

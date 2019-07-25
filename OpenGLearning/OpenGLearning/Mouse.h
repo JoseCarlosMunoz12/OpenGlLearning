@@ -15,6 +15,8 @@ private:
 	//Basic Mouse Details and information
 	double lastMouseX;
 	double lastMouseY;
+	MousePositions LastMouse;
+	MousePositions CurrentMouse;
 	double MouseX;
 	double MouseY;
 	double mouseOffsetX;
@@ -50,11 +52,10 @@ public:
 //3d related functions
 void UpdateMouseInput(GLFWwindow* window)
 {
-	glfwGetCursorPos(window, &this->MouseX, &this->MouseY);
+	glfwGetCursorPos(window, &this->CurrentMouse.X, &this->CurrentMouse.Y);
 	if (this->firstMouse)
 	{
-		this->lastMouseX = this->MouseX;
-		this->lastMouseY = this->MouseY;
+		this->LastMouse = this->CurrentMouse;
 		this->firstMouse = false;
 	}
 	//Calc offset
@@ -62,6 +63,7 @@ void UpdateMouseInput(GLFWwindow* window)
 	this->mouseOffsetY = this->lastMouseY - this->MouseY;
 	this->lastMouseX = this->MouseX;
 	this->lastMouseY = this->MouseY;
+	this->LastMouse = this->CurrentMouse;
 }
 //Angle information and offsets
 MouseItems GetOffset()

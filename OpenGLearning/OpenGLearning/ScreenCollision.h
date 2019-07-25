@@ -20,8 +20,8 @@ public:
 	bool ImGuiCollisionDetection(ImGuiItems GItem,
 								 MousePositions MousePos)
 	{
-		bool XSide = MousePos.MousePosX >= GItem.ScreenPos.x && MousePos.MousePosX <= GItem.WinSize.x;
-		bool YSide = MousePos.MousePosY >= GItem.ScreenPos.y && MousePos.MousePosY <= GItem.WinSize.y;
+		bool XSide = MousePos.X >= GItem.ScreenPos.x && MousePos.X <= GItem.WinSize.x;
+		bool YSide = MousePos.Y >= GItem.ScreenPos.y && MousePos.Y <= GItem.WinSize.y;
 
 		return YSide && XSide ;
 	}

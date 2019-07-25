@@ -296,6 +296,10 @@ void Game::updateMouseInput()
 			 std::cout << "Clicked \n";
 		 }
 	}
+	else
+	{
+		this->camera.updateInput(dt, -1, this->MouseToUse.GetOffset());
+	}
 
 }
 
@@ -308,17 +312,6 @@ void Game::updateInput()
 	this->updateOpenGLOptions();
 	this->updateKeyboardInput();
 	this->updateMouseInput();
-	if (!this->MakeMesh)
-	{
-		if (!this->MouseToUse.UpdateMouse2dInput(this->window,
-			{ this->ScreenPos,this->WinSize },
-			this->MouseToUse.getMousPos()))
-		{
-
-		}
-		this->camera.updateInput(dt, -1, this->MouseToUse.GetOffset());
-	}
-	
 }
 
 void Game::ImGuiOptions()
