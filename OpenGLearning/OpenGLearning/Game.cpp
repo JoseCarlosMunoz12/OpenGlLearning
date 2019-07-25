@@ -247,60 +247,18 @@ void Game::updateKeyboardInput()
 void Game::updateMouseInput()
 {
 	this->MouseToUse.UpdateMouseInput(this->window);
-	/*
-	if (this->MakeMesh)
-	{
-		if (!this->MouseToUse.UpdateMouse2dInput(this->window,
-											{this->ScreenPos,this->WinSize },
-											this->MouseToUse.getMousPos()))
-		{
-			if (glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
-			{
-				this->SpaceLoc = this->MouseToUse.NewPosition(this->MipMapsData[0],
-															{frameBufferWidth,
-															frameBufferHeight},
-															this->ProjectionMatrix,
-															this->ViewMatrix,
-															this->camera.getPosition());
-			}
-			static int oldState = GLFW_RELEASE;
-			int newState = glfwGetMouseButton(this->window, GLFW_MOUSE_BUTTON_LEFT);
-			if (newState == GLFW_RELEASE && oldState == GLFW_PRESS)
-			{
-				if (this->NewTexId1 != -1)
-				{
-				this->CountMesh = this->models.size();
-				std::string TempName = "Name" + std::to_string(this->CountMesh);
-				this->NamesOfModels.push_back(TempName);
-				this->models.push_back(new Model(
-					this->SpaceLoc,
-					this->NewMat,
-					this->NewTex0[0],
-					this->NewTex0[1],
-					this->NewMesh,
-					this->NamesOfModels[this->CountMesh].c_str()));
-				this->NewTex0.clear();
-				this->NewMatId = -1;
-				this->NewTexId0 = -1;
-				this->NewTexId1 = -1;
-				this->NewMeshID = -1;
-				}
-			}
-		oldState = newState;
-		}
-	}*/
 	if (this->MakeMesh)
 	{
 		if (!this->MouseToUse.UpdateMouse2dInput(this->window, {this->ScreenPos,this->WinSize}))
 		{
-			this->SpaceLoc = this->MouseToUse.NewPosition(this->MipMapsData[0],
-				{ frameBufferWidth,
-				frameBufferHeight },
-				this->ProjectionMatrix,
-				this->ViewMatrix,
-				this->camera.getPosition());
+
 			if (this->MouseToUse.MouseButtonClicked(this->window, GLFW_MOUSE_BUTTON_1))
 			{
+				this->SpaceLoc = this->MouseToUse.NewPosition(this->MipMapsData[0],
+					{frameBufferWidth,frameBufferHeight },
+					this->ProjectionMatrix,
+					this->ViewMatrix,
+					this->camera.getPosition());
 				if (this->NewTexId1 != -1)
 				{
 					this->CountMesh = this->models.size();
@@ -320,6 +278,10 @@ void Game::updateMouseInput()
 					this->NewMeshID = -1;
 					std::cout << "Clicked \n";
 				}
+			}
+			if (this->MouseToUse.MouseButtonClicked(this->window, GLFW_MOUSE_BUTTON_2))
+			{
+
 			}
 		}
 	}
