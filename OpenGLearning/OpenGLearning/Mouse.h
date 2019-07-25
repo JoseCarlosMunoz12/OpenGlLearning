@@ -40,15 +40,16 @@ public:
 	{
 
 	}
+
 	~Mouse()
 	{
 
 	}
 
-	//2d related functions  collision of mouse with GUI
-	bool UpdateMouse2dInput(GLFWwindow* window,ImGuiItems IGItems, MousePositions MousePos)
+//2d related functions  collision of mouse with GUI
+bool UpdateMouse2dInput(GLFWwindow* window,ImGuiItems IGItems)
 	{
-		return this->UICol.ImGuiCollisionDetection(IGItems,MousePos);
+		return this->UICol.ImGuiCollisionDetection(IGItems,this->CurrentMouse);
 	}
 //3d related functions
 void UpdateMouseInput(GLFWwindow* window)
@@ -65,12 +66,13 @@ void UpdateMouseInput(GLFWwindow* window)
 	this->LastMouse = this->CurrentMouse;
 }
 //Angle information and offsets
-MouseItems GetOffset()
+	MouseItems GetOffset()
 {
 	return this->MouseOffset;
 }
-glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
-	glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix)
+
+	glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
+		glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix)
 {
 	glm::vec2 NormalizeCoord;
 	NormalizeCoord.x = (2.f * this->CurrentMouse.X / float(FrameBufffer.Width)) - 1.f;
@@ -82,26 +84,30 @@ glm::vec3 MouseRay(FrameBufferItems FrameBufffer,
 	glm::vec3 WorldSpace = glm::vec3(Temp.x, Temp.y, Temp.z);
 	return glm::normalize(WorldSpace);
 }
-MousePositions getMousPos()
+
+	MousePositions getMousPos()
 {
 	return this->CurrentMouse;
 }
-void SetMouseCenter(GLFWwindow* window, int WindowWidth, int WindowHeight)
+
+	void SetMouseCenter(GLFWwindow* window, int WindowWidth, int WindowHeight)
 {
 	this->MouseX = WindowWidth / 2.f;
 	this->MouseY = WindowHeight / 2.f;
 	glfwSetCursorPos(window, this->MouseX, this->MouseY);
 }
-glm::vec3 NewPosition(MipMap* MapToFind, FrameBufferItems FrameBuffer,
-	glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 CamPosition)
+
+	glm::vec3 NewPosition(MipMap* MapToFind, FrameBufferItems FrameBuffer,
+		glm::mat4 ProjectionMatrix, glm::mat4 ViewMatrix, glm::vec3 CamPosition)
 {
 	glm::vec3 RayToUse = this->MouseRay(FrameBuffer, ProjectionMatrix, ViewMatrix);
 	glm::vec3 NewPos = this->BinarySearch(0, 0, 200, RayToUse, CamPosition, MapToFind);
 	NewPos.y = MapToFind->ReturnValue(NewPos.x, NewPos.z);
 	return NewPos;
 }
+
 //Mouse Button Detection Button
-bool MouseButtonClicked(GLFWwindow* window)
+	bool MouseButtonClicked(GLFWwindow* window)
 {
 	if (this->firstMouse)
 	{
@@ -114,7 +120,8 @@ bool MouseButtonClicked(GLFWwindow* window)
 	this->OldState = this->NewState;
 	return Found;
 }
-bool MouseButtonClicked(GLFWwindow* window, int MouseButton)
+
+	bool MouseButtonClicked(GLFWwindow* window, int MouseButton)
 {
 	if (this->firstMouse)
 	{
@@ -127,14 +134,17 @@ bool MouseButtonClicked(GLFWwindow* window, int MouseButton)
 	this->OldState = this->NewState;
 	return Found;
 }
-bool MouseButtonHold(GLFWwindow* window)
+
+	bool MouseButtonHold(GLFWwindow* window)
 {
 	return glfwGetMouseButton(window, this->ButtonFound(window)) == GLFW_PRESS;
 }
-bool MouseButtonHold(GLFWwindow* window, int MouseButton)
+
+	bool MouseButtonHold(GLFWwindow* window, int MouseButton)
 {
 	return glfwGetMouseButton(window, MouseButton) == GLFW_PRESS;
 }
+
 
 private:
 	glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 Ray, glm::vec3 CamPosition, MipMap* Map)
@@ -154,10 +164,12 @@ private:
 			return this->BinarySearch(count + 1, half, finish, Ray, CamPosition, Map);
 		}
 	}
+
 	glm::vec3 GetPointOnRay(glm::vec3 Ray, float Distance, glm::vec3 CamPosition)
 	{
 		return CamPosition + Ray * Distance;
 	}
+
 	bool Intersection(float start, float finish, glm::vec3 Ray, MipMap* Map, glm::vec3 CamPos)
 	{
 		glm::vec3 StartPoint = this->GetPointOnRay(Ray, start, CamPos);
@@ -171,11 +183,13 @@ private:
 			return false;
 		}
 	}
+
 	bool IsUnderGround(glm::vec3 TestPoint, MipMap* Map)
 	{
 		float height = Map->ReturnValue(TestPoint.x, TestPoint.z);
 		return TestPoint.y < height;
 	}
+
 	int ButtonFound(GLFWwindow* window)
 	{
 		if (glfwGetMouseButton(window,GLFW_MOUSE_BUTTON_1) == GLFW_PRESS)
