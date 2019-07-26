@@ -144,6 +144,13 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(&Sphere(1,16,14),
+			"Sphere",
+		glm::vec3(0.f, 0.f, 0.f),
+		glm::vec3(0.f),
+		glm::vec3(0.f),
+		glm::vec3(1.f)));
 	this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 0.f),
 		this->materials[TERRAIN_MAT],
@@ -165,6 +172,13 @@ void Game::initModels()
 		meshes[2],
 		"Tree"));
 	this->NamesOfModels.push_back("Tree");
+	this->models.push_back(new Model(
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 10.f), 10.f),
+		this->materials[MAT_2],
+		{ this->textures[12], this->textures[12] },
+		meshes[3],
+		"setys"));
+	this->NamesOfModels.push_back("setys");
 }
 
 void Game::initLights()
