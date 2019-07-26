@@ -585,12 +585,29 @@ private:
 
 class Sphere :public Primitive
 {
-	Sphere(float Radius)
+	Sphere(float Radius, float SectorCount, float StackCount)
 		:Primitive()
 	{
-		float X, Y, Z, XY;
-		float nX, Ny, NZ, lengthInv = 1.f / Radius;
-		float s, t;
+		float X, Y, Z, XY;								// Vertex Position
+		float nX, Ny, NZ, lengthInv = 1.f / Radius;		// Vertex normal
+		float s, t;										// Vertex TexCoord
+		float PI = glm::pi<float>();
 
+		float SectorStep = 2 * glm::pi<float>() / SectorCount;
+		float StackStep = PI / StackCount;
+		float SectorAngle, StackAngle;
+		for (int ii = 0; ii <= StackCount; ii++)
+		{
+			StackAngle = 2 * PI / SectorCount;
+			XY = Radius * (float)glm::cos(StackAngle);
+			Z = Radius * (float)glm::sin(StackAngle);
+
+			for (int jj = 0; jj <= SectorCount; jj++)
+			{
+				Vertex Temp;
+				SectorAngle = jj * SectorStep;
+				Temp.position.x = XY * (float)glm::cos(SectorAngle);
+			}
+		}
 	}
 };
