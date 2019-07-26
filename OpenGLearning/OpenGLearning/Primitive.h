@@ -582,3 +582,15 @@ private:
 		StringFound["f"] = F;
 	}
 };
+
+class Sphere :public Primitive
+{
+	Sphere(float Radius)
+		:Primitive()
+	{
+		float X, Y, Z, XY;
+		float nX, Ny, NZ, lengthInv = 1.f / Radius;
+		float s, t;
+
+	}
+};
