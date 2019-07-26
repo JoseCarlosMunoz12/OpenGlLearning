@@ -145,7 +145,7 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
 	meshes.push_back(
-		new Mesh(&Sphere(1,16,14),
+		new Mesh(&Sphere(1,32,32),
 			"Sphere",
 		glm::vec3(0.f, 0.f, 0.f),
 		glm::vec3(0.f),
@@ -173,7 +173,7 @@ void Game::initModels()
 		"Tree"));
 	this->NamesOfModels.push_back("Tree");
 	this->models.push_back(new Model(
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 10.f), 10.f),
+		glm::vec3(10.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(10.f, 10.f) +1.f, 10.f),
 		this->materials[MAT_2],
 		{ this->textures[12], this->textures[12] },
 		meshes[3],

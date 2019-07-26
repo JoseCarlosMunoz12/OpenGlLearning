@@ -602,10 +602,10 @@ public:
 		float SectorAngle, StackAngle;
 		for (int ii = 0; ii <= StackCount; ii++)
 		{
-			StackAngle = 2 * PI / SectorCount;
+			StackAngle = PI / 2 - ii * StackStep;
 			XY = Radius * (float)glm::cos(StackAngle);
 			Z = Radius * (float)glm::sin(StackAngle);
-
+						
 			for (int jj = 0; jj <= SectorCount; jj++)
 			{
 				Vertex Temp;
