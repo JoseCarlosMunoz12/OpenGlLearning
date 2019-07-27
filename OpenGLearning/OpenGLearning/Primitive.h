@@ -649,3 +649,15 @@ public:
 		this->set(TempVertex, TempIndices);
 	}
 };
+
+class Cylinder : public Primitive
+{
+	Cylinder(float Radius, float Hieght)
+		:Primitive()
+	{
+		std::vector<Vertex> TempVertex;
+		std::vector<GLuint> TempIndicis;
+
+
+	}
+};
