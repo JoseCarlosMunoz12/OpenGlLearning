@@ -655,7 +655,7 @@ public:
 class Cylinder : public Primitive
 {
 public:
-	Cylinder(float Radius, int Hieght, float SectorCount)
+	Cylinder(float Radius, int Height, int SectorCount)
 		:Primitive()
 	{
 		std::vector<Vertex> TempVertex;
@@ -663,7 +663,7 @@ public:
 		glm::vec3 Clr = glm::vec3(1.f, 1.f, 1.f);
 		float PI = glm::pi<float>();
 		float SectorStep = 2.f * PI / SectorCount;
-		for (int ii = 0; ii <= Hieght ; ii++)
+		for (int ii = 0; ii <= Height ; ii++)
 		{
 			for (int jj = 0; jj <= SectorCount; jj++)
 			{
@@ -675,14 +675,14 @@ public:
 				VertexFound.normal.z = VertexFound.position.z / Radius;
 				VertexFound.normal.x = VertexFound.position.x / Radius;
 
-				VertexFound.texcoord.x = ii/ Hieght;
+				VertexFound.texcoord.x = ii/ Height;
 				VertexFound.texcoord.y = jj/ SectorCount;
 				VertexFound.color = Clr;
 				TempVertex.push_back(VertexFound);
 			}
 		}
 		
-		for (int jj = 0; jj < Hieght; jj++)
+		for (int jj = 0; jj < Height; jj++)
 		{
 			for (int ii = 0; ii <= SectorCount-1; ii++)
 			{
@@ -705,9 +705,23 @@ public:
 class Cone : public Primitive
 {
 public:
-	Cone()
+	Cone(float Height,float Radius,int SectorCount, int HeightDiv)
 		:Primitive()
 	{
+		std::vector<Vertex> TempVertex;
+		std::vector<GLuint> TempIndices;
+		glm::vec3 Clr = glm::vec3(1.f, 1.f, 1.f);
+		float PI = glm::pi<float>();
+		float SectorStep = 2.f * PI / SectorCount;
+		for (int ii = 0; ii <= HeightDiv; ii++)
+		{
 
+			float ConeRadius = 120.f;
+			for (int jj = 0; jj <= SectorCount; jj++)
+			{
+				Vertex VertexFound;
+
+			}
+		}
 	}
 };
