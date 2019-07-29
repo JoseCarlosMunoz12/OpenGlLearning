@@ -701,3 +701,13 @@ public:
 		this->set(TempVertex, TempIndices);
 	}
 };
+
+class Cone : public Primitive
+{
+public:
+	Cone()
+		:Primitive()
+	{
+
+	}
+};
