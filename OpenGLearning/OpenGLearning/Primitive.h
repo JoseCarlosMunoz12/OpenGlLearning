@@ -593,11 +593,10 @@ public:
 		std::vector<GLuint> TempIndices;
 		std::vector<Vertex> TempVertex;
 		glm::vec3 Clr = glm::vec3(1, 0, 1);
-		float X, Y, Z, XY;								// Vertex Position
-		float nX, Ny, NZ, lengthInv = 1.f / Radius;		// Vertex normal
-		float s, t;										// Vertex TexCoord
+		float Z, XY;								// Vertex Position
+		float lengthInv = 1.f / Radius;		// Vertex normal
 		float PI = glm::pi<float>();
-		float SectorStep = 2 * glm::pi<float>() / SectorCount;
+		float SectorStep = 2 * PI / SectorCount;
 		float StackStep = PI / StackCount;
 		float SectorAngle, StackAngle;
 		for (int ii = 0; ii <= StackCount; ii++)
@@ -610,16 +609,19 @@ public:
 			{
 				Vertex Temp;
 				SectorAngle = jj * SectorStep;
-				Temp.position.x = XY * (float)glm::cos(SectorAngle);
-				Temp.position.y = XY * (float)glm::sin(SectorAngle);
-				Temp.position.z = Z;
+
+				Temp.position.x = XY * (float)glm::sin(SectorAngle);
+				Temp.position.y = Z;
+				Temp.position.z = XY * (float)glm::cos(SectorAngle);
 				
 				Temp.normal.x = Temp.position.x * lengthInv;
 				Temp.normal.y = Temp.position.y * lengthInv;
 				Temp.normal.z = Temp.position.z * lengthInv;
 
-				Temp.texcoord.x = (float)jj / SectorCount;
-				Temp.texcoord.y = (float)ii / SectorCount;
+				Temp.texcoord.x = (float)ii / SectorCount;
+
+				Temp.texcoord.y = (float)jj / SectorCount;
+
 				TempVertex.push_back(Temp);
 			}
 		}
@@ -652,12 +654,50 @@ public:
 
 class Cylinder : public Primitive
 {
-	Cylinder(float Radius, float Hieght)
+public:
+	Cylinder(float Radius, int Hieght, float SectorCount)
 		:Primitive()
 	{
 		std::vector<Vertex> TempVertex;
-		std::vector<GLuint> TempIndicis;
+		std::vector<GLuint> TempIndices;
+		glm::vec3 Clr = glm::vec3(1.f, 1.f, 1.f);
+		float PI = glm::pi<float>();
+		float SectorStep = 2.f * PI / SectorCount;
+		for (int ii = 0; ii <= Hieght ; ii++)
+		{
+			for (int jj = 0; jj <= SectorCount; jj++)
+			{
+				Vertex VertexFound;
+				VertexFound.position.y = ii;
+				VertexFound.position.z = Radius * (float)glm::cos((float)jj * SectorStep); 
+				VertexFound.position.x = Radius * (float)glm::sin((float)jj * SectorStep);
+				VertexFound.normal.y = 0;
+				VertexFound.normal.z = VertexFound.position.z / Radius;
+				VertexFound.normal.x = VertexFound.position.x / Radius;
 
-
+				VertexFound.texcoord.x = ii/ Hieght;
+				VertexFound.texcoord.y = jj/ SectorCount;
+				VertexFound.color = Clr;
+				TempVertex.push_back(VertexFound);
+			}
+		}
+		
+		for (int jj = 0; jj < Hieght; jj++)
+		{
+			for (int ii = 0; ii <= SectorCount-1; ii++)
+			{
+				GLuint TopLeft = ((jj + 1) * (SectorCount+1)) + ii;
+				GLuint TopRight = TopLeft + 1;
+				GLuint BottomLeft = ((jj) * (SectorCount+1)) + ii;
+				GLuint BottomRight = BottomLeft + 1;
+				TempIndices.push_back(TopLeft);
+				TempIndices.push_back(BottomLeft);
+				TempIndices.push_back(TopRight);
+				TempIndices.push_back(TopRight);
+				TempIndices.push_back(BottomLeft);
+				TempIndices.push_back(BottomRight);
+			}
+		}
+		this->set(TempVertex, TempIndices);
 	}
 };
