@@ -671,6 +671,7 @@ public:
 				VertexFound.position.y = ii;
 				VertexFound.position.z = Radius * (float)glm::cos((float)jj * SectorStep); 
 				VertexFound.position.x = Radius * (float)glm::sin((float)jj * SectorStep);
+
 				VertexFound.normal.y = 0;
 				VertexFound.normal.z = VertexFound.position.z / Radius;
 				VertexFound.normal.x = VertexFound.position.x / Radius;
@@ -713,14 +714,27 @@ public:
 		glm::vec3 Clr = glm::vec3(1.f, 1.f, 1.f);
 		float PI = glm::pi<float>();
 		float SectorStep = 2.f * PI / SectorCount;
+		float DivStep = Height / HeightDiv;
 		for (int ii = 0; ii <= HeightDiv; ii++)
 		{
 
-			float ConeRadius = 120.f;
+			float ConeRadius = (Height - (ii * DivStep /Height)) * (Radius / Height);
 			for (int jj = 0; jj <= SectorCount; jj++)
 			{
 				Vertex VertexFound;
+				VertexFound.position.y = ii * DivStep;
+				VertexFound.position.x = ConeRadius * (float)glm::cos((float)jj * SectorStep);
+				VertexFound.position.z = ConeRadius * (float)glm::sin((float)jj * SectorStep);
 
+				VertexFound.normal.y = 0;
+				VertexFound.normal.x = VertexFound.position.x / ConeRadius;
+				VertexFound.normal.z = VertexFound.position.z / ConeRadius;
+
+				VertexFound.texcoord.x = ii / HeightDiv;
+				VertexFound.texcoord.y = jj / SectorCount;
+
+				VertexFound.color = glm::vec3(1.f, 1.f, 1.f);
+				TempVertex.push_back(VertexFound);
 			}
 		}
 	}
