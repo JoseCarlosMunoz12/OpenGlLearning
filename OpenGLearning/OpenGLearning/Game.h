@@ -27,7 +27,18 @@ enum material_ennum
 	MAT_2,
 	TERRAIN_MAT
 };
-enum mesh_enum {MESH_QUAD = 0};
+enum mesh_enum
+{
+	MESH_QUAD = 0,
+	MESH_PLANE_TERRAIN,
+	MESH_CUSTOM_TERRAIN,
+	MESH_TRIANGLE,
+	MESH_PYRAMID,
+	MESH_CUBE,
+	MESH_SPHERE,
+	MESH_CYLINDER,
+	MESH_CONE
+};
 enum heighMaps_enum
 {
 	HEIGHTMAP_1
