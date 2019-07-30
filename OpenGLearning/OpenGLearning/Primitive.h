@@ -737,5 +737,22 @@ public:
 				TempVertex.push_back(VertexFound);
 			}
 		}
+		for (int jj = 0; jj < Height; jj++)
+		{
+			for (int ii = 0; ii <= SectorCount - 1; ii++)
+			{
+				GLuint TopLeft = ((jj + 1) * (SectorCount + 1)) + ii;
+				GLuint TopRight = TopLeft + 1;
+				GLuint BottomLeft = ((jj) * (SectorCount + 1)) + ii;
+				GLuint BottomRight = BottomLeft + 1;
+				TempIndices.push_back(TopLeft);
+				TempIndices.push_back(BottomLeft);
+				TempIndices.push_back(TopRight);
+				TempIndices.push_back(TopRight);
+				TempIndices.push_back(BottomLeft);
+				TempIndices.push_back(BottomRight);
+			}
+		}
+		this->set(TempVertex, TempIndices);
 	}
 };
