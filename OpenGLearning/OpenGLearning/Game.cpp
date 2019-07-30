@@ -158,6 +158,14 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(&Cone(1.f, 1.f, 40.f,10),
+			"Cylinder",
+			glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
+
 	this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 0.f),
 		this->materials[TERRAIN_MAT],
@@ -193,6 +201,13 @@ void Game::initModels()
 		meshes[4],
 		"sater"));
 	this->NamesOfModels.push_back("sater");
+	this->models.push_back(new Model(
+		glm::vec3(5.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(5.f, 5.f), 5.f),
+		this->materials[MAT_2],
+		{ this->textures[12], this->textures[12] },
+		meshes[5],
+		"saters"));
+	this->NamesOfModels.push_back("saters");
 }
 
 void Game::initLights()

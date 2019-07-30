@@ -717,14 +717,13 @@ public:
 		float DivStep = Height / HeightDiv;
 		for (int ii = 0; ii <= HeightDiv; ii++)
 		{
-
 			float ConeRadius = (Height - (ii * DivStep /Height)) * (Radius / Height);
 			for (int jj = 0; jj <= SectorCount; jj++)
 			{
 				Vertex VertexFound;
 				VertexFound.position.y = ii * DivStep;
-				VertexFound.position.x = ConeRadius * (float)glm::cos((float)jj * SectorStep);
-				VertexFound.position.z = ConeRadius * (float)glm::sin((float)jj * SectorStep);
+				VertexFound.position.x = ConeRadius * (float)glm::sin((float)jj * SectorStep);
+				VertexFound.position.z = ConeRadius * (float)glm::cos((float)jj * SectorStep);
 
 				VertexFound.normal.y = 0;
 				VertexFound.normal.x = VertexFound.position.x / ConeRadius;
@@ -737,7 +736,7 @@ public:
 				TempVertex.push_back(VertexFound);
 			}
 		}
-		for (int jj = 0; jj < Height; jj++)
+		for (int jj = 0; jj < HeightDiv; jj++)
 		{
 			for (int ii = 0; ii <= SectorCount - 1; ii++)
 			{
