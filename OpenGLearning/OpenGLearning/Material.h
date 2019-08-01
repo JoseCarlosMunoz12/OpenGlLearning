@@ -11,6 +11,39 @@
 #include <gtc\type_ptr.hpp>
 
 #include "Shader.h"
+class StdMat
+{
+private:
+	std::string MatName;
+protected:
+	glm::vec3 Ambient;
+	glm::vec3 Diffuse;
+	glm::vec3 Specular;
+	std::vector<GLint> TexIndex;
+public:
+	StdMat(std::string Name)
+	{
+		this->MatName = Name;
+	}
+	virtual void SendShader(Shader& program)
+	{
+	}
+	std::string GetName()
+	{
+		return this->MatName;
+	}
+
+};
+
+class TxtMat : public StdMat
+{
+public:
+	TxtMat(std::string name)
+		:StdMat(name)
+	{
+		
+	}
+};
 
 class Material
 {
