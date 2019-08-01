@@ -208,6 +208,9 @@ void Game::initModels()
 		meshes[5],
 		"saters"));
 	this->NamesOfModels.push_back("saters");
+	TxtMat setst("HI", 0);
+	std::string Name = setst.GetName();
+	std::cout << Name << "\n";
 }
 
 void Game::initLights()

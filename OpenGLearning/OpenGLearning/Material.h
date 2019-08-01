@@ -15,15 +15,21 @@ class StdMat
 {
 private:
 	std::string MatName;
+	int MatId;
 protected:
 	glm::vec3 Ambient;
 	glm::vec3 Diffuse;
 	glm::vec3 Specular;
 	std::vector<GLint> TexIndex;
 public:
-	StdMat(std::string Name)
+	StdMat(std::string Name,int SetId)
 	{
 		this->MatName = Name;
+		this->MatId = SetId;
+	}
+	~StdMat()
+	{
+		std::cout << "Test\n";
 	}
 	virtual void SendShader(Shader& program)
 	{
@@ -38,10 +44,14 @@ public:
 class TxtMat : public StdMat
 {
 public:
-	TxtMat(std::string name)
-		:StdMat(name)
+	TxtMat(std::string Name, int SetId)
+		:StdMat(Name, SetId)
 	{
 		
+	}
+	~TxtMat()
+	{
+		std::cout << "gone\n";
 	}
 };
 
