@@ -17,10 +17,8 @@ private:
 	std::string MatName;
 	int MatId;
 protected:
-	glm::vec3 Ambient;
-	glm::vec3 Diffuse;
-	glm::vec3 Specular;
 	std::vector<GLint> TexIndex;
+	glm::vec3 SkyClr;
 public:
 	StdMat(std::string Name,int SetId)
 	{
@@ -43,11 +41,31 @@ public:
 
 class TxtMat : public StdMat
 {
+	glm::vec3 Ambient;
+	glm::vec3 Diffuse;
+	glm::vec3 Specular;
 public:
-	TxtMat(std::string Name, int SetId)
-		:StdMat(Name, SetId)
+	TxtMat(std::string Name, int SetId,
+			glm::vec3 SkyColor, glm::vec3 ambient,
+			glm::vec3 diffuse, glm::vec3 specular,
+			GLint diffuseTex, GLint specularTex)
+			:StdMat(Name, SetId)
 	{
-		
+		this->SkyClr = SkyColor;
+		this->Ambient = ambient;
+		this->Diffuse = diffuse;
+		this->Specular = specular;
+		this->TexIndex.push_back(diffuseTex);
+		this->TexIndex.push_back(specularTex);
+	}
+	void sendToShader(Shader& program)
+	{
+		program.setVec3f(this->Ambient, "material.ambient");
+		program.setVec3f(this->Diffuse, "material.diffuse");
+		program.setVec3f(this->Specular, "material.specular");
+		program.set1i(this->TexIndex[0], "material.diffuseTex");
+		program.set1i(this->TexIndex[1], "material.speculartex");
+		program.setVec3f(this->SkyClr, "SkyColor");
 	}
 	~TxtMat()
 	{
@@ -55,6 +73,19 @@ public:
 	}
 };
 
+class MipMapMat : public StdMat
+{
+public:
+	MipMapMat(std::string Name, int SetId,
+		glm::vec3 SkyColor,
+		std::vector<GLint> TexIndex)
+		:StdMat(Name, SetId)
+	{
+		this->SkyClr = SkyColor;
+		this->TexIndex = TexIndex;
+	}
+};
+// trying to devide the class into two Tex and MipMap
 class Material
 {
 private:

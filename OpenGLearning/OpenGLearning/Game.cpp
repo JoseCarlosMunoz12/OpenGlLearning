@@ -116,6 +116,9 @@ void Game::initMaterials()
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1, "Material 2",1));
 	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4,5},"Material 3",2));
+	std::vector<StdMat*> Name;
+	Name.push_back(new TxtMat("12", 0, SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f), 0, 1));
+	Name[0]->GetName();
 }
 
 void Game::initModels()
@@ -208,9 +211,6 @@ void Game::initModels()
 		meshes[5],
 		"saters"));
 	this->NamesOfModels.push_back("saters");
-	TxtMat setst("HI", 0);
-	std::string Name = setst.GetName();
-	std::cout << Name << "\n";
 }
 
 void Game::initLights()
