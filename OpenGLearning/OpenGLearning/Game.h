@@ -100,6 +100,8 @@ private:
 	std::vector<MipMap*> MipMapsData;
 	//Materials
 	std::vector<Material*> materials;
+	//Testing the new mat with Polymorphism
+	std::vector<StdMat*> MatTest;
 	//Models
 	std::vector<Model*> models;
 	//Lights

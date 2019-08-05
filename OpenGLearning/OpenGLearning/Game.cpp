@@ -116,9 +116,6 @@ void Game::initMaterials()
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1, "Material 2",1));
 	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4,5},"Material 3",2));
-	std::vector<StdMat*> Name;
-	Name.push_back(new TxtMat("12", 0, SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f), 0, 1));
-	Name[0]->GetName();
 }
 
 void Game::initModels()
@@ -555,6 +552,8 @@ Game::~Game()
 	ImGui::DestroyContext();
 	glfwDestroyWindow(this->window );
 	glfwTerminate();
+	for (auto& ii : this->MatTest)
+		delete ii;
 	for (size_t i = 0; i < this->shaders.size(); i++)
 			delete this->shaders[i];
 	for (size_t i = 0; i < this->textures.size(); i++)
@@ -607,7 +606,6 @@ void Game::render()
 	{
 		this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
 	}
-		
 	//End Draw
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

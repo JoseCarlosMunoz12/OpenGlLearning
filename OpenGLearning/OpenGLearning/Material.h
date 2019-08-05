@@ -31,7 +31,7 @@ public:
 	{
 		std::cout << "Test\n";
 	}
-	virtual void SendShader(std::vector<Shader>& program)
+	virtual void SendShader(std::vector<Shader*>& program)
 	{
 	}
 	std::string GetName()
@@ -60,14 +60,14 @@ public:
 		this->TexIndex.push_back(diffuseTex);
 		this->TexIndex.push_back(specularTex);
 	}
-	void sendToShader(std::vector<Shader>& program)
+	void sendToShader(std::vector<Shader*>& program)
 	{
-		program[this->ShaderID].setVec3f(this->Ambient, "material.ambient");
-		program[this->ShaderID].setVec3f(this->Diffuse, "material.diffuse");
-		program[this->ShaderID].setVec3f(this->Specular, "material.specular");
-		program[this->ShaderID].set1i(this->TexIndex[0], "material.diffuseTex");
-		program[this->ShaderID].set1i(this->TexIndex[1], "material.speculartex");
-		program[this->ShaderID].setVec3f(this->SkyClr, "SkyColor");
+		program[this->ShaderID]->setVec3f(this->Ambient, "material.ambient");
+		program[this->ShaderID]->setVec3f(this->Diffuse, "material.diffuse");
+		program[this->ShaderID]->setVec3f(this->Specular, "material.specular");
+		program[this->ShaderID]->set1i(this->TexIndex[0], "material.diffuseTex");
+		program[this->ShaderID]->set1i(this->TexIndex[1], "material.speculartex");
+		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 	~TxtMat()
 	{
@@ -86,14 +86,14 @@ public:
 		this->SkyClr = SkyColor;
 		this->TexIndex = TexIndex;
 	}
-	void sendToShader(std::vector<Shader>& program)
+	void sendToShader(std::vector<Shader*>& program)
 	{
-		program[this->ShaderID].set1i(this->TexIndex[0], "Texture0");
-		program[this->ShaderID].set1i(this->TexIndex[1], "Texture1");
-		program[this->ShaderID].set1i(this->TexIndex[2], "Texture2");
-		program[this->ShaderID].set1i(this->TexIndex[3], "Texture3");
-		program[this->ShaderID].set1i(this->TexIndex[4], "Texture4");
-		program[this->ShaderID].setVec3f(this->SkyClr, "SkyColor");
+		program[this->ShaderID]->set1i(this->TexIndex[0], "Texture0");
+		program[this->ShaderID]->set1i(this->TexIndex[1], "Texture1");
+		program[this->ShaderID]->set1i(this->TexIndex[2], "Texture2");
+		program[this->ShaderID]->set1i(this->TexIndex[3], "Texture3");
+		program[this->ShaderID]->set1i(this->TexIndex[4], "Texture4");
+		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 };
 // trying to devide the class into two Tex and MipMap
