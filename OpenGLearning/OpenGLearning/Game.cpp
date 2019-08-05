@@ -116,6 +116,11 @@ void Game::initMaterials()
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1, "Material 2",1));
 	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4,5},"Material 3",2));
+	std::vector<StdMat*> Name;
+	this->MatTest.push_back(new TxtMat("Name", 0, MAT_1,
+							this->SkyColor, glm::vec3(0.1f),
+							glm::vec3(1.f), glm::vec3(1.f),
+							0, 1));
 }
 
 void Game::initModels()
@@ -165,7 +170,7 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
-
+	//Pushing Models
 	this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 0.f),
 		this->materials[TERRAIN_MAT],

@@ -6,7 +6,6 @@
 #include "Vertex.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "Material.h"
 #include "Primitive.h"
 #include "Collision.h"
 

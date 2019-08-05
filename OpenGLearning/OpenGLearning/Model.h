@@ -8,6 +8,7 @@
 class Model
 {
 private:
+	StdMat* TestMat;
 	Material* material;
 	std::vector<Texture*> Tex;
 	std::vector<Mesh*> meshes;
@@ -152,6 +153,25 @@ public:
 		for (auto& i : this->meshes)
 		{
 			i->render(shader);
+		}
+	}
+	void TestRender(std::vector<Shader*> shader)
+	{
+		this->updateUniform();
+		int TempShdrId = this->TestMat->GetShaderId();
+		this->TestMat->SendShader(shader);
+		shader[TempShdrId]->use();
+		Shader* T = shader[TempShdrId];
+		int Num = 0;
+		for (auto& i : Tex)
+		{
+			i->bind(Num);
+			Num++;
+		}
+
+		for (auto& i : this->meshes)
+		{
+			i->render(T);
 		}
 	}
 	//Get the names for Tex, Mesh, Pos, and Material

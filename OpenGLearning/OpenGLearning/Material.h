@@ -38,6 +38,10 @@ public:
 	{
 		return this->MatName;
 	}
+	int GetShaderId()
+	{
+		return this->ShaderID;
+	}
 
 };
 
