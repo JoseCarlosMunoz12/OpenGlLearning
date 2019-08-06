@@ -91,9 +91,19 @@ public:
 			i->setOrigin(this->Position);
 		}
 	}
-	Model(glm::vec3 position, StdMat* material)
+	Model(glm::vec3 position, StdMat* material,
+		std::vector<Texture*> orTexSpec, Mesh* meshesUse,
+		const char* ModelName)
 	{
-
+		this->Position = position;
+		this->TestMat = material;
+		this->Tex = orTexSpec;
+		this->meshes.push_back(new Mesh(*meshesUse));
+		for (auto& i : this->meshes)
+		{
+			i->move(this->Position);
+			i->setOrigin(this->Position);
+		}
 	}
 
 	~Model()

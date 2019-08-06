@@ -180,13 +180,18 @@ void Game::initModels()
 		meshes[0],
 		"Terrain"));
 	this->NamesOfModels.push_back("Terrain");
-	//this->models.push_back(new Model(
-	//	glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
-	//	this->materials[MAT_1],
-	//	{ this->textures[11],this->textures[11]},
-	//	meshes[1],
-	//	"Stall Image"));
-	//this->NamesOfModels.push_back("Stall Image");
+	this->models.push_back(new Model(
+		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f),0.f),
+		this->MatTest[0], { this->textures[11],this->textures[11] },
+		meshes[1],
+		"Stall Image"));
+	/*this->models.push_back(new Model(
+		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
+		this->materials[MAT_1],
+		{ this->textures[11],this->textures[11]},
+		meshes[1],
+		"Stall Image"));*/
+	////this->NamesOfModels.push_back("Stall Image");
 	//this->models.push_back(new Model(
 	//	glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
 	//	this->materials[MAT_2],
@@ -607,12 +612,12 @@ void Game::render()
 	//Update uniforms
 	this->updateUniforms();
 	//render Models
-
 	this->models[0]->renderManyTextures(this->shaders[SHADERS_TERRAIN]);
-	for (size_t ii = 1; ii < models.size(); ii++)
-	{
-		this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
-	}
+	this->models[1]->TestRender(this->shaders);
+	//for (size_t ii = 1; ii < models.size(); ii++)
+	//{
+	//	this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
+	//}
 	//End Draw
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
