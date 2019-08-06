@@ -116,11 +116,15 @@ void Game::initMaterials()
 	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
 		0,1, "Material 2",1));
 	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4,5},"Material 3",2));
-	std::vector<StdMat*> Name;
-	this->MatTest.push_back(new TxtMat("Name", 0, MAT_1,
+	//
+	//Testubg the new mats
+	
+	this->MatTest.push_back(new MipMapMat("TerrainMat", 1, MAT_2, this->SkyColor, {0,1,2,3,4,5}));
+	this->MatTest.push_back(new TxtMat("Model Terrain", 0, MAT_0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
 							0, 1));
+
 }
 
 void Game::initModels()
@@ -175,14 +179,14 @@ void Game::initModels()
 	//
 	this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 0.f),
-		this->materials[TERRAIN_MAT],
+		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},
 		meshes[0],
 		"Terrain"));
 	this->NamesOfModels.push_back("Terrain");
 	this->models.push_back(new Model(
 		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f),0.f),
-		this->MatTest[0], { this->textures[11],this->textures[11] },
+		this->MatTest[1], { this->textures[11],this->textures[11] },
 		meshes[1],
 		"Stall Image"));
 	/*this->models.push_back(new Model(
@@ -612,7 +616,7 @@ void Game::render()
 	//Update uniforms
 	this->updateUniforms();
 	//render Models
-	this->models[0]->renderManyTextures(this->shaders[SHADERS_TERRAIN]);
+	this->models[0]->TestRender(this->shaders);
 	this->models[1]->TestRender(this->shaders);
 	//for (size_t ii = 1; ii < models.size(); ii++)
 	//{

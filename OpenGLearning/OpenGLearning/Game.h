@@ -23,9 +23,9 @@ enum texture_enum
 };
 enum material_ennum
 {
-	MAT_1 = 0,
-	MAT_2,
-	TERRAIN_MAT
+	MAT_0,
+	MAT_1 ,
+	MAT_2
 };
 enum mesh_enum
 {
