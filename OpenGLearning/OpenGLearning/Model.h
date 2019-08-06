@@ -91,6 +91,11 @@ public:
 			i->setOrigin(this->Position);
 		}
 	}
+	Model(glm::vec3 position, StdMat* material)
+	{
+
+	}
+
 	~Model()
 	{
 		for (auto*& i: this->meshes)
@@ -159,7 +164,7 @@ public:
 	{
 		this->updateUniform();
 		int TempShdrId = this->TestMat->GetShaderId();
-		this->TestMat->SendShader(shader);
+		this->TestMat->sendToShader(shader);
 		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
 		int Num = 0;

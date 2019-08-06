@@ -31,7 +31,7 @@ public:
 	{
 		std::cout << "Test\n";
 	}
-	virtual void SendShader(std::vector<Shader*>& program)
+	virtual void sendToShader(std::vector<Shader*>& program)
 	{
 	}
 	std::string GetName()

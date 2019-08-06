@@ -141,36 +141,38 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.25f)));
-	meshes.push_back(
-		new Mesh(
-			&CustomObject("Images/tree.obj"),
-			"Tree",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
-	meshes.push_back(
-		new Mesh(&Sphere(1,32,32),
-			"Sphere",
-		glm::vec3(0.f, 0.f, 0.f),
-		glm::vec3(0.f),
-		glm::vec3(0.f),
-		glm::vec3(1.f)));
-	meshes.push_back(
-		new Mesh(&Cylinder(1.f,4.f,40.f),
-			"Cylinder",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
-	meshes.push_back(
-		new Mesh(&Cone(1.f, 1.f, 40.f,10),
-			"Cylinder",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
+	//meshes.push_back(
+	//	new Mesh(
+	//		&CustomObject("Images/tree.obj"),
+	//		"Tree",
+	//		glm::vec3(0.f, 0.f, 0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(1.f)));
+	//meshes.push_back(
+	//	new Mesh(&Sphere(1,32,32),
+	//		"Sphere",
+	//	glm::vec3(0.f, 0.f, 0.f),
+	//	glm::vec3(0.f),
+	//	glm::vec3(0.f),
+	//	glm::vec3(1.f)));
+	//meshes.push_back(
+	//	new Mesh(&Cylinder(1.f,4.f,40.f),
+	//		"Cylinder",
+	//		glm::vec3(0.f, 0.f, 0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(1.f)));
+	//meshes.push_back(
+	//	new Mesh(&Cone(1.f, 1.f, 40.f,10),
+	//		"Cylinder",
+	//		glm::vec3(0.f, 0.f, 0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(1.f)));
+	//
 	//Pushing Models
+	//
 	this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 0.f),
 		this->materials[TERRAIN_MAT],
@@ -178,41 +180,41 @@ void Game::initModels()
 		meshes[0],
 		"Terrain"));
 	this->NamesOfModels.push_back("Terrain");
-	this->models.push_back(new Model(
-		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
-		this->materials[MAT_1],
-		{ this->textures[11],this->textures[11]},
-		meshes[1],
-		"Stall Image"));
-	this->NamesOfModels.push_back("Stall Image");
-	this->models.push_back(new Model(
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
-		this->materials[MAT_2],
-		{this->textures[12], this->textures[12]},
-		meshes[2],
-		"Tree"));
-	this->NamesOfModels.push_back("Tree");
-	this->models.push_back(new Model(
-		glm::vec3(10.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(10.f, 10.f) +1.f, 10.f),
-		this->materials[MAT_2],
-		{ this->textures[12], this->textures[12] },
-		meshes[3],
-		"setys"));
-	this->NamesOfModels.push_back("setys");
-	this->models.push_back(new Model(
-		glm::vec3(5.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(5.f, 0.f), 0.f),
-		this->materials[MAT_2],
-		{ this->textures[12], this->textures[12] },
-		meshes[4],
-		"sater"));
-	this->NamesOfModels.push_back("sater");
-	this->models.push_back(new Model(
-		glm::vec3(5.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(5.f, 5.f), 5.f),
-		this->materials[MAT_2],
-		{ this->textures[12], this->textures[12] },
-		meshes[5],
-		"saters"));
-	this->NamesOfModels.push_back("saters");
+	//this->models.push_back(new Model(
+	//	glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
+	//	this->materials[MAT_1],
+	//	{ this->textures[11],this->textures[11]},
+	//	meshes[1],
+	//	"Stall Image"));
+	//this->NamesOfModels.push_back("Stall Image");
+	//this->models.push_back(new Model(
+	//	glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
+	//	this->materials[MAT_2],
+	//	{this->textures[12], this->textures[12]},
+	//	meshes[2],
+	//	"Tree"));
+	//this->NamesOfModels.push_back("Tree");
+	//this->models.push_back(new Model(
+	//	glm::vec3(10.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(10.f, 10.f) +1.f, 10.f),
+	//	this->materials[MAT_2],
+	//	{ this->textures[12], this->textures[12] },
+	//	meshes[3],
+	//	"setys"));
+	//this->NamesOfModels.push_back("setys");
+	//this->models.push_back(new Model(
+	//	glm::vec3(5.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(5.f, 0.f), 0.f),
+	//	this->materials[MAT_2],
+	//	{ this->textures[12], this->textures[12] },
+	//	meshes[4],
+	//	"sater"));
+	//this->NamesOfModels.push_back("sater");
+	//this->models.push_back(new Model(
+	//	glm::vec3(5.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(5.f, 5.f), 5.f),
+	//	this->materials[MAT_2],
+	//	{ this->textures[12], this->textures[12] },
+	//	meshes[5],
+	//	"saters"));
+	//this->NamesOfModels.push_back("saters");
 }
 
 void Game::initLights()
