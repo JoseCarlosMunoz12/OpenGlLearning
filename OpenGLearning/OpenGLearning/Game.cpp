@@ -119,8 +119,12 @@ void Game::initMaterials()
 	//
 	//Testubg the new mats
 	
-	this->MatTest.push_back(new MipMapMat("TerrainMat", 1, MAT_2, this->SkyColor, {0,1,2,3,4,5}));
-	this->MatTest.push_back(new TxtMat("Model Terrain", 0, MAT_0,
+	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2, this->SkyColor, {0,1,2,3,4,5}));
+	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
+							this->SkyColor, glm::vec3(0.1f),
+							glm::vec3(1.f), glm::vec3(1.f),
+							0, 1));
+	this->MatTest.push_back(new TxtMat("Model File", 2, MAT_1,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
 							0, 1));
@@ -145,35 +149,35 @@ void Game::initModels()
 			glm::vec3(0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.25f)));
-	//meshes.push_back(
-	//	new Mesh(
-	//		&CustomObject("Images/tree.obj"),
-	//		"Tree",
-	//		glm::vec3(0.f, 0.f, 0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(1.f)));
-	//meshes.push_back(
-	//	new Mesh(&Sphere(1,32,32),
-	//		"Sphere",
-	//	glm::vec3(0.f, 0.f, 0.f),
-	//	glm::vec3(0.f),
-	//	glm::vec3(0.f),
-	//	glm::vec3(1.f)));
-	//meshes.push_back(
-	//	new Mesh(&Cylinder(1.f,4.f,40.f),
-	//		"Cylinder",
-	//		glm::vec3(0.f, 0.f, 0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(1.f)));
-	//meshes.push_back(
-	//	new Mesh(&Cone(1.f, 1.f, 40.f,10),
-	//		"Cylinder",
-	//		glm::vec3(0.f, 0.f, 0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(
+			&CustomObject("Images/tree.obj"),
+			"Tree",
+			glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(&Sphere(1,32,32),
+			"Sphere",
+		glm::vec3(0.f, 0.f, 0.f),
+		glm::vec3(0.f),
+		glm::vec3(0.f),
+		glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(&Cylinder(1.f,4.f,40.f),
+			"Cylinder",
+			glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(&Cone(1.f, 1.f, 40.f,10),
+			"Cone",
+			glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
 	//
 	//Pushing Models
 	//
@@ -189,41 +193,15 @@ void Game::initModels()
 		this->MatTest[1], { this->textures[11],this->textures[11] },
 		meshes[1],
 		"Stall Image"));
-	/*this->models.push_back(new Model(
-		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
-		this->materials[MAT_1],
-		{ this->textures[11],this->textures[11]},
-		meshes[1],
-		"Stall Image"));*/
-	////this->NamesOfModels.push_back("Stall Image");
-	//this->models.push_back(new Model(
-	//	glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
-	//	this->materials[MAT_2],
-	//	{this->textures[12], this->textures[12]},
-	//	meshes[2],
-	//	"Tree"));
-	//this->NamesOfModels.push_back("Tree");
-	//this->models.push_back(new Model(
-	//	glm::vec3(10.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(10.f, 10.f) +1.f, 10.f),
-	//	this->materials[MAT_2],
-	//	{ this->textures[12], this->textures[12] },
-	//	meshes[3],
-	//	"setys"));
-	//this->NamesOfModels.push_back("setys");
-	//this->models.push_back(new Model(
-	//	glm::vec3(5.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(5.f, 0.f), 0.f),
-	//	this->materials[MAT_2],
-	//	{ this->textures[12], this->textures[12] },
-	//	meshes[4],
-	//	"sater"));
-	//this->NamesOfModels.push_back("sater");
-	//this->models.push_back(new Model(
-	//	glm::vec3(5.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(5.f, 5.f), 5.f),
-	//	this->materials[MAT_2],
-	//	{ this->textures[12], this->textures[12] },
-	//	meshes[5],
-	//	"saters"));
-	//this->NamesOfModels.push_back("saters");
+	this->NamesOfModels.push_back("Stall Image");
+	this->models.push_back(new Model(
+		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 10.f), 10.f),
+		this->MatTest[2], { this->textures[11],this->textures[11] },
+		meshes[4],
+		"Stall Image"));
+	this->NamesOfModels.push_back("Stall Image 2");
+
+
 }
 
 void Game::initLights()
@@ -386,7 +364,7 @@ void Game::ImGuiOptions()
 		if (this->ModelToMake != -1)
 		{
 			ImGui::Text(this->models[this->ModelToMake]->GetName());
-			Material* ModMat = this->models[this->ModelToMake]->GetMaterial();
+			StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
 			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
 			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
@@ -618,6 +596,7 @@ void Game::render()
 	//render Models
 	this->models[0]->TestRender(this->shaders);
 	this->models[1]->TestRender(this->shaders);
+	this->models[2]->TestRender(this->shaders);
 	//for (size_t ii = 1; ii < models.size(); ii++)
 	//{
 	//	this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);

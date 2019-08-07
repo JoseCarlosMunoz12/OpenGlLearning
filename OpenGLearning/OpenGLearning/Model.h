@@ -98,6 +98,7 @@ public:
 		this->Position = position;
 		this->TestMat = material;
 		this->Tex = orTexSpec;
+		this->Name = ModelName;
 		this->meshes.push_back(new Mesh(*meshesUse));
 		for (auto& i : this->meshes)
 		{
@@ -205,6 +206,10 @@ public:
 	Material* GetMaterial()
 	{
 		return this->material;
+	}
+	StdMat* GetStdMat()
+	{
+		return this->TestMat;
 	}
 	const char* GetName()
 	{

@@ -34,14 +34,19 @@ public:
 	virtual void sendToShader(std::vector<Shader*>& program)
 	{
 	}
-	std::string GetName()
+	const char* GetName()
 	{
-		return this->MatName;
+		return this->MatName.c_str();
 	}
 	int GetShaderId()
 	{
 		return this->ShaderID;
 	}
+
+};
+
+class Standardmat : public StdMat
+{
 
 };
 
