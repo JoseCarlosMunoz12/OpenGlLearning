@@ -48,9 +48,14 @@ public:
 class Standardmat : public StdMat
 {
 public:
-	Standardmat(std::string Name, int SetId, int ShaderId)
+	Standardmat(std::string Name, int SetId, int ShaderId, glm::vec3 SkyColor)
 		:StdMat(Name,SetId,ShaderID)
 	{
+		this->SkyClr = SkyColor;
+	}
+	void SendToShader(std::vector<Shader*>& program)
+	{
+		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 };
 
@@ -84,7 +89,6 @@ public:
 	}
 	~TxtMat()
 	{
-		std::cout << "gone\n";
 	}
 };
 

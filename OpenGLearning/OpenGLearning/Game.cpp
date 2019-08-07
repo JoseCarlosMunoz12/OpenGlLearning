@@ -151,7 +151,7 @@ void Game::initModels()
 			glm::vec3(0.25f)));
 	meshes.push_back(
 		new Mesh(
-			&CustomObject("Images/tree.obj"),
+			&PlaneTerrain(),
 			"Tree",
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
@@ -195,9 +195,9 @@ void Game::initModels()
 		"Stall Image"));
 	this->NamesOfModels.push_back("Stall Image");
 	this->models.push_back(new Model(
-		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 10.f), 10.f),
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
 		this->MatTest[2], { this->textures[11],this->textures[11] },
-		meshes[4],
+		meshes[2],
 		"Stall Image"));
 	this->NamesOfModels.push_back("Stall Image 2");
 
@@ -594,9 +594,10 @@ void Game::render()
 	//Update uniforms
 	this->updateUniforms();
 	//render Models
-	this->models[0]->TestRender(this->shaders);
-	this->models[1]->TestRender(this->shaders);
-	this->models[2]->TestRender(this->shaders);
+	for (auto& ii : this->models)
+	{
+		ii->TestRender(this->shaders);
+	}
 	//for (size_t ii = 1; ii < models.size(); ii++)
 	//{
 	//	this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
