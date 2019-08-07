@@ -47,7 +47,11 @@ public:
 
 class Standardmat : public StdMat
 {
-
+public:
+	Standardmat(std::string Name, int SetId, int ShaderId)
+		:StdMat(Name,SetId,ShaderID)
+	{
+	}
 };
 
 class TxtMat : public StdMat
