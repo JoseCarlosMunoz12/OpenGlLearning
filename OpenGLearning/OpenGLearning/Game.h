@@ -99,7 +99,6 @@ private:
 	std::vector<Texture*> textures;
 	std::vector<MipMap*> MipMapsData;
 	//Materials
-	std::vector<Material*> materials;
 	//Testing the new mat with Polymorphism
 	std::vector<StdMat*> MatTest;
 	//Models
@@ -111,7 +110,6 @@ private:
 	//Names of each Model
 	std::vector<std::string> NamesOfModels;
 	// Empty Variables for new models
-	Material* NewMat; 
 	std::vector<Texture*> NewTex0;
 	glm::vec3 SpaceLoc;
 	Mesh* NewMesh;

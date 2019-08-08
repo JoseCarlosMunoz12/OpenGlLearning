@@ -111,12 +111,7 @@ void Game::initTextures()
 
 void Game::initMaterials()
 {
-	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1,"Material 1",0));
-	this->materials.push_back(new Material(SkyColor, glm::vec3(0.1f), glm::vec3(1.f), glm::vec3(1.f),
-		0,1, "Material 2",1));
-	this->materials.push_back(new Material(SkyColor,{0,1,2,3,4,5},"Material 3",2));
-	//
+
 	//Testubg the new mats
 	
 	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2, this->SkyColor, {0,1,2,3,4,5}));
@@ -148,36 +143,36 @@ void Game::initModels()
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f),
-			glm::vec3(0.25f)));
+			glm::vec3(0.1f)));
 	meshes.push_back(
 		new Mesh(
 			&PlaneTerrain(),
 			"Tree",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
-	meshes.push_back(
-		new Mesh(&Sphere(1,32,32),
-			"Sphere",
-		glm::vec3(0.f, 0.f, 0.f),
-		glm::vec3(0.f),
-		glm::vec3(0.f),
-		glm::vec3(1.f)));
-	meshes.push_back(
-		new Mesh(&Cylinder(1.f,4.f,40.f),
-			"Cylinder",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
+			glm::vec3(0.f,.5f, 0.f),
+			glm::vec3(0.f,0.f,0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
-	meshes.push_back(
-		new Mesh(&Cone(1.f, 1.f, 40.f,10),
-			"Cone",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
+	//meshes.push_back(
+	//	new Mesh(&Sphere(1,32,32),
+	//		"Sphere",
+	//	glm::vec3(0.f, 0.f, 0.f),
+	//	glm::vec3(0.f),
+	//	glm::vec3(0.f),
+	//	glm::vec3(1.f)));
+	//meshes.push_back(
+	//	new Mesh(&Cylinder(1.f,4.f,40.f),
+	//		"Cylinder",
+	//		glm::vec3(0.f, 0.f, 0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(1.f)));
+	//meshes.push_back(
+	//	new Mesh(&Cone(1.f, 1.f, 40.f,10),
+	//		"Cone",
+	//		glm::vec3(0.f, 0.f, 0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(0.f),
+	//		glm::vec3(1.f)));
 	//
 	//Pushing Models
 	//
@@ -188,22 +183,34 @@ void Game::initModels()
 		meshes[0],
 		"Terrain"));
 	this->NamesOfModels.push_back("Terrain");
+
 	this->models.push_back(new Model(
 		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f),0.f),
 		this->MatTest[1], { this->textures[11],this->textures[11] },
 		meshes[1],
 		"Stall Image"));
 	this->NamesOfModels.push_back("Stall Image");
+
 	this->models.push_back(new Model(
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
 		this->MatTest[2], { this->textures[11],this->textures[11] },
 		meshes[2],
-		"Stall Image",glm::vec3(0.f,0.f,90.f)));
+		"FaceB",glm::vec3(0.f,0.f,90.f)));
 	this->models.push_back(new Model(
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
 		this->MatTest[2], { this->textures[11],this->textures[11] },
 		meshes[2],
-		"Stall Image", glm::vec3(0.f, 0.f, -90.f)));
+		"FaceF", glm::vec3(0.f, 0.f, -90.f)));
+	this->models.push_back(new Model(
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
+		this->MatTest[2], { this->textures[11],this->textures[11] },
+		meshes[2],
+		"FaceL", glm::vec3(90.f, 0.f, 0.f)));
+	this->models.push_back(new Model(
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
+		this->MatTest[2], { this->textures[11],this->textures[11] },
+		meshes[2],
+		"FaceR", glm::vec3(-90.f, 0.f, 0.f)));
 	this->NamesOfModels.push_back("Stall Image 2");
 
 
@@ -371,56 +378,6 @@ void Game::ImGuiOptions()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	//New Model Customization
-	if (ImGui::TreeNode("---Change Info of New Model---"))
-	{
-		ImGui::Text("--Materials--");
-		for (auto& MatCurrent : this->materials)
-		{
-			if (ImGui::Selectable(MatCurrent->GetName(),
-				MatCurrent->GetMatId() == this->NewMatId))
-			{
-				this->NewMat = MatCurrent;
-				this->NewMatId = MatCurrent->GetMatId();
-			}
-		}
-		ImGui::Spacing();
-		ImGui::Text("--Meshes--");
-		int MeshCount = 0;
-		for (auto& MeshCurrent : this->meshes)
-		{
-			if (ImGui::Selectable(MeshCurrent->GiveName(),
-				MeshCount == NewMeshID))
-			{
-				this->NewMesh = MeshCurrent;
-				this->NewMeshID = MeshCount;
-			}
-			MeshCount++;
-		}
-		ImGui::Spacing();
-		ImGui::Text("--Textures to use--");
-		int TexCount = 0;
-		for (auto& TexCurrent : this->textures)
-		{
-			if (ImGui::Selectable(TexCurrent->GiveChar(),
-				this->CheckNum(TexCount)))
-			{
-				if (this->NewTex0.size() != 2)
-				{
-					this->NewTex0.push_back(TexCurrent);
-					if (this->NewTex0.size() == 1)
-					{
-						this->NewTexId0 = TexCount;
-					}
-					else
-					{ 
-						this->NewTexId1 = TexCount;
-					}
-				}
-			}
-			TexCount++;
-		}
-		ImGui::TreePop();
-	}
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::End();
@@ -538,8 +495,6 @@ Game::~Game()
 			delete this->shaders[i];
 	for (size_t i = 0; i < this->textures.size(); i++)
 		delete this->textures[i];
-	for (size_t i = 0; i < this->materials.size(); i++)
-		delete this->materials[i];
 	for (auto*& i : this->models)
 		delete i;
 	for (auto& ii : this->TestLights)
@@ -584,8 +539,10 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
-	this->models[2]->rotate(glm::vec3(0.f, 0.f, 1.f));
-	this->models[3]->rotate(glm::vec3(0.f, 0.f, 1.f));
+	this->models[2]->rotate(glm::vec3(0.f, 1.f, 0.f));
+	this->models[3]->rotate(glm::vec3(0.f, 1.f, 0.f));
+	this->models[4]->rotate(glm::vec3(0.f, 0.f, -1.f));
+	this->models[5]->rotate(glm::vec3(0.f, 0.f, 1.f));
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
