@@ -23,77 +23,9 @@ private:
 		meshes[0]->Update(Collisiontest);
 	}
 public:
-	Model(glm::vec3 position, Material* material,
-		Texture* orTexDif, Texture* orTexSpec,
-		std::vector<Mesh*> meshes, const char* ModelName)
-	{
-		this->Name = ModelName;
-		this->Position = position;
-		this->material = material;
-		this->Tex.push_back(orTexDif);
-		this->Tex.push_back(orTexSpec);
-		for (auto* i : meshes)
-		{
-			this->meshes.push_back(new Mesh(*i));
-		}
-		for (auto& i : this->meshes)
-		{
-			i->move(this->Position);
-			i->setOrigin(this->Position);
-		}
-	}
-	Model(glm::vec3 position, Material* material,
-		std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshes,
-		const char* ModelName)
-	{
-		this->Name = ModelName;
-		this->Position = position;
-		this->material = material;
-		this->Tex = orTexSpec;
-		for (auto* i : meshes)
-		{
-			this->meshes.push_back(new Mesh(*i));
-		}
-		for (auto& i : this->meshes)
-		{
-			i->move(this->Position);
-			i->setOrigin(this->Position);
-		}
-	}
-	Model(glm::vec3 position, Material* material,
-		Texture* orTexDif, Texture* orTexSpec, Mesh* meshesUse,
-		const char* ModelName)
-	{
-		this->Name = ModelName;
-		this->Position = position;
-		this->material = material;
-		this->Tex.push_back(orTexDif);
-		this->Tex.push_back(orTexSpec);
-		this->meshes.push_back(new Mesh(*meshesUse));
-		for (auto& i : this->meshes)
-		{
-			i->move(this->Position);
-			i->setOrigin(this->Position);
-		}
-	}
-	Model(glm::vec3 position, Material* material,
-		std::vector<Texture*> orTexSpec, Mesh* meshesUse,
-		const char* ModelName)
-	{
-		this->Name = ModelName;
-		this->Position = position;
-		this->material = material;
-		this->Tex = orTexSpec;
-		this->meshes.push_back(new Mesh(*meshesUse));
-		for (auto& i : this->meshes)
-		{
-			i->move(this->Position);
-			i->setOrigin(this->Position);
-		}
-	}
 	Model(glm::vec3 position, StdMat* material,
 		std::vector<Texture*> orTexSpec, Mesh* meshesUse,
-		const char* ModelName)
+		const char* ModelName, glm::vec3 InitRot = glm::vec3(0.f))
 	{
 		this->Position = position;
 		this->TestMat = material;
@@ -104,6 +36,7 @@ public:
 		{
 			i->move(this->Position);
 			i->setOrigin(this->Position);
+			i->setRotation(InitRot);
 		}
 	}
 

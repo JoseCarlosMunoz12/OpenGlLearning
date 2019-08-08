@@ -198,7 +198,12 @@ void Game::initModels()
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
 		this->MatTest[2], { this->textures[11],this->textures[11] },
 		meshes[2],
-		"Stall Image"));
+		"Stall Image",glm::vec3(0.f,0.f,90.f)));
+	this->models.push_back(new Model(
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
+		this->MatTest[2], { this->textures[11],this->textures[11] },
+		meshes[2],
+		"Stall Image", glm::vec3(0.f, 0.f, -90.f)));
 	this->NamesOfModels.push_back("Stall Image 2");
 
 
@@ -296,25 +301,6 @@ void Game::updateMouseInput()
 					this->ProjectionMatrix,
 					this->ViewMatrix,
 					this->camera.getPosition());
-				if (this->NewTexId1 != -1)
-				{
-					this->CountMesh = this->models.size();
-					std::string TempName = "Name" + std::to_string(this->CountMesh);
-					this->NamesOfModels.push_back(TempName);
-					this->models.push_back(new Model(
-						this->SpaceLoc,
-						this->NewMat,
-						this->NewTex0[0],
-						this->NewTex0[1],
-						this->NewMesh,
-						this->NamesOfModels[this->CountMesh].c_str()));
-					this->NewTex0.clear();
-					this->NewMatId = -1;
-					this->NewTexId0 = -1;
-					this->NewTexId1 = -1;
-					this->NewMeshID = -1;
-					std::cout << "Clicked \n";
-				}
 			}
 			if (this->MouseToUse.MouseButtonClicked(this->window, GLFW_MOUSE_BUTTON_2))
 			{
@@ -598,12 +584,8 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
-	//for (size_t ii = 1; ii < models.size(); ii++)
-	//{
-	//	this->models[ii]->render(this->shaders[SHADER_CORE_PROGRAM]);
-	//}
-	//End Draw
-
+	this->models[2]->rotate(glm::vec3(0.f, 0.f, 1.f));
+	this->models[3]->rotate(glm::vec3(0.f, 0.f, 1.f));
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
