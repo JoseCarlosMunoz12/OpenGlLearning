@@ -76,11 +76,11 @@ void Game::initMatrices()
 
 void Game::initShaders()
 {
-	this->shaders.push_back(new Shader(this->GLVerMajor , this->GLVerMinor ,
+	this->shaders.push_back(new Shader(0,this->GLVerMajor , this->GLVerMinor ,
 		"vertex_core.glsl", "fragment_core.glsl"));
-	this->shaders.push_back(new Shader(this->GLVerMajor, this->GLVerMinor,
+	this->shaders.push_back(new Shader(1,this->GLVerMajor, this->GLVerMinor,
 		"terrain_vertex.glsl", "terrain_fragment.glsl"));
-	this->shaders.push_back(new Shader(this->GLVerMajor, this->GLVerMinor,
+	this->shaders.push_back(new Shader(2,this->GLVerMajor, this->GLVerMinor,
 		"MultiTexVertex.glsl", "MultiTexFragment.glsl"));
 }
 
@@ -378,6 +378,11 @@ void Game::ImGuiOptions()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	//New Model Customization
+	if (ImGui::TreeNode("Test"))
+	{
+		ImGui::Text("Items");
+		ImGui::TreePop();
+	}
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::End();
