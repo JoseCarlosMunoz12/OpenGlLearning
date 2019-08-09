@@ -98,7 +98,7 @@ public:
 	//Constructors and Destructors
 	Shader(int ShaderChosenId,const int versionMajor,const int versionMinor,const char* vertexFile ,
 		const char* fragmentFile, const char* geometryFile = "")
-		:versionMajor(versionMajor),versionMinor(versionMinor),ShaderId(ShaderId)
+		:versionMajor(versionMajor),versionMinor(versionMinor),ShaderId(ShaderChosenId)
 	{
 		GLuint vertexShader = 0;
 		GLuint geometryShader = 0;

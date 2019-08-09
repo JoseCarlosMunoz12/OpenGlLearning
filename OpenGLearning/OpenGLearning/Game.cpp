@@ -378,9 +378,32 @@ void Game::ImGuiOptions()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	//New Model Customization
-	if (ImGui::TreeNode("Test"))
+	if (ImGui::TreeNode("Make new Models"))
 	{
-		ImGui::Text("Items");
+		ImGui::Text("Shaders");
+		for (auto& ii : this->shaders)
+		{
+			if(ImGui::Selectable(ii->GetName()))
+			{
+				std::cout << ii->GetShaderId() << "\n ";
+			}
+		}
+		ImGui::Text("Materials");
+		for (auto& ii : this->MatTest)
+		{
+			if (ImGui::Selectable(ii->GetName()))
+			{
+				std::cout << ii->GetShaderId() << "\n ";
+			}
+		}
+		ImGui::Text("Textures");
+		for (auto& ii : this->textures)
+		{
+			if (ImGui::Selectable(ii->GiveChar()))
+			{
+				std::cout << ii->GiveChar()<< "\n ";
+			}
+		}
 		ImGui::TreePop();
 	}
 	ImGui::Spacing();
