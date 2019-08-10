@@ -148,10 +148,17 @@ void Game::initModels()
 		new Mesh(
 			&PlaneTerrain(),
 			"Tree",
-			glm::vec3(0.f,.5f, 0.f),
+			glm::vec3(0.f,0.5f, 0.f),
 			glm::vec3(0.f,0.f,0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
+	meshes.push_back(new Mesh(
+		&PlaneTerrain(),
+		"Tree1",
+		glm::vec3(0.f, 5.f, 0.f),
+		glm::vec3(0.f, 0.f, 0.f),
+		glm::vec3(0.f),
+		glm::vec3(1.f)));
 	//meshes.push_back(
 	//	new Mesh(&Sphere(1,32,32),
 	//		"Sphere",
@@ -378,31 +385,51 @@ void Game::ImGuiOptions()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	//New Model Customization
-	if (ImGui::TreeNode("Make new Models"))
+	if (ImGui::TreeNode("PreMade Primtives, Meshes, etc."))
 	{
-		ImGui::Text("Shaders");
-		for (auto& ii : this->shaders)
+		if(ImGui::TreeNode("Shaders"))
 		{
-			if(ImGui::Selectable(ii->GetName()))
+			for (auto& ii : this->shaders)
 			{
-				std::cout << ii->GetShaderId() << "\n ";
+				if (ImGui::Selectable(ii->GetName()))
+				{
+					std::cout << ii->GetShaderId() << "\n ";
+				}
 			}
+			ImGui::TreePop();
 		}
-		ImGui::Text("Materials");
-		for (auto& ii : this->MatTest)
+		if (ImGui::TreeNode("Materials"))
 		{
-			if (ImGui::Selectable(ii->GetName()))
+			for (auto& ii : this->MatTest)
 			{
-				std::cout << ii->GetShaderId() << "\n ";
+				if (ImGui::Selectable(ii->GetName()))
+				{
+					std::cout << ii->GetShaderId() << "\n ";
+				}
 			}
+			ImGui::TreePop();
 		}
-		ImGui::Text("Textures");
-		for (auto& ii : this->textures)
+		if (ImGui::TreeNode("Textures"))
 		{
-			if (ImGui::Selectable(ii->GiveChar()))
+			for (auto& ii : this->textures)
 			{
-				std::cout << ii->GiveChar()<< "\n ";
+				if (ImGui::Selectable(ii->GiveChar()))
+				{
+					std::cout << ii->GiveChar() << "\n ";
+				}
 			}
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Meshes"))
+		{
+			for (auto& ii : this->meshes)
+			{
+				if (ImGui::Selectable(ii->GiveName()))
+				{
+					std::cout << ii->GiveName() << "\n";
+				}
+			}
+			ImGui::TreePop();
 		}
 		ImGui::TreePop();
 	}
