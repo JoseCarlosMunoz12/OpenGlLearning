@@ -9,7 +9,6 @@ class Model
 {
 private:
 	StdMat* TestMat;
-	Material* material;
 	std::vector<Texture*> Tex;
 	std::vector<Mesh*> meshes;
 	glm::vec3 Position;
@@ -32,6 +31,22 @@ public:
 		this->Tex = orTexSpec;
 		this->Name = ModelName;
 		this->meshes.push_back(new Mesh(*meshesUse));
+		for (auto& i : this->meshes)
+		{
+			i->move(this->Position);
+			i->setOrigin(this->Position);
+			i->setRotation(InitRot);
+		}
+	}
+	Model(glm::vec3 position, StdMat* material,
+		std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshesUse,
+		const char* ModelName, glm::vec3 InitRot = glm::vec3(0.f))
+	{
+		this->Position = position;
+		this->TestMat = material;
+		this->Tex = orTexSpec;
+		this->Name = ModelName;
+		this->meshes = meshesUse;
 		for (auto& i : this->meshes)
 		{
 			i->move(this->Position);
@@ -66,44 +81,6 @@ public:
 	{
 
 	}
-	void render(Shader* shader)
-	{
-		//Update Uniforms
-		this->updateUniform();
-		//Update Uniforms
-		this->material->sendToShader(*shader);
-		shader->use();
-		int Num = 0;
-		for (auto& i : Tex)
-		{
-			i->bind(Num);
-			Num++;
-		}
-
-		for (auto& i : this->meshes)
-		{
-			i->render(shader);
-		}
-	}
-	void renderManyTextures(Shader* shader)
-	{
-		//Update Uniforms
-		this->updateUniform();
-		//Update Uniforms
-		this->material->sendManyTexToShader(*shader);
-		shader->use();
-		int Num = 0;
-		for (auto& i : Tex)
-		{
-			i->bind(Num);
-			Num++;
-		}
-
-		for (auto& i : this->meshes)
-		{
-			i->render(shader);
-		}
-	}
 	void TestRender(std::vector<Shader*> shader)
 	{
 		this->updateUniform();
@@ -136,10 +113,7 @@ public:
 	{
 		return this->Position;
 	}
-	Material* GetMaterial()
-	{
-		return this->material;
-	}
+
 	StdMat* GetStdMat()
 	{
 		return this->TestMat;

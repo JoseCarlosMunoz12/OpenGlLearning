@@ -187,7 +187,7 @@ void Game::initModels()
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},
-		meshes[0],
+		meshes[0] ,
 		"Terrain"));
 	this->NamesOfModels.push_back("Terrain");
 
@@ -216,7 +216,7 @@ void Game::initModels()
 	this->models.push_back(new Model(
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
 		this->MatTest[2], { this->textures[11],this->textures[11] },
-		meshes[2],
+		{meshes[2],meshes[3]},
 		"FaceR", glm::vec3(-90.f, 0.f, 0.f)));
 	this->NamesOfModels.push_back("Stall Image 2");
 
@@ -546,6 +546,8 @@ Game::~Game()
 	glfwTerminate();
 	for (auto& ii : this->MatTest)
 		delete ii;
+	//for (auto& i : meshes)
+	//	delete i;
 	for (size_t i = 0; i < this->shaders.size(); i++)
 			delete this->shaders[i];
 	for (size_t i = 0; i < this->textures.size(); i++)
@@ -556,8 +558,7 @@ Game::~Game()
 		delete ii;
 	for (auto& ii : this->MipMapsData)
 		delete ii;
-	for (auto& i : meshes)
-		delete i;
+
 	
 }
 //Acessor
