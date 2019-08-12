@@ -69,9 +69,6 @@ private:
 
 	void InitModelMatrix()
 	{
-		this->position = glm::vec3(0.f);
-		this->rotation = glm::vec3(0.f);
-		this->scale = glm::vec3(1.f);
 		this->ModelMatrix = glm::mat4(1.f);
 		this->ModelMatrix = glm::translate(this->ModelMatrix, this->origin);
 		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));
@@ -125,7 +122,7 @@ public:
 		}
 
 		this->InitVAO();
-		this->updateModelMatrix();
+		this->InitModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 		this->MeshCollisionBox.ShowPos();
 	}
@@ -159,7 +156,7 @@ public:
 			this->indexArray[i] = indexArray[i];
 		}
 		this->InitVAO();
-		this->updateModelMatrix();
+		this->InitModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 
@@ -184,7 +181,7 @@ public:
 			this->indexArray[i] = obj.indexArray[i];
 		}
 		this->InitVAO();
-		this->updateModelMatrix();
+		this->InitModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 
