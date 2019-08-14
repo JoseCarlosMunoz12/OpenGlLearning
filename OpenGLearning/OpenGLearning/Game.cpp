@@ -155,8 +155,8 @@ void Game::initModels()
 	meshes.push_back(new Mesh(
 		&Quad(),
 		"Tree1",
-		glm::vec3(0.f, 4.5f, 0.f),
-		glm::vec3(90.f, 0.f, 0.f),
+		glm::vec3(0.f, 1.5f, 0.f),
+		glm::vec3(0.f, 0.5f, 0.f),
 		glm::vec3(0.f),
 		glm::vec3(1.f)));
 	//meshes.push_back(
@@ -209,7 +209,7 @@ void Game::initModels()
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) , 0.f),
 		this->MatTest[2], { this->textures[11],this->textures[11] },
 		{meshes[2], meshes[3]},
-		"FaceR", glm::vec3(90.f, 0.f, 0.f)));
+		"FaceR", glm::vec3(0.f, 0.f, 0.f)));
 	this->NamesOfModels.push_back("Stall Image 2");
 
 
@@ -587,7 +587,7 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
-	this->models[3]->rotate(glm::vec3(0.f,1.f,0.f));
+	this->models[3]->rotate(glm::vec3(0.f,0.f,10.f));
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
