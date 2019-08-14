@@ -33,7 +33,7 @@ public:
 		this->meshes.push_back(new Mesh(*meshesUse));
 		for (auto& i : this->meshes)
 		{
-			i->setOrigin(this->Position);
+			//i->setOrigin(this->Position);
 			i->move(this->Position);
 			i->setRotation(InitRot);
 		}
@@ -49,9 +49,8 @@ public:
 		this->meshes = meshesUse;
 		for (auto& i : this->meshes)
 		{
-			i->setOrigin(this->Position);
+		//	i->setOrigin(this->Position);
 			i->move(this->Position);
-			
 			i->setRotation(InitRot);
 		}
 	}

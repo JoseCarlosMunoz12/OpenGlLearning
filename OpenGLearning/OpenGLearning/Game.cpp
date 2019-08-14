@@ -156,7 +156,7 @@ void Game::initModels()
 		&Quad(),
 		"Tree1",
 		glm::vec3(0.f, 1.5f, 0.f),
-		glm::vec3(0.f, 0.5f, 0.f),
+		glm::vec3(0.f, 0.f, 0.f),
 		glm::vec3(0.f),
 		glm::vec3(1.f)));
 	//meshes.push_back(
@@ -587,7 +587,7 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
-	this->models[3]->rotate(glm::vec3(0.f,0.f,10.f));
+	this->models[3]->rotate(glm::vec3(0.f,0.f,1.f));
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
