@@ -64,7 +64,6 @@ void Game::initMatrices()
 {
 	this->ViewMatrix = glm::mat4(1.f);
 	this->ViewMatrix = glm::lookAt(this->camPosition, this->camPosition + this->camFront, this->worldUp);
-	
 	this->ProjectionMatrix = glm::mat4(1.f);
 
 	this->ProjectionMatrix = glm::perspective(glm::radians(this->fov),
@@ -155,7 +154,7 @@ void Game::initModels()
 	meshes.push_back(new Mesh(
 		&Quad(),
 		"Tree1",
-		glm::vec3(0.f, 1.5f, 0.f),
+		glm::vec3(0.f, 3.f, 0.f),
 		glm::vec3(0.f, 0.f, 0.f),
 		glm::vec3(0.f),
 		glm::vec3(1.f)));
@@ -203,14 +202,15 @@ void Game::initModels()
 		this->MatTest[1], { this->textures[10],this->textures[11] },
 		meshes[1],
 		"Stall Image1"));
-	this->NamesOfModels.push_back("Stall Image");
+	this->NamesOfModels.push_back("Stall Image1");
 
 	this->models.push_back(new Model(
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) , 0.f),
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f), 0.f),
 		this->MatTest[2], { this->textures[11],this->textures[11] },
-		{meshes[2], meshes[3]},
+		{meshes[3],meshes[2]},
 		"FaceR", glm::vec3(0.f, 0.f, 0.f)));
 	this->NamesOfModels.push_back("Stall Image 2");
+
 
 
 }

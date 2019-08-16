@@ -25,6 +25,7 @@ private:
 	glm::vec3 scale;
 	glm::vec3 origin;
 	glm::mat4 ModelMatrix;
+	glm::mat4 MeshMatrix;
 	Collision MeshCollisionBox;
 	std::string NameOfMesh;
 
@@ -238,6 +239,10 @@ public:
 	glm::mat4 ReturnModelMatrix()
 	{
 		return this->ModelMatrix;
+	}
+	glm::mat4 ReturnMeshMatrix()
+	{
+		return this->MeshMatrix;
 	}
 	void render(Shader* shader)
 	{
