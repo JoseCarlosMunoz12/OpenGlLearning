@@ -70,6 +70,16 @@ private:
 
 	void InitModelMatrix()
 	{
+
+		// Init MeshMatrix
+		this->MeshMatrix = glm::mat4(1.f);
+		this->MeshMatrix = glm::translate(this->MeshMatrix, this->position);
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(this->rotation.y), glm::vec3(0.f, 1.f, 0.f));
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(this->rotation.z), glm::vec3(0.f, 0.f, 1.f));
+		this->MeshMatrix = glm::translate(this->MeshMatrix, this->position - this->origin);
+		this->MeshMatrix = glm::scale(this->MeshMatrix, this->scale);
+
 		this->ModelMatrix = glm::mat4(1.f);
 		this->ModelMatrix = glm::translate(this->ModelMatrix, this->origin);
 		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));
@@ -81,11 +91,19 @@ private:
 	}
 	void updateUniforms(Shader* shader)
 	{
-		shader->setMat4fv(this->ModelMatrix, "ModelMatrix");
+		shader->setMat4fv(this->ModelMatrix , "ModelMatrix");
 	}
 	void updateModelMatrix()
 	{
-
+		// Init MeshMatrix
+		this->MeshMatrix = glm::mat4(1.f);
+		this->MeshMatrix = glm::translate(this->MeshMatrix, this->origin);
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f));
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));
+		this->MeshMatrix = glm::translate(this->MeshMatrix, this->position - this->origin);
+		this->MeshMatrix = glm::scale(this->MeshMatrix, this->scale);
+		//Init ModelMatrix
 		this->ModelMatrix = glm::mat4(1.f);
 		this->ModelMatrix = glm::translate(this->ModelMatrix, this->position);
 		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));

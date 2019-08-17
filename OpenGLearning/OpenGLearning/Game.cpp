@@ -142,7 +142,7 @@ void Game::initModels()
 			glm::vec3(0.f, 0.f, 0.f),
 			glm::vec3(0.f),
 			glm::vec3(0.f,0.f,0.f),
-			glm::vec3(0.1f)));
+			glm::vec3(.1f)));
 	meshes.push_back(
 		new Mesh(
 			&PlaneTerrain(),
@@ -154,7 +154,7 @@ void Game::initModels()
 	meshes.push_back(new Mesh(
 		&Quad(),
 		"Tree1",
-		glm::vec3(0.f, 3.f, 0.f),
+		glm::vec3(0.f, 1.f, 0.f),
 		glm::vec3(0.f, 0.f, 0.f),
 		glm::vec3(0.f),
 		glm::vec3(1.f)));
