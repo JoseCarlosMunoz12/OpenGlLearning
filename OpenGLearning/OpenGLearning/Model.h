@@ -5,10 +5,19 @@
 #include "Material.h"
 #include <iostream>
 
+struct Matrix
+{
+	glm::vec3 Position;
+	glm::vec3 Rotation;
+	glm::vec3 Scale;
+	glm::vec3 Origin;
+	glm::mat4 MatrixUse;
+};
 class Model
 {
 private:
 	StdMat* TestMat;
+	std::vector<Matrix*> MeshesMatrix;
 	std::vector<Texture*> Tex;
 	std::vector<Mesh*> meshes;
 	glm::vec3 Position;
@@ -94,10 +103,8 @@ public:
 			i->bind(Num);
 			Num++;
 		}
-
 		for (auto& i : this->meshes)
 		{
-			
 			i->render(T);
 		}
 	}
@@ -114,7 +121,6 @@ public:
 	{
 		return this->Position;
 	}
-
 	StdMat* GetStdMat()
 	{
 		return this->TestMat;

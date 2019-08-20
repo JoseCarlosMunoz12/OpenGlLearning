@@ -32,7 +32,8 @@ public:
 		glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
+		std::cout << this->Name << "\n";
+		std::cout << this->id << "\n";
 		if (image)
 		{
 			glTexImage2D(type, 0, GL_RGBA, this->width, this->height, 0, ColorType, GL_UNSIGNED_BYTE, image);
