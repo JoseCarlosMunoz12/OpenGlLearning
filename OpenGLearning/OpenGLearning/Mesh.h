@@ -192,7 +192,13 @@ public:
 		this->InitModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
+	//Test Constructors
+	Mesh(Primitive* UsePrimitive, std::string Name,
+		glm::vec3 Position, glm::vec3 Origin,glm::vec3 Rotation,glm::vec3 Scale,
+		std::vector<int> NodesID)
+	{
 
+	}
 	Mesh(const Mesh& obj)
 	{
 		this->position = obj.position;
@@ -267,9 +273,28 @@ public:
 	{
 		this->MeshCollisionBox.CheckForCollision(RayPos);
 	}
-	void TestRender()
+	void TestRender(Shader* shader, glm::mat4 Mat)
 	{
-
+		//Update Uniforms
+		this->updateModelMatrix();
+		this->updateUniforms(shader,Mat);
+		shader->use();
+		//BInd VAO
+		glBindVertexArray(this->VAO);
+		//Render
+		if (this->nrOfIndices == 0)
+		{
+			glDrawArrays(GL_TRIANGLES, 0, this->nrOfVertices);
+		}
+		else
+		{
+			glDrawElements(GL_TRIANGLES, this->nrOfIndices, GL_UNSIGNED_INT, 0);
+		}
+		//Clean up
+		glBindVertexArray(0);
+		glUseProgram(0);
+		glActiveTexture(0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	void render(Shader* shader)
 	{
