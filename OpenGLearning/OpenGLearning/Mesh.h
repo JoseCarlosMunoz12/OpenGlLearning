@@ -20,6 +20,7 @@ private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;
+	std::vector<int> MeshNodeIndex;
 	//Mesh
 	glm::vec3 position;
 	glm::vec3 rotation;
@@ -94,30 +95,34 @@ private:
 		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));
 		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.y), glm::vec3(0.f, 1.f, 0.f));
 		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->ModelMatrix = glm::translate(this->ModelMatrix, this->position- this->origin);
+		this->ModelMatrix = glm::translate(this->ModelMatrix, this->position - this->origin);
 		this->ModelMatrix = glm::scale(this->ModelMatrix, this->scale);
 
 	}
 	void updateUniforms(Shader* shader)
 	{
-		shader->setMat4fv(this->ModelMatrix*this->MeshMatrix, "ModelMatrix");
+		shader->setMat4fv(this->ModelMatrix * this->MeshMatrix, "ModelMatrix");
+	}
+	void updateUniforms(Shader* shader, glm::mat4 Mat)
+	{
+		shader->setMat4fv(Mat, "ModelMatrix");
 	}
 	void updateModelMatrix()
 	{
 		// Init MeshMatrix
 		this->MeshMatrix = glm::mat4(1.f);
 		this->MeshMatrix = glm::translate(this->MeshMatrix,this->position);
-		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(this->rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(this->rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->MeshMatrix = glm::translate(this->MeshMatrix,-1.f * this->origin);
-		this->MeshMatrix = glm::scale(this->MeshMatrix,this->scale );
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f));
+		this->MeshMatrix = glm::rotate(this->MeshMatrix, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));
+		this->MeshMatrix = glm::translate(this->MeshMatrix, -1.f * this->origin);
+		this->MeshMatrix = glm::scale(this->MeshMatrix,this->scale);
 		//Init ModelMatrix
 		this->ModelMatrix = glm::mat4(1.f);
 		this->ModelMatrix = glm::translate(this->ModelMatrix, this->position);
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(0.f), glm::vec3(1.f, 0.f, 0.f));
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 1.f, 0.f));
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f));
+		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));
+		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.y), glm::vec3(0.f, 1.f, 0.f));
+		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.z), glm::vec3(0.f, 0.f, 1.f));
 		this->ModelMatrix = glm::translate(this->ModelMatrix, this->position - this->origin);
 		this->ModelMatrix = glm::scale(this->ModelMatrix,glm::vec3(1.f));
 	}
@@ -262,15 +267,6 @@ public:
 	{
 		this->MeshCollisionBox.CheckForCollision(RayPos);
 	}
-
-	glm::mat4 ReturnModelMatrix()
-	{
-		return this->ModelMatrix;
-	}
-	glm::mat4 ReturnMeshMatrix()
-	{
-		return this->MeshMatrix;
-	}
 	void TestRender()
 	{
 
@@ -301,5 +297,9 @@ public:
 	const char* GiveName()
 	{
 		return this->NameOfMesh.c_str();
+	}
+	std::vector<int> GetMeshIndex()
+	{
+		return this->MeshNodeIndex;
 	}
 };

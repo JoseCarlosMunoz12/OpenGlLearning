@@ -11,13 +11,27 @@ struct Matrix
 	glm::vec3 Rotation;
 	glm::vec3 Scale;
 	glm::vec3 Origin;
-	glm::mat4 MatrixUse;
+	glm::mat4 MatrixToUse;
+	glm::mat4 GetMatrix()
+	{
+		this->MatrixToUse = glm::mat4(1.f);
+		this->MatrixToUse = glm::translate(this->MatrixToUse, this->Position);
+		this->MatrixToUse = glm::rotate(this->MatrixToUse, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
+		this->MatrixToUse = glm::rotate(this->MatrixToUse, glm::radians(this->Rotation.x), glm::vec3(0.f, 1.f, 0.f));
+		this->MatrixToUse = glm::rotate(this->MatrixToUse, glm::radians(this->Rotation.x), glm::vec3(0.f, 0.f, 1.f));
+		this->MatrixToUse = glm::translate(this->MatrixToUse, this->Position - this->Origin);
+	}
+};
+struct NodesIndex
+{
+	std::vector<int> MatId;
 };
 class Model
 {
 private:
 	StdMat* TestMat;
 	std::vector<Matrix*> MeshesMatrix;
+	std::vector<NodesIndex*> NodesFound;
 	std::vector<Texture*> Tex;
 	std::vector<Mesh*> meshes;
 	glm::vec3 Position;
@@ -128,5 +142,26 @@ public:
 	const char* GetName()
 	{
 		return this->Name;
+	}
+};
+
+class NodesCreation
+{
+private:
+	std::vector<NodesIndex> IndexToMake;
+public:
+	NodesCreation(std::vector<Mesh*> MeshToIndex)
+	{
+		for (auto& ii : MeshToIndex)
+		{
+			NodesIndex Temp;
+			Temp.MatId = ii->GetMeshIndex();
+			IndexToMake.push_back(Temp);
+		}
+	}
+	
+	std::vector<NodesIndex> ReturnNodesStruct()
+	{
+		return this->IndexToMake;
 	}
 };
