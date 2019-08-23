@@ -25,9 +25,7 @@ private:
 	glm::vec3 rotation;
 	glm::vec3 scale;
 	glm::vec3 origin;
-	//Matrix
 	glm::mat4 ModelMatrix;
-
 	Collision MeshCollisionBox;
 	std::string NameOfMesh;
 
@@ -162,13 +160,6 @@ public:
 		this->InitVAO();
 		this->InitModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
-	}
-	//Test Constructors
-	Mesh(Primitive* UsePrimitive, std::string Name,
-		glm::vec3 Position, glm::vec3 Origin,glm::vec3 Rotation,glm::vec3 Scale,
-		std::vector<int> NodesID)
-	{
-
 	}
 	Mesh(const Mesh& obj)
 	{
