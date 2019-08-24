@@ -6,8 +6,6 @@
 #include <glfw3.h>
 #include <SOIL2.h>
 
-
-
 class Texture
 {
 private:
