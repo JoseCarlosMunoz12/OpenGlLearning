@@ -34,6 +34,7 @@ public:
 		{
 			i->setOrigin(this->Position);
 			i->move(this->Position);
+			i->Move(this->Position);
 			i->setRotation(InitRot);
 		}
 	}
@@ -53,7 +54,6 @@ public:
 			i->setRotation(InitRot);
 		}
 	}
-
 	~Model()
 	{
 		for (auto*& i: this->meshes)
@@ -119,66 +119,4 @@ public:
 	{
 		return this->Name;
 	}
-};
-
-class Nodes
-{
-	glm::vec3 Position;
-	glm::vec3 Rotation;
-	glm::vec3 Scale;
-	glm::vec3 Origin;
-	glm::mat4 Matrix;
-	Nodes* Parent;
-public:
-	Nodes(std::string Name, Nodes* InitParent,
-		glm::vec3 InitPosition,glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale)
-		:Position(InitPosition),Rotation(InitRotation),Scale(InitScale),Origin(Origin),
-		Matrix(glm::mat4(1.f))
-	{
-		this->Parent = InitParent;
-		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->Matrix = glm::translate(this->Matrix, this->Position - this->Origin);
-		this->Matrix = glm::scale(this-> Matrix, this->Scale);
-	}
-	//Get Items
-	glm::mat4 GetFinalMat4()
-	{
-		if (this->Parent)
-		{
-			return this->Parent->GetFinalMat4() * this->Matrix;
-		}
-		else
-		{
-			return glm::mat4(1.f);
-		}
-	}
-	glm::vec3 GetPosition()
-	{
-		return this->Position;
-	}
-	glm::vec3 GetRotation()
-	{
-		return this->Rotation;
-	}
-	glm::vec3 GetScale()
-	{
-		return this->Scale;
-	}
-	//Set Itmes
-	void Move(glm::vec3 Pos)
-	{
-		this->Position += Pos;
-	}
-	void Rotate(glm::vec3 Rot)
-	{
-		this->Rotation += Rot;
-	}
-	void ScaleUp(glm::vec3 Scale)
-	{
-		this->Scale += Scale;
-	}
-
 };
