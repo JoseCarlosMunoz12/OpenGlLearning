@@ -56,6 +56,10 @@ public:
 		return this->Scale;
 	}
 	//Set Items
+	void setParent(Nodes* NewParent)
+	{
+		this->Parent = NewParent;
+	}
 	void setPosition(const glm::vec3 position)
 	{
 		this->Position = position;
@@ -84,6 +88,17 @@ public:
 	void ScaleUp(glm::vec3 Scale)
 	{
 		this->Scale += Scale;
+	}
+	int GetTotalparent()
+	{
+		if (this->Parent == NULL)
+		{
+			return 0 ;
+		}
+		else
+		{
+			return 1 + this->Parent->GetTotalparent();
+		}
 	}
 };
 

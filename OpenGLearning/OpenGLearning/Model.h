@@ -32,6 +32,7 @@ public:
 		this->meshes.push_back(new Mesh(*meshesUse));
 		for (auto& i : this->meshes)
 		{
+			i->setParent(this->meshes[0]->Parent);
 			i->setOrigin(this->Position);
 			i->move(this->Position);
 			i->Move(this->Position);
@@ -40,6 +41,7 @@ public:
 	}
 	Model(glm::vec3 position, StdMat* material,
 		std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshesUse,
+		std::vector<int> MeshParentsIndex,
 		const char* ModelName, glm::vec3 InitRot = glm::vec3(0.f))
 	{
 		this->Position = position;
@@ -47,12 +49,15 @@ public:
 		this->Tex = orTexSpec;
 		this->Name = ModelName;
 		this->meshes = meshesUse;
+		int ParentId = 0;
 		for (auto& i : this->meshes)
 		{
+			i->setParent(this->meshes[MeshParentsIndex[ParentId]]);
 			i->setOrigin(this->Position);
 			i->move(this->Position);
 			i->setRotation(InitRot);
 		}
+		std::cout << this->meshes[1]->Parent->GetTotalparent();
 	}
 	~Model()
 	{
