@@ -60,7 +60,6 @@ public:
 			{
 				i->setParent(meshes[MeshParentsIndex[ParentId]]);
 			}
-
 			i->setOrigin(this->Position);
 			i->move(this->Position);
 			i->setRotation(InitRot);
