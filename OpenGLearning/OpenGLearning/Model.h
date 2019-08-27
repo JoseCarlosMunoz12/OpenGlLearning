@@ -32,7 +32,7 @@ public:
 		this->meshes.push_back(new Mesh(*meshesUse));
 		for (auto& i : this->meshes)
 		{
-			i->setParent(this->meshes[0]->Parent);
+			i->setParent(NULL);
 			i->setOrigin(this->Position);
 			i->move(this->Position);
 			i->Move(this->Position);
@@ -52,12 +52,20 @@ public:
 		int ParentId = 0;
 		for (auto& i : this->meshes)
 		{
-			i->setParent(this->meshes[MeshParentsIndex[ParentId]]);
+			if (ParentId == 0)
+			{
+				i->setParent(NULL);
+			}
+			else
+			{
+				i->setParent(meshes[MeshParentsIndex[ParentId]]);
+			}
+
 			i->setOrigin(this->Position);
 			i->move(this->Position);
 			i->setRotation(InitRot);
+			ParentId++;
 		}
-		std::cout << this->meshes[1]->Parent->GetTotalparent();
 	}
 	~Model()
 	{

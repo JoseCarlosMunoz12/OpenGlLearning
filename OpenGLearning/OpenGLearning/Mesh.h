@@ -16,14 +16,14 @@ class Nodes
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
+	std::string Name;
 public:
 	Nodes* Parent;
-	Nodes( Nodes* InitParent,
+	Nodes(std::string Name, Nodes* InitParent,
 		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale)
-		:Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
+		:Parent(InitParent),Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
-		this->Parent = InitParent;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
@@ -56,6 +56,10 @@ public:
 		return this->Scale;
 	}
 	//Set Items
+	void SetName(std::string Name)
+	{
+		this->Name = Name;
+	}
 	void setParent(Nodes* NewParent)
 	{
 		this->Parent = NewParent;
@@ -91,14 +95,21 @@ public:
 	}
 	int GetTotalparent()
 	{
-		if (this->Parent == NULL)
-		{
-			return 0 ;
-		}
-		else
+		if (this->Parent)
 		{
 			return 1 + this->Parent->GetTotalparent();
 		}
+		else
+		{
+			return 0 ;
+		}
+	}
+	std::string GetParentName()
+	{
+		if (this->Parent)
+			return "The Parent Name is" + this->Parent->Name;
+		else
+			return "No Parent";
 	}
 };
 
@@ -195,8 +206,9 @@ public:
 		glm::vec3 origin = glm::vec3(0.f),
 		glm::vec3 rotation = glm::vec3(0.f),
 		glm::vec3 scale = glm::vec3(1.f))
-		:Nodes(NULL,position,origin,rotation,scale)
+		:Nodes(Name,NULL,position,origin,rotation,scale)
 	{
+		this->SetName(Name);
 		this->NameOfMesh = Name;
 		this->position = position;
 		this->origin = origin;
@@ -231,7 +243,7 @@ public:
 		glm::vec3 origin = glm::vec3(0.f),
 		glm::vec3 rotation = glm::vec3(0.f),
 		glm::vec3 scale = glm::vec3(1.f))
-		:Nodes( NULL, position, origin, rotation, scale)
+		:Nodes(Name, NULL, position, origin, rotation, scale)
 	{
 		this->NameOfMesh = Name;
 		this->position = position;
@@ -257,7 +269,7 @@ public:
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 	Mesh(const Mesh& obj)
-		:Nodes( obj.Parent,obj.position, obj.origin, obj.rotation, obj.scale)
+		:Nodes(obj.NameOfMesh, NULL,obj.position, obj.origin, obj.rotation, obj.scale)
 	{
 		this->position = obj.position;
 		this->origin = obj.origin;
