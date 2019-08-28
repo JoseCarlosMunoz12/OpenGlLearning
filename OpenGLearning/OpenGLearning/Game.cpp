@@ -148,7 +148,7 @@ void Game::initModels()
 			&PlaneTerrain(),
 			"Tree",
 			glm::vec3(0.f,.0f, 0.f),
-			glm::vec3(0.f,0.f,0.f),
+			glm::vec3(10.f,0.f,0.f),
 			glm::vec3(0.f),
 			glm::vec3(1.f)));
 	meshes.push_back(new Mesh(

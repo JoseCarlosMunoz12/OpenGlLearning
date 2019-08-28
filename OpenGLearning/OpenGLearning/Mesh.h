@@ -39,7 +39,7 @@ public:
 		}
 		else
 		{
-			return glm::mat4(1.f);
+			return this->Matrix;
 		}
 	}
 	glm::vec3 GetPosition()
@@ -184,7 +184,7 @@ private:
 	}
 	void updateUniforms(Shader* shader)
 	{
-		shader->setMat4fv(this->ModelMatrix, "ModelMatrix");
+		shader->setMat4fv(this->GetFinalMat4(), "ModelMatrix");
 	}
 	void updateModelMatrix()
 	{
@@ -369,6 +369,7 @@ public:
 	{
 		//Update Uniforms
 		this->updateModelMatrix();
+		this->UpdateMatrix();
 		this->updateUniforms(shader);
 		shader->use();
 		//BInd VAO
