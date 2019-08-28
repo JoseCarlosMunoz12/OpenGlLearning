@@ -16,10 +16,9 @@ class Nodes
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
-	std::string Name;
 public:
 	Nodes* Parent;
-	Nodes(std::string Name, Nodes* InitParent,
+	Nodes( Nodes* InitParent,
 		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale)
 		:Parent(InitParent),Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
@@ -55,11 +54,29 @@ public:
 	{
 		return this->Scale;
 	}
-	//Set Items
-	void SetName(std::string Name)
+	int GetTotalparent()
 	{
-		this->Name = Name;
+		if (this->Parent)
+		{
+			return 1 + this->Parent->GetTotalparent();
+		}
+		else
+		{
+			return 0 ;
+		}
 	}
+	//Update Matrix
+	void UpdateMatrix()
+	{
+		this->Matrix = glm::mat4(1.f);
+		this->Matrix = glm::translate(this->Matrix, this->Origin);
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
+		this->Matrix = glm::translate(this->Matrix, this->Position - this->Origin);
+		this->Matrix = glm::scale(this->Matrix, this->Scale);
+	}
+	//Set Items
 	void setParent(Nodes* NewParent)
 	{
 		this->Parent = NewParent;
@@ -93,24 +110,6 @@ public:
 	{
 		this->Scale += Scale;
 	}
-	int GetTotalparent()
-	{
-		if (this->Parent)
-		{
-			return 1 + this->Parent->GetTotalparent();
-		}
-		else
-		{
-			return 0 ;
-		}
-	}
-	std::string GetParentName()
-	{
-		if (this->Parent)
-			return "The Parent Name is" + this->Parent->Name;
-		else
-			return "No Parent";
-	}
 };
 
 class Mesh : public Nodes
@@ -124,7 +123,6 @@ private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;
-	std::vector<int> MeshNodeIndex;
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
@@ -186,7 +184,7 @@ private:
 	}
 	void updateUniforms(Shader* shader)
 	{
-		shader->setMat4fv(this->ModelMatrix , "ModelMatrix");
+		shader->setMat4fv(this->ModelMatrix, "ModelMatrix");
 	}
 	void updateModelMatrix()
 	{
@@ -206,14 +204,14 @@ public:
 		glm::vec3 origin = glm::vec3(0.f),
 		glm::vec3 rotation = glm::vec3(0.f),
 		glm::vec3 scale = glm::vec3(1.f))
-		:Nodes(Name,NULL,position,origin,rotation,scale)
+		:Nodes(NULL,position,origin,rotation,scale)
 	{
-		this->SetName(Name);
 		this->NameOfMesh = Name;
 		this->position = position;
 		this->origin = origin;
 		this->rotation = rotation;
 		this->scale = scale;
+
 		this->nrOfIndices = primitive->getNrOfIndices();
 		this->nrOfVertices = primitive->getNrOfVertices();
 		this->vertexArray = new Vertex[this->nrOfVertices];
@@ -243,7 +241,7 @@ public:
 		glm::vec3 origin = glm::vec3(0.f),
 		glm::vec3 rotation = glm::vec3(0.f),
 		glm::vec3 scale = glm::vec3(1.f))
-		:Nodes(Name, NULL, position, origin, rotation, scale)
+		:Nodes( NULL, position, origin, rotation, scale)
 	{
 		this->NameOfMesh = Name;
 		this->position = position;
@@ -269,7 +267,7 @@ public:
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 	Mesh(const Mesh& obj)
-		:Nodes(obj.NameOfMesh, NULL,obj.position, obj.origin, obj.rotation, obj.scale)
+		:Nodes(NULL,obj.position, obj.origin, obj.rotation, obj.scale)
 	{
 		this->position = obj.position;
 		this->origin = obj.origin;
@@ -347,6 +345,7 @@ public:
 	{
 		//Update Uniforms
 		this->updateModelMatrix();
+		this->UpdateMatrix();
 		this->updateUniforms(shader);
 		shader->use();
 		//BInd VAO
@@ -393,8 +392,5 @@ public:
 	{
 		return this->NameOfMesh.c_str();
 	}
-	std::vector<int> GetMeshIndex()
-	{
-		return this->MeshNodeIndex;
-	}
+
 };

@@ -62,6 +62,7 @@ public:
 			}
 			i->setOrigin(this->Position);
 			i->move(this->Position);
+			i->Move(this->Position);
 			i->setRotation(InitRot);
 			ParentId++;
 		}

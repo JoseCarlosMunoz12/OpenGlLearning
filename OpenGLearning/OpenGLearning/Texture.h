@@ -54,13 +54,11 @@ public:
 	}
 
 	inline GLuint getID() const {return this->id;}
-
 	void bind(const GLint texture_unit)
 	{
 		glActiveTexture(GL_TEXTURE0 + texture_unit);
 		glBindTexture(this->type, this->id);
 	}
-
 	void unbind()
 	{
 		glActiveTexture(0);
