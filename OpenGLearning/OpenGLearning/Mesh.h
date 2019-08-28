@@ -77,23 +77,23 @@ public:
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 	}
 	//Set Items
-	void setParent(Nodes* NewParent)
+	void SetParent(Nodes* NewParent)
 	{
 		this->Parent = NewParent;
 	}
-	void setPosition(const glm::vec3 position)
+	void SetPosition(const glm::vec3 position)
 	{
 		this->Position = position;
 	}
-	void setOrigin(const glm::vec3 origin)
+	void SetOrigin(const glm::vec3 origin)
 	{
 		this->Origin = origin;
 	}
-	void setRotation(const glm::vec3 rotation)
+	void SetRotation(const glm::vec3 rotation)
 	{
 		this->Rotation = rotation;
 	}
-	void setScale(const glm::vec3 setScale)
+	void SetScale(const glm::vec3 setScale)
 	{
 		this->Scale = setScale;
 	}

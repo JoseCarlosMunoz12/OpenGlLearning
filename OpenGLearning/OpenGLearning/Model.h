@@ -32,10 +32,12 @@ public:
 		this->meshes.push_back(new Mesh(*meshesUse));
 		for (auto& i : this->meshes)
 		{
-			i->setParent(NULL);
+			i->SetParent(NULL);
+			i->SetOrigin(this->Position);
 			i->setOrigin(this->Position);
 			i->move(this->Position);
 			i->Move(this->Position);
+			i->SetRotation(InitRot);
 			i->setRotation(InitRot);
 		}
 	}
@@ -54,15 +56,17 @@ public:
 		{
 			if (ParentId == 0)
 			{
-				i->setParent(NULL);
+				i->SetParent(NULL);
 			}
 			else
 			{
-				i->setParent(meshes[MeshParentsIndex[ParentId]]);
+				i->SetParent(meshes[MeshParentsIndex[ParentId]]);
 			}
+			i->SetOrigin(this->Position);
 			i->setOrigin(this->Position);
 			i->move(this->Position);
 			i->Move(this->Position);
+			i->SetRotation(InitRot);
 			i->setRotation(InitRot);
 			ParentId++;
 		}
