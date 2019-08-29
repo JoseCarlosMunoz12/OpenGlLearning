@@ -205,7 +205,7 @@ void Game::initModels()
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f), 0.f),
 		this->MatTest[2], { this->textures[11],this->textures[11] },
 		{ meshes[3],meshes[2] }, {NULL,0},
-		"FaceR", glm::vec3(0.f, 0.f, 0.f)));
+		"FaceR"));
 	this->NamesOfModels.push_back("Stall Image 2");
 }
 
@@ -584,8 +584,7 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
-	this->models[3]->rotate(glm::vec3(0.f, 1.f, 0.f), 0);
-	this->models[3]->rotate(glm::vec3(0.f, 1.f, 0.f), 1);
+	this->models[3]->rotate(glm::vec3(0.f, 0.f, 1.f), 0);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
