@@ -34,11 +34,8 @@ public:
 		{
 			i->SetParent(NULL);
 			i->SetOrigin(this->Position);
-			i->setOrigin(this->Position);
-			i->move(this->Position);
 			i->Move(this->Position);
 			i->SetRotation(InitRot);
-			i->setRotation(InitRot);
 		}
 	}
 	Model(glm::vec3 position, StdMat* material,
@@ -52,6 +49,9 @@ public:
 		this->Name = ModelName;
 		this->meshes = meshesUse;
 		int ParentId = 0;
+		this->meshes[0]->SetOrigin(this->Position);
+		this->meshes[0]->Move(this->Position);
+		this->meshes[0]->SetRotation(InitRot);
 		for (auto& i : this->meshes)
 		{
 			if (ParentId == 0)
@@ -62,12 +62,6 @@ public:
 			{
 				i->SetParent(meshes[MeshParentsIndex[ParentId]]);
 			}
-			i->SetOrigin(this->Position);
-			i->setOrigin(this->Position);
-			i->move(this->Position);
-			i->Move(this->Position);
-			i->SetRotation(InitRot);
-			i->setRotation(InitRot);
 			ParentId++;
 		}
 	}
@@ -78,12 +72,11 @@ public:
 			delete i;
 		}
 	}
-	void rotate(const glm::vec3 rotation)
+	void rotate(const glm::vec3 rotation,int MeshId)
 	{
-		for (auto& i : this->meshes)
-		{
-			i->rotate(rotation);
-		}
+		
+		this->meshes[MeshId]->Rotate(rotation);
+		
 	}
 	void update(glm::vec3 CollisionTest,glm::vec3 newPos)
 	{
