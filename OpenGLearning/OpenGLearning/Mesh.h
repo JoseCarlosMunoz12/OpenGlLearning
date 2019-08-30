@@ -170,32 +170,9 @@ private:
 		//BIND VAO 0
 		glBindVertexArray(0);
 	}
-
-	void InitModelMatrix()
-	{
-		this->ModelMatrix = glm::mat4(1.f);
-		this->ModelMatrix = glm::translate(this->ModelMatrix, this->origin);
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->ModelMatrix = glm::translate(this->ModelMatrix, this->position - this->origin);
-		this->ModelMatrix = glm::scale(this->ModelMatrix, this->scale);
-
-	}
 	void updateUniforms(Shader* shader)
 	{
 		shader->setMat4fv(this->GetFinalMat4(), "ModelMatrix");
-	}
-	void updateModelMatrix()
-	{
-		//Init ModelMatrix
-		this->ModelMatrix = glm::mat4(1.f);
-		this->ModelMatrix = glm::translate(this->ModelMatrix, this->position);
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		this->ModelMatrix = glm::rotate(this->ModelMatrix, glm::radians(this->rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->ModelMatrix = glm::translate(this->ModelMatrix, this->position - this->origin);
-		this->ModelMatrix = glm::scale(this->ModelMatrix,this->scale);
 	}
 public:
 	Mesh(Primitive* primitive,
@@ -228,7 +205,6 @@ public:
 		}
 
 		this->InitVAO();
-		this->InitModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 		this->MeshCollisionBox.ShowPos();
 	}
@@ -263,7 +239,6 @@ public:
 			this->indexArray[i] = indexArray[i];
 		}
 		this->InitVAO();
-		this->InitModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 	Mesh(const Mesh& obj)
@@ -288,7 +263,6 @@ public:
 			this->indexArray[i] = obj.indexArray[i];
 		}
 		this->InitVAO();
-		this->InitModelMatrix();
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 
@@ -341,34 +315,9 @@ public:
 	{
 		this->MeshCollisionBox.CheckForCollision(RayPos);
 	}
-	void TestRender(Shader* shader, glm::mat4 Mat)
+	void Render(Shader* shader)
 	{
 		//Update Uniforms
-		this->updateModelMatrix();
-		this->UpdateMatrix();
-		this->updateUniforms(shader);
-		shader->use();
-		//BInd VAO
-		glBindVertexArray(this->VAO);
-		//Render
-		if (this->nrOfIndices == 0)
-		{
-			glDrawArrays(GL_TRIANGLES, 0, this->nrOfVertices);
-		}
-		else
-		{
-			glDrawElements(GL_TRIANGLES, this->nrOfIndices, GL_UNSIGNED_INT, 0);
-		}
-		//Clean up
-		glBindVertexArray(0);
-		glUseProgram(0);
-		glActiveTexture(0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-	void render(Shader* shader)
-	{
-		//Update Uniforms
-		this->updateModelMatrix();
 		this->UpdateMatrix();
 		this->updateUniforms(shader);
 		shader->use();

@@ -105,7 +105,7 @@ public:
 		}
 		for (auto& i : this->meshes)
 		{
-			i->render(T);
+			i->Render(T);
 		}
 	}
 	//Get the names for Tex, Mesh, Pos, and Material
