@@ -351,7 +351,7 @@ void Game::ImGuiOptions()
 		{
 			ImGui::Text(this->models[this->ModelToMake]->GetName());
 			StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
-			glm::vec3 ModPos = this->models[this->ModelToMake]->GetModelPosition();
+			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
 			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
 			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
