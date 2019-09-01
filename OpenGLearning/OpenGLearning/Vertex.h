@@ -46,4 +46,18 @@ struct MeshsArtifacts
 	glm::vec3 Origin;
 	glm::vec3 Rotation;
 	glm::vec3 Scale;
+	MeshsArtifacts()
+	{
+		this->Origin = glm::vec3(0.f);
+		this->Scale = glm::vec3(1.f);
+		this->Position = glm::vec3(0.f);
+		this->Rotation = glm::vec3(0.f);
+	}
+	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, glm::vec3 Rot, glm::vec3 Scale)
+	{
+		this->Origin =  Origin;
+		this->Scale = Scale;
+		this->Position = Pos;
+		this->Rotation = Rot;
+	}
 };

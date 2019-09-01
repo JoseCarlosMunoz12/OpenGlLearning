@@ -70,7 +70,6 @@ void Game::initMatrices()
 		static_cast<float>(this->frameBufferWidth) / static_cast<float>(this->frameBufferHeight),
 		this->nearPlane,
 		this->farPlane);
-
 }
 
 void Game::initShaders()
@@ -127,6 +126,7 @@ void Game::initMaterials()
 
 void Game::initModels()
 {
+	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
 			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1]),
@@ -158,28 +158,36 @@ void Game::initModels()
 		glm::vec3(0.f, 0.f, 0.f),
 		glm::vec3(0.f),
 		glm::vec3(1.f)));
-	//meshes.push_back(
-	//	new Mesh(&Sphere(1,32,32),
-	//		"Sphere",
-	//	glm::vec3(0.f, 0.f, 0.f),
-	//	glm::vec3(0.f),
-	//	glm::vec3(0.f),
-	//	glm::vec3(1.f)));
-	//meshes.push_back(
-	//	new Mesh(&Cylinder(1.f,4.f,40.f),
-	//		"Cylinder",
-	//		glm::vec3(0.f, 0.f, 0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(1.f)));
-	//meshes.push_back(
-	//	new Mesh(&Cone(1.f, 1.f, 40.f,10),
-	//		"Cone",
-	//		glm::vec3(0.f, 0.f, 0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(0.f),
-	//		glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(&Sphere(1,32,32),
+			"Sphere",
+		glm::vec3(0.f, 0.f, 0.f),
+		glm::vec3(0.f),
+		glm::vec3(0.f),
+		glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(&Cylinder(1.f,4.f,40.f),
+			"Cylinder",
+			glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
+	meshes.push_back(
+		new Mesh(&Cone(1.f, 1.f, 40.f,10),
+			"Cone",
+			glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(0.f),
+			glm::vec3(0.f),
+			glm::vec3(1.f)));
 	//
+	//Meshes Componets are made
+	//
+	//
+	std::vector<MeshsArtifacts> MeshArt0;
+	std::vector<MeshsArtifacts> MeshArt1;
+	std::vector<MeshsArtifacts> MeshArt2;
+	MeshArt0.push_back(MeshsArtifacts());
+
 	//Pushing Models
 	//
 	this->models.push_back(new Model(
