@@ -9,110 +9,7 @@
 #include "Primitive.h"
 #include "Collision.h"
 
-class Nodes
-{
-	glm::vec3 Position;
-	glm::vec3 Rotation;
-	glm::vec3 Scale;
-	glm::vec3 Origin;
-	glm::mat4 Matrix;
-public:
-	Nodes* Parent;
-	Nodes( Nodes* InitParent,
-		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale)
-		:Parent(InitParent),Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
-		Matrix(glm::mat4(1.f))
-	{
-		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->Matrix = glm::translate(this->Matrix, this->Position - this->Origin);
-		this->Matrix = glm::scale(this->Matrix, this->Scale);
-	}
-	//Get Items
-	glm::mat4 GetFinalMat4()
-	{
-		if (this->Parent)
-		{
-			return this->Parent->GetFinalMat4() * this->Matrix;
-		}
-		else
-		{
-			return this->Matrix;
-		}
-	}
-	glm::vec3 GetPosition()
-	{
-		return this->Position;
-	}
-	glm::vec3 GetRotation()
-	{
-		return this->Rotation;
-	}
-	glm::vec3 GetScale()
-	{
-		return this->Scale;
-	}
-	int GetTotalparent()
-	{
-		if (this->Parent)
-		{
-			return 1 + this->Parent->GetTotalparent();
-		}
-		else
-		{
-			return 0 ;
-		}
-	}
-	//Update Matrix
-	void UpdateMatrix()
-	{
-		this->Matrix = glm::mat4(1.f);
-		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->Matrix = glm::translate(this->Matrix, this->Position - this->Origin);
-		this->Matrix = glm::scale(this->Matrix, this->Scale);
-	}
-	//Set Items
-	void SetParent(Nodes* NewParent)
-	{
-		this->Parent = NewParent;
-	}
-	void SetPosition(const glm::vec3 position)
-	{
-		this->Position = position;
-	}
-	void SetOrigin(const glm::vec3 origin)
-	{
-		this->Origin = origin;
-	}
-	void SetRotation(const glm::vec3 rotation)
-	{
-		this->Rotation = rotation;
-	}
-	void SetScale(const glm::vec3 setScale)
-	{
-		this->Scale = setScale;
-	}
-	//Modifiers
-	void Move(glm::vec3 Pos)
-	{
-		this->Position += Pos;
-	}
-	void Rotate(glm::vec3 Rot)
-	{
-		this->Rotation += Rot;
-	}
-	void ScaleUp(glm::vec3 Scale)
-	{
-		this->Scale += Scale;
-	}
-};
-
-class Mesh : public Nodes
+class Mesh 
 {
 private:
 	Vertex* vertexArray;
@@ -123,11 +20,6 @@ private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;
-	glm::vec3 position;
-	glm::vec3 rotation;
-	glm::vec3 scale;
-	glm::vec3 origin;
-	glm::mat4 ModelMatrix;
 	Collision MeshCollisionBox;
 	std::string NameOfMesh;
 
@@ -170,9 +62,9 @@ private:
 		//BIND VAO 0
 		glBindVertexArray(0);
 	}
-	void updateUniforms(Shader* shader)
+	void updateUniforms(glm::mat4 FinalMatrix,Shader* shader)
 	{
-		shader->setMat4fv(this->GetFinalMat4(), "ModelMatrix");
+		shader->setMat4fv(FinalMatrix, "ModelMatrix");
 	}
 public:
 	Mesh(Primitive* primitive,
@@ -181,13 +73,7 @@ public:
 		glm::vec3 origin = glm::vec3(0.f),
 		glm::vec3 rotation = glm::vec3(0.f),
 		glm::vec3 scale = glm::vec3(1.f))
-		:Nodes(NULL,position,origin,rotation,scale)
 	{
-		this->NameOfMesh = Name;
-		this->position = position;
-		this->origin = origin;
-		this->rotation = rotation;
-		this->scale = scale;
 
 		this->nrOfIndices = primitive->getNrOfIndices();
 		this->nrOfVertices = primitive->getNrOfVertices();
@@ -217,13 +103,7 @@ public:
 		glm::vec3 origin = glm::vec3(0.f),
 		glm::vec3 rotation = glm::vec3(0.f),
 		glm::vec3 scale = glm::vec3(1.f))
-		:Nodes( NULL, position, origin, rotation, scale)
 	{
-		this->NameOfMesh = Name;
-		this->position = position;
-		this->origin = origin;
-		this->rotation = rotation;
-		this->scale =scale;
 
 		this->nrOfIndices = nrOfIndices;
 		this->nrOfVertices = nrOfVertices;
@@ -242,12 +122,7 @@ public:
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 	Mesh(const Mesh& obj)
-		:Nodes(NULL,obj.position, obj.origin, obj.rotation, obj.scale)
 	{
-		this->position = obj.position;
-		this->origin = obj.origin;
-		this->rotation = obj.rotation;
-		this->scale = obj.scale;
 		this->NameOfMesh = obj.NameOfMesh;
 		this->nrOfIndices = obj.nrOfIndices;
 		this->nrOfVertices = obj.nrOfVertices;
@@ -280,46 +155,15 @@ public:
 	//Accessors
 
 	//Modifieres
-	void setPosition(const glm::vec3 position)
-	{
-		this->position = position;
-	}
-	void setOrigin(const glm::vec3 origin)
-	{
-		this->origin = origin;
-	}
-	void setRotation(const glm::vec3 rotation)
-	{
-		this->rotation = rotation;
-	}
-	void setScale(const glm::vec3 setScale)
-	{
-		this->scale = setScale;
-	}
-	//Functions
-	void move(const glm::vec3 position)
-	{
-		this->position += position;
-		this->MeshCollisionBox.UpdateBoxPos(position);
-	}
-	void rotate(const glm::vec3 rotation)
-	{
-		this->rotation += rotation;
-	}
-	void scaleUp(const glm::vec3 rescale)
-	{
-		this->scale += rescale;
-	}
 
 	void Update(glm::vec3 RayPos)
 	{
 		this->MeshCollisionBox.CheckForCollision(RayPos);
 	}
-	void Render(Shader* shader)
+	void Render(glm::mat4 FinalMatrix, Shader* shader)
 	{
 		//Update Uniforms
-		this->UpdateMatrix();
-		this->updateUniforms(shader);
+		this->updateUniforms(FinalMatrix,shader);
 		shader->use();
 		//BInd VAO
 		glBindVertexArray(this->VAO);
@@ -342,5 +186,4 @@ public:
 	{
 		return this->NameOfMesh.c_str();
 	}
-
 };

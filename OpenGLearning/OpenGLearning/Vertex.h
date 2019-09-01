@@ -25,8 +25,8 @@ struct MousePositions
 		MousePositions res;
 		X = obj.X;
 		Y = obj.Y;
-		res.X =  obj.X;
-		res.Y =  obj.Y;
+		res.X = obj.X;
+		res.Y = obj.Y;
 		return res;
 	}
 };
@@ -39,4 +39,11 @@ struct ImGuiItems
 {
 	ImVec2 ScreenPos;
 	ImVec2 WinSize;
+};
+struct MeshsArtifacts
+{
+	glm::vec3 Position;
+	glm::vec3 Origin;
+	glm::vec3 Rotation;
+	glm::vec3 Scale;
 };

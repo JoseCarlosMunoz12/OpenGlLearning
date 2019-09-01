@@ -203,8 +203,8 @@ void Game::initModels()
 	this->NamesOfModels.push_back("Stall Image1");
 	this->models.push_back(new Model(
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f), 0.f),
-		this->MatTest[2], { this->textures[11],this->textures[11] },
-		{ meshes[3],meshes[2] }, {NULL,0},
+		this->MatTest[1], { this->textures[11],this->textures[11] },
+		{ meshes[3],meshes[2],meshes[1] }, {NULL,0,1},
 		"FaceR"));
 	this->NamesOfModels.push_back("Stall Image 2");
 }
@@ -351,7 +351,7 @@ void Game::ImGuiOptions()
 		{
 			ImGui::Text(this->models[this->ModelToMake]->GetName());
 			StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
-			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
+			glm::vec3 ModPos = this->models[this->ModelToMake]->GetModelPosition();
 			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
 			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
