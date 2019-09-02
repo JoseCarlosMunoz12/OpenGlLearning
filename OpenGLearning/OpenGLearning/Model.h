@@ -132,7 +132,7 @@ private:
 		int Count = 0;
 		for (auto ii : Inits)
 		{
-			if (Count = 0)
+			if (Count == 0)
 				this->TreeNodes.push_back(new Nodes(NULL,
 					Pos, ii.Origin, ii.Rotation, ii.Scale));
 			else
@@ -143,55 +143,35 @@ private:
 		}
 	}
 public:
-	Model(glm::vec3 position, StdMat* material,
-		std::vector<Texture*> orTexSpec, Mesh* meshesUse,
-		const char* ModelName, glm::vec3 InitRot = glm::vec3(0.f))
+	Model(const char* ModelName,
+		glm::vec3 position,
+		StdMat* material,std::vector<Texture*>orTexSpec,std::vector<Mesh*> MeshesToUse,std::vector<MeshsArtifacts> Inits,
+		glm::vec3 InitRot = glm::vec3(0.f))
 	{
 		this->Position = position;
 		this->TestMat = material;
 		this->Tex = orTexSpec;
 		this->Name = ModelName;
-		this->meshes.push_back(new Mesh(*meshesUse));
-		for (auto& i : this->TreeNodes)
-		{
-			i->SetParent(NULL);
-			i->SetOrigin(this->Position);
-			i->Move(this->Position);
-			i->SetRotation(InitRot);
-		}
-	}
-	Model(glm::vec3 position, StdMat* material,
-		std::vector<Texture*> orTexSpec, std::vector<Mesh*> meshesUse,
-		std::vector<int> MeshParentsIndex,
-		const char* ModelName, glm::vec3 InitRot = glm::vec3(0.f))
-	{
-		this->Position = position;
-		this->TestMat = material;
-		this->Tex = orTexSpec;
-		this->Name = ModelName;
-		this->meshes = meshesUse;
-		int ParentId = 0;
-
+		this->meshes = MeshesToUse;
+		this->MakeNodes(position, Inits);
 		this->TreeNodes[0]->SetOrigin(this->Position);
 		this->TreeNodes[0]->Move(this->Position);
 		this->TreeNodes[0]->SetRotation(InitRot);
-		for (auto& i : this->TreeNodes)
-		{
-			if (ParentId == 0)
-			{
-				i->SetParent(NULL);
-			}
-			else
-			{
-				i->SetParent(TreeNodes[MeshParentsIndex[ParentId]]);
-			}
-			ParentId++;
-		}
-	}
+	}	
 	Model(const char* ModelName,
 		glm::vec3 position,
-		StdMat* material,std::vector<Texture*>orTexSpec,Mesh* MeshUse,std::vector<MeshsArtifacts> Inits)
+		StdMat* material, std::vector<Texture*>orTexSpec, Mesh* MeshUse, std::vector<MeshsArtifacts> Inits,
+		glm::vec3 InitRot = glm::vec3(0.f))
 	{
+		this->Position = position;
+		this->TestMat = material;
+		this->Tex = orTexSpec;
+		this->Name = ModelName;
+		this->meshes.push_back(MeshUse);
+		this->MakeNodes(position, Inits);
+		this->TreeNodes[0]->SetOrigin(this->Position);
+		this->TreeNodes[0]->Move(this->Position);
+		this->TreeNodes[0]->SetRotation(InitRot);
 	}
 	~Model()
 	{
@@ -220,20 +200,26 @@ public:
 	}
 	void TestRender(std::vector<Shader*> shader)
 	{
+		for (auto& ii : this->TreeNodes)
+		{
+			ii->UpdateMatrix();
+		}
 		this->updateUniform();
 		int TempShdrId = this->TestMat->GetShaderId();
 		this->TestMat->sendToShader(shader);
 		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
 		int Num = 0;
-		for (auto& i : Tex)
+		for (auto& i : this->Tex)
 		{
 			i->bind(Num);
 			Num++;
 		}
-		for (auto& i : this->meshes)
+		Num = 0;
+		for (auto& ii : this->TreeNodes)
 		{
-			i->Render(glm::mat4(1.f),T);
+			this->meshes[this->MeshToUse[Num]]->Render(ii->GetFinalMat4(), T);
+			Num++;
 		}
 	}
 	//Get the names for Tex, Mesh, Pos, and Material

@@ -187,7 +187,7 @@ void Game::initModels()
 
 	//Pushing Models
 	//
-	this->models.push_back(new Model(
+	/*this->models.push_back(new Model(
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},
@@ -211,7 +211,7 @@ void Game::initModels()
 		this->MatTest[1], { this->textures[11],this->textures[11] },
 		{ meshes[3],meshes[2],meshes[1] }, {NULL,0,1},
 		"FaceR"));
-	this->NamesOfModels.push_back("Stall Image 2");
+	this->NamesOfModels.push_back("Stall Image 2");*/
 }
 
 void Game::initLights()
