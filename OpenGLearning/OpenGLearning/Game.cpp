@@ -130,69 +130,41 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(
 			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1]),
-			"Terrain",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
+			"Terrain"));
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("Images/stall.obj"),
-			"StallImage" + 0,
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f,0.f,0.f),
-			glm::vec3(.1f)));
+			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
 			&PlaneTerrain(),
-			"Tree",
-			glm::vec3(1.f,0.f,2.f),
-			glm::vec3(1.f,0.f,2.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
+			"Tree"));
 	meshes.push_back(new Mesh(
 		&Quad(),
-		"Tree1",
-		glm::vec3(0.f, 0.f,0.f),
-		glm::vec3(0.f, 0.f, 0.f),
-		glm::vec3(0.f),
-		glm::vec3(1.f)));
+		"Tree1"));
 	meshes.push_back(
 		new Mesh(&Sphere(1,32,32),
-			"Sphere",
-		glm::vec3(0.f, 0.f, 0.f),
-		glm::vec3(0.f),
-		glm::vec3(0.f),
-		glm::vec3(1.f)));
+			"Sphere"));
 	meshes.push_back(
 		new Mesh(&Cylinder(1.f,4.f,40.f),
-			"Cylinder",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
+			"Cylinder"));
 	meshes.push_back(
 		new Mesh(&Cone(1.f, 1.f, 40.f,10),
-			"Cone",
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f),
-			glm::vec3(0.f),
-			glm::vec3(1.f)));
+			"Cone"));
 	//
 	//Meshes Componets are made
 	//
 	//
-
+	MeshsArtifacts Terrain(glm::vec3(0.f),glm::vec3(0.f),glm::vec3(0.f),glm::vec3(1.f),0,0);
 
 	//Pushing Models
 	//
-	/*this->models.push_back(new Model(
+	this->models.push_back(new Model("Terrain",
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},
-		meshes[0] ,
-		"Terrain"));
+		meshes[0], { Terrain }));
+	/*
 	this->NamesOfModels.push_back("Terrain");
 	this->models.push_back(new Model(
 		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f),0.f),

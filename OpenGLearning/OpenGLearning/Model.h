@@ -145,7 +145,8 @@ private:
 public:
 	Model(const char* ModelName,
 		glm::vec3 position,
-		StdMat* material,std::vector<Texture*>orTexSpec,std::vector<Mesh*> MeshesToUse,std::vector<MeshsArtifacts> Inits,
+		StdMat* material,std::vector<Texture*>orTexSpec,std::vector<Mesh*> MeshesToUse,
+		std::vector<MeshsArtifacts> Inits,
 		glm::vec3 InitRot = glm::vec3(0.f))
 	{
 		this->Position = position;
@@ -185,14 +186,6 @@ public:
 		
 		this->TreeNodes[MeshId]->Rotate(rotation);
 		
-	}
-	void update(glm::vec3 CollisionTest,glm::vec3 newPos)
-	{
-		this->updateCollision(CollisionTest);
-		for (auto& ii : this->meshes)
-		{
-			ii->setPosition(newPos);
-		}
 	}
 	void CheckForIntersection()
 	{

@@ -20,11 +20,6 @@ private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;
-	glm::vec3 position;
-	glm::vec3 rotation;
-	glm::vec3 scale;
-	glm::vec3 origin;
-	glm::mat4 ModelMatrix;
 	Collision MeshCollisionBox;
 	std::string NameOfMesh;
 
@@ -73,17 +68,9 @@ private:
 	}
 public:
 	Mesh(Primitive* primitive,
-		std::string Name,
-		glm::vec3 position = glm::vec3(0.f),
-		glm::vec3 origin = glm::vec3(0.f),
-		glm::vec3 rotation = glm::vec3(0.f),
-		glm::vec3 scale = glm::vec3(1.f))
+		std::string Name)
 	{
 		this->NameOfMesh = Name;
-		this->position = position;
-		this->origin = origin;
-		this->rotation = rotation;
-		this->scale = scale;
 
 		this->nrOfIndices = primitive->getNrOfIndices();
 		this->nrOfVertices = primitive->getNrOfVertices();
@@ -104,21 +91,12 @@ public:
 		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 		this->MeshCollisionBox.ShowPos();
 	}
-
 	Mesh(Vertex* VertexArray,
 		std::string Name,
 		const unsigned& nrOfVertices, GLuint* indexArray,
-		const unsigned& nrOfIndices,
-		glm::vec3 position = glm::vec3(0.f),
-		glm::vec3 origin = glm::vec3(0.f),
-		glm::vec3 rotation = glm::vec3(0.f),
-		glm::vec3 scale = glm::vec3(1.f))
+		const unsigned& nrOfIndices)
 	{
 		this->NameOfMesh = Name;
-		this->position = position;
-		this->origin = origin;
-		this->rotation = rotation;
-		this->scale =scale;
 
 		this->nrOfIndices = nrOfIndices;
 		this->nrOfVertices = nrOfVertices;
@@ -138,10 +116,6 @@ public:
 	}
 	Mesh(const Mesh& obj)
 	{
-		this->position = obj.position;
-		this->origin = obj.origin;
-		this->rotation = obj.rotation;
-		this->scale = obj.scale;
 		this->NameOfMesh = obj.NameOfMesh;
 		this->nrOfIndices = obj.nrOfIndices;
 		this->nrOfVertices = obj.nrOfVertices;
@@ -173,37 +147,6 @@ public:
 	}
 	//Accessors
 
-	//Modifieres
-	void setPosition(const glm::vec3 position)
-	{
-		this->position = position;
-	}
-	void setOrigin(const glm::vec3 origin)
-	{
-		this->origin = origin;
-	}
-	void setRotation(const glm::vec3 rotation)
-	{
-		this->rotation = rotation;
-	}
-	void setScale(const glm::vec3 setScale)
-	{
-		this->scale = setScale;
-	}
-	//Functions
-	void move(const glm::vec3 position)
-	{
-		this->position += position;
-		this->MeshCollisionBox.UpdateBoxPos(position);
-	}
-	void rotate(const glm::vec3 rotation)
-	{
-		this->rotation += rotation;
-	}
-	void scaleUp(const glm::vec3 rescale)
-	{
-		this->scale += rescale;
-	}
 
 	void Update(glm::vec3 RayPos)
 	{
