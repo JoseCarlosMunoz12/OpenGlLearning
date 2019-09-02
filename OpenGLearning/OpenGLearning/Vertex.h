@@ -46,18 +46,25 @@ struct MeshsArtifacts
 	glm::vec3 Origin;
 	glm::vec3 Rotation;
 	glm::vec3 Scale;
+	int ParentId;
+	int MeshId;
 	MeshsArtifacts()
 	{
 		this->Origin = glm::vec3(0.f);
 		this->Scale = glm::vec3(1.f);
 		this->Position = glm::vec3(0.f);
 		this->Rotation = glm::vec3(0.f);
+		this->MeshId = 0;
+		this->ParentId = 0;
 	}
-	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, glm::vec3 Rot, glm::vec3 Scale)
+	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, glm::vec3 Rot, glm::vec3 Scale,
+		int Mesh,int Parent)
 	{
 		this->Origin =  Origin;
 		this->Scale = Scale;
 		this->Position = Pos;
 		this->Rotation = Rot;
+		this->MeshId = Mesh;
+		this->ParentId = Parent;
 	}
 };

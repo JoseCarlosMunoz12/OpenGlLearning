@@ -183,10 +183,7 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	//
-	std::vector<MeshsArtifacts> MeshArt0;
-	std::vector<MeshsArtifacts> MeshArt1;
-	std::vector<MeshsArtifacts> MeshArt2;
-	MeshArt0.push_back(MeshsArtifacts());
+
 
 	//Pushing Models
 	//

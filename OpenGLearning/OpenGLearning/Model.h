@@ -3,13 +3,120 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Material.h"
+#include "Vertex.h"
 #include <iostream>
+
+class Nodes
+{
+	glm::vec3 Position;
+	glm::vec3 Rotation;
+	glm::vec3 Scale;
+	glm::vec3 Origin;
+	glm::mat4 Matrix;
+public:
+	Nodes* Parent;
+	Nodes(Nodes* InitParent,
+		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale)
+		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
+		Matrix(glm::mat4(1.f))
+	{
+		this->Matrix = glm::translate(this->Matrix, this->Origin);
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
+		this->Matrix = glm::translate(this->Matrix, this->Position - this->Origin);
+		this->Matrix = glm::scale(this->Matrix, this->Scale);
+	}
+	//Get Items
+	glm::mat4 GetFinalMat4()
+	{
+		if (this->Parent)
+		{
+			return this->Parent->GetFinalMat4() * this->Matrix;
+		}
+		else
+		{
+			return this->Matrix;
+		}
+	}
+	glm::vec3 GetPosition()
+	{
+		return this->Position;
+	}
+	glm::vec3 GetRotation()
+	{
+		return this->Rotation;
+	}
+	glm::vec3 GetScale()
+	{
+		return this->Scale;
+	}
+	int GetTotalparent()
+	{
+		if (this->Parent)
+		{
+			return 1 + this->Parent->GetTotalparent();
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	//Update Matrix
+	void UpdateMatrix()
+	{
+		this->Matrix = glm::mat4(1.f);
+		this->Matrix = glm::translate(this->Matrix, this->Origin);
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
+		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
+		this->Matrix = glm::translate(this->Matrix, this->Position - this->Origin);
+		this->Matrix = glm::scale(this->Matrix, this->Scale);
+	}
+	//Set Items
+	void SetParent(Nodes* NewParent)
+	{
+		this->Parent = NewParent;
+	}
+	void SetPosition(const glm::vec3 position)
+	{
+		this->Position = position;
+	}
+	void SetOrigin(const glm::vec3 origin)
+	{
+		this->Origin = origin;
+	}
+	void SetRotation(const glm::vec3 rotation)
+	{
+		this->Rotation = rotation;
+	}
+	void SetScale(const glm::vec3 setScale)
+	{
+		this->Scale = setScale;
+	}
+	//Modifiers
+	void Move(glm::vec3 Pos)
+	{
+		this->Position += Pos;
+	}
+	void Rotate(glm::vec3 Rot)
+	{
+		this->Rotation += Rot;
+	}
+	void ScaleUp(glm::vec3 Scale)
+	{
+		this->Scale += Scale;
+	}
+};
+
 class Model
 {
 private:
 	StdMat* TestMat;
 	std::vector<Texture*> Tex;
 	std::vector<Mesh*> meshes;
+	std::vector<Nodes*> TreeNodes;
+	std::vector<int> MeshToUse;
 	glm::vec3 Position;
 	const char* Name;
 	void updateUniform()
@@ -19,6 +126,21 @@ private:
 	void updateCollision(glm::vec3 Collisiontest)
 	{
 		meshes[0]->Update(Collisiontest);
+	}
+	void MakeNodes(glm::vec3 Pos,std::vector<MeshsArtifacts> Inits)
+	{
+		int Count = 0;
+		for (auto ii : Inits)
+		{
+			if (Count = 0)
+				this->TreeNodes.push_back(new Nodes(NULL,
+					Pos, ii.Origin, ii.Rotation, ii.Scale));
+			else
+				this->TreeNodes.push_back(new Nodes(this->TreeNodes[ii.ParentId],
+					ii.Position, ii.Origin, ii.Rotation, ii.Scale));
+			this->MeshToUse.push_back(ii.MeshId);
+			Count++;
+		}
 	}
 public:
 	Model(glm::vec3 position, StdMat* material,
@@ -30,7 +152,7 @@ public:
 		this->Tex = orTexSpec;
 		this->Name = ModelName;
 		this->meshes.push_back(new Mesh(*meshesUse));
-		for (auto& i : this->meshes)
+		for (auto& i : this->TreeNodes)
 		{
 			i->SetParent(NULL);
 			i->SetOrigin(this->Position);
@@ -49,10 +171,11 @@ public:
 		this->Name = ModelName;
 		this->meshes = meshesUse;
 		int ParentId = 0;
-		this->meshes[0]->SetOrigin(this->Position);
-		this->meshes[0]->Move(this->Position);
-		this->meshes[0]->SetRotation(InitRot);
-		for (auto& i : this->meshes)
+
+		this->TreeNodes[0]->SetOrigin(this->Position);
+		this->TreeNodes[0]->Move(this->Position);
+		this->TreeNodes[0]->SetRotation(InitRot);
+		for (auto& i : this->TreeNodes)
 		{
 			if (ParentId == 0)
 			{
@@ -60,10 +183,15 @@ public:
 			}
 			else
 			{
-				i->SetParent(meshes[MeshParentsIndex[ParentId]]);
+				i->SetParent(TreeNodes[MeshParentsIndex[ParentId]]);
 			}
 			ParentId++;
 		}
+	}
+	Model(const char* ModelName,
+		glm::vec3 position,
+		StdMat* material,std::vector<Texture*>orTexSpec,Mesh* MeshUse,std::vector<MeshsArtifacts> Inits)
+	{
 	}
 	~Model()
 	{
@@ -75,7 +203,7 @@ public:
 	void rotate(const glm::vec3 rotation,int MeshId)
 	{
 		
-		this->meshes[MeshId]->Rotate(rotation);
+		this->TreeNodes[MeshId]->Rotate(rotation);
 		
 	}
 	void update(glm::vec3 CollisionTest,glm::vec3 newPos)
@@ -105,7 +233,7 @@ public:
 		}
 		for (auto& i : this->meshes)
 		{
-			i->Render(T);
+			i->Render(glm::mat4(1.f),T);
 		}
 	}
 	//Get the names for Tex, Mesh, Pos, and Material
