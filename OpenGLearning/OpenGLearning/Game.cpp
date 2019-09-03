@@ -154,9 +154,14 @@ void Game::initModels()
 	//
 	//Meshes Componets are made
 	//
-	//
 	MeshsArtifacts Terrain(glm::vec3(0.f),glm::vec3(0.f),glm::vec3(0.f),glm::vec3(1.f),0,0);
-
+	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.1f), 0, 0);
+	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0);
+	std::vector<MeshsArtifacts> HierArch1;
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0));
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 1, 0));
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(.1f), 2, 1));
+	//
 	//Pushing Models
 	//
 	this->models.push_back(new Model("Terrain",
@@ -164,26 +169,22 @@ void Game::initModels()
 		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10]},
 		meshes[0], { Terrain }));
-	/*
 	this->NamesOfModels.push_back("Terrain");
-	this->models.push_back(new Model(
-		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f),0.f),
-		this->MatTest[1], { this->textures[11],this->textures[11] },
-		meshes[1],
-		"Stall Image"));
-	this->NamesOfModels.push_back("Stall Image");
-	this->models.push_back(new Model(
+	this->models.push_back(new Model("Stall Image1",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
 		this->MatTest[1], { this->textures[10],this->textures[11] },
-		meshes[1],
-		"Stall Image1"));
+		meshes[1],{Stalls}));
 	this->NamesOfModels.push_back("Stall Image1");
-	this->models.push_back(new Model(
+	this->models.push_back(new Model("Stall Image2",
+		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
+		this->MatTest[1], { this->textures[10],this->textures[11] },
+		meshes[4], { Flat }));
+	this->NamesOfModels.push_back("Stall Image2");
+	this->models.push_back(new Model("FaceR",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f), 0.f),
 		this->MatTest[1], { this->textures[11],this->textures[11] },
-		{ meshes[3],meshes[2],meshes[1] }, {NULL,0,1},
-		"FaceR"));
-	this->NamesOfModels.push_back("Stall Image 2");*/
+		{ meshes[3],meshes[2],meshes[1] }, HierArch1));
+	this->NamesOfModels.push_back("Face R");
 }
 
 void Game::initLights()
@@ -512,8 +513,8 @@ Game::~Game()
 	glfwTerminate();
 	for (auto& ii : this->MatTest)
 		delete ii;
-	//for (auto& i : meshes)
-	//	delete i;
+	for (auto& i : meshes)
+		delete i;
 	for (size_t i = 0; i < this->shaders.size(); i++)
 			delete this->shaders[i];
 	for (size_t i = 0; i < this->textures.size(); i++)

@@ -66,7 +66,7 @@ public:
 	void UpdateMatrix()
 	{
 		this->Matrix = glm::mat4(1.f);
-		this->Matrix = glm::translate(this->Matrix, this->Origin);
+		this->Matrix = glm::translate(this->Matrix, this->Position);
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
@@ -156,7 +156,6 @@ public:
 		this->meshes = MeshesToUse;
 		this->MakeNodes(position, Inits);
 		this->TreeNodes[0]->SetOrigin(this->Position);
-		this->TreeNodes[0]->Move(this->Position);
 		this->TreeNodes[0]->SetRotation(InitRot);
 	}	
 	Model(const char* ModelName,
@@ -171,15 +170,10 @@ public:
 		this->meshes.push_back(MeshUse);
 		this->MakeNodes(position, Inits);
 		this->TreeNodes[0]->SetOrigin(this->Position);
-		this->TreeNodes[0]->Move(this->Position);
 		this->TreeNodes[0]->SetRotation(InitRot);
 	}
 	~Model()
 	{
-		for (auto*& i: this->meshes)
-		{
-			delete i;
-		}
 	}
 	void rotate(const glm::vec3 rotation,int MeshId)
 	{
