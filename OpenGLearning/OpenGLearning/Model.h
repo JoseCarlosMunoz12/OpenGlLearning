@@ -177,12 +177,50 @@ public:
 	~Model()
 	{
 	}
+	//Format
 	void rotate(const glm::vec3 rotation,int MeshId)
 	{
 		
 		this->TreeNodes[MeshId]->Rotate(rotation);
 		
 	}
+	void move(const glm::vec3 Move, int MeshId)
+	{
+		this->TreeNodes[MeshId]->Move(Move);
+	}
+	void scale(const glm::vec3 ReScale, int MeshId)
+	{
+		this->TreeNodes[MeshId]->ScaleUp(ReScale);
+	}
+	//Setters
+	void SetRotation(const glm::vec3 rotation, int MeshId)
+	{
+
+		this->TreeNodes[MeshId]->SetRotation(rotation);
+
+	}
+	void SetPos(const glm::vec3 Move, int MeshId)
+	{
+		this->TreeNodes[MeshId]->SetPosition(Move);
+	}
+	void SetScale(const glm::vec3 ReScale, int MeshId)
+	{
+		this->TreeNodes[MeshId]->SetScale(ReScale);
+	}
+	//Getters
+	glm::vec3 GetRotation(int MeshId)
+	{
+		return this->TreeNodes[MeshId]->GetRotation();
+	}
+	glm::vec3 GetPosition(int MeshId)
+	{
+		return this->TreeNodes[MeshId]->GetPosition();
+	}
+	glm::vec3 GetScale(int MeshId)
+	{
+		return this->TreeNodes[MeshId]->GetScale();
+	}
+	//Other
 	void CheckForIntersection()
 	{
 
@@ -198,13 +236,6 @@ public:
 		this->TestMat->sendToShader(shader);
 		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
-		
-		//int Num = 0;
-		//for (auto& i : this->Tex)
-		//{
-		//	i->bind(Num);
-		//	Num++;
-		//}
 		int Num = 0;
 		for (auto& ii : this->TreeNodes)
 		{

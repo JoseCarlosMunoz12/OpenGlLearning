@@ -570,6 +570,7 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
+
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
