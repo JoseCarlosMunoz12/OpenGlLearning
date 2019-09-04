@@ -154,14 +154,21 @@ void Game::initModels()
 	//
 	//Meshes Componets are made
 	//
-	MeshsArtifacts Terrain(glm::vec3(0.f),glm::vec3(0.f),glm::vec3(0.f),glm::vec3(1.f),0,0);
-	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.1f), 0, 0);
-	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0);
+	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
+		0, 0, {0});
+	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.1f),
+		0, 0, { 0 });
+	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
+		0, 0, { 0 });
 	std::vector<MeshsArtifacts> HierArch1;
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0));
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f,0.f,1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f), 1, 0));
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(.1f), 2, 1));
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(10.f, 0.f, 10.f), glm::vec3(10.f, 0.f, 10.f), glm::vec3(0.f), glm::vec3(1.f), 2, 2));
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f),glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
+		0, 0, { 0 }));
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f,0.f,1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
+		1, 0, { 0 }));
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(.1f),
+		2, 1, { 0 }));
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(10.f, 0.f, 10.f), glm::vec3(10.f, 0.f, 10.f), glm::vec3(0.f), glm::vec3(1.f),
+		2, 2, { 0 }));
 	//
 	//Pushing Models
 	//

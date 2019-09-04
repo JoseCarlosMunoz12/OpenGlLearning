@@ -117,6 +117,7 @@ private:
 	std::vector<Mesh*> meshes;
 	std::vector<Nodes*> TreeNodes;
 	std::vector<int> MeshToUse;
+	std::vector<std::vector<int>> TextToUse;
 	glm::vec3 Position;
 	const char* Name;
 	void updateUniform()
@@ -139,6 +140,7 @@ private:
 				this->TreeNodes.push_back(new Nodes(this->TreeNodes[ii.ParentId],
 					ii.Position, ii.Origin, ii.Rotation, ii.Scale));
 			this->MeshToUse.push_back(ii.MeshId);
+			this->TextToUse.push_back(ii.TextsId);
 			Count++;
 		}
 	}
@@ -196,6 +198,7 @@ public:
 		this->TestMat->sendToShader(shader);
 		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
+		
 		int Num = 0;
 		for (auto& i : this->Tex)
 		{

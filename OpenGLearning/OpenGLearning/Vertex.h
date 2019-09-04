@@ -48,6 +48,7 @@ struct MeshsArtifacts
 	glm::vec3 Scale;
 	int ParentId;
 	int MeshId;
+	std::vector<int> TextsId;
 	MeshsArtifacts()
 	{
 		this->Origin = glm::vec3(0.f);
@@ -58,7 +59,7 @@ struct MeshsArtifacts
 		this->ParentId = 0;
 	}
 	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, glm::vec3 Rot, glm::vec3 Scale,
-		int Mesh,int Parent)
+		int Mesh,int Parent,std::vector<int>Textures)
 	{
 		this->Origin =  Origin;
 		this->Scale = Scale;
@@ -66,5 +67,6 @@ struct MeshsArtifacts
 		this->Rotation = Rot;
 		this->MeshId = Mesh;
 		this->ParentId = Parent;
+		this->TextsId = Textures;
 	}
 };
