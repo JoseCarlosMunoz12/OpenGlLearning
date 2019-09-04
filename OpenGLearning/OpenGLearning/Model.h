@@ -221,10 +221,6 @@ public:
 		return this->TreeNodes[MeshId]->GetScale();
 	}
 	//Other
-	void CheckForIntersection()
-	{
-
-	}
 	void TestRender(std::vector<Shader*> shader)
 	{
 		for (auto& ii : this->TreeNodes)

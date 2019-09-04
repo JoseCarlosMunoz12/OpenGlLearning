@@ -109,10 +109,9 @@ void Game::initTextures()
 
 void Game::initMaterials()
 {
-
-	//Testubg the new mats
-	
-	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2, this->SkyColor, {0,1,2,3,4,5}));
+	//Testbug the new mats	
+	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2,
+							this->SkyColor, {0,1,2,3,4,5}));
 	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
@@ -121,7 +120,6 @@ void Game::initMaterials()
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
 							0, 1));
-
 }
 
 void Game::initModels()
@@ -188,7 +186,7 @@ void Game::initModels()
 		this->MatTest[1], { this->textures[2],this->textures[3] },
 		meshes[5], { Flat }));
 	this->NamesOfModels.push_back("Stall Image2");
-	this->models.push_back(new Model("FaceR",
+	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f), 0.f),
 		this->MatTest[1], { this->textures[11],this->textures[10] },
 		{ meshes[3],meshes[2],meshes[1] }, HierArch1));
