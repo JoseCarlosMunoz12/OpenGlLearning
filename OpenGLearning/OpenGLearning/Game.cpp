@@ -155,20 +155,20 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, {0});
+		0, 0, {0,1,2,3,4});
 	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.1f),
-		0, 0, { 0 });
+		0, 0, {0,1});
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0 });
+		0, 0, {0,1});
 	std::vector<MeshsArtifacts> HierArch1;
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f),glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0 }));
+		0, 0, {0,1}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f,0.f,1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
-		1, 0, { 0 }));
+		1, 0, {0,1}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(.1f),
-		2, 1, { 0 }));
+		2, 1, {0,1}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(10.f, 0.f, 10.f), glm::vec3(10.f, 0.f, 10.f), glm::vec3(0.f), glm::vec3(1.f),
-		2, 2, { 0 }));
+		2, 2, {1,0}));
 	//
 	//Pushing Models
 	//
@@ -190,7 +190,7 @@ void Game::initModels()
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("FaceR",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f), 0.f),
-		this->MatTest[1], { this->textures[11],this->textures[11] },
+		this->MatTest[1], { this->textures[11],this->textures[10] },
 		{ meshes[3],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 }

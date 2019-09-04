@@ -199,15 +199,22 @@ public:
 		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
 		
+		//int Num = 0;
+		//for (auto& i : this->Tex)
+		//{
+		//	i->bind(Num);
+		//	Num++;
+		//}
 		int Num = 0;
-		for (auto& i : this->Tex)
-		{
-			i->bind(Num);
-			Num++;
-		}
-		Num = 0;
 		for (auto& ii : this->TreeNodes)
 		{
+			std::vector<int> Temp = this->TextToUse[Num];
+			int Count = 0;
+			for (auto jj : Temp)
+			{
+				this->Tex[jj]->bind(Count);
+				Count++;
+			}
 			this->meshes[this->MeshToUse[Num]]->Render(ii->GetFinalMat4(), T);
 			Num++;
 		}
