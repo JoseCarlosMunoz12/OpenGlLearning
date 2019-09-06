@@ -49,6 +49,15 @@ vec3 calculateSpecular(Material material, vec3 vs_position, vec3 vs_normal, vec3
 
 	return specularFinal;
 }
+
+float near = 0.1; 
+float far  = 100.0; 
+  
+float LinearizeDepth(float depth) 
+{
+    float z = depth * 2.0 - 1.0; // back to NDC 
+    return (2.0 * near * far) / (far + near - z * (far - near));	
+}
 void main()
 {
 	fs_color = vec4(vs_color, 1.f);

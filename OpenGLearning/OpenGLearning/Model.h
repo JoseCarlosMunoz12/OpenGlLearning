@@ -229,7 +229,7 @@ public:
 		}
 		this->updateUniform();
 		int TempShdrId = this->TestMat->GetShaderId();
-		this->TestMat->sendToShader(shader);
+ 		this->TestMat->sendToShader(shader);
 		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
 		int Num = 0;

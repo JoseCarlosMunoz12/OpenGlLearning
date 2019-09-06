@@ -2,7 +2,7 @@
 
 int main()
 {
-	glm::vec3 SkyColor = glm::vec3(0.f, 0.f, 1.f);
+	glm::vec3 SkyColor = glm::vec3(0.f, 0.f, 0.f);
 	//,640,480,
 	Game game("Test Tile",1920,1080,4,5,false,SkyColor);
 

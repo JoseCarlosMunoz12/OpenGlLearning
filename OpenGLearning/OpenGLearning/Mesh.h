@@ -43,8 +43,6 @@ private:
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->nrOfIndices* sizeof(GLuint), this->indexArray, GL_STATIC_DRAW);
 		}
-		std::cout << this->NameOfMesh << "\n";
-		std::cout << this->VBO << "---" << this->VAO << "\n";
 
 		//Set VerttexAttribPointers and Enable (input assembly)
 		//Position
