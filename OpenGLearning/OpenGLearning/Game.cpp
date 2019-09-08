@@ -229,7 +229,6 @@ void Game::updateKeyboardInput()
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_I) == GLFW_PRESS)
 	{
-
 		this->TestLights[0]->Move(glm::vec3(0.f, 0.f, 1.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_U) == GLFW_PRESS)
@@ -262,7 +261,7 @@ void Game::updateKeyboardInput()
 	{
 		this->camera.move(this->dt, UP);
 	}
-	//None Camer inputs
+	//None Camera inputs
 	if (glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
 	{
 		this->MouseToUse.SetMouseCenter(this->window,this->Window_Width, this->Window_Height);
@@ -568,6 +567,7 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
+	this->models[3]->rotate(glm::vec3(1.f, 0.f, 0.f),0);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();

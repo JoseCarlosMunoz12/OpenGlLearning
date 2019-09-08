@@ -71,4 +71,5 @@ void main()
 	fs_color = texture(material.diffuseTex, vs_texcoord)
 	* (vec4(ambientFinal, 1.f) + vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f));
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
+	fs_color = vec4(lightColor * fs_color.xyz,1.f);
 }
