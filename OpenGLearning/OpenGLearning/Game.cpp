@@ -195,7 +195,7 @@ void Game::initModels()
 
 void Game::initLights()
 {
-	this->TestLights.push_back(new Lights({ glm::vec3(0.f,0.f,0.f),glm::vec3(1.f,0.f,0.f) }));
+	this->TestLights.push_back(new Lights(glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f),glm::vec3(1.f,0.f,0.f)));
 }
 
 void Game::initUniforms()

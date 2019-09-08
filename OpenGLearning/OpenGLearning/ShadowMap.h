@@ -7,15 +7,15 @@
 #include <SOIL2.h>
 class Shadow
 {
+
+	GLuint FramebufferName = 0;
+	GLuint depthTexture;
 public:
 	Shadow()
 	{
-		GLuint FramebufferName = 0;
 		glGenFramebuffers(1, &FramebufferName);
 		glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-
-		// Depth texture. Slower than a depth buffer, but you can sample it later in your shader
-		GLuint depthTexture;
+		// Depth texture. Slower than a depth buffer, but you can sample it later in your shader		
 		glGenTextures(1, &depthTexture);
 		glBindTexture(GL_TEXTURE_2D, depthTexture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
@@ -32,5 +32,10 @@ public:
 		glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE;
 		
 	};
+	~Shadow()
+	{
+		glDeleteTextures(1,&this->depthTexture);
+
+	}
 
 };
