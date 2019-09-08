@@ -4,13 +4,13 @@
 class Lights
 {
 public:
+	glm::vec3 position;
+	glm::vec3 color;
 	Lights(glm::vec3 Pos,glm::vec3 Clr)
 	{
 		this->position = Pos;
 		this->color = Clr;
 	}
-	glm::vec3 position;
-	glm::vec3 color;
 	glm::mat4 GetLightMatrix(glm::vec3 WorldView)
 	{
 		float NearPlane = 1.f,FarPlane = 7.5f;

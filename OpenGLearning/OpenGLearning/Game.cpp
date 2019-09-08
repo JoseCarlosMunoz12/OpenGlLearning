@@ -415,6 +415,7 @@ void Game::updateUniforms()
 {
 	//Update uniforms
 	this->ViewMatrix = this->camera.GetViewMatrix();
+
 	for (auto& ii :this->shaders)
 	{
 		ii->setVec3f(this->TestLights[0]->position, "lightPos0");
@@ -422,7 +423,7 @@ void Game::updateUniforms()
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		ii->setVec3f(this->camera.getPosition(), "cameraPos");
 	}
-	//Update FramgeBuffer size and projection matrix
+	//Update FrameBuffer size and projection matrix
 	glfwGetFramebufferSize(this->window, &this->frameBufferWidth, &this->frameBufferHeight);
 	this->ProjectionMatrix = glm::mat4(1.f);
 	this->ProjectionMatrix = glm::perspective(glm::radians(this->fov),
