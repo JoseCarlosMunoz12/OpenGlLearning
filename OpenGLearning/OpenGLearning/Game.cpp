@@ -195,7 +195,8 @@ void Game::initModels()
 
 void Game::initLights()
 {
-	this->TestLights.push_back(new Lights(glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f),glm::vec3(1.f,0.f,0.f)));
+	this->TestLights.push_back(new Lights(glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f),
+										  glm::vec3(1.f,0.f,0.f)));
 }
 
 void Game::initUniforms()
@@ -204,7 +205,7 @@ void Game::initUniforms()
 	{
 		i->setMat4fv(ViewMatrix, "ViewMatrix");
 		i->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
-		i->setVec3f(this->TestLights[0]->position, "lightPos0");
+		i->setVec3f(this->TestLights[0]->GetPos(), "lightPos0");
 	}
 }
 
@@ -220,24 +221,22 @@ void Game::updateKeyboardInput()
 {
 	if (glfwGetKey(this->window, GLFW_KEY_J) == GLFW_PRESS)
 	{
-		this->TestLights[0]->position =  glm::vec3(AmountZ, 0.f, Amount);
-		AmountZ += 1;
+		this->TestLights[0]->Move( glm::vec3(1.f, 0.f, 0.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_K) == GLFW_PRESS)
 	{
-		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
-		AmountZ -= 1;
+		this->TestLights[0]->Move(glm::vec3(-1.f, 0.f, 0.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_I) == GLFW_PRESS)
 	{
-		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
-		Amount += 1;
+
+		this->TestLights[0]->Move(glm::vec3(0.f, 0.f, 1.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_U) == GLFW_PRESS)
 	{
-		this->TestLights[0]->position = glm::vec3(AmountZ, 0.f, Amount);
-		Amount -= 1;
+		this->TestLights[0]->Move(glm::vec3(0.f, 0.f, -1.f));
 	}
+	//End Game
 	if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(this->window, GLFW_TRUE);
@@ -418,8 +417,8 @@ void Game::updateUniforms()
 
 	for (auto& ii :this->shaders)
 	{
-		ii->setVec3f(this->TestLights[0]->position, "lightPos0");
-		ii->setVec3f(this->TestLights[0]->color, "lightColor");
+		ii->setVec3f(this->TestLights[0]->GetPos(), "lightPos0");
+		ii->setVec3f(this->TestLights[0]->GetColor(), "lightColor");
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		ii->setVec3f(this->camera.getPosition(), "cameraPos");
 	}
