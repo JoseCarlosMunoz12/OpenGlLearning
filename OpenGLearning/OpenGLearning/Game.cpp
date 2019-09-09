@@ -188,7 +188,7 @@ void Game::initModels()
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f)+1.f, 0.f),
-		this->MatTest[2], { this->textures[11],this->textures[10] },
+		this->MatTest[1], { this->textures[11],this->textures[10] },
 		{ meshes[3],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 }
@@ -406,6 +406,12 @@ void Game::ImGuiOptions()
 	}
 	ImGui::Spacing();
 	ImGui::Spacing();
+	if (ImGui::TreeNode("Light Pos"))
+	{
+		glm::vec3 ColPos = this->TestLights[0]->GetPos();
+		ImGui::Text("(%f,%f,%f)",ColPos.x,ColPos.y,ColPos.z);
+		ImGui::TreePop();
+	}
 	ImGui::End();
 }
 
@@ -567,7 +573,6 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
-	this->models[3]->rotate(glm::vec3(1.f, 0.f, 0.f),0);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
