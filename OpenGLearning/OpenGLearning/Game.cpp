@@ -409,7 +409,19 @@ void Game::ImGuiOptions()
 	if (ImGui::TreeNode("Light Pos"))
 	{
 		glm::vec3 ColPos = this->TestLights[0]->GetPos();
+		glm::vec3 Col = this->TestLights[0]->GetColor();
 		ImGui::Text("(%f,%f,%f)",ColPos.x,ColPos.y,ColPos.z);
+
+		float Cols[3];
+		Cols[0] = Col.r;
+		Cols[1] = Col.g;
+		Cols[2] = Col.b;
+
+		if (ImGui::ColorPicker3("Color Wheel", Cols))
+		{
+			this->TestLights[0]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
+		}
+		
 		ImGui::TreePop();
 	}
 	ImGui::End();
