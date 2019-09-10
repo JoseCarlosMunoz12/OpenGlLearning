@@ -417,7 +417,7 @@ void Game::ImGuiOptions()
 		Cols[1] = Col.g;
 		Cols[2] = Col.b;
 
-		if (ImGui::ColorPicker3("Color Wheel", Cols))
+		if (ImGui::ColorEdit3("Color Wheel", Cols))
 		{
 			this->TestLights[0]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
 		}
@@ -517,7 +517,7 @@ Game::Game(const char * title,
 	this->initModels();
 	this->initLights();
 	this->initUniforms();
-
+	this->camera.SetPos(glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f,0.f));
 	const char* glsl_version = "#version 130";
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -575,7 +575,7 @@ void Game::render()
 	//DRAW---
 	//Clear
 	ImGui::Render();
-	glClearColor(0.f,0.f,0.f,1.f);
+	glClearColor(1.f,1.f,1.f,1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
 	//Update uniforms

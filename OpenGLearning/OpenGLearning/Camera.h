@@ -106,6 +106,10 @@ public:
 			break;
 		}
 	}
+	void SetPos(glm::vec3 NewPos)
+	{
+		this->position = NewPos;
+	}
 	void updateMouseInput(const float& dt, const double& offsetX, const double& offsetY)
 	{
 		//Update pitch, yaw and roll
