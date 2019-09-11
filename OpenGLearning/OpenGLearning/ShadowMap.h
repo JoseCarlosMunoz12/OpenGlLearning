@@ -46,6 +46,7 @@ public:
 		//Disable Writes to the color buffer
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 	void BindForWriting()
 	{

@@ -505,11 +505,13 @@ Game::Game(const char * title,
 	this->dt = 0.f;
 	this->cuTime = 0.f;
 	this->lastTime = 0.f;
-		  	
+	
 	this->initGLFW();
 	this->initWindow(title,resizable);
 	this->initGLEW();
 	this->initOpenGLOptions();
+	this->ShdMap = new ShadowMapFBO();
+	this->ShdMap->Init(this->Window_Width, this->Window_Height);
 	this->initMatrices();
 	this->initShaders();
 	this->initTextures();
