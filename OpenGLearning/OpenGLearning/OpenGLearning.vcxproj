@@ -159,12 +159,12 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment_core.glsl" />
-    <None Include="MultiTexFragment.glsl" />
-    <None Include="MultiTexVertex.glsl" />
-    <None Include="terrain_fragment.glsl" />
-    <None Include="terrain_vertex.glsl" />
-    <None Include="vertex_core.glsl" />
+    <None Include="Shaders\fragment_core.glsl" />
+    <None Include="Shaders\MultiTexFragment.glsl" />
+    <None Include="Shaders\MultiTexVertex.glsl" />
+    <None Include="Shaders\terrain_fragment.glsl" />
+    <None Include="Shaders\terrain_vertex.glsl" />
+    <None Include="Shaders\vertex_core.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

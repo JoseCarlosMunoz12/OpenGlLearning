@@ -75,11 +75,11 @@ void Game::initMatrices()
 void Game::initShaders()
 {
 	this->shaders.push_back(new Shader(0,this->GLVerMajor , this->GLVerMinor ,
-		"vertex_core.glsl", "fragment_core.glsl"));
+		"Shaders/vertex_core.glsl", "Shaders/fragment_core.glsl"));
 	this->shaders.push_back(new Shader(1,this->GLVerMajor, this->GLVerMinor,
-		"terrain_vertex.glsl", "terrain_fragment.glsl"));
+		"Shaders/terrain_vertex.glsl", "Shaders/terrain_fragment.glsl"));
 	this->shaders.push_back(new Shader(2,this->GLVerMajor, this->GLVerMinor,
-		"MultiTexVertex.glsl", "MultiTexFragment.glsl"));
+		"Shaders/MultiTexVertex.glsl", "Shaders/MultiTexFragment.glsl"));
 }
 
 void Game::initTextures()
