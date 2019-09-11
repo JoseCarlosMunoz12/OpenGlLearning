@@ -27,5 +27,6 @@ void main()
 	
 	//Final light
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
+
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }
