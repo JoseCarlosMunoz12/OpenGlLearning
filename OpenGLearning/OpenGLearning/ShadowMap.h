@@ -5,9 +5,11 @@
 #include <glew.h>
 #include <glfw3.h>
 #include <SOIL2.h>
+
+#include "Model.h"
+#include "Shader.h"
 class ShadowMapFBO
 {
-
 	GLuint FramebufferName;
 	GLuint depthTexture;
 public:
@@ -47,6 +49,20 @@ public:
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+	void RenderShadowToTexture(unsigned int WindowWidth, unsigned int WindowHeight,
+		Shader* DepthShader,std::vector<Model*>ToRender,
+		glm::mat4 LightSpaceMatrix)
+	{
+		DepthShader->use();
+		DepthShader->setMat4fv(LightSpaceMatrix,"LightSpaceMatrix");
+		glViewport(0, 0, WindowWidth, WindowHeight);
+		glBindFramebuffer(GL_FRAMEBUFFER, this->FramebufferName);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		for (auto& ii : ToRender)
+		{
+
+		}
 	}
 	void BindForWriting()
 	{

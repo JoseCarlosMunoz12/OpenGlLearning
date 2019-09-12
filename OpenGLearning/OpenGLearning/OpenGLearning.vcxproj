@@ -162,6 +162,8 @@
     <None Include="Shaders\fragment_core.glsl" />
     <None Include="Shaders\MultiTexFragment.glsl" />
     <None Include="Shaders\MultiTexVertex.glsl" />
+    <None Include="Shaders\ShadowMapFrag.glsl" />
+    <None Include="Shaders\ShadowMapVertex.glsl" />
     <None Include="Shaders\terrain_fragment.glsl" />
     <None Include="Shaders\terrain_vertex.glsl" />
     <None Include="Shaders\vertex_core.glsl" />

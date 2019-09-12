@@ -575,6 +575,7 @@ void Game::update()
 void Game::render()
 {
 	//DRAW---
+
 	//Clear
 	ImGui::Render();
 	glClearColor(1.f,1.f,1.f,1.f);

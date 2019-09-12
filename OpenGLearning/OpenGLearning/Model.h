@@ -246,6 +246,21 @@ public:
 			Num++;
 		}
 	}
+	//A Shadw Renderer
+	void RenderShadow(Shader* ShadowShader)
+	{
+		for (auto& ii : this->TreeNodes)
+		{
+			ii->UpdateMatrix();
+			
+		}
+		ShadowShader->use();
+		for (auto& ii : this->TreeNodes)
+		{
+
+		}
+
+	}
 	//Get the names for Tex, Mesh, Pos, and Material
 	std::vector<Texture*> getTexture()
 	{
