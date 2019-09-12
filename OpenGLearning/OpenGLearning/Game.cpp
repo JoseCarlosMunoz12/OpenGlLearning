@@ -80,6 +80,8 @@ void Game::initShaders()
 		"Shaders/terrain_vertex.glsl", "Shaders/terrain_fragment.glsl"));
 	this->shaders.push_back(new Shader(2,this->GLVerMajor, this->GLVerMinor,
 		"Shaders/MultiTexVertex.glsl", "Shaders/MultiTexFragment.glsl"));
+	this->shaders.push_back(new Shader(3, this->GLVerMajor, this->GLVerMinor,
+		"Shaders/ShadowMapVertex.glsl", "Shaders/ShadowMapFrag.glsl"));
 }
 
 void Game::initTextures()

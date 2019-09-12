@@ -246,18 +246,20 @@ public:
 			Num++;
 		}
 	}
-	//A Shadw Renderer
+	//A Shadow Renderer
 	void RenderShadow(Shader* ShadowShader)
 	{
 		for (auto& ii : this->TreeNodes)
 		{
-			ii->UpdateMatrix();
-			
+			ii->UpdateMatrix();			
 		}
 		ShadowShader->use();
+		int Num = 0;
 		for (auto& ii : this->TreeNodes)
 		{
-
+			std::vector<int> Temp = this->TextToUse[Num];
+			this->meshes[this->MeshToUse[Num]]->Render(ii->GetFinalMat4(), ShadowShader);
+			Num++;
 		}
 
 	}

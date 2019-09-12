@@ -61,8 +61,12 @@ public:
 		glClear(GL_DEPTH_BUFFER_BIT);
 		for (auto& ii : ToRender)
 		{
-
+			ii->RenderShadow(DepthShader);
 		}
+	}
+	GLint GetDepthMap()
+	{
+		return this->depthTexture;
 	}
 	void BindForWriting()
 	{
