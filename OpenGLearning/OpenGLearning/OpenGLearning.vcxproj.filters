@@ -123,5 +123,7 @@
     <None Include="Shaders\vertex_core.glsl" />
     <None Include="Shaders\ShadowMapVertex.glsl" />
     <None Include="Shaders\ShadowMapFrag.glsl" />
+    <None Include="Shaders\DebugFrag.glsl" />
+    <None Include="Shaders\DebugVerrtex.glsl" />
   </ItemGroup>
 </Project>

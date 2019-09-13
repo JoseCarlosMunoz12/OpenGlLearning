@@ -11,9 +11,11 @@
 //Enumerations
 enum shader_enums
 {
+	SHADER_DEBUGS,
 	SHADER_CORE_PROGRAM,
 	SHADER_TERRAIN,
-	SHADERS_TERRAIN
+	SHADERS_TERRAIN,
+	SHADER_SHADOWS
 };
 enum texture_enum 
 {

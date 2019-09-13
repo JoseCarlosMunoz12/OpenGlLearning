@@ -577,7 +577,8 @@ void Game::update()
 void Game::render()
 {
 	//DRAW---
-
+	//this->ShdMap->RenderShadowToTexture(this->Window_Width, this->Window_Height,
+	//	this->shaders[3], this->models, this->TestLights[0]->GetLightMatrix(this->worldUp));
 	//Clear
 	ImGui::Render();
 	glClearColor(1.f,1.f,1.f,1.f);
