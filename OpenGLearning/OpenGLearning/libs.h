@@ -27,4 +27,3 @@
 #include "Lights.h"
 #include "Mouse.h"
 #include "ScreenCollision.h"
-#include "ShadowMap.h"
