@@ -98,7 +98,7 @@ private:
 	//Shaders
 	std::vector<Shader*> shaders;
 	//Textures
-	std::vector<Texture*> textures;
+	std::vector<GeneralTextInfo*> textures;
 	std::vector<MipMap*> MipMapsData;
 	//Materials
 	//Testing the new mat with Polymorphism

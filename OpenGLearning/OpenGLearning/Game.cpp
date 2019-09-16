@@ -113,7 +113,7 @@ void Game::initMaterials()
 {
 	//Testbug the new mats	
 	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2,
-							this->SkyColor, {0,1,2,3,4,5}));
+							this->SkyColor, {0,1,2,3,4}));
 	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
@@ -336,7 +336,7 @@ void Game::ImGuiOptions()
 			ImGui::Text(this->models[this->ModelToMake]->GetName());
 			StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
 			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
-			std::vector<Texture*> ModTex = this->models[this->ModelToMake]->getTexture();
+			std::vector<GeneralTextInfo*> ModTex = this->models[this->ModelToMake]->getTexture();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
 			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
 			ImGui::Text("Model Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);

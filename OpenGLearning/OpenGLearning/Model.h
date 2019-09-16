@@ -113,7 +113,7 @@ class Model
 {
 private:
 	StdMat* TestMat;
-	std::vector<Texture*> Tex;
+	std::vector<GeneralTextInfo*> Tex;
 	std::vector<Mesh*> meshes;
 	std::vector<Nodes*> TreeNodes;
 	std::vector<int> MeshToUse;
@@ -147,7 +147,7 @@ private:
 public:
 	Model(const char* ModelName,
 		glm::vec3 position,
-		StdMat* material,std::vector<Texture*>orTexSpec,std::vector<Mesh*> MeshesToUse,
+		StdMat* material,std::vector<GeneralTextInfo*>orTexSpec,std::vector<Mesh*> MeshesToUse,
 		std::vector<MeshsArtifacts> Inits,
 		glm::vec3 InitRot = glm::vec3(0.f))
 	{
@@ -162,7 +162,7 @@ public:
 	}	
 	Model(const char* ModelName,
 		glm::vec3 position,
-		StdMat* material, std::vector<Texture*>orTexSpec, Mesh* MeshUse, std::vector<MeshsArtifacts> Inits,
+		StdMat* material, std::vector<GeneralTextInfo*>orTexSpec, Mesh* MeshUse, std::vector<MeshsArtifacts> Inits,
 		glm::vec3 InitRot = glm::vec3(0.f))
 	{
 		this->Position = position;
@@ -239,7 +239,7 @@ public:
 			int Count = 0;
 			for (auto jj : Temp)
 			{
-				this->Tex[jj]->bind(Count);
+				this->Tex[jj]->Bind(Count);
 				Count++;
 			}
 			this->meshes[this->MeshToUse[Num]]->Render(ii->GetFinalMat4(), T);
@@ -264,7 +264,7 @@ public:
 
 	}
 	//Get the names for Tex, Mesh, Pos, and Material
-	std::vector<Texture*> getTexture()
+	std::vector<GeneralTextInfo*> getTexture()
 	{
 		return this->Tex;
 	}
