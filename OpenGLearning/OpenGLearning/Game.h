@@ -113,7 +113,6 @@ private:
 	std::vector<std::string> NamesOfModels;
 	// Empty Variables for new models
 	std::vector<Texture*> NewTex0;
-	ShadowMapFBO* ShdMap;
 	glm::vec3 SpaceLoc;
 	Mesh* NewMesh;
 	int CountMesh;

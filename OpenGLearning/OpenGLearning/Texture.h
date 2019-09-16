@@ -78,3 +78,7 @@ public:
 	inline GLuint getID() const {return this->ID;}
 
 };
+class ShadowTex
+{
+
+};

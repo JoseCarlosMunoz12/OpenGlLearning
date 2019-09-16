@@ -512,8 +512,6 @@ Game::Game(const char * title,
 	this->initWindow(title,resizable);
 	this->initGLEW();
 	this->initOpenGLOptions();
-	this->ShdMap = new ShadowMapFBO();
-	this->ShdMap->Init(this->Window_Width, this->Window_Height);
 	this->initMatrices();
 	this->initShaders();
 	this->initTextures();
