@@ -99,6 +99,8 @@ private:
 	std::vector<Shader*> shaders;
 	//Textures
 	std::vector<GeneralTextInfo*> textures;
+	std::vector<ShadowTex*> Shadows;
+
 	std::vector<MipMap*> MipMapsData;
 	//Materials
 	//Testing the new mat with Polymorphism
@@ -129,6 +131,7 @@ private:
 	void initOpenGLOptions();
 	void initMatrices();
 	void initShaders();
+	void initShadows();
 	void initTextures();
 	void initMaterials();
 	void initModels();

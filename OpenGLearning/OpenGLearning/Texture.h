@@ -38,7 +38,6 @@ private:
 	int width;
 	int height;
 	int NumOfChannels;
-	const char* Name;
 	unsigned char* ImageRGB;
 public:
 	Texture(const char* fileName, GLenum type, GLenum ColorType)
@@ -77,4 +76,57 @@ public:
 
 	inline GLuint getID() const {return this->ID;}
 
+};
+
+class ShadowTex:public GeneralTextInfo
+{
+	GLuint FrameBuffer;
+public:
+	ShadowTex(const char* NewName)
+		:GeneralTextInfo(NewName, GL_TEXTURE_2D)
+	{
+		this->ID = 0;
+		this->FrameBuffer = 0;
+	}
+	~ShadowTex()
+	{
+		if (this->FrameBuffer != 0)
+		{
+			glDeleteFramebuffers(1, &this->FrameBuffer);
+		}
+		if (this->ID!= 0)
+		{
+			glDeleteFramebuffers(1, &this->ID);
+		}
+	}
+	void Init(unsigned int WindowWidth, unsigned int WindowHeight)
+	{
+		//Create the Frame Buffer
+		glGenFramebuffers(1, &this->FrameBuffer);
+		//Create The Depth Buffer
+		glGenTextures(1, &this->ID);
+		glBindTexture(GL_TEXTURE_2D, this->ID);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, WindowWidth, WindowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, this->FrameBuffer);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, this->ID, 0);
+
+		//Disable Writes to the color buffer
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+	void WriteToBuffer(unsigned int WindowWidth, unsigned int WindowHeight,
+		Shader* DepthShader,glm::mat4 LightSpaceMatrix)
+	{
+		DepthShader->use();
+		DepthShader->setMat4fv(LightSpaceMatrix, "LightSpaceMatrix");
+		glViewport(0, 0, WindowWidth, WindowHeight);
+		glBindFramebuffer(GL_FRAMEBUFFER, this->FrameBuffer);
+		glClear(GL_DEPTH_BUFFER_BIT);
+	}
 };

@@ -59,6 +59,8 @@ public:
 	}
 };
 
+
+
 class TxtMat : public StdMat
 {
 	glm::vec3 Ambient;

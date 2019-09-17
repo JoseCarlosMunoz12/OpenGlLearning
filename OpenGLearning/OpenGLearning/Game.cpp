@@ -82,6 +82,17 @@ void Game::initShaders()
 		"Shaders/MultiTexVertex.glsl", "Shaders/MultiTexFragment.glsl"));
 	this->shaders.push_back(new Shader(3, this->GLVerMajor, this->GLVerMinor,
 		"Shaders/ShadowMapVertex.glsl", "Shaders/ShadowMapFrag.glsl"));
+	this->shaders.push_back(new Shader(4, this->GLVerMajor, this->GLVerMinor,
+		"Shaders/DebugVertex.glsl", "Shaders/DebugFrag.glsl"));
+}
+
+void Game::initShadows()
+{
+	this->Shadows.push_back(new ShadowTex("Shadow0"));
+	for (auto& ii : this->Shadows)
+	{
+		ii->Init(this->Window_Width, this->Window_Height);
+	}
 }
 
 void Game::initTextures()
@@ -105,6 +116,9 @@ void Game::initTextures()
 	this->textures.push_back(new Texture("Images/stallTexture.png", GL_TEXTURE_2D, GL_RGBA ));
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA ));
+	//Shadow MapCreation
+	this->textures.push_back(this->Shadows[0]);
+	
 	//HeightMap Info
 	this->MipMapsData.push_back(new MipMap("Images/heightMap.png", this->MapWidth,this->MapHeigth,10.f,500.f,500.f));
 }
@@ -190,7 +204,7 @@ void Game::initModels()
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f)+1.f, 0.f),
-		this->MatTest[1], { this->textures[11],this->textures[10] },
+		this->MatTest[1], { this->textures[13],this->textures[10] },
 		{ meshes[3],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 }
@@ -198,7 +212,7 @@ void Game::initModels()
 void Game::initLights()
 {
 	this->TestLights.push_back(new Lights(glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f),
-										  glm::vec3(1.f,0.f,0.f)));
+										  glm::vec3(1.f,1.f,1.f)));
 }
 
 void Game::initUniforms()
@@ -514,6 +528,7 @@ Game::Game(const char * title,
 	this->initOpenGLOptions();
 	this->initMatrices();
 	this->initShaders();
+	this->initShadows();
 	this->initTextures();
 	this->initMaterials();
 	this->initModels();
@@ -575,10 +590,20 @@ void Game::update()
 void Game::render()
 {
 	//DRAW---
-	//this->ShdMap->RenderShadowToTexture(this->Window_Width, this->Window_Height,
-	//	this->shaders[3], this->models, this->TestLights[0]->GetLightMatrix(this->worldUp));
+	glm::mat4 TempVal = this->TestLights[0]->GetLightMatrix(this->worldUp);
+	for (auto& ii : this->Shadows)
+	{
+		ii->WriteToBuffer(this->Window_Width, this->Window_Height,
+							this->shaders[3], TempVal);
+		for (auto& jj : this->models)
+		{
+			jj->RenderShadow(this->shaders[3]);
+		}
+	}
 	//Clear
 	ImGui::Render();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, this->Window_Width, this->Window_Height);
 	glClearColor(1.f,1.f,1.f,1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
