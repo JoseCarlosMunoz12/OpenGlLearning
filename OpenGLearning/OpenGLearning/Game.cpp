@@ -212,7 +212,7 @@ void Game::initModels()
 		{ meshes[3],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 	this->models.push_back(new Model("DebugImage",
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 10.f) + 1.f, 10.f),
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -1.f) + 1.f, -1.f),
 		this->MatTest[3], { this->textures[13] },
 		{ meshes[3] }, {Plane}));
 	this->NamesOfModels.push_back("Debug Image");
@@ -260,6 +260,18 @@ void Game::updateKeyboardInput()
 	if (glfwGetKey(this->window, GLFW_KEY_U) == GLFW_PRESS)
 	{
 		this->TestLights[0]->Move(glm::vec3(0.f, 0.f, -1.f));
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_O) == GLFW_PRESS)
+	{
+		this->TestLights[0]->Move(glm::vec3(0.f, -1.f, 0.f));
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_P) == GLFW_PRESS)
+	{
+		this->TestLights[0]->Move(glm::vec3(0.f, 1.f, 0.f));
+	}
+	if (glfwGetKey(this->window, GLFW_KEY_Y) == GLFW_PRESS)
+	{
+		this->TestLights[0]->SetPosition(glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f), 0.f));
 	}
 	//End Game
 	if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
