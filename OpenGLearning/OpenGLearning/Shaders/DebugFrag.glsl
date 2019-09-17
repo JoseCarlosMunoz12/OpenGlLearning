@@ -2,6 +2,7 @@
 out vec4 FragColor;
 
 in vec2 TexCoords;
+uniform vec3 SkyColor;
 uniform sampler2D Texture0;
 void main()
 {
