@@ -136,6 +136,8 @@ void Game::initMaterials()
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
 							0, 1));
+	this->MatTest.push_back(new SingleTextMat("Single", 3, 4,
+								this->SkyColor, 0));
 }
 
 void Game::initModels()

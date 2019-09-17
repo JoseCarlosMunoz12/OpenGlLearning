@@ -45,6 +45,22 @@ public:
 
 };
 
+class SingleTextMat : public StdMat
+{
+public:
+	SingleTextMat(std::string name, int SetId, int IniShaderId, glm::vec3 Skycolor, GLint TexId)
+		:StdMat(name, SetId, IniShaderId)
+	{
+		this->SkyClr -= Skycolor;
+		this->TexIndex.push_back(TexId);
+	}
+	void SendToShader(std::vector<Shader*>& program)
+	{
+		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
+		program[this->ShaderID]->set1i(this->TexIndex[0], "Texture0");
+	}
+};
+
 class Standardmat : public StdMat
 {
 public:
@@ -58,8 +74,6 @@ public:
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 };
-
-
 
 class TxtMat : public StdMat
 {
