@@ -218,10 +218,9 @@ void Game::initModels()
 	this->NamesOfModels.push_back("Debug Image");
 }
 
-
 void Game::initLights()
 {
-	this->TestLights.push_back(new Lights(glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f),
+	this->TestLights.push_back(new Lights(glm::vec3(-1.f,this->MipMapsData[0]->ReturnValue(-1.f,-1.f)+5.f,-1.f),
 										  glm::vec3(1.f,1.f,1.f)));
 }
 
@@ -348,6 +347,9 @@ void Game::updateInput()
 
 void Game::ImGuiOptions()
 {
+ glm::vec3 TempCamera = this->camera.getPosition();
+	ImGui::Text("Cam Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempCamera.x, TempCamera.y, TempCamera.z);
+	
 	ImGui::Begin("Added DifferentModels");
 	this->ScreenPos.x = ImGui::GetWindowPos().x;
 	this->ScreenPos.y = ImGui::GetWindowPos().y;
