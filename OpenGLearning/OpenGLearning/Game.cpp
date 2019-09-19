@@ -167,6 +167,10 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cone(1.f, 1.f, 40.f, 10),
 			"Cone"));
+	meshes.push_back(
+		new Mesh(&Cube(),
+			"Cube"));
+
 	//
 	//Meshes Componets are made
 	//
@@ -179,7 +183,7 @@ void Game::initModels()
 	MeshsArtifacts Plane(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, {0});
 	std::vector<MeshsArtifacts> HierArch1;
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(1.f),
 		0, 0, { 0,1 }));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
 		1, 0, { 0,1 }));
@@ -202,14 +206,14 @@ void Game::initModels()
 		meshes[1], { Stalls }));
 	this->NamesOfModels.push_back("Stall Image1");
 	this->models.push_back(new Model("Stall Image2",
-		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
+		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f)+.5, 0.f),
 		this->MatTest[1], { this->textures[2],this->textures[3] },
-		meshes[5], { Flat }));
+		meshes[4], { Flat }));
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
 		this->MatTest[1], { this->textures[13],this->textures[10] },
-		{ meshes[3],meshes[2],meshes[1] }, HierArch1));
+		{ meshes[7],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 	this->models.push_back(new Model("DebugImage",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -1.f) + 1.f, -1.f),
@@ -348,9 +352,9 @@ void Game::updateInput()
 void Game::ImGuiOptions()
 {
  glm::vec3 TempCamera = this->camera.getPosition();
-	ImGui::Text("Cam Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempCamera.x, TempCamera.y, TempCamera.z);
-	
 	ImGui::Begin("Added DifferentModels");
+	ImGui::Text("Cam Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempCamera.x, TempCamera.y, TempCamera.z);
+
 	this->ScreenPos.x = ImGui::GetWindowPos().x;
 	this->ScreenPos.y = ImGui::GetWindowPos().y;
 	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x + 7.f;
@@ -375,6 +379,7 @@ void Game::ImGuiOptions()
 			StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
 			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
 			std::vector<GeneralTextInfo*> ModTex = this->models[this->ModelToMake]->getTexture();
+			std::vector<Nodes*> TempNodes = this->models[this->ModelToMake]->GetNodesInfo();
 			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
 			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
 			ImGui::Text("Model Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
@@ -388,6 +393,29 @@ void Game::ImGuiOptions()
 				{
 					ImGui::Text(ii->GiveChar());
 				}
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Nodes Info"))
+			{
+				if (ImGui::TreeNode("Position"))
+				{
+					for (auto& ii : TempNodes)
+					{
+						glm::vec3 TempVec = ii->GetPosition();
+						ImGui::Text("Node 1 Pos ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+					}
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Rotation"))
+				{
+					for (auto& ii : TempNodes)
+					{
+						glm::vec3 TempVec = ii->GetRotation();
+						ImGui::Text("Node 1 Rotation ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+					}
+					ImGui::TreePop();
+				}
+				
 				ImGui::TreePop();
 			}
 		}
@@ -638,6 +666,7 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
+	this->models[3]->rotate(glm::vec3(0.f,1.f,0.f), 0);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();

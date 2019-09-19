@@ -102,6 +102,32 @@ public:
 	void Rotate(glm::vec3 Rot)
 	{
 		this->Rotation += Rot;
+		if (this->Rotation.x > 360.f)
+		{
+			this->Rotation.x = 0.f;
+		}
+		else if (this->Rotation.x < 0.f)
+		{
+			this->Rotation.x < 360.f;
+		}
+
+		if (this->Rotation.y > 360.f)
+		{
+			this->Rotation.y = 0.f;
+		}
+		else if (this->Rotation.y < 0.f)
+		{
+			this->Rotation.y < 360.f;
+		}
+
+		if (this->Rotation.z > 360.f)
+		{
+			this->Rotation.z = 0.f;
+		}
+		else if (this->Rotation.z < 0.f)
+		{
+			this->Rotation.z < 360.f;
+		}
 	}
 	void ScaleUp(glm::vec3 Scale)
 	{
@@ -219,6 +245,10 @@ public:
 	glm::vec3 GetScale(int MeshId)
 	{
 		return this->TreeNodes[MeshId]->GetScale();
+	}
+	std::vector<Nodes*> GetNodesInfo()
+	{
+		return this->TreeNodes;
 	}
 	//Other
 	void TestRender(std::vector<Shader*> shader)
