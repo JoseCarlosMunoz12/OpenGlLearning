@@ -216,7 +216,7 @@ void Game::initModels()
 		{ meshes[7],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 	this->models.push_back(new Model("DebugImage",
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -1.f) + 1.f, -1.f),
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -2.f) + 1.f, -2.f),
 		this->MatTest[3], { this->textures[13] },
 		{ meshes[3] }, {Plane}));
 	this->NamesOfModels.push_back("Debug Image");
@@ -399,19 +399,23 @@ void Game::ImGuiOptions()
 			{
 				if (ImGui::TreeNode("Position"))
 				{
+					int CountOfPos = 0;
 					for (auto& ii : TempNodes)
 					{
 						glm::vec3 TempVec = ii->GetPosition();
-						ImGui::Text("Node 1 Pos ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+						ImGui::Text("Node %d Pos =",CountOfPos); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+						CountOfPos++;
 					}
 					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Rotation"))
 				{
+					int CountOfRot = 0;
 					for (auto& ii : TempNodes)
 					{
 						glm::vec3 TempVec = ii->GetRotation();
-						ImGui::Text("Node 1 Rotation ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+						ImGui::Text("Node %d Rotation =",CountOfRot); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+						CountOfRot++;
 					}
 					ImGui::TreePop();
 				}
