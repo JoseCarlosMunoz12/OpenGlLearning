@@ -31,7 +31,10 @@ public:
 	{
 		std::cout << "Test\n";
 	}
-	virtual void sendToShader(std::vector<Shader*>& program)
+	virtual void SendToShader(std::vector<Shader*>& program)
+	{
+	}
+	virtual void SendToShader(std::vector<Shader*>& program,glm::mat4 LightMatrix)
 	{
 	}
 	const char* GetName()

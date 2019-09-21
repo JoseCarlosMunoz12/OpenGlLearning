@@ -259,7 +259,33 @@ public:
 		}
 		this->updateUniform();
 		int TempShdrId = this->TestMat->GetShaderId();
- 		this->TestMat->sendToShader(shader);
+ 		this->TestMat->SendToShader(shader);
+		shader[TempShdrId]->use();
+		Shader* T = shader[TempShdrId];
+		int Num = 0;
+		for (auto& ii : this->TreeNodes)
+		{
+			std::vector<int> Temp = this->TextToUse[Num];
+			int Count = 0;
+			for (auto jj : Temp)
+			{
+				this->Tex[jj]->Bind(Count);
+				Count++;
+			}
+			this->meshes[this->MeshToUse[Num]]->Render(ii->GetFinalMat4(), T);
+			Num++;
+		}
+	}
+
+	void TestRender(std::vector<Shader*> shader,glm::mat4 LightMatrix)
+	{
+		for (auto& ii : this->TreeNodes)
+		{
+			ii->UpdateMatrix();
+		}
+		this->updateUniform();
+		int TempShdrId = this->TestMat->GetShaderId();
+		this->TestMat->SendToShader(shader,LightMatrix);
 		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
 		int Num = 0;
