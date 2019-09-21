@@ -20,6 +20,7 @@ out vec4 fs_color;
 uniform Material material;
 uniform sampler2D texture0;
 uniform sampler2D texture1;
+uniform sampler2D ShadowTex;
 
 uniform vec3 lightPos0;
 uniform vec3 lightColor;

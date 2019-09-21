@@ -84,7 +84,7 @@ public:
 	TxtMat(std::string Name, int SetId,int ShaderId,
 			glm::vec3 SkyColor, glm::vec3 ambient,
 			glm::vec3 diffuse, glm::vec3 specular,
-			GLint diffuseTex, GLint specularTex)
+			GLint diffuseTex, GLint specularTex,GLint ShadowIndex = 2)
 			:StdMat(Name, SetId, ShaderId)
 	{
 		this->SkyClr = SkyColor;
@@ -93,6 +93,7 @@ public:
 		this->Specular = specular;
 		this->TexIndex.push_back(diffuseTex);
 		this->TexIndex.push_back(specularTex);
+		this->TexIndex.push_back(ShadowIndex);
 	}
 	void sendToShader(std::vector<Shader*>& program)
 	{
@@ -101,6 +102,7 @@ public:
 		program[this->ShaderID]->setVec3f(this->Specular, "material.specular");
 		program[this->ShaderID]->set1i(this->TexIndex[0], "material.diffuseTex");
 		program[this->ShaderID]->set1i(this->TexIndex[1], "material.speculartex");
+		program[this->ShaderID]->set1i(this->TexIndex[2], "ShadowTex");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 	~TxtMat()
@@ -126,6 +128,7 @@ public:
 		program[this->ShaderID]->set1i(this->TexIndex[2], "Texture2");
 		program[this->ShaderID]->set1i(this->TexIndex[3], "Texture3");
 		program[this->ShaderID]->set1i(this->TexIndex[4], "Texture4");
+		program[this->ShaderID]->set1i(this->TexIndex[5], "ShadowTex");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 };

@@ -127,7 +127,7 @@ void Game::initMaterials()
 {
 	//Testbug the new mats	
 	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2,
-							this->SkyColor, {0,1,2,3,4}));
+							this->SkyColor, {0,1,2,3,4,5}));
 	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
@@ -175,44 +175,44 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2,3,4 });
+		0, 0, { 0,1,2,3,4,5 });
 	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.1f),
-		0, 0, { 0,1 });
+		0, 0, { 0,1,2 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1 });
+		0, 0, { 0,1,2 });
 	MeshsArtifacts Plane(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, {0});
 	std::vector<MeshsArtifacts> HierArch1;
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(1.f),
-		0, 0, { 0,1 }));
+		0, 0, { 0,1,2}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
-		1, 0, { 0,1 }));
+		1, 0, { 0,1,2 }));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(.1f),
-		2, 1, { 0,1 }));
+		2, 1, { 0,1,2 }));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(10.f, 0.f, 10.f), glm::vec3(10.f, 0.f, 10.f), glm::vec3(0.f), glm::vec3(1.f),
-		2, 2, { 1,0 }));
+		2, 2, { 1,0,2 }));
 	//
 	//Pushing Models
 	//
 	this->models.push_back(new Model("Terrain",
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
-		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10] },
+		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],this->textures[13] },
 		meshes[0], { Terrain }));
 	this->NamesOfModels.push_back("Terrain");
 	this->models.push_back(new Model("Stall Image1",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
-		this->MatTest[1], { this->textures[10],this->textures[11] },
+		this->MatTest[1], { this->textures[10],this->textures[11],this->textures[13] },
 		meshes[1], { Stalls }));
 	this->NamesOfModels.push_back("Stall Image1");
 	this->models.push_back(new Model("Stall Image2",
 		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f)+.5, 0.f),
-		this->MatTest[1], { this->textures[2],this->textures[3] },
+		this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13] },
 		meshes[4], { Flat }));
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f, 0.f),
-		this->MatTest[1], { this->textures[13],this->textures[10] },
+		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 1.f) + 1.f, 1.f),
+		this->MatTest[1], { this->textures[13],this->textures[10],this->textures[13] },
 		{ meshes[7],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 	this->models.push_back(new Model("DebugImage",
@@ -670,7 +670,7 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders);
 	}
-	this->models[3]->rotate(glm::vec3(0.f,1.f,0.f), 0);
+	//this->models[0]->TestRender(this->shaders);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();

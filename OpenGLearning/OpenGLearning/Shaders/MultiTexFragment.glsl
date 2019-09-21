@@ -13,6 +13,8 @@ uniform sampler2D Texture1;
 uniform sampler2D Texture2;
 uniform sampler2D Texture3;
 uniform sampler2D Texture4;
+uniform sampler2D ShadowTex;
+
 uniform vec3 SkyColor;
 
 void main()

@@ -15,6 +15,7 @@ in vec2 vs_texcoord;
 in vec3 vs_normal;
 in float visibility;
 
+
 out vec4 fs_color;
 
 //Uniforms
@@ -23,6 +24,7 @@ uniform vec3 lightPos0;
 uniform vec3 lightColor;
 uniform vec3 cameraPos;
 uniform vec3 SkyColor;
+uniform sampler2D ShadowTex;
 
 //Functions
 vec3 calculateAmbient(Material material)
