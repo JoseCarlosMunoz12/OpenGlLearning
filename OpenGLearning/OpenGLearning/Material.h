@@ -51,13 +51,18 @@ public:
 	SingleTextMat(std::string name, int SetId, int IniShaderId, glm::vec3 Skycolor, GLint TexId)
 		:StdMat(name, SetId, IniShaderId)
 	{
-		this->SkyClr -= Skycolor;
+		this->SkyClr = Skycolor;
 		this->TexIndex.push_back(TexId);
 	}
 	void SendToShader(std::vector<Shader*>& program)
 	{
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 		program[this->ShaderID]->set1i(this->TexIndex[0], "Texture0");
+	}
+	void SendToShader(std::vector<Shader*>& program,glm::mat4 LightMatix)
+	{
+		this->SendToShader(program);
+		program[this->ShaderID]->setMat4fv(LightMatix, "LightMatrix");
 	}
 };
 
@@ -72,6 +77,11 @@ public:
 	void SendToShader(std::vector<Shader*>& program)
 	{
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
+	}
+	void SendToShader(std::vector<Shader*>& program, glm::mat4 LightMatix)
+	{
+		this->SendToShader(program);
+		program[this->ShaderID]->setMat4fv(LightMatix, "LightMatrix");
 	}
 };
 
@@ -95,7 +105,7 @@ public:
 		this->TexIndex.push_back(specularTex);
 		this->TexIndex.push_back(ShadowIndex);
 	}
-	void sendToShader(std::vector<Shader*>& program)
+	void SendToShader(std::vector<Shader*>& program)
 	{
 		program[this->ShaderID]->setVec3f(this->Ambient, "material.ambient");
 		program[this->ShaderID]->setVec3f(this->Diffuse, "material.diffuse");
@@ -104,6 +114,11 @@ public:
 		program[this->ShaderID]->set1i(this->TexIndex[1], "material.speculartex");
 		program[this->ShaderID]->set1i(this->TexIndex[2], "ShadowTex");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
+	}
+	void SendToShader(std::vector<Shader*>& program, glm::mat4 LightMatix)
+	{
+		this->SendToShader(program);
+		program[this->ShaderID]->setMat4fv(LightMatix, "LightMatrix");
 	}
 	~TxtMat()
 	{
@@ -121,7 +136,7 @@ public:
 		this->SkyClr = SkyColor;
 		this->TexIndex = TexIndex;
 	}
-	void sendToShader(std::vector<Shader*>& program)
+	void SendToShader(std::vector<Shader*>& program)
 	{
 		program[this->ShaderID]->set1i(this->TexIndex[0], "Texture0");
 		program[this->ShaderID]->set1i(this->TexIndex[1], "Texture1");
@@ -130,5 +145,10 @@ public:
 		program[this->ShaderID]->set1i(this->TexIndex[4], "Texture4");
 		program[this->ShaderID]->set1i(this->TexIndex[5], "ShadowTex");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
+	}
+	void SendToShader(std::vector<Shader*>& program, glm::mat4 LightMatix)
+	{
+		this->SendToShader(program);
+		program[this->ShaderID]->setMat4fv(LightMatix, "LightMatrix");
 	}
 };
