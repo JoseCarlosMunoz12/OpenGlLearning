@@ -59,6 +59,10 @@ float LinearizeDepth(float depth)
     float z = depth * 2.0 - 1.0; // back to NDC 
     return (2.0 * near * far) / (far + near - z * (far - near));	
 }
+
+
+
+
 void main()
 {
 	fs_color = vec4(lightColor * vs_color , 1.f);
@@ -80,6 +84,6 @@ void main()
 
 	//Final Color
 	fs_color =
-	texture(material.diffuseTex, vs_texcoord)
-	* (vec4(ambientFinal, 1.f) + vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f));
+	texture(material.diffuseTex, vs_texcoord);
+	fs_color = (vec4(ambientFinal, 1.f) + vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f)) * fs_color;
 }
