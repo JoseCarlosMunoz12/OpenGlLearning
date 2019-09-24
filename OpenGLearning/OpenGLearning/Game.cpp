@@ -212,7 +212,7 @@ void Game::initModels()
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 1.f) + 1.f, 1.f),
-		this->MatTest[1], { this->textures[13],this->textures[10],this->textures[13] },
+		this->MatTest[2], { this->textures[13],this->textures[10],this->textures[13] },
 		{ meshes[7],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 	this->models.push_back(new Model("DebugImage",

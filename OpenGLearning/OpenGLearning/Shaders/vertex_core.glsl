@@ -14,6 +14,7 @@ out float visibility;
 uniform mat4 ModelMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
+uniform mat4 LightMatrix;
 
 const float density = 0.01;
 const float gradient = 1.5;
