@@ -668,7 +668,7 @@ void Game::render()
 	//render Models
 	for (auto& ii : this->models)
 	{
-		ii->TestRender(this->shaders);
+		ii->TestRender(this->shaders,TempVal);
 	}
 	//this->models[0]->TestRender(this->shaders);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

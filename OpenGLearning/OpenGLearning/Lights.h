@@ -15,7 +15,7 @@ public:
 	{
 		float NearPlane = 1.f,FarPlane = 7.5f;
 		glm::mat4 LightProj = glm::ortho(-10.f, 10.f, -10.f, 10.f,NearPlane,FarPlane );
-		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + glm::vec3(0.f, -1.5f, 1.f), WorldView);
+		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + glm::vec3(1.f, -1.f, 1.f), WorldView);
 		return LightProj * LightView;
 	}
 	//MoveLight

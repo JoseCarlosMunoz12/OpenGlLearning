@@ -83,7 +83,6 @@ void main()
 	//Attenuation
 
 	//Final Color
-	fs_color =
-	texture(material.diffuseTex, vs_texcoord);
+	fs_color =	texture(material.diffuseTex, vs_texcoord);
 	fs_color = (vec4(ambientFinal, 1.f) + vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f)) * fs_color;
 }
