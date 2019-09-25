@@ -65,10 +65,11 @@ float LinearizeDepth(float depth)
 float ShadowCalculation(vec4 fragPosLightSpace)
 {
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-	projCoords = projCoords *0.5+0.5;
+	projCoords = projCoords * 0.5 + 0.5;
 	float closesetDepth = texture(ShadowTex,projCoords.xy).r;
 	float currentDepth = projCoords.z;
-	float shadow = currentDepth > closesetDepth ? 1.0 : 0.0;
+	float bias = 0.005;
+	float shadow = (currentDepth + bias) > closesetDepth ? 1.0 : 0.0;
 	return shadow;
 }
 
@@ -92,6 +93,7 @@ void main()
 	//Attenuation
 	float shadow = ShadowCalculation(FragPosLightSpace);
 	//Final Color
-	fs_color =	texture(material.diffuseTex, vs_texcoord);
-	fs_color = (vec4(ambientFinal, 1.f) + (1.0 - shadow) * ( vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f))) * fs_color;
+	vec3 color = texture(material.diffuseTex, vs_texcoord).rgb;
+	vec3 Lighting = (shadow * (diffuseFinal + specularFinal) + ambientFinal) * color;
+	fs_color = vec4(Lighting,1.0);
 }
