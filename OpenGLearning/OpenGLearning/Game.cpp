@@ -484,6 +484,18 @@ void Game::ImGuiOptions()
 		glm::vec3 Col = this->TestLights[0]->GetColor();
 		ImGui::Text("(%f,%f,%f)",ColPos.x,ColPos.y,ColPos.z);
 
+		if (ImGui::SliderFloat("X Position",&ColPos.x,-10.f,10.f))
+		{
+			this->TestLights[0]->SetPosition(ColPos);
+		}	
+		if (ImGui::SliderFloat("Y Position", &ColPos.y, 0, 20.f))
+		{
+			this->TestLights[0]->SetPosition(ColPos);
+		}
+		if (ImGui::SliderFloat("Z Position", &ColPos.z, -10.f, 10.f))
+		{
+			this->TestLights[0]->SetPosition(ColPos);
+		}
 		float Cols[3];
 		Cols[0] = Col.r;
 		Cols[1] = Col.g;
