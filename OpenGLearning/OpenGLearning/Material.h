@@ -130,17 +130,28 @@ public:
 
 class MipMapMat : public StdMat
 {
+	glm::vec3 Ambient;
+	glm::vec3 Diffuse;
+	glm::vec3 Specular;
 public:
 	MipMapMat(std::string Name, int SetId, int ShaderId,
-		glm::vec3 SkyColor,
-		std::vector<GLint> TexIndex)
+		glm::vec3 SkyColor,	std::vector<GLint> TexIndex,
+		glm::vec3 ambient = glm::vec3(0.1f),
+		glm::vec3 diffuse = glm::vec3(1.0f),
+		glm::vec3 specular = glm::vec3(1.0f))
 		:StdMat(Name, SetId, ShaderId)
 	{
 		this->SkyClr = SkyColor;
 		this->TexIndex = TexIndex;
+		this->Ambient = ambient;
+		this->Diffuse = diffuse;
+		this->Specular = specular;
 	}
 	void SendToShader(std::vector<Shader*>& program)
 	{
+		program[this->ShaderID]->setVec3f(this->Ambient, "material.ambient");
+		program[this->ShaderID]->setVec3f(this->Diffuse, "material.diffuse");
+		program[this->ShaderID]->setVec3f(this->Specular, "material.specular");
 		program[this->ShaderID]->set1i(this->TexIndex[0], "Texture0");
 		program[this->ShaderID]->set1i(this->TexIndex[1], "Texture1");
 		program[this->ShaderID]->set1i(this->TexIndex[2], "Texture2");

@@ -1,4 +1,11 @@
-#version 440
+ #version 440
+
+ struct Material
+ {
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+ };
 
 in vec3 vs_position;
 in vec3 vs_color;
@@ -15,7 +22,7 @@ uniform sampler2D Texture2;
 uniform sampler2D Texture3;
 uniform sampler2D Texture4;
 uniform sampler2D ShadowTex;
-
+uniform Material material;
 uniform vec3 SkyColor;
 
 void main()
