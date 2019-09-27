@@ -492,7 +492,7 @@ void Game::ImGuiOptions()
 		{
 			this->TestLights[0]->SetPosition(ColPos);
 		}
-		if (ImGui::SliderFloat("Z Position", &ColPos.z, -10.f, 10.f))
+		if (ImGui::SliderFloat("Z Position", &ColPos.z, -10.f, 40.f))
 		{
 			this->TestLights[0]->SetPosition(ColPos);
 		}
