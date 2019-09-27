@@ -13,7 +13,7 @@ public:
 	}
 	glm::mat4 GetLightMatrix(glm::vec3 WorldView)
 	{
-		float NearPlane = 1.f,FarPlane = 7.5f;
+		float NearPlane = 1.f,FarPlane = 10.f;
 		glm::mat4 LightProj = glm::ortho(-10.f, 10.f, -10.f, 10.f,NearPlane,FarPlane );
 		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + glm::vec3(0.f,-1.f,1.f), WorldView);
 		return LightProj * LightView;
