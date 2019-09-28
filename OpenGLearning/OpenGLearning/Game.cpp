@@ -149,7 +149,7 @@ void Game::initModels()
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
-			&CustomObject("Images/stall.obj"),
+			&CustomObject("Images/tree.obj"),
 			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
@@ -176,7 +176,7 @@ void Game::initModels()
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, { 0,1,2,3,4,5 });
-	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.1f),
+	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, { 0,1,2 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, { 0,1,2 });
@@ -213,7 +213,7 @@ void Game::initModels()
 	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 1.f), 1.f),
 		this->MatTest[2], { this->textures[11],this->textures[11],this->textures[13] },
-		{ meshes[7],meshes[2],meshes[1] }, HierArch1));
+		{ meshes[1],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 	this->models.push_back(new Model("DebugImage",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -2.f) +1.f, -2.f),
