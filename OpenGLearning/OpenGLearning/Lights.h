@@ -11,10 +11,17 @@ public:
 		this->Position = Pos;
 		this->Color = Clr;
 	}
-	glm::mat4 GetLightMatrix(glm::vec3 WorldView)
+	glm::mat4 GetLightMatrix(glm::vec3 WorldView, bool OrthoView = true)
 	{
+		glm::mat4 LightProj;
 		float NearPlane = 1.f,FarPlane = 10.f;
-		glm::mat4 LightProj = glm::ortho(-10.f, 10.f, -10.f, 10.f,NearPlane,FarPlane );
+		if (OrthoView)
+		{	
+			LightProj = glm::ortho(-10.f, 10.f, -10.f, 10.f,NearPlane,FarPlane );
+		}
+		else{
+			//LightProj = glm::perspective();
+		}
 		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + glm::vec3(0.f,-1.f,1.f), WorldView);
 		return LightProj * LightView;
 	}
