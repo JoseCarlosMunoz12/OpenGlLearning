@@ -52,13 +52,13 @@ vec3 CalculateSpec(Material material, vec3 vs_position,vec3 vs_normal,vec3 Light
 	return specularFinal;
 }
 // shadow function
-float ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection)
 {
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 	projCoords = projCoords * 0.5 + 0.5;
 	float closesetDepth = texture(ShadowTex,projCoords.xy).r;
 	float currentDepth = projCoords.z;
-	float bias = 0.005;
+	float bias = max(0.05 * (1.0 - dot(Normal,LightDirection)),0.005);
 	float shadow = (currentDepth - bias) > closesetDepth ? 1.0 : 0.0;
 	if (projCoords.z > 1.0)
 		shadow = 0.0;
@@ -82,9 +82,9 @@ void main()
 	vec3 FinalDiffuse = material.diffuse;
 	vec3 FinalSpecular = CalculateSpec(material,vs_position,vs_normal,lightPos0,cameraPos);
 
-	float shadow = ShadowCalculation(FragPosLightSpace);
+	float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,lightPos0);
 
-	vec3 Lighting = (FinalAmbiant + (1.0 - shadow) *(FinalDiffuse + FinalSpecular)) * color;
+	vec3 Lighting = (FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular)) * color;
 	fs_color = vec4(Lighting,1.0);
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }

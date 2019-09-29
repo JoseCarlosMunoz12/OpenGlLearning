@@ -206,14 +206,14 @@ void Game::initModels()
 		meshes[1], { Stalls }));
 	this->NamesOfModels.push_back("Stall Image1");
 	this->models.push_back(new Model("Stall Image2",
-		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f)+ 1.f, 0.f),
+		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
 		this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13] },
-		meshes[4], { Flat }));
+		meshes[1], { Flat }));
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 1.f), 1.f),
 		this->MatTest[2], { this->textures[11],this->textures[11],this->textures[13] },
-		{ meshes[1],meshes[2],meshes[1] }, HierArch1));
+		{ meshes[6],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 	this->models.push_back(new Model("DebugImage",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -2.f) +1.f, -2.f),
@@ -659,7 +659,7 @@ void Game::render()
 {
 	//DRAW---
 	glm::mat4 TempVal = this->TestLights[0]->GetLightMatrix(this->worldUp);
-	glCullFace(GL_FRONT);
+
 	for (auto& ii : this->Shadows)
 	{
 		ii->WriteToBuffer(this->Window_Width, this->Window_Height,
@@ -669,7 +669,7 @@ void Game::render()
 			jj->RenderShadow(this->shaders[3]);
 		}
 	}
-	glCullFace(GL_BACK);
+
 	//Clear
 	ImGui::Render();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
