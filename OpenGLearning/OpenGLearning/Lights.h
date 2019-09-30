@@ -5,7 +5,6 @@ class Lights
 {
 	glm::vec3 Position;
 	glm::vec3 Color;
-	float NearPlane, FarPlane;
 	float Fov;
 	int Width,Height;
 	bool OrthoView;
@@ -17,6 +16,11 @@ public:
 		this->Color = Clr;
 		this->Width = FrameWidth;
 		this->Height = FrameHeight;
+		this->OrthoView = InitOrtho;
+		if (this->OrthoView)
+		{
+
+		}
 	}
 	glm::mat4 GetLightMatrix(glm::vec3 WorldView)
 	{
@@ -26,10 +30,12 @@ public:
 			LightProj = glm::ortho(-10.f, 10.f, -10.f, 10.f,NearPlane,FarPlane );
 		}
 		else{
+			NearPlane = 1.f;
+			FarPlane = 75.f;
 			LightProj = glm::perspective(glm::radians(this->Fov),
 				static_cast<float>(this->Width)/static_cast<float>(this->Height),
-				this->NearPlane,
-				this->FarPlane);
+				NearPlane,
+				FarPlane);
 		}
 		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + glm::vec3(0.f,-1.f,1.f), WorldView);
 		return LightProj * LightView;
