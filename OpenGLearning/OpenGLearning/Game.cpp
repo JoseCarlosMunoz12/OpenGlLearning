@@ -224,8 +224,8 @@ void Game::initModels()
 
 void Game::initLights()
 {
-	this->TestLights.push_back(new Lights(glm::vec3(-1.f,this->MipMapsData[0]->ReturnValue(-1.f,-1.f)+5.f,-1.f),
-										  glm::vec3(1.f,1.f,1.f)));
+	this->TestLights.push_back(new Lights(glm::vec3(-1.f,this->MipMapsData[0]->ReturnValue(-1.f,-1.f)+ 5.f,-1.f),
+										  glm::vec3(1.f,1.f,1.f),this->frameBufferWidth,this->frameBufferWidth,false));
 }
 
 void Game::initUniforms()
