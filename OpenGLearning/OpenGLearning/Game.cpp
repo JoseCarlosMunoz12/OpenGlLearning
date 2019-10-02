@@ -225,7 +225,7 @@ void Game::initModels()
 void Game::initLights()
 {
 	this->TestLights.push_back(new Lights(glm::vec3(-1.f,this->MipMapsData[0]->ReturnValue(-1.f,-1.f)+ 5.f,-1.f),
-										  glm::vec3(1.f,1.f,1.f),this->frameBufferWidth,this->frameBufferWidth,false));
+										  glm::vec3(1.f,1.f,1.f),this->frameBufferWidth,this->frameBufferWidth));
 }
 
 void Game::initUniforms()
@@ -482,8 +482,10 @@ void Game::ImGuiOptions()
 	{
 		glm::vec3 ColPos = this->TestLights[0]->GetPos();
 		glm::vec3 Col = this->TestLights[0]->GetColor();
-		ImGui::Text("(%f,%f,%f)",ColPos.x,ColPos.y,ColPos.z);
-
+		float TempYaw = this->TestLights[0]->GetYaw();
+		float TempPitch = this->TestLights[0]->GetPitch();
+		ImGui::Text("Light Position (%f,%f,%f)",ColPos.x,ColPos.y,ColPos.z);
+		//Position of the Light
 		if (ImGui::SliderFloat("X Position",&ColPos.x,-10.f,10.f))
 		{
 			this->TestLights[0]->SetPosition(ColPos);
@@ -496,11 +498,21 @@ void Game::ImGuiOptions()
 		{
 			this->TestLights[0]->SetPosition(ColPos);
 		}
+		//View of the Light
+		ImGui::Text(" Light Yaw and Pitch (%f,%f)", TempYaw, TempPitch);
+		if (ImGui::SliderFloat("Light Yaw",&TempYaw,-180.f,180.f))
+		{
+			this->TestLights[0]->SetYaw(TempYaw);
+		}
+		if (ImGui::SliderFloat("Light Pitch", &TempPitch,-90.f,0.f))
+		{
+			this->TestLights[0]->SetPitch(TempPitch);
+		}
 		float Cols[3];
 		Cols[0] = Col.r;
 		Cols[1] = Col.g;
 		Cols[2] = Col.b;
-
+		//Color of Light
 		if (ImGui::ColorEdit3("Color Wheel", Cols))
 		{
 			this->TestLights[0]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
