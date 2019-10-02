@@ -97,5 +97,5 @@ void main()
 	//Final Color
 	vec3 color = texture(material.diffuseTex, vs_texcoord).rgb;
 	vec3 Lighting = ((1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal) * color;
-	fs_color = vec4(Lighting,1.0);
+	fs_color = vec4(lightColor * Lighting,1.0);
 }

@@ -85,6 +85,6 @@ void main()
 	float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,lightPos0);
 
 	vec3 Lighting = (FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular)) * color;
-	fs_color = vec4(Lighting,1.0);
+	fs_color = vec4(lightColor * Lighting,1.0);
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }
