@@ -17,13 +17,20 @@ uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform mat4 LightMatrix;
 
+const float density = 0.01;
+const float gradient = 1.5;
 void main()
 {
 	vs_position = vec4(ModelMatrix * vec4(vertex_position,1.f)).xyz;
 	vs_color = vertex_color;
 	vs_texcoord = vec2(vertex_texcoord.x, vertex_texcoord.y *-1.f);
 	vs_normal = mat3(ModelMatrix) * vertex_normal;
-
+	
+	vec4 positionRelativeToCam = ViewMatrix * ModelMatrix * vec4(vertex_position, 1.f);
 	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(vertex_position, 1.f);
 	FragPosLightSpace = LightMatrix * vec4(vs_position,1.0);
+	
+	float distance = length(positionRelativeToCam.xyz);
+	visibility = exp(-pow((distance * density),gradient));
+	visibility = clamp(visibility, 0.0,1.0);
 }

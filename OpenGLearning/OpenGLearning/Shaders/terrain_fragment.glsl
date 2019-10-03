@@ -14,6 +14,7 @@ in vec3 vs_color;
 in vec2 vs_texcoord;
 in vec3 vs_normal;
 in vec4 FragPosLightSpace;
+in float visibility;
 
 out vec4 fs_color;
 
@@ -26,6 +27,7 @@ uniform sampler2D ShadowTex;
 uniform vec3 lightPos0;
 uniform vec3 lightColor;
 uniform vec3 cameraPos;
+uniform vec3 SkyColor;
 
 vec3 calculateAmbient(Material material)
 {
@@ -98,4 +100,6 @@ void main()
 	vec3 color = texture(material.diffuseTex, vs_texcoord).rgb;
 	vec3 Lighting = ((1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal) * color;
 	fs_color = vec4(lightColor * Lighting,1.0);
+	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
+
 }

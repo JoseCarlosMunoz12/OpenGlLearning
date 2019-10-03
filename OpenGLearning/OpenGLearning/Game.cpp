@@ -354,7 +354,6 @@ void Game::ImGuiOptions()
  glm::vec3 TempCamera = this->camera.getPosition();
 	ImGui::Begin("Added DifferentModels");
 	ImGui::Text("Cam Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempCamera.x, TempCamera.y, TempCamera.z);
-
 	this->ScreenPos.x = ImGui::GetWindowPos().x;
 	this->ScreenPos.y = ImGui::GetWindowPos().y;
 	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x + 7.f;
@@ -644,9 +643,7 @@ Game::~Game()
 	for (auto& ii : this->TestLights)
 		delete ii;
 	for (auto& ii : this->MipMapsData)
-		delete ii;
-
-	
+		delete ii;	
 }
 //Acessor
 int Game::getWindowShouldClose()
@@ -686,7 +683,7 @@ void Game::render()
 	ImGui::Render();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, this->Window_Width, this->Window_Height);
-	glClearColor(1.f,1.f,1.f,1.f);
+	glClearColor(this->SkyColor.r, this->SkyColor.g, this->SkyColor.b, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
 	//Update uniforms
