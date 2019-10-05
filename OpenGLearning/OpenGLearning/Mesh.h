@@ -144,8 +144,6 @@ public:
 		delete[] this->indexArray;
 	}
 	//Accessors
-
-
 	void Update(glm::vec3 RayPos)
 	{
 		this->MeshCollisionBox.CheckForCollision(RayPos);

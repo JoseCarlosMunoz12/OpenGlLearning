@@ -513,12 +513,34 @@ void Game::ImGuiOptions()
 		Cols[1] = Col.g;
 		Cols[2] = Col.b;
 		//Color of Light
+		ImGui::Text("Color Information");
 		if (ImGui::ColorEdit3("Color Wheel", Cols))
 		{
 			this->TestLights[0]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
 		}
-
-		
+		float Views[4];
+		Views[0] = Tempview.Left;
+		Views[1] = Tempview.Right;
+		Views[2] = Tempview.Bottom;
+		Views[3] = Tempview.Up;
+		//Position of the Light
+		ImGui::Text("Ortho view information");
+		if (ImGui::SliderFloat("Left",&Views[0],-30.f,-10.f))
+		{
+			this->TestLights[0]->SetOrthoView({Views[0],Views[1], Views[2], Views[3]});
+		}
+		if (ImGui::SliderFloat("Right", &Views[1], 10.f, 30.f))
+		{
+			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3] });
+		}
+		if (ImGui::SliderFloat("Bottom", &Views[2], -30.f, -10.f))
+		{
+			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3] });
+					}
+		if (ImGui::SliderFloat("Up", &Views[3], 10.f, 30.f))
+		{
+			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3] });
+		}
 		ImGui::TreePop();
 	}
 	ImGui::End();
