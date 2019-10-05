@@ -1,15 +1,23 @@
 #pragma once
 #include <glm.hpp>
-
+struct OrthoView
+{
+	float Left;
+	float Right;
+	float Bottom;
+	float Up;
+};
 class Lights
 {
+	
 	glm::vec3 Position;
 	glm::vec3 Color;
 	glm::vec3 Front;
 	float Fov;
 	int Width,Height;
 	float Pitch, Yaw;
-	bool OrthoView;
+	OrthoView Views;
+	bool Ortho;
 	void UpdateFront()
 	{
 		this->Front.x = cos(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
@@ -20,11 +28,15 @@ public:
 	Lights(glm::vec3 Pos,glm::vec3 Clr,int FrameWidth,int FrameHeight,bool InitOrtho = true)
 		:Fov(45.f)
 	{
+		this->Views.Left = -10.f;
+		this->Views.Right = 10.f;
+		this->Views.Bottom = -10.f;
+		this->Views.Up = 10.f;
 		this->Position = Pos;
 		this->Color = Clr;
 		this->Width = FrameWidth;
 		this->Height = FrameHeight;
-		this->OrthoView = InitOrtho;
+		this->Ortho = InitOrtho;
 		this->Pitch = -75.f;
 		this->Yaw = 90.f;
 		this->UpdateFront();
@@ -33,8 +45,8 @@ public:
 	{
 		glm::mat4 LightProj;
 		float NearPlane = 1.f,FarPlane = 10.f;
-		if (OrthoView){	
-			LightProj = glm::ortho(-10.f, 10.f, -10.f, 10.f,NearPlane,FarPlane );
+		if (Ortho){	
+			LightProj = glm::ortho(Views.Left, Views.Right, Views.Bottom, Views.Up, NearPlane,FarPlane );
 		}
 		else{
 			LightProj = glm::perspective(glm::radians(this->Fov),
@@ -59,10 +71,10 @@ public:
 	void SetColor(glm::vec3 NewColor)
 	{
 		this->Color = NewColor;
-	}
+	} 
 	void SetView(bool OrthoChoesn)
 	{
-		this->OrthoView = OrthoChoesn;
+		this->Ortho = OrthoChoesn;
 	}
 	void SetYaw(float NewYaw)
 	{
@@ -72,7 +84,15 @@ public:
 	{
 		this->Pitch = NewPitch;
 	}
+	void SetOrthoView(OrthoView NewOrtho)
+	{
+		this->Views = NewOrtho;
+	}
 	//Get Info
+	OrthoView GetOrtho()
+	{
+		return this->Views;
+	}
 	glm::vec3 GetPos()
 	{
 		return this->Position;
@@ -83,7 +103,7 @@ public:
 	}
 	bool GetChossenView()
 	{
-		return this->OrthoView;
+		return this->Ortho;
 	}
 	float GetYaw()
 	{

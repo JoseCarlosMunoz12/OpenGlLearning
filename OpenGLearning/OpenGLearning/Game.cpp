@@ -483,6 +483,7 @@ void Game::ImGuiOptions()
 		glm::vec3 Col = this->TestLights[0]->GetColor();
 		float TempYaw = this->TestLights[0]->GetYaw();
 		float TempPitch = this->TestLights[0]->GetPitch();
+		OrthoView Tempview = this->TestLights[0]->GetOrtho();
 		ImGui::Text("Light Position (%f,%f,%f)",ColPos.x,ColPos.y,ColPos.z);
 		//Position of the Light
 		if (ImGui::SliderFloat("X Position",&ColPos.x,-10.f,10.f))
@@ -516,6 +517,7 @@ void Game::ImGuiOptions()
 		{
 			this->TestLights[0]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
 		}
+
 		
 		ImGui::TreePop();
 	}
