@@ -6,10 +6,10 @@ struct OrthoView
 	float Right;
 	float Bottom;
 	float Up;
+	float FarPlane;
 };
 class Lights
-{
-	
+{	
 	glm::vec3 Position;
 	glm::vec3 Color;
 	glm::vec3 Front;
@@ -32,6 +32,7 @@ public:
 		this->Views.Right = 10.f;
 		this->Views.Bottom = -10.f;
 		this->Views.Up = 10.f;
+		this->Views.FarPlane = 10.f;
 		this->Position = Pos;
 		this->Color = Clr;
 		this->Width = FrameWidth;
@@ -44,15 +45,15 @@ public:
 	glm::mat4 GetLightMatrix(glm::vec3 WorldView)
 	{
 		glm::mat4 LightProj;
-		float NearPlane = 1.f,FarPlane = 10.f;
+		float NearPlane = 1.f;
 		if (Ortho){	
-			LightProj = glm::ortho(Views.Left, Views.Right, Views.Bottom, Views.Up, NearPlane,FarPlane );
+			LightProj = glm::ortho(Views.Left, Views.Right, Views.Bottom, Views.Up, NearPlane,Views.FarPlane );
 		}
 		else{
 			LightProj = glm::perspective(glm::radians(this->Fov),
 				static_cast<float>(this->Width)/static_cast<float>(this->Height),
 				NearPlane,
-				FarPlane);
+				Views.FarPlane);
 		}
 		this->UpdateFront();
 		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + this->Front, WorldView);

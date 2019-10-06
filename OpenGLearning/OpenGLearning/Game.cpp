@@ -518,28 +518,33 @@ void Game::ImGuiOptions()
 		{
 			this->TestLights[0]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
 		}
-		float Views[4];
+		float Views[5];
 		Views[0] = Tempview.Left;
 		Views[1] = Tempview.Right;
 		Views[2] = Tempview.Bottom;
 		Views[3] = Tempview.Up;
+		Views[4] = Tempview.FarPlane;
 		//Position of the Light
 		ImGui::Text("Ortho view information");
 		if (ImGui::SliderFloat("Left",&Views[0],-30.f,-10.f))
 		{
-			this->TestLights[0]->SetOrthoView({Views[0],Views[1], Views[2], Views[3]});
+			this->TestLights[0]->SetOrthoView({Views[0],Views[1], Views[2], Views[3], Views[4]});
 		}
 		if (ImGui::SliderFloat("Right", &Views[1], 10.f, 30.f))
 		{
-			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3] });
+			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3], Views[4]});
 		}
 		if (ImGui::SliderFloat("Bottom", &Views[2], -30.f, -10.f))
 		{
-			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3] });
+			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3], Views[4]});
 					}
 		if (ImGui::SliderFloat("Up", &Views[3], 10.f, 30.f))
 		{
-			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3] });
+			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3], Views[4]});
+		}
+		if (ImGui::SliderFloat("Far Plane", &Views[4],10.f,30.f))
+		{
+			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3], Views[4]});
 		}
 		ImGui::TreePop();
 	}
