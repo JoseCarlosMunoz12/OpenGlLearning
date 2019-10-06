@@ -52,18 +52,35 @@ vec3 CalculateSpec(Material material, vec3 vs_position,vec3 vs_normal,vec3 Light
 	return specularFinal;
 }
 // shadow function
-float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection)
+float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection,bool TypeOfShadow = true)
 {
+	float shadow = 0.f;
+	float bias = max(0.05 * (1.0 - dot(Normal,LightDirection)),0.005);
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 	projCoords = projCoords * 0.5 + 0.5;
 	float closesetDepth = texture(ShadowTex,projCoords.xy).r;
 	float currentDepth = projCoords.z;
-	float bias = max(0.05 * (1.0 - dot(Normal,LightDirection)),0.005);
-	float shadow = (currentDepth - bias) > closesetDepth ? 1.0 : 0.0;
+	if(TypeOfShadow)
+	{
+		vec2 TexeSize = 1.0 / textureSize(ShadowTex,0);
+		for(int x = -1; x <=1;++x)
+		{
+			for(int y = -1; y <=1;++y)
+			{
+				float pcfDepth = texture(ShadowTex,projCoords.xy + vec2(x,y) * TexeSize).r;
+				shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+			}
+		}
+		shadow /=9.0;
 	if (projCoords.z > 1.0)
 		shadow = 0.0;
+		return shadow;
+	}
+	shadow = (currentDepth - bias) > closesetDepth ? 1.0 : 0.0;
+
 	return shadow;
 }
+
 void main()
 {
 	vec4 blendMapColor = texture(Texture4,vs_texcoord);
