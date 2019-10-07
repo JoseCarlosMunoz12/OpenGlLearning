@@ -721,8 +721,7 @@ void Game::render()
 	for (auto& ii : this->models)
 	{
 		ii->TestRender(this->shaders,TempVal);
-	}
-	//this->models[0]->TestRender(this->shaders);
+	} 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();
