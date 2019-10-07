@@ -8,6 +8,57 @@ struct OrthoView
 	float Up;
 	float FarPlane;
 };
+class MainLight
+{
+	glm::vec3 Color;
+	glm::vec3 Front;
+	int ViewType;
+	float Pitch, Yaw;
+public:
+	MainLight(glm::vec3 InitColor, glm::vec3 InitFront)
+	{
+		this->Color = InitColor;
+		this->Front = InitFront;
+	}
+	//Set Values
+	void SetColor(glm::vec3 NewColor)
+	{
+		this->Color = NewColor;
+	}
+	void SetYaw(float NewYaw)
+	{
+		this->Yaw = NewYaw;
+	}
+	void SetPitch(float NewPitch)
+	{
+		this->Pitch = NewPitch;
+	}
+	// Get Values
+	glm::vec3 GetColor()
+	{
+		return this->Color;
+	}
+	float GetYaw()
+	{
+		return this->Yaw;
+	}
+	float GetPitch()
+	{
+		return this->Pitch;
+	}
+	//Update functions
+	void UpDate()
+	{
+		this->Front.x = cos(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
+		this->Front.y = sin(glm::radians(this->Pitch));
+		this->Front.z = sin(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
+
+	}
+	virtual glm::mat4 GetLightMatrix(glm::vec3 WorldView)
+	{
+
+	}
+};
 class Lights
 {	
 	glm::vec3 Position;
