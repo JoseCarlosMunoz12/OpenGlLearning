@@ -10,15 +10,17 @@ struct OrthoView
 };
 class MainLight
 {
+protected:
 	glm::vec3 Color;
 	glm::vec3 Front;
 	int ViewType;
 	float Pitch, Yaw;
 public:
-	MainLight(glm::vec3 InitColor, glm::vec3 InitFront)
+	MainLight(glm::vec3 InitColor,float InitPitch, float InitYaw)
 	{
+		this->SetPitch(InitPitch);
+		this->SetYaw(InitYaw);
 		this->Color = InitColor;
-		this->Front = InitFront;
 	}
 	//Set Values
 	void SetColor(glm::vec3 NewColor)
@@ -47,7 +49,7 @@ public:
 		return this->Pitch;
 	}
 	//Update functions
-	void UpDate()
+	void UpdateFront()
 	{
 		this->Front.x = cos(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
 		this->Front.y = sin(glm::radians(this->Pitch));
@@ -57,6 +59,52 @@ public:
 	virtual glm::mat4 GetLightMatrix(glm::vec3 WorldView)
 	{
 
+	}
+};
+class DrLights:public MainLight
+{
+	OrthoView Views;
+	glm::vec3 Position;
+	int Width, Height;
+public:
+	DrLights( glm::vec3 InitCol, float InitPitch, float InitYaw,
+		glm::vec3 InitPos,	int FrameWidth, int FrameHeight )
+		:MainLight(InitCol,InitPitch,InitYaw)
+	{
+		this-> Width = FrameWidth;
+		this->Height = FrameHeight;
+		this->Position = InitPos;
+		this->UpdateFront();
+	}
+	glm::mat4 GetLightMatrix(glm::vec3 WorldView) override
+	{
+		glm::mat4 LightProj;
+		float NearPlane = 1.f;
+	
+		LightProj = glm::ortho(Views.Left, Views.Right, Views.Bottom, Views.Up, NearPlane, Views.FarPlane);
+	
+		this->UpdateFront();
+		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + this->Front, WorldView);
+		return LightProj * LightView;
+	}
+	//MoveLight
+	void Move(glm::vec3 Move)
+	{
+		this->Position += Move;
+	}
+	//Set Info
+	void SetPosition(glm::vec3 NewPos)
+	{
+		this->Position = NewPos;
+	}
+	//Get Info
+	OrthoView GetOrtho()
+	{
+		return this->Views;
+	}
+	glm::vec3 GetPos()
+	{
+		return this->Position;
 	}
 };
 class Lights
@@ -76,7 +124,8 @@ class Lights
 		this->Front.z = sin(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
 	}
 public:	
-	Lights(glm::vec3 Pos,glm::vec3 Clr,int FrameWidth,int FrameHeight,bool InitOrtho = true)
+	Lights(glm::vec3 Pos,glm::vec3 Clr,
+		int FrameWidth,int FrameHeight,bool InitOrtho = true)
 		:Fov(45.f)
 	{
 		this->Views.Left = -10.f;
@@ -84,6 +133,7 @@ public:
 		this->Views.Bottom = -10.f;
 		this->Views.Up = 10.f;
 		this->Views.FarPlane = 10.f;
+
 		this->Position = Pos;
 		this->Color = Clr;
 		this->Width = FrameWidth;
