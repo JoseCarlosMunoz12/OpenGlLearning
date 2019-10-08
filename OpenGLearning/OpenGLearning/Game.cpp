@@ -225,7 +225,9 @@ void Game::initModels()
 void Game::initLights()
 {
 	this->TestLights.push_back(new Lights(glm::vec3(-1.f,this->MipMapsData[0]->ReturnValue(-1.f,-1.f)+ 5.f,-1.f),
-										  glm::vec3(1.f,1.f,1.f),this->frameBufferWidth,this->frameBufferWidth));
+										  glm::vec3(1.f, 1.f, 1.f),this->frameBufferWidth,this->frameBufferWidth));
+	this->LightsToUse.push_back(new DrLights(glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+											 glm::vec3(1.f,1.f,1.f), this->frameBufferWidth, this->frameBufferWidth));
 }
 
 void Game::initUniforms()
@@ -558,8 +560,8 @@ void Game::updateUniforms()
 
 	for (auto& ii :this->shaders)
 	{
-		ii->setVec3f(this->TestLights[0]->GetPos(), "lightPos0");
-		ii->setVec3f(this->TestLights[0]->GetColor(), "lightColor");
+		ii->setVec3f(this->LightsToUse[0]->GetPos(), "lightPos0");
+		ii->setVec3f(this->LightsToUse[0]->GetColor(), "lightColor");
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		ii->setVec3f(this->camera.getPosition(), "cameraPos");
 	}
@@ -696,7 +698,7 @@ void Game::update()
 void Game::render()
 {
 	//DRAW---
-	glm::mat4 TempVal = this->TestLights[0]->GetLightMatrix(this->worldUp);
+	glm::mat4 TempVal = this->LightsToUse[0]->GetLightMatrix(this->worldUp);
 
 	for (auto& ii : this->Shadows)
 	{

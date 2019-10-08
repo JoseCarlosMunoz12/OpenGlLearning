@@ -8,21 +8,28 @@ struct OrthoView
 	float Up;
 	float FarPlane;
 };
+//Base Class of lights
 class MainLight
 {
 protected:
+	glm::vec3 Position;
 	glm::vec3 Color;
 	glm::vec3 Front;
 	int ViewType;
 	float Pitch, Yaw;
 public:
-	MainLight(glm::vec3 InitColor,float InitPitch, float InitYaw)
+	MainLight(glm::vec3 InitColor,glm::vec3 InitPos,float InitPitch, float InitYaw)
 	{
+		this->SetPosition(InitPos);
 		this->SetPitch(InitPitch);
 		this->SetYaw(InitYaw);
 		this->Color = InitColor;
 	}
 	//Set Values
+	void SetPosition(glm::vec3 NewPos)
+	{
+		this->Position = NewPos;
+	}
 	void SetColor(glm::vec3 NewColor)
 	{
 		this->Color = NewColor;
@@ -48,6 +55,15 @@ public:
 	{
 		return this->Pitch;
 	}
+	glm::vec3 GetPos()
+	{
+		return this->Position;
+	}
+	//MoveLight
+	void Move(glm::vec3 Move)
+	{
+		this->Position += Move;
+	}
 	//Update functions
 	void UpdateFront()
 	{
@@ -56,27 +72,33 @@ public:
 		this->Front.z = sin(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
 
 	}
-	virtual glm::mat4 GetLightMatrix(glm::vec3 WorldView)
-	{
-
-	}
+	virtual glm::mat4 GetLightMatrix(glm::vec3 WorldView) = 0;
+	
 };
-class DrLights:public MainLight
+// Classes of Lights
+class DrLights : public MainLight
 {
 	OrthoView Views;
-	glm::vec3 Position;
 	int Width, Height;
 public:
-	DrLights( glm::vec3 InitCol, float InitPitch, float InitYaw,
-		glm::vec3 InitPos,	int FrameWidth, int FrameHeight )
-		:MainLight(InitCol,InitPitch,InitYaw)
+	DrLights( glm::vec3 InitPos, glm::vec3 InitCol, 
+		int FrameWidth, int FrameHeight,
+		float InitPitch = -75.f, float InitYaw = 90.f )
+		:MainLight(InitCol,InitPos,InitPitch,InitYaw)
 	{
 		this-> Width = FrameWidth;
 		this->Height = FrameHeight;
+
+		this->Views.Left = -10.f;
+		this->Views.Right = 10.f;
+		this->Views.Bottom = -10.f;
+		this->Views.Up = 10.f;
+		this->Views.FarPlane = 10.f;
+
 		this->Position = InitPos;
 		this->UpdateFront();
 	}
-	glm::mat4 GetLightMatrix(glm::vec3 WorldView) override
+	glm::mat4 GetLightMatrix(glm::vec3 WorldView) 
 	{
 		glm::mat4 LightProj;
 		float NearPlane = 1.f;
@@ -87,26 +109,18 @@ public:
 		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + this->Front, WorldView);
 		return LightProj * LightView;
 	}
-	//MoveLight
-	void Move(glm::vec3 Move)
+};
+
+class PntLights : public MainLight
+{
+public:
+	PntLights(glm::vec3 InitCol, glm::vec3 InitPos)
+		:MainLight(InitCol,InitPos,0.f,0.f)
 	{
-		this->Position += Move;
-	}
-	//Set Info
-	void SetPosition(glm::vec3 NewPos)
-	{
-		this->Position = NewPos;
-	}
-	//Get Info
-	OrthoView GetOrtho()
-	{
-		return this->Views;
-	}
-	glm::vec3 GetPos()
-	{
-		return this->Position;
+
 	}
 };
+
 class Lights
 {	
 	glm::vec3 Position;
