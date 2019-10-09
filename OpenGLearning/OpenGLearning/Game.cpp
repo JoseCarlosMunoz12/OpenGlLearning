@@ -226,8 +226,9 @@ void Game::initLights()
 {
 	this->TestLights.push_back(new Lights(glm::vec3(-1.f,this->MipMapsData[0]->ReturnValue(-1.f,-1.f)+ 5.f,-1.f),
 										  glm::vec3(1.f, 1.f, 1.f),this->frameBufferWidth,this->frameBufferWidth));
-	this->LightsToUse.push_back(new DrLights(glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
-											 glm::vec3(1.f,1.f,1.f), this->frameBufferWidth, this->frameBufferWidth));
+	this->DirectionLights.push_back(new DrLights(glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
+	this->LightsToUse.push_back(this->DirectionLights[0]);
 }
 
 void Game::initUniforms()
@@ -353,7 +354,7 @@ void Game::updateInput()
 
 void Game::ImGuiOptions()
 {
- glm::vec3 TempCamera = this->camera.getPosition();
+	glm::vec3 TempCamera = this->camera.getPosition();
 	ImGui::Begin("Added DifferentModels");
 	ImGui::Text("Cam Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempCamera.x, TempCamera.y, TempCamera.z);
 	this->ScreenPos.x = ImGui::GetWindowPos().x;
@@ -419,8 +420,7 @@ void Game::ImGuiOptions()
 						CountOfRot++;
 					}
 					ImGui::TreePop();
-				}
-				
+				}				
 				ImGui::TreePop();
 			}
 		}
@@ -481,72 +481,75 @@ void Game::ImGuiOptions()
 	ImGui::Spacing();
 	if (ImGui::TreeNode("Light Pos"))
 	{
-		glm::vec3 ColPos = this->TestLights[0]->GetPos();
-		glm::vec3 Col = this->TestLights[0]->GetColor();
-		float TempYaw = this->TestLights[0]->GetYaw();
-		float TempPitch = this->TestLights[0]->GetPitch();
-		OrthoView Tempview = this->TestLights[0]->GetOrtho();
-		ImGui::Text("Light Position (%f,%f,%f)",ColPos.x,ColPos.y,ColPos.z);
-		//Position of the Light
-		if (ImGui::SliderFloat("X Position",&ColPos.x,-10.f,10.f))
+		for (auto& ii : this->DirectionLights)
 		{
-			this->TestLights[0]->SetPosition(ColPos);
-		}	
-		if (ImGui::SliderFloat("Y Position", &ColPos.y, 0, 20.f))
-		{
-			this->TestLights[0]->SetPosition(ColPos);
-		}
-		if (ImGui::SliderFloat("Z Position", &ColPos.z, -10.f, 40.f))
-		{
-			this->TestLights[0]->SetPosition(ColPos);
-		}
-		//View of the Light
-		ImGui::Text(" Light Yaw and Pitch (%f,%f)", TempYaw, TempPitch);
-		if (ImGui::SliderFloat("Light Yaw",&TempYaw,-180.f,180.f))
-		{
-			this->TestLights[0]->SetYaw(TempYaw);
-		}
-		if (ImGui::SliderFloat("Light Pitch", &TempPitch,-90.f,0.f))
-		{
-			this->TestLights[0]->SetPitch(TempPitch);
-		}
-		float Cols[3];
-		Cols[0] = Col.r;
-		Cols[1] = Col.g;
-		Cols[2] = Col.b;
-		//Color of Light
-		ImGui::Text("Color Information");
-		if (ImGui::ColorEdit3("Color Wheel", Cols))
-		{
-			this->TestLights[0]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
-		}
-		float Views[5];
-		Views[0] = Tempview.Left;
-		Views[1] = Tempview.Right;
-		Views[2] = Tempview.Bottom;
-		Views[3] = Tempview.Up;
-		Views[4] = Tempview.FarPlane;
-		//Position of the Light
-		ImGui::Text("Ortho view information");
-		if (ImGui::SliderFloat("Left",&Views[0],-30.f,-10.f))
-		{
-			this->TestLights[0]->SetOrthoView({Views[0],Views[1], Views[2], Views[3], Views[4]});
-		}
-		if (ImGui::SliderFloat("Right", &Views[1], 10.f, 30.f))
-		{
-			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3], Views[4]});
-		}
-		if (ImGui::SliderFloat("Bottom", &Views[2], -30.f, -10.f))
-		{
-			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3], Views[4]});
-					}
-		if (ImGui::SliderFloat("Up", &Views[3], 10.f, 30.f))
-		{
-			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3], Views[4]});
-		}
-		if (ImGui::SliderFloat("Far Plane", &Views[4],10.f,30.f))
-		{
-			this->TestLights[0]->SetOrthoView({ Views[0],Views[1], Views[2], Views[3], Views[4]});
+			glm::vec3 ColPos = ii->GetPos();
+			glm::vec3 Col = ii->GetColor();
+			float TempYaw = ii->GetYaw();
+			float TempPitch = ii->GetPitch();
+			OrthoView Tempview = ii->GetOrthoParts();
+			ImGui::Text("Light Position (%f,%f,%f)", ColPos.x, ColPos.y, ColPos.z);
+			//Position of the Light
+			if (ImGui::SliderFloat("X Position", &ColPos.x, -10.f, 10.f))
+			{
+				ii->SetPosition(ColPos);
+			}
+			if (ImGui::SliderFloat("Y Position", &ColPos.y, 0, 20.f))
+			{
+				ii->SetPosition(ColPos);
+			}
+			if (ImGui::SliderFloat("Z Position", &ColPos.z, -10.f, 40.f))
+			{
+				ii->SetPosition(ColPos);
+			}
+			//View of the Light
+			ImGui::Text(" Light Yaw and Pitch (%f,%f)", TempYaw, TempPitch);
+			if (ImGui::SliderFloat("Light Yaw", &TempYaw, -180.f, 180.f))
+			{
+				ii->SetYaw(TempYaw);
+			}
+			if (ImGui::SliderFloat("Light Pitch", &TempPitch, -90.f, 0.f))
+			{
+				ii->SetPitch(TempPitch);
+			}
+			float Cols[3];
+			Cols[0] = Col.r;
+			Cols[1] = Col.g;
+			Cols[2] = Col.b;
+			//Color of Light
+			ImGui::Text("Color Information");
+			if (ImGui::ColorEdit3("Color Wheel", Cols))
+			{
+				ii->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
+			}
+			float Views[5];
+			Views[0] = Tempview.Left;
+			Views[1] = Tempview.Right;
+			Views[2] = Tempview.Bottom;
+			Views[3] = Tempview.Up;
+			Views[4] = Tempview.FarPlane;
+			//Position of the Light
+			ImGui::Text("Ortho view information");
+			if (ImGui::SliderFloat("Left", &Views[0], -30.f, -10.f))
+			{
+				ii->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+			}
+			if (ImGui::SliderFloat("Right", &Views[1], 10.f, 30.f))
+			{
+				ii->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+			}
+			if (ImGui::SliderFloat("Bottom", &Views[2], -30.f, -10.f))
+			{
+				ii->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+			}
+			if (ImGui::SliderFloat("Up", &Views[3], 10.f, 30.f))
+			{
+				ii->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+			}
+			if (ImGui::SliderFloat("Far Plane", &Views[4], 10.f, 30.f))
+			{
+				ii->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+			}
 		}
 		ImGui::TreePop();
 	}

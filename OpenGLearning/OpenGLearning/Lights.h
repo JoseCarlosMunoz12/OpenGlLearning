@@ -109,6 +109,16 @@ public:
 		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + this->Front, WorldView);
 		return LightProj * LightView;
 	}
+	//Get Parts
+	OrthoView GetOrthoParts()
+	{
+		return this->Views;
+	}
+	//Set Parts
+	void SetOrthoParts(OrthoView NewParts)
+	{
+		this->Views = NewParts;
+	}
 };
 
 class PntLights : public MainLight
