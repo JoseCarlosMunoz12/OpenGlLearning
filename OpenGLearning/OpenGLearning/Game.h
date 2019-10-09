@@ -144,6 +144,8 @@ private:
 	void updateKeyboardInput();
 	void updateMouseInput();
 	void updateInput();
+	
+	glm::mat4 updateShadows();
 
 	void ImGuiOptions();
 

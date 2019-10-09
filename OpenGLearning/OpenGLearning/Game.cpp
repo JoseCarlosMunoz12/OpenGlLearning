@@ -581,6 +581,22 @@ void Game::updateUniforms()
 	}
 }
 
+glm::mat4 Game::updateShadows()
+{
+	glm::mat4 TempVal = this->LightsToUse[0]->GetLightMatrix(this->worldUp);
+
+	for (auto& ii : this->Shadows)
+	{
+		ii->WriteToBuffer(this->Window_Width, this->Window_Height,
+			this->shaders[3], TempVal);
+		for (auto& jj : this->models)
+		{
+			jj->RenderShadow(this->shaders[3]);
+		}
+	}
+	return TempVal;
+}
+
 void Game::updateOpenGLOptions()
 {
 	if (glfwGetKey(this->window, GLFW_KEY_L) == GLFW_PRESS)
@@ -701,17 +717,8 @@ void Game::update()
 void Game::render()
 {
 	//DRAW---
-	glm::mat4 TempVal = this->LightsToUse[0]->GetLightMatrix(this->worldUp);
 
-	for (auto& ii : this->Shadows)
-	{
-		ii->WriteToBuffer(this->Window_Width, this->Window_Height,
-							this->shaders[3], TempVal);
-		for (auto& jj : this->models)
-		{
-			jj->RenderShadow(this->shaders[3]);
-		}
-	}
+	glm::mat4 TempVal = this->updateShadows();
 
 	//Clear
 	ImGui::Render();
