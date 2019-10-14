@@ -1,5 +1,5 @@
 #version 440
-
+#define MAX_LIGHTS = 45
 struct Material
 {
 	vec3 ambient;
@@ -8,7 +8,13 @@ struct Material
 	sampler2D diffuseTex;
 	sampler2D specularTex;
 };
+struct LightInfo
+{
+	vec3 LightPos;
+	vec3 LightColor;
+};
 
+in int AmountOfLights;
 in vec3 vs_position;
 in vec3 vs_color;
 in vec2 vs_texcoord;
@@ -19,13 +25,13 @@ in float visibility;
 out vec4 fs_color;
 
 //Uniforms
-uniform Material material;
+uniform Material material[1];
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 uniform sampler2D ShadowTex;
 
 uniform vec3 lightPos0;
-uniform vec3 lightColor;
+uniform vec3 lightColor0;
 uniform vec3 cameraPos;
 uniform vec3 SkyColor;
 
@@ -100,22 +106,22 @@ void main()
 
 	//Ambient Light
 
-	vec3 ambientFinal = calculateAmbient(material);
+	vec3 ambientFinal = calculateAmbient(material[0]);
 
 	//Diffuse light
 
-	vec3 diffuseFinal = calculateDiffuse(material, vs_position, vs_normal, lightPos0);
+	vec3 diffuseFinal = calculateDiffuse(material[0], vs_position, vs_normal, lightPos0);
 
 	//Specular Light
 
-	vec3 specularFinal = calculateSpecular(material, vs_position, vs_normal, lightPos0, cameraPos);
+	vec3 specularFinal = calculateSpecular(material[0], vs_position, vs_normal, lightPos0, cameraPos);
 
 	//Attenuation
 	float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,lightPos0);
 	//Final Color
-	vec3 color = texture(material.diffuseTex, vs_texcoord).rgb;
+	vec3 color = texture(material[0].diffuseTex, vs_texcoord).rgb;
 	vec3 Lighting = ((1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal) * color;
-	fs_color = vec4(lightColor * Lighting,1.0);
+	fs_color = vec4(lightColor0 * Lighting,1.0);
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 
 }

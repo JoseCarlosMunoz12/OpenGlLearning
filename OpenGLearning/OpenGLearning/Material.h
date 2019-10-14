@@ -110,11 +110,11 @@ public:
 	}
 	void SendToShader(std::vector<Shader*>& program) override
 	{
-		program[this->ShaderID]->setVec3f(this->Ambient, "material.ambient");
-		program[this->ShaderID]->setVec3f(this->Diffuse, "material.diffuse");
-		program[this->ShaderID]->setVec3f(this->Specular, "material.specular");
-		program[this->ShaderID]->set1i(this->TexIndex[0], "material.diffuseTex");
-		program[this->ShaderID]->set1i(this->TexIndex[1], "material.speculartex");
+		program[this->ShaderID]->setVec3f(this->Ambient, "material[0].ambient");
+		program[this->ShaderID]->setVec3f(this->Diffuse, "material[0].diffuse");
+		program[this->ShaderID]->setVec3f(this->Specular, "material[0].specular");
+		program[this->ShaderID]->set1i(this->TexIndex[0], "material[0].diffuseTex");
+		program[this->ShaderID]->set1i(this->TexIndex[1], "material[0].speculartex");
 		program[this->ShaderID]->set1i(this->TexIndex[2], "ShadowTex");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
@@ -149,9 +149,9 @@ public:
 	}
 	void SendToShader(std::vector<Shader*>& program) override
 	{
-		program[this->ShaderID]->setVec3f(this->Ambient, "material.ambient");
-		program[this->ShaderID]->setVec3f(this->Diffuse, "material.diffuse");
-		program[this->ShaderID]->setVec3f(this->Specular, "material.specular");
+		program[this->ShaderID]->setVec3f(this->Ambient, "material[0].ambient");
+		program[this->ShaderID]->setVec3f(this->Diffuse, "material[0].diffuse");
+		program[this->ShaderID]->setVec3f(this->Specular, "material[0].specular");
 		program[this->ShaderID]->set1i(this->TexIndex[0], "Texture0");
 		program[this->ShaderID]->set1i(this->TexIndex[1], "Texture1");
 		program[this->ShaderID]->set1i(this->TexIndex[2], "Texture2");

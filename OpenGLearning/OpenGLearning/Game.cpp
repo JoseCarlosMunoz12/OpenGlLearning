@@ -562,9 +562,17 @@ void Game::updateUniforms()
 	this->ViewMatrix = this->camera.GetViewMatrix();
 
 	for (auto& ii :this->shaders)
-	{
-		ii->setVec3f(this->LightsToUse[0]->GetPos(), "lightPos0");
-		ii->setVec3f(this->LightsToUse[0]->GetColor(), "lightColor");
+	{ 
+		int Value = 0;
+		int AmountOfLights = this->LightsToUse.size();
+		for (auto& jj: this->LightsToUse)
+		{
+			std::string LightPos = "lightPos" + std::to_string(Value);
+			std::string LightClr = "lightColor" + std::to_string(Value);
+			ii->setVec3f(jj->GetPos(),  LightPos.c_str());
+			ii->setVec3f(jj->GetColor(), LightClr.c_str());
+			Value++;
+		}
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		ii->setVec3f(this->camera.getPosition(), "cameraPos");
 	}
@@ -584,7 +592,6 @@ void Game::updateUniforms()
 glm::mat4 Game::updateShadows()
 {
 	glm::mat4 TempVal = this->LightsToUse[0]->GetLightMatrix(this->worldUp);
-
 	for (auto& ii : this->Shadows)
 	{
 		ii->WriteToBuffer(this->Window_Width, this->Window_Height,
