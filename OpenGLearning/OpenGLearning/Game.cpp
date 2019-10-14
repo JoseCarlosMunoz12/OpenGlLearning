@@ -567,8 +567,8 @@ void Game::updateUniforms()
 		int AmountOfLights = this->LightsToUse.size();
 		for (auto& jj: this->LightsToUse)
 		{
-			std::string LightPos = "lightPos" + std::to_string(Value);
-			std::string LightClr = "lightColor" + std::to_string(Value);
+			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightPos";
+			std::string LightClr = "AllLightInf[" + std::to_string(Value) + "].LightColor";
 			ii->setVec3f(jj->GetPos(),  LightPos.c_str());
 			ii->setVec3f(jj->GetColor(), LightClr.c_str());
 			Value++;

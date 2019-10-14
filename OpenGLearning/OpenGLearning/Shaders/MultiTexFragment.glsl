@@ -1,4 +1,5 @@
  #version 440
+#define MAX_LIGHTS 45
 
  struct Material
  {
@@ -29,10 +30,9 @@ uniform sampler2D Texture2;
 uniform sampler2D Texture3;
 uniform sampler2D Texture4;
 uniform sampler2D ShadowTex;
-uniform Material material[1];
+uniform Material material;
 
-uniform vec3 lightPos0;
-uniform vec3 lightColor0;
+uniform LightInfo AllLightInf[MAX_LIGHTS];
 uniform vec3 cameraPos;
 uniform vec3 SkyColor;
 
@@ -102,13 +102,13 @@ void main()
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	vec3 color = fs_color.rgb;
 
-	vec3 FinalAmbiant = CalculateAmbient(material[0]);
-	vec3 FinalDiffuse = material[0].diffuse;
-	vec3 FinalSpecular = CalculateSpec(material[0],vs_position,vs_normal,lightPos0,cameraPos);
+	vec3 FinalAmbiant = CalculateAmbient(material);
+	vec3 FinalDiffuse = material.diffuse;
+	vec3 FinalSpecular = CalculateSpec(material,vs_position,vs_normal,AllLightInf[0].LightPos,cameraPos);
 
-	float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,lightPos0);
+	float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,AllLightInf[0].LightPos);
 
 	vec3 Lighting = (FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular)) * color;
-	fs_color = vec4(lightColor0 * Lighting,1.0);
+	fs_color = vec4(AllLightInf[0].LightColor * Lighting,1.0);
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }
