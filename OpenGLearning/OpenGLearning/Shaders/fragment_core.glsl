@@ -91,9 +91,6 @@ float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection,b
 
 void main()
 {
-	//fs_color = vec4(vs_color, 1.f);
-	//fs_color = texture(texture0, vs_texcoord) * texture(texture1, vs_texcoord) * vec4(vs_color, 1.f);
-	
 	//Ambient light
 	vec3 ambientFinal = calculateAmbient(material);
 
