@@ -561,10 +561,11 @@ void Game::updateUniforms()
 	//Update uniforms
 	this->ViewMatrix = this->camera.GetViewMatrix();
 
+		int AmountOfLights = this->LightsToUse.size();
 	for (auto& ii :this->shaders)
 	{ 
+		ii->set1i(AmountOfLights, "LightCount");
 		int Value = 0;
-		int AmountOfLights = this->LightsToUse.size();
 		for (auto& jj: this->LightsToUse)
 		{
 			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightPos";

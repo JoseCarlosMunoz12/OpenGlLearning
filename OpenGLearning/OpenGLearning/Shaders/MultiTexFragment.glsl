@@ -21,6 +21,7 @@ in vec2 vs_texcoord;
 in vec3 vs_normal;
 in float visibility;
 in vec4 FragPosLightSpace;
+uniform int LightCount;
 
 out vec4 fs_color;
 
@@ -99,6 +100,11 @@ void main()
 	vec4 bTextureColor = texture(Texture3,tiledCoords) * blendMapColor.b;
 	
 	//Final light
+	
+	for(int ii = 0; ii < LightCount ; ii++)
+	{
+
+	}
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	vec3 color = fs_color.rgb;
 

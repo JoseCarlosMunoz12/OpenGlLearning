@@ -21,6 +21,7 @@ in vec2 vs_texcoord;
 in vec3 vs_normal;
 in vec4 FragPosLightSpace;
 in float visibility;
+uniform int LightCount;
 
 out vec4 fs_color;
 
@@ -100,6 +101,11 @@ float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection,b
 
 void main()
 {
+
+	for(int ii = 0; ii < LightCount ; ii++)
+	{
+
+	}
 	//Ambient Light
 
 	vec3 ambientFinal = calculateAmbient(material);

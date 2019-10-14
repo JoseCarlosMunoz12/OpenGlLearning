@@ -30,6 +30,7 @@ out vec4 fs_color;
 //Uniforms
 uniform Material material;
 uniform LightInfo AllLightInf[MAX_LIGHTS];
+uniform int LightCount;
 uniform vec3 cameraPos;
 uniform vec3 SkyColor;
 uniform sampler2D ShadowTex;
@@ -91,6 +92,11 @@ float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection,b
 
 void main()
 {
+
+	for(int ii = 0; ii < LightCount ; ii++)
+	{
+
+	}
 	//Ambient light
 	vec3 ambientFinal = calculateAmbient(material);
 
