@@ -224,8 +224,6 @@ void Game::initModels()
 
 void Game::initLights()
 {
-	this->TestLights.push_back(new Lights(glm::vec3(-1.f,this->MipMapsData[0]->ReturnValue(-1.f,-1.f)+ 5.f,-1.f),
-										  glm::vec3(1.f, 1.f, 1.f),this->frameBufferWidth,this->frameBufferWidth));
 	this->DirectionLights.push_back(new DrLights(glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
 	this->LightsToUse.push_back(this->DirectionLights[0]);
@@ -237,7 +235,7 @@ void Game::initUniforms()
 	{
 		i->setMat4fv(ViewMatrix, "ViewMatrix");
 		i->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
-		i->setVec3f(this->TestLights[0]->GetPos(), "lightPos0");
+		i->setVec3f(this->LightsToUse[0]->GetPos(), "lightPos0");
 	}
 }
 
@@ -253,31 +251,31 @@ void Game::updateKeyboardInput()
 {
 	if (glfwGetKey(this->window, GLFW_KEY_J) == GLFW_PRESS)
 	{
-		this->TestLights[0]->Move( glm::vec3(1.f, 0.f, 0.f));
+		this->LightsToUse[0]->Move( glm::vec3(1.f, 0.f, 0.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_K) == GLFW_PRESS)
 	{
-		this->TestLights[0]->Move(glm::vec3(-1.f, 0.f, 0.f));
+		this->LightsToUse[0]->Move(glm::vec3(-1.f, 0.f, 0.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_I) == GLFW_PRESS)
 	{
-		this->TestLights[0]->Move(glm::vec3(0.f, 0.f, 1.f));
+		this->LightsToUse[0]->Move(glm::vec3(0.f, 0.f, 1.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_U) == GLFW_PRESS)
 	{
-		this->TestLights[0]->Move(glm::vec3(0.f, 0.f, -1.f));
+		this->LightsToUse[0]->Move(glm::vec3(0.f, 0.f, -1.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_O) == GLFW_PRESS)
 	{
-		this->TestLights[0]->Move(glm::vec3(0.f, -1.f, 0.f));
+		this->LightsToUse[0]->Move(glm::vec3(0.f, -1.f, 0.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_P) == GLFW_PRESS)
 	{
-		this->TestLights[0]->Move(glm::vec3(0.f, 1.f, 0.f));
+		this->LightsToUse[0]->Move(glm::vec3(0.f, 1.f, 0.f));
 	}
 	if (glfwGetKey(this->window, GLFW_KEY_Y) == GLFW_PRESS)
 	{
-		this->TestLights[0]->SetPosition(glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f), 0.f));
+		this->LightsToUse[0]->SetPosition(glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f), 0.f));
 	}
 	//End Game
 	if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -698,8 +696,6 @@ Game::~Game()
 		delete this->textures[i];
 	for (auto*& i : this->models)
 		delete i;
-	for (auto& ii : this->TestLights)
-		delete ii;
 	for (auto& ii : this->MipMapsData)
 		delete ii;	
 }

@@ -101,28 +101,29 @@ float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection,b
 
 void main()
 {
-
+	vec3 result;
 	for(int ii = 0; ii < LightCount ; ii++)
 	{
-
-	}
 	//Ambient Light
 
-	vec3 ambientFinal = calculateAmbient(material);
+		vec3 ambientFinal = calculateAmbient(material);
 
 	//Diffuse light
 
-	vec3 diffuseFinal = calculateDiffuse(material, vs_position, vs_normal, AllLightInf[0].LightPos);
+		vec3 diffuseFinal = calculateDiffuse(material, vs_position, vs_normal, AllLightInf[ii].LightPos);
 
 	//Specular Light
 
-	vec3 specularFinal = calculateSpecular(material, vs_position, vs_normal, AllLightInf[0].LightPos, cameraPos);
+		vec3 specularFinal = calculateSpecular(material, vs_position, vs_normal, AllLightInf[ii].LightPos, cameraPos);
 
 	//Attenuation
-	float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,AllLightInf[0].LightPos);
+		float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,AllLightInf[ii].LightPos);
 	//Final Color
+	result += (1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal;
+	}
+	
 	vec3 color = texture(material.diffuseTex, vs_texcoord).rgb;
-	vec3 Lighting = ((1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal) * color;
+	vec3 Lighting = result * color;
 	fs_color = vec4(AllLightInf[0].LightColor * Lighting,1.0);
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 

@@ -108,7 +108,6 @@ private:
 	//Models
 	std::vector<Model*> models;
 	//Lights
-	std::vector<Lights*> TestLights;
 	std::vector<MainLight*> LightsToUse;
 	std::vector<DrLights*> DirectionLights;
 	// Meshes to reuse and not refind and make.

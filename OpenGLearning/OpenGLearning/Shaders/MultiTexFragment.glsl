@@ -100,21 +100,22 @@ void main()
 	vec4 bTextureColor = texture(Texture3,tiledCoords) * blendMapColor.b;
 	
 	//Final light
-	
-	for(int ii = 0; ii < LightCount ; ii++)
-	{
-
-	} 
+	vec3 result;
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	vec3 color = fs_color.rgb;
 
-	vec3 FinalAmbiant = CalculateAmbient(material);
-	vec3 FinalDiffuse = material.diffuse;
-	vec3 FinalSpecular = CalculateSpec(material,vs_position,vs_normal,AllLightInf[0].LightPos,cameraPos);
+	for(int ii = 0; ii < LightCount ; ii++)
+	{
+		vec3 FinalAmbiant = CalculateAmbient(material);
+		vec3 FinalDiffuse = material.diffuse;
+		vec3 FinalSpecular = CalculateSpec(material,vs_position,vs_normal,AllLightInf[ii].LightPos,cameraPos);
 
-	float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,AllLightInf[0].LightPos);
+		float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,AllLightInf[ii].LightPos);
+		result += FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular);
+	} 
+	
 
-	vec3 Lighting = (FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular)) * color;
+	vec3 Lighting = (result) * color;
 	fs_color = vec4(AllLightInf[0].LightColor * Lighting,1.0);
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }
