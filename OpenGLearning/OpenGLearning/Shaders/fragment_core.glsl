@@ -109,6 +109,7 @@ void main()
 	//Attenuation
 	float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,AllLightInf[0].LightPos);
 	//Final light
+ 
 	fs_color = texture(material.diffuseTex, vs_texcoord);
 	fs_color = (vec4(ambientFinal, 1.f) + (1.0 - shadow) * (vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f))) * fs_color;
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);

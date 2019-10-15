@@ -104,7 +104,7 @@ void main()
 	for(int ii = 0; ii < LightCount ; ii++)
 	{
 
-	}
+	} 
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	vec3 color = fs_color.rgb;
 
