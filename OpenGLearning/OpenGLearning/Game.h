@@ -90,6 +90,7 @@ private:
 	bool MakeMesh = false;
 	//Variable that changes item to click
 	int ModelToMake = -1;
+	int LightsToshow = 1;
 	//Position where the Mouse Click does not affect
 	ImVec2 ScreenPos;
 	ImVec2 WinSize;

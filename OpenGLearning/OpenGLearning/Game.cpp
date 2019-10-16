@@ -224,7 +224,7 @@ void Game::initModels()
 
 void Game::initLights()
 {
-	this->DirectionLights.push_back(new DrLights(glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+	this->DirectionLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
 	this->LightsToUse.push_back(this->DirectionLights[0]);
 }
@@ -548,6 +548,10 @@ void Game::ImGuiOptions()
 			{
 				ii->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
 			}
+		}
+		if (this->LightsToshow != -1)
+		{
+
 		}
 		ImGui::TreePop();
 	}
