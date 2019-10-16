@@ -101,7 +101,7 @@ float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection,b
 
 void main()
 {
-	vec3 result;
+	vec3 result = vec3(0.f);
 	for(int ii = 0; ii < LightCount ; ii++)
 	{
 	//Ambient Light

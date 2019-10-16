@@ -100,7 +100,7 @@ void main()
 	vec4 bTextureColor = texture(Texture3,tiledCoords) * blendMapColor.b;
 	
 	//Final light
-	vec3 result;
+	vec3 result = vec3(0.f);
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	vec3 color = fs_color.rgb;
 
