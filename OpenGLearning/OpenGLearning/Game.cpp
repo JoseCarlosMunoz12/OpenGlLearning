@@ -706,6 +706,8 @@ Game::~Game()
 			delete this->shaders[i];
 	for (size_t i = 0; i < this->textures.size(); i++)
 		delete this->textures[i];
+	for (auto& ii : this->LightsToUse)
+		delete ii;
 	for (auto*& i : this->models)
 		delete i;
 	for (auto& ii : this->MipMapsData)

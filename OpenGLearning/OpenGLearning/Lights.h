@@ -15,6 +15,9 @@ protected:
 	glm::vec3 Position;
 	glm::vec3 Color;
 	glm::vec3 Front;
+	glm::vec3 Ambient;
+	glm::vec3 Diffuse;
+	glm::vec3 Specular;
 	int LightID;
 	float Pitch, Yaw;
 public:
@@ -43,6 +46,18 @@ public:
 	{
 		this->Pitch = NewPitch;
 	}
+	void SetAmbient(glm::vec3 NewAmbient)
+	{
+		this->Ambient = NewAmbient;
+	}
+	void SetDiffuse(glm::vec3 NewDiffuse)
+	{
+		this->Diffuse = NewDiffuse;
+	}
+	void SetSpecular(glm::vec3 NewSpecular)
+	{
+		this->Specular = NewSpecular;
+	}
 	// Get Values
 	glm::vec3 GetColor()
 	{
@@ -59,6 +74,18 @@ public:
 	glm::vec3 GetPos()
 	{
 		return this->Position;
+	}
+	glm::vec3 GetAmbient()
+	{
+		return this->Ambient;
+	}
+	glm::vec3 GetDiffuse()
+	{
+		return this->Diffuse;
+	}
+	glm::vec3 GetSpecular()
+	{
+		return this->Specular;
 	}
 	//MoveLight
 	void Move(glm::vec3 Move)
@@ -84,22 +111,31 @@ class DrLights : public MainLight
 public:
 	DrLights(int LightId, glm::vec3 InitPos, glm::vec3 InitCol, 
 		int FrameWidth, int FrameHeight,
+		glm::vec3 InitAmbient = glm::vec3(1.0f),
+		glm::vec3 InitDiffuse = glm::vec3(1.0f),
+		glm::vec3 InitSpecular = glm::vec3(1.0f),
 		float InitPitch = -75.f, float InitYaw = 90.f )
 		:MainLight(InitCol,InitPos,InitPitch,InitYaw,LightId)
 	{
+		//Light Properties
+		this->Ambient = InitAmbient;
+		this->Diffuse = InitDiffuse;
+		this->Specular = InitSpecular;
+		//viewing
 		this-> Width = FrameWidth;
 		this->Height = FrameHeight;
-
+		//MatrixInfo
 		this->Views.Left = -10.f;
 		this->Views.Right = 10.f;
 		this->Views.Bottom = -10.f;
 		this->Views.Up = 10.f;
 		this->Views.FarPlane = 10.f;
-
+		//Position
 		this->Position = InitPos;
+
 		this->UpdateFront();
 	}
-	glm::mat4 GetLightMatrix(glm::vec3 WorldView) 
+	glm::mat4 GetLightMatrix(glm::vec3 WorldView) override
 	{
 		glm::mat4 LightProj;
 		float NearPlane = 1.f;
@@ -124,10 +160,39 @@ public:
 
 class PntLights : public MainLight
 {
+	float Constant;
+	float Linear;
+	float Quadratic;
 public:
 	PntLights(glm::vec3 InitCol, glm::vec3 InitPos,int LightId)
 		:MainLight(InitCol,InitPos,0.f,0.f, LightID)
 	{
 
+	}
+	//Set values
+	void SetConstant(float NewConst)
+	{
+		this->Constant = NewConst;
+	}
+	void SetLinear(float NewLinear)
+	{
+		this->Linear = NewLinear;
+	}
+	void SetQuad(float NewQuad)
+	{
+		this->Quadratic = NewQuad;
+	}
+	//get Values
+	float GetConst()
+	{
+		return this->Constant;
+	}
+	float GetLinear()
+	{
+		return this->Linear;
+	}
+	float GetQuad()
+	{
+		return this->Quadratic;
 	}
 };
