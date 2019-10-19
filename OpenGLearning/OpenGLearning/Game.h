@@ -145,7 +145,7 @@ private:
 	void updateMouseInput();
 	void updateInput();
 	
-	glm::mat4 updateShadows();
+	std::vector<glm::mat4> updateShadows();
 
 	void ImGuiOptions();
 

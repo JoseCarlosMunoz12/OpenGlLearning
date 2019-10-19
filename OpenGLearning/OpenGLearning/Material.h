@@ -34,7 +34,7 @@ public:
 	virtual void SendToShader(std::vector<Shader*>& program)
 	{
 	}
-	virtual void SendToShader(std::vector<Shader*>& program,glm::mat4 LightMatrix)
+	virtual void SendToShader(std::vector<Shader*>& program,std::vector<glm::mat4> LightMatrix)
 	{
 	}
 	const char* GetName()
@@ -62,10 +62,10 @@ public:
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 		program[this->ShaderID]->set1i(this->TexIndex[0], "Texture0");
 	}
-	void SendToShader(std::vector<Shader*>& program,glm::mat4 LightMatix) override
+	void SendToShader(std::vector<Shader*>& program,std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix, "LightMatrix");
+		program[this->ShaderID]->setMat4fv(LightMatix[0], "LightMatrix");
 	}
 };
 
@@ -81,10 +81,10 @@ public:
 	{
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
-	void SendToShader(std::vector<Shader*>& program, glm::mat4 LightMatix) override
+	void SendToShader(std::vector<Shader*>& program,std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix, "LightMatrix");
+		program[this->ShaderID]->setMat4fv(LightMatix[0], "LightMatrix");
 	}
 };
 
@@ -118,10 +118,10 @@ public:
 		program[this->ShaderID]->set1i(this->TexIndex[2], "ShadowTex");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
-	void SendToShader(std::vector<Shader*>& program, glm::mat4 LightMatix) override
+	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix, "LightMatrix");
+		program[this->ShaderID]->setMat4fv(LightMatix[0], "LightMatrix");
 	}
 	~TxtMat()
 	{
@@ -160,9 +160,9 @@ public:
 		program[this->ShaderID]->set1i(this->TexIndex[5], "ShadowTex");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
-	void SendToShader(std::vector<Shader*>& program, glm::mat4 LightMatix) override
+	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix, "LightMatrix");
+		program[this->ShaderID]->setMat4fv(LightMatix[0], "LightMatrix");
 	}
 };

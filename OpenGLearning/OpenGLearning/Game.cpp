@@ -605,19 +605,26 @@ void Game::updateUniforms()
 	}
 }
 
-glm::mat4 Game::updateShadows()
+std::vector<glm::mat4> Game::updateShadows()
 {
-	glm::mat4 TempVal = this->LightsToUse[0]->GetLightMatrix(this->worldUp);
-	for (auto& ii : this->Shadows)
-	{
-		ii->WriteToBuffer(this->Window_Width, this->Window_Height,
-			this->shaders[3], TempVal);
-		for (auto& jj : this->models)
+	std::vector<glm::mat4> ReturnMatrix;
+	
+	for (auto& kk : this->LightsToUse)
+	{	
+		glm::mat4 TempVal = kk->GetLightMatrix(this->worldUp);
+		for (auto& ii : this->Shadows)
 		{
-			jj->RenderShadow(this->shaders[3]);
+			ii->WriteToBuffer(this->Window_Width, this->Window_Height,
+				this->shaders[3],TempVal);
+			for (auto& jj : this->models)
+			{
+				jj->RenderShadow(this->shaders[3]);
+			}
 		}
+		ReturnMatrix.push_back(TempVal);
 	}
-	return TempVal;
+
+	return ReturnMatrix;
 }
 
 void Game::updateOpenGLOptions()
@@ -741,7 +748,7 @@ void Game::render()
 {
 	//DRAW---
 
-	glm::mat4 TempVal = this->updateShadows();
+	std::vector<glm::mat4> TempVal = this->updateShadows();
 
 	//Clear
 	ImGui::Render();

@@ -277,7 +277,7 @@ public:
 		}
 	}
 
-	void TestRender(std::vector<Shader*> shader,glm::mat4 LightMatrix)
+	void TestRender(std::vector<Shader*> shader,std::vector<glm::mat4> LightMatrix)
 	{
 		for (auto& ii : this->TreeNodes)
 		{
