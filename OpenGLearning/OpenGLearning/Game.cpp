@@ -117,8 +117,10 @@ void Game::initTextures()
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA ));
 	//Shadow MapCreation
-	this->textures.push_back(this->Shadows[0]);
-	
+	for (auto& ii : this->Shadows)
+	{
+		this->textures.push_back(ii);
+	}	
 	//HeightMap Info
 	this->MipMapsData.push_back(new MipMap("Images/heightMap.png", this->MapWidth,this->MapHeigth,10.f,500.f,500.f));
 }
@@ -226,7 +228,10 @@ void Game::initLights()
 {
 	this->DirectionLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
-	this->LightsToUse.push_back(this->DirectionLights[0]);
+	for (auto& ii : this->DirectionLights)
+	{
+		this->LightsToUse.push_back(ii);
+	}
 }
 
 void Game::initUniforms()

@@ -163,6 +163,9 @@ class PntLights : public MainLight
 	float Constant;
 	float Linear;
 	float Quadratic;
+	int Width, Height;
+	float Near = 1.0f;
+	float Far = 25.f;
 public:
 	PntLights(glm::vec3 InitCol, glm::vec3 InitPos,int LightId)
 		:MainLight(InitCol,InitPos,0.f,0.f, LightID)
@@ -194,5 +197,24 @@ public:
 	float GetQuad()
 	{
 		return this->Quadratic;
+	}
+	std::vector<glm::mat4> GetMatrixes()
+	{
+		float aspect = (float)this->Width / (float)this->Height;
+		glm::mat4 ShadowProj = glm::perspective(glm::radians(90.f), aspect,this->Near,this->Far);
+		std::vector<glm::mat4> shadowTransforms;
+		shadowTransforms.push_back(ShadowProj *
+			glm::lookAt(this->Position, this->Position + glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0)));
+		shadowTransforms.push_back(ShadowProj *
+			glm::lookAt(this->Position, this->Position + glm::vec3(-1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0)));
+		shadowTransforms.push_back(ShadowProj *
+			glm::lookAt(this->Position, this->Position + glm::vec3(0.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 1.0)));
+		shadowTransforms.push_back(ShadowProj *
+			glm::lookAt(this->Position, this->Position + glm::vec3(0.0, -1.0, 0.0), glm::vec3(0.0, 0.0, -1.0)));
+		shadowTransforms.push_back(ShadowProj *
+			glm::lookAt(this->Position, this->Position + glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, -1.0, 0.0)));
+		shadowTransforms.push_back(ShadowProj *
+			glm::lookAt(this->Position, this->Position + glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, -1.0, 0.0)));
+		return shadowTransforms;
 	}
 };
