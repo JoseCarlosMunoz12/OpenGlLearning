@@ -15,7 +15,6 @@ out vec4 FragPosLightSpace;
 uniform mat4 ModelMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
-uniform mat4 LightMatrix;
 
 const float density = 0.01;
 const float gradient = 1.5;
@@ -34,5 +33,4 @@ void main()
 
 	visibility = exp(-pow((distance * density),gradient));
 	visibility = clamp(visibility, 0.0,1.0);
-	FragPosLightSpace = LightMatrix * vec4(vs_position,1.0);
 }

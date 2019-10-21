@@ -10,7 +10,6 @@ out vec3 vs_color;
 out vec2 vs_texcoord;
 out vec3 vs_normal;
 out float visibility;
-out vec4 FragPosLightSpace;
 
 uniform mat4 ModelMatrix;
 uniform mat4 ViewMatrix;
@@ -28,7 +27,6 @@ void main()
 	
 	vec4 positionRelativeToCam = ViewMatrix * ModelMatrix * vec4(vertex_position, 1.f);
 	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(vertex_position, 1.f);
-	FragPosLightSpace = LightMatrix * vec4(vs_position,1.0);
 	
 	float distance = length(positionRelativeToCam.xyz);
 	visibility = exp(-pow((distance * density),gradient));

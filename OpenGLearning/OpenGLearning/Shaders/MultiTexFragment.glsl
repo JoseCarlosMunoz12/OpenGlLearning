@@ -12,6 +12,8 @@ struct LightInfo
 {
 	vec3 LightPos;
 	vec3 LightColor;
+	mat4 LightMatrix;
+	sampler2D LightShadow; 
 };
 
 
@@ -20,7 +22,6 @@ in vec3 vs_color;
 in vec2 vs_texcoord;
 in vec3 vs_normal;
 in float visibility;
-in vec4 FragPosLightSpace;
 uniform int LightCount;
 
 out vec4 fs_color;
@@ -30,7 +31,6 @@ uniform sampler2D Texture1;
 uniform sampler2D Texture2;
 uniform sampler2D Texture3;
 uniform sampler2D Texture4;
-uniform sampler2D ShadowTex;
 uniform Material material;
 
 uniform LightInfo AllLightInf[MAX_LIGHTS];
@@ -60,32 +60,31 @@ vec3 CalculateSpec(Material material, vec3 vs_position,vec3 vs_normal,vec3 Light
 	return specularFinal;
 }
 // shadow function
-float ShadowCalculation(vec4 fragPosLightSpace,vec3 Normal,vec3 LightDirection,bool TypeOfShadow = true)
+float ShadowCalculation(LightInfo LightToUse,vec3 Normal)
 {
+	vec4 FragPosLightSpace = LightToUse.LightMatrix * vec4(vs_position,1.f);
 	float shadow = 0.f;
-	float bias = max(0.05 * (1.0 - dot(Normal,LightDirection)),0.005);
-	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+	float bias = max(0.05 * (1.0 - dot(Normal,LightToUse.LightPos)),0.005);
+	vec3 projCoords = FragPosLightSpace.xyz / FragPosLightSpace.w;
 	projCoords = projCoords * 0.5 + 0.5;
-	float closesetDepth = texture(ShadowTex,projCoords.xy).r;
+	float closesetDepth = texture(LightToUse.LightShadow,projCoords.xy).r;
 	float currentDepth = projCoords.z;
-	if(TypeOfShadow)
+
+	vec2 TexeSize = 1.0 / textureSize(LightToUse.LightShadow,0);
+	for(int x = -1; x <=1;++x)
 	{
-		vec2 TexeSize = 1.0 / textureSize(ShadowTex,0);
-		for(int x = -1; x <=1;++x)
+		for(int y = -1; y <=1;++y)
 		{
-			for(int y = -1; y <=1;++y)
-			{
-				float pcfDepth = texture(ShadowTex,projCoords.xy + vec2(x,y) * TexeSize).r;
-				shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
-			}
+			float pcfDepth = texture(LightToUse.LightShadow,projCoords.xy + vec2(x,y) * TexeSize).r;
+			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}
-		shadow /=9.0;
+	}
+	shadow /=9.0;
 	if (projCoords.z > 1.0)
+	{
 		shadow = 0.0;
 		return shadow;
 	}
-	shadow = (currentDepth - bias) > closesetDepth ? 1.0 : 0.0;
-
 	return shadow;
 }
 
@@ -110,7 +109,7 @@ void main()
 		vec3 FinalDiffuse = material.diffuse;
 		vec3 FinalSpecular = CalculateSpec(material,vs_position,vs_normal,AllLightInf[ii].LightPos,cameraPos);
 
-		float shadow = ShadowCalculation(FragPosLightSpace,vs_normal,AllLightInf[ii].LightPos);
+		float shadow = ShadowCalculation(AllLightInf[ii],vs_normal);
 		result += FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular);
 	} 
 	

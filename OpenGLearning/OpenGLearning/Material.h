@@ -65,7 +65,13 @@ public:
 	void SendToShader(std::vector<Shader*>& program,std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix[0], "LightMatrix");
+		int Value = 0;
+		for (auto& ii : LightMatix)
+		{
+			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			program[this->ShaderID]->setMat4fv(ii, LightPos.c_str());
+			Value++;
+		}
 	}
 };
 
@@ -84,7 +90,13 @@ public:
 	void SendToShader(std::vector<Shader*>& program,std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix[0], "LightMatrix");
+		int Value = 0;
+		for (auto& ii : LightMatix)
+		{
+			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			program[this->ShaderID]->setMat4fv(ii, LightPos.c_str());
+			Value++;
+		}
 	}
 };
 
@@ -115,13 +127,13 @@ public:
 		program[this->ShaderID]->setVec3f(this->Specular, "material.specular");
 		program[this->ShaderID]->set1i(this->TexIndex[0], "material.diffuseTex");
 		program[this->ShaderID]->set1i(this->TexIndex[1], "material.speculartex");
-		program[this->ShaderID]->set1i(this->TexIndex[2], "ShadowTex");
+		program[this->ShaderID]->set1i(this->TexIndex[2], "AllLightInf[0].LightShadow");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix[0], "LightMatrix");
+		program[this->ShaderID]->setMat4fv(LightMatix[0], "AllLightInf[0].LightMatrix");
 	}
 	~TxtMat()
 	{
@@ -157,12 +169,18 @@ public:
 		program[this->ShaderID]->set1i(this->TexIndex[2], "Texture2");
 		program[this->ShaderID]->set1i(this->TexIndex[3], "Texture3");
 		program[this->ShaderID]->set1i(this->TexIndex[4], "Texture4");
-		program[this->ShaderID]->set1i(this->TexIndex[5], "ShadowTex");
+		program[this->ShaderID]->set1i(this->TexIndex[5], "AllLightInf[0].LightShadow");
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix[0], "LightMatrix");
+		int Value = 0;
+		for (auto& ii : LightMatix)
+		{
+			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			program[this->ShaderID]->setMat4fv(ii, LightPos.c_str());
+			Value++;
+		}
 	}
 };

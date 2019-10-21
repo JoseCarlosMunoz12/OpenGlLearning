@@ -74,14 +74,17 @@ void Game::initMatrices()
 
 void Game::initShaders()
 {
+	//Regular Shaders to Draw
 	this->shaders.push_back(new Shader(0,this->GLVerMajor , this->GLVerMinor ,
 		"Shaders/vertex_core.glsl", "Shaders/fragment_core.glsl"));
 	this->shaders.push_back(new Shader(1,this->GLVerMajor, this->GLVerMinor,
 		"Shaders/terrain_vertex.glsl", "Shaders/terrain_fragment.glsl"));
 	this->shaders.push_back(new Shader(2,this->GLVerMajor, this->GLVerMinor,
 		"Shaders/MultiTexVertex.glsl", "Shaders/MultiTexFragment.glsl"));
+	//Shadow Shaders
 	this->shaders.push_back(new Shader(3, this->GLVerMajor, this->GLVerMinor,
 		"Shaders/ShadowMapVertex.glsl", "Shaders/ShadowMapFrag.glsl"));
+	//Shadow Debug information
 	this->shaders.push_back(new Shader(4, this->GLVerMajor, this->GLVerMinor,
 		"Shaders/DebugVertex.glsl", "Shaders/DebugFrag.glsl"));
 }
@@ -122,7 +125,7 @@ void Game::initTextures()
 		this->textures.push_back(ii);
 	}	
 	//HeightMap Info
-	this->MipMapsData.push_back(new MipMap("Images/heightMap.png", this->MapWidth,this->MapHeigth,10.f,500.f,500.f));
+	this->MipMapsData.push_back(new MipMap("Images/heightmap.png", this->MapWidth,this->MapHeigth,10.f,500.f,500.f));
 }
 
 void Game::initMaterials()
@@ -236,11 +239,20 @@ void Game::initLights()
 
 void Game::initUniforms()
 {
-	for (auto& i : this->shaders)
+	for (auto& ii : this->shaders)
 	{
-		i->setMat4fv(ViewMatrix, "ViewMatrix");
-		i->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
-		i->setVec3f(this->LightsToUse[0]->GetPos(), "lightPos0");
+		ii->setMat4fv(ViewMatrix, "ViewMatrix");
+		ii->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
+		int Value = 0;
+		for (auto& jj : this->LightsToUse)
+		{
+			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightPos";
+			std::string LightClr = "AllLightInf[" + std::to_string(Value) + "].LightColor";
+			ii->setVec3f(jj->GetPos(), LightPos.c_str());
+			ii->setVec3f(jj->GetColor(), LightClr.c_str());
+			Value++;
+		}
+		ii->setVec3f(this->LightsToUse[0]->GetPos(), "lightPos0");
 	}
 }
 
@@ -512,7 +524,7 @@ void Game::ImGuiOptions()
 			{
 				this->LightsToUse[this->LightsToshow]->SetPosition(ColPos);
 			}
-			if (ImGui::SliderFloat("Z Position", &ColPos.z, -10.f, 40.f))
+			if (ImGui::SliderFloat("Z Position", &ColPos.z, -40.f, 40.f))
 			{
 				this->LightsToUse[this->LightsToshow]->SetPosition(ColPos);
 			}
@@ -747,9 +759,8 @@ void Game::update()
 void Game::render()
 {
 	//DRAW---
-
+	//Updating Shadows Textures
 	std::vector<glm::mat4> TempVal = this->updateShadows();
-
 	//Clear
 	ImGui::Render();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
