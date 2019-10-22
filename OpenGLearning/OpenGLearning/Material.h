@@ -18,6 +18,7 @@ private:
 	int MatId;
 protected:
 	std::vector<GLint> TexIndex;
+	std::vector<GLint> ShadowTex;
 	glm::vec3 SkyClr;
 	int ShaderID;
 public:
@@ -109,16 +110,17 @@ public:
 	TxtMat(std::string Name, int SetId,int ShaderId,
 			glm::vec3 SkyColor, glm::vec3 ambient,
 			glm::vec3 diffuse, glm::vec3 specular,
-			GLint diffuseTex, GLint specularTex,GLint ShadowIndex = 2)
+			GLint diffuseTex, GLint specularTex,
+			std::vector<GLint> InitShadowTx = {2})
 			:StdMat(Name, SetId, ShaderId)
 	{
+		this->ShadowTex = InitShadowTx;
 		this->SkyClr = SkyColor;
 		this->Ambient = ambient;
 		this->Diffuse = diffuse;
 		this->Specular = specular;
 		this->TexIndex.push_back(diffuseTex);
 		this->TexIndex.push_back(specularTex);
-		this->TexIndex.push_back(ShadowIndex);
 	}
 	void SendToShader(std::vector<Shader*>& program) override
 	{
@@ -127,7 +129,14 @@ public:
 		program[this->ShaderID]->setVec3f(this->Specular, "material.specular");
 		program[this->ShaderID]->set1i(this->TexIndex[0], "material.diffuseTex");
 		program[this->ShaderID]->set1i(this->TexIndex[1], "material.speculartex");
-		program[this->ShaderID]->set1i(this->TexIndex[2], "AllLightInf[0].LightShadow");
+		int Value = 0;
+		for (auto& ii : this->ShadowTex)
+		{
+
+			std::string lShadow = "AllLightInf[" + std::to_string(Value) + "].LightShadow";
+			program[this->ShaderID]->set1i(ii,lShadow.c_str());
+			Value++;
+		}
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override
@@ -148,11 +157,13 @@ class MipMapMat : public StdMat
 public:
 	MipMapMat(std::string Name, int SetId, int ShaderId,
 		glm::vec3 SkyColor,	std::vector<GLint> TexIndex,
+		std::vector<GLint> InitShadowTex,
 		glm::vec3 ambient = glm::vec3(0.1f),
 		glm::vec3 diffuse = glm::vec3(1.0f),
 		glm::vec3 specular = glm::vec3(1.0f))
 		:StdMat(Name, SetId, ShaderId)
 	{
+		this->ShadowTex = InitShadowTex;
 		this->SkyClr = SkyColor;
 		this->TexIndex = TexIndex;
 		this->Ambient = ambient;
@@ -169,7 +180,15 @@ public:
 		program[this->ShaderID]->set1i(this->TexIndex[2], "Texture2");
 		program[this->ShaderID]->set1i(this->TexIndex[3], "Texture3");
 		program[this->ShaderID]->set1i(this->TexIndex[4], "Texture4");
-		program[this->ShaderID]->set1i(this->TexIndex[5], "AllLightInf[0].LightShadow");
+		int Value = 0;
+		for (auto& ii : this->ShadowTex)
+		{
+
+			std::string lShadow = "AllLightInf[" + std::to_string(Value) + "].LightShadow";
+			program[this->ShaderID]->set1i(ii, lShadow.c_str());
+			Value++;
+		}
+
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override
@@ -178,8 +197,8 @@ public:
 		int Value = 0;
 		for (auto& ii : LightMatix)
 		{
-			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
-			program[this->ShaderID]->setMat4fv(ii, LightPos.c_str());
+			std::string LIghtMatrix = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			program[this->ShaderID]->setMat4fv(ii, LIghtMatrix.c_str());
 			Value++;
 		}
 	}
