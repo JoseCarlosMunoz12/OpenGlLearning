@@ -141,7 +141,7 @@ void Game::initMaterials()
 	this->MatTest.push_back(new TxtMat("Model File", 2, MAT_1,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-							0, 1, { 2,3 }));
+							0, 1 ,{2, 3}));
 	this->MatTest.push_back(new SingleTextMat("Single", 3, 4,
 								this->SkyColor, 0));
 }
@@ -181,22 +181,22 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2,3,4,5 });
+		0, 0, { 0,1,2,3,4,5,6 });
 	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2 });
+		0, 0, { 0,1,2,3 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2 });
+		0, 0, { 0,1,2,3 });
 	MeshsArtifacts Plane(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, {0});
 	std::vector<MeshsArtifacts> HierArch1;
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2}));
+		0, 0, { 0,1,2,3}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
-		1, 0, { 0,1,2 }));
+		1, 0, { 0,1,2,3 }));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 2.f), glm::vec3(0.f), glm::vec3(1.f),
-		2, 1, { 0,1,2 }));
+		2, 1, { 0,1,2,3 }));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(10.f, 0.f, 10.f), glm::vec3(10.f, 0.f, 10.f), glm::vec3(0.f), glm::vec3(1.f),
-		2, 2, { 1,0,2 }));
+		2, 2, { 1,0,2,3 }));
 	//
 	//Pushing Models
 	//
@@ -215,12 +215,14 @@ void Game::initModels()
 		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
 		this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13],this->textures[14] },
 		meshes[1], { Flat }));
+
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 1.f), 1.f),
 		this->MatTest[2], { this->textures[11],this->textures[11],this->textures[13],this->textures[14] },
 		{ meshes[6],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
+
 	this->models.push_back(new Model("DebugImage",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -2.f) +1.f, -2.f),
 		this->MatTest[3], { this->textures[13] },
@@ -237,7 +239,7 @@ void Game::initLights()
 {
 	this->DirectionLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
-	this->DirectionLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 0.f, -1.f),
+	this->DirectionLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 0.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
 	for (auto& ii : this->DirectionLights)
 	{
@@ -637,10 +639,6 @@ std::vector<glm::mat4> Game::updateShadows()
 			{
 				jj->RenderShadow(this->shaders[3]);
 			}
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			glViewport(0, 0, this->Window_Width, this->Window_Height);
-			glClearColor(this->SkyColor.r, this->SkyColor.g, this->SkyColor.b, 1.f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 			ReturnMatrix.push_back(TempVal);
 			Count++;
 		}

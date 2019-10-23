@@ -92,7 +92,7 @@ float ShadowCalculation(LightInfo LightToUse,vec3 Normal)
 void main()
 {
 	vec4 result = vec4(0.f);
-	for(int ii = 0; ii < 2 ; ii++)
+	for(int ii = 0; ii < LightCount ; ii++)
 	{
 	//Ambient light
 		vec3 ambientFinal = calculateAmbient(material);

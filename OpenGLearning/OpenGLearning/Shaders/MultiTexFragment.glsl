@@ -102,7 +102,7 @@ void main()
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	vec3 color = fs_color.rgb;
 
-	for(int ii = 0; ii < 2 ; ii++)
+	for(int ii = 0; ii < LightCount ; ii++)
 	{
 		vec3 FinalAmbiant = CalculateAmbient(material);
 		vec3 FinalDiffuse = material.diffuse;
@@ -111,7 +111,6 @@ void main()
 		float shadow = ShadowCalculation(AllLightInf[ii],vs_normal);
 		result += FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular);
 	} 
-	result /=2;
 
 	vec3 Lighting = (result) * color;
 	fs_color = vec4(Lighting,1.0);
