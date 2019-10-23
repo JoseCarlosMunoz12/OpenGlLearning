@@ -111,9 +111,9 @@ class DrLights : public MainLight
 public:
 	DrLights(int LightId, glm::vec3 InitPos, glm::vec3 InitCol, 
 		int FrameWidth, int FrameHeight,
-		glm::vec3 InitAmbient = glm::vec3(1.0f),
-		glm::vec3 InitDiffuse = glm::vec3(1.0f),
-		glm::vec3 InitSpecular = glm::vec3(1.0f),
+		glm::vec3 InitAmbient = glm::vec3(.5f),
+		glm::vec3 InitDiffuse = glm::vec3(.5f),
+		glm::vec3 InitSpecular = glm::vec3(.5f),
 		float InitPitch = -75.f, float InitYaw = 90.f )
 		:MainLight(InitCol,InitPos,InitPitch,InitYaw,LightId)
 	{

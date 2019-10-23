@@ -604,10 +604,18 @@ void Game::updateUniforms()
 		int Value = 0;
 		for (auto& jj: this->LightsToUse)
 		{
+			//Standard information
 			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightPos";
 			std::string LightClr = "AllLightInf[" + std::to_string(Value) + "].LightColor";
 			ii->setVec3f(jj->GetPos(),  LightPos.c_str());
 			ii->setVec3f(jj->GetColor(), LightClr.c_str());
+			//Light Prop Info
+			std::string LightAmbient = "AllLightInf[" + std::to_string(Value) + "].Ambient";
+			std::string LightDiffuse = "AllLightInf[" + std::to_string(Value) + "].Diffuse";
+			std::string LightSpecular = "AllLightInf[" + std::to_string(Value) + "].Specular";
+			ii->setVec3f(jj->GetAmbient(), LightAmbient.c_str());
+			ii->setVec3f(jj->GetDiffuse(), LightDiffuse.c_str());
+			ii->setVec3f(jj->GetSpecular(), LightSpecular.c_str());
 			Value++;
 		}
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");

@@ -10,6 +10,9 @@
 
 struct LightInfo
 {
+	vec3 Ambient;
+	vec3 Diffuse;
+	vec3 Specular;
 	vec3 LightPos;
 	vec3 LightColor;
 	mat4 LightMatrix;
@@ -104,9 +107,9 @@ void main()
 
 	for(int ii = 0; ii < LightCount ; ii++)
 	{
-		vec3 FinalAmbiant = CalculateAmbient(material);
-		vec3 FinalDiffuse = material.diffuse;
-		vec3 FinalSpecular = CalculateSpec(material,vs_position,vs_normal,AllLightInf[ii].LightPos,cameraPos);
+		vec3 FinalAmbiant = AllLightInf[ii].Ambient * CalculateAmbient(material);
+		vec3 FinalDiffuse = AllLightInf[ii].Diffuse * material.diffuse;
+		vec3 FinalSpecular = AllLightInf[ii].Specular * CalculateSpec(material,vs_position,vs_normal,AllLightInf[ii].LightPos,cameraPos);
 
 		float shadow = ShadowCalculation(AllLightInf[ii],vs_normal);
 		result += FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular);

@@ -10,6 +10,9 @@ struct Material
 };
 struct LightInfo
 {
+	vec3 Ambient;
+	vec3 Diffuse;
+	vec3 Specular;
 	vec3 LightPos;
 	vec3 LightColor;
 	mat4 LightMatrix;
@@ -106,20 +109,20 @@ void main()
 	{
 	//Ambient Light
 
-		vec3 ambientFinal = calculateAmbient(material);
+		vec3 ambientFinal = AllLightInf[ii].Ambient * calculateAmbient(material);
 
 	//Diffuse light
 
-		vec3 diffuseFinal = calculateDiffuse(material, vs_position, vs_normal, AllLightInf[ii].LightPos);
+		vec3 diffuseFinal = AllLightInf[ii].Diffuse * calculateDiffuse(material, vs_position, vs_normal, AllLightInf[ii].LightPos);
 
 	//Specular Light
 
-		vec3 specularFinal = calculateSpecular(material, vs_position, vs_normal, AllLightInf[ii].LightPos, cameraPos);
+		vec3 specularFinal = AllLightInf[ii].Specular * calculateSpecular(material, vs_position, vs_normal, AllLightInf[ii].LightPos, cameraPos);
 
 	//Attenuation
 		float shadow = ShadowCalculation(AllLightInf[ii],vs_normal);
 	//Final Color
-	result += (1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal;
+		result += (1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal;
 	}
 	
 	vec3 color = texture(material.diffuseTex, vs_texcoord).rgb;
