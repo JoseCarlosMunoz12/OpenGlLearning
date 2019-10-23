@@ -92,6 +92,7 @@ void Game::initShaders()
 void Game::initShadows()
 {
 	this->Shadows.push_back(new ShadowTex("Shadow0"));
+	this->Shadows.push_back(new ShadowTex("Shadow1"));
 	for (auto& ii : this->Shadows)
 	{
 		ii->Init(this->Window_Width, this->Window_Height);
@@ -132,15 +133,15 @@ void Game::initMaterials()
 {
 	//Testbug the new mats	
 	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2,
-							this->SkyColor, { 0,1,2,3,4 }, {5}));
+							this->SkyColor, { 0,1,2,3,4 }, {5,6}));
 	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-							0, 1));
+		0, 1, {2,3}));
 	this->MatTest.push_back(new TxtMat("Model File", 2, MAT_1,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-							0, 1));
+							0, 1, { 2,3 }));
 	this->MatTest.push_back(new SingleTextMat("Single", 3, 4,
 								this->SkyColor, 0));
 }
@@ -202,22 +203,22 @@ void Game::initModels()
 	this->models.push_back(new Model("Terrain",
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
-		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],this->textures[13] },
+		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],this->textures[13] ,this->textures[14] },
 		meshes[0], { Terrain }));
 	this->NamesOfModels.push_back("Terrain");
 	this->models.push_back(new Model("Stall Image1",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
-		this->MatTest[1], { this->textures[10],this->textures[11],this->textures[13] },
+		this->MatTest[1], { this->textures[10],this->textures[11],this->textures[13],this->textures[14] },
 		meshes[1], { Stalls }));
 	this->NamesOfModels.push_back("Stall Image1");
 	this->models.push_back(new Model("Stall Image2",
 		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
-		this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13] },
+		this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13],this->textures[14] },
 		meshes[1], { Flat }));
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 1.f), 1.f),
-		this->MatTest[2], { this->textures[11],this->textures[11],this->textures[13] },
+		this->MatTest[2], { this->textures[11],this->textures[11],this->textures[13],this->textures[14] },
 		{ meshes[6],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 	this->models.push_back(new Model("DebugImage",
@@ -225,12 +226,19 @@ void Game::initModels()
 		this->MatTest[3], { this->textures[13] },
 		{ meshes[3] }, {Plane}));
 	this->NamesOfModels.push_back("Debug Image");
+	this->models.push_back(new Model("DebugImage1",
+		glm::vec3(1.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(1.f, -2.f) + 1.f, -2.f),
+		this->MatTest[3], { this->textures[14] },
+		{ meshes[3] }, { Plane }));
+	this->NamesOfModels.push_back("Debug Image1");
 }
 
 void Game::initLights()
 {
 	this->DirectionLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
+	this->DirectionLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -10.f) + 5.f, -10.f),
+		glm::vec3(1.f, 0.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
 	for (auto& ii : this->DirectionLights)
 	{
 		this->LightsToUse.push_back(ii);
@@ -588,7 +596,7 @@ void Game::updateUniforms()
 	//Update uniforms
 	this->ViewMatrix = this->camera.GetViewMatrix();
 
-		int AmountOfLights = this->LightsToUse.size();
+	int AmountOfLights = this->LightsToUse.size();
 	for (auto& ii :this->shaders)
 	{ 
 		ii->set1i(AmountOfLights, "LightCount");
@@ -620,22 +628,23 @@ void Game::updateUniforms()
 std::vector<glm::mat4> Game::updateShadows()
 {
 	std::vector<glm::mat4> ReturnMatrix;
-	
-	for (auto& kk : this->LightsToUse)
-	{	
-		glm::mat4 TempVal = kk->GetLightMatrix(this->worldUp);
-		for (auto& ii : this->Shadows)
+		int Count = 0;
+	for (auto& ii : this->Shadows)
 		{
+			glm::mat4 TempVal = this->LightsToUse[Count]->GetLightMatrix(this->worldUp);
 			ii->WriteToBuffer(this->Window_Width, this->Window_Height,
 				this->shaders[3],TempVal);
 			for (auto& jj : this->models)
 			{
 				jj->RenderShadow(this->shaders[3]);
 			}
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glViewport(0, 0, this->Window_Width, this->Window_Height);
+			glClearColor(this->SkyColor.r, this->SkyColor.g, this->SkyColor.b, 1.f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			ReturnMatrix.push_back(TempVal);
+			Count++;
 		}
-		ReturnMatrix.push_back(TempVal);
-	}
-
 	return ReturnMatrix;
 }
 
