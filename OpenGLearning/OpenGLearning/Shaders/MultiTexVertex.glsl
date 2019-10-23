@@ -10,7 +10,6 @@ out vec3 vs_color;
 out vec2 vs_texcoord;
 out vec3 vs_normal;
 out float visibility;
-out vec4 FragPosLightSpace;
 
 uniform mat4 ModelMatrix;
 uniform mat4 ViewMatrix;

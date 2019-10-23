@@ -69,7 +69,6 @@ float ShadowCalculation(LightInfo LightToUse,vec3 Normal)
 	projCoords = projCoords * 0.5 + 0.5;
 	float closesetDepth = texture(LightToUse.LightShadow,projCoords.xy).r;
 	float currentDepth = projCoords.z;
-
 	vec2 TexeSize = 1.0 / textureSize(LightToUse.LightShadow,0);
 	for(int x = -1; x <=1;++x)
 	{
@@ -103,7 +102,7 @@ void main()
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	vec3 color = fs_color.rgb;
 
-	for(int ii = 0; ii < LightCount ; ii++)
+	for(int ii = 0; ii < 2 ; ii++)
 	{
 		vec3 FinalAmbiant = CalculateAmbient(material);
 		vec3 FinalDiffuse = material.diffuse;
@@ -112,9 +111,9 @@ void main()
 		float shadow = ShadowCalculation(AllLightInf[ii],vs_normal);
 		result += FinalAmbiant + (1.0 - shadow) * (FinalDiffuse + FinalSpecular);
 	} 
-	
+	result /=2;
 
 	vec3 Lighting = (result) * color;
-	fs_color = vec4(AllLightInf[0].LightColor * Lighting,1.0);
+	fs_color = vec4(Lighting,1.0);
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 }

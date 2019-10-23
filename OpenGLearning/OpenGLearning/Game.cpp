@@ -237,7 +237,7 @@ void Game::initLights()
 {
 	this->DirectionLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
-	this->DirectionLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -10.f) + 5.f, -10.f),
+	this->DirectionLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 0.f, -1.f),
 		glm::vec3(1.f, 0.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
 	for (auto& ii : this->DirectionLights)
 	{
@@ -260,7 +260,6 @@ void Game::initUniforms()
 			ii->setVec3f(jj->GetColor(), LightClr.c_str());
 			Value++;
 		}
-		ii->setVec3f(this->LightsToUse[0]->GetPos(), "lightPos0");
 	}
 }
 

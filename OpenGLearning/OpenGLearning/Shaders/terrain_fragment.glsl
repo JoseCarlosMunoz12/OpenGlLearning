@@ -102,7 +102,7 @@ float ShadowCalculation(LightInfo LightToUse,vec3 Normal)
 void main()
 {
 	vec3 result = vec3(0.f);
-	for(int ii = 0; ii < LightCount ; ii++)
+	for(int ii = 0; ii < 2 ; ii++)
 	{
 	//Ambient Light
 
@@ -124,7 +124,7 @@ void main()
 	
 	vec3 color = texture(material.diffuseTex, vs_texcoord).rgb;
 	vec3 Lighting = result * color;
-	fs_color = vec4(AllLightInf[0].LightColor * Lighting,1.0);
+	fs_color = vec4( Lighting,1.0);
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
 
 }

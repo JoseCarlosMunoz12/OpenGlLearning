@@ -142,7 +142,13 @@ public:
 	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override
 	{
 		this->SendToShader(program);
-		program[this->ShaderID]->setMat4fv(LightMatix[0], "AllLightInf[0].LightMatrix");
+		int Value = 0;
+		for (auto& ii : LightMatix)
+		{
+			std::string LIghtMatrix = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			program[this->ShaderID]->setMat4fv(ii, LIghtMatrix.c_str());
+			Value++;
+		}
 	}
 	~TxtMat()
 	{

@@ -92,7 +92,7 @@ float ShadowCalculation(LightInfo LightToUse,vec3 Normal)
 void main()
 {
 	vec4 result = vec4(0.f);
-	for(int ii = 0; ii < LightCount ; ii++)
+	for(int ii = 0; ii < 2 ; ii++)
 	{
 	//Ambient light
 		vec3 ambientFinal = calculateAmbient(material);
@@ -106,12 +106,11 @@ void main()
 	//Attenuation
 	float shadow = ShadowCalculation(AllLightInf[ii],vs_normal);
 	//Final light
-	result += vec4(ambientFinal, 1.f) + (1.0 - shadow) * vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f);
+	result += vec4(ambientFinal, 1.f) + (1.0 - shadow) * (vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f));
 	}
 	
  
 	fs_color = texture(material.diffuseTex, vs_texcoord);
 	fs_color = (result) * fs_color;
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
-	fs_color = vec4(AllLightInf[0].LightColor * fs_color.xyz,1.f);
 }
