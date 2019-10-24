@@ -523,8 +523,11 @@ void Game::ImGuiOptions()
 			float TempYaw = this->LightsToUse[this->LightsToshow]->GetYaw();
 			float TempPitch = this->LightsToUse[this->LightsToshow]->GetPitch();
 			OrthoView Tempview = this->DirectionLights[this->LightsToshow]->GetOrthoParts();
-			ImGui::Text("Light Position (%f,%f,%f)", ColPos.x, ColPos.y, ColPos.z);
+			glm::vec3 LightAmbient = this->DirectionLights[this->LightsToshow]->GetAmbient();
+			glm::vec3 LightDiffuse = this->DirectionLights[this->LightsToshow]->GetDiffuse();
+			glm::vec3 LightSpecular = this->DirectionLights[this->LightsToshow]->GetSpecular();
 			//Position of the Light
+			ImGui::Text("Light Position (%f,%f,%f)", ColPos.x, ColPos.y, ColPos.z);
 			if (ImGui::SliderFloat("X Position", &ColPos.x, -10.f, 10.f))
 			{
 				this->LightsToUse[this->LightsToshow]->SetPosition(ColPos);
@@ -551,6 +554,56 @@ void Game::ImGuiOptions()
 			Cols[0] = Col.r;
 			Cols[1] = Col.g;
 			Cols[2] = Col.b;
+			//Color Components
+			ImGui::Text("Light Components");
+			if(ImGui::TreeNode("Ambient"))
+			{
+				if (ImGui::SliderFloat("X Component",& LightAmbient.x,0.f,1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetAmbient(LightAmbient);
+				}
+				if (ImGui::SliderFloat("Y Component", &LightAmbient.y, 0.f, 1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetAmbient(LightAmbient);
+				}
+				if (ImGui::SliderFloat("Z Component", &LightAmbient.z, 0.f, 1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetAmbient(LightAmbient);
+				}
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Diffuse"))
+			{
+				if (ImGui::SliderFloat("X Component", &LightDiffuse.x, 0.f, 1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetDiffuse(LightDiffuse);
+				}
+				if (ImGui::SliderFloat("Y Component", &LightDiffuse.y, 0.f, 1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetDiffuse(LightDiffuse);
+				}
+				if (ImGui::SliderFloat("Z Component", &LightDiffuse.z, 0.f, 1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetDiffuse(LightDiffuse);
+				}
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Specular"))
+			{
+				if (ImGui::SliderFloat("X Component", &LightSpecular.x, 0.f, 1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetSpecular(LightSpecular);
+				}
+				if (ImGui::SliderFloat("Y Component", &LightSpecular.y, 0.f, 1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetSpecular(LightSpecular);
+				}
+				if (ImGui::SliderFloat("Z Component", &LightSpecular.z, 0.f, 1.0f))
+				{
+					this->LightsToUse[this->LightsToshow]->SetSpecular(LightSpecular);
+				}
+				ImGui::TreePop();
+			}
 			//Color of Light
 			ImGui::Text("Color Information");
 			if (ImGui::ColorEdit3("Color Wheel", Cols))
