@@ -69,7 +69,7 @@ public:
 		int Value = 0;
 		for (auto& ii : LightMatix)
 		{
-			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			std::string LightPos = "AllDirInfo[" + std::to_string(Value) + "].LightMatrix";
 			program[this->ShaderID]->setMat4fv(ii, LightPos.c_str());
 			Value++;
 		}
@@ -94,7 +94,7 @@ public:
 		int Value = 0;
 		for (auto& ii : LightMatix)
 		{
-			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			std::string LightPos = "AllDirInfo[" + std::to_string(Value) + "].LightMatrix";
 			program[this->ShaderID]->setMat4fv(ii, LightPos.c_str());
 			Value++;
 		}
@@ -133,7 +133,7 @@ public:
 		for (auto& ii : this->ShadowTex)
 		{
 
-			std::string lShadow = "AllLightInf[" + std::to_string(Value) + "].LightShadow";
+			std::string lShadow = "AllDirInfo[" + std::to_string(Value) + "].LightShadow";
 			program[this->ShaderID]->set1i(ii,lShadow.c_str());
 			Value++;
 		}
@@ -145,7 +145,7 @@ public:
 		int Value = 0;
 		for (auto& ii : LightMatix)
 		{
-			std::string LIghtMatrix = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			std::string LIghtMatrix = "AllDirInfo[" + std::to_string(Value) + "].LightMatrix";
 			program[this->ShaderID]->setMat4fv(ii, LIghtMatrix.c_str());
 			Value++;
 		}
@@ -190,7 +190,7 @@ public:
 		for (auto& ii : this->ShadowTex)
 		{
 
-			std::string lShadow = "AllLightInf[" + std::to_string(Value) + "].LightShadow";
+			std::string lShadow = "AllDirInfo[" + std::to_string(Value) + "].LightShadow";
 			program[this->ShaderID]->set1i(ii, lShadow.c_str());
 			Value++;
 		}
@@ -203,7 +203,7 @@ public:
 		int Value = 0;
 		for (auto& ii : LightMatix)
 		{
-			std::string LIghtMatrix = "AllLightInf[" + std::to_string(Value) + "].LightMatrix";
+			std::string LIghtMatrix = "AllDirInfo[" + std::to_string(Value) + "].LightMatrix";
 			program[this->ShaderID]->setMat4fv(ii, LIghtMatrix.c_str());
 			Value++;
 		}

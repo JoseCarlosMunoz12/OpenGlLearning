@@ -8,7 +8,15 @@ struct Material
 	sampler2D diffuseTex;
 	sampler2D specularTex;
 };
-struct LightInfo
+
+struct CnLightInfo{
+	vec3 Ambient;
+	vec3 Diffuse;
+	vec3 Specular;
+	vec3 LightPos;
+};
+
+struct DirLightInfo
 {
 	vec3 Ambient;
 	vec3 Diffuse;
@@ -19,13 +27,14 @@ struct LightInfo
 	sampler2D LightShadow; 
 };
 
-in int AmountOfLights;
 in vec3 vs_position;
 in vec3 vs_color;
 in vec2 vs_texcoord;
 in vec3 vs_normal;
 in float visibility;
-uniform int LightCount;
+
+uniform int DirLightCount;
+uniform int CnLightCount;
 
 out vec4 fs_color;
 
@@ -34,7 +43,8 @@ uniform Material material;
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 
-uniform LightInfo AllLightInf[MAX_LIGHTS];
+uniform DirLightInfo AllDirInfo[MAX_LIGHTS];
+uniform CnLightInfo AllCnInfo[MAX_LIGHTS];
 uniform vec3 cameraPos;
 uniform vec3 SkyColor;
 
@@ -73,7 +83,7 @@ float LinearizeDepth(float depth)
 }
 
 //Shadow Calculation
-float ShadowCalculation(LightInfo LightToUse,vec3 Normal)
+float ShadowCalculation(DirLightInfo LightToUse,vec3 Normal)
 {
 	vec4 FragPosLightSpace = LightToUse.LightMatrix * vec4(vs_position,1.f);
 	float shadow = 0.f;
@@ -96,7 +106,7 @@ float ShadowCalculation(LightInfo LightToUse,vec3 Normal)
 		
 	if (projCoords.z > 1.0)
 	{
-		shadow = 0.0;
+		shadow = 0.f;
 		return shadow;
 	}
 	return shadow;
@@ -105,23 +115,15 @@ float ShadowCalculation(LightInfo LightToUse,vec3 Normal)
 void main()
 {
 	vec3 result = vec3(0.f);
-	for(int ii = 0; ii < LightCount ; ii++)
+
+
+
+	for(int ii = 0; ii < DirLightCount; ii++)
 	{
-	//Ambient Light
-
-		vec3 ambientFinal = AllLightInf[ii].Ambient * calculateAmbient(material);
-
-	//Diffuse light
-
-		vec3 diffuseFinal = AllLightInf[ii].Diffuse * calculateDiffuse(material, vs_position, vs_normal, AllLightInf[ii].LightPos);
-
-	//Specular Light
-
-		vec3 specularFinal = AllLightInf[ii].Specular * calculateSpecular(material, vs_position, vs_normal, AllLightInf[ii].LightPos, cameraPos);
-
-	//Attenuation
-		float shadow = ShadowCalculation(AllLightInf[ii],vs_normal);
-	//Final Color
+		vec3 ambientFinal = AllDirInfo[ii].Ambient * calculateAmbient(material);
+		vec3 diffuseFinal = AllDirInfo[ii].Diffuse * calculateDiffuse(material, vs_position, vs_normal, AllDirInfo[ii].LightPos);
+		vec3 specularFinal = AllDirInfo[ii].Specular * calculateSpecular(material, vs_position, vs_normal, AllDirInfo[ii].LightPos, cameraPos);
+		float shadow = ShadowCalculation(AllDirInfo[ii],vs_normal);
 		result += (1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal;
 	}
 	

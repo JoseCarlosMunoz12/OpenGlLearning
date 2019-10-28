@@ -111,7 +111,7 @@ class DrLights : public MainLight
 public:
 	DrLights(int LightId, glm::vec3 InitPos, glm::vec3 InitCol, 
 		int FrameWidth, int FrameHeight,
-		glm::vec3 InitAmbient = glm::vec3(.25f),
+		glm::vec3 InitAmbient = glm::vec3(1.f),
 		glm::vec3 InitDiffuse = glm::vec3(.25f),
 		glm::vec3 InitSpecular = glm::vec3(.25f),
 		float InitPitch = -75.f, float InitYaw = 90.f )
@@ -167,10 +167,20 @@ class PntLights : public MainLight
 	float Near = 1.0f;
 	float Far = 25.f;
 public:
-	PntLights(glm::vec3 InitCol, glm::vec3 InitPos,int LightId)
+	PntLights(glm::vec3 InitCol, glm::vec3 InitPos,
+		int LightId,
+		float InitConst, float InitLinear,float InitQuad,
+		glm::vec3 InitAmbient = glm::vec3(1.f),
+		glm::vec3 InitDiffuse = glm::vec3(.25f),
+		glm::vec3 InitSpecular = glm::vec3(.25f))
 		:MainLight(InitCol,InitPos,0.f,0.f, LightID)
 	{
-
+		this->Ambient = InitAmbient;
+		this->Diffuse = InitDiffuse;
+		this->Specular = InitSpecular;
+		this->Constant = InitConst;
+		this->Linear = InitLinear;
+		this->Quadratic = InitQuad;
 	}
 	//Set values
 	void SetConstant(float NewConst)
@@ -217,4 +227,54 @@ public:
 			glm::lookAt(this->Position, this->Position + glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, -1.0, 0.0)));
 		return shadowTransforms;
 	}
+};
+
+class ConeLights : public MainLight
+{
+	float UmbraAngle;
+	float ConeAngle;
+public:
+	ConeLights(glm::vec3 InitCol, glm::vec3 InitPos,
+		float InitUmAngle, float InitConeAngle,
+		int LightId,
+		glm::vec3 InitAmbient = glm::vec3(1.f),
+		glm::vec3 InitDiffuse = glm::vec3(.25f),
+		glm::vec3 InitSpecular = glm::vec3(.25f),
+		float InitPitch = -75.f, float InitYaw = 90.f)
+		:MainLight(InitCol,InitPos,0.f,0.f,LightID)
+	{
+		this->UmbraAngle = InitUmAngle;
+		this->ConeAngle = InitConeAngle;
+
+		this->Ambient = InitAmbient;
+		this->Diffuse = InitDiffuse;
+		this->Specular = InitSpecular;
+
+		this->Pitch = InitPitch;
+		this->Yaw = InitYaw;
+	}
+	//Set Values
+	void SetUmbraAngla(float NewUmbra)
+	{
+		this->UmbraAngle = NewUmbra;
+	}
+	void SetConeAngle(float NewCone)
+	{
+		this->ConeAngle = NewCone;
+	}
+	//Get Values
+	float GetUmbra()
+	{
+		return this->UmbraAngle;
+	}
+	float GetCone()
+	{
+		return this->ConeAngle;
+	}
+};
+
+class AreaLights : public MainLight 
+{
+
+
 };

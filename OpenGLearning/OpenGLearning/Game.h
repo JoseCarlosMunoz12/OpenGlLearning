@@ -101,7 +101,6 @@ private:
 	//Textures
 	std::vector<GeneralTextInfo*> textures;
 	std::vector<ShadowTex*> Shadows;
-
 	std::vector<MipMap*> MipMapsData;
 	//Materials
 	//Testing the new mat with Polymorphism
@@ -110,7 +109,10 @@ private:
 	std::vector<Model*> models;
 	//Lights
 	std::vector<MainLight*> LightsToUse;
-	std::vector<DrLights*> DirectionLights;
+	std::vector<DrLights*> DirLights;
+	std::vector<PntLights*> PtLights;
+	std::vector<ConeLights*> CnLights;
+	std::vector<AreaLights*> ArLights;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
 	//Names of each Model

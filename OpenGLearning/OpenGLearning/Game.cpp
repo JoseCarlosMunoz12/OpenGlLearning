@@ -237,11 +237,11 @@ void Game::initModels()
 
 void Game::initLights()
 {
-	this->DirectionLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+	this->DirLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
-	this->DirectionLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+	this->DirLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 0.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
-	for (auto& ii : this->DirectionLights)
+	for (auto& ii : this->DirLights)
 	{
 		this->LightsToUse.push_back(ii);
 	}
@@ -380,6 +380,8 @@ void Game::ImGuiOptions()
 {
 	glm::vec3 TempCamera = this->camera.getPosition();
 	ImGui::Begin("Added DifferentModels");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::Spacing();
 	ImGui::Text("Cam Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempCamera.x, TempCamera.y, TempCamera.z);
 	this->ScreenPos.x = ImGui::GetWindowPos().x;
 	this->ScreenPos.y = ImGui::GetWindowPos().y;
@@ -522,10 +524,10 @@ void Game::ImGuiOptions()
 			glm::vec3 Col = this->LightsToUse[this->LightsToshow]->GetColor();
 			float TempYaw = this->LightsToUse[this->LightsToshow]->GetYaw();
 			float TempPitch = this->LightsToUse[this->LightsToshow]->GetPitch();
-			OrthoView Tempview = this->DirectionLights[this->LightsToshow]->GetOrthoParts();
-			glm::vec3 LightAmbient = this->DirectionLights[this->LightsToshow]->GetAmbient();
-			glm::vec3 LightDiffuse = this->DirectionLights[this->LightsToshow]->GetDiffuse();
-			glm::vec3 LightSpecular = this->DirectionLights[this->LightsToshow]->GetSpecular();
+			OrthoView Tempview = this->DirLights[this->LightsToshow]->GetOrthoParts();
+			glm::vec3 LightAmbient = this->DirLights[this->LightsToshow]->GetAmbient();
+			glm::vec3 LightDiffuse = this->DirLights[this->LightsToshow]->GetDiffuse();
+			glm::vec3 LightSpecular = this->DirLights[this->LightsToshow]->GetSpecular();
 			//Position of the Light
 			ImGui::Text("Light Position (%f,%f,%f)", ColPos.x, ColPos.y, ColPos.z);
 			if (ImGui::SliderFloat("X Position", &ColPos.x, -10.f, 10.f))
@@ -620,23 +622,23 @@ void Game::ImGuiOptions()
 			ImGui::Text("Ortho view information");
 			if (ImGui::SliderFloat("Left", &Views[0], -30.f, -10.f))
 			{
-				this->DirectionLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+				this->DirLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
 			}
 			if (ImGui::SliderFloat("Right", &Views[1], 10.f, 30.f))
 			{
-				this->DirectionLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+				this->DirLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
 			}
 			if (ImGui::SliderFloat("Bottom", &Views[2], -30.f, -10.f))
 			{
-				this->DirectionLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+				this->DirLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
 			}
 			if (ImGui::SliderFloat("Up", &Views[3], 10.f, 30.f))
 			{
-				this->DirectionLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+				this->DirLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
 			}
 			if (ImGui::SliderFloat("Far Plane", &Views[4], 10.f, 30.f))
 			{
-				this->DirectionLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
+				this->DirLights[this->LightsToshow]->SetOrthoParts({ Views[0],Views[1], Views[2], Views[3], Views[4] });
 			}
 			
 		}
@@ -650,22 +652,24 @@ void Game::updateUniforms()
 	//Update uniforms
 	this->ViewMatrix = this->camera.GetViewMatrix();
 
-	int AmountOfLights = this->LightsToUse.size();
+	int DirLightCount = this->DirLights.size();
+	int CnLightCount = this->CnLights.size();
 	for (auto& ii :this->shaders)
 	{ 
-		ii->set1i(AmountOfLights, "LightCount");
+		ii->set1i(DirLightCount, "DirLightCount");
+		ii->set1i(CnLightCount, "CnLightCount");
 		int Value = 0;
-		for (auto& jj: this->LightsToUse)
+		for (auto& jj: this->DirLights)
 		{
 			//Standard information
-			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightPos";
-			std::string LightClr = "AllLightInf[" + std::to_string(Value) + "].LightColor";
+			std::string LightPos = "AllDirInfo[" + std::to_string(Value) + "].LightPos";
+			std::string LightClr = "AllDirInfo[" + std::to_string(Value) + "].LightColor";
 			ii->setVec3f(jj->GetPos(),  LightPos.c_str());
 			ii->setVec3f(jj->GetColor(), LightClr.c_str());
 			//Light Prop Info
-			std::string LightAmbient = "AllLightInf[" + std::to_string(Value) + "].Ambient";
-			std::string LightDiffuse = "AllLightInf[" + std::to_string(Value) + "].Diffuse";
-			std::string LightSpecular = "AllLightInf[" + std::to_string(Value) + "].Specular";
+			std::string LightAmbient = "AllDirInfo[" + std::to_string(Value) + "].Ambient";
+			std::string LightDiffuse = "AllDirInfo[" + std::to_string(Value) + "].Diffuse";
+			std::string LightSpecular = "AllDirInfo[" + std::to_string(Value) + "].Specular";
 			ii->setVec3f(jj->GetAmbient(), LightAmbient.c_str());
 			ii->setVec3f(jj->GetDiffuse(), LightDiffuse.c_str());
 			ii->setVec3f(jj->GetSpecular(), LightSpecular.c_str());
