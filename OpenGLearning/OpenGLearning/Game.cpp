@@ -245,6 +245,9 @@ void Game::initLights()
 	{
 		this->LightsToUse.push_back(ii);
 	}
+	this->CnLights.push_back(new ConeLights(glm::vec3(1.f, 1.f, 1.f),
+		glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+		12.f,12.f,0));
 }
 
 void Game::initUniforms()
@@ -642,6 +645,7 @@ void Game::ImGuiOptions()
 			}
 			
 		}
+
 		ImGui::TreePop();
 	}
 	ImGui::End();
@@ -673,6 +677,29 @@ void Game::updateUniforms()
 			ii->setVec3f(jj->GetAmbient(), LightAmbient.c_str());
 			ii->setVec3f(jj->GetDiffuse(), LightDiffuse.c_str());
 			ii->setVec3f(jj->GetSpecular(), LightSpecular.c_str());
+			Value++;
+		}
+		Value = 0;
+		for (auto& jj : this->CnLights)
+		{
+			std::string LightPos = "AllCnInfo[" + std::to_string(Value) + "].LightPos";
+			std::string LightClr = "AllCnInfo[" + std::to_string(Value) + "].LightColor";
+			std::string LightDir = "AllCnInfo[" + std::to_string(Value) + "].LightDirection";
+			ii->setVec3f(jj->GetPos(), LightPos.c_str());
+			ii->setVec3f(jj->GetColor(), LightClr.c_str());
+			ii->setVec3f(jj->GetDirection(), LightDir.c_str());
+			//Light Prop Info
+			std::string LightAmbient = "AllCnInfo[" + std::to_string(Value) + "].Ambient";
+			std::string LightDiffuse = "AllCnInfo[" + std::to_string(Value) + "].Diffuse";
+			std::string LightSpecular = "AllCnInfo[" + std::to_string(Value) + "].Specular";
+			ii->setVec3f(jj->GetAmbient(), LightAmbient.c_str());
+			ii->setVec3f(jj->GetDiffuse(), LightDiffuse.c_str());
+			ii->setVec3f(jj->GetSpecular(), LightSpecular.c_str());
+			//Cone Information
+			std::string LightCnAngle = "AllCnInfo[" + std::to_string(Value) + "].ConeAngle";
+			std::string LightUmbraAngle = "AllCnInfo[" + std::to_string(Value) + "].UmbraAngle";
+			ii->setVec1f(glm::cos(glm::radians(jj->GetCone())), LightCnAngle.c_str());
+			ii->setVec1f(glm::cos(glm::radians(jj->GetUmbra())), LightUmbraAngle.c_str());
 			Value++;
 		}
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");

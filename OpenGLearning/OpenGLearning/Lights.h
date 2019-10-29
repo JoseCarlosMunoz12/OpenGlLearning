@@ -233,14 +233,15 @@ class ConeLights : public MainLight
 {
 	float UmbraAngle;
 	float ConeAngle;
+	glm::vec3 Direction;
 public:
 	ConeLights(glm::vec3 InitCol, glm::vec3 InitPos,
 		float InitUmAngle, float InitConeAngle,
 		int LightId,
 		glm::vec3 InitAmbient = glm::vec3(1.f),
-		glm::vec3 InitDiffuse = glm::vec3(.25f),
-		glm::vec3 InitSpecular = glm::vec3(.25f),
-		float InitPitch = -75.f, float InitYaw = 90.f)
+		glm::vec3 InitDiffuse = glm::vec3(1.f),
+		glm::vec3 InitSpecular = glm::vec3(1.f),
+		float InitPitch = -45.f, float InitYaw = 90.f)
 		:MainLight(InitCol,InitPos,0.f,0.f,LightID)
 	{
 		this->UmbraAngle = InitUmAngle;
@@ -252,6 +253,8 @@ public:
 
 		this->Pitch = InitPitch;
 		this->Yaw = InitYaw;
+		this->UpdateFront();
+		this->Direction =  this->Front;
 	}
 	//Set Values
 	void SetUmbraAngla(float NewUmbra)
@@ -262,6 +265,10 @@ public:
 	{
 		this->ConeAngle = NewCone;
 	}
+	void SetDirection(glm::vec3 NewDirection)
+	{
+		this->Direction = NewDirection;
+	}
 	//Get Values
 	float GetUmbra()
 	{
@@ -270,6 +277,19 @@ public:
 	float GetCone()
 	{
 		return this->ConeAngle;
+	}
+	glm::vec3 GetDirection()
+	{
+		return this->Direction;
+	}
+	glm::mat4 GetLightMatrix(glm::vec3 WorldView) override
+	{
+		glm::mat4 LightProj;
+		float NearPlane = 1.f;
+		LightProj = glm::perspective(glm::radians(this->ConeAngle),1.f,1.0f,25.f);
+		this->UpdateFront();
+		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + this->Front, WorldView);
+		return LightProj * LightView;
 	}
 };
 
