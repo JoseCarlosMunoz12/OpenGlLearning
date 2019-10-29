@@ -246,7 +246,7 @@ void Game::initLights()
 		this->LightsToUse.push_back(ii);
 	}
 	this->CnLights.push_back(new ConeLights(glm::vec3(1.f, 1.f, 1.f),
-		glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, -1.f) + 5.f, -1.f),
 		12.f,12.f,0));
 }
 

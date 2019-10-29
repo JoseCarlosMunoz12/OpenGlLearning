@@ -14,6 +14,9 @@ struct CnLightInfo{
 	vec3 Diffuse;
 	vec3 Specular;
 	vec3 LightPos;
+	vec3 LightDirection;
+	float ConeAngle;
+	float UmbraAngle;
 };
 
 struct DirLightInfo
@@ -115,7 +118,21 @@ float ShadowCalculation(DirLightInfo LightToUse,vec3 Normal)
 void main()
 {
 	vec3 result = vec3(0.f);
+	for(int ii = 0; ii < CnLightCount; ii++)
+	{
+		vec3 LightDir = normalize(AllCnInfo[ii].LightPos - vs_position);
+		float Theta = dot(LightDir , normalize(-1 * AllCnInfo[ii].LightDirection));
+		if(Theta > AllCnInfo[ii].ConeAngle)
+		{
+			vec3 FinalAmbient = AllCnInfo[ii].Ambient * calculateAmbient(material);
+			vec3 FinalDiffuse = AllCnInfo[ii].Diffuse * material.diffuse;
+			vec3 FinalSpecular = AllCnInfo[ii].Specular * calculateSpecular(material,vs_position,vs_normal,AllCnInfo[ii].LightPos,cameraPos);
+			result += FinalAmbient + FinalDiffuse + FinalSpecular;
 
+		}else{
+			result += AllCnInfo[ii].Ambient * calculateAmbient(material);
+		}
+	}
 
 
 	for(int ii = 0; ii < DirLightCount; ii++)
