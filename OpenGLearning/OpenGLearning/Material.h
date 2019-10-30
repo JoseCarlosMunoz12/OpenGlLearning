@@ -19,6 +19,10 @@ private:
 protected:
 	std::vector<GLint> TexIndex;
 	std::vector<GLint> ShadowTex;
+	//All Shadow Textures
+	std::vector<GLint> PntShadow;
+	std::vector<GLint> CnShadow;
+	std::vector<GLint> ArShadow;
 	glm::vec3 SkyClr;
 	int ShaderID;
 public:
@@ -111,10 +115,16 @@ public:
 			glm::vec3 SkyColor, glm::vec3 ambient,
 			glm::vec3 diffuse, glm::vec3 specular,
 			GLint diffuseTex, GLint specularTex,
-			std::vector<GLint> InitShadowTx = {2})
+			std::vector<GLint> InitShadowTx = { 2 },
+			std::vector<GLint> InitCnShadow = {},
+			std::vector<GLint> InitPntShadow = {},
+			std::vector<GLint> InitArShadow = {})
 			:StdMat(Name, SetId, ShaderId)
 	{
 		this->ShadowTex = InitShadowTx;
+		this->CnShadow = InitCnShadow;
+		this->PntShadow = InitPntShadow;
+		this->ArShadow = InitArShadow;
 		this->SkyClr = SkyColor;
 		this->Ambient = ambient;
 		this->Diffuse = diffuse;
@@ -135,6 +145,13 @@ public:
 
 			std::string lShadow = "AllDirInfo[" + std::to_string(Value) + "].LightShadow";
 			program[this->ShaderID]->set1i(ii,lShadow.c_str());
+			Value++;
+		}
+		Value = 0;
+		for (auto& ii : this->CnShadow)
+		{
+			std::string CShadow = "AllCnInfo[" + std::to_string(Value) + "].LightShadow";
+			program[this->ShaderID]->set1i(ii,CShadow.c_str());
 			Value++;
 		}
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
@@ -164,12 +181,18 @@ public:
 	MipMapMat(std::string Name, int SetId, int ShaderId,
 		glm::vec3 SkyColor,	std::vector<GLint> TexIndex,
 		std::vector<GLint> InitShadowTex,
+		std::vector<GLint> InitCnShadow = {},
+		std::vector<GLint> InitPntShadow = {},
+		std::vector<GLint> InitArShadow = {},
 		glm::vec3 ambient = glm::vec3(0.1f),
 		glm::vec3 diffuse = glm::vec3(1.0f),
 		glm::vec3 specular = glm::vec3(1.0f))
 		:StdMat(Name, SetId, ShaderId)
 	{
 		this->ShadowTex = InitShadowTex;
+		this->CnShadow = InitCnShadow;
+		this->PntShadow = InitPntShadow;
+		this->ArShadow = InitArShadow;
 		this->SkyClr = SkyColor;
 		this->TexIndex = TexIndex;
 		this->Ambient = ambient;
@@ -189,12 +212,16 @@ public:
 		int Value = 0;
 		for (auto& ii : this->ShadowTex)
 		{
-
 			std::string lShadow = "AllDirInfo[" + std::to_string(Value) + "].LightShadow";
 			program[this->ShaderID]->set1i(ii, lShadow.c_str());
 			Value++;
 		}
-
+		for (auto& ii : this->CnShadow)
+		{
+			std::string CShadow = "AllCnInfo[" + std::to_string(Value) + "].LightShadow";
+			program[this->ShaderID]->set1i(ii, CShadow.c_str());
+			Value++;
+		}
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override

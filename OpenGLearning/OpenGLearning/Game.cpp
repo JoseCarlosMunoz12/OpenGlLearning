@@ -93,6 +93,7 @@ void Game::initShadows()
 {
 	this->Shadows.push_back(new ShadowTex("Shadow0"));
 	this->Shadows.push_back(new ShadowTex("Shadow1"));
+	this->Shadows.push_back(new ShadowTex("Shadow2"));
 	for (auto& ii : this->Shadows)
 	{
 		ii->Init(this->Window_Width, this->Window_Height);
@@ -230,7 +231,7 @@ void Game::initModels()
 	this->NamesOfModels.push_back("Debug Image");
 	this->models.push_back(new Model("DebugImage1",
 		glm::vec3(1.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(1.f, -2.f) + 1.f, -2.f),
-		this->MatTest[3], { this->textures[14] },
+		this->MatTest[3], { this->textures[15] },
 		{ meshes[3] }, { Plane }));
 	this->NamesOfModels.push_back("Debug Image1");
 }
@@ -246,8 +247,12 @@ void Game::initLights()
 		this->LightsToUse.push_back(ii);
 	}
 	this->CnLights.push_back(new ConeLights(glm::vec3(1.f, 1.f, 1.f),
-		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, -1.f) + 5.f, -1.f),
+		glm::vec3(1.f, this->MipMapsData[0]->ReturnValue(1.f, -1.f) + 5.f, -1.f),
 		12.f,12.f,0));
+	for (auto& ii : this->CnLights)
+	{
+		this->LightsToUse.push_back(ii);
+	}
 }
 
 void Game::initUniforms()
@@ -257,7 +262,7 @@ void Game::initUniforms()
 		ii->setMat4fv(ViewMatrix, "ViewMatrix");
 		ii->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
 		int Value = 0;
-		for (auto& jj : this->LightsToUse)
+		for (auto& jj : this->DirLights)
 		{
 			std::string LightPos = "AllLightInf[" + std::to_string(Value) + "].LightPos";
 			std::string LightClr = "AllLightInf[" + std::to_string(Value) + "].LightColor";
