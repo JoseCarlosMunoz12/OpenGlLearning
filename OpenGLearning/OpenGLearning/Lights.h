@@ -286,7 +286,7 @@ public:
 	{
 		glm::mat4 LightProj;
 		float NearPlane = 1.f;
-		LightProj = glm::perspective(glm::radians(this->ConeAngle),1.25f,1.0f,25.f);
+		LightProj = glm::perspective(glm::radians(this->UmbraAngle),1.25f,1.0f,25.f);
 		this->UpdateFront();
 		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + this->Front, WorldView);
 		return LightProj * LightView;

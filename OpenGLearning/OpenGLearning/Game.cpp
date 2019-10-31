@@ -134,7 +134,7 @@ void Game::initMaterials()
 {
 	//Testbug the new mats	
 	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2,
-							this->SkyColor, { 0,1,2,3,4 }, {5,6}));
+		this->SkyColor, { 0,1,2,3,4 }, { 5,6 }, {7}));
 	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
@@ -142,7 +142,7 @@ void Game::initMaterials()
 	this->MatTest.push_back(new TxtMat("Model File", 2, MAT_1,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-							0, 1 ,{2, 3}));
+		0, 1, { 2, 3 }));
 	this->MatTest.push_back(new SingleTextMat("Single", 3, 4,
 								this->SkyColor, 0));
 }
@@ -182,7 +182,7 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2,3,4,5,6 });
+		0, 0, { 0,1,2,3,4,5,6,7 });
 	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, { 0,1,2,3 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
@@ -204,7 +204,8 @@ void Game::initModels()
 	this->models.push_back(new Model("Terrain",
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
-		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],this->textures[13] ,this->textures[14] },
+		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],
+		this->textures[13] ,this->textures[14],this->textures[15] },
 		meshes[0], { Terrain }));
 	this->NamesOfModels.push_back("Terrain");
 	this->models.push_back(new Model("Stall Image1",
@@ -248,7 +249,7 @@ void Game::initLights()
 	}
 	this->CnLights.push_back(new ConeLights(glm::vec3(1.f, 1.f, 1.f),
 		glm::vec3(1.f, this->MipMapsData[0]->ReturnValue(1.f, -1.f) + 5.f, -1.f),
-		12.f,12.f,0));
+		90.f,12.f,0));
 	for (auto& ii : this->CnLights)
 	{
 		this->LightsToUse.push_back(ii);

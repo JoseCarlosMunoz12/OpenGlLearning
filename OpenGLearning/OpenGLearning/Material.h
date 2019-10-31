@@ -216,6 +216,7 @@ public:
 			program[this->ShaderID]->set1i(ii, lShadow.c_str());
 			Value++;
 		}
+		Value = 0;
 		for (auto& ii : this->CnShadow)
 		{
 			std::string CShadow = "AllCnInfo[" + std::to_string(Value) + "].LightShadow";
@@ -228,10 +229,16 @@ public:
 	{
 		this->SendToShader(program);
 		int Value = 0;
-		for (auto& ii : LightMatix)
+		for (int ii = 0; ii < this->ShadowTex.size(); ii++)
 		{
-			std::string LIghtMatrix = "AllDirInfo[" + std::to_string(Value) + "].LightMatrix";
-			program[this->ShaderID]->setMat4fv(ii, LIghtMatrix.c_str());
+			std::string LghtMatrix = "AllDirInfo[" + std::to_string(Value) + "].LightMatrix";
+			program[this->ShaderID]->setMat4fv(LightMatix[ii], LghtMatrix.c_str());
+			Value++;
+		}
+		for (int ii = 0; ii < this->CnShadow.size(); ii++)
+		{
+			std::string LghtMatrix = "AllCnInfo[" + std::to_string(ii) + "].LightMatrix";
+			program[this->ShaderID]->setMat4fv(LightMatix[Value], LghtMatrix.c_str());
 			Value++;
 		}
 	}
