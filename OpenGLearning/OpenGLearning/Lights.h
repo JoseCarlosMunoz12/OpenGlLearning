@@ -87,6 +87,10 @@ public:
 	{
 		return this->Specular;
 	}
+	glm::vec3 GetFront()
+	{
+		return this->Front;
+	}
 	//MoveLight
 	void Move(glm::vec3 Move)
 	{
@@ -254,7 +258,6 @@ public:
 		this->Pitch = InitPitch;
 		this->Yaw = InitYaw;
 		this->UpdateFront();
-		this->Direction =  this->Front;
 	}
 	//Set Values
 	void SetUmbraAngla(float NewUmbra)
@@ -277,10 +280,6 @@ public:
 	float GetCone()
 	{
 		return this->ConeAngle;
-	}
-	glm::vec3 GetDirection()
-	{
-		return this->Direction;
 	}
 	glm::mat4 GetLightMatrix(glm::vec3 WorldView) override
 	{

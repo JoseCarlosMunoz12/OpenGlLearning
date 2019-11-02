@@ -90,7 +90,6 @@ private:
 	bool MakeMesh = false;
 	//Variable that changes item to click
 	int ModelToMake = -1;
-	int LightsToshow = -1;
 	//Position where the Mouse Click does not affect
 	ImVec2 ScreenPos;
 	ImVec2 WinSize;
@@ -113,6 +112,8 @@ private:
 	std::vector<PntLights*> PtLights;
 	std::vector<ConeLights*> CnLights;
 	std::vector<AreaLights*> ArLights;
+	int DirLightsToShow = -1;
+	int CnLightsToShow = -1;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
 	//Names of each Model
