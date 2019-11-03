@@ -248,7 +248,7 @@ void Game::initLights()
 		this->LightsToUse.push_back(ii);
 	}
 	this->CnLights.push_back(new ConeLights(glm::vec3(1.f, 1.f, 1.f),
-		glm::vec3(1.f, this->MipMapsData[0]->ReturnValue(1.f, -1.f) + 5.f, -1.f),
+		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f) + 5.f, 0.f),
 		90.f,12.f,0));
 	for (auto& ii : this->CnLights)
 	{
@@ -674,6 +674,7 @@ void Game::ImGuiOptions()
 				glm::vec3 LightAmbient = this->CnLights[this->CnLightsToShow]->GetAmbient();
 				glm::vec3 LightDiffuse = this->CnLights[this->CnLightsToShow]->GetDiffuse();
 				glm::vec3 LightSpecular = this->CnLights[this->CnLightsToShow]->GetSpecular();
+				float LightCn = this->CnLights[this->CnLightsToShow]->GetCone();
 				ImGui::Text("Light Position (%f,%f,%f)", ColPos.x, ColPos.y, ColPos.z);
 				if (ImGui::SliderFloat("X Position", &ColPos.x, -10.f, 10.f))
 				{
@@ -696,6 +697,11 @@ void Game::ImGuiOptions()
 				if (ImGui::SliderFloat("Light Pitch", &TempPitch, -90.f, 0.f))
 				{
 					this->CnLights[this->CnLightsToShow]->SetPitch(TempPitch);
+				}
+				ImGui::Text("Light Cone Max");
+				if (ImGui::SliderFloat("",&LightCn,0.f,90.f))
+				{
+					this->CnLights[this->CnLightsToShow]->SetConeAngle(LightCn);
 				}
 				float Cols[3];
 				Cols[0] = Col.r;

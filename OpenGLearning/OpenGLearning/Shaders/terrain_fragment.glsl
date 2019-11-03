@@ -127,14 +127,15 @@ void main()
 		if(Theta > AllCnInfo[ii].ConeAngle)
 		{
 			vec3 FinalAmbient = AllCnInfo[ii].Ambient * calculateAmbient(material);
-			vec3 FinalDiffuse = AllCnInfo[ii].Diffuse * material.diffuse;
+			vec3 FinalDiffuse = AllCnInfo[ii].Diffuse * calculateDiffuse(material,vs_position,vs_normal,AllCnInfo[ii].LightPos);
 			vec3 FinalSpecular = AllCnInfo[ii].Specular * calculateSpecular(material,vs_position,vs_normal,AllCnInfo[ii].LightPos,cameraPos);
 			float shadow = ShadowCalculation(AllCnInfo[ii].LightShadow,vs_normal,AllCnInfo[ii].LightMatrix,AllCnInfo[ii].LightPos);
 			result += FinalAmbient + (1.f - shadow) * (FinalDiffuse + FinalSpecular);
 
 		}else{
-			result += AllCnInfo[ii].Ambient * calculateAmbient(material);
-		}
+			vec3 FinalAmbient = AllCnInfo[ii].Ambient * calculateAmbient(material);
+			result += FinalAmbient;
+			}
 	}
 
 

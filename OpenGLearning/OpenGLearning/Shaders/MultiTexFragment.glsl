@@ -132,7 +132,8 @@ void main()
 			result += FinalAmbient + (1.f - shadow) * (FinalDiffuse + FinalSpecular);
 
 		}else{
-			result += AllCnInfo[ii].Ambient * CalculateAmbient(material);
+			vec3 FinalAmbient = AllCnInfo[ii].Ambient * CalculateAmbient(material);
+			result += FinalAmbient;
 		}
 	}
 

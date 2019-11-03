@@ -119,7 +119,7 @@ void main()
 			vec3 FinalSpecular = AllCnInfo[ii].Specular * calculateSpecular(material,vs_position,vs_normal,AllCnInfo[ii].LightPos,cameraPos);
 			float shadow = ShadowCalculation(AllCnInfo[ii].LightShadow,vs_normal,AllCnInfo[ii].LightMatrix,AllCnInfo[ii].LightPos);
 
-			result += vec4(FinalAmbient + (1.f - shadow)* (FinalDiffuse + FinalSpecular),1.f);
+			result += vec4(FinalAmbient,1.f) + (1.f - shadow)* (vec4(FinalDiffuse,1.f) + vec4(FinalSpecular,1.f)); 
 		}else{
 			result += vec4(AllCnInfo[ii].Ambient * calculateAmbient(material),1.f);
 		}
