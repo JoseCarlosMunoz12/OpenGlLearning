@@ -156,7 +156,7 @@ void Game::initModels()
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
-			&CustomObject("Images/tree.obj"),
+			&CustomObject("Images/stall.obj"),
 			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
@@ -190,7 +190,7 @@ void Game::initModels()
 	MeshsArtifacts Plane(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, {0});
 	std::vector<MeshsArtifacts> HierArch1;
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(1.f),
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(.1f),
 		0, 0, { 0,1,2,3,4}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
 		1, 0, { 0,1,2,3,4 }));
@@ -249,7 +249,7 @@ void Game::initLights()
 	}
 	this->CnLights.push_back(new ConeLights(glm::vec3(1.f, 1.f, 1.f),
 		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f) + 5.f, 0.f),
-		90.f,12.f,0));
+		12.f,0));
 	for (auto& ii : this->CnLights)
 	{
 		this->LightsToUse.push_back(ii);
@@ -825,9 +825,7 @@ void Game::updateUniforms()
 			ii->setVec3f(jj->GetSpecular(), LightSpecular.c_str());
 			//Cone Information
 			std::string LightCnAngle = "AllCnInfo[" + std::to_string(Value) + "].ConeAngle";
-			std::string LightUmbraAngle = "AllCnInfo[" + std::to_string(Value) + "].UmbraAngle";
 			ii->setVec1f(glm::cos(glm::radians(jj->GetCone())), LightCnAngle.c_str());
-			ii->setVec1f(glm::cos(glm::radians(jj->GetUmbra())), LightUmbraAngle.c_str());
 			Value++;
 		}
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");

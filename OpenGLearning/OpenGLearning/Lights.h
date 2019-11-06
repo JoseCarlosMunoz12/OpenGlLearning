@@ -1,5 +1,6 @@
 #pragma once
 #include <glm.hpp>
+//Light Structures to Use
 struct OrthoView
 {
 	float Left;
@@ -235,20 +236,16 @@ public:
 
 class ConeLights : public MainLight
 {
-	float UmbraAngle;
 	float ConeAngle;
-	glm::vec3 Direction;
 public:
-	ConeLights(glm::vec3 InitCol, glm::vec3 InitPos,
-		float InitUmAngle, float InitConeAngle,
+	ConeLights(glm::vec3 InitCol, glm::vec3 InitPos, float InitConeAngle,
 		int LightId,
 		glm::vec3 InitAmbient = glm::vec3(1.f),
 		glm::vec3 InitDiffuse = glm::vec3(1.f),
 		glm::vec3 InitSpecular = glm::vec3(1.f),
 		float InitPitch = -45.f, float InitYaw = 90.f)
-		:MainLight(InitCol,InitPos,0.f,0.f,LightID)
+		:MainLight(InitCol,InitPos,0.f,0.f,LightId)
 	{
-		this->UmbraAngle = InitUmAngle;
 		this->ConeAngle = InitConeAngle;
 
 		this->Ambient = InitAmbient;
@@ -260,23 +257,11 @@ public:
 		this->UpdateFront();
 	}
 	//Set Values
-	void SetUmbraAngla(float NewUmbra)
-	{
-		this->UmbraAngle = NewUmbra;
-	}
 	void SetConeAngle(float NewCone)
 	{
 		this->ConeAngle = NewCone;
 	}
-	void SetDirection(glm::vec3 NewDirection)
-	{
-		this->Direction = NewDirection;
-	}
 	//Get Values
-	float GetUmbra()
-	{
-		return this->UmbraAngle;
-	}
 	float GetCone()
 	{
 		return this->ConeAngle;
@@ -285,15 +270,67 @@ public:
 	{
 		glm::mat4 LightProj;
 		float NearPlane = 1.f;
-		LightProj = glm::perspective(glm::radians(this->UmbraAngle),1.25f,1.0f,25.f);
+		LightProj = glm::perspective(glm::radians(90.f),1.25f,1.0f,25.f);
 		this->UpdateFront();
 		glm::mat4 LightView = glm::lookAt(this->Position, this->Position + this->Front, WorldView);
 		return LightProj * LightView;
 	}
 };
 
-class AreaLights : public MainLight 
+class AreaLights : public MainLight,
+				   public ConeLights
 {
-
-
+	float UmbraAngle;
+	float Constant;
+	float Linear;
+	float Quadratic;
+public:
+	AreaLights(glm::vec3 InitCol, glm::vec3 InitPos,
+		float InitUmAngle, float InitConeAngle,
+		int LightId,
+		glm::vec3 InitAmbient = glm::vec3(1.f),
+		glm::vec3 InitDiffuse = glm::vec3(1.f),
+		glm::vec3 InitSpecular = glm::vec3(1.f),
+		float InitPitch = -45.f, float InitYaw = 90.f)
+		:ConeLights(InitCol,InitPos,InitConeAngle,
+			LightId,
+			InitAmbient,InitDiffuse,InitSpecular,
+			InitPitch,InitYaw),MainLight(InitCol, InitPos, 0.f, 0.f, LightId)
+	{
+		this->UmbraAngle = InitUmAngle;
+	}
+	//Set
+	void SetUmbraAngle(float NewUmAngle)
+	{
+		this->UmbraAngle = NewUmAngle;
+	}
+	void SetConstant(float NewConst)
+	{
+		this->Constant = NewConst;
+	}
+	void SetLinear(float NewLin)
+	{
+		this->Linear = NewLin;
+	}
+	void SetQuad(float NewQuad)
+	{
+		this->Quadratic = NewQuad;
+	}
+	//Get
+	float GetUmbra()
+	{
+		return this->UmbraAngle;
+	}
+	float GetConstant()
+	{
+		return this->Constant;
+	}
+	float GetLinear()
+	{
+		return this->Linear;
+	}
+	float GetQuad()
+	{
+		return this->Quadratic;
+	}
 };

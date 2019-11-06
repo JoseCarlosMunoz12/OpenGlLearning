@@ -17,7 +17,6 @@ struct CnLightInfo{
 	vec3 LightDirection;
 	float ConeAngle;
 	mat4 LightMatrix;
-	float UmbraAngle;
 	sampler2D LightShadow; 
 };
 
