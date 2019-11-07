@@ -236,6 +236,14 @@ public:
 			program[this->ShaderID]->set1i(ii, CShadow.c_str());
 			Value++;
 		}
+		Value = 0;
+		for (auto& ii : this->ArShadow)
+		{
+			std::string AShadow = "AllArInfo[" + std::to_string(Value) + "].Lightinf.LightShadow";
+			program[this->ShaderID]->set1i(ii, AShadow.c_str());
+			Value++;
+		}
+
 		program[this->ShaderID]->setVec3f(this->SkyClr, "SkyColor");
 	}
 	void SendToShader(std::vector<Shader*>& program, std::vector<glm::mat4> LightMatix) override
@@ -253,6 +261,11 @@ public:
 			std::string LghtMatrix = "AllCnInfo[" + std::to_string(ii) + "].LightMatrix";
 			program[this->ShaderID]->setMat4fv(LightMatix[Value], LghtMatrix.c_str());
 			Value++;
+		}
+		for (int ii = 0; ii < this->ArShadow.size(); ii++)
+		{
+			std::string LighMatrix = "AllArInfo[" + std::to_string(Value) + "].LightInf.LightMatrix";
+			program[this->ShaderID]->setMat4fv(LightMatix[Value],LighMatrix.c_str());
 		}
 	}
 };

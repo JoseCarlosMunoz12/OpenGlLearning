@@ -8,6 +8,25 @@
 	vec3 specular;
  };
 
+struct CnLightInfo{
+	vec3 Ambient;
+	vec3 Diffuse;
+	vec3 Specular;
+	vec3 LightPos;
+	vec3 LightDirection;
+	float ConeAngle;
+	mat4 LightMatrix;
+	sampler2D LightShadow;
+};
+ 
+ struct AreaLightInfo
+ {
+	CnLightInfo Lightinf;
+	float UmbraAngle;
+	float Constant;
+	float Quadratic;
+ };
+
 struct DirLightInfo
 {
 	vec3 Ambient;
@@ -19,17 +38,6 @@ struct DirLightInfo
 	sampler2D LightShadow; 
 };
 
-struct CnLightInfo{
-	vec3 Ambient;
-	vec3 Diffuse;
-	vec3 Specular;
-	vec3 LightPos;
-	vec3 LightDirection;
-	float ConeAngle;
-	mat4 LightMatrix;
-	sampler2D LightShadow;
-};
-
 in vec3 vs_position;
 in vec3 vs_color;
 in vec2 vs_texcoord;
@@ -38,6 +46,7 @@ in float visibility;
 
 uniform int DirLightCount;
 uniform int CnLightCount;
+uniform int ArLightCount;
 
 out vec4 fs_color;
 
@@ -50,6 +59,7 @@ uniform Material material;
 
 uniform DirLightInfo AllDirInfo[MAX_LIGHTS];
 uniform CnLightInfo AllCnInfo[MAX_LIGHTS];
+uniform AreaLightInfo AllArInfo[MAX_LIGHTS];
 uniform vec3 cameraPos;
 uniform vec3 SkyColor;
 
@@ -117,6 +127,18 @@ void main()
 	vec3 result = vec3(0.f);
 	fs_color = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	vec3 color = fs_color.rgb;
+
+	for(int ii =0; ii < ArLightCount; ii++)
+	{ 
+		vec3 FinalAmbient = CalculateAmbient(material) * AllArInfo[ii].Lightinf.Ambient;
+		vec3 FinalDiffuse = material.diffuse * AllArInfo[ii].Lightinf.Diffuse;
+		vec3 FinalSpecular = AllArInfo[ii].Lightinf.Specular * CalculateSpec(material,vs_position,vs_normal,
+															AllArInfo[ii].Lightinf.LightPos,cameraPos);
+		vec3 LightDir = normalize(AllArInfo[ii].Lightinf.LightPos - vs_position);
+		float Theta = dot(LightDir,normalize(-1 *AllArInfo[ii].Lightinf.LightDirection));
+		float Epsilon = (AllArInfo[ii].Lightinf.ConeAngle - AllArInfo[ii].UmbraAngle);
+
+	}
 	
 	for(int ii = 0; ii < CnLightCount; ii++)
 	{

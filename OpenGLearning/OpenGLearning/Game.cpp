@@ -134,15 +134,15 @@ void Game::initMaterials()
 {
 	//Testbug the new mats	
 	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2,
-		this->SkyColor, { 0,1,2,3,4 }, { 5,6 }, {7}));
+		this->SkyColor, { 0,1,2,3,4 }, { 5,6 }, {}, {7}));
 	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-		0, 1, { 2,3 }, {4}));
+		0, 1, { 2,3 }, {}, {4}));
 	this->MatTest.push_back(new TxtMat("Model File", 2, MAT_1,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-		0, 1, { 2, 3}, {4}));
+		0, 1, { 2, 3}, {}, {4}));
 	this->MatTest.push_back(new SingleTextMat("Single", 3, 4,
 								this->SkyColor, 0));
 }
@@ -239,21 +239,30 @@ void Game::initModels()
 
 void Game::initLights()
 {
+	//Initializing Dir lights
 	this->DirLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
 	this->DirLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
 		glm::vec3(1.f, 0.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
+	//Init Cone Lights
+	//Init Arealights
+	this->ArLights.push_back(new AreaLights(glm::vec3(1.f, 1.f, 1.f),
+		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 1.f) + 5.f, 1.f),
+		24.f,12.f,0));
+
 	for (auto& ii : this->DirLights)
 	{
 		this->LightsToUse.push_back(ii);
 	}
-	this->CnLights.push_back(new ConeLights(glm::vec3(1.f, 1.f, 1.f),
-		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f) + 5.f, 0.f),
-		12.f,0));
 	for (auto& ii : this->CnLights)
 	{
 		this->LightsToUse.push_back(ii);
 	}
+	for (auto& ii : this-> ArLights)
+	{
+		this->LightsToUse.push_back(ii);
+	}
+
 }
 
 void Game::initUniforms()
@@ -786,10 +795,12 @@ void Game::updateUniforms()
 
 	int DirLightCount = this->DirLights.size();
 	int CnLightCount = this->CnLights.size();
+	int ArLightCount = this->ArLights.size();
 	for (auto& ii :this->shaders)
 	{ 
 		ii->set1i(DirLightCount, "DirLightCount");
 		ii->set1i(CnLightCount, "CnLightCount");
+		ii->set1i(ArLightCount,"ArLightCount");
 		int Value = 0;
 		for (auto& jj: this->DirLights)
 		{
@@ -827,6 +838,31 @@ void Game::updateUniforms()
 			std::string LightCnAngle = "AllCnInfo[" + std::to_string(Value) + "].ConeAngle";
 			ii->setVec1f(glm::cos(glm::radians(jj->GetCone())), LightCnAngle.c_str());
 			Value++;
+		}
+		Value = 0;
+		for (auto& jj : this->ArLights)
+		{
+			//General Light info
+			std::string LightPos = "AllArInfo[" + std::to_string(Value) + "].Lightinf.LightPos";
+			std::string LightClr = "AllArInfo[" + std::to_string(Value) + "].Lightinf.LightColor";
+			std::string LightDir = "AllArInfo[" + std::to_string(Value) + "].Lightinf.LightDirection";
+
+			ii->setVec3f(jj->GetPos(), LightPos.c_str());
+			ii->setVec3f(jj->GetColor(), LightClr.c_str());
+			ii->setVec3f(jj->GetFront(), LightDir.c_str());
+			//Light Prop Info
+			std::string LightAmbient = "AllArInfo[" + std::to_string(Value) + "].Lightinf.Ambient";
+			std::string LightDiffuse = "AllArInfo[" + std::to_string(Value) + "].Lightinf.Diffuse";
+			std::string LightSpecular = "AllArInfo[" + std::to_string(Value) + "].Lightinf.Specular";
+			ii->setVec3f(jj->GetAmbient(), LightAmbient.c_str());
+			ii->setVec3f(jj->GetDiffuse(), LightDiffuse.c_str());
+			ii->setVec3f(jj->GetSpecular(), LightSpecular.c_str());
+			//Cone Info
+			std::string LightCnAngle = "AllArInfo[" + std::to_string(Value) + "].Lightinf.ConeAngle";
+			std::string LightUmAngle = "";
+			ii->setVec1f(glm::cos(glm::radians(jj->GetCone())), LightCnAngle.c_str());
+			ii->setVec1f(glm::cos(glm::radians(jj->GetUmbra())),LightUmAngle.c_str());
+
 		}
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		ii->setVec3f(this->camera.getPosition(), "cameraPos");
