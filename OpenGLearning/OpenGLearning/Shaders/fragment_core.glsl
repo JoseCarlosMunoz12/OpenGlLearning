@@ -8,8 +8,7 @@ struct Material
 	sampler2D diffuseTex;
 	sampler2D specularTex;
 };
-struct
-CnLightInfo{
+struct CnLightInfo{
 	vec3 Ambient;
 	vec3 Diffuse;
 	vec3 Specular;
@@ -107,6 +106,7 @@ float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 
 void main()
 {
 	vec4 result = vec4(0.f);
+
 	for(int ii = 0; ii < CnLightCount; ii++)
 	{
 		vec3 LightDir = normalize(AllCnInfo[ii].LightPos - vs_position);
@@ -117,7 +117,6 @@ void main()
 			vec3 FinalDiffuse = AllCnInfo[ii].Diffuse * material.diffuse;
 			vec3 FinalSpecular = AllCnInfo[ii].Specular * calculateSpecular(material,vs_position,vs_normal,AllCnInfo[ii].LightPos,cameraPos);
 			float shadow = ShadowCalculation(AllCnInfo[ii].LightShadow,vs_normal,AllCnInfo[ii].LightMatrix,AllCnInfo[ii].LightPos);
-
 			result += vec4(FinalAmbient,1.f) + (1.f - shadow)* (vec4(FinalDiffuse,1.f) + vec4(FinalSpecular,1.f)); 
 		}else{
 			result += vec4(AllCnInfo[ii].Ambient * calculateAmbient(material),1.f);
@@ -126,16 +125,10 @@ void main()
 
 	for(int ii = 0; ii < DirLightCount ; ii++)
 	{
-	//Ambient light
 		vec3 ambientFinal = AllDirInfo[ii].Ambient * calculateAmbient(material);
-
-	//Diffuse light
 		vec3 diffuseFinal = AllDirInfo[ii].Diffuse * calculateDiffuse(material, vs_position, vs_normal,AllDirInfo[ii].LightPos);
-	//Specular light
 		vec3 specularFinal = AllDirInfo[ii].Specular * calculateSpecular(material, vs_position, vs_normal, AllDirInfo[ii].LightPos, cameraPos);
-	//Attenuation
 		float shadow = ShadowCalculation(AllDirInfo[ii].LightShadow,vs_normal,AllDirInfo[ii].LightMatrix,AllDirInfo[ii].LightPos);
-	//Final light
 		result += vec4(ambientFinal, 1.f) + (1.0 - shadow) * (vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f));
 	}
 	

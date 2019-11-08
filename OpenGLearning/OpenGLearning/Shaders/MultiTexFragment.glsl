@@ -1,5 +1,5 @@
  #version 440
-#define MAX_LIGHTS 45
+#define MAX_LIGHTS 10
 
  struct Material
  {
@@ -23,6 +23,7 @@ struct CnLightInfo{
  {
 	CnLightInfo Lightinf;
 	float UmbraAngle;
+	float Linear;
 	float Constant;
 	float Quadratic;
  };
@@ -134,10 +135,17 @@ void main()
 		vec3 FinalDiffuse = material.diffuse * AllArInfo[ii].Lightinf.Diffuse;
 		vec3 FinalSpecular = AllArInfo[ii].Lightinf.Specular * CalculateSpec(material,vs_position,vs_normal,
 															AllArInfo[ii].Lightinf.LightPos,cameraPos);
+		float shadow = ShadowCalculation(AllArInfo[ii].Lightinf.LightShadow,
+										vs_normal,AllArInfo[ii].Lightinf.LightMatrix,
+										AllArInfo[ii].Lightinf.LightPos);
 		vec3 LightDir = normalize(AllArInfo[ii].Lightinf.LightPos - vs_position);
 		float Theta = dot(LightDir,normalize(-1 *AllArInfo[ii].Lightinf.LightDirection));
 		float Epsilon = (AllArInfo[ii].Lightinf.ConeAngle - AllArInfo[ii].UmbraAngle);
+		float Intensity = clamp((Theta -AllArInfo[ii].Lightinf.ConeAngle) / Epsilon, 0.0, 1.0);
 
+		float Dist = length(AllArInfo[ii].Lightinf.LightPos- vs_position);
+		float Attenuation = 1.0 / (AllArInfo[ii].Constant + AllArInfo[ii].Linear * Dist + AllArInfo[ii].Quadratic * (Dist * Dist));
+		result += Attenuation * (FinalAmbient + Intensity * (1.0 - shadow) * ( FinalDiffuse+ FinalSpecular));
 	}
 	
 	for(int ii = 0; ii < CnLightCount; ii++)

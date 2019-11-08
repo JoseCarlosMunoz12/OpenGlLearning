@@ -247,7 +247,7 @@ void Game::initLights()
 	//Init Cone Lights
 	//Init Arealights
 	this->ArLights.push_back(new AreaLights(glm::vec3(1.f, 1.f, 1.f),
-		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 1.f) + 5.f, 1.f),
+		glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, 1.f) + 5.f, 1.f),
 		24.f,12.f,0));
 
 	for (auto& ii : this->DirLights)
@@ -781,6 +781,125 @@ void Game::ImGuiOptions()
 		}
 		if (ImGui::TreeNode("Area Lights"))
 		{
+			int Count = 0;
+			for (auto& ii : this->ArLights)
+			{
+				std::string ArLightName = "Ar Light Num-" + std::to_string(Count);
+				if (ImGui::Selectable(ArLightName.c_str(), this->ArLightsToShow == Count))
+				{
+					this->ArLightsToShow = Count;
+				}
+				Count++;
+			}
+			if (this->ArLightsToShow != -1)
+			{
+				glm::vec3 ColPos = this->ArLights[this->ArLightsToShow]->GetPos();
+				glm::vec3 Col = this->ArLights[this->ArLightsToShow]->GetColor();
+				float TempYaw = this->ArLights[this->ArLightsToShow]->GetYaw();
+				float TempPitch = this->ArLights[this->ArLightsToShow]->GetPitch();
+				glm::vec3 LightAmbient = this->ArLights[this->ArLightsToShow]->GetAmbient();
+				glm::vec3 LightDiffuse = this->ArLights[this->ArLightsToShow]->GetDiffuse();
+				glm::vec3 LightSpecular = this->ArLights[this->ArLightsToShow]->GetSpecular();
+				float LightCon = this->ArLights[this->ArLightsToShow]->GetCone();
+				float LightUm = this->ArLights[this->ArLightsToShow]->GetUmbra();
+				float LightConst = this->ArLights[this->ArLightsToShow]->GetConstant();
+				float LightLin = this->ArLights[this->ArLightsToShow]->GetLinear();
+				float LightQuad = this->ArLights[this->ArLightsToShow]->GetQuad();
+				ImGui::Text("Light Position (%f,%f,%f)", ColPos.x, ColPos.y, ColPos.z);
+				if (ImGui::SliderFloat("X Position", &ColPos.x, -10.f, 10.f))
+				{
+					this->ArLights[this->ArLightsToShow]->SetPosition(ColPos);
+				}
+				if (ImGui::SliderFloat("Y Position", &ColPos.y, 0, 20.f))
+				{
+					this->ArLights[this->ArLightsToShow]->SetPosition(ColPos);
+				}
+				if (ImGui::SliderFloat("Z Position", &ColPos.z, -40.f, 40.f))
+				{
+					this->ArLights[this->ArLightsToShow]->SetPosition(ColPos);
+				}
+				//View of the Light
+				ImGui::Text(" Light Yaw and Pitch (%f,%f)", TempYaw, TempPitch);
+				if (ImGui::SliderFloat("Light Yaw", &TempYaw, -180.f, 180.f))
+				{
+					this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
+				}
+				if (ImGui::SliderFloat("Light Pitch", &TempPitch, -90.f, 0.f))
+				{
+					this->ArLights[this->ArLightsToShow]->SetPitch(TempPitch);
+				}
+				ImGui::Text("Light Cone Max");
+				if (ImGui::SliderFloat("", &LightCon, 0.f, 90.f))
+				{
+					this->ArLights[this->ArLightsToShow]->SetConeAngle(LightCon);
+				}
+				ImGui::Text("Light Umbra Max");
+				if (ImGui::SliderFloat("", &LightUm, 0.f, 90.f))
+				{
+					this->ArLights[this->ArLightsToShow]->SetUmbraAngle(LightUm);
+				}
+				float Cols[3];
+				Cols[0] = Col.r;
+				Cols[1] = Col.g;
+				Cols[2] = Col.b;
+				//Color Components
+				ImGui::Text("Light Components");
+				if (ImGui::TreeNode("Ambient"))
+				{
+					if (ImGui::SliderFloat("X Component", &LightAmbient.x, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetAmbient(LightAmbient);
+					}
+					if (ImGui::SliderFloat("Y Component", &LightAmbient.y, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetAmbient(LightAmbient);
+					}
+					if (ImGui::SliderFloat("Z Component", &LightAmbient.z, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetAmbient(LightAmbient);
+					}
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Diffuse"))
+				{
+					if (ImGui::SliderFloat("X Component", &LightDiffuse.x, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetDiffuse(LightDiffuse);
+					}
+					if (ImGui::SliderFloat("Y Component", &LightDiffuse.y, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetDiffuse(LightDiffuse);
+					}
+					if (ImGui::SliderFloat("Z Component", &LightDiffuse.z, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetDiffuse(LightDiffuse);
+					}
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Specular"))
+				{
+					if (ImGui::SliderFloat("X Component", &LightSpecular.x, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetSpecular(LightSpecular);
+					}
+					if (ImGui::SliderFloat("Y Component", &LightSpecular.y, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetSpecular(LightSpecular);
+					}
+					if (ImGui::SliderFloat("Z Component", &LightSpecular.z, 0.f, 1.0f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetSpecular(LightSpecular);
+					}
+					ImGui::TreePop();
+				}
+				//Color of Light
+				ImGui::Text("Color Information");
+				if (ImGui::ColorEdit3("Color Wheel", Cols))
+				{
+					this->ArLights[this->ArLightsToShow]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
+				}
+
+			}
 			ImGui::TreePop();
 		}
 		ImGui::TreePop();
@@ -859,10 +978,16 @@ void Game::updateUniforms()
 			ii->setVec3f(jj->GetSpecular(), LightSpecular.c_str());
 			//Cone Info
 			std::string LightCnAngle = "AllArInfo[" + std::to_string(Value) + "].Lightinf.ConeAngle";
-			std::string LightUmAngle = "";
+			std::string LightUmAngle = "AllArInfo[" + std::to_string(Value) + "].UmbraAngle";
 			ii->setVec1f(glm::cos(glm::radians(jj->GetCone())), LightCnAngle.c_str());
 			ii->setVec1f(glm::cos(glm::radians(jj->GetUmbra())),LightUmAngle.c_str());
-
+			//Light Constants
+			std::string LightLin = "AllArInfo["+ std::to_string(Value) + "].Linear";
+			std::string LightConst = "AllArInfo[" + std::to_string(Value) + "].Constant";
+			std::string LightQuad = "AllArInfo[" + std::to_string(Value) + "].Quadratic";
+			ii->setVec1f(jj->GetConstant(), LightConst.c_str());
+			ii->setVec1f(jj->GetLinear(), LightLin.c_str());
+			ii->setVec1f(jj->GetQuad(), LightQuad.c_str());
 		}
 		ii->setMat4fv(this->ViewMatrix, "ViewMatrix");
 		ii->setVec3f(this->camera.getPosition(), "cameraPos");

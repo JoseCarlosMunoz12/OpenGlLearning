@@ -130,13 +130,11 @@ void main()
 			vec3 FinalSpecular = AllCnInfo[ii].Specular * calculateSpecular(material,vs_position,vs_normal,AllCnInfo[ii].LightPos,cameraPos);
 			float shadow = ShadowCalculation(AllCnInfo[ii].LightShadow,vs_normal,AllCnInfo[ii].LightMatrix,AllCnInfo[ii].LightPos);
 			result += FinalAmbient + (1.f - shadow) * (FinalDiffuse + FinalSpecular);
-
 		}else{
 			vec3 FinalAmbient = AllCnInfo[ii].Ambient * calculateAmbient(material);
 			result += FinalAmbient;
 			}
 	}
-
 
 	for(int ii = 0; ii < DirLightCount; ii++)
 	{

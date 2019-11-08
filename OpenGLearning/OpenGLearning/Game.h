@@ -114,6 +114,7 @@ private:
 	std::vector<AreaLights*> ArLights;
 	int DirLightsToShow = -1;
 	int CnLightsToShow = -1;
+	int ArLightsToShow = -1;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
 	//Names of each Model
