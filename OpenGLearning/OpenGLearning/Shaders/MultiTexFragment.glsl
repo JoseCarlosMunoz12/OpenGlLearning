@@ -21,7 +21,15 @@ struct CnLightInfo{
  
  struct AreaLightInfo
  {
-	CnLightInfo Lightinf;
+	vec3 Ambient;
+	vec3 Diffuse;
+	vec3 Specular;
+	vec3 LightPos;
+	vec3 LightColor;
+	mat4 LightMatrix;
+	vec3 LightDirection;
+	sampler2D LightShadow; 	
+	float ConeAngle;
 	float UmbraAngle;
 	float Linear;
 	float Constant;
@@ -131,19 +139,19 @@ void main()
 
 	for(int ii =0; ii < ArLightCount; ii++)
 	{ 
-		vec3 FinalAmbient = CalculateAmbient(material) * AllArInfo[ii].Lightinf.Ambient;
-		vec3 FinalDiffuse = material.diffuse * AllArInfo[ii].Lightinf.Diffuse;
-		vec3 FinalSpecular = AllArInfo[ii].Lightinf.Specular * CalculateSpec(material,vs_position,vs_normal,
-															AllArInfo[ii].Lightinf.LightPos,cameraPos);
-		float shadow = ShadowCalculation(AllArInfo[ii].Lightinf.LightShadow,
-										vs_normal,AllArInfo[ii].Lightinf.LightMatrix,
-										AllArInfo[ii].Lightinf.LightPos);
-		vec3 LightDir = normalize(AllArInfo[ii].Lightinf.LightPos - vs_position);
-		float Theta = dot(LightDir,normalize(-1 *AllArInfo[ii].Lightinf.LightDirection));
-		float Epsilon = (AllArInfo[ii].Lightinf.ConeAngle - AllArInfo[ii].UmbraAngle);
-		float Intensity = clamp((Theta -AllArInfo[ii].Lightinf.ConeAngle) / Epsilon, 0.0, 1.0);
+		vec3 FinalAmbient = CalculateAmbient(material) * AllArInfo[ii].Ambient;
+		vec3 FinalDiffuse = material.diffuse * AllArInfo[ii].Diffuse;
+		vec3 FinalSpecular = AllArInfo[ii].Specular * CalculateSpec(material,vs_position,vs_normal,
+															AllArInfo[ii].LightPos,cameraPos);
+		float shadow = ShadowCalculation(AllArInfo[ii].LightShadow,
+										vs_normal,AllArInfo[ii].LightMatrix,
+										AllArInfo[ii].LightPos);
+		vec3 LightDir = normalize(AllArInfo[ii].LightPos - vs_position);
+		float Theta = dot(LightDir,normalize(-1 * AllArInfo[ii].LightDirection));
+		float Epsilon = (AllArInfo[ii].ConeAngle - AllArInfo[ii].UmbraAngle);
+		float Intensity = clamp((Theta -AllArInfo[ii].ConeAngle) / Epsilon, 0.0, 1.0);
 
-		float Dist = length(AllArInfo[ii].Lightinf.LightPos- vs_position);
+		float Dist = length(AllArInfo[ii].LightPos- vs_position);
 		float Attenuation = 1.0 / (AllArInfo[ii].Constant + AllArInfo[ii].Linear * Dist + AllArInfo[ii].Quadratic * (Dist * Dist));
 		result += Attenuation * (FinalAmbient + Intensity * (1.0 - shadow) * ( FinalDiffuse+ FinalSpecular));
 	}

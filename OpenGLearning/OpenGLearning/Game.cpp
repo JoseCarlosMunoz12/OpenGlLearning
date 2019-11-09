@@ -134,15 +134,15 @@ void Game::initMaterials()
 {
 	//Testbug the new mats	
 	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2,
-		this->SkyColor, { 0,1,2,3,4 }, { 5,6 }, {}, {7}));
+		this->SkyColor, { 0,1,2,3,4 }, { 5,6 }, {}, {}, {7}));
 	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-		0, 1, { 2,3 }, {}, {4}));
+		0, 1, { 2,3 }, {}, {}, {4}));
 	this->MatTest.push_back(new TxtMat("Model File", 2, MAT_1,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-		0, 1, { 2, 3}, {}, {4}));
+		0, 1, { 2, 3}, {}, {}, {4}));
 	this->MatTest.push_back(new SingleTextMat("Single", 3, 4,
 								this->SkyColor, 0));
 }
@@ -828,13 +828,12 @@ void Game::ImGuiOptions()
 				{
 					this->ArLights[this->ArLightsToShow]->SetPitch(TempPitch);
 				}
-				ImGui::Text("Light Cone Max");
-				if (ImGui::SliderFloat("", &LightCon, 0.f, 90.f))
+				//Cone Information
+				if (ImGui::SliderFloat("Cone", &LightCon, 0.f, 90.f))
 				{
 					this->ArLights[this->ArLightsToShow]->SetConeAngle(LightCon);
 				}
-				ImGui::Text("Light Umbra Max");
-				if (ImGui::SliderFloat("", &LightUm, 0.f, 90.f))
+				if (ImGui::SliderFloat("Umbra", &LightUm, 0.f, 90.f))
 				{
 					this->ArLights[this->ArLightsToShow]->SetUmbraAngle(LightUm);
 				}
@@ -889,6 +888,23 @@ void Game::ImGuiOptions()
 					if (ImGui::SliderFloat("Z Component", &LightSpecular.z, 0.f, 1.0f))
 					{
 						this->ArLights[this->ArLightsToShow]->SetSpecular(LightSpecular);
+					}
+					ImGui::TreePop();
+				}
+				//Light Constants
+				if (ImGui::TreeNode("Light Cone VariablesConstants"))
+				{
+					if (ImGui::SliderFloat("Constant", &LightConst, 0.f, 10.f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetConstant(LightConst);
+					}
+					if (ImGui::SliderFloat("Linear", &LightLin, 0.f, 1.f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetLinear(LightLin);
+					}
+					if (ImGui::SliderFloat("Quadratic", &LightQuad, 0.f, 1.f))
+					{
+						this->ArLights[this->ArLightsToShow]->SetQuad(LightQuad);
 					}
 					ImGui::TreePop();
 				}
@@ -962,22 +978,22 @@ void Game::updateUniforms()
 		for (auto& jj : this->ArLights)
 		{
 			//General Light info
-			std::string LightPos = "AllArInfo[" + std::to_string(Value) + "].Lightinf.LightPos";
-			std::string LightClr = "AllArInfo[" + std::to_string(Value) + "].Lightinf.LightColor";
-			std::string LightDir = "AllArInfo[" + std::to_string(Value) + "].Lightinf.LightDirection";
+			std::string LightPos = "AllArInfo[" + std::to_string(Value) + "].LightPos";
+			std::string LightClr = "AllArInfo[" + std::to_string(Value) + "].LightColor";
+			std::string LightDir = "AllArInfo[" + std::to_string(Value) + "].LightDirection";
 
 			ii->setVec3f(jj->GetPos(), LightPos.c_str());
 			ii->setVec3f(jj->GetColor(), LightClr.c_str());
 			ii->setVec3f(jj->GetFront(), LightDir.c_str());
 			//Light Prop Info
-			std::string LightAmbient = "AllArInfo[" + std::to_string(Value) + "].Lightinf.Ambient";
-			std::string LightDiffuse = "AllArInfo[" + std::to_string(Value) + "].Lightinf.Diffuse";
-			std::string LightSpecular = "AllArInfo[" + std::to_string(Value) + "].Lightinf.Specular";
+			std::string LightAmbient = "AllArInfo[" + std::to_string(Value) + "].Ambient";
+			std::string LightDiffuse = "AllArInfo[" + std::to_string(Value) + "].Diffuse";
+			std::string LightSpecular = "AllArInfo[" + std::to_string(Value) + "].Specular";
 			ii->setVec3f(jj->GetAmbient(), LightAmbient.c_str());
 			ii->setVec3f(jj->GetDiffuse(), LightDiffuse.c_str());
 			ii->setVec3f(jj->GetSpecular(), LightSpecular.c_str());
 			//Cone Info
-			std::string LightCnAngle = "AllArInfo[" + std::to_string(Value) + "].Lightinf.ConeAngle";
+			std::string LightCnAngle = "AllArInfo[" + std::to_string(Value) + "].ConeAngle";
 			std::string LightUmAngle = "AllArInfo[" + std::to_string(Value) + "].UmbraAngle";
 			ii->setVec1f(glm::cos(glm::radians(jj->GetCone())), LightCnAngle.c_str());
 			ii->setVec1f(glm::cos(glm::radians(jj->GetUmbra())),LightUmAngle.c_str());
