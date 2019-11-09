@@ -1,5 +1,5 @@
 #version 440
-#define MAX_LIGHTS  45
+#define MAX_LIGHTS  10
 struct Material
 {
 	vec3 ambient;
@@ -19,7 +19,22 @@ struct CnLightInfo{
 	mat4 LightMatrix;
 	sampler2D LightShadow; 
 };
-
+ struct AreaLightInfo
+ {
+	vec3 Ambient;
+	vec3 Diffuse;
+	vec3 Specular;
+	vec3 LightPos;
+	vec3 LightColor;
+	mat4 LightMatrix;
+	vec3 LightDirection;
+	sampler2D LightShadow; 	
+	float ConeAngle;
+	float UmbraAngle;
+	float Linear;
+	float Constant;
+	float Quadratic;
+ };
 struct DirLightInfo
 {
 	vec3 Ambient;
@@ -39,6 +54,7 @@ in float visibility;
 
 uniform int DirLightCount;
 uniform int CnLightCount;
+uniform int ArLightCount;
 
 out vec4 fs_color;
 
@@ -49,6 +65,8 @@ uniform sampler2D texture1;
 
 uniform DirLightInfo AllDirInfo[MAX_LIGHTS];
 uniform CnLightInfo AllCnInfo[MAX_LIGHTS];
+uniform AreaLightInfo AllArInfo[MAX_LIGHTS];
+
 uniform vec3 cameraPos;
 uniform vec3 SkyColor;
 
@@ -119,6 +137,24 @@ float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 
 void main()
 {
 	vec3 result = vec3(0.f);
+	for(int ii =0; ii < ArLightCount; ii++)
+	{ 
+		vec3 FinalAmbient = calculateAmbient(material) * AllArInfo[ii].Ambient;
+		vec3 FinalDiffuse = material.diffuse * AllArInfo[ii].Diffuse;
+		vec3 FinalSpecular = AllArInfo[ii].Specular * calculateSpecular(material,vs_position,vs_normal,
+															AllArInfo[ii].LightPos,cameraPos);
+		float shadow = ShadowCalculation(AllArInfo[ii].LightShadow,
+										vs_normal,AllArInfo[ii].LightMatrix,
+										AllArInfo[ii].LightPos);
+		vec3 LightDir = normalize(AllArInfo[ii].LightPos - vs_position);
+		float Theta = dot(LightDir,normalize(-1 * AllArInfo[ii].LightDirection));
+		float Epsilon = (AllArInfo[ii].ConeAngle - AllArInfo[ii].UmbraAngle);
+		float Intensity = clamp((Theta -AllArInfo[ii].ConeAngle) / Epsilon, 0.0, 1.0);
+
+		float Dist = length(AllArInfo[ii].LightPos- vs_position);
+		float Attenuation = 1.0 / (AllArInfo[ii].Constant + AllArInfo[ii].Linear * Dist + AllArInfo[ii].Quadratic * (Dist * Dist));
+		result += Attenuation * (FinalAmbient + Intensity * (1.0 - shadow) * ( FinalDiffuse+ FinalSpecular));
+	}
 	for(int ii = 0; ii < CnLightCount; ii++)
 	{
 		vec3 LightDir = normalize(AllCnInfo[ii].LightPos - vs_position);
