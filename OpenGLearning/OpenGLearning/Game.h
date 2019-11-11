@@ -49,9 +49,6 @@ enum heighMaps_enum
 class Game
 {
 private:
-	std::mt19937 rng;
-	std::uniform_int_distribution<int> xDist;
-	std::uniform_int_distribution<int> yDist;
 	//Variables
 	//Delta Time
 	float dt;
@@ -72,6 +69,7 @@ private:
 	const int Window_Height;
 	int frameBufferWidth;
 	int frameBufferHeight;
+	bool OtherWindow = true;
 	//Camera
 	Camera camera;
 	//OpenGl context

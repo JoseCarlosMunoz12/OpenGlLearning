@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "FileMaker.h"
 
 void Game::initGLFW()
 {
@@ -156,7 +157,7 @@ void Game::initModels()
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
-			&CustomObject("Images/stall.obj"),
+			&CustomObject("Images/Monkey.obj"),
 			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
@@ -190,7 +191,7 @@ void Game::initModels()
 	MeshsArtifacts Plane(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, {0});
 	std::vector<MeshsArtifacts> HierArch1;
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(.1f),
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(1.f),
 		0, 0, { 0,1,2,3,4}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
 		1, 0, { 0,1,2,3,4 }));
@@ -396,20 +397,24 @@ void Game::updateInput()
 
 void Game::ImGuiOptions()
 {
-	glm::vec3 TempCamera = this->camera.getPosition();
-	ImGui::Begin("Added DifferentModels");
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::Spacing();
-	ImGui::Text("Cam Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempCamera.x, TempCamera.y, TempCamera.z);
-	this->ScreenPos.x = ImGui::GetWindowPos().x;
-	this->ScreenPos.y = ImGui::GetWindowPos().y;
-	this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x + 7.f;
-	this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y + 7.f;
-	//Info of each Model
-	if (ImGui::TreeNode("Change Features of Chosen Model"))
+	{	
+		glm::vec3 TempCamera = this->camera.getPosition();
+		ImGui::Begin("Added DifferentModels");
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::Spacing();
+		ImGui::Text("Cam Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempCamera.x, TempCamera.y, TempCamera.z);
+		this->ScreenPos.x = ImGui::GetWindowPos().x;
+		this->ScreenPos.y = ImGui::GetWindowPos().y;
+		this->WinSize.x = ImGui::GetWindowSize().x + ScreenPos.x + 7.f;
+		this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y + 7.f;
+		//Info of each Model
+		if (ImGui::TreeNode("Change Features of Chosen Model"))
 	{
 		int Count = 0;
-		for (auto& ModelsFound : this->models)
+		if (this->models.size() != 0)
+		{
+		
+			for (auto& ModelsFound : this->models)
 		{
 			if (ImGui::Selectable(ModelsFound->GetName(), this->ModelToMake == Count))
 			{
@@ -417,9 +422,12 @@ void Game::ImGuiOptions()
 			}
 			Count++;
 		}
-		ImGui::Spacing();
-		ImGui::Text("--Model Chosen--");
-		if (this->ModelToMake != -1)
+		
+			ImGui::Spacing();
+		
+			ImGui::Text("--Model Chosen--");
+		
+			if (this->ModelToMake != -1)
 		{
 			ImGui::Text(this->models[this->ModelToMake]->GetName());
 			StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
@@ -468,12 +476,17 @@ void Game::ImGuiOptions()
 				ImGui::TreePop();
 			}
 		}
+
+		}
+		else {
+			ImGui::Text("No Models are in the World");
+		}
 		ImGui::TreePop();
 	}
-	ImGui::Spacing();
-	ImGui::Spacing();
-	//New Model Customization
-	if (ImGui::TreeNode("PreMade Primtives, Meshes, etc."))
+		ImGui::Spacing();
+		ImGui::Spacing();
+		//New Model Customization
+		if (ImGui::TreeNode("PreMade Primtives, Meshes, etc."))
 	{
 		if(ImGui::TreeNode("Shaders"))
 		{
@@ -521,11 +534,11 @@ void Game::ImGuiOptions()
 		}
 		ImGui::TreePop();
 	}
-	ImGui::Spacing();
-	ImGui::Spacing();
-	if (ImGui::TreeNode("Lights Information"))
-	{ 
-		if (ImGui::TreeNode("Directional Lights")) {
+		ImGui::Spacing();
+		ImGui::Spacing();
+		if (ImGui::TreeNode("Lights Information"))
+		{ 
+			if (ImGui::TreeNode("Directional Lights")) {
 			int Count = 0;
 			for (auto& ii : this->DirLights)
 			{
@@ -662,7 +675,7 @@ void Game::ImGuiOptions()
 			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("Cone Lights"))
+			if (ImGui::TreeNode("Cone Lights"))
 		{
 			int Count = 0;
 			for (auto& ii : this->CnLights)
@@ -775,11 +788,11 @@ void Game::ImGuiOptions()
 			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("Point Lights"))
+			if (ImGui::TreeNode("Point Lights"))
 		{
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("Area Lights"))
+			if (ImGui::TreeNode("Area Lights"))
 		{
 			int Count = 0;
 			for (auto& ii : this->ArLights)
@@ -822,7 +835,7 @@ void Game::ImGuiOptions()
 				ImGui::Text(" Light Yaw and Pitch (%f,%f)", TempYaw, TempPitch);
 				if (ImGui::SliderFloat("Light Yaw", &TempYaw, -180.f, 180.f))
 				{
-					this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
+this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 				}
 				if (ImGui::SliderFloat("Light Pitch", &TempPitch, -90.f, 0.f))
 				{
@@ -919,8 +932,31 @@ void Game::ImGuiOptions()
 			ImGui::TreePop();
 		}
 		ImGui::TreePop();
+		}
+		ImGui::Checkbox("Other window", &this->OtherWindow);
+
+		ImGui::End();
 	}
-	ImGui::End();
+	if(this->OtherWindow)
+	{
+		ImGui::Begin("test",&this->OtherWindow);
+
+		static int clicked = 0;
+		static char buf[1000];
+		if (ImGui::Button("Make Button"))
+		{
+			FileMaker Temp;
+			Temp.MakeFiles("Test.txt");
+		}
+		if (ImGui::Button("Read Button"))
+		{
+			FileReader Temp;
+			std::string Data = Temp.GetFileInfo("Test.txt");
+			std::cout << Data.c_str();
+		}
+		ImGui::InputText("Name",buf,20);
+		ImGui::End();
+	}
 }
 
 void Game::updateUniforms()
@@ -1072,8 +1108,7 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
-	rng(std::random_device()()),xDist(-100,100),yDist(-100,100)
+	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f))
 {
 	
 	this->SkyColor = SkyColor;
