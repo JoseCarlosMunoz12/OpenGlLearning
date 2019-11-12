@@ -945,8 +945,8 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		static char buf[1000];
 		if (ImGui::Button("Make Button"))
 		{
-			FileMaker Temp;
-			Temp.MakeFiles("Test.txt");
+			FileMaker Temp("Test.txt");
+			Temp.WriteFile(this->models);
 		}
 		if (ImGui::Button("Read Button"))
 		{

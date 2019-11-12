@@ -1,3 +1,38 @@
-4568
-4568
-4568
+*******Model 0*******
+Terrain
+--Meshes--
+M_N-Terrain 0
+--Model Position--
+M_P-0.000000-0.000000-0.000000-
+*******Model 1*******
+Stall Image1
+--Meshes--
+M_N-StallImage 0
+--Model Position--
+M_P-0.000000-3.686275-9.000000-
+*******Model 2*******
+Stall Image2
+--Meshes--
+M_N-StallImage 0
+--Model Position--
+M_P-9.000000-3.921569-0.000000-
+*******Model 3*******
+Face R
+--Meshes--
+M_N-Cone 0
+M_N-Tree 1
+M_N-StallImage 2
+--Model Position--
+M_P-0.000000-4.000000-1.000000-
+*******Model 4*******
+DebugImage
+--Meshes--
+M_N-Tree1 0
+--Model Position--
+M_P-0.000000-5.156863--2.000000-
+*******Model 5*******
+DebugImage1
+--Meshes--
+M_N-Tree1 0
+--Model Position--
+M_P-1.000000-5.156863--2.000000-

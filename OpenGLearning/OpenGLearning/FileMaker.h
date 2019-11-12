@@ -5,17 +5,49 @@
 class FileMaker 
 {
 private:
-
+	std::string FileLoc;
 public:
-	FileMaker()
+	FileMaker(std::string MakeFile)
 	{
+		this->FileLoc = MakeFile;
 	}
-	void MakeFiles(std::string FileLoc)
+	void WriteFile(std::vector<Model*> AllModels)
 	{
-		std::ofstream Name(FileLoc);
-		Name << std::to_string(4568) + "\n";
-		Name << std::to_string(4568) + "\n";
-		Name << std::to_string(4568) + "\n";
+		std::ofstream Make;
+		Make.open(this->FileLoc);
+		int Count = 0;
+		for (auto& ii : AllModels)
+		{
+			std::string Name = ii->GetName();
+			std::vector<Mesh*> Meshess = ii->GetMeshes();
+			Make << "*******Model " +std::to_string(Count) +"*******\n";
+			Make << Name.c_str();
+			Make << "\n";
+			Make << "--Meshes--\n";
+			int MeshCount = 0;
+			for (auto& jj : Meshess)
+			{
+				Make<<"M_N-";
+				Make << jj->GiveName();
+				Make << " " + std::to_string(MeshCount)+ "\n";				
+				MeshCount++;
+			}
+			Make << "--Model Position--\n";
+			glm::vec3 ModPos = ii->GetPosition(); 
+			
+			Make << "M_P-";
+			Make << std::to_string(ModPos.x) << "-" << std::to_string(ModPos.y) << "-" << std::to_string(ModPos.z) << "-\n";
+			Make << "--Model Nodes--\n";
+			std::vector<Nodes*> ModNodes = ii->GetNodesInfo();
+
+
+			Count++;
+		}
+		Make.close();
+	}
+	void MakeGameFile(Game* GameToget)
+	{
+		std::cout << "Found\n";
 	}
 };
 
