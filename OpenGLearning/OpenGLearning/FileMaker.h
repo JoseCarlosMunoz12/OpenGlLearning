@@ -29,7 +29,7 @@ public:
 			std::string Name = ii->GetName();
 			std::vector<Mesh*> Meshess = ii->GetMeshes();
 			Make << "*******Model " +std::to_string(Count) +"*******\n";
-			Make << Name.c_str();
+			Make << "Model Name is " + Name;
 			Make << "\n";
 			Make << "--Meshes--\n";
 			int MeshCount = 0;
@@ -49,12 +49,12 @@ public:
 			Make << "--Model Position--\n";			
 			Make << "M_P-";
 			Make << this->TransposeVec3(ii->GetPosition()) << "-\n";
-			Make << "--Model Nodes--\n";
+			Make << "--Model Nodes Information--\n";
 			std::vector<Nodes*> ModNodes = ii->GetNodesInfo();
 			int NodeCount = 0;
 			for (auto& jj : ModNodes)
 			{
-				Make << "M_N-"<< std::to_string(NodeCount)<< "-" <<this->TransposeVec3(jj->GetPosition()) << "\n";
+				Make << "M_N_P- Node "<< std::to_string(NodeCount)<< "-" <<this->TransposeVec3(jj->GetPosition()) << "\n";
 				NodeCount++;
 			}
 			
