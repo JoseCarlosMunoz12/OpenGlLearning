@@ -942,19 +942,19 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		ImGui::Begin("test",&this->OtherWindow);
 
 		static int clicked = 0;
-		static char buf[1000];
 		if (ImGui::Button("Make Button"))
 		{
 			FileMaker Temp("Test.txt");
 			Temp.WriteFile(this->models);
 		}
+		static std::string net = "None";
 		if (ImGui::Button("Read Button"))
 		{
-			FileReader Temp;
-			std::string Data = Temp.GetFileInfo("Test.txt");
-			std::cout << Data.c_str();
+			FileReader Temp("Test.txt");
+			std::string Data = Temp.GetFileInfo();
+			net = Data;
 		}
-		ImGui::InputText("Name",buf,20);
+		ImGui::Text(net.c_str());
 		ImGui::End();
 	}
 }

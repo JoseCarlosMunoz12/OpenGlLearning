@@ -1,38 +1,84 @@
 *******Model 0*******
 Terrain
 --Meshes--
-M_N-Terrain 0
+M_M-0Terrain
+--Textures
+M_T-0-Images/grassy2.png
+M_T-1-Images/mud.png
+M_T-2-Images/grassFlowers.png
+M_T-3-Images/path.png
+M_T-4-Images/blendMap.png
+M_T-5-Shadow0
+M_T-6-Shadow1
+M_T-7-Shadow2
 --Model Position--
-M_P-0.000000-0.000000-0.000000-
+M_P-0.000000-0.000000-0.000000--
+--Model Nodes--
+M_N-0-0.000000-0.000000-0.000000-
 *******Model 1*******
 Stall Image1
 --Meshes--
-M_N-StallImage 0
+M_M-0StallImage
+--Textures
+M_T-0-Images/blendMap.png
+M_T-1-Images/stallTexture.png
+M_T-2-Shadow0
+M_T-3-Shadow1
+M_T-4-Shadow2
 --Model Position--
-M_P-0.000000-3.686275-9.000000-
+M_P-0.000000-3.686275-9.000000--
+--Model Nodes--
+M_N-0-0.000000-3.686275-9.000000-
 *******Model 2*******
 Stall Image2
 --Meshes--
-M_N-StallImage 0
+M_M-0StallImage
+--Textures
+M_T-0-Images/container.png
+M_T-1-Images/container_specular.png
+M_T-2-Shadow0
+M_T-3-Shadow1
+M_T-4-Shadow2
 --Model Position--
-M_P-9.000000-3.921569-0.000000-
+M_P-9.000000-3.921569-0.000000--
+--Model Nodes--
+M_N-0-9.000000-3.921569-0.000000-
 *******Model 3*******
 Face R
 --Meshes--
-M_N-Cone 0
-M_N-Tree 1
-M_N-StallImage 2
+M_M-0Cone
+M_M-1Tree
+M_M-2StallImage
+--Textures
+M_T-0-Images/stallTexture.png
+M_T-1-Images/stallTexture.png
+M_T-2-Shadow0
+M_T-3-Shadow1
+M_T-4-Shadow2
 --Model Position--
-M_P-0.000000-4.000000-1.000000-
+M_P-0.000000-4.000000-1.000000--
+--Model Nodes--
+M_N-0-0.000000-4.000000-1.000000-
+M_N-1-1.000000-0.000000-1.000000-
+M_N-2-0.000000-0.000000-1.000000-
+M_N-3-10.000000-0.000000-10.000000-
 *******Model 4*******
 DebugImage
 --Meshes--
-M_N-Tree1 0
+M_M-0Tree1
+--Textures
+M_T-0-Shadow0
 --Model Position--
-M_P-0.000000-5.156863--2.000000-
+M_P-0.000000-5.156863--2.000000--
+--Model Nodes--
+M_N-0-0.000000-5.156863--2.000000-
 *******Model 5*******
 DebugImage1
 --Meshes--
-M_N-Tree1 0
+M_M-0Tree1
+--Textures
+M_T-0-Shadow2
 --Model Position--
-M_P-1.000000-5.156863--2.000000-
+M_P-1.000000-5.156863--2.000000--
+--Model Nodes--
+M_N-0-1.000000-5.156863--2.000000-

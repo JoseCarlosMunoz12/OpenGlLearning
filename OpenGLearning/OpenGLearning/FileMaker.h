@@ -6,6 +6,14 @@ class FileMaker
 {
 private:
 	std::string FileLoc;
+	std::string TransposeVec3(glm::vec3 VecToString)
+	{
+		std::string Temp = "";
+		Temp += std::to_string(VecToString.x) + "-";
+		Temp += std::to_string(VecToString.y) + "-";
+		Temp += std::to_string(VecToString.z) + "-";
+		return Temp;
+	}
 public:
 	FileMaker(std::string MakeFile)
 	{
@@ -27,20 +35,29 @@ public:
 			int MeshCount = 0;
 			for (auto& jj : Meshess)
 			{
-				Make<<"M_N-";
-				Make << jj->GiveName();
-				Make << " " + std::to_string(MeshCount)+ "\n";				
+				Make<<"M_M-"<< std::to_string(MeshCount) + jj->GiveName() + "\n";				
 				MeshCount++;
 			}
-			Make << "--Model Position--\n";
-			glm::vec3 ModPos = ii->GetPosition(); 
-			
+			Make << "--Textures\n";
+			std::vector<GeneralTextInfo*> ModTex = ii->getTexture();
+			int TexCount = 0;
+			for (auto& jj : ModTex)
+			{
+				Make << "M_T-" << std::to_string(TexCount) << "-" << jj->GiveChar() << "\n";
+				TexCount++;
+			}
+			Make << "--Model Position--\n";			
 			Make << "M_P-";
-			Make << std::to_string(ModPos.x) << "-" << std::to_string(ModPos.y) << "-" << std::to_string(ModPos.z) << "-\n";
+			Make << this->TransposeVec3(ii->GetPosition()) << "-\n";
 			Make << "--Model Nodes--\n";
 			std::vector<Nodes*> ModNodes = ii->GetNodesInfo();
-
-
+			int NodeCount = 0;
+			for (auto& jj : ModNodes)
+			{
+				Make << "M_N-"<< std::to_string(NodeCount)<< "-" <<this->TransposeVec3(jj->GetPosition()) << "\n";
+				NodeCount++;
+			}
+			
 			Count++;
 		}
 		Make.close();
@@ -55,14 +72,16 @@ class FileReader
 {
 private:
 
+	std::string FileLoc;
 public:
-	FileReader()
+	FileReader(std::string NewFileLoc)
 	{
+		this->FileLoc = NewFileLoc;
 	}
 
-	std::string GetFileInfo(std::string FileLoc)
+	std::string GetFileInfo()
 	{
-		std::fstream FileData(FileLoc);
+		std::fstream FileData(this->FileLoc);
 		std::string Line;
 		std::string Lines = "";
 		if (FileData.is_open())
