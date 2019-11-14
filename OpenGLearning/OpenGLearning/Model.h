@@ -13,13 +13,17 @@ class Nodes
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
+	int ParentId;
+	int OwnId;
 public:
 	Nodes* Parent;
 	Nodes(Nodes* InitParent,
-		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale)
+		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale, int InitParentID, int InitOwnId)
 		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
+		this->ParentId = InitParentID;
+		this->OwnId = InitOwnId;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
@@ -51,15 +55,26 @@ public:
 	{
 		return this->Scale;
 	}
-	int GetTotalparent()
+	std::string GetParentsId()
 	{
 		if (this->Parent)
 		{
-			return 1 + this->Parent->GetTotalparent();
+			return this->Parent->GetParentsId() + "-" + std::to_string(this->ParentId);
 		}
 		else
 		{
-			return 0;
+			return "M_N";
+		}
+	}
+	std::string GetNodesId()
+	{
+		if (this->Parent)
+		{
+			return this->GetParentsId() + "-" + std::to_string(this->OwnId);
+		}
+		else
+		{
+			return "M_N";
 		}
 	}
 	//Update Matrix
@@ -161,10 +176,10 @@ private:
 		{
 			if (Count == 0)
 				this->TreeNodes.push_back(new Nodes(NULL,
-					Pos, ii.Origin, ii.Rotation, ii.Scale));
+					Pos, ii.Origin, ii.Rotation, ii.Scale,0,0));
 			else
 				this->TreeNodes.push_back(new Nodes(this->TreeNodes[ii.ParentId],
-					ii.Position, ii.Origin, ii.Rotation, ii.Scale));
+					ii.Position, ii.Origin, ii.Rotation, ii.Scale,ii.ParentId,ii.OwnId));
 			this->MeshToUse.push_back(ii.MeshId);
 			this->TextToUse.push_back(ii.TextsId);
 			Count++;

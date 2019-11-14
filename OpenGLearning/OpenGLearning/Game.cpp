@@ -183,22 +183,22 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2,3,4,5,6,7 });
+		0, 0,0, { 0,1,2,3,4,5,6,7 });
 	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2,3,4 });
+		0, 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2,3 });
+		0, 0, 0, { 0,1,2,3 });
 	MeshsArtifacts Plane(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, {0});
+		0, 0, 0, {0});
 	std::vector<MeshsArtifacts> HierArch1;
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(1.f),
-		0, 0, { 0,1,2,3,4}));
+		0, 0, 0, { 0,1,2,3,4}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
-		1, 0, { 0,1,2,3,4 }));
+		1, 0, 0, { 0,1,2,3,4 }));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 2.f), glm::vec3(0.f), glm::vec3(1.f),
-		2, 1, { 0,1,2,3,4 }));
+		2, 1, 0, { 0,1,2,3,4 }));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(10.f, 0.f, 10.f), glm::vec3(10.f, 0.f, 10.f), glm::vec3(0.f), glm::vec3(1.f),
-		2, 2, { 1,0,2,3,4 }));
+		2, 1, 1, { 1,0,2,3,4 }));
 	//
 	//Pushing Models
 	//
@@ -209,15 +209,15 @@ void Game::initModels()
 		this->textures[13] ,this->textures[14],this->textures[15] },
 		meshes[0], { Terrain }));
 	this->NamesOfModels.push_back("Terrain");
-	this->models.push_back(new Model("Stall Image1",
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
-		this->MatTest[1], { this->textures[10],this->textures[11],this->textures[13],this->textures[14],this->textures[15] },
-		meshes[1], { Stalls }));
-	this->NamesOfModels.push_back("Stall Image1");
-	this->models.push_back(new Model("Stall Image2",
-		glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
-		this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13],this->textures[14],this->textures[15] },
-		meshes[1], { Flat }));
+	//this->models.push_back(new Model("Stall Image1",
+	//	glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
+	//	this->MatTest[1], { this->textures[10],this->textures[11],this->textures[13],this->textures[14],this->textures[15] },
+	//	meshes[1], { Stalls }));
+	//this->NamesOfModels.push_back("Stall Image1");
+	//this->models.push_back(new Model("Stall Image2",
+	//	glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
+	//	this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13],this->textures[14],this->textures[15] },
+	//	meshes[1], { Flat }));
 
 	this->NamesOfModels.push_back("Stall Image2");
 	this->models.push_back(new Model("Face R",
@@ -226,16 +226,16 @@ void Game::initModels()
 		{ meshes[6],meshes[2],meshes[1] }, HierArch1));
 	this->NamesOfModels.push_back("Face R");
 
-	this->models.push_back(new Model("DebugImage",
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -2.f) +1.f, -2.f),
-		this->MatTest[3], { this->textures[13] },
-		{ meshes[3] }, {Plane}));
-	this->NamesOfModels.push_back("Debug Image");
-	this->models.push_back(new Model("DebugImage1",
-		glm::vec3(1.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(1.f, -2.f) + 1.f, -2.f),
-		this->MatTest[3], { this->textures[15] },
-		{ meshes[3] }, { Plane }));
-	this->NamesOfModels.push_back("Debug Image1");
+	//this->models.push_back(new Model("DebugImage",
+	//	glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -2.f) +1.f, -2.f),
+	//	this->MatTest[3], { this->textures[13] },
+	//	{ meshes[3] }, {Plane}));
+	//this->NamesOfModels.push_back("Debug Image");
+	//this->models.push_back(new Model("DebugImage1",
+	//	glm::vec3(1.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(1.f, -2.f) + 1.f, -2.f),
+	//	this->MatTest[3], { this->textures[15] },
+	//	{ meshes[3] }, { Plane }));
+	//this->NamesOfModels.push_back("Debug Image1");
 }
 
 void Game::initLights()
@@ -458,6 +458,16 @@ void Game::ImGuiOptions()
 					{
 						glm::vec3 TempVec = ii->GetPosition();
 						ImGui::Text("Node %d Pos =",CountOfPos); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+						ImGui::Text(ii->GetNodesId().c_str());
+						std::string TempNodeId = "Node" + std::to_string(CountOfPos);
+						if (ImGui::TreeNode(TempNodeId.c_str()))
+						{
+							ImGui::SliderFloat("XPos", &TempVec.x, 0, 10.f);
+							ImGui::SliderFloat("YPos", &TempVec.y, 0, 10.f);
+							ImGui::SliderFloat("ZPos", &TempVec.z, 0, 10.f);
+							ii->SetPosition(TempVec);
+							ImGui::TreePop();
+						}
 						CountOfPos++;
 					}
 					ImGui::TreePop();
@@ -469,6 +479,7 @@ void Game::ImGuiOptions()
 					{
 						glm::vec3 TempVec = ii->GetRotation();
 						ImGui::Text("Node %d Rotation =",CountOfRot); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+				
 						CountOfRot++;
 					}
 					ImGui::TreePop();

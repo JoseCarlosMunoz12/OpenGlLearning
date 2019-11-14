@@ -47,24 +47,19 @@ public:
 				TexCount++;
 			}
 			Make << "--Model Position--\n";			
-			Make << "M_P-";
-			Make << this->TransposeVec3(ii->GetPosition()) << "-\n";
+			Make << "M_P-" + this->TransposeVec3(ii->GetPosition()) << "-\n";
 			Make << "--Model Nodes Information--\n";
 			std::vector<Nodes*> ModNodes = ii->GetNodesInfo();
 			int NodeCount = 0;
 			for (auto& jj : ModNodes)
 			{
-				Make << "M_N_P- Node "<< std::to_string(NodeCount)<< "-" <<this->TransposeVec3(jj->GetPosition()) << "\n";
+				Make << "M_N_P-Node_ "<< std::to_string(NodeCount)<< "-" <<this->TransposeVec3(jj->GetPosition()) << "\n";
 				NodeCount++;
 			}
 			
 			Count++;
 		}
 		Make.close();
-	}
-	void MakeGameFile(Game* GameToget)
-	{
-		std::cout << "Found\n";
 	}
 };
 
