@@ -478,8 +478,16 @@ void Game::ImGuiOptions()
 					for (auto& ii : TempNodes)
 					{
 						glm::vec3 TempVec = ii->GetRotation();
+						std::string TempNodeId = "Node" +  std::to_string(CountOfRot);
 						ImGui::Text("Node %d Rotation =",CountOfRot); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
-				
+						if (ImGui::TreeNode(TempNodeId.c_str()))
+						{
+							ImGui::SliderFloat("XPos", &TempVec.x, 0, 180.f);
+							ImGui::SliderFloat("YPos", &TempVec.y, 0, 180.f);
+							ImGui::SliderFloat("ZPos", &TempVec.z, 0, 180.f);
+							ii->SetRotation(TempVec);
+							ImGui::TreePop();
+						}
 						CountOfRot++;
 					}
 					ImGui::TreePop();
