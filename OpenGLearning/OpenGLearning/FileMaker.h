@@ -35,17 +35,29 @@ public:
 			int MeshCount = 0;
 			for (auto& jj : Meshess)
 			{
-				Make<<"M_M-"<< std::to_string(MeshCount) + jj->GiveName() + "\n";				
+				Make<<"-M_M-"<< std::to_string(MeshCount) + jj->GiveName() + "\n";				
 				MeshCount++;
 			}
-			Make << "--Textures\n";
+			Make << "--Textures--\n";
 			std::vector<GeneralTextInfo*> ModTex = ii->getTexture();
 			int TexCount = 0;
 			for (auto& jj : ModTex)
 			{
-				Make << "M_T-" << std::to_string(TexCount) << "-" << jj->GiveChar() << "\n";
+				Make << "--M_T-" << std::to_string(TexCount) << "-" << jj->GiveChar() << "\n";
 				TexCount++;
 			}
+			std::vector<std::vector<int>> TexId = ii->GetTexId();
+			int TexIdCount = 0;
+			for (auto& jj : TexId)
+			{
+				Make << "-Node_" + std::to_string(TexIdCount) + "=";
+				for (auto& kk : jj)
+				{
+					Make << std::to_string(kk) + "-";
+				}
+				Make << "\n";
+				TexIdCount++;
+			}			
 			Make << "--Model Position--\n";			
 			Make << "M_P-" + this->TransposeVec3(ii->GetPosition()) << "-\n";
 			Make << "--Model Nodes Information--\n";
@@ -53,7 +65,11 @@ public:
 			int NodeCount = 0;
 			for (auto& jj : ModNodes)
 			{
-				Make << "M_N_P-Node_ "<< std::to_string(NodeCount)<< "-" <<this->TransposeVec3(jj->GetPosition()) << "\n";
+				Make << "*--" + std::to_string(NodeCount) << "--*\n";
+				Make << "-M_N_ID-" + jj->GetNodesId() + "\n";
+				Make << "-M_N_P-Node_ " + std::to_string(NodeCount)<< "-" + this->TransposeVec3(jj->GetPosition()) + "\n";
+				Make << "-M_N_R-Node_" + std::to_string(NodeCount) + "-" + this->TransposeVec3(jj->GetRotation()) << "\n";
+				Make << "*----*" <<"\n";
 				NodeCount++;
 			}
 			

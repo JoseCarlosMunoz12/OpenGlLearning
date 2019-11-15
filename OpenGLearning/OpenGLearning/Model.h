@@ -355,4 +355,8 @@ public:
 	{
 		return this->Name;
 	}
+	std::vector<std::vector<int>> GetTexId()
+	{
+		return this->TextToUse;
+	}
 };

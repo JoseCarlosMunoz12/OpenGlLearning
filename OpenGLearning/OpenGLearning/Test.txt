@@ -1,36 +1,61 @@
 *******Model 0*******
 Model Name is Terrain
 --Meshes--
-M_M-0Terrain
---Textures
-M_T-0-Images/grassy2.png
-M_T-1-Images/mud.png
-M_T-2-Images/grassFlowers.png
-M_T-3-Images/path.png
-M_T-4-Images/blendMap.png
-M_T-5-Shadow0
-M_T-6-Shadow1
-M_T-7-Shadow2
+-M_M-0Terrain
+--Textures--
+--M_T-0-Images/grassy2.png
+--M_T-1-Images/mud.png
+--M_T-2-Images/grassFlowers.png
+--M_T-3-Images/path.png
+--M_T-4-Images/blendMap.png
+--M_T-5-Shadow0
+--M_T-6-Shadow1
+--M_T-7-Shadow2
+-Node_0=0-1-2-3-4-5-6-7-
 --Model Position--
 M_P-0.000000-0.000000-0.000000--
 --Model Nodes Information--
-M_N_P-Node_ 0-0.000000-0.000000-0.000000-
+*--0--*
+-M_N_ID-M_N
+-M_N_P-Node_ 0-0.000000-0.000000-0.000000-
+-M_N_R-Node_0-0.000000-0.000000-0.000000-
+*----*
 *******Model 1*******
 Model Name is Face R
 --Meshes--
-M_M-0Cone
-M_M-1Tree
-M_M-2StallImage
---Textures
-M_T-0-Images/stallTexture.png
-M_T-1-Images/stallTexture.png
-M_T-2-Shadow0
-M_T-3-Shadow1
-M_T-4-Shadow2
+-M_M-0Cone
+-M_M-1Tree
+-M_M-2StallImage
+--Textures--
+--M_T-0-Images/stallTexture.png
+--M_T-1-Images/stallTexture.png
+--M_T-2-Shadow0
+--M_T-3-Shadow1
+--M_T-4-Shadow2
+-Node_0=0-1-2-3-4-
+-Node_1=0-1-2-3-4-
+-Node_2=0-1-2-3-4-
+-Node_3=1-0-2-3-4-
 --Model Position--
 M_P-0.000000-4.000000-1.000000--
 --Model Nodes Information--
-M_N_P-Node_ 0-0.000000-4.000000-1.000000-
-M_N_P-Node_ 1-1.000000-0.000000-1.000000-
-M_N_P-Node_ 2-0.000000-0.000000-1.000000-
-M_N_P-Node_ 3-10.000000-0.000000-10.000000-
+*--0--*
+-M_N_ID-M_N
+-M_N_P-Node_ 0-0.000000-4.000000-1.000000-
+-M_N_R-Node_0-0.000000-0.000000-0.000000-
+*----*
+*--1--*
+-M_N_ID-M_N-0-0
+-M_N_P-Node_ 1-1.000000-0.000000-1.000000-
+-M_N_R-Node_1-0.000000-0.000000-0.000000-
+*----*
+*--2--*
+-M_N_ID-M_N-0-1-0
+-M_N_P-Node_ 2-0.000000-0.000000-1.000000-
+-M_N_R-Node_2-0.000000-0.000000-0.000000-
+*----*
+*--3--*
+-M_N_ID-M_N-0-1-1
+-M_N_P-Node_ 3-10.000000-0.000000-10.000000-
+-M_N_R-Node_3-0.000000-0.000000-0.000000-
+*----*
