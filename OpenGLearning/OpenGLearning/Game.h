@@ -169,7 +169,10 @@ public:
 	void render();
 	//Static Functions
 	static void framebuffer_resize_callback(GLFWwindow* window, int fbW, int fbH);
-	//ImGui Functions
+	//ImGui Functions	
 	bool CheckNum(int Num);
+	//Create New Models With Existing Meshes, Texture, etc.
+	void LoadNewModels(std::vector<M_To_Make> FromFile);
+
 };
 

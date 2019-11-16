@@ -1260,3 +1260,11 @@ bool Game::CheckNum(int Num)
 		return false;
 	}
 }
+
+void Game::LoadNewModels(std::vector<M_To_Make> FromFile)
+{
+	for (auto& ii : FromFile)
+	{
+		
+	}
+}
