@@ -173,6 +173,6 @@ public:
 	bool CheckNum(int Num);
 	//Create New Models With Existing Meshes, Texture, etc.
 	void LoadNewModels(std::vector<M_To_Make> FromFile);
-
+	void ReleaseModels();
 };
 

@@ -348,7 +348,7 @@ public:
 		return this->Position;
 	}
 	StdMat* GetStdMat()
-	{
+	{		
 		return this->TestMat;
 	}
 	const char* GetName()
@@ -358,5 +358,9 @@ public:
 	std::vector<std::vector<int>> GetTexId()
 	{
 		return this->TextToUse;
+	}
+	int GetShaderId()
+	{
+		return this->TestMat->GetShaderId();
 	}
 };

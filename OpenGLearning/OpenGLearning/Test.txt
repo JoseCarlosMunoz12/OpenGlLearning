@@ -1,5 +1,7 @@
 *******Model 0*******
 Model Name is Terrain
+--Material ID--
+-M_Mat_Id-2
 --Meshes--
 -M_M-0Terrain
 --Textures--
@@ -22,6 +24,8 @@ M_P-0.000000-0.000000-0.000000--
 *----*
 *******Model 1*******
 Model Name is Face R
+--Material ID--
+-M_Mat_Id-1
 --Meshes--
 -M_M-0Cone
 -M_M-1Tree

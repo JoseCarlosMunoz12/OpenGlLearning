@@ -31,6 +31,9 @@ public:
 			Make << "*******Model " +std::to_string(Count) +"*******\n";
 			Make << "Model Name is " + Name;
 			Make << "\n";
+			Make << "--Material ID--\n";
+			int MatId = ii->GetShaderId();
+			Make << "-M_Mat_Id-" + std::to_string(MatId) + "\n";
 			Make << "--Meshes--\n";
 			int MeshCount = 0;
 			for (auto& jj : Meshess)

@@ -955,6 +955,18 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		}
 		ImGui::Checkbox("Other window", &this->OtherWindow);
 
+		if (ImGui::Button("Release Models"))
+		{
+			this->ReleaseModels();
+		}
+		if (this->models.size() == 0)
+		{
+			if (ImGui::Button("Make Models"))
+			{
+				this->initModels();
+			}
+
+		}
 		ImGui::End();
 	}
 	if(this->OtherWindow)
@@ -1267,4 +1279,9 @@ void Game::LoadNewModels(std::vector<M_To_Make> FromFile)
 	{
 		
 	}
+}
+
+void Game::ReleaseModels()
+{
+	this->models.clear();
 }

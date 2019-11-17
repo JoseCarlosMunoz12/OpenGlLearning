@@ -78,7 +78,8 @@ struct M_To_Make
 	std::string NewName;
 	glm::vec3 NewPos;
 	glm::vec3 NewRot;
+	int MatId;
 	std::vector<int> TexId;
 	std::vector<int> MeshId;
-	std::vector<MeshsArtifacts> NodesInf;
+	std::vector<MeshsArtifacts> NodesInf;	
 };
