@@ -22,6 +22,7 @@ public:
 		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
+		this->Rotation = InitRotation;
 		this->ParentId = InitParentID;
 		this->OwnId = InitOwnId;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);

@@ -191,9 +191,9 @@ void Game::initModels()
 	MeshsArtifacts Plane(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, 0, {0});
 	std::vector<MeshsArtifacts> HierArch1;
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f,90.f,0.f), glm::vec3(1.f),
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, 0, { 0,1,2,3,4}));
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f), glm::vec3(1.f),
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f,180.f,0.f), glm::vec3(1.f),
 		1, 0, 0, { 0,1,2,3,4 }));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 2.f), glm::vec3(0.f), glm::vec3(1.f),
 		2, 1, 0, { 0,1,2,3,4 }));
@@ -493,6 +493,27 @@ void Game::ImGuiOptions()
 					}
 					ImGui::TreePop();
 				}				
+				if (ImGui::TreeNode("Scale"))
+				{
+					int CountOfRot = 0;
+					for (auto& ii : TempNodes)
+					{
+						glm::vec3 TempVec = ii->GetScale();
+						std::string TempNodeId = "Node" + std::to_string(CountOfRot);
+						ImGui::Text("Node %d Rotation =", CountOfRot); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
+						if (ImGui::TreeNode(TempNodeId.c_str()))
+						{
+							ImGui::SliderFloat("XPos", &TempVec.x, 0, 1.f);
+							ImGui::SliderFloat("YPos", &TempVec.y, 0, 1.f);
+							ImGui::SliderFloat("ZPos", &TempVec.z, 0, 1.f);
+							ii->SetScale(TempVec);
+							ImGui::TreePop();
+						}
+						//;;l
+						CountOfRot++;
+					}
+					ImGui::TreePop();
+				}
 				ImGui::TreePop();
 			}
 		}

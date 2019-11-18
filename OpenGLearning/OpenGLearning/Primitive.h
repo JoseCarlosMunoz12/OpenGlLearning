@@ -534,7 +534,6 @@ public:
 					break;
 				default:
 					break;
-
 				}
 			}
 		}
