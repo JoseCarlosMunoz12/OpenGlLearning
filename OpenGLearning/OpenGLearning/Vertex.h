@@ -79,7 +79,9 @@ struct M_To_Make
 	glm::vec3 NewPos;
 	glm::vec3 NewRot;
 	int MatId;
-	std::vector<int> TexId;
+	std::vector<std::string> MeshesName;
+	std::vector<std::string> TexNames;
+	std::vector<std::vector<int>> TexId;
 	std::vector<int> MeshId;
 	std::vector<MeshsArtifacts> NodesInf;	
 };

@@ -1005,6 +1005,7 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		{
 			FileReader Temp("Test.txt");
 			std::string Data = Temp.GetFileInfo();
+			Temp.DecipherFile();
 			net = Data;
 		}
 		ImGui::Text(net.c_str());

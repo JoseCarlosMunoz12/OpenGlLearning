@@ -15,13 +15,15 @@ class Nodes
 	glm::mat4 Matrix;
 	int ParentId;
 	int OwnId;
+	int MeshId;
 public:
 	Nodes* Parent;
 	Nodes(Nodes* InitParent,
-		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale, int InitParentID, int InitOwnId)
+		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale, int InitParentID, int InitOwnId,int InitMeshId)
 		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
+		this->MeshId = InitMeshId;
 		this->Rotation = InitRotation;
 		this->ParentId = InitParentID;
 		this->OwnId = InitOwnId;
@@ -77,6 +79,10 @@ public:
 		{
 			return "M_N";
 		}
+	}
+	int GetMeshId()
+	{
+		return this->MeshId;
 	}
 	//Update Matrix
 	void UpdateMatrix()
@@ -177,10 +183,10 @@ private:
 		{
 			if (Count == 0)
 				this->TreeNodes.push_back(new Nodes(NULL,
-					Pos, ii.Origin, ii.Rotation, ii.Scale,0,0));
+					Pos, ii.Origin, ii.Rotation, ii.Scale,0,0,ii.MeshId));
 			else
 				this->TreeNodes.push_back(new Nodes(this->TreeNodes[ii.ParentId],
-					ii.Position, ii.Origin, ii.Rotation, ii.Scale,ii.ParentId,ii.OwnId));
+					ii.Position, ii.Origin, ii.Rotation, ii.Scale,ii.ParentId,ii.OwnId,ii.MeshId));
 			this->MeshToUse.push_back(ii.MeshId);
 			this->TextToUse.push_back(ii.TextsId);
 			Count++;
