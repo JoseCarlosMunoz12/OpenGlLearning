@@ -73,15 +73,23 @@ struct MeshsArtifacts
 		this->OwnId = OwnIdInit;
 	}
 };
-struct M_To_Make
+struct NodesId
+{
+	glm::vec3 Pos;
+	glm::vec3 Rot;
+	glm::vec3 Scale;
+	int ParentId;
+	int MeshId;
+	std::vector<int> TexId;
+};
+struct MdlToMake
 {
 	std::string NewName;
 	glm::vec3 NewPos;
 	glm::vec3 NewRot;
+	glm::vec3 NewScale;
 	int MatId;
 	std::vector<std::string> MeshesName;
 	std::vector<std::string> TexNames;
-	std::vector<std::vector<int>> TexId;
-	std::vector<int> MeshId;
-	std::vector<MeshsArtifacts> NodesInf;	
+	std::vector<NodesId> NodesInf;
 };

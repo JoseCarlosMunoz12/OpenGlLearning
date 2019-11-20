@@ -51,16 +51,6 @@ public:
 			}
 			std::vector<std::vector<int>> TexId = ii->GetTexId();
 			int TexIdCount = 0;
-			for (auto& jj : TexId)
-			{
-				Make << "Node_TexID@" + std::to_string(TexIdCount) + "@";
-				for (auto& kk : jj)
-				{
-					Make << std::to_string(kk) + "-";
-				}
-				Make << "\n";
-				TexIdCount++;
-			}			
 			Make << "--Model Position--\n";			
 			Make << "M_P@" + this->TransposeVec3(ii->GetPosition()) << "\n";
 			Make << "--Model Rotation--\n";
@@ -73,8 +63,14 @@ public:
 			for (auto& jj : ModNodes)
 			{
 				Make << "M_N_Inf@" + std::to_string(NodeCount) << "\n";
-				Make << "M_N_ID@" + jj->GetNodesId() + "\n";
+				Make << "M_N_ID@" + jj->GetParentsId() + "\n";
 				Make << "M_N_M_ID@" + std::to_string(jj->GetMeshId()) << "\n";
+				Make << "Node_TexID@" + std::to_string(NodeCount) + "@";
+				for (auto& kk : TexId[NodeCount])
+				{
+					Make << std::to_string(kk) + "-";
+				}
+				Make << "\n";
 				Make << "M_N_P@Node@" + std::to_string(NodeCount)<< "@" + this->TransposeVec3(jj->GetPosition()) + "\n";
 				Make << "M_N_R@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetRotation()) << "\n";
 				Make << "M_N_S@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetScale()) << "\n";
@@ -141,6 +137,27 @@ private:
 		}
 	}
 	//Functions To TranslateData
+	glm::vec3 ToVec3(std::string Line)
+	{
+		glm::vec3 TempVec;
+		std::vector<std::string> TempString;
+		this->ReturnStringArray(Line, '-', TempString);
+		TempVec.x = std::stoi(TempString[0]);
+		TempVec.y = std::stoi(TempString[1]);
+		TempVec.z = std::stoi(TempString[2]);
+		return TempVec;
+	}
+	std::vector<int> ToVecIn(std::string Line)
+	{
+		std::vector<int> TempVec;
+		std::vector<std::string> TempString;
+		this->ReturnStringArray(Line, '-', TempString);
+		for (auto& ii : TempString)
+		{
+			TempVec.push_back(std::stoi(ii));
+		}
+		return TempVec;
+	}
 public:
 	FileReader(std::string NewFileLoc)
 	{
@@ -213,10 +230,11 @@ public:
 		}
 		return Lines;
 	}
-	std::vector<M_To_Make> DecipherFile()
+	std::vector<MdlToMake> DecipherFile()
 	{
-		std::vector<M_To_Make> DataRead;
-		M_To_Make TempData;
+		std::vector<MdlToMake> DataRead;
+		MdlToMake TempData;
+		NodesId TempNodes;
 		std::fstream FileData(this->FileLoc);
 		if (FileData.is_open())
 		{
@@ -227,6 +245,7 @@ public:
 				{
 					std::vector<std::string> out;
 					std::vector<std::string> NewOut;
+					std::vector<int> TempIn;
 					this->ReturnStringArray(Line, '@', out);
 					switch (this->StringFound[out[0]])
 					{
@@ -243,33 +262,43 @@ public:
 						TempData.TexNames.push_back(out[2]);
 						break;
 					case N_ID:
-						this->ReturnStringArray(out[2], '-', NewOut);
+						TempNodes.TexId = this->ToVecIn(out[2]);
 						break;
 					case M_P:
+						TempData.NewPos = this->ToVec3(out[1]);
 						break;
 					case M_R:
+						TempData.NewRot = this->ToVec3(out[1]);
 						break;
 					case M_S:
+						TempData.NewScale = this->ToVec3(out[1]);
 						break;
 					case M_N_Inf:
 						break;
 					case M_N_ID:
+						TempNodes.ParentId = std::stoi(out[1]);
 						break;
 					case M_N_M_ID:
+						TempNodes.MeshId = std::stoi(out[1]);					
 						break;
 					case M_N_P:
+						TempNodes.Pos = this->ToVec3(out[3]);
 						break;
 					case M_N_R:
+						TempNodes.Rot = this->ToVec3(out[3]);
 						break;
 					case M_N_S:
+						TempNodes.Scale = this->ToVec3(out[3]);
+						TempData.NodesInf.push_back(TempNodes);
+						TempNodes.TexId.clear();
 						break;
 					case PLUS:
 						DataRead.push_back(TempData);
 						TempData.MeshesName.clear();
 						TempData.TexNames.clear();
-						TempData.MeshId.clear();
 						TempData.NodesInf.clear();
-						TempData.TexId.clear();
+						TempIn.clear();
+						TempNodes.TexId.clear();
 						break;
 					default:
 						break;

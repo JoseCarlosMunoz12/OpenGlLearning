@@ -172,7 +172,7 @@ public:
 	//ImGui Functions	
 	bool CheckNum(int Num);
 	//Create New Models With Existing Meshes, Texture, etc.
-	void LoadNewModels(std::vector<M_To_Make> FromFile);
+	void LoadNewModels(std::vector<MdlToMake> FromFile);
 	void ReleaseModels();
 };
 

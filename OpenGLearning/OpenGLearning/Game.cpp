@@ -183,7 +183,7 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0,0, { 0,1,2,3,4,5,6,7 });
+		0, 0, 0, { 0,1,2,3,4,5,6,7 });
 	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
@@ -458,7 +458,7 @@ void Game::ImGuiOptions()
 					{
 						glm::vec3 TempVec = ii->GetPosition();
 						ImGui::Text("Node %d Pos =",CountOfPos); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
-						ImGui::Text(ii->GetNodesId().c_str());
+						ImGui::Text(ii->GetParentsId().c_str());
 						std::string TempNodeId = "Node" + std::to_string(CountOfPos);
 						if (ImGui::TreeNode(TempNodeId.c_str()))
 						{
@@ -1295,11 +1295,10 @@ bool Game::CheckNum(int Num)
 	}
 }
 
-void Game::LoadNewModels(std::vector<M_To_Make> FromFile)
+void Game::LoadNewModels(std::vector<MdlToMake> FromFile)
 {
 	for (auto& ii : FromFile)
 	{
-		
 	}
 }
 
