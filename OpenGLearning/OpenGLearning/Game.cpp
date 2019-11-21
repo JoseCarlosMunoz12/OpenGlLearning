@@ -410,7 +410,7 @@ void Game::ImGuiOptions()
 		
 			for (auto& ModelsFound : this->models)
 		{
-			if (ImGui::Selectable(ModelsFound->GetName(), this->ModelToMake == Count))
+			if (ImGui::Selectable(ModelsFound->GetName().c_str(), this->ModelToMake == Count))
 			{
 				this->ModelToMake = Count;
 			}
@@ -423,7 +423,7 @@ void Game::ImGuiOptions()
 		
 			if (this->ModelToMake != -1)
 		{
-			ImGui::Text(this->models[this->ModelToMake]->GetName());
+			ImGui::Text(this->models[this->ModelToMake]->GetName().c_str());
 			StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
 			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
 			std::vector<GeneralTextInfo*> ModTex = this->models[this->ModelToMake]->getTexture();

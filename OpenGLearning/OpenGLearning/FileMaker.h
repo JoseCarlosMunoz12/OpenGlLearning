@@ -106,7 +106,7 @@ private:
 		PLUS
 	};
 	std::string FileLoc;
-	std::map< std::string, StringVal > StringFound;
+	std::map<std::string, StringVal > StringFound;
 	//Funcs to Find Special Char
 	void InitMap()
 	{

@@ -5,6 +5,7 @@
 #include "Material.h"
 #include "Vertex.h"
 #include <iostream>
+#include <string>
 
 class Nodes
 {
@@ -147,7 +148,7 @@ private:
 	std::vector<int> MeshToUse;
 	std::vector<std::vector<int>> TextToUse;
 	glm::vec3 Position;
-	const char* Name;
+	std::string Name;
 	void updateUniform()
 	{
 
@@ -173,7 +174,7 @@ private:
 		}
 	}
 public:
-	Model(const char* ModelName,
+	Model(std::string ModelName,
 		glm::vec3 position,
 		StdMat* material,std::vector<GeneralTextInfo*>orTexSpec,std::vector<Mesh*> MeshesToUse,
 		std::vector<MeshsArtifacts> Inits,
@@ -188,7 +189,7 @@ public:
 		this->TreeNodes[0]->SetOrigin(this->Position);
 		this->TreeNodes[0]->SetRotation(InitRot);
 	}	
-	Model(const char* ModelName,
+	Model(std::string ModelName,
 		glm::vec3 position,
 		StdMat* material, std::vector<GeneralTextInfo*>orTexSpec, Mesh* MeshUse, std::vector<MeshsArtifacts> Inits,
 		glm::vec3 InitRot = glm::vec3(0.f))
@@ -338,7 +339,7 @@ public:
 	{		
 		return this->TestMat;
 	}
-	const char* GetName()
+	std::string GetName()
 	{
 		return this->Name;
 	}
