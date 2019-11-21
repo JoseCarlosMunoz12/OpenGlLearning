@@ -14,7 +14,6 @@ class Nodes
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
 	int ParentId;
-	int OwnId;
 	int MeshId;
 public:
 	Nodes* Parent;

@@ -50,6 +50,10 @@ public:
 	{
 		return this->ShaderID;
 	}
+	int GetMatId()
+	{
+		return this->MatId;
+	}
 
 };
 

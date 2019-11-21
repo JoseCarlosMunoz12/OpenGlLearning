@@ -32,7 +32,7 @@ public:
 			Make << "Model_Name@" + Name;
 			Make << "\n";
 			Make << "--Material ID--\n";
-			int MatId = ii->GetShaderId();
+			int MatId = ii->GetStdMat()->GetMatId();
 			Make << "M_Mat_ID@" + std::to_string(MatId) + "\n";
 			Make << "--Meshes--\n";
 			int MeshCount = 0;
