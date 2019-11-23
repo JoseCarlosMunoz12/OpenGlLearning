@@ -45,6 +45,10 @@ public:
 			return this->Matrix;
 		}
 	}
+	glm::vec3 GetOrigin()
+	{
+		return this->Origin;
+	}
 	glm::vec3 GetPosition()
 	{
 		return this->Position;
@@ -248,6 +252,10 @@ public:
 	glm::vec3 GetScale(int MeshId)
 	{
 		return this->TreeNodes[MeshId]->GetScale();
+	}
+	glm::vec3 GetOrigin(int MeshId)
+	{
+		return this->TreeNodes[MeshId]->GetOrigin();
 	}
 	std::vector<Nodes*> GetNodesInfo()
 	{

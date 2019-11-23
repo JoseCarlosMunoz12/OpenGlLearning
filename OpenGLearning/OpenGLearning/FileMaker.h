@@ -9,8 +9,8 @@ private:
 	std::string TransposeVec3(glm::vec3 VecToString)
 	{
 		std::string Temp = "";
-		Temp += std::to_string(VecToString.x) + "-";
-		Temp += std::to_string(VecToString.y) + "-";
+		Temp += std::to_string(VecToString.x) + "$";
+		Temp += std::to_string(VecToString.y) + "$";
 		Temp += std::to_string(VecToString.z);
 		return Temp;
 	}
@@ -57,6 +57,8 @@ public:
 			Make << "M_R@" + this->TransposeVec3(ii->GetRotation(0)) << "\n";
 			Make << "--Model Scale--\n";
 			Make << "M_S@" + this->TransposeVec3(ii->GetScale(0)) << "\n";
+			Make << "--Model Origin--\n";
+			Make << "M_O@" + this->TransposeVec3(ii->GetOrigin(0)) << "\n";
 			Make << "--Model Nodes Information--\n";
 			std::vector<Nodes*> ModNodes = ii->GetNodesInfo();
 			int NodeCount = 0;
@@ -74,6 +76,7 @@ public:
 				Make << "M_N_P@Node@" + std::to_string(NodeCount)<< "@" + this->TransposeVec3(jj->GetPosition()) + "\n";
 				Make << "M_N_R@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetRotation()) << "\n";
 				Make << "M_N_S@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetScale()) << "\n";
+				Make << "M_N_O@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetOrigin()) << "\n";
 				Make << "*----*" <<"\n";
 				NodeCount++;
 			}
@@ -103,6 +106,7 @@ private:
 		M_N_P,
 		M_N_R,
 		M_N_S,
+		M_N_O,
 		PLUS
 	};
 	std::string FileLoc;
@@ -124,6 +128,7 @@ private:
 		this->StringFound["M_N_P"] = M_N_P;
 		this->StringFound["M_N_R"] = M_N_R;
 		this->StringFound["M_N_S"] = M_N_S;
+		this->StringFound["M_N_O"] = M_N_O;
 		this->StringFound["++"] = PLUS;
 	}
 	void ReturnStringArray(std::string const& str, const char delim, std::vector<std::string>& out)
@@ -141,7 +146,7 @@ private:
 	{
 		glm::vec3 TempVec;
 		std::vector<std::string> TempString;
-		this->ReturnStringArray(Line, '-', TempString);
+		this->ReturnStringArray(Line, '$', TempString);
 		TempVec.x = std::stoi(TempString[0]);
 		TempVec.y = std::stoi(TempString[1]);
 		TempVec.z = std::stoi(TempString[2]);
@@ -289,6 +294,9 @@ public:
 						break;
 					case M_N_S:
 						TempNodes.Scale = this->ToVec3(out[3]);
+						break;
+					case M_N_O:
+						TempNodes.Origin = this->ToVec3(out[3]);
 						TempData.NodesInf.push_back(TempNodes);
 						TempNodes.TexId.clear();
 						break;

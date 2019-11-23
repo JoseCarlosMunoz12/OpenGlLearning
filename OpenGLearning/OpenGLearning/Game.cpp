@@ -212,24 +212,22 @@ void Game::initModels()
 	//	glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 9.f), 9.f),
 	//	this->MatTest[1], { this->textures[10],this->textures[11],this->textures[13],this->textures[14],this->textures[15] },
 	//	meshes[1], { Stalls }));
-	//this->NamesOfModels.push_back("Stall Image1");
 	//this->models.push_back(new Model("Stall Image2",
 	//	glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
 	//	this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13],this->textures[14],this->textures[15] },
-	//	meshes[1], { Flat }));
-	this->models.push_back(new Model("Face R",
+	//meshes[1], { Flat }));
+	this->models.push_back(new Model("Stall Image2",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 1.f), 1.f),
 		this->MatTest[2], { this->textures[11],this->textures[11],this->textures[13],this->textures[14],this->textures[15] },
 		{ meshes[6],meshes[2],meshes[1] }, HierArch1));
-
-	this->models.push_back(new Model("DebugImage",
-		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -2.f) +1.f, -2.f),
-		this->MatTest[3], { this->textures[13] },
-		{ meshes[3] }, {Plane}));
-	this->models.push_back(new Model("DebugImage1",
-		glm::vec3(1.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(1.f, -2.f) + 1.f, -2.f),
-		this->MatTest[3], { this->textures[15] },
-		{ meshes[3] }, { Plane }));
+	//this->models.push_back(new Model("DebugImage",
+	//	glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, -2.f) +1.f, -2.f),
+	//	this->MatTest[3], { this->textures[13] },
+	//	{ meshes[3] }, {Plane}));
+	//this->models.push_back(new Model("DebugImage1",
+	//	glm::vec3(1.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(1.f, -2.f) + 1.f, -2.f),
+	//	this->MatTest[3], { this->textures[15] },
+	//	{ meshes[3] }, { Plane }));
 }
 
 void Game::initLights()
@@ -403,121 +401,108 @@ void Game::ImGuiOptions()
 		this->WinSize.y = ImGui::GetWindowSize().y + ScreenPos.y + 7.f;
 		//Info of each Model
 		if (ImGui::TreeNode("Change Features of Chosen Model"))
-	{
-		int Count = 0;
-		if (this->models.size() != 0)
 		{
-		
-			for (auto& ModelsFound : this->models)
-		{
-			if (ImGui::Selectable(ModelsFound->GetName().c_str(), this->ModelToMake == Count))
+			int Count = 0;
+			if (this->models.size() != 0)
 			{
-				this->ModelToMake = Count;
-			}
-			Count++;
-		}
-		
-			ImGui::Spacing();
-		
-			ImGui::Text("--Model Chosen--");
-		
-			if (this->ModelToMake != -1)
-		{
-			ImGui::Text(this->models[this->ModelToMake]->GetName().c_str());
-			StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
-			glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
-			std::vector<GeneralTextInfo*> ModTex = this->models[this->ModelToMake]->getTexture();
-			std::vector<Nodes*> TempNodes = this->models[this->ModelToMake]->GetNodesInfo();
-			std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
-			ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
-			ImGui::Text("Model Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
-			for (auto& ii : ModMesh)
-			{
-				ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ii->GiveName());
-			}
-			if (ImGui::TreeNode("Textures Used"))
-			{
-				for (auto& ii : ModTex)
+			
+				for (auto& ModelsFound : this->models)
 				{
-					ImGui::Text(ii->GiveChar());
-				}
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Nodes Info"))
-			{
-				if (ImGui::TreeNode("Position"))
-				{
-					int CountOfPos = 0;
-					for (auto& ii : TempNodes)
+					if (ImGui::Selectable(ModelsFound->GetName().c_str(), this->ModelToMake == Count))
 					{
-						glm::vec3 TempVec = ii->GetPosition();
-						ImGui::Text("Node %d Pos =",CountOfPos); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
-						ImGui::Text(ii->GetParentsId().c_str());
-						std::string TempNodeId = "Node" + std::to_string(CountOfPos);
-						if (ImGui::TreeNode(TempNodeId.c_str()))
-						{
-							ImGui::SliderFloat("XPos", &TempVec.x, 0, 10.f);
-							ImGui::SliderFloat("YPos", &TempVec.y, 0, 10.f);
-							ImGui::SliderFloat("ZPos", &TempVec.z, 0, 10.f);
-							ii->SetPosition(TempVec);
-							ImGui::TreePop();
-						}
-						CountOfPos++;
+						this->ModelToMake = Count;
 					}
-					ImGui::TreePop();
-				}
-				if (ImGui::TreeNode("Rotation"))
+					Count++;
+				}			
+				ImGui::Spacing();			
+				ImGui::Text("--Model Chosen--");			
+				if (this->ModelToMake != -1)
 				{
-					int CountOfRot = 0;
-					for (auto& ii : TempNodes)
+					ImGui::Text(this->models[this->ModelToMake]->GetName().c_str());
+					StdMat* ModMat = this->models[this->ModelToMake]->GetStdMat();
+					glm::vec3 ModPos = this->models[this->ModelToMake]->GetPosition();
+					std::vector<GeneralTextInfo*> ModTex = this->models[this->ModelToMake]->getTexture();
+					std::vector<Nodes*> TempNodes = this->models[this->ModelToMake]->GetNodesInfo();
+					std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
+					ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
+					ImGui::Text("Model Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
+					for (auto& ii : ModMesh)
 					{
-						glm::vec3 TempVec = ii->GetRotation();
-						std::string TempNodeId = "Node" +  std::to_string(CountOfRot);
-						ImGui::Text("Node %d Rotation =",CountOfRot); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
-						if (ImGui::TreeNode(TempNodeId.c_str()))
-						{
-							ImGui::SliderFloat("XPos", &TempVec.x, 0, 180.f);
-							ImGui::SliderFloat("YPos", &TempVec.y, 0, 180.f);
-							ImGui::SliderFloat("ZPos", &TempVec.z, 0, 180.f);
-							ii->SetRotation(TempVec);
-							ImGui::TreePop();
-						}
-						//;;l
-						CountOfRot++;
+						ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ii->GiveName());
 					}
-					ImGui::TreePop();
-				}				
-				if (ImGui::TreeNode("Scale"))
-				{
-					int CountOfRot = 0;
-					for (auto& ii : TempNodes)
+					if (ImGui::TreeNode("Textures Used"))	
 					{
-						glm::vec3 TempVec = ii->GetScale();
-						std::string TempNodeId = "Node" + std::to_string(CountOfRot);
-						ImGui::Text("Node %d Rotation =", CountOfRot); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempVec.x, TempVec.y, TempVec.z);
-						if (ImGui::TreeNode(TempNodeId.c_str()))
+						for (auto& ii : ModTex)
 						{
-							ImGui::SliderFloat("XPos", &TempVec.x, 0, 1.f);
-							ImGui::SliderFloat("YPos", &TempVec.y, 0, 1.f);
-							ImGui::SliderFloat("ZPos", &TempVec.z, 0, 1.f);
-							ii->SetScale(TempVec);
-							ImGui::TreePop();
+							ImGui::Text(ii->GiveChar());
 						}
-						//;;l
-						CountOfRot++;
+						ImGui::TreePop();
 					}
-					ImGui::TreePop();
+					if (ImGui::TreeNode("Nodes Info"))
+					{
+						int NodeCount = 0;
+						for (auto& ii : TempNodes)
+						{
+							std::string TempNodeId = "Node" + std::to_string(NodeCount);
+							if (ImGui::TreeNode(TempNodeId.c_str()))
+							{	
+								//Position
+								glm::vec3 VecP = ii->GetPosition();
+								ImGui::Text("NodePos = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecP.x, VecP.y, VecP.z);
+								if (ImGui::TreeNode("Node Position"))
+							{
+								ImGui::SliderFloat("XPos", &VecP.x, -10.f, 10.f);
+								ImGui::SliderFloat("YPos", &VecP.y, -10.f, 10.f);
+								ImGui::SliderFloat("ZPos", &VecP.z, -10.f, 10.f);
+								ii->SetPosition(VecP);
+								ImGui::TreePop();
+							}
+								//Rotation
+								glm::vec3 VecR = ii->GetRotation();
+								ImGui::Text("Node Rotation = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecR.x, VecR.y, VecR.z);
+								if (ImGui::TreeNode("Node Rotation"))
+							{
+								ImGui::SliderFloat("XRot", &VecR.x, 0, 180.f);
+								ImGui::SliderFloat("YRot", &VecR.y, 0, 180.f);
+								ImGui::SliderFloat("ZRot", &VecR.z, 0, 180.f);
+								ii->SetRotation(VecR);
+								ImGui::TreePop();
+							}
+								//Scale
+								glm::vec3 VecS = ii->GetScale();
+								ImGui::Text("Node Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecS.x, VecS.y, VecS.z);
+								if (ImGui::TreeNode("Node Scale"))
+							{
+								ImGui::SliderFloat("XPos", &VecS.x, 0, 1.f);
+								ImGui::SliderFloat("YPos", &VecS.y, 0, 1.f);
+								ImGui::SliderFloat("ZPos", &VecS.z, 0, 1.f);
+								ii->SetScale(VecS);
+								ImGui::TreePop();
+							}
+								//Origin
+								glm::vec3 VecOr = ii->GetOrigin();
+								ImGui::Text("Node Origin", NodeCount); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecOr.x, VecOr.y, VecOr.z);
+								if (ImGui::TreeNode("Node Origin"))
+							{
+								ImGui::SliderFloat("XOr", &VecOr.x, -10.f, 10.f);
+								ImGui::SliderFloat("YOr", &VecOr.y, -10.f, 10.f);
+								ImGui::SliderFloat("ZOr", &VecOr.z, -10.f, 10.f);
+								ii->SetOrigin(VecOr);
+								ImGui::TreePop();
+							}
+								ImGui::TreePop();
+							}
+							NodeCount++;
+						}
+						ImGui::TreePop();
+					}
 				}
-				ImGui::TreePop();
 			}
+			else {
+				ImGui::Text("No Models are in the World");
+			}
+			ImGui::TreePop();
 		}
-
-		}
-		else {
-			ImGui::Text("No Models are in the World");
-		}
-		ImGui::TreePop();
-	}
 		ImGui::Spacing();
 		ImGui::Spacing();
 		//New Model Customization
@@ -997,6 +982,7 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		static std::string net = "None";
 		if (ImGui::Button("Read Button"))
 		{
+			this->ReleaseModels();
 			FileReader Temp("Test.txt");
 			std::string Data = Temp.GetFileInfo();
 			this->LoadNewModels(Temp.DecipherFile());
@@ -1324,7 +1310,7 @@ void Game::LoadNewModels(std::vector<MdlToMake> FromFile)
 		}
 		for (auto& jj : ii.NodesInf)
 		{
-			TempArt.push_back(MeshsArtifacts(jj.Pos, jj.Pos, jj.Rot, jj.Scale, jj.MeshId, jj.ParentId, jj.TexId));
+			TempArt.push_back(MeshsArtifacts(jj.Pos, jj.Origin, jj.Rot, jj.Scale, jj.MeshId, jj.ParentId, jj.TexId));
 		}
 		this->models.push_back(new Model(ii.NewName.c_str(), ii.NewPos,
 			this->MatTest[ii.MatId], TexToUse, MeshesToUse, TempArt, ii.NewRot));

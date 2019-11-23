@@ -75,6 +75,7 @@ struct NodesId
 	glm::vec3 Pos;
 	glm::vec3 Rot;
 	glm::vec3 Scale;
+	glm::vec3 Origin;
 	int ParentId;
 	int MeshId;
 	std::vector<int> TexId;
