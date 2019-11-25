@@ -2,6 +2,8 @@
 #include "libs.h"
 #include <fstream>
 #include <iostream>
+#include <filesystem>
+namespace fs = std::filesystem;
 class FileRdrMkr
 {
 private:
@@ -247,7 +249,8 @@ public:
 	}
 	void GetFilesFolder()
 	{
-		
+		for (const auto& entry : fs::directory_iterator(this->FolderLoc))
+			std::cout << entry.path() << std::endl;
 	}
 	std::vector<std::string> GetAllFiles()
 	{

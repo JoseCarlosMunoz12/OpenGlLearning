@@ -976,8 +976,7 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		static int clicked = 0;
 		if (ImGui::Button("Make Button"))
 		{
-			RdMkFiles.GetAllFiles();
-			std::vector<std::string> Nms = RdMkFiles.GetAllFiles();
+			RdMkFiles.GetFilesFolder();
 		}
 		if (ImGui::Button("Read Button"))
 		{
