@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <algorithm>
 namespace fs = std::filesystem;
 class FileRdrMkr
 {
@@ -59,6 +60,17 @@ private:
 			end = str.find(delim, start);
 			out.push_back(str.substr(start, end - start));
 		}
+	}
+	//Find Name in Vector
+	bool FindItem(std::string Item)
+	{
+		std::vector<std::string>::iterator it;
+		it = std::find(Files.begin(), Files.end(), Item);
+		if (it != Files.end())
+		{
+			return true;
+		}
+		return false;
 	}
 	//Functions To TranslateData
 	glm::vec3 ToVec3(std::string Line)
@@ -183,8 +195,8 @@ public:
 	//Write Data
 	void WriteFile(std::vector<Model*> AllModels,std::string FileName)
 	{
-		std::ofstream Make(this->FolderLoc);
-		Make.open(FileName);
+		std::ofstream Make;
+		Make.open(this->FolderLoc + FileName);
 		int Count = 0;
 		for (auto& ii : AllModels)
 		{
@@ -250,7 +262,15 @@ public:
 	void GetFilesFolder()
 	{
 		for (const auto& entry : fs::directory_iterator(this->FolderLoc))
-			std::cout << entry.path() << std::endl;
+		{			
+			std::vector<std::string> PathDiv;			
+			std::string TempString = entry.path().string();
+			this->ReturnStringArray(TempString, '/', PathDiv);
+			if (!this->FindItem(PathDiv[1]))
+			{
+				this->Files.push_back(PathDiv[1]);
+			}
+		}
 	}
 	std::vector<std::string> GetAllFiles()
 	{

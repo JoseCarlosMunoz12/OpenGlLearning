@@ -976,11 +976,16 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		static int clicked = 0;
 		if (ImGui::Button("Make Button"))
 		{
-			RdMkFiles.GetFilesFolder();
+			RdMkFiles.WriteFile(this->models, "Temp0.txt");
 		}
 		if (ImGui::Button("Read Button"))
 		{
+			RdMkFiles.GetFilesFolder();
 		}
+		std::string TempName = "asdf";
+		static char Name[100] = "Hellow World";
+		ImGui::InputText(TempName.c_str(),Name,IM_ARRAYSIZE(Name));
+
 		ImGui::End();
 	}
 }
