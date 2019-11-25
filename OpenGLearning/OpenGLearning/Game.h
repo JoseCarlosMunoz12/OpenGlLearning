@@ -115,6 +115,8 @@ private:
 	int ArLightsToShow = -1;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
+	//File reader and maker
+	FileRdrMkr RdMkFiles;
 	// Empty Variables for new models
 	std::vector<Texture*> NewTex0;
 	glm::vec3 SpaceLoc;

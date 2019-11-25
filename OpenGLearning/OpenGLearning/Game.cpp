@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "FileMaker.h"
 
 void Game::initGLFW()
 {
@@ -183,22 +182,22 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0,  { 0,1,2,3,4,5,6,7 });
+		0, 0, {0,1,2,3,4,5,6,7});
 	MeshsArtifacts Stalls(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0,  { 0,1,2,3,4 });
+		0, 0, {0,1,2,3,4});
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0,  { 0,1,2,3 });
+		0, 0, {0,1,2,3});
 	MeshsArtifacts Plane(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, {0});
 	std::vector<MeshsArtifacts> HierArch1;
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0,  { 0,1,2,3,4}));
-	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f,180.f,0.f), glm::vec3(1.f),
-		1, 0, { 0,1,2,3,4 }));
+		0, 0, {0,1,2,3,4}));
+	HierArch1.push_back(MeshsArtifacts(glm::vec3(1.f, 0.f, 1.f), glm::vec3(1.f, 0.f, 1.f), glm::vec3(0.f,0.f,0.f), glm::vec3(1.f),
+		0, 0, {0,1,2,3,4}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 2.f), glm::vec3(0.f), glm::vec3(1.f),
-		2, 1,  { 0,1,2,3,4 }));
+		2, 0, {0,1,2,3,4}));
 	HierArch1.push_back(MeshsArtifacts(glm::vec3(10.f, 0.f, 10.f), glm::vec3(10.f, 0.f, 10.f), glm::vec3(0.f), glm::vec3(1.f),
-		2, 1,  { 1,0,2,3,4 }));
+		2, 2, {1,0,2,3,4}));
 	//
 	//Pushing Models
 	//
@@ -216,7 +215,7 @@ void Game::initModels()
 	//	glm::vec3(9.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(9.f, 0.f), 0.f),
 	//	this->MatTest[1], { this->textures[2],this->textures[3] ,this->textures[13],this->textures[14],this->textures[15] },
 	//meshes[1], { Flat }));
-	this->models.push_back(new Model("Stall Image2",
+	this->models.push_back(new Model("Stall Image0",
 		glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 1.f), 1.f),
 		this->MatTest[2], { this->textures[11],this->textures[11],this->textures[13],this->textures[14],this->textures[15] },
 		{ meshes[6],meshes[2],meshes[1] }, HierArch1));
@@ -446,50 +445,51 @@ void Game::ImGuiOptions()
 							std::string TempNodeId = "Node" + std::to_string(NodeCount);
 							if (ImGui::TreeNode(TempNodeId.c_str()))
 							{	
-								//Position
-								glm::vec3 VecP = ii->GetPosition();
-								ImGui::Text("NodePos = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecP.x, VecP.y, VecP.z);
-								if (ImGui::TreeNode("Node Position"))
-							{
-								ImGui::SliderFloat("XPos", &VecP.x, -10.f, 10.f);
-								ImGui::SliderFloat("YPos", &VecP.y, -10.f, 10.f);
-								ImGui::SliderFloat("ZPos", &VecP.z, -10.f, 10.f);
-								ii->SetPosition(VecP);
-								ImGui::TreePop();
-							}
-								//Rotation
-								glm::vec3 VecR = ii->GetRotation();
-								ImGui::Text("Node Rotation = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecR.x, VecR.y, VecR.z);
-								if (ImGui::TreeNode("Node Rotation"))
-							{
-								ImGui::SliderFloat("XRot", &VecR.x, 0, 180.f);
-								ImGui::SliderFloat("YRot", &VecR.y, 0, 180.f);
-								ImGui::SliderFloat("ZRot", &VecR.z, 0, 180.f);
-								ii->SetRotation(VecR);
-								ImGui::TreePop();
-							}
-								//Scale
-								glm::vec3 VecS = ii->GetScale();
-								ImGui::Text("Node Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecS.x, VecS.y, VecS.z);
-								if (ImGui::TreeNode("Node Scale"))
-							{
-								ImGui::SliderFloat("XPos", &VecS.x, 0, 1.f);
-								ImGui::SliderFloat("YPos", &VecS.y, 0, 1.f);
-								ImGui::SliderFloat("ZPos", &VecS.z, 0, 1.f);
-								ii->SetScale(VecS);
-								ImGui::TreePop();
-							}
 								//Origin
 								glm::vec3 VecOr = ii->GetOrigin();
 								ImGui::Text("Node Origin", NodeCount); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecOr.x, VecOr.y, VecOr.z);
 								if (ImGui::TreeNode("Node Origin"))
-							{
-								ImGui::SliderFloat("XOr", &VecOr.x, -10.f, 10.f);
-								ImGui::SliderFloat("YOr", &VecOr.y, -10.f, 10.f);
-								ImGui::SliderFloat("ZOr", &VecOr.z, -10.f, 10.f);
-								ii->SetOrigin(VecOr);
-								ImGui::TreePop();
-							}
+								{
+									ImGui::SliderFloat("XOr", &VecOr.x, -10.f, 10.f);
+									ImGui::SliderFloat("YOr", &VecOr.y, -10.f, 10.f);
+									ImGui::SliderFloat("ZOr", &VecOr.z, -10.f, 10.f);
+									ii->SetOrigin(VecOr);
+									ImGui::TreePop();
+								}
+								//Position
+								glm::vec3 VecRelP = ii->GetRelPos();
+								ImGui::Text("NodeRelPos = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecRelP.x, VecRelP.y, VecRelP.z);
+								if (ImGui::TreeNode("Node Rel Position"))
+								{
+									ImGui::SliderFloat("XPos", &VecRelP.x, -10.f, 10.f);
+									ImGui::SliderFloat("YPos", &VecRelP.y, -10.f, 10.f);
+									ImGui::SliderFloat("ZPos", &VecRelP.z, -10.f, 10.f);
+									ii->SetRelPos(VecRelP);
+									ImGui::TreePop();
+								}
+								//Rotation
+								glm::vec3 VecR = ii->GetRotation();
+								ImGui::Text("Node Rotation = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecR.x, VecR.y, VecR.z);
+								if (ImGui::TreeNode("Node Rotation"))
+								{
+									ImGui::SliderFloat("XRot", &VecR.x, 0, 360.f);
+									ImGui::SliderFloat("YRot", &VecR.y, 0, 360.f);
+									ImGui::SliderFloat("ZRot", &VecR.z, 0, 360.f);
+									ii->SetRotation(VecR);
+									ImGui::TreePop();
+								}
+								//Scale
+								glm::vec3 VecS = ii->GetScale();
+								ImGui::Text("Node Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecS.x, VecS.y, VecS.z);
+								if (ImGui::TreeNode("Node Scale"))
+								{
+									ImGui::SliderFloat("XPos", &VecS.x, 0, 1.f);
+									ImGui::SliderFloat("YPos", &VecS.y, 0, 1.f);
+									ImGui::SliderFloat("ZPos", &VecS.z, 0, 1.f);
+									ii->SetScale(VecS);
+									ImGui::TreePop();
+								}
+								
 								ImGui::TreePop();
 							}
 							NodeCount++;
@@ -976,19 +976,12 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		static int clicked = 0;
 		if (ImGui::Button("Make Button"))
 		{
-			FileMaker Temp("Test.txt");
-			Temp.WriteFile(this->models);
+			RdMkFiles.GetAllFiles();
+			std::vector<std::string> Nms = RdMkFiles.GetAllFiles();
 		}
-		static std::string net = "None";
 		if (ImGui::Button("Read Button"))
 		{
-			this->ReleaseModels();
-			FileReader Temp("Test.txt");
-			std::string Data = Temp.GetFileInfo();
-			this->LoadNewModels(Temp.DecipherFile());
-			net = Data;
 		}
-		ImGui::Text(net.c_str());
 		ImGui::End();
 	}
 }

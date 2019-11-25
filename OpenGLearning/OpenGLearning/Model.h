@@ -14,6 +14,7 @@ class Nodes
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
+	glm::vec3 RelPos;
 	int ParentId;
 	int MeshId;
 public:
@@ -23,6 +24,7 @@ public:
 		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
+		this->RelPos = this->Position - this->Origin;
 		this->MeshId = InitMeshId;
 		this->Rotation = InitRotation;
 		this->ParentId = InitParentID;
@@ -30,7 +32,7 @@ public:
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->Matrix = glm::translate(this->Matrix, this->Position - this->Origin);
+		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 	}
 	//Get Items
@@ -51,7 +53,11 @@ public:
 	}
 	glm::vec3 GetPosition()
 	{
-		return this->Position;
+		return this->RelPos + this->Origin;
+	}
+	glm::vec3 GetRelPos()
+	{
+		return this->RelPos;
 	}
 	glm::vec3 GetRotation()
 	{
@@ -73,21 +79,17 @@ public:
 	void UpdateMatrix()
 	{
 		this->Matrix = glm::mat4(1.f);
-		this->Matrix = glm::translate(this->Matrix, this->Position);
+		this->Matrix = glm::translate(this->Matrix, this->Origin);
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
 		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
-		this->Matrix = glm::translate(this->Matrix, this->Position - this->Origin);
+		this->Matrix = glm::translate(this->Matrix,this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 	}
 	//Set Items
 	void SetParent(Nodes* NewParent)
 	{
 		this->Parent = NewParent;
-	}
-	void SetPosition(const glm::vec3 position)
-	{
-		this->Position = position;
 	}
 	void SetOrigin(const glm::vec3 origin)
 	{
@@ -100,6 +102,10 @@ public:
 	void SetScale(const glm::vec3 setScale)
 	{
 		this->Scale = setScale;
+	}
+	void SetRelPos(const glm::vec3 SetRePos)
+	{
+		this->RelPos = SetRePos;
 	}
 	//Modifiers
 	void Move(glm::vec3 Pos)
@@ -190,8 +196,6 @@ public:
 		this->Name = ModelName;
 		this->meshes = MeshesToUse;
 		this->MakeNodes(position, Inits);
-		this->TreeNodes[0]->SetOrigin(this->Position);
-		this->TreeNodes[0]->SetRotation(InitRot);
 	}	
 	Model(std::string ModelName,
 		glm::vec3 position,
@@ -231,10 +235,6 @@ public:
 
 		this->TreeNodes[MeshId]->SetRotation(rotation);
 
-	}
-	void SetPos(const glm::vec3 Move, int MeshId)
-	{
-		this->TreeNodes[MeshId]->SetPosition(Move);
 	}
 	void SetScale(const glm::vec3 ReScale, int MeshId)
 	{
@@ -287,7 +287,6 @@ public:
 			Num++;
 		}
 	}
-
 	void TestRender(std::vector<Shader*> shader,std::vector<glm::mat4> LightMatrix)
 	{
 		for (auto& ii : this->TreeNodes)

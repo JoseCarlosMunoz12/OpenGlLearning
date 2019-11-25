@@ -2,94 +2,10 @@
 #include "libs.h"
 #include <fstream>
 #include <iostream>
-class FileMaker 
+class FileRdrMkr
 {
 private:
-	std::string FileLoc;
-	std::string TransposeVec3(glm::vec3 VecToString)
-	{
-		std::string Temp = "";
-		Temp += std::to_string(VecToString.x) + "$";
-		Temp += std::to_string(VecToString.y) + "$";
-		Temp += std::to_string(VecToString.z);
-		return Temp;
-	}
-public:
-	FileMaker(std::string MakeFile)
-	{
-		this->FileLoc = MakeFile;
-	}
-	void WriteFile(std::vector<Model*> AllModels)
-	{
-		std::ofstream Make;
-		Make.open(this->FileLoc);
-		int Count = 0;
-		for (auto& ii : AllModels)
-		{
-			std::string Name = ii->GetName();
-			std::vector<Mesh*> Meshess = ii->GetMeshes();
-			Make << "*******Model " +std::to_string(Count) +"*******\n";
-			Make << "Model_Name@" + Name;
-			Make << "\n";
-			Make << "--Material ID--\n";
-			int MatId = ii->GetStdMat()->GetMatId();
-			Make << "M_Mat_ID@" + std::to_string(MatId) + "\n";
-			Make << "--Meshes--\n";
-			int MeshCount = 0;
-			for (auto& jj : Meshess)
-			{
-				Make<<"M_M@"<< std::to_string(MeshCount) + "@" + jj->GiveName() + "\n";				
-				MeshCount++;
-			}
-			Make << "--Textures--\n";
-			std::vector<GeneralTextInfo*> ModTex = ii->getTexture();
-			int TexCount = 0;
-			for (auto& jj : ModTex)
-			{
-				Make << "M_T@" << std::to_string(TexCount) << "@" << jj->GiveChar() << "\n";
-				TexCount++;
-			}
-			std::vector<std::vector<int>> TexId = ii->GetTexId();
-			int TexIdCount = 0;
-			Make << "--Model Position--\n";			
-			Make << "M_P@" + this->TransposeVec3(ii->GetPosition()) << "\n";
-			Make << "--Model Rotation--\n";
-			Make << "M_R@" + this->TransposeVec3(ii->GetRotation(0)) << "\n";
-			Make << "--Model Scale--\n";
-			Make << "M_S@" + this->TransposeVec3(ii->GetScale(0)) << "\n";
-			Make << "--Model Origin--\n";
-			Make << "M_O@" + this->TransposeVec3(ii->GetOrigin(0)) << "\n";
-			Make << "--Model Nodes Information--\n";
-			std::vector<Nodes*> ModNodes = ii->GetNodesInfo();
-			int NodeCount = 0;
-			for (auto& jj : ModNodes)
-			{
-				Make << "M_N_Inf@" + std::to_string(NodeCount) << "\n";
-				Make << "M_N_ID@" + jj->GetParentsId() + "\n";
-				Make << "M_N_M_ID@" + std::to_string(jj->GetMeshId()) << "\n";
-				Make << "Node_TexID@" + std::to_string(NodeCount) + "@";
-				for (auto& kk : TexId[NodeCount])
-				{
-					Make << std::to_string(kk) + "-";
-				}
-				Make << "\n";
-				Make << "M_N_P@Node@" + std::to_string(NodeCount)<< "@" + this->TransposeVec3(jj->GetPosition()) + "\n";
-				Make << "M_N_R@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetRotation()) << "\n";
-				Make << "M_N_S@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetScale()) << "\n";
-				Make << "M_N_O@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetOrigin()) << "\n";
-				Make << "*----*" <<"\n";
-				NodeCount++;
-			}
-			Make << "++@\n";
-			Count++;
-		}
-		Make.close();
-	}
-};
-
-class FileReader 
-{
-private:
+	//File Reader Funcs
 	static enum StringVal
 	{
 		Model_Name = 1,
@@ -109,7 +25,8 @@ private:
 		M_N_O,
 		PLUS
 	};
-	std::string FileLoc;
+	std::vector<std::string> Files;
+	std::string FolderLoc;
 	std::map<std::string, StringVal > StringFound;
 	//Funcs to Find Special Char
 	void InitMap()
@@ -163,84 +80,28 @@ private:
 		}
 		return TempVec;
 	}
-public:
-	FileReader(std::string NewFileLoc)
+	//File Maker Funcs
+	std::string TransposeVec3(glm::vec3 VecToString)
 	{
-		this->FileLoc = NewFileLoc;
+		std::string Temp = "";
+		Temp += std::to_string(VecToString.x) + "$";
+		Temp += std::to_string(VecToString.y) + "$";
+		Temp += std::to_string(VecToString.z);
+		return Temp;
+	}
+public:
+	FileRdrMkr()
+		:FolderLoc("SaveFiles/")
+	{
 		this->InitMap();
 	}
-	std::string GetFileInfo()
-	{
-		std::fstream FileData(this->FileLoc);
-		std::string Line;
-		std::string Lines = "";
-		if (FileData.is_open())
-		{
-			while (std::getline(FileData, Line))
-			{	
-				if (Line.find("@") != std::string::npos || Line.find("+")!= std::string::npos)
-				{
-					std::vector< std::string> out;
-					this->ReturnStringArray(Line,'@',out);					
-					switch (this->StringFound[out[0]])
-					{
-					case Model_Name:
-						Lines += out[1] + "\n";
-						break;
-					case M_MAT:
-						Lines += out[1] + "\n";
-						break;
-					case M_M:
-						Lines += out[1] + "-" + out[2] + "\n";
-						break;
-					case M_T:
-						Lines += out[1] + "-" + out[2] + "\n";
-						break;
-					case N_ID:
-						Lines += out[2] + "\n";
-						break;
-					case M_P:
-						Lines += out[1] + "\n";
-						break;
-					case M_R:
-						Lines += out[1] + "\n";
-						break;
-					case M_S:
-						Lines += out[1] + "\n";
-						break;
-					case M_N_Inf:
-						Lines += out[1] + "\n";
-						break;
-					case M_N_ID:
-						Lines += out[1] + "\n";
-						break;
-					case M_N_P:
-						Lines += out[3] + "\n";
-						break;
-					case M_N_R:
-						Lines += out[3] + "\n";
-						break;
-					case M_N_S:
-						Lines += out[3] + "\n";
-						break;
-					case PLUS:
-						Lines += out[0] + "\n";
-						break;
-					default:
-						break;
-					}
-				}
-			}
-			FileData.close();
-		}
-		return Lines;
-	}
-	std::vector<MdlToMake> DecipherFile()
+	//Get Data
+	std::vector<MdlToMake> DecipherFile(int FileId)
 	{
 		std::vector<MdlToMake> DataRead;
 		MdlToMake TempData;
 		NodesId TempNodes;
-		std::fstream FileData(this->FileLoc);
+		std::fstream FileData(this->FolderLoc + this->Files[FileId]);
 		if (FileData.is_open())
 		{
 			std::string Line;
@@ -284,7 +145,7 @@ public:
 						TempNodes.ParentId = std::stoi(out[1]);
 						break;
 					case M_N_M_ID:
-						TempNodes.MeshId = std::stoi(out[1]);					
+						TempNodes.MeshId = std::stoi(out[1]);
 						break;
 					case M_N_P:
 						TempNodes.Pos = this->ToVec3(out[3]);
@@ -316,5 +177,80 @@ public:
 			FileData.close();
 		}
 		return DataRead;
-	}	
+	}
+	//Write Data
+	void WriteFile(std::vector<Model*> AllModels,std::string FileName)
+	{
+		std::ofstream Make(this->FolderLoc);
+		Make.open(FileName);
+		int Count = 0;
+		for (auto& ii : AllModels)
+		{
+			std::string Name = ii->GetName();
+			std::vector<Mesh*> Meshess = ii->GetMeshes();
+			Make << "*******Model " + std::to_string(Count) + "*******\n";
+			Make << "Model_Name@" + Name;
+			Make << "\n";
+			Make << "--Material ID--\n";
+			int MatId = ii->GetStdMat()->GetMatId();
+			Make << "M_Mat_ID@" + std::to_string(MatId) + "\n";
+			Make << "--Meshes--\n";
+			int MeshCount = 0;
+			for (auto& jj : Meshess)
+			{
+				Make << "M_M@" << std::to_string(MeshCount) + "@" + jj->GiveName() + "\n";
+				MeshCount++;
+			}
+			Make << "--Textures--\n";
+			std::vector<GeneralTextInfo*> ModTex = ii->getTexture();
+			int TexCount = 0;
+			for (auto& jj : ModTex)
+			{
+				Make << "M_T@" << std::to_string(TexCount) << "@" << jj->GiveChar() << "\n";
+				TexCount++;
+			}
+			std::vector<std::vector<int>> TexId = ii->GetTexId();
+			int TexIdCount = 0;
+			Make << "--Model Position--\n";
+			Make << "M_P@" + this->TransposeVec3(ii->GetPosition()) << "\n";
+			Make << "--Model Rotation--\n";
+			Make << "M_R@" + this->TransposeVec3(ii->GetRotation(0)) << "\n";
+			Make << "--Model Scale--\n";
+			Make << "M_S@" + this->TransposeVec3(ii->GetScale(0)) << "\n";
+			Make << "--Model Origin--\n";
+			Make << "M_O@" + this->TransposeVec3(ii->GetOrigin(0)) << "\n";
+			Make << "--Model Nodes Information--\n";
+			std::vector<Nodes*> ModNodes = ii->GetNodesInfo();
+			int NodeCount = 0;
+			for (auto& jj : ModNodes)
+			{
+				Make << "M_N_Inf@" + std::to_string(NodeCount) << "\n";
+				Make << "M_N_ID@" + jj->GetParentsId() + "\n";
+				Make << "M_N_M_ID@" + std::to_string(jj->GetMeshId()) << "\n";
+				Make << "Node_TexID@" + std::to_string(NodeCount) + "@";
+				for (auto& kk : TexId[NodeCount])
+				{
+					Make << std::to_string(kk) + "-";
+				}
+				Make << "\n";
+				Make << "M_N_P@Node@" + std::to_string(NodeCount) << "@" + this->TransposeVec3(jj->GetPosition()) + "\n";
+				Make << "M_N_R@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetRotation()) << "\n";
+				Make << "M_N_S@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetScale()) << "\n";
+				Make << "M_N_O@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetOrigin()) << "\n";
+				Make << "*----*" << "\n";
+				NodeCount++;
+			}
+			Make << "++@\n";
+			Count++;
+		}
+		Make.close();
+	}
+	void GetFilesFolder()
+	{
+		
+	}
+	std::vector<std::string> GetAllFiles()
+	{
+		return this->Files;
+	}
 };
