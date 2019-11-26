@@ -104,8 +104,8 @@ private:
 		return Temp;
 	}
 public:
-	FileRdrMkr()
-		:FolderLoc("SaveFiles/")
+	FileRdrMkr(std::string FolderLoc)
+		:FolderLoc(FolderLoc)
 	{
 		this->InitMap();
 	}

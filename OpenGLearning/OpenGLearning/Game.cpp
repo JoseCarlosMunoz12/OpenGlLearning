@@ -982,6 +982,18 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		{
 			RdMkFiles.GetFilesFolder();
 		}
+		std::vector<std::string> Files = RdMkFiles.GetAllFiles();
+		if (Files.size() != 0)
+		{
+			for(auto& jj : Files)
+			{
+				ImGui::Text(jj.c_str());
+			}
+		}
+		else
+		{
+			ImGui::Text("No Files to Choose from");
+		}
 		std::string TempName = "asdf";
 		static char Name[100] = "Hellow World";
 		ImGui::InputText(TempName.c_str(),Name,IM_ARRAYSIZE(Name));
@@ -1139,7 +1151,8 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f))
+	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
+	RdMkFiles("SaveFiles/")
 {
 	
 	this->SkyColor = SkyColor;
@@ -1149,7 +1162,7 @@ Game::Game(const char * title,
 		
 	this-> camPosition = glm::vec3(0.f, 1.f, 0.f);
 	this-> worldUp = glm::vec3(0.f, 1.f, 0.f);
-	this-> camFront = glm::vec3(0.f, 0.f,-1.f);
+	this-> camFront = glm::vec3(0.f, 0.f,1.f);
 
 
 	this-> fov = 90.f;

@@ -59,7 +59,7 @@ public:
 		this->up = worldUp;
 
 		this->pitch = 0.f;
-		this->yaw = -90.f;
+		this->yaw = 90.f;
 		this->roll = 0.f;
 
 		this->UpdateCameraVectors();
