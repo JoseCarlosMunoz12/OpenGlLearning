@@ -118,6 +118,7 @@ private:
 	//File reader and maker
 	FileRdrMkr RdMkFiles;
 	int FileID = -1;
+	std::string FileSave = "";
 	// Empty Variables for new models
 	std::vector<Texture*> NewTex0;
 	glm::vec3 SpaceLoc;

@@ -974,10 +974,6 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		ImGui::Begin("test",&this->OtherWindow);
 
 		static int clicked = 0;
-		if (ImGui::Button("Make Button"))
-		{
-			RdMkFiles.WriteFile(this->models, "Temp0.txt");
-		}
 		if (ImGui::Button("Read Button"))
 		{
 			RdMkFiles.GetFilesFolder();
@@ -1003,9 +999,16 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		std::string TempName = "asdf";
 		static char Name[100] = "Hellow World";
 		ImGui::InputText(TempName.c_str(),Name,IM_ARRAYSIZE(Name));
-		if (ImGui::Button(""))
+		if (ImGui::Button("Make File"))
 		{
-
+			FileSave = RdMkFiles.VerifyName(this->models,Name);
+		}
+		ImGui::Text(FileSave.c_str());
+		if (ImGui::Button("Load File") && this->FileID != -1)
+		{
+			this->ReleaseModels();
+			this->LoadNewModels(RdMkFiles.DecipherFile(this->FileID));
+			this->FileID = -1;
 		}
 
 		ImGui::End();

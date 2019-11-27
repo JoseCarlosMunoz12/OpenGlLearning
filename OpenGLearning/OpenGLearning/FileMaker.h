@@ -196,7 +196,7 @@ public:
 	void WriteFile(std::vector<Model*> AllModels,std::string FileName)
 	{
 		std::ofstream Make;
-		Make.open(this->FolderLoc + FileName);
+		Make.open(this->FolderLoc + FileName + ".txt");
 		int Count = 0;
 		for (auto& ii : AllModels)
 		{
@@ -274,14 +274,14 @@ public:
 	}
 	std::string VerifyName(std::vector<Model*> AllModels,std::string NewFileName)
 	{
-		if (!this->FindItem(NewFileName))
-		{	
+		if (this->FindItem(NewFileName + ".txt"))
+		{
+			return "File Exist, choose Different Name";
+		}
+		else{
 			this->WriteFile(AllModels, NewFileName);
 			this->GetFilesFolder();
 			return "File Added";
-		}
-		else{
-			return "File Exist, choose Different Name";
 		}
 	}
 	std::vector<std::string> GetAllFiles()
