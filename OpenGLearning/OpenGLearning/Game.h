@@ -117,6 +117,7 @@ private:
 	std::vector<Mesh*> meshes;
 	//File reader and maker
 	FileRdrMkr RdMkFiles;
+	int FileID = -1;
 	// Empty Variables for new models
 	std::vector<Texture*> NewTex0;
 	glm::vec3 SpaceLoc;

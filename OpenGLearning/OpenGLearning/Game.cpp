@@ -256,7 +256,7 @@ void Game::initLights()
 	}
 
 }
-
+ 
 void Game::initUniforms()
 {
 	for (auto& ii : this->shaders)
@@ -983,12 +983,18 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 			RdMkFiles.GetFilesFolder();
 		}
 		std::vector<std::string> Files = RdMkFiles.GetAllFiles();
+		int Count = 0;
 		if (Files.size() != 0)
 		{
 			for(auto& jj : Files)
 			{
-				ImGui::Text(jj.c_str());
+				if (ImGui::Selectable(jj.c_str(), this->FileID == Count))
+				{
+					this->FileID = Count;
+				}
+				Count++;
 			}
+			ImGui::Text(std::to_string(this->FileID).c_str());			
 		}
 		else
 		{
@@ -997,6 +1003,10 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		std::string TempName = "asdf";
 		static char Name[100] = "Hellow World";
 		ImGui::InputText(TempName.c_str(),Name,IM_ARRAYSIZE(Name));
+		if (ImGui::Button(""))
+		{
+
+		}
 
 		ImGui::End();
 	}

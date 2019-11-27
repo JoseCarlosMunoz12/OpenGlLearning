@@ -57,9 +57,9 @@ public:
 		this->position = position;
 		this->right = glm::vec3(0.f);
 		this->up = worldUp;
-
+		 
 		this->pitch = 0.f;
-		this->yaw = 90.f;
+		this->yaw = 0.f;
 		this->roll = 0.f;
 
 		this->UpdateCameraVectors();
