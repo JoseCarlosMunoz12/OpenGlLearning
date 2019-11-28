@@ -208,8 +208,6 @@ public:
 		this->Name = ModelName;
 		this->meshes.push_back(MeshUse);
 		this->MakeNodes(position, Inits);
-		this->TreeNodes[0]->SetOrigin(this->Position);
-		this->TreeNodes[0]->SetRotation(InitRot);
 	}
 	~Model()
 	{
