@@ -157,6 +157,7 @@
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="ScreenCollision.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SkelAnimat.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
