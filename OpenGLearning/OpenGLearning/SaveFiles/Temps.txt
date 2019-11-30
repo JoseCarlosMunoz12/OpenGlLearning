@@ -35,7 +35,7 @@ M_N_O@Node@0@0.000000$0.000000$0.000000
 *******Model 1*******
 Model_Name@Stall Image0
 --Material ID--
-M_Mat_ID@2
+M_Mat_ID@1
 --Meshes--
 M_M@0@Cone
 M_M@1@Tree

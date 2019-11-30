@@ -165,7 +165,6 @@ private:
 	}
 	void updateCollision(glm::vec3 Collisiontest)
 	{
-		meshes[0]->Update(Collisiontest);
 	}
 	void MakeNodes(glm::vec3 Pos,std::vector<MeshsArtifacts> Inits)
 	{

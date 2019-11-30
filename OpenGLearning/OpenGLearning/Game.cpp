@@ -92,8 +92,8 @@ void Game::initShaders()
 void Game::initShadows()
 {
 	this->Shadows.push_back(new ShadowTex("Shadow0"));
-	this->Shadows.push_back(new ShadowTex("Shadow1"));
-	this->Shadows.push_back(new ShadowTex("Shadow2"));
+	//this->Shadows.push_back(new ShadowTex("Shadow1"));
+	//this->Shadows.push_back(new ShadowTex("Shadow2"));
 	for (auto& ii : this->Shadows)
 	{
 		ii->Init(this->Window_Width, this->Window_Height);
@@ -133,16 +133,16 @@ void Game::initTextures()
 void Game::initMaterials()
 {
 	//Testbug the new mats	
-	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, MAT_2,
-		this->SkyColor, { 0,1,2,3,4 }, { 5,6 }, {}, {}, {7}));
-	this->MatTest.push_back(new TxtMat("Model Terrain", 1, MAT_0,
+	this->MatTest.push_back(new MipMapMat("TerrainMat", 0, 2,
+		this->SkyColor, { 0,1,2,3,4 }, {}, {}, {}, {5}));
+	this->MatTest.push_back(new TxtMat("Model Terrain", 1, 0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-		0, 1, { 2,3 }, {}, {}, {4}));
-	this->MatTest.push_back(new TxtMat("Model File", 2, MAT_1,
+		0, 1, { }, {}, {}, {2}));
+	this->MatTest.push_back(new TxtMat("Model File", 2,0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
-		0, 1, { 2, 3}, {}, {}, {4}));
+		0, 1, {}, {}, {}, { 2 }));
 	this->MatTest.push_back(new SingleTextMat("Single", 3, 4,
 								this->SkyColor, 0));
 }
@@ -181,7 +181,9 @@ void Game::initModels()
 	//Meshes Componets are made
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
-		0, 0, {0,1,2,3,4,5,6,7});
+		0, 0, {0,1,2,3,4,5});
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0, { 0,1 });
+	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0, { 0 });
 	//
 	//Pushing Models
 	//
@@ -189,17 +191,24 @@ void Game::initModels()
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[13] ,this->textures[14],this->textures[15] },
-		meshes[0], { Terrain }));	
+		this->textures[13] },
+		meshes[0], { Terrain }));
+	this->models.push_back(new Model("Monk", glm::vec3(0.f), this->MatTest[1],
+		{ this->textures[2] ,
+		this->textures[13] }, meshes[4], {Monk}));
+	this->models.push_back(new Model("Debug", glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0, 0), 0.f), this->MatTest[3],
+		{textures[13]},
+		this->meshes[7], { Flat }));
+
 }
 
 void Game::initLights()
 {
-	//Initializing Dir lights
-	this->DirLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
-		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
-	this->DirLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
-		glm::vec3(1.f, 0.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
+	////Initializing Dir lights
+	//this->DirLights.push_back(new DrLights(0,glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+	//	glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
+	//this->DirLights.push_back(new DrLights(1, glm::vec3(-1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f, -1.f),
+	//	glm::vec3(1.f, 0.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
 	//Init Cone Lights
 	//Init Arealights
 	this->ArLights.push_back(new AreaLights(glm::vec3(1.f, 1.f, 1.f),

@@ -105,7 +105,7 @@ float LinearizeDepth(float depth)
 }
 
 //Shadow Calculation
-float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 LightPos)
+float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 LightPos, bool IsAr)
 {
 	vec4 FragPosLightSpace = LightMatrix * vec4(vs_position,1.f);
 	float shadow = 0.f;
@@ -114,7 +114,8 @@ float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 
 	projCoords = projCoords * 0.5 + 0.5;
 	float closesetDepth = texture(LightShadow,projCoords.xy).r;
 	float currentDepth = projCoords.z;
-
+	if(!IsAr)
+	{
 		vec2 TexeSize = 1.0 / textureSize(LightShadow,0);
 		for(int x = -1; x <=1;++x)
 		{
@@ -125,6 +126,7 @@ float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 
 			}
 		}
 		shadow /=9.0;
+	}
 		
 	if (projCoords.z > 1.0)
 	{
@@ -145,7 +147,7 @@ void main()
 															AllArInfo[ii].LightPos,cameraPos);
 		float shadow = ShadowCalculation(AllArInfo[ii].LightShadow,
 										vs_normal,AllArInfo[ii].LightMatrix,
-										AllArInfo[ii].LightPos);
+										AllArInfo[ii].LightPos,true);
 		vec3 LightDir = normalize(AllArInfo[ii].LightPos - vs_position);
 		float Theta = dot(LightDir,normalize(-1 * AllArInfo[ii].LightDirection));
 		float Epsilon = (AllArInfo[ii].ConeAngle - AllArInfo[ii].UmbraAngle);
@@ -153,7 +155,7 @@ void main()
 
 		float Dist = length(AllArInfo[ii].LightPos- vs_position);
 		float Attenuation = 1.0 / (AllArInfo[ii].Constant + AllArInfo[ii].Linear * Dist + AllArInfo[ii].Quadratic * (Dist * Dist));
-		result += Attenuation * (FinalAmbient + Intensity * (1.0 - shadow) * ( FinalDiffuse+ FinalSpecular));
+		result += Attenuation * (FinalAmbient + Intensity * (1.0 - shadow) * ( FinalDiffuse + FinalSpecular));
 	}
 	for(int ii = 0; ii < CnLightCount; ii++)
 	{
@@ -164,7 +166,7 @@ void main()
 			vec3 FinalAmbient = AllCnInfo[ii].Ambient * calculateAmbient(material);
 			vec3 FinalDiffuse = AllCnInfo[ii].Diffuse * calculateDiffuse(material,vs_position,vs_normal,AllCnInfo[ii].LightPos);
 			vec3 FinalSpecular = AllCnInfo[ii].Specular * calculateSpecular(material,vs_position,vs_normal,AllCnInfo[ii].LightPos,cameraPos);
-			float shadow = ShadowCalculation(AllCnInfo[ii].LightShadow,vs_normal,AllCnInfo[ii].LightMatrix,AllCnInfo[ii].LightPos);
+			float shadow = ShadowCalculation(AllCnInfo[ii].LightShadow,vs_normal,AllCnInfo[ii].LightMatrix,AllCnInfo[ii].LightPos,false);
 			result += FinalAmbient + (1.f - shadow) * (FinalDiffuse + FinalSpecular);
 		}else{
 			vec3 FinalAmbient = AllCnInfo[ii].Ambient * calculateAmbient(material);
@@ -177,7 +179,7 @@ void main()
 		vec3 ambientFinal = AllDirInfo[ii].Ambient * calculateAmbient(material);
 		vec3 diffuseFinal = AllDirInfo[ii].Diffuse * calculateDiffuse(material, vs_position, vs_normal, AllDirInfo[ii].LightPos);
 		vec3 specularFinal = AllDirInfo[ii].Specular * calculateSpecular(material, vs_position, vs_normal, AllDirInfo[ii].LightPos, cameraPos);
-		float shadow = ShadowCalculation(AllDirInfo[ii].LightShadow,vs_normal,AllDirInfo[ii].LightMatrix,AllDirInfo[ii].LightPos);
+		float shadow = ShadowCalculation(AllDirInfo[ii].LightShadow,vs_normal,AllDirInfo[ii].LightMatrix,AllDirInfo[ii].LightPos,false);
 		result += (1.0-shadow) * (diffuseFinal + specularFinal) + ambientFinal;
 	}
 	

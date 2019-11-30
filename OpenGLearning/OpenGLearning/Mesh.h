@@ -7,7 +7,6 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Primitive.h"
-#include "Collision.h"
 
 class Mesh 
 {
@@ -20,7 +19,6 @@ private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;
-	Collision MeshCollisionBox;
 	std::string NameOfMesh;
 
 	void InitVAO()
@@ -86,8 +84,6 @@ public:
 		}
 
 		this->InitVAO();
-		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
-		this->MeshCollisionBox.ShowPos();
 	}
 	Mesh(Vertex* VertexArray,
 		std::string Name,
@@ -110,7 +106,6 @@ public:
 			this->indexArray[i] = indexArray[i];
 		}
 		this->InitVAO();
-		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 	Mesh(const Mesh& obj)
 	{
@@ -129,7 +124,6 @@ public:
 			this->indexArray[i] = obj.indexArray[i];
 		}
 		this->InitVAO();
-		this->MeshCollisionBox.CreateCollisionBox(VertexTofind);
 	}
 
 	~Mesh()
@@ -144,10 +138,6 @@ public:
 		delete[] this->indexArray;
 	}
 	//Accessors
-	void Update(glm::vec3 RayPos)
-	{
-		this->MeshCollisionBox.CheckForCollision(RayPos);
-	}
 	void Render(glm::mat4 FinalMatrix,Shader* shader)
 	{
 		//Update Uniforms
