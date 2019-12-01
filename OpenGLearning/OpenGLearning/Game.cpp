@@ -424,7 +424,7 @@ void Game::ImGuiOptions()
 								{
 									ImGui::SliderFloat("XOr", &VecOr.x, -10.f, 10.f);
 									ImGui::SliderFloat("YOr", &VecOr.y, -10.f, 10.f);
-									ImGui::SliderFloat("ZOr", &VecOr.z, -10.f, 10.f);
+									ImGui::SliderFloat("ZOr", &VecOr.z, -10.f, 10.f);									
 									ii->SetOrigin(VecOr);
 									ImGui::TreePop();
 								}
@@ -441,12 +441,14 @@ void Game::ImGuiOptions()
 								}
 								//Rotation
 								glm::vec3 VecR = ii->GetRotation();
+								glm::quat Temp = glm::quat(VecR);
 								ImGui::Text("Node Rotation = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecR.x, VecR.y, VecR.z);
 								if (ImGui::TreeNode("Node Rotation"))
 								{
-									ImGui::SliderFloat("XRot", &VecR.x, 0, 360.f);
-									ImGui::SliderFloat("YRot", &VecR.y, 0, 360.f);
-									ImGui::SliderFloat("ZRot", &VecR.z, 0, 360.f);
+
+									ImGui::SliderFloat("XRot", &VecR.x, 0,  2 * 3.14);
+									ImGui::SliderFloat("YRot", &VecR.y, 0, 2 * 3.14);
+									ImGui::SliderFloat("ZRot", &VecR.z, 0, 2 * 3.14);
 									ii->SetRotation(VecR);
 									ImGui::TreePop();
 								}

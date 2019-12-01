@@ -108,8 +108,9 @@ float LinearizeDepth(float depth)
 float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 LightPos, bool IsAr)
 {
 	vec4 FragPosLightSpace = LightMatrix * vec4(vs_position,1.f);
-	float shadow = 0.f;
-	float bias = max(0.05 * (1.0 - dot(Normal,LightPos)),0.005);
+	float shadow = 0.f;	
+	vec3 LightDir = normalize( vs_position-LightPos);
+	float bias = max(0.05 * (1.0 - dot(normalize(Normal),LightDir)),0.005);
 	vec3 projCoords = FragPosLightSpace.xyz / FragPosLightSpace.w;
 	projCoords = projCoords * 0.5 + 0.5;
 	float closesetDepth = texture(LightShadow,projCoords.xy).r;

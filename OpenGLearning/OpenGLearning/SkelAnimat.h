@@ -1,18 +1,18 @@
 #pragma once
 #include <glm.hpp>
 
-class SkeletonAnimation
+class SkelAn
 {
 private:
-	SkeletonAnimation* Parent;
+	SkelAn* Parent;
 	float AnimatLength;
 public:
-	SkeletonAnimation(SkeletonAnimation* InitParent,
+	SkelAn(SkelAn* InitParent,
 						glm::vec3 InitOffset, glm::vec3 InitRot, glm::vec3 InitScale)
 	{
 
 	}
-	~SkeletonAnimation()
+	~SkelAn()
 	{
 
 	}

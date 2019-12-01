@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 
+
 class Nodes
 {
 	glm::vec3 Position;
@@ -29,9 +30,9 @@ public:
 		this->Rotation = InitRotation;
 		this->ParentId = InitParentID;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
+		glm::quat Temp = glm::quat(this->Rotation);
+		glm::mat4 Temps = glm::mat4_cast(Temp);
+		Matrix *= Temps;
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 	}
@@ -80,9 +81,9 @@ public:
 	{
 		this->Matrix = glm::mat4(1.f);
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.x), glm::vec3(1.f, 0.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.y), glm::vec3(0.f, 1.f, 0.f));
-		this->Matrix = glm::rotate(this->Matrix, glm::radians(this->Rotation.z), glm::vec3(0.f, 0.f, 1.f));
+		glm::quat Temp = glm::quat(this->Rotation);
+		glm::mat4 Temps = glm::mat4_cast(Temp);
+		Matrix *= Temps;		
 		this->Matrix = glm::translate(this->Matrix,this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 	}
