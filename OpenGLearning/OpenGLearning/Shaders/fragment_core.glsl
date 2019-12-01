@@ -98,15 +98,16 @@ float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 
 {
 	vec4 FragPosLightSpace = LightMatrix * vec4(vs_position,1.f);
 	float shadow = 0.f;
-	float bias = max(0.05 * (1.0 - dot(Normal,LightPos)),0.005);
+	vec3 LightDir = normalize( vs_position-LightPos);
+	float bias = max(0.05 * (1.0 - dot(normalize(Normal),LightDir)),0.005);
+	
 	vec3 projCoords = FragPosLightSpace.xyz / FragPosLightSpace.w;
 	projCoords = projCoords * 0.5 + 0.5;
 	float closesetDepth = texture(LightShadow,projCoords.xy).r;
 	float currentDepth = projCoords.z;
 
 	vec2 TexeSize = 1.0 / textureSize(LightShadow,0);
-	if (!IsAr)
-	{
+	
 	for(int x = -1; x <=1;++x)
 		{
 			for(int y = -1; y <=1;++y)
@@ -115,8 +116,8 @@ float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 
 				shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 			}
 		}
-		shadow /=9.0;		
-	}
+		shadow /=9.0;	
+
 	if (projCoords.z > 1.0)
 	{
 		shadow = 0.0;
@@ -137,9 +138,9 @@ void main()
 										vs_normal,AllArInfo[ii].LightMatrix,
 										AllArInfo[ii].LightPos,true);
 		vec3 LightDir = normalize(AllArInfo[ii].LightPos - vs_position);
-		float Theta = dot(LightDir,normalize(-1 * AllArInfo[ii].LightDirection));
+		float Theta = dot(LightDir,normalize(-AllArInfo[ii].LightDirection));
 		float Epsilon = (AllArInfo[ii].ConeAngle - AllArInfo[ii].UmbraAngle);
-		float Intensity = clamp((Theta -AllArInfo[ii].ConeAngle) / Epsilon, 0.0, 1.0);
+		float Intensity = clamp((Theta -AllArInfo[ii].UmbraAngle) / Epsilon, 0.0, 1.0);
 
 		float Dist = length(AllArInfo[ii].LightPos- vs_position);
 		float Attenuation = 1.0 / (AllArInfo[ii].Constant + AllArInfo[ii].Linear * Dist + AllArInfo[ii].Quadratic * (Dist * Dist));
