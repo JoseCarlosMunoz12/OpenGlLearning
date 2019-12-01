@@ -32,9 +32,10 @@ public:
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
 		glm::quat Temp = glm::quat(this->Rotation);
 		glm::mat4 Temps = glm::mat4_cast(Temp);
-		Matrix *= Temps;
+		Matrix *= Temps;		
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
+		
 	}
 	//Get Items
 	glm::mat4 GetFinalMat4()

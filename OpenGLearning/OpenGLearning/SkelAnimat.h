@@ -1,6 +1,6 @@
 #pragma once
-#include <glm.hpp>
 #include <vector>
+#include "Vertex.h"
 class SkelAn
 {
 private:
@@ -8,8 +8,7 @@ private:
 	float AnimatLength;
 	std::vector<Frames> AnimFrames;
 public:
-	SkelAn(SkelAn* InitParent,
-						glm::vec3 InitOffset, glm::vec3 InitRot)
+	SkelAn(SkelAn* InitParent, glm::vec3 InitOffset, glm::vec3 InitRot)
 	{
 
 	}
@@ -30,7 +29,7 @@ public:
 	}
 	Frames(float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
 	{
-		this->TimeStamp;
+		this->TimeStamp;		
 	}
 };
 class Joints
@@ -38,6 +37,13 @@ class Joints
 private:
 	glm::vec3 Position;
 	glm::vec3 Rotation;
+	glm::vec3 Convert(glm::vec3 Rot)
+	{
+		Rot.x /= 180.f * glm::pi<float>();
+		Rot.y /= 180.f * glm::pi<float>();
+		Rot.z /= 180.f * glm::pi<float>();
+		return Rot;
+	}
 public:
 	Joints()
 	{
@@ -51,6 +57,9 @@ public:
 	}
 	glm::mat4 GetTrans()
 	{
-
+		glm::mat4 Temp = glm::mat4(1.f);
+		Temp = glm::translate(Temp, this->Position);
+		glm::quat Set = glm::quat(Convert(this->Rotation));
+		
 	}
 };

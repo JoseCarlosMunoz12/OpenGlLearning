@@ -1,8 +1,12 @@
 #pragma once
 #include <glm.hpp>
+#include "gtc/matrix_transform.hpp"
+#include "gtc/quaternion.hpp"
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
+#include <string>
+#include <vector>
 
 struct Vertex
 {
@@ -10,49 +14,6 @@ struct Vertex
 	glm::vec3 color;
 	glm::vec2 texcoord;
 	glm::vec3 normal;
-};
-struct Quaterions {
-	float X;
-	float Y;
-	float Z;
-	float W;
-	Quaterions(float InitX, float InitY, float InitZ, float InitW)
-	{
-		this->X = InitX;
-		this->Y = InitY;
-		this->Z = InitZ;
-		this->W = InitW;
-	}
-	Quaterions(float Val)
-	{
-		this->X = Val;
-		this->Y = Val;
-		this->Z = Val;
-		this->W = Val;
-	}
-	Quaterions(glm::mat4 Mat)
-	{
-		float Diagnoal = Mat[0].x + Mat[1].y + Mat[2].z;
-		if (Diagnoal > 0)
-		{
-			float W4 = glm::sqrt(Diagnoal + 1.f) * 2.f;
-			this->W = W4 / 4.f;
-			this->X = (Mat[2].z - Mat[1].y) / W4;
-			this->Y = (Mat[0].z - Mat[2].x) / W4;
-			this->Z = (Mat[1].x - Mat[0].y);
-		}else if ((Mat[0].x > Mat[1].y) && (Mat[0].x > Mat[2].z)){
-
-		}else if (Mat[1].y > Mat[2].z) {
-
-		}else {
-
-		}
-
-	}
-	glm::mat4 ToMat4()
-	{
-
-	}
 };
 struct MouseItems
 {
