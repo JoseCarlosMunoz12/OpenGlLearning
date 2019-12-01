@@ -1,14 +1,15 @@
 #pragma once
 #include <glm.hpp>
-
+#include <vector>
 class SkelAn
 {
 private:
 	SkelAn* Parent;
 	float AnimatLength;
+	std::vector<Frames> AnimFrames;
 public:
 	SkelAn(SkelAn* InitParent,
-						glm::vec3 InitOffset, glm::vec3 InitRot, glm::vec3 InitScale)
+						glm::vec3 InitOffset, glm::vec3 InitRot)
 	{
 
 	}
@@ -19,13 +20,37 @@ public:
 };
 class Frames
 {
+	float TimeStamp;
+	std::vector<Joints> Joint_Trans;
 public:
-	void Test()
+	Frames(float InitTimeStamp, std::vector<Joints> InitJoints)
 	{
-
+		this->TimeStamp = InitTimeStamp;
+		this->Joint_Trans = InitJoints;
+	}
+	Frames(float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
+	{
+		this->TimeStamp;
 	}
 };
 class Joints
 {
+private:
+	glm::vec3 Position;
+	glm::vec3 Rotation;
+public:
+	Joints()
+	{
+		this->Position = glm::vec3(0.f);
+		this->Rotation = glm::vec3(0.f);
+	}
+	Joints(glm::vec3 InitPos, glm::vec3 InitRot)
+	{
+		this->Position = InitPos;
+		this->Rotation = InitRot;
+	}
+	glm::mat4 GetTrans()
+	{
 
+	}
 };
