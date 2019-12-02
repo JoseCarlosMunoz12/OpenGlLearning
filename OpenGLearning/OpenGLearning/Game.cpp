@@ -139,7 +139,7 @@ void Game::initMaterials()
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
 		0, 1, {2,3}, {}, {}, {4}));
-	this->MatTest.push_back(new TxtMat("Model File", 2,0,
+	this->MatTest.push_back(new TxtMat("Model File", 2, 0,
 							this->SkyColor, glm::vec3(0.1f),
 							glm::vec3(1.f), glm::vec3(1.f),
 		0, 1, {2,3}, {}, {}, {4}));
@@ -182,7 +182,7 @@ void Game::initModels()
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, {0,1,2,3,4,5,6,7});
-	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0, { 1,0,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0, { 0 });
 	//
 	//Pushing Models
@@ -446,9 +446,9 @@ void Game::ImGuiOptions()
 								if (ImGui::TreeNode("Node Rotation"))
 								{
 
-									ImGui::SliderFloat("XRot", &VecR.x, 0,  2 * 3.14);
-									ImGui::SliderFloat("YRot", &VecR.y, 0, 2 * 3.14);
-									ImGui::SliderFloat("ZRot", &VecR.z, 0, 2 * 3.14);
+									ImGui::SliderFloat("XRot", &VecR.x, 0, 360.f);
+									ImGui::SliderFloat("YRot", &VecR.y, 0, 360.f);
+									ImGui::SliderFloat("ZRot", &VecR.z, 0, 360.f);
 									ii->SetRotation(VecR);
 									ImGui::TreePop();
 								}

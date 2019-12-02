@@ -39,9 +39,7 @@ private:
 	glm::vec3 Rotation;
 	glm::vec3 Convert(glm::vec3 Rot)
 	{
-		Rot.x /= 180.f * glm::pi<float>();
-		Rot.y /= 180.f * glm::pi<float>();
-		Rot.z /= 180.f * glm::pi<float>();
+		Rot = Rot / 180.f * glm::pi<float>();
 		return Rot;
 	}
 public:

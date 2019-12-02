@@ -18,6 +18,11 @@ class Nodes
 	glm::vec3 RelPos;
 	int ParentId;
 	int MeshId;
+	glm::vec3 Convert(glm::vec3 Rot)
+	{
+		Rot = Rot / 180.f * glm::pi<float>();
+		return Rot;
+	}
 public:
 	Nodes* Parent;
 	Nodes(Nodes* InitParent,
@@ -25,12 +30,13 @@ public:
 		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
+		this->Origin = this->Position;
 		this->RelPos = this->Position - this->Origin;
 		this->MeshId = InitMeshId;
 		this->Rotation = InitRotation;
 		this->ParentId = InitParentID;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		glm::quat Temp = glm::quat(this->Rotation);
+		glm::quat Temp = glm::quat(this->Convert(this->Rotation));
 		glm::mat4 Temps = glm::mat4_cast(Temp);
 		Matrix *= Temps;		
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
@@ -82,7 +88,7 @@ public:
 	{
 		this->Matrix = glm::mat4(1.f);
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		glm::quat Temp = glm::quat(this->Rotation);
+		glm::quat Temp = glm::quat(this->Convert(this->Rotation));
 		glm::mat4 Temps = glm::mat4_cast(Temp);
 		Matrix *= Temps;		
 		this->Matrix = glm::translate(this->Matrix,this->RelPos);
