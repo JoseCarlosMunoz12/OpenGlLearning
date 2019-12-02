@@ -360,6 +360,7 @@ void Game::updateInput()
 
 void Game::ImGuiOptions()
 {
+	
 	{	
 		glm::vec3 TempCamera = this->camera.getPosition();
 		ImGui::Begin("Added DifferentModels");

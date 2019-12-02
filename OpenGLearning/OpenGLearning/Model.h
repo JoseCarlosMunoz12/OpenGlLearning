@@ -175,6 +175,7 @@ private:
 	}
 	void MakeNodes(glm::vec3 Pos,std::vector<MeshsArtifacts> Inits)
 	{
+		
 		int Count = 0;
 		for (auto ii : Inits)
 		{

@@ -3,7 +3,7 @@
 #include "Vertex.h"
 class Frames
 {
-	float TimeStamp;
+	float TimeStamp;	
 	Joints Joint_Trans;
 public:
 	Frames(float InitTimeStamp, Joints InitJoints)
@@ -51,6 +51,28 @@ private:
 	{		
 		return glm::mix(FirstAngle, Secondangle, Ratio);
 	}
+	glm::vec3 AveragePos(glm::vec3 FirstPos, glm::vec3 SecondPos, float Ratio)
+	{
+		glm::vec3 Temp = FirstPos + SecondPos;
+		return Temp * Ratio;
+	}
+	std::vector<Frames*> GetTwoFrams(float CurrentTime)
+	{
+		std::vector<Frames*> Vals;
+		int Count = 0;
+		for (auto& Frm : AnimFrames)
+		{
+			if (Frm->GetTimeStamp() > CurrentTime)
+			{
+				break;
+			}
+			Count++;
+		}
+		Vals.push_back(AnimFrames[Count - 1]);
+		Vals.push_back(AnimFrames[Count]);
+		return Vals;
+	}
+	
 public:
 	SkelAn(SkelAn* InitParent,float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
 	{
@@ -59,5 +81,14 @@ public:
 	~SkelAn()
 	{
 
+	}
+	glm::mat4 GetCurMat(float CurTime)
+	{
+		if (Parent)
+		{
+
+		}else{
+			return glm::mat4(1.f);
+		}		
 	}
 };
