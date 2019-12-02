@@ -7,9 +7,9 @@
 #include <iostream>
 #include <string>
 
-
 class Nodes
 {
+	Nodes* Parent;
 	glm::vec3 Position;
 	glm::vec3 Rotation;
 	glm::vec3 Scale;
@@ -24,7 +24,6 @@ class Nodes
 		return Rot;
 	}
 public:
-	Nodes* Parent;
 	Nodes(Nodes* InitParent,
 		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale, int InitParentID,int InitMeshId)
 		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),

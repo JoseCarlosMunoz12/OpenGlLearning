@@ -1,37 +1,6 @@
 #pragma once
 #include <vector>
 #include "Vertex.h"
-class SkelAn
-{
-private:
-	SkelAn* Parent;
-	float AnimatLength;
-	std::vector<Frames> AnimFrames;
-public:
-	SkelAn(SkelAn* InitParent, glm::vec3 InitOffset, glm::vec3 InitRot)
-	{
-
-	}
-	~SkelAn()
-	{
-
-	}
-};
-class Frames
-{
-	float TimeStamp;
-	std::vector<Joints> Joint_Trans;
-public:
-	Frames(float InitTimeStamp, std::vector<Joints> InitJoints)
-	{
-		this->TimeStamp = InitTimeStamp;
-		this->Joint_Trans = InitJoints;
-	}
-	Frames(float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
-	{
-		this->TimeStamp;		
-	}
-};
 class Joints
 {
 private:
@@ -53,11 +22,49 @@ public:
 		this->Position = InitPos;
 		this->Rotation = InitRot;
 	}
-	glm::mat4 GetTrans()
+	glm::mat4 GetTransMat()
 	{
 		glm::mat4 Temp = glm::mat4(1.f);
 		Temp = glm::translate(Temp, this->Position);
 		glm::quat Set = glm::quat(Convert(this->Rotation));
-		
+		glm::mat4 NewMat = glm::mat4_cast(Set);
+		return Temp * NewMat;
+	}
+	glm::quat GetRot()
+	{
+		return glm::quat(Convert(this->Rotation));
+	}
+};
+class Frames
+{
+	float TimeStamp;
+	std::vector<Joints*> Joint_Trans;
+public:
+	Frames(float InitTimeStamp, std::vector<Joints*> InitJoints)
+	{
+		this->TimeStamp = InitTimeStamp;
+		this->Joint_Trans = InitJoints;
+	}
+	Frames(float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
+	{
+		this->TimeStamp;
+		this->Joint_Trans.push_back(new Joints(InitOffset, InitRot));
+	}
+
+};
+class SkelAn
+{
+private:
+	SkelAn* Parent;
+	float AnimatLength;
+	std::vector<Frames> AnimFrames;
+public:
+	SkelAn(SkelAn* InitParent, glm::vec3 InitOffset, glm::vec3 InitRot)
+	{
+
+	}
+	~SkelAn()
+	{
+
 	}
 };
