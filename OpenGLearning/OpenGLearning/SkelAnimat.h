@@ -22,25 +22,40 @@ public:
 		this->Position = InitPos;
 		this->Rotation = InitRot;
 	}
+	//Getters
+	glm::vec3 GetPos()
+	{
+		return this->Position;
+	}
 	glm::mat4 GetTransMat()
 	{
 		glm::mat4 Temp = glm::mat4(1.f);
-		Temp = glm::translate(Temp, this->Position);
-		glm::quat Set = glm::quat(Convert(this->Rotation));
-		glm::mat4 NewMat = glm::mat4_cast(Set);
-		return Temp * NewMat;
+		return glm::translate(Temp, this->Position);		
 	}
 	glm::quat GetRot()
 	{
 		return glm::quat(Convert(this->Rotation));
 	}
+	glm::vec3 GetRotDeg()
+	{
+		return this->Rotation;
+	}
+	//Setters
+	void SetPos(glm::vec3 NewOffset)
+	{
+		this->Position = NewOffset;
+	}
+	void SetRot(glm::vec3 NewRot)
+	{
+		this->Rotation = NewRot;
+	}
 };
 class Frames
 {
 	float TimeStamp;
-	std::vector<Joints*> Joint_Trans;
+	Joints* Joint_Trans;
 public:
-	Frames(float InitTimeStamp, std::vector<Joints*> InitJoints)
+	Frames(float InitTimeStamp, Joints* InitJoints)
 	{
 		this->TimeStamp = InitTimeStamp;
 		this->Joint_Trans = InitJoints;
@@ -48,7 +63,19 @@ public:
 	Frames(float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
 	{
 		this->TimeStamp;
-		this->Joint_Trans.push_back(new Joints(InitOffset, InitRot));
+		this->Joint_Trans = new Joints(InitOffset, InitRot);
+	}
+	glm::quat ReturnRot()
+	{
+		return this->Joint_Trans->GetRot();
+	}
+	glm::vec3 GetOffset()
+	{
+		return this->Joint_Trans->GetPos();
+	}
+	float GetTimeStamp()
+	{
+		return this->TimeStamp;
 	}
 
 };
@@ -57,9 +84,10 @@ class SkelAn
 private:
 	SkelAn* Parent;
 	float AnimatLength;
-	std::vector<Frames> AnimFrames;
+	Frames AnimFrames;
 public:
-	SkelAn(SkelAn* InitParent, glm::vec3 InitOffset, glm::vec3 InitRot)
+	SkelAn(SkelAn* InitParent,float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
+		:AnimFrames(InitTimeStamp,InitOffset,InitRot)
 	{
 
 	}
