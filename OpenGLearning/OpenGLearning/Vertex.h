@@ -95,3 +95,23 @@ struct MdlToMake
 	std::vector<std::string> TexNames;
 	std::vector<NodesId> NodesInf;
 };
+struct Joints
+{
+private:
+	glm::vec3 Convert()
+	{
+		return Rotation / 180.f * glm::pi<float>();
+	}
+public:
+	glm::vec3 Offset;
+	glm::vec3 Rotation;
+	glm::mat4 GetTransMat()
+	{
+		glm::mat4 Temp = glm::mat4(1.f);
+		return glm::translate(Temp,Rotation);
+	}
+	glm::quat GetRot()
+	{
+		return glm::quat(Convert());
+	}
+};
