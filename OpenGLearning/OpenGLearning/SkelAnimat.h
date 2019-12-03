@@ -42,7 +42,6 @@ public:
 class SkelAn
 {
 private:
-	SkelAn* Parent;
 	std::string ParentId;
 	std::vector<Frames*> AnimFrames;
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
@@ -78,9 +77,9 @@ private:
 	}
 	
 public:
-	SkelAn(SkelAn* InitParent,std::vector<Frames*> InitFrames)
-		:Parent(InitParent)
-	{			
+	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName)
+	{
+		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
 	}
 	~SkelAn()
