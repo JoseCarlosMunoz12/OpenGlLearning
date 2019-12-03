@@ -105,11 +105,6 @@ private:
 public:
 	glm::vec3 Offset;
 	glm::vec3 Rotation;
-	glm::mat4 GetTransMat()
-	{
-		glm::mat4 Temp = glm::mat4(1.f);
-		return glm::translate(Temp,Rotation);
-	}
 	glm::quat GetRot()
 	{
 		return glm::quat(Convert());

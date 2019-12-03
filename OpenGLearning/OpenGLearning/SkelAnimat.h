@@ -41,11 +41,12 @@ class SkelAn
 {
 private:
 	SkelAn* Parent;
-	float AnimatLength;
 	std::vector<Frames*> AnimFrames;
-	float GetTimeRatio(float CurrTime)
+	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
-
+		float TimeLeft = CurrTime - FrmFound[0]->GetTimeStamp();
+		float FrameDif = FrmFound[1]->GetTimeStamp() - FrmFound[0]->GetTimeStamp();
+		return TimeLeft / FrameDif;
 	}
 	glm::quat Interpolate(glm::quat FirstAngle, glm::quat Secondangle, float Ratio)
 	{		
@@ -56,7 +57,7 @@ private:
 		glm::vec3 Temp = FirstPos + SecondPos;
 		return Temp * Ratio;
 	}
-	std::vector<Frames*> GetTwoFrams(float CurrentTime)
+	std::vector<Frames*> GetTwoFrames(float CurrentTime)
 	{
 		std::vector<Frames*> Vals;
 		int Count = 0;
@@ -75,7 +76,8 @@ private:
 	
 public:
 	SkelAn(SkelAn* InitParent,float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
-	{
+		:Parent(InitParent)
+	{		
 
 	}
 	~SkelAn()
@@ -84,11 +86,16 @@ public:
 	}
 	glm::mat4 GetCurMat(float CurTime)
 	{
+		std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
+		float Ratio = this->GetTimeRatio(CurTime,Found);
+		glm::quat newQuat = this->Interpolate(Found[0]->ReturnRot(), Found[1]->ReturnRot(), Ratio);
+		glm::vec3 AveragePos = this->AveragePos(Found[0]->GetOffset(), Found[1]->GetOffset(), Ratio);
+		glm::mat4 Matrix = glm::translate(glm::mat4(1.f), AveragePos);
 		if (Parent)
 		{
-
+			return Parent->GetCurMat(CurTime) * Matrix * glm::mat4_cast(newQuat);
 		}else{
-			return glm::mat4(1.f);
+			return Matrix * glm::mat4_cast(newQuat);
 		}		
 	}
 };
