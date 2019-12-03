@@ -4,6 +4,7 @@
 #include <iostream>
 #include <filesystem>
 #include <algorithm>
+#include <map>
 namespace fs = std::filesystem;
 class FileRdrMkr
 {

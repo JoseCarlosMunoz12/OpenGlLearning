@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include "Vertex.h"
+#include <map> 
+#include <algorithm>
 class Frames
 {
 	float TimeStamp;	
@@ -41,6 +43,7 @@ class SkelAn
 {
 private:
 	SkelAn* Parent;
+	std::string ParentId;
 	std::vector<Frames*> AnimFrames;
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
@@ -75,26 +78,27 @@ private:
 	}
 	
 public:
-	SkelAn(SkelAn* InitParent,float InitTimeStamp, glm::vec3 InitOffset, glm::vec3 InitRot)
+	SkelAn(SkelAn* InitParent,std::vector<Frames*> InitFrames)
 		:Parent(InitParent)
-	{		
-
+	{			
+		this->AnimFrames = InitFrames;
 	}
 	~SkelAn()
 	{
 
 	}
-	glm::mat4 GetCurMat(float CurTime)
+	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime)
 	{
 		std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
-		float Ratio = this->GetTimeRatio(CurTime,Found);
+		float Ratio = this->GetTimeRatio(CurTime, Found);
 		glm::quat newQuat = this->Interpolate(Found[0]->ReturnRot(), Found[1]->ReturnRot(), Ratio);
 		glm::vec3 AveragePos = this->AveragePos(Found[0]->GetOffset(), Found[1]->GetOffset(), Ratio);
 		glm::mat4 Matrix = glm::translate(glm::mat4(1.f), AveragePos);
-		if (Parent)
+		if (ParentId != "None")
 		{
-			return Parent->GetCurMat(CurTime) * Matrix * glm::mat4_cast(newQuat);
-		}else{
+			return Temp[ParentId]->GetCurMat(Temp, CurTime) * Matrix * glm::mat4_cast(newQuat);
+		}
+		else {
 			return Matrix * glm::mat4_cast(newQuat);
 		}		
 	}
