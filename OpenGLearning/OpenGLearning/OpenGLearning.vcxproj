@@ -135,6 +135,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimLoader.h" />
     <ClInclude Include="AnimMesh.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
