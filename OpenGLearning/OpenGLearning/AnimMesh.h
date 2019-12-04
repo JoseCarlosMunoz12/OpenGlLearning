@@ -57,6 +57,14 @@ private:
 		//BIND VAO 0
 		glBindVertexArray(0);
 	}
+	void UpdateUniforms(glm::mat4 FinalMatrix,Shader* shader)
+	{
+
+	}
+	void UpdateMatInf(std::vector<glm::mat4> AllMats)
+	{
+
+	}
 public:
 	AnimMesh(AnimInf* NewMesh, std::string NewName)
 	{
@@ -72,5 +80,9 @@ public:
 		}
 		delete[] this->AnimVerArray;
 		delete[] this->IndexArray;
+	}
+	std::string GiveName()
+	{
+		return this->NameOfMesh;
 	}
 };
