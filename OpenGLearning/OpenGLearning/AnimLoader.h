@@ -9,6 +9,12 @@
 class AnimInf
 {
 private:
+	std::vector<AnimVertex> Vertices;
+	std::vector<GLuint> Indices;
+	void Set()
+	{
+
+	}
 
 public:
 	AnimInf()
@@ -19,4 +25,10 @@ public:
 	{
 
 	}
+	inline AnimVertex* GetVertices() { return this->Vertices.data(); };
+	inline GLuint* GetIndices() { return this->Indices.data(); };
+
+	inline const unsigned getNrOfVertices() { return this->Vertices.size(); }
+	inline const unsigned getNrOfIndices() { return this->Indices.size(); }
+
 };
