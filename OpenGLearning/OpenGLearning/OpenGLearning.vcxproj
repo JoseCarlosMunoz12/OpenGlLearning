@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="AnimLoader.h" />
     <ClInclude Include="AnimMesh.h" />
+    <ClInclude Include="AnimModel.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="FileMaker.h" />

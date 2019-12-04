@@ -220,47 +220,45 @@ public:
 	{
 	}
 	//Format
-	void rotate(const glm::vec3 rotation,int MeshId)
+	void rotate(const glm::vec3 rotation)
 	{
 		
-		this->TreeNodes[MeshId]->Rotate(rotation);
+		this->TreeNodes[0]->Rotate(rotation);
 		
 	}
-	void move(const glm::vec3 Move, int MeshId)
+	void move(const glm::vec3 Move)
 	{
-		this->TreeNodes[MeshId]->Move(Move);
+		this->TreeNodes[0]->Move(Move);
 	}
-	void scale(const glm::vec3 ReScale, int MeshId)
+	void scale(const glm::vec3 ReScale)
 	{
-		this->TreeNodes[MeshId]->ScaleUp(ReScale);
+		this->TreeNodes[0]->ScaleUp(ReScale);
 	}
 	//Setters
-	void SetRotation(const glm::vec3 rotation, int MeshId)
+	void SetRotation(const glm::vec3 rotation)
 	{
-
-		this->TreeNodes[MeshId]->SetRotation(rotation);
-
+		this->TreeNodes[0]->SetRotation(rotation);
 	}
-	void SetScale(const glm::vec3 ReScale, int MeshId)
+	void SetScale(const glm::vec3 ReScale)
 	{
-		this->TreeNodes[MeshId]->SetScale(ReScale);
+		this->TreeNodes[0]->SetScale(ReScale);
 	}
 	//Getters
-	glm::vec3 GetRotation(int MeshId)
+	glm::vec3 GetRotation()
 	{
-		return this->TreeNodes[MeshId]->GetRotation();
+		return this->TreeNodes[0]->GetRotation();
 	}
-	glm::vec3 GetPosition(int MeshId)
+	glm::vec3 GetPosition()
 	{
-		return this->TreeNodes[MeshId]->GetPosition();
+		return this->TreeNodes[0]->GetPosition();
 	}
-	glm::vec3 GetScale(int MeshId)
+	glm::vec3 GetScale()
 	{
-		return this->TreeNodes[MeshId]->GetScale();
+		return this->TreeNodes[0]->GetScale();
 	}
-	glm::vec3 GetOrigin(int MeshId)
+	glm::vec3 GetOrigin()
 	{
-		return this->TreeNodes[MeshId]->GetOrigin();
+		return this->TreeNodes[0]->GetOrigin();
 	}
 	std::vector<Nodes*> GetNodesInfo()
 	{
@@ -342,10 +340,6 @@ public:
 	std::vector<Mesh*> GetMeshes()
 	{
 		return this->meshes;
-	}
-	glm::vec3 GetPosition()
-	{
-		return this->Position;
 	}
 	StdMat* GetStdMat()
 	{		
