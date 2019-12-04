@@ -15,6 +15,16 @@ struct Vertex
 	glm::vec2 texcoord;
 	glm::vec3 normal;
 };
+struct AnimVertex
+{
+	glm::vec3 position;
+	glm::vec3 color;
+	glm::vec2 texcoord;
+	glm::vec3 normal;
+	glm::ivec3 MatId;
+	glm::vec3 Weights;
+};
+
 struct MouseItems
 {
 	double X;

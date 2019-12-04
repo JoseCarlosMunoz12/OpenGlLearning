@@ -37,7 +37,6 @@ public:
 	{
 		this->Joint_Trans.Offset = NewOffset;
 	}
-
 };
 class SkelAn
 {
@@ -74,8 +73,7 @@ private:
 		Vals.push_back(AnimFrames[Count - 1]);
 		Vals.push_back(AnimFrames[Count]);
 		return Vals;
-	}
-	
+	}	
 public:
 	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName)
 	{
