@@ -75,7 +75,6 @@ public:
 		{
 			this->vertexArray[i] = primitive->getVertices()[i];
 			VertexTofind.push_back(vertexArray[i]);
-
 		}
 		this->indexArray = new GLuint[this->nrOfIndices];
 		for (size_t i = 0; i <this-> nrOfIndices; i++)

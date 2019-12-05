@@ -59,17 +59,39 @@ private:
 	}
 	void UpdateUniforms(glm::mat4 FinalMatrix,Shader* shader)
 	{
-
+		shader->setMat4fv(FinalMatrix, "ModelMatrix");
 	}
-	void UpdateMatInf(std::vector<glm::mat4> AllMats)
+	void UpdateMatInf(std::vector<glm::mat4> AllMats, Shader* shader)
 	{
-
+		int TempCount = 0;
+		for (auto&	CurMat : AllMats)
+		{
+			shader->setMat4fv(CurMat, "test");
+			TempCount++;
+		}
 	}
 public:
 	AnimMesh(AnimInf* NewMesh, std::string NewName)
 	{
 		this->NameOfMesh = NewName;
+
+		this->nrOfIndices = NewMesh->getNrOfIndices();
+		this->nrOfVertices = NewMesh->getNrOfVertices();
+		this->AnimVerArray = new AnimVertex[this->nrOfVertices];
+		for (size_t ii = 0; ii < this->nrOfVertices; ii++)
+		{
+			this->AnimVerArray[ii] = NewMesh->GetVertices()[ii];
+			AnimVerToFind.push_back(AnimVerArray[ii]);
+		}
+		this->IndexArray = new GLuint[this->nrOfIndices];
+		for (size_t ii = 0; ii < this->nrOfIndices; ii++)
+		{
+			this->IndexArray[ii] = NewMesh->GetIndices()[ii];
+		}
+		
+		this->InitVAO();
 	}
+
 	~AnimMesh()
 	{
 		glDeleteVertexArrays(1, &this->VAO);
@@ -80,6 +102,27 @@ public:
 		}
 		delete[] this->AnimVerArray;
 		delete[] this->IndexArray;
+	}
+	void Render(glm::mat4 FinalMatrix, Shader* shader,std::vector<glm::mat4> AllMats)
+	{
+		//UpdateUniforms
+		this->UpdateMatInf(AllMats, shader);
+		this->UpdateUniforms(FinalMatrix, shader);
+		shader->use();
+		//Bind VAO
+		glBindVertexArray(this->VAO);
+		if (this->nrOfIndices == 0)
+		{
+			glDrawArrays(GL_TRIANGLES, 0, this->nrOfVertices);
+		}
+		else {
+			glDrawElements(GL_TRIANGLES, this->nrOfIndices, GL_UNSIGNED_INT, 0);
+		}
+		//Clean up
+		glBindVertexArray(0);
+		glUseProgram(0);
+		glActiveTexture(0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	std::string GiveName()
 	{
