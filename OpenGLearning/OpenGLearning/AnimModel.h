@@ -14,19 +14,27 @@
 class AnimModel
 {
 private:
-	StdMat* AnimTex;
+	StdMat* AnimMat;
 	std::vector<AnimMesh*> meshes;
+	std::vector<GeneralTextInfo*> Tex;
 	std::vector<int> MeshToUse;
 	std::vector<std::vector<int>> TextToUse;
 	std::vector<SkelAn*> AnimBones;
 	glm::vec3 Origin;
-	glm::vec3 RelPos;
+	glm::vec3 RelPos;	
 	std::string Name;
 
 public:
-	AnimModel()
+	AnimModel(std::string ModName, glm::vec3 InitPos,
+		StdMat* material,
+		std::vector<GeneralTextInfo*> OrTexSpec,
+		std::vector<AnimMesh*> AnimMeshToUse, glm::vec3 InitOr = glm::vec3(0.f))
+		:Name(ModName),AnimMat(material)
 	{
-
+		this->Origin = InitPos;
+		this->RelPos = this->Origin - InitOr;
+		this->Tex = OrTexSpec;
+		this->meshes = AnimMeshToUse;
 	}
 	~AnimModel()
 	{
