@@ -1,5 +1,6 @@
 #pragma once
 #include "Vertex.h"
+#include "SkelAnimat.h"
 #include <map>
 #include <glew.h>
 #include <glfw3.h>
