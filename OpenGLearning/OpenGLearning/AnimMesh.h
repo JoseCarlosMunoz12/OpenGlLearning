@@ -64,9 +64,11 @@ private:
 	void UpdateMatInf(std::vector<glm::mat4> AllMats, Shader* shader)
 	{
 		int TempCount = 0;
+		shader->set1i(AllMats.size(), "TransCount");
 		for (auto&	CurMat : AllMats)
 		{
-			shader->setMat4fv(CurMat, "test");
+			std::string MatName = "TransMat[" + std::to_string(TempCount)+"]";
+			shader->setMat4fv(CurMat,MatName.c_str());
 			TempCount++;
 		}
 	}

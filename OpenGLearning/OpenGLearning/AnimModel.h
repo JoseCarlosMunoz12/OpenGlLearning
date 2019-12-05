@@ -14,12 +14,13 @@
 class AnimModel
 {
 private:
-	StdMat* TestMat;
+	StdMat* AnimTex;
 	std::vector<AnimMesh*> meshes;
 	std::vector<int> MeshToUse;
 	std::vector<std::vector<int>> TextToUse;
 	std::vector<SkelAn*> AnimBones;
-	glm::vec3 Position;
+	glm::vec3 Origin;
+	glm::vec3 RelPos;
 	std::string Name;
 
 public:
