@@ -120,3 +120,151 @@ public:
 		return glm::quat(Convert());
 	}
 };
+
+class Nodes
+{
+	Nodes* Parent;
+	glm::vec3 Position;
+	glm::vec3 Rotation;
+	glm::vec3 Scale;
+	glm::vec3 Origin;
+	glm::mat4 Matrix;
+	glm::vec3 RelPos;
+	int ParentId;
+	int MeshId;
+	glm::vec3 Convert(glm::vec3 Rot)
+	{
+		Rot = Rot / 180.f * glm::pi<float>();
+		return Rot;
+	}
+public:
+	Nodes(Nodes* InitParent,
+		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
+		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
+		Matrix(glm::mat4(1.f))
+	{
+		this->Origin = this->Position;
+		this->RelPos = this->Position - this->Origin;
+		this->MeshId = InitMeshId;
+		this->Rotation = InitRotation;
+		this->ParentId = InitParentID;
+		this->Matrix = glm::translate(this->Matrix, this->Origin);
+		glm::quat Temp = glm::quat(this->Convert(this->Rotation));
+		glm::mat4 Temps = glm::mat4_cast(Temp);
+		Matrix *= Temps;
+		this->Matrix = glm::translate(this->Matrix, this->RelPos);
+		this->Matrix = glm::scale(this->Matrix, this->Scale);
+
+	}
+	//Get Items
+	glm::mat4 GetFinalMat4()
+	{
+		if (this->Parent)
+		{
+			return this->Parent->GetFinalMat4() * this->Matrix;
+		}
+		else
+		{
+			return this->Matrix;
+		}
+	}
+	glm::vec3 GetOrigin()
+	{
+		return this->Origin;
+	}
+	glm::vec3 GetPosition()
+	{
+		return this->RelPos + this->Origin;
+	}
+	glm::vec3 GetRelPos()
+	{
+		return this->RelPos;
+	}
+	glm::vec3 GetRotation()
+	{
+		return this->Rotation;
+	}
+	glm::vec3 GetScale()
+	{
+		return this->Scale;
+	}
+	std::string GetParentsId()
+	{
+		return std::to_string(this->ParentId);
+	}
+	int GetMeshId()
+	{
+		return this->MeshId;
+	}
+	//Update Matrix
+	void UpdateMatrix()
+	{
+		this->Matrix = glm::mat4(1.f);
+		this->Matrix = glm::translate(this->Matrix, this->Origin);
+		glm::quat Temp = glm::quat(this->Convert(this->Rotation));
+		glm::mat4 Temps = glm::mat4_cast(Temp);
+		Matrix *= Temps;
+		this->Matrix = glm::translate(this->Matrix, this->RelPos);
+		this->Matrix = glm::scale(this->Matrix, this->Scale);
+	}
+	//Set Items
+	void SetParent(Nodes* NewParent)
+	{
+		this->Parent = NewParent;
+	}
+	void SetOrigin(const glm::vec3 origin)
+	{
+		this->Origin = origin;
+	}
+	void SetRotation(const glm::vec3 rotation)
+	{
+		this->Rotation = rotation;
+	}
+	void SetScale(const glm::vec3 setScale)
+	{
+		this->Scale = setScale;
+	}
+	void SetRelPos(const glm::vec3 SetRePos)
+	{
+		this->RelPos = SetRePos;
+	}
+	//Modifiers
+	void Move(glm::vec3 Pos)
+	{
+		this->Position += Pos;
+	}
+	void Rotate(glm::vec3 Rot)
+	{
+		this->Rotation += Rot;
+		if (this->Rotation.x > 360.f)
+		{
+			this->Rotation.x = 0.f;
+		}
+		else if (this->Rotation.x < 0.f)
+		{
+			this->Rotation.x < 360.f;
+		}
+
+		if (this->Rotation.y > 360.f)
+		{
+			this->Rotation.y = 0.f;
+		}
+		else if (this->Rotation.y < 0.f)
+		{
+			this->Rotation.y < 360.f;
+		}
+
+		if (this->Rotation.z > 360.f)
+		{
+			this->Rotation.z = 0.f;
+		}
+		else if (this->Rotation.z < 0.f)
+		{
+			this->Rotation.z < 360.f;
+		}
+	}
+	void ScaleUp(glm::vec3 Scale)
+	{
+		this->Scale += Scale;
+	}
+};
