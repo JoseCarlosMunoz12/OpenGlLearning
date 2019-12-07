@@ -84,6 +84,7 @@ struct MeshsArtifacts
 		this->TextsId = Textures;
 	}
 };
+
 struct NodesId
 {
 	glm::vec3 Pos;
@@ -154,7 +155,7 @@ public:
 		Matrix *= Temps;
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
-
+	
 	}
 	//Get Items
 	glm::mat4 GetFinalMat4()

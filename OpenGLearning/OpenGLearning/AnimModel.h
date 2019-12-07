@@ -25,12 +25,27 @@ private:
 	glm::vec3 RelPos;
 	glm::vec3 Rotation;
 	glm::vec3 Scale;
+	glm::mat4 FinalMatrix;
 	std::string Name;
 	float TimeLength;
 	float TimePass = 0;
 	void MakeSkeleton()
 	{
 
+	}
+	glm::vec3 Convert(glm::vec3 Rot)
+	{
+		Rot = Rot / 180.f * glm::pi<float>();
+	}
+	void UpdateMatrix()
+	{
+		this->FinalMatrix = glm::mat4(1.f);
+		this->FinalMatrix = glm::translate(this->FinalMatrix, this->Origin);
+		glm::quat Temp = glm::quat(this->Convert(this->Rotation));
+		glm::mat4 Temps = glm::mat4_cast(Temp);
+		this->FinalMatrix *= Temps;
+		this->FinalMatrix = glm::translate(this->FinalMatrix, this->RelPos);
+		this->FinalMatrix = glm::scale(this->FinalMatrix, this->Scale);
 	}
 	std::vector<glm::mat4> UpdateTime(float TimePass)
 	{
@@ -48,6 +63,15 @@ private:
 		}
 		return TempMats;
 	}
+	std::vector<glm::mat4> GetCurMat()
+	{
+		std::vector<glm::mat4> TempMats;
+		for (auto& Bone : Skeleton)
+		{
+			TempMats.push_back(Bone.second->GetCurMat(this->Skeleton,this->TimePass));
+		}
+		return TempMats;
+	}
 public:
 	AnimModel(std::string ModName, glm::vec3 InitPos,
 		StdMat* material,
@@ -58,23 +82,96 @@ public:
 		:Name(ModName),AnimMat(material)
 	{
 		this->Origin = InitPos;
-		this->RelPos = this->Origin - InitOr;
+		this->RelPos = this->Origin - InitOr;		
 		this->Tex = OrTexSpec;
 		this->meshes = AnimMeshToUse;
+		this->UpdateMatrix();
 	}
 	~AnimModel()
 	{
 
 	}
-	//Format
 	//Setters
-	//Getters
-	//Render
-	void Render(float TimePass,std::vector<Shader*>shader)
+	void SetOrigin(glm::vec3 NewOrigin)
 	{
-		meshes->Render(glm::mat4(1.f), shader[0], this->UpdateTime(TimePass));
+		this->Origin = NewOrigin;
+	}
+	void SetRelPos(glm::vec3 NewRelPos)
+	{
+		this->RelPos = NewRelPos;
+	}
+	void SetRot(glm::vec3 NewRot)
+	{
+		this->Rotation = NewRot;
+	}
+	void SetScale(glm::vec3 NewScale)
+	{
+		this->Scale = NewScale;
+	}
+	//Getters
+	glm::vec3 GetPosition()
+	{
+		return this->RelPos + this->Origin;
+	}
+	glm::vec3 Origin()
+	{
+		return this->Origin;
+	}
+	glm::vec3 GetRelPos()
+	{
+		return this->RelPos;
+	}
+	glm::vec3 GetRot()
+	{
+		return this->Rotation;
+	}
+	glm::vec3 GetScale()
+	{
+		return this->Scale;
+	}
+	//Render
+	void Render(float TimePass,std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix)
+	{
+		this->UpdateMatrix();
+		int TempShaderId = this->AnimMat->GetShaderId();
+		this->AnimMat->SendToShader(shader, LightMatrix);
+		int Num = 0;
+
+		for (auto& ii : this->TextToUse)
+		{
+			this->Tex[ii]->Bind(Num);
+			Num++;
+		}
+		meshes->Render(glm::mat4(1.f), shader[TempShaderId], this->UpdateTime(TimePass));
+
 	}
 	//Other
 	//Shadow Renderer
+	void ShadowRender(float PassTime,Shader* ShadowShader)
+	{
+		this->UpdateMatrix();
+		ShadowShader->use();
+		this->meshes->Render(this->FinalMatrix, ShadowShader,this->GetCurMat());
+	}
 	//Get other general information
+	std::vector<GeneralTextInfo*> GetTextures()
+	{
+		return this->Tex;
+	}
+	std::vector<int> GetTexId()
+	{
+		return this->TextToUse;
+	}
+	StdMat* GetStdMat()
+	{
+		return this->AnimMat;
+	}
+	std::string GetName()
+	{
+		return this->Name;
+	}
+	int GetShaderId()
+	{
+		return this->AnimMat->GetShaderId();
+	}
 };
