@@ -18,8 +18,10 @@ private:
 	}
 
 public:
-	AnimInf()
+	AnimInf(const char* FileName)
 	{
+		std::ifstream in_file;
+		in_file.open(FileName);
 
 	}
 	~AnimInf()

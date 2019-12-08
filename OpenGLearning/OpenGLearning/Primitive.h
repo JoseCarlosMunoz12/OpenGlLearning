@@ -492,12 +492,15 @@ private:
 class CustomObject : public Primitive
 {
 public:
-	CustomObject(const char* fileScreenPos)
+	CustomObject(const char* file)
 		:Primitive()
 	{
+
+		std::string FileLoc = "";
 		//Variables to Get info from the obj file
 		this->InitStringZFound();
-		std::string temp = "";
+		std::string temp = "Models/ModelObj/";
+		temp += file;
 		std::vector<glm::vec3> PositionsFound;
 		std::vector<glm::vec2> TexCoordsFound;
 		std::vector<glm::vec3> NormalsFound;
@@ -508,7 +511,7 @@ public:
 		std::vector<Vertex> VertexFound;
 		std::vector<GLuint> IndecesFound;
 		//Opens Obj File
-		in_file.open(fileScreenPos);
+		in_file.open(temp.c_str());
 		//Searches the obj file and get all neccesssary info
 		if (in_file.is_open())
 		{

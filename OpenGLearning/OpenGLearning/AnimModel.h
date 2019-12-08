@@ -11,6 +11,13 @@
 #include <glm.hpp>
 #include <iostream>
 #include <vector>
+
+struct AnimMeshArtifacts
+{
+	std::string Name;
+	std::string Parent;
+	std::vector<Frames*> AllFrames;
+};
 class AnimModel
 {
 private:
@@ -20,7 +27,6 @@ private:
 	std::vector<Nodes*> TreeNodes;
 	std::vector<int> TextToUse;
 	std::map<std::string, SkelAn*> Skeleton;
-	std::vector<SkelAn*> AnimBones;
 	glm::vec3 Origin;
 	glm::vec3 RelPos;
 	glm::vec3 Rotation;
@@ -29,9 +35,12 @@ private:
 	std::string Name;
 	float TimeLength;
 	float TimePass = 0;
-	void MakeSkeleton()
+	void MakeSkeleton(std::vector<AnimMeshArtifacts> Inits)
 	{
-
+		for (auto& ii : Inits)
+		{
+			Skeleton[ii.Name] = new SkelAn(ii.AllFrames,ii.Parent);
+		}
 	}
 	glm::vec3 Convert(glm::vec3 Rot)
 	{
@@ -57,7 +66,7 @@ private:
 		else {
 			this->TimePass += TimePass;
 		}
-		for (auto& Bone :Skeleton)
+		for (auto& Bone : Skeleton)
 		{
 			TempMats.push_back(Bone.second->GetCurMat(this->Skeleton, this->TimePass));
 		}
@@ -68,7 +77,7 @@ private:
 		std::vector<glm::mat4> TempMats;
 		for (auto& Bone : Skeleton)
 		{
-			TempMats.push_back(Bone.second->GetCurMat(this->Skeleton,this->TimePass));
+			TempMats.push_back(Bone.second->GetCurMat(this->Skeleton, this->TimePass));
 		}
 		return TempMats;
 	}
@@ -77,14 +86,15 @@ public:
 		StdMat* material,
 		std::vector<GeneralTextInfo*> OrTexSpec,
 		AnimMesh* AnimMeshToUse,
-		std::vector<MeshsArtifacts> Inits,
+		std::vector<AnimMeshArtifacts> Inits,
 		glm::vec3 InitOr = glm::vec3(0.f), glm::vec3 InitRot = glm::vec3(0.f))
-		:Name(ModName),AnimMat(material)
+		:Name(ModName), AnimMat(material)
 	{
 		this->Origin = InitPos;
-		this->RelPos = this->Origin - InitOr;		
+		this->RelPos = this->Origin - InitOr;
 		this->Tex = OrTexSpec;
 		this->meshes = AnimMeshToUse;
+		this->MakeSkeleton(Inits);
 		this->UpdateMatrix();
 	}
 	~AnimModel()
@@ -130,7 +140,7 @@ public:
 		return this->Scale;
 	}
 	//Render
-	void Render(float TimePass,std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix)
+	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix)
 	{
 		this->UpdateMatrix();
 		int TempShaderId = this->AnimMat->GetShaderId();
@@ -147,11 +157,11 @@ public:
 	}
 	//Other
 	//Shadow Renderer
-	void ShadowRender(float PassTime,Shader* ShadowShader)
+	void ShadowRender(float PassTime, Shader* ShadowShader)
 	{
 		this->UpdateMatrix();
 		ShadowShader->use();
-		this->meshes->Render(this->FinalMatrix, ShadowShader,this->GetCurMat());
+		this->meshes->Render(this->FinalMatrix, ShadowShader, this->GetCurMat());
 	}
 	//Get other general information
 	std::vector<GeneralTextInfo*> GetTextures()

@@ -35,7 +35,7 @@ private:
 		std::string src = "";
 		std::ifstream in_file;
 		std::string Temp = FolderChosen + fileName;
-		this->TextName = Temp.c_str();
+		this->TextName = fileName;
 		//Vertex
 		in_file.open(Temp.c_str());
 

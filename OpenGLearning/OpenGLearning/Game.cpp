@@ -156,7 +156,7 @@ void Game::initModels()
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
-			&CustomObject("Images/Monkey.obj"),
+			&CustomObject("Monkey.obj"),
 			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(

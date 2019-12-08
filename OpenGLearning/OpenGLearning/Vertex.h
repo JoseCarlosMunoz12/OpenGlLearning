@@ -84,7 +84,6 @@ struct MeshsArtifacts
 		this->TextsId = Textures;
 	}
 };
-
 struct NodesId
 {
 	glm::vec3 Pos;
