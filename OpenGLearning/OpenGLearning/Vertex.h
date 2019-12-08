@@ -120,7 +120,6 @@ public:
 		return glm::quat(Convert());
 	}
 };
-
 class Nodes
 {
 	Nodes* Parent;

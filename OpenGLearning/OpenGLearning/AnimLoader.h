@@ -7,6 +7,7 @@
 #include <glm.hpp>
 #include <iostream>
 #include <vector>
+
 class AnimInf
 {
 private:
@@ -16,11 +17,12 @@ private:
 	{
 
 	}
-
 public:
 	AnimInf(const char* FileName)
 	{
 		std::ifstream in_file;
+		std::string Temps = "Models/ModelCol/";
+
 		in_file.open(FileName);
 
 	}
