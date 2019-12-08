@@ -165,16 +165,16 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\DebugFrag.glsl" />
-    <None Include="Shaders\DebugVertex.glsl" />
-    <None Include="Shaders\fragment_core.glsl" />
-    <None Include="Shaders\MultiTexFragment.glsl" />
-    <None Include="Shaders\MultiTexVertex.glsl" />
-    <None Include="Shaders\ShadowMapFrag.glsl" />
-    <None Include="Shaders\ShadowMapVertex.glsl" />
-    <None Include="Shaders\terrain_fragment.glsl" />
-    <None Include="Shaders\terrain_vertex.glsl" />
-    <None Include="Shaders\vertex_core.glsl" />
+    <None Include="Shaders\StaticShaders\DebugFrag.glsl" />
+    <None Include="Shaders\StaticShaders\DebugVertex.glsl" />
+    <None Include="Shaders\StaticShaders\fragment_core.glsl" />
+    <None Include="Shaders\StaticShaders\MultiTexFragment.glsl" />
+    <None Include="Shaders\StaticShaders\MultiTexVertex.glsl" />
+    <None Include="Shaders\StaticShaders\ShadowMapFrag.glsl" />
+    <None Include="Shaders\StaticShaders\ShadowMapVertex.glsl" />
+    <None Include="Shaders\StaticShaders\terrain_fragment.glsl" />
+    <None Include="Shaders\StaticShaders\terrain_vertex.glsl" />
+    <None Include="Shaders\StaticShaders\vertex_core.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SaveFiles\Test.txt" />

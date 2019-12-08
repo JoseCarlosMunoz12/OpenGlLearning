@@ -75,18 +75,18 @@ void Game::initMatrices()
 void Game::initShaders()
 {
 	//Regular Shaders to Draw
-	this->shaders.push_back(new Shader(0,this->GLVerMajor , this->GLVerMinor ,
-		"Shaders/vertex_core.glsl", "Shaders/fragment_core.glsl"));
-	this->shaders.push_back(new Shader(1,this->GLVerMajor, this->GLVerMinor,
-		"Shaders/terrain_vertex.glsl", "Shaders/terrain_fragment.glsl"));
-	this->shaders.push_back(new Shader(2,this->GLVerMajor, this->GLVerMinor,
-		"Shaders/MultiTexVertex.glsl", "Shaders/MultiTexFragment.glsl"));
+	this->shaders.push_back(new Shader(0,STATIC,this->GLVerMajor , this->GLVerMinor ,
+		"vertex_core.glsl", "fragment_core.glsl"));
+	this->shaders.push_back(new Shader(1, STATIC,this->GLVerMajor, this->GLVerMinor,
+		"terrain_vertex.glsl", "terrain_fragment.glsl"));
+	this->shaders.push_back(new Shader(2, STATIC,this->GLVerMajor, this->GLVerMinor,
+		"MultiTexVertex.glsl", "MultiTexFragment.glsl"));
 	//Shadow Shaders
-	this->shaders.push_back(new Shader(3, this->GLVerMajor, this->GLVerMinor,
-		"Shaders/ShadowMapVertex.glsl", "Shaders/ShadowMapFrag.glsl"));
+	this->shaders.push_back(new Shader(3, STATIC, this->GLVerMajor, this->GLVerMinor,
+		"ShadowMapVertex.glsl", "ShadowMapFrag.glsl"));
 	//Shadow Debug information
-	this->shaders.push_back(new Shader(4, this->GLVerMajor, this->GLVerMinor,
-		"Shaders/DebugVertex.glsl", "Shaders/DebugFrag.glsl"));
+	this->shaders.push_back(new Shader(4, STATIC, this->GLVerMajor, this->GLVerMinor,
+		"DebugVertex.glsl", "DebugFrag.glsl"));
 }
 
 void Game::initShadows()

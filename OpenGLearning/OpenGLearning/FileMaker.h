@@ -229,11 +229,11 @@ public:
 			Make << "--Model Position--\n";
 			Make << "M_P@" + this->TransposeVec3(ii->GetPosition()) << "\n";
 			Make << "--Model Rotation--\n";
-			Make << "M_R@" + this->TransposeVec3(ii->GetRotation(0)) << "\n";
+			Make << "M_R@" + this->TransposeVec3(ii->GetRotation()) << "\n";
 			Make << "--Model Scale--\n";
-			Make << "M_S@" + this->TransposeVec3(ii->GetScale(0)) << "\n";
+			Make << "M_S@" + this->TransposeVec3(ii->GetScale()) << "\n";
 			Make << "--Model Origin--\n";
-			Make << "M_O@" + this->TransposeVec3(ii->GetOrigin(0)) << "\n";
+			Make << "M_O@" + this->TransposeVec3(ii->GetOrigin()) << "\n";
 			Make << "--Model Nodes Information--\n";
 			std::vector<Nodes*> ModNodes = ii->GetNodesInfo();
 			int NodeCount = 0;

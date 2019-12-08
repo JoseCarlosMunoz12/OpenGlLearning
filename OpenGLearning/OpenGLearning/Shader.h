@@ -12,6 +12,12 @@
 #include <vec4.hpp>
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
+
+enum ShaderType
+{
+	STATIC = 1,
+	ANIM
+};
 class Shader
 {
 private:
@@ -21,15 +27,17 @@ private:
 	int versionMajor;
 	int versionMinor;
 	const char* TextName;
+	std::string FolderChosen = "Shaders/";
 	//Private Functions
 	std::string loadShaderSource(const char* fileName)
 	{
 		std::string temp = "";
 		std::string src = "";
 		std::ifstream in_file;
-		this->TextName = fileName;
+		std::string Temp = FolderChosen + fileName;
+		this->TextName = Temp.c_str();
 		//Vertex
-		in_file.open(fileName);
+		in_file.open(Temp.c_str());
 
 		if (in_file.is_open())
 		{
@@ -96,10 +104,19 @@ private:
 	}
 public:
 	//Constructors and Destructors
-	Shader(int ShaderChosenId,const int versionMajor,const int versionMinor,const char* vertexFile ,
+	Shader(int ShaderChosenId, ShaderType ShdType,const int versionMajor,const int versionMinor,const char* vertexFile ,
 		const char* fragmentFile, const char* geometryFile = "")
 		:versionMajor(versionMajor),versionMinor(versionMinor),ShaderId(ShaderChosenId)
 	{
+		switch (ShdType)
+		{
+		case STATIC:
+			this->FolderChosen += "StaticShaders/";
+			break;
+		case ANIM:
+			this->FolderChosen += "AnimShaders/";
+			break;
+		}
 		GLuint vertexShader = 0;
 		GLuint geometryShader = 0;
 		GLuint fragmentShader = 0;
