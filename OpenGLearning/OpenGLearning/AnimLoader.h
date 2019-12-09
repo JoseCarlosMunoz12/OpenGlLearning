@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 #include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 class ColladaLoader
 {
@@ -13,36 +15,12 @@ private:
 public:
 	ColladaLoader(const char* FileName)
 	{
-		std::ifstream File;
-		File.open(FileName);
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(FileName,aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
+		scene->mMeshes[0]->mVertices[0].x;
+		scene->mMeshes[0]->mVertices[0].y;
+		scene->mMeshes[0]->mVertices[0].z;
 
-		if (File.is_open())
-		{
-			bool Found = false;
-			std::string zTemp;
-			int Count = 0;
-			while (std::getline(File,zTemp))
-			{
-				if (Found or ( zTemp.find("<library_geometries>" )!= std::string::npos))
-				{					
-					Found = true;
-					std::cout << std::to_string(Count) + "-found\n";
-					Count++;
-
-
-				}
-				if (Found)
-				{
-					if (zTemp.find("</library_geometries>") != std::string::npos)
-					{
-						std::cout << "exited \n";
-						break;
-					}
-				}
-
-			}
-
-		}
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
