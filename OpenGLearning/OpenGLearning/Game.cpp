@@ -1,5 +1,4 @@
 #include "Game.h"
-
 void Game::initGLFW()
 {
 	//INIT GLFW
@@ -158,6 +157,11 @@ void Game::initModels()
 		new Mesh(
 			&CustomObject("Monkey.obj"),
 			"StallImage" + 0));
+
+	meshes.push_back(
+		new Mesh(
+			&CustomObject("Ts.obj"),
+			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
 			&PlaneTerrain(),
@@ -182,7 +186,7 @@ void Game::initModels()
 	//
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
 		0, 0, {0,1,2,3,4,5,6,7});
-	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0, { 1,0,2,3,4 });
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), 0, 0, { 0 });
 	//
 	//Pushing Models
@@ -195,9 +199,7 @@ void Game::initModels()
 		meshes[0], { Terrain }));
 	this->models.push_back(new Model("Monk", glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
 		{ this->textures[2],this->textures[6],
-		this->textures[13],this->textures[14],this->textures[15] }, meshes[1], {Monk}));
-	this->models.push_back(new Model("Flat", glm::vec3(0.f), this->MatTest[3],
-		{ this->textures[15] }, this->meshes[3], {Flat}));
+		this->textures[13],this->textures[14],this->textures[15] }, meshes[2], {Monk}));
 
 }
 
@@ -942,11 +944,12 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 			}
 
 		}
+
 		ImGui::End();
 	}
-	if(this->OtherWindow)
+	if (this->OtherWindow)
 	{
-		ImGui::Begin("test",&this->OtherWindow);
+		ImGui::Begin("test", &this->OtherWindow);
 		static int clicked = 0;
 		if (ImGui::Button("Read Button"))
 		{
@@ -956,7 +959,7 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		int Count = 0;
 		if (Files.size() != 0)
 		{
-			for(auto& jj : Files)
+			for (auto& jj : Files)
 			{
 				if (ImGui::Selectable(jj.c_str(), this->FileID == Count))
 				{
@@ -964,7 +967,7 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 				}
 				Count++;
 			}
-			ImGui::Text(std::to_string(this->FileID).c_str());			
+			ImGui::Text(std::to_string(this->FileID).c_str());
 		}
 		else
 		{
@@ -972,10 +975,10 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		}
 		std::string TempName = "asdf";
 		static char Name[100] = "Hellow World";
-		ImGui::InputText(TempName.c_str(),Name,IM_ARRAYSIZE(Name));
+		ImGui::InputText(TempName.c_str(), Name, IM_ARRAYSIZE(Name));
 		if (ImGui::Button("Make File"))
 		{
-			FileSave = RdMkFiles.VerifyName(this->models,Name);
+			FileSave = RdMkFiles.VerifyName(this->models, Name);
 		}
 		ImGui::Text(FileSave.c_str());
 		if (ImGui::Button("Load File") && this->FileID != -1)
@@ -983,6 +986,15 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 			this->ReleaseModels();
 			this->LoadNewModels(RdMkFiles.DecipherFile(this->FileID));
 			this->FileID = -1;
+		}
+		ImGui::End();
+	}
+
+	{
+		ImGui::Begin("T");
+		if (ImGui::Button("Collada Reader"))
+		{
+			ColladaLoader Red("model.dae");
 		}
 		ImGui::End();
 	}
