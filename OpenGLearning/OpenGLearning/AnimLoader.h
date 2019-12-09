@@ -4,6 +4,7 @@
 #include <map>
 #include <iostream>
 #include <vector>
+#include <assimp/Importer.hpp>
 
 class ColladaLoader
 {
@@ -14,6 +15,7 @@ public:
 	{
 		std::ifstream File;
 		File.open(FileName);
+
 		if (File.is_open())
 		{
 			bool Found = false;
