@@ -15,7 +15,7 @@ private:
 public:
 	ColladaLoader(const char* FileName)
 	{
-		Assimp::Importer sdf;
+
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
