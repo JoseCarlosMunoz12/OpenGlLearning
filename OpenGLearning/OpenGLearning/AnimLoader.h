@@ -15,12 +15,7 @@ private:
 public:
 	ColladaLoader(const char* FileName)
 	{
-		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(FileName,aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
-		scene->mMeshes[0]->mVertices[0].x;
-		scene->mMeshes[0]->mVertices[0].y;
-		scene->mMeshes[0]->mVertices[0].z;
-
+		Assimp::Importer sdf;
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
