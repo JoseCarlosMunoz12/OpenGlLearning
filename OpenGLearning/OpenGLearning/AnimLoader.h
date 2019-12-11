@@ -4,6 +4,9 @@
 #include <map>
 #include <iostream>
 #include <vector>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 
 class ColladaLoader
@@ -13,6 +16,7 @@ private:
 public:
 	ColladaLoader(const char* FileName)
 	{
+		Assimp::Importer sd;
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
