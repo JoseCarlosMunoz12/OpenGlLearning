@@ -12,11 +12,24 @@
 class ColladaLoader
 {
 private:
+	std::vector<AnimVertex> FinalsVer;
+	std::vector<GLuint> FinalInd;
+	void MakeAnimVertex()
+	{
 
+	}
+	void MakeInd()
+	{
+
+	}
 public:
 	ColladaLoader(const char* FileName)
 	{
-		Assimp::Importer sd;
+		std::string File = "Models/ModelCol/";
+		File += FileName;
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
+
 	}
 	std::vector<AnimVertex> GetVertex()
 	{

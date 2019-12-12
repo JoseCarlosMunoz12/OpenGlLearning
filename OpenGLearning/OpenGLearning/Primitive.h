@@ -805,8 +805,10 @@ public:
 	ASSIMPLOAD(const char* FileLoc)
 		:Primitive()
 	{
+		std::string File = "Models/ModelCol/";
+		File += FileLoc;
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(FileLoc, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
+		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
 		if (!scene)
 		{
 			std::cout << "Error";
