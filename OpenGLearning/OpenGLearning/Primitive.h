@@ -6,6 +6,9 @@
 #include <glm.hpp>
 #include <iostream>
 #include <string>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #include "Vertex.h"
 #include "MipMap.h"
@@ -755,5 +758,59 @@ public:
 			}
 		}
 		this->set(TempVertex, TempIndices);
+	}
+};
+
+class ASSIMPLOAD :public Primitive
+{
+private:
+	std::vector<Vertex> FinalVertex(const aiScene* scene)
+	{
+		std::vector<Vertex> TempVerts;
+		aiMesh* Meshes = scene->mMeshes[0];
+		for (int ii = 0; ii < Meshes->mNumVertices; ii++)
+		{
+			Vertex NewVertex;
+			//Position
+			NewVertex.position.x = Meshes->mVertices[ii].x;
+			NewVertex.position.y = Meshes->mVertices[ii].y;
+			NewVertex.position.z = Meshes->mVertices[ii].z;
+			//Normals
+			NewVertex.normal.x = Meshes->mNormals[ii].x;
+			NewVertex.normal.y = Meshes->mNormals[ii].y;
+			NewVertex.normal.z = Meshes->mNormals[ii].z;
+			//Color
+			NewVertex.color = glm::vec3(0.f, 1.f, 0.f);
+			//Texture Coordinates
+			NewVertex.texcoord.x = Meshes->mTextureCoords[0][ii].x;
+			NewVertex.texcoord.y = Meshes->mTextureCoords[0][ii].y;
+			TempVerts.push_back(NewVertex);
+		}
+		return TempVerts;
+	}
+	std::vector<GLuint> FinalGluint(const aiScene* scene)
+	{
+		std::vector<GLuint> TempInd;
+		aiMesh* Meshes = scene->mMeshes[0];
+		for (int ii = 0; ii < Meshes->mNumFaces; ii++)
+		{
+			aiFace face = Meshes->mFaces[ii];
+			TempInd.push_back(face.mIndices[0]);
+			TempInd.push_back(face.mIndices[1]);
+			TempInd.push_back(face.mIndices[2]);
+		}
+		return TempInd;
+	}
+public:
+	ASSIMPLOAD(const char* FileLoc)
+		:Primitive()
+	{
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(FileLoc, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
+		if (!scene)
+		{
+			std::cout << "Error";
+		}
+		this->set(FinalVertex(scene),FinalGluint(scene));
 	}
 };

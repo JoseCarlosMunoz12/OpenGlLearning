@@ -157,7 +157,10 @@ void Game::initModels()
 		new Mesh(
 			&CustomObject("Monkey.obj"),
 			"StallImage" + 0));
-
+	meshes.push_back(
+		new Mesh(
+			&ASSIMPLOAD("model.dae"),
+			"ASSIMP"));
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("Ts.obj"),
