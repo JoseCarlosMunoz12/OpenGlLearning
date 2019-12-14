@@ -32,6 +32,14 @@ private:
 			//Textures
 			NewVertex.texcoord.x = meshes->mTextureCoords[0][ii].x;
 			NewVertex.texcoord.y = meshes->mTextureCoords[0][ii].y;
+			//MatIds
+			NewVertex.MatId.x = 0;
+			NewVertex.MatId.y = 0;
+			NewVertex.MatId.z = 0;
+			//matWieghts
+			NewVertex.Weights.x = 0.f;
+			NewVertex.Weights.y = 0.f;
+			NewVertex.Weights.z = 0.f;
 			this->FinalVer.push_back(NewVertex);
 		}
 	}
@@ -45,6 +53,15 @@ private:
 			FinalInd.push_back(Faces.mIndices[2]);
 		}
 	}
+	void IndexBones(aiMesh* meshes)
+	{
+		for (int ii = 0; ii < meshes->mNumBones; ii++)
+		{
+			int Vert = meshes->mBones[ii]->mWeights[4].mVertexId;
+			this->FinalVer[Vert].Weights.x = meshes->mBones[ii]->mWeights[4].mWeight;
+		}
+
+	}
 public:
 	ColladaLoader(const char* FileName)
 	{
@@ -55,6 +72,8 @@ public:
 		aiMesh* meshes = scene->mMeshes[0];
 		this->MakeAnimVertex(meshes);
 		this->MakeInd(meshes);
+		this->IndexBones(meshes);
+		int w2w = 0;
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
