@@ -137,6 +137,8 @@
     <None Include="Shaders\StaticShaders\terrain_fragment.glsl" />
     <None Include="Shaders\StaticShaders\terrain_vertex.glsl" />
     <None Include="Shaders\StaticShaders\vertex_core.glsl" />
+    <None Include="Shaders\AnimShaders\BasicAnimFrag.glsl" />
+    <None Include="Shaders\AnimShaders\BasicAnimVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SaveFiles\Test.txt" />

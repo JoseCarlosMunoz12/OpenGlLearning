@@ -165,6 +165,8 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\AnimShaders\BasicAnimFrag.glsl" />
+    <None Include="Shaders\AnimShaders\BasicAnimVertex.glsl" />
     <None Include="Shaders\StaticShaders\DebugFrag.glsl" />
     <None Include="Shaders\StaticShaders\DebugVertex.glsl" />
     <None Include="Shaders\StaticShaders\fragment_core.glsl" />
