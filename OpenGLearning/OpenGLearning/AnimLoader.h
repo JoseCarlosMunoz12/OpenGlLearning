@@ -14,6 +14,30 @@ class ColladaLoader
 private:
 	std::vector<AnimVertex> FinalVer;
 	std::vector<GLuint> FinalInd;
+	void SetIndex(AnimVertex* Fn, int BoneId, float BoneWieght)
+	{
+		if (Fn->MatId.x == -1)
+		{
+			Fn->MatId.x = BoneId;
+			Fn->Weights.x = BoneWieght;
+		}
+		else if (Fn->MatId.y == -1)
+		{
+			Fn->MatId.y = BoneId;
+			Fn->Weights.y = BoneWieght;
+
+		}
+		else if (Fn->MatId.z == -1)
+		{
+			Fn->MatId.z = BoneId;
+			Fn->Weights.z = BoneWieght;
+			float AllVals = Fn->Weights.x + Fn->Weights.y + Fn->Weights.z;
+			Fn->Weights.x /= AllVals;
+			Fn->Weights.y /= AllVals;
+			Fn->Weights.z /= AllVals;
+		}
+
+	}
 	void MakeAnimVertex(aiMesh* meshes)
 	{
 		for (int ii = 0; ii < meshes->mNumVertices; ii++)
@@ -33,9 +57,9 @@ private:
 			NewVertex.texcoord.x = meshes->mTextureCoords[0][ii].x;
 			NewVertex.texcoord.y = meshes->mTextureCoords[0][ii].y;
 			//MatIds
-			NewVertex.MatId.x = 0;
-			NewVertex.MatId.y = 0;
-			NewVertex.MatId.z = 0;
+			NewVertex.MatId.x = -1;
+			NewVertex.MatId.y = -1;
+			NewVertex.MatId.z = -1;
 			//matWieghts
 			NewVertex.Weights.x = 0.f;
 			NewVertex.Weights.y = 0.f;
@@ -57,8 +81,13 @@ private:
 	{
 		for (int ii = 0; ii < meshes->mNumBones; ii++)
 		{
-			int Vert = meshes->mBones[ii]->mWeights[4].mVertexId;
-			this->FinalVer[Vert].Weights.x = meshes->mBones[ii]->mWeights[4].mWeight;
+			aiBone* TempBone = meshes->mBones[ii];
+			for (int jj = 0; jj < TempBone->mNumWeights; jj++)
+			{
+				int Vert = TempBone->mWeights[jj].mVertexId;
+				
+				this->SetIndex(&this->FinalVer[Vert],ii, TempBone->mWeights[jj].mWeight);
+			}			
 		}
 
 	}
@@ -73,7 +102,6 @@ public:
 		this->MakeAnimVertex(meshes);
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
-		int w2w = 0;
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
