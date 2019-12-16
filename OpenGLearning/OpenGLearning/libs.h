@@ -29,3 +29,6 @@
 #include "ScreenCollision.h"
 #include "FileMaker.h"
 #include "AnimLoader.h"
+#include "AnimMesh.h"
+#include "AnimModel.h"
+#include "SkelAnimat.h"

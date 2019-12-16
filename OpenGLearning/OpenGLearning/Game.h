@@ -104,6 +104,7 @@ private:
 	std::vector<StdMat*> MatTest;
 	//Models
 	std::vector<Model*> models;
+	std::vector<AnimModel*> animModel;
 	//Lights
 	std::vector<MainLight*> LightsToUse;
 	std::vector<DrLights*> DirLights;
@@ -115,6 +116,7 @@ private:
 	int ArLightsToShow = -1;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
+	std::vector<AnimMesh*> animMeshes;
 	//File reader and maker
 	FileRdrMkr RdMkFiles;
 	int FileID = -1;

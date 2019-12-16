@@ -24,7 +24,6 @@ struct AnimVertex
 	glm::ivec3 MatId;
 	glm::vec3 Weights;
 };
-
 struct MouseItems
 {
 	double X;

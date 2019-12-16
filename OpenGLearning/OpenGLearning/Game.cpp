@@ -184,6 +184,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
+	animMeshes.push_back(new AnimMesh(&AnimInf(""), ""));
 	//
 	//Meshes Componets are made
 	//
@@ -200,10 +201,15 @@ void Game::initModels()
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],
 		this->textures[13],this->textures[14],this->textures[15] },
 		meshes[0], { Terrain }));
-	this->models.push_back(new Model("Monk", glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
+	this->models.push_back(new Model("Monk",
+		glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
 		{ this->textures[2],this->textures[6],
 		this->textures[13],this->textures[14],this->textures[15] }, meshes[2], {Monk}));
-
+	//anim Models
+	this->animModel.push_back(new AnimModel("Test",
+		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f), this->MatTest[1],
+		{ this->textures[2],this->textures[6],
+		this->textures[13],this->textures[14],this->textures[15] }, animMeshes[0], {}));
 }
 
 void Game::initLights()
