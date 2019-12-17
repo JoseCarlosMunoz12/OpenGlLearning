@@ -14,6 +14,7 @@ private:
 	AnimVertex* AnimVerArray;
 	GLuint* IndexArray;
 	std::vector<AnimVertex> AnimVerToFind;
+	std::vector<Frames*> AllFrames;
 	unsigned nrOfVertices;
 	unsigned nrOfIndices;
 	GLuint VAO;
@@ -90,7 +91,7 @@ public:
 		{
 			this->IndexArray[ii] = NewMesh->GetIndices()[ii];
 		}
-		
+		this->AllFrames = NewMesh->GetFrames();
 		this->InitVAO();
 	}
 
@@ -129,5 +130,9 @@ public:
 	std::string GiveName()
 	{
 		return this->NameOfMesh;
+	}
+	std::vector<Frames*> GetFrames()
+	{
+		return this->AllFrames;
 	}
 };

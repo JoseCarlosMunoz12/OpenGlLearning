@@ -206,10 +206,10 @@ void Game::initModels()
 		{ this->textures[2],this->textures[6],
 		this->textures[13],this->textures[14],this->textures[15] }, meshes[2], {Monk}));
 	//anim Models
-	this->animModel.push_back(new AnimModel("Test",
+	/*this->animModel.push_back(new AnimModel("Test",
 		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f), this->MatTest[1],
 		{ this->textures[2],this->textures[6],
-		this->textures[13],this->textures[14],this->textures[15] }, animMeshes[0], {}));
+		this->textures[13],this->textures[14],this->textures[15] }, animMeshes[0], {}));*/
 }
 
 void Game::initLights()

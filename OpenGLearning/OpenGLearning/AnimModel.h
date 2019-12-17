@@ -12,12 +12,6 @@
 #include <iostream>
 #include <vector>
 
-struct AnimMeshArtifacts
-{
-	std::string Name;
-	std::string Parent;
-	std::vector<Frames*> AllFrames;
-};
 class AnimModel
 {
 private:
@@ -45,6 +39,10 @@ private:
 	glm::vec3 Convert(glm::vec3 Rot)
 	{
 		Rot = Rot / 180.f * glm::pi<float>();
+	}
+	void SetUpInits()
+	{
+
 	}
 	void UpdateMatrix()
 	{
@@ -93,7 +91,7 @@ public:
 		this->Origin = InitPos;
 		this->RelPos = this->Origin - InitOr;
 		this->Tex = OrTexSpec;
-		this->meshes = AnimMeshToUse;
+		this->meshes = AnimMeshToUse;		
 		this->MakeSkeleton(Inits);
 		this->UpdateMatrix();
 	}

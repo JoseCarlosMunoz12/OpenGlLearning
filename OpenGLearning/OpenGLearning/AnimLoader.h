@@ -91,6 +91,7 @@ private:
 		}
 
 	}
+
 public:
 	ColladaLoader(const char* FileName)
 	{
@@ -118,6 +119,7 @@ class AnimInf
 private:
 	std::vector<AnimVertex> Vertices;
 	std::vector<GLuint> Indices;
+	std::vector<Frames*> AllFrames;
 public:
 	AnimInf(const char* FileName)
 	{
