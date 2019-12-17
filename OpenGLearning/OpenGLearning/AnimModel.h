@@ -12,6 +12,15 @@
 #include <iostream>
 #include <vector>
 
+struct AnimMeshArtifacts
+{
+	glm::vec3 Position;
+	glm::vec3 Origin;
+	std::string Name;
+	std::string Parent;
+	std::vector<int> TextsId;
+	std::vector<Frames*> AllFrames;
+};
 class AnimModel
 {
 private:
@@ -121,7 +130,7 @@ public:
 	{
 		return this->RelPos + this->Origin;
 	}
-	glm::vec3 Origin()
+	glm::vec3 GetOrigin()
 	{
 		return this->Origin;
 	}
