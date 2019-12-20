@@ -12,15 +12,7 @@
 #include <iostream>
 #include <vector>
 
-struct AnimMeshArtifacts
-{
-	glm::vec3 Position;
-	glm::vec3 Origin;
-	std::string Name;
-	std::string Parent;
-	std::vector<int> TextsId;
-	std::vector<Frames*> AllFrames;
-};
+
 class AnimModel
 {
 private:
@@ -38,7 +30,7 @@ private:
 	std::string Name;
 	float TimeLength;
 	float TimePass = 0;
-	void MakeSkeleton(std::vector<AnimMeshArtifacts> Inits)
+	void MakeSkeleton(std::vector<SkelArti> Inits)
 	{
 		for (auto& ii : Inits)
 		{
@@ -93,7 +85,7 @@ public:
 		StdMat* material,
 		std::vector<GeneralTextInfo*> OrTexSpec,
 		AnimMesh* AnimMeshToUse,
-		std::vector<AnimMeshArtifacts> Inits,
+		std::vector<MeshsArtifacts>M_Inits,
 		glm::vec3 InitOr = glm::vec3(0.f), glm::vec3 InitRot = glm::vec3(0.f))
 		:Name(ModName), AnimMat(material)
 	{
@@ -101,7 +93,7 @@ public:
 		this->RelPos = this->Origin - InitOr;
 		this->Tex = OrTexSpec;
 		this->meshes = AnimMeshToUse;		
-		this->MakeSkeleton(Inits);
+		this->MakeSkeleton(this->meshes->GetInits());
 		this->UpdateMatrix();
 	}
 	~AnimModel()

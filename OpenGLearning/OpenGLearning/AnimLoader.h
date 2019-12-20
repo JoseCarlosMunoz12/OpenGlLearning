@@ -8,6 +8,13 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+struct SkelArti
+{
+	std::string Name;
+	std::string Parent;
+	std::vector<int> TextsId;
+	std::vector<Frames*> AllFrames;
+};
 
 class ColladaLoader
 {
@@ -108,13 +115,14 @@ public:
 	{
 		return this->FinalVer;
 	}
-	std::vector<GLuint> GetIndices()
+	std::vector<GLuint> GetIndex()
 	{
 		return this->FinalInd;
 	}
+
 };
 
-class AnimInf
+class AnimInf : public ColladaLoader
 {
 private:
 	std::vector<AnimVertex> Vertices;
@@ -122,13 +130,10 @@ private:
 	std::vector<Frames*> AllFrames;
 public:
 	AnimInf(const char* FileName)
-	{
-		std::ifstream in_file;
-		std::string Temps = "Models/ModelCol/";
-		Temps += FileName;
-		ColladaLoader Reader(Temps.c_str());
-		this->Vertices = Reader.GetVertex();
-		this->Indices = Reader.GetIndices();
+		:ColladaLoader(FileName)
+	{		
+		this->Vertices = this->GetVertex();
+		this->Indices = this->GetIndex();
 	}
 	~AnimInf()
 	{

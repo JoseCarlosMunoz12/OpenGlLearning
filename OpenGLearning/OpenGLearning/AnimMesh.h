@@ -93,7 +93,6 @@ public:
 
 		this->InitVAO();
 	}
-
 	~AnimMesh()
 	{
 		glDeleteVertexArrays(1, &this->VAO);
@@ -129,5 +128,9 @@ public:
 	std::string GiveName()
 	{
 		return this->NameOfMesh;
+	}
+	std::vector<SkelArti> GetInits()
+	{
+
 	}
 };
