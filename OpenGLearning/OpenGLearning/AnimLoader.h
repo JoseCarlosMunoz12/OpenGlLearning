@@ -98,7 +98,10 @@ private:
 		}
 
 	}
-
+	void MakeSkelsArt(aiMesh* meshes)
+	{
+		meshes->mBones;
+	}
 public:
 	ColladaLoader(const char* FileName)
 	{
@@ -119,7 +122,10 @@ public:
 	{
 		return this->FinalInd;
 	}
+	std::vector<SkelArti> Inits()
+	{
 
+	}
 };
 
 class AnimInf : public ColladaLoader

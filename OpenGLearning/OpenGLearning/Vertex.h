@@ -107,17 +107,11 @@ struct MdlToMake
 struct Joints
 {
 private:
-	glm::vec3 Convert()
-	{
-		return Rotation / 180.f * glm::pi<float>();
-	}
+	
 public:
-	glm::vec3 Offset;
-	glm::vec3 Rotation;
-	glm::quat GetRot()
-	{
-		return glm::quat(Convert());
-	}
+	glm::vec3 Offset;	
+	glm::quat Rotation;
+	
 };
 class Nodes
 {
@@ -152,7 +146,7 @@ public:
 		Matrix *= Temps;
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
-	
+		
 	}
 	//Get Items
 	glm::mat4 GetFinalMat4()

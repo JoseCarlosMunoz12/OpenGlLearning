@@ -15,10 +15,6 @@ public:
 	}
 	glm::quat ReturnRot()
 	{
-		return this->Joint_Trans.GetRot();
-	}
-	glm::vec3 GetRot()
-	{
 		return this->Joint_Trans.Rotation;
 	}
 	glm::vec3 GetOffset()
