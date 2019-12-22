@@ -76,11 +76,9 @@ public:
 	{
 	}
 	//Format
-	void rotate(const glm::vec3 rotation)
+	void rotate(const QuatParts NewParts)
 	{
-		
-		this->TreeNodes[0]->Rotate(rotation);
-		
+		this->TreeNodes[0]->SetRotation(NewParts);
 	}
 	void move(const glm::vec3 Move)
 	{
@@ -89,21 +87,8 @@ public:
 	void scale(const glm::vec3 ReScale)
 	{
 		this->TreeNodes[0]->ScaleUp(ReScale);
-	}
-	//Setters
-	void SetRotation(const glm::vec3 rotation)
-	{
-		this->TreeNodes[0]->SetRotation(rotation);
-	}
-	void SetScale(const glm::vec3 ReScale)
-	{
-		this->TreeNodes[0]->SetScale(ReScale);
-	}
+	}	
 	//Getters
-	glm::vec3 GetRotation()
-	{
-		return this->TreeNodes[0]->GetRotation();
-	}
 	glm::vec3 GetPosition()
 	{
 		return this->TreeNodes[0]->GetPosition();

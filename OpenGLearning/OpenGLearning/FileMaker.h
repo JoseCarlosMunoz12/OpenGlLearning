@@ -229,7 +229,7 @@ public:
 			Make << "--Model Position--\n";
 			Make << "M_P@" + this->TransposeVec3(ii->GetPosition()) << "\n";
 			Make << "--Model Rotation--\n";
-			Make << "M_R@" + this->TransposeVec3(ii->GetRotation()) << "\n";
+	//		Make << "M_R@" + this->TransposeVec3(ii->GetRotation()) << "\n";
 			Make << "--Model Scale--\n";
 			Make << "M_S@" + this->TransposeVec3(ii->GetScale()) << "\n";
 			Make << "--Model Origin--\n";
@@ -249,7 +249,7 @@ public:
 				}
 				Make << "\n";
 				Make << "M_N_P@Node@" + std::to_string(NodeCount) << "@" + this->TransposeVec3(jj->GetPosition()) + "\n";
-				Make << "M_N_R@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetRotation()) << "\n";
+	//			Make << "M_N_R@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetRotation()) << "\n";
 				Make << "M_N_S@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetScale()) << "\n";
 				Make << "M_N_O@Node@" + std::to_string(NodeCount) + "@" + this->TransposeVec3(jj->GetOrigin()) << "\n";
 				Make << "*----*" << "\n";

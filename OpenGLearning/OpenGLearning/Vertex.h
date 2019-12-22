@@ -55,9 +55,16 @@ struct ImGuiItems
 };
 struct MeshsArtifacts
 {
+private:
+	glm::vec3 Convert(glm::vec3 Rot)
+	{
+		Rot = Rot / 180.f * glm::pi<float>();
+		return Rot;
+	}
+public:
 	glm::vec3 Position;
 	glm::vec3 Origin;
-	glm::vec3 Rotation;
+	glm::quat Rotation;
 	glm::vec3 Scale;
 	int ParentId;
 	int MeshId;
@@ -77,7 +84,7 @@ struct MeshsArtifacts
 		this->Origin =  Origin;
 		this->Scale = Scale;
 		this->Position = Pos;
-		this->Rotation = Rot;
+		this->Rotation = this->Convert(Rot);		
 		this->MeshId = Mesh;
 		this->ParentId = Parent;
 		this->TextsId = Textures;
@@ -113,11 +120,25 @@ public:
 	glm::quat Rotation;
 	
 };
+struct QuatParts
+{
+	float Angle;
+	glm::vec3 UnitVec;
+	QuatParts(glm::quat QuatPart)
+	{
+		this->Angle = 2 * glm::acos(QuatPart.w) / glm::pi<float>() * 180.f;
+		float AngRad = this->Angle / 180.f * glm::pi<float>();
+		float SinPart = glm::sin(AngRad/2);
+		this->UnitVec.x = QuatPart.x / SinPart;
+		this->UnitVec.y = QuatPart.y / SinPart;
+		this->UnitVec.z = QuatPart.z / SinPart;
+	}
+};
 class Nodes
 {
 	Nodes* Parent;
 	glm::vec3 Position;
-	glm::vec3 Rotation;
+	glm::quat Rot;
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
@@ -131,19 +152,17 @@ class Nodes
 	}
 public:
 	Nodes(Nodes* InitParent,
-		glm::vec3 InitPosition, glm::vec3 Origin, glm::vec3 InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
-		:Parent(InitParent), Position(InitPosition), Rotation(InitRotation), Scale(InitScale), Origin(Origin),
+		glm::vec3 InitPosition, glm::vec3 Origin, glm::quat InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
+		:Parent(InitParent), Position(InitPosition), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
 		this->Origin = this->Position;
 		this->RelPos = this->Position - this->Origin;
 		this->MeshId = InitMeshId;
-		this->Rotation = InitRotation;
 		this->ParentId = InitParentID;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		glm::quat Temp = glm::quat(this->Convert(this->Rotation));
-		glm::mat4 Temps = glm::mat4_cast(Temp);
-		Matrix *= Temps;
+		this->Rot = InitRotation;
+		Matrix *= glm::mat4_cast(this->Rot);		
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 		
@@ -172,9 +191,9 @@ public:
 	{
 		return this->RelPos;
 	}
-	glm::vec3 GetRotation()
+	glm::quat GetRotation()
 	{
-		return this->Rotation;
+		return this->Rot;
 	}
 	glm::vec3 GetScale()
 	{
@@ -193,8 +212,7 @@ public:
 	{
 		this->Matrix = glm::mat4(1.f);
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		glm::quat Temp = glm::quat(this->Convert(this->Rotation));
-		glm::mat4 Temps = glm::mat4_cast(Temp);
+		glm::mat4 Temps = glm::mat4_cast(this->Rot);
 		Matrix *= Temps;
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
@@ -208,9 +226,14 @@ public:
 	{
 		this->Origin = origin;
 	}
-	void SetRotation(const glm::vec3 rotation)
+	void SetRotation(const QuatParts Parts)
 	{
-		this->Rotation = rotation;
+		float RotAngle = Parts.Angle * glm::pi<float>() / 180.f;
+		this->Rot.w = glm::cos(RotAngle / 2);
+		this->Rot.x = Parts.UnitVec.x * glm::sin(RotAngle / 2);
+		this->Rot.y = Parts.UnitVec.y * glm::sin(RotAngle / 2);
+		this->Rot.z = Parts.UnitVec.z * glm::sin(RotAngle / 2);
+
 	}
 	void SetScale(const glm::vec3 setScale)
 	{
@@ -224,36 +247,6 @@ public:
 	void Move(glm::vec3 Pos)
 	{
 		this->Position += Pos;
-	}
-	void Rotate(glm::vec3 Rot)
-	{
-		this->Rotation += Rot;
-		if (this->Rotation.x > 360.f)
-		{
-			this->Rotation.x = 0.f;
-		}
-		else if (this->Rotation.x < 0.f)
-		{
-			this->Rotation.x < 360.f;
-		}
-
-		if (this->Rotation.y > 360.f)
-		{
-			this->Rotation.y = 0.f;
-		}
-		else if (this->Rotation.y < 0.f)
-		{
-			this->Rotation.y < 360.f;
-		}
-
-		if (this->Rotation.z > 360.f)
-		{
-			this->Rotation.z = 0.f;
-		}
-		else if (this->Rotation.z < 0.f)
-		{
-			this->Rotation.z < 360.f;
-		}
 	}
 	void ScaleUp(glm::vec3 Scale)
 	{
