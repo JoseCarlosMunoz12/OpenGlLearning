@@ -76,10 +76,6 @@ public:
 	{
 	}
 	//Format
-	void rotate(const QuatParts NewParts)
-	{
-		this->TreeNodes[0]->SetRotation(NewParts);
-	}
 	void move(const glm::vec3 Move)
 	{
 		this->TreeNodes[0]->Move(Move);

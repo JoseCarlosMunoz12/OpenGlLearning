@@ -166,7 +166,7 @@ public:
 						TempNodes.Pos = this->ToVec3(out[3]);
 						break;
 					case M_N_R:
-						TempNodes.Rot = this->ToVec3(out[3]);
+					//	TempNodes.Rot = this->ToVec3(out[3]);
 						break;
 					case M_N_S:
 						TempNodes.Scale = this->ToVec3(out[3]);

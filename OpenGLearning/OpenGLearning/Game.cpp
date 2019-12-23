@@ -191,10 +191,10 @@ void Game::initModels()
 	//
 
 	//--Static Models Components
-	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f),
+	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, {0,1,2,3,4,5,6,7});
-	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(-90.f, 0.f, 0.f), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
-	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::vec3(90.f, 0.f, 0.f), glm::vec3(1.f), 0, 0, { 0 });
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(90.f), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
+	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0 });
 	//--Animated Models Components
 
 	//
@@ -462,7 +462,13 @@ void Game::ImGuiOptions()
 								ImGui::Text("Node Unit Vector"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", Tess.UnitVec.x, Tess.UnitVec.y, Tess.UnitVec.z);
 								if (ImGui::TreeNode("Node Rotation"))
 								{
-
+									ImGui::SliderFloat("Angle", &Tess.Angle, -180.f, 180.f);
+									ImGui::SliderFloat("UnitVec X", &Tess.UnitVec.x, -1.f, 1.f);
+									ImGui::SliderFloat("UnitVec Y", &Tess.UnitVec.y, -1.f, 1.f);
+									ImGui::SliderFloat("UnitVec Z", &Tess.UnitVec.z, -1.f, 1.f);
+									Tess.UnitVec = glm::normalize(Tess.UnitVec);
+									ii->SetRotation(Tess);
+									ImGui::TreePop();
 								}
 								//Scale
 								glm::vec3 VecS = ii->GetScale();

@@ -53,6 +53,32 @@ struct ImGuiItems
 	ImVec2 ScreenPos;
 	ImVec2 WinSize;
 };
+struct QuatParts
+{
+	float Angle;
+	glm::vec3 UnitVec;
+	QuatParts()
+	{
+		this->Angle = 0.f;
+		this->UnitVec = glm::vec3(1.f,0.f,0.f);
+	}
+	QuatParts(float InitAngle)
+	{
+		this->Angle = InitAngle;
+		this->UnitVec = glm::vec3(0.f, 0.f, 1.f);
+	}
+	glm::quat GetQuat()
+	{
+		glm::quat Temp;
+		float RadAngle = Angle / 180.f * glm::pi<float>();
+		Temp.x = UnitVec.x * glm::sin(RadAngle / 2);
+		Temp.y = UnitVec.y * glm::sin(RadAngle / 2);
+		Temp.z = UnitVec.z * glm::sin(RadAngle / 2);
+		Temp.w = glm::cos(RadAngle / 2);
+		return Temp;
+
+	}
+};
 struct MeshsArtifacts
 {
 private:
@@ -64,7 +90,7 @@ private:
 public:
 	glm::vec3 Position;
 	glm::vec3 Origin;
-	glm::quat Rotation;
+	QuatParts Rotation;
 	glm::vec3 Scale;
 	int ParentId;
 	int MeshId;
@@ -74,17 +100,17 @@ public:
 		this->Origin = glm::vec3(0.f);
 		this->Scale = glm::vec3(1.f);
 		this->Position = glm::vec3(0.f);
-		this->Rotation = glm::vec3(0.f);
+		this->Rotation = QuatParts();
 		this->MeshId = 0;
 		this->ParentId = 0;
 	}
-	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, glm::vec3 Rot, glm::vec3 Scale,
-		int Mesh,int Parent,std::vector<int>Textures)
+	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, QuatParts Rot, glm::vec3 Scale,
+		int Mesh, int Parent, std::vector<int>Textures)
 	{
-		this->Origin =  Origin;
+		this->Origin = Origin;
 		this->Scale = Scale;
 		this->Position = Pos;
-		this->Rotation = this->Convert(Rot);		
+		this->Rotation = Rot;
 		this->MeshId = Mesh;
 		this->ParentId = Parent;
 		this->TextsId = Textures;
@@ -93,7 +119,7 @@ public:
 struct NodesId
 {
 	glm::vec3 Pos;
-	glm::vec3 Rot;
+	QuatParts Rot;
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	int ParentId;
@@ -120,25 +146,12 @@ public:
 	glm::quat Rotation;
 	
 };
-struct QuatParts
-{
-	float Angle;
-	glm::vec3 UnitVec;
-	QuatParts(glm::quat QuatPart)
-	{
-		this->Angle = 2 * glm::acos(QuatPart.w) / glm::pi<float>() * 180.f;
-		float AngRad = this->Angle / 180.f * glm::pi<float>();
-		float SinPart = glm::sin(AngRad/2);
-		this->UnitVec.x = QuatPart.x / SinPart;
-		this->UnitVec.y = QuatPart.y / SinPart;
-		this->UnitVec.z = QuatPart.z / SinPart;
-	}
-};
+
 class Nodes
 {
 	Nodes* Parent;
 	glm::vec3 Position;
-	glm::quat Rot;
+	QuatParts Rot;
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
@@ -152,8 +165,8 @@ class Nodes
 	}
 public:
 	Nodes(Nodes* InitParent,
-		glm::vec3 InitPosition, glm::vec3 Origin, glm::quat InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
-		:Parent(InitParent), Position(InitPosition), Scale(InitScale), Origin(Origin),
+		glm::vec3 InitPosition, glm::vec3 Origin, QuatParts InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
+		:Parent(InitParent), Position(InitPosition),Rot(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
 		this->Origin = this->Position;
@@ -161,8 +174,7 @@ public:
 		this->MeshId = InitMeshId;
 		this->ParentId = InitParentID;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		this->Rot = InitRotation;
-		Matrix *= glm::mat4_cast(this->Rot);		
+		Matrix *= glm::mat4_cast(this->Rot.GetQuat());		
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 		
@@ -191,7 +203,7 @@ public:
 	{
 		return this->RelPos;
 	}
-	glm::quat GetRotation()
+	QuatParts GetRotation()
 	{
 		return this->Rot;
 	}
@@ -212,7 +224,7 @@ public:
 	{
 		this->Matrix = glm::mat4(1.f);
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		glm::mat4 Temps = glm::mat4_cast(this->Rot);
+		glm::mat4 Temps = glm::mat4_cast(this->Rot.GetQuat());
 		Matrix *= Temps;
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
@@ -228,12 +240,7 @@ public:
 	}
 	void SetRotation(const QuatParts Parts)
 	{
-		float RotAngle = Parts.Angle * glm::pi<float>() / 180.f;
-		this->Rot.w = glm::cos(RotAngle / 2);
-		this->Rot.x = Parts.UnitVec.x * glm::sin(RotAngle / 2);
-		this->Rot.y = Parts.UnitVec.y * glm::sin(RotAngle / 2);
-		this->Rot.z = Parts.UnitVec.z * glm::sin(RotAngle / 2);
-
+		this->Rot = Parts;
 	}
 	void SetScale(const glm::vec3 setScale)
 	{
