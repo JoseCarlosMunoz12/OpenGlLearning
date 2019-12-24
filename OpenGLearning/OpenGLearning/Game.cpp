@@ -193,7 +193,7 @@ void Game::initModels()
 	//--Static Models Components
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, {0,1,2,3,4,5,6,7});
-	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(90.f), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0 });
 	//--Animated Models Components
 
@@ -209,7 +209,7 @@ void Game::initModels()
 	this->models.push_back(new Model("Monk",
 		glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
 		{ this->textures[2],this->textures[6],
-		this->textures[13],this->textures[14],this->textures[15] }, meshes[2], {Monk}));
+		this->textures[13],this->textures[14],this->textures[15] }, meshes[9], {Monk}));
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Test",
 	//	glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f), this->MatTest[1],
