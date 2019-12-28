@@ -127,7 +127,7 @@ float ShadowCalculation(sampler2D LightShadow,vec3 Normal,mat4 LightMatrix,vec3 
 }
 void main()
 {
-	vec4 result = vec4(0.f);
+ vec4 result = vec4(1.f);
 	for(int ii =0; ii < ArLightCount; ii++)
 	{ 
 		vec3 FinalAmbient = calculateAmbient(material) * AllArInfo[ii].Ambient;
@@ -175,4 +175,5 @@ void main()
 	fs_color = texture(material.diffuseTex, vs_texcoord);
 	fs_color = (result) * fs_color;
 	fs_color = mix(vec4(SkyColor, 1.0),fs_color, visibility);
+	
 }

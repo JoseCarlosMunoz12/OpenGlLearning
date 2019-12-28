@@ -86,6 +86,8 @@ void Game::initShaders()
 	//Shadow Debug information
 	this->shaders.push_back(new Shader(4, STATIC, this->GLVerMajor, this->GLVerMinor,
 		"DebugVertex.glsl", "DebugFrag.glsl"));
+	this->shaders.push_back(new Shader(5,ANIM,this->GLVerMajor,GLVerMinor,
+		"BasicAnimVertex.glsl","BasicAnimFrag.glsl"));
 }
 
 void Game::initShadows()
@@ -144,6 +146,8 @@ void Game::initMaterials()
 		0, 1, {2,3}, {}, {}, {4}));
 	this->MatTest.push_back(new SingleTextMat("Single", 3, 4,
 								this->SkyColor, 0));
+	this->MatTest.push_back(new MipMapMat("Terr", 4, 5,
+		this->SkyColor, { 0,1,2,3,4 }, { 5,6 }, {}, {}, { 7 }));
 }
 
 void Game::initModels()
@@ -184,7 +188,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	//animMeshes.push_back(new AnimMesh(&AnimInf("model.dae"), "TestFile"));
+	animMeshes.push_back(new AnimMesh(&AnimInf("model.dae"), "TestFile"));
 
 	//
 	//Meshes Componets are made
@@ -206,15 +210,15 @@ void Game::initModels()
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],
 		this->textures[13],this->textures[14],this->textures[15] },
 		meshes[0], { Terrain }));
-	this->models.push_back(new Model("Monk",
-		glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
-		{ this->textures[2],this->textures[6],
-		this->textures[13],this->textures[14],this->textures[15] }, meshes[9], {Monk}));
-	//anim Models
-	//this->animModel.push_back(new AnimModel("Test",
-	//	glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f), this->MatTest[1],
+	//this->models.push_back(new Model("Monk",
+	//	glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
 	//	{ this->textures[2],this->textures[6],
-	//	this->textures[13],this->textures[14],this->textures[15] }, animMeshes[0], {},{}));
+	//	this->textures[13],this->textures[14],this->textures[15] }, meshes[8], {Monk}));
+	//anim Models
+	this->animModel.push_back(new AnimModel("Test",
+		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 1.f), 1.f), this->MatTest[4],
+		{ this->textures[2],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+		this->textures[13],this->textures[14],this->textures[15] }, animMeshes[0], {Terrain}));
 }
 
 void Game::initLights()
@@ -1218,6 +1222,8 @@ Game::~Game()
 		delete ii;
 	for (auto& i : meshes)
 		delete i;
+	for (auto& ii : animMeshes)
+		delete ii;
 	for (size_t i = 0; i < this->shaders.size(); i++)
 			delete this->shaders[i];
 	for (size_t i = 0; i < this->textures.size(); i++)
@@ -1225,6 +1231,8 @@ Game::~Game()
 	for (auto& ii : this->LightsToUse)
 		delete ii;
 	for (auto*& i : this->models)
+		delete i;
+	for (auto*& i : this->animModel)
 		delete i;
 	for (auto& ii : this->MipMapsData)
 		delete ii;	
@@ -1267,6 +1275,10 @@ void Game::render()
 	{
 		ii->TestRender(this->shaders,TempVal);
 	} 
+	for (auto& ii : this->animModel)
+	{
+		ii->Render(0.f, this->shaders, TempVal);
+	}
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);
 	glFlush();

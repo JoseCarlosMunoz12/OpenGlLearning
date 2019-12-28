@@ -97,6 +97,10 @@ public:
 	{
 		return this->TreeNodes[0]->GetOrigin();
 	}
+	QuatParts GetgRotation()
+	{
+		return this->TreeNodes[0]->GetRotation();
+	}
 	std::vector<Nodes*> GetNodesInfo()
 	{
 		return this->TreeNodes;

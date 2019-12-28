@@ -22,38 +22,46 @@ private:
 	std::vector<Nodes*> TreeNodes;
 	std::vector<int> TextToUse;
 	std::map<std::string, SkelAn*> Skeleton;
-	glm::vec3 Origin;
-	glm::vec3 RelPos;
-	glm::vec3 Rotation;
-	glm::vec3 Scale;
-	glm::mat4 FinalMatrix;
 	std::string Name;
 	float TimeLength;
 	float TimePass = 0;
 	void MakeSkeleton(std::vector<SkelArti> Inits)
-	{
-		for (auto& ii : Inits)
+	{		
+		if (Inits.size() != 0)
 		{
-			Skeleton[ii.Name] = new SkelAn(ii.AllFrames,ii.Parent);
+			for (auto& ii : Inits)
+			{
+				Skeleton[ii.Name] = new SkelAn(ii.AllFrames, ii.Parent);
+			}
 		}
-	}
-	glm::vec3 Convert(glm::vec3 Rot)
-	{
-		Rot = Rot / 180.f * glm::pi<float>();
+		else
+		{
+		}
 	}
 	void SetUpInits()
 	{
 
 	}
-	void UpdateMatrix()
+	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
-		this->FinalMatrix = glm::mat4(1.f);
-		this->FinalMatrix = glm::translate(this->FinalMatrix, this->Origin);
-		glm::quat Temp = glm::quat(this->Convert(this->Rotation));
-		glm::mat4 Temps = glm::mat4_cast(Temp);
-		this->FinalMatrix *= Temps;
-		this->FinalMatrix = glm::translate(this->FinalMatrix, this->RelPos);
-		this->FinalMatrix = glm::scale(this->FinalMatrix, this->Scale);
+		int Count = 0;
+		for (auto ii : Inits)
+		{
+			if (Count == 0)
+			{
+				this->TreeNodes.push_back(new Nodes(NULL,
+					Pos, ii.Origin, ii.Rotation, ii.Scale, 0, ii.MeshId));
+				Count++;
+			}
+			else
+			{
+				this->TreeNodes.push_back(new Nodes(this->TreeNodes[ii.ParentId],
+					ii.Position, ii.Origin, ii.Rotation, ii.Scale, ii.ParentId, ii.MeshId));
+			}
+			//this->MeshToUse.push_back(ii.MeshId);
+			this->TextToUse.push_back(ii.TextsId[0]);
+		}
+
 	}
 	std::vector<glm::mat4> UpdateTime(float TimePass)
 	{
@@ -89,12 +97,10 @@ public:
 		glm::vec3 InitOr = glm::vec3(0.f), glm::vec3 InitRot = glm::vec3(0.f))
 		:Name(ModName), AnimMat(material)
 	{
-		this->Origin = InitPos;
-		this->RelPos = this->Origin - InitOr;
 		this->Tex = OrTexSpec;
 		this->meshes = AnimMeshToUse;		
 		this->MakeSkeleton(this->meshes->GetInits());
-		this->UpdateMatrix();
+		this->MakeNodes(InitPos, M_Inits);
 	}
 	~AnimModel()
 	{
@@ -103,64 +109,71 @@ public:
 	//Setters
 	void SetOrigin(glm::vec3 NewOrigin)
 	{
-		this->Origin = NewOrigin;
+		this->TreeNodes[0]->SetOrigin(NewOrigin);
 	}
 	void SetRelPos(glm::vec3 NewRelPos)
 	{
-		this->RelPos = NewRelPos;
+		this->TreeNodes[0]->SetRelPos(NewRelPos);
 	}
-	void SetRot(glm::vec3 NewRot)
+	void SetRot(QuatParts NewRot)
 	{
-		this->Rotation = NewRot;
+		this->TreeNodes[0]->SetRotation(NewRot);
 	}
 	void SetScale(glm::vec3 NewScale)
 	{
-		this->Scale = NewScale;
+		this->TreeNodes[0]->SetScale(NewScale);
 	}
 	//Getters
 	glm::vec3 GetPosition()
 	{
-		return this->RelPos + this->Origin;
+		return this->TreeNodes[0]->GetPosition();
 	}
 	glm::vec3 GetOrigin()
 	{
-		return this->Origin;
+		return this->TreeNodes[0]->GetOrigin();
 	}
 	glm::vec3 GetRelPos()
 	{
-		return this->RelPos;
+		return this->TreeNodes[0]->GetRelPos();
 	}
-	glm::vec3 GetRot()
+	QuatParts GetRot()
 	{
-		return this->Rotation;
+		return this->TreeNodes[0]->GetRotation();
 	}
 	glm::vec3 GetScale()
 	{
-		return this->Scale;
+		return this->TreeNodes[0]->GetScale();
 	}
 	//Render
 	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix)
 	{
-		this->UpdateMatrix();
+		for (auto& ii : this->TreeNodes)
+		{
+			ii->UpdateMatrix();
+		}
 		int TempShaderId = this->AnimMat->GetShaderId();
 		this->AnimMat->SendToShader(shader, LightMatrix);
 		int Num = 0;
-
+		shader[TempShaderId]->use();
 		for (auto& ii : this->TextToUse)
 		{
 			this->Tex[ii]->Bind(Num);
 			Num++;
 		}
-		meshes->Render(glm::mat4(1.f), shader[TempShaderId], this->UpdateTime(TimePass));
+		meshes->Render(TreeNodes[0]->GetFinalMat4(), shader[TempShaderId], this->UpdateTime(TimePass));
 
 	}
 	//Other
 	//Shadow Renderer
 	void ShadowRender(float PassTime, Shader* ShadowShader)
 	{
-		this->UpdateMatrix();
+
+		for (auto& ii : this->TreeNodes)
+		{
+			ii->UpdateMatrix();
+		}
 		ShadowShader->use();
-		this->meshes->Render(this->FinalMatrix, ShadowShader, this->GetCurMat());
+		this->meshes->Render(TreeNodes[0]->GetFinalMat4(), ShadowShader, this->GetCurMat());
 	}
 	//Get other general information
 	std::vector<GeneralTextInfo*> GetTextures()
@@ -169,7 +182,8 @@ public:
 	}
 	std::vector<int> GetTexId()
 	{
-		return this->TextToUse;
+		//return this->TextToUse;
+		return {};
 	}
 	StdMat* GetStdMat()
 	{

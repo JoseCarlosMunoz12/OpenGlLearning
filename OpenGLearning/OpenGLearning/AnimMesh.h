@@ -54,7 +54,7 @@ private:
 		glEnableVertexAttribArray(4);
 		//Weights
 		glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(AnimVertex), (GLvoid*)offsetof(AnimVertex, Weights));
-		glEnableVertexAttribArray(3);
+		glEnableVertexAttribArray(5);
 		//BIND VAO 0
 		glBindVertexArray(0);
 	}
@@ -64,13 +64,25 @@ private:
 	}
 	void UpdateMatInf(std::vector<glm::mat4> AllMats, Shader* shader)
 	{
+		if (AllMats.size() != 0)
+		{
 		int TempCount = 0;
 		shader->set1i(AllMats.size(), "TransCount");
 		for (auto&	CurMat : AllMats)
+			{
+				std::string MatName = "Bones[" + std::to_string(TempCount)+"]";
+				shader->setMat4fv(CurMat,MatName.c_str());
+				TempCount++;
+			}
+		}
+		else
 		{
-			std::string MatName = "TransMat[" + std::to_string(TempCount)+"]";
-			shader->setMat4fv(CurMat,MatName.c_str());
-			TempCount++;
+			for (size_t ii = 0; ii < 100; ii++)
+			{
+				glm::mat4 Temp = glm::mat4(1.f);
+				std::string MatName = "Bones[" + std::to_string(ii) + "]";
+				shader->setMat4fv(Temp, MatName.c_str());
+			}
 		}
 	}
 public:
@@ -109,7 +121,7 @@ public:
 	{
 		//UpdateUniforms
 		this->UpdateMatInf(AllMats, shader);
-		this->UpdateUniforms(FinalMatrix, shader);
+		this->UpdateUniforms(FinalMatrix, shader); 
 		shader->use();
 		//Bind VAO
 		glBindVertexArray(this->VAO);
