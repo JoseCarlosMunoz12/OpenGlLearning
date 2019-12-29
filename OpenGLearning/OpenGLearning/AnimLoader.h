@@ -12,7 +12,6 @@ struct SkelArti
 {
 	std::string Name;
 	std::string Parent;
-	std::vector<int> TextsId;
 	std::vector<Frames*> AllFrames;
 };
 
@@ -21,6 +20,7 @@ class ColladaLoader
 private:
 	std::vector<AnimVertex> FinalVer;
 	std::vector<GLuint> FinalInd;
+	std::vector<SkelArti> SkelsInits;
 	void SetIndex(AnimVertex* Fn, int BoneId, float BoneWieght)
 	{
 		if (Fn->MatId.x == -1)
@@ -52,17 +52,17 @@ private:
 			AnimVertex NewVertex;
 			//Position
 			NewVertex.position.x = meshes->mVertices[ii].x;
-			NewVertex.position.y = meshes->mVertices[ii].y;
-			NewVertex.position.z = meshes->mVertices[ii].z;
+			NewVertex.position.y = meshes->mVertices[ii].z;
+			NewVertex.position.z = meshes->mVertices[ii].y;
 			//Normals
 			NewVertex.normal.x = meshes->mNormals[ii].x;
-			NewVertex.normal.y = meshes->mNormals[ii].y;
-			NewVertex.normal.z = meshes->mNormals[ii].z;
+			NewVertex.normal.y = meshes->mNormals[ii].z;
+			NewVertex.normal.z = meshes->mNormals[ii].y;
 			//Color
 			NewVertex.color = glm::vec3(0.f, 1.f, 0.f);
 			//Textures
-			NewVertex.texcoord.x = meshes->mTextureCoords[0][ii].x;
-			NewVertex.texcoord.y = meshes->mTextureCoords[0][ii].y;
+			NewVertex.texcoord.x = meshes->mTextureCoords[0][ii].y;
+			NewVertex.texcoord.y = meshes->mTextureCoords[0][ii].x;
 			//MatIds
 			NewVertex.MatId.x = -1;
 			NewVertex.MatId.y = -1;
@@ -79,9 +79,9 @@ private:
 		for (int ii = 0; ii < meshes->mNumFaces; ii++)
 		{
 			aiFace Faces = meshes->mFaces[ii];
-			FinalInd.push_back(Faces.mIndices[0]);
-			FinalInd.push_back(Faces.mIndices[1]);
 			FinalInd.push_back(Faces.mIndices[2]);
+			FinalInd.push_back(Faces.mIndices[1]);
+			FinalInd.push_back(Faces.mIndices[0]);
 		}
 	}
 	void IndexBones(aiMesh* meshes)
@@ -98,10 +98,42 @@ private:
 		}
 
 	}
-	void MakeSkelsArt(aiMesh* meshes)
+	void CheckForChilds(aiNode* Child, std::string Name)
 	{
-		meshes->mBones;
+		int Temps = Child->mNumChildren;
+		for (int ii = 0; ii < Temps; ii++)
+		{
+			SkelArti TemSkel;
+			TemSkel.Name = Child->mChildren[ii]->mName.C_Str();
+			TemSkel.Parent = Name;
+			this->SkelsInits.push_back(TemSkel);
+			if (Child->mChildren[ii]->mNumChildren != 0)
+			{
+				this->CheckForChilds(Child->mChildren[ii], Child->mChildren[ii]->mName.C_Str());
+			}
+		}
+		
+
 	}
+	void MakeSkelsArt(const aiScene* scene)
+	{
+		aiNode* Tem = scene->mRootNode;
+		int Amount = Tem->mNumChildren;
+		for (int ii = 0; ii < Amount; ii++)
+		{
+			int Temps = Tem->mChildren[ii]->mNumChildren;
+			if (Temps !=0)
+			{
+				this->CheckForChilds(Tem->mChildren[ii],"NULL");
+			}
+		}
+		this->SkelsInits;
+	}
+	void SetEachNodes(const aiScene* scene)
+	{
+
+	}
+
 public:
 	ColladaLoader(const char* FileName)
 	{
@@ -109,10 +141,12 @@ public:
 		File += FileName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
-		aiMesh* meshes = scene->mMeshes[0];
+		aiMesh* meshes = scene->mMeshes[0];		
+		scene->mAnimations[0]->mChannels[0]->mPositionKeys[0].mTime;
 		this->MakeAnimVertex(meshes);
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
+		this->MakeSkelsArt(scene);
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
@@ -124,7 +158,7 @@ public:
 	}
 	std::vector<SkelArti> Inits()
 	{
-
+		return this->SkelsInits;
 	}
 };
 
