@@ -131,7 +131,12 @@ private:
 	}
 	void SetEachNodes(const aiScene* scene)
 	{
-
+		int Amount = scene->mNumAnimations;
+		for (int ii = 0; ii < Amount; ii++)
+		{
+			std::cout << scene->mAnimations[ii]->mNumChannels << "\n";
+		}
+		
 	}
 
 public:
@@ -147,6 +152,7 @@ public:
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
 		this->MakeSkelsArt(scene);
+		this->SetEachNodes(scene);
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
