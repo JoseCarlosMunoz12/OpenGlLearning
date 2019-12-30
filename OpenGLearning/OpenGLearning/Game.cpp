@@ -188,7 +188,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&AnimInf("model.dae"), "TestFile"));
+	animMeshes.push_back(new AnimMesh(&AnimInf("Box1.dae"), "TestFile"));
 
 	//
 	//Meshes Componets are made

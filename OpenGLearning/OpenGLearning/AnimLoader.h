@@ -131,10 +131,13 @@ private:
 	}
 	void SetEachNodes(const aiScene* scene)
 	{
-		int Amount = scene->mNumAnimations;
+		int Amount = scene->mAnimations[0]->mNumChannels;
 		for (int ii = 0; ii < Amount; ii++)
 		{
-			std::cout << scene->mAnimations[ii]->mNumChannels << "\n";
+			std::cout << scene->mAnimations[0]->mChannels[ii]->mNodeName.C_Str() << "\n";
+			std::cout << scene->mAnimations[0]->mChannels[ii]->mNumPositionKeys << "\n"; 
+			std::cout << scene->mAnimations[0]->mChannels[ii]->mNumRotationKeys << "\n";
+			std::cout << scene->mAnimations[0]->mChannels[ii]->mNumScalingKeys << "\n";
 		}
 		
 	}
@@ -152,7 +155,7 @@ public:
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
 		this->MakeSkelsArt(scene);
-		this->SetEachNodes(scene);
+		//this->SetEachNodes(scene);
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
