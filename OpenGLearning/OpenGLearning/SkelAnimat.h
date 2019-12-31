@@ -95,4 +95,8 @@ public:
 			return Matrix * glm::mat4_cast(newQuat);
 		}		
 	}
+	std::string GetName()
+	{
+		return this->ParentId;
+	}
 };

@@ -140,7 +140,6 @@ class ColladaLoader
 		}
 		
 	}
-
 public:
 	ColladaLoader(const char* FileName)
 	{

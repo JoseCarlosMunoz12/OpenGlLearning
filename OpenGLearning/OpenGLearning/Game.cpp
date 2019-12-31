@@ -594,7 +594,11 @@ void Game::ImGuiOptions()
 					{
 						for (auto& ii : Temps)
 						{
-							ImGui::Text(ii.first.c_str());
+							if(ImGui::TreeNode(ii.first.c_str()))
+							{
+								ImGui::Text(ii.second->GetName().c_str());
+								ImGui::TreePop();
+							}
 						}
 						ImGui::TreePop();
 					}
@@ -1115,7 +1119,6 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		}
 		ImGui::End();
 	}
-
 	{
 		ImGui::Begin("T");
 		if (ImGui::Button("Collada Reader"))

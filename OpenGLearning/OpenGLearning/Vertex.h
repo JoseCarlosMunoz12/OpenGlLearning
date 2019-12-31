@@ -139,12 +139,9 @@ struct MdlToMake
 };
 struct Joints
 {
-private:
-	
-public:
 	glm::vec3 Offset;	
-	glm::quat Rotation;
-	
+	glm::vec3 Scale;
+	QuatParts Rot;
 };
 
 class Nodes
