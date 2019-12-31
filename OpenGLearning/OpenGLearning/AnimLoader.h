@@ -17,7 +17,6 @@ struct SkelArti
 
 class ColladaLoader
 {
-private:
 	std::vector<AnimVertex> FinalVer;
 	std::vector<GLuint> FinalInd;
 	std::vector<SkelArti> SkelsInits;

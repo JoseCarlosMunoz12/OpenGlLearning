@@ -188,7 +188,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&AnimInf("Box1.dae"), "TestFile"));
+	animMeshes.push_back(new AnimMesh(&AnimInf("model.dae"), "TestFile"));
 
 	//
 	//Meshes Componets are made
@@ -494,7 +494,115 @@ void Game::ImGuiOptions()
 				}
 			}
 			else {
-				ImGui::Text("No Models are in the World");
+				ImGui::Text("No Static Models are in the World");
+			}
+			ImGui::Text("------------------");
+			int AnimCount = 0;
+			if (this->animModel.size() != 0)
+			{
+				for (auto& ModelFound : this->animModel)
+				{
+					if(ImGui::Selectable(ModelFound->GetName().c_str(),this->AnimModelToMake == AnimCount))
+					{
+						this->AnimModelToMake = AnimCount;
+					}
+					AnimCount++;
+				}
+				ImGui::Spacing();
+				ImGui::Text("--Animated Model Chosen--");
+				if (this->AnimModelToMake != -1)
+				{
+					ImGui::Text(this->animModel[this->AnimModelToMake]->GetName().c_str());
+					StdMat* ModMat = this->animModel[this->AnimModelToMake]->GetStdMat();
+					glm::vec3 ModPos = this->animModel[this->AnimModelToMake]->GetPosition();
+					std::vector<GeneralTextInfo*> ModTex = this->animModel[this->AnimModelToMake]->GetTextures();
+					std::vector<Nodes*> TempNodes = this->animModel[this->AnimModelToMake]->GetNodesInfo();
+					std::vector<AnimMesh*> ModMesh = this->animModel[this->AnimModelToMake]->GetMeshes();
+					std::map<std::string, SkelAn*> Temps = this->animModel[this->AnimModelToMake]->GetArt();
+					ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
+					ImGui::Text("Model Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
+					if (ImGui::TreeNode("Textures Used"))
+					{
+						for (auto& ii : ModTex)
+						{
+							ImGui::Text(ii->GiveChar());
+						}
+						ImGui::TreePop();
+					}
+					if (ImGui::TreeNode("Nodes Info"))
+					{
+						int NodeCount = 0;
+						for (auto& ii : TempNodes)
+						{
+							std::string TempNodeId = "Node" + std::to_string(NodeCount);
+							if (ImGui::TreeNode(TempNodeId.c_str()))
+							{
+								//Origin
+								glm::vec3 VecOr = ii->GetOrigin();
+								ImGui::Text("Node Origin", NodeCount); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecOr.x, VecOr.y, VecOr.z);
+								if (ImGui::TreeNode("Node Origin"))
+								{
+									ImGui::SliderFloat("XOr", &VecOr.x, -10.f, 10.f);
+									ImGui::SliderFloat("YOr", &VecOr.y, -10.f, 10.f);
+									ImGui::SliderFloat("ZOr", &VecOr.z, -10.f, 10.f);
+									ii->SetOrigin(VecOr);
+									ImGui::TreePop();
+								}
+								//Position
+								glm::vec3 VecRelP = ii->GetRelPos();
+								ImGui::Text("NodeRelPos = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecRelP.x, VecRelP.y, VecRelP.z);
+								if (ImGui::TreeNode("Node Rel Position"))
+								{
+									ImGui::SliderFloat("XPos", &VecRelP.x, -10.f, 10.f);
+									ImGui::SliderFloat("YPos", &VecRelP.y, -10.f, 10.f);
+									ImGui::SliderFloat("ZPos", &VecRelP.z, -10.f, 10.f);
+									ii->SetRelPos(VecRelP);
+									ImGui::TreePop();
+								}
+								//Rotation								
+								QuatParts Tess = QuatParts(ii->GetRotation());
+								ImGui::Text("Node Rotation Angle"); ImGui::SameLine(); ImGui::Text("(%f)", Tess.Angle);
+								ImGui::Text("Node Unit Vector"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", Tess.UnitVec.x, Tess.UnitVec.y, Tess.UnitVec.z);
+								if (ImGui::TreeNode("Node Rotation"))
+								{
+									ImGui::SliderFloat("Angle", &Tess.Angle, -180.f, 180.f);
+									ImGui::SliderFloat("UnitVec X", &Tess.UnitVec.x, -1.f, 1.f);
+									ImGui::SliderFloat("UnitVec Y", &Tess.UnitVec.y, -1.f, 1.f);
+									ImGui::SliderFloat("UnitVec Z", &Tess.UnitVec.z, -1.f, 1.f);
+									Tess.UnitVec = glm::normalize(Tess.UnitVec);
+									ii->SetRotation(Tess);
+									ImGui::TreePop();
+								}
+								//Scale
+								glm::vec3 VecS = ii->GetScale();
+								ImGui::Text("Node Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecS.x, VecS.y, VecS.z);
+								if (ImGui::TreeNode("Node Scale"))
+								{
+									ImGui::SliderFloat("XPos", &VecS.x, 0, 1.f);
+									ImGui::SliderFloat("YPos", &VecS.y, 0, 1.f);
+									ImGui::SliderFloat("ZPos", &VecS.z, 0, 1.f);
+									ii->SetScale(VecS);
+									ImGui::TreePop();
+								}
+								ImGui::TreePop();
+							}
+							NodeCount++;
+						}
+						ImGui::TreePop();
+					}
+					if (ImGui::TreeNode("Skeleton Hierarchy"))
+					{
+						for (auto& ii : Temps)
+						{
+							ImGui::Text(ii.first.c_str());
+						}
+						ImGui::TreePop();
+					}
+				}
+			}
+			else
+			{
+				ImGui::Text("No Animated Models are in the World");
 			}
 			ImGui::TreePop();
 		}

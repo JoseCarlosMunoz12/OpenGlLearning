@@ -65,7 +65,9 @@ private:
 	}
 	std::vector<glm::mat4> UpdateTime(float TimePass)
 	{
-		std::vector<glm::mat4> TempMats;
+		std::vector<glm::mat4> TempMats = {glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),
+		glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),
+		glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f) };
 		if (TimePass > TimeLength)
 		{
 			this->TimePass = 0;
@@ -73,10 +75,11 @@ private:
 		else {
 			this->TimePass += TimePass;
 		}
-		for (auto& Bone : Skeleton)
-		{
-			TempMats.push_back(Bone.second->GetCurMat(this->Skeleton, this->TimePass));
-		}
+		//for (auto& Bone : Skeleton)
+		//{
+		//	TempMats.push_back(Bone.second->GetCurMat(this->Skeleton, this->TimePass));
+		//}
+
 		return TempMats;
 	}
 	std::vector<glm::mat4> GetCurMat()
@@ -98,8 +101,8 @@ public:
 		:Name(ModName), AnimMat(material)
 	{
 		this->Tex = OrTexSpec;
-		this->meshes = AnimMeshToUse;		
-		this->MakeSkeleton(this->meshes->GetInits());
+		this->meshes = AnimMeshToUse;
+		this->MakeSkeleton(this->meshes->GetInits());		
 		this->MakeNodes(InitPos, M_Inits);
 	}
 	~AnimModel()
@@ -196,5 +199,17 @@ public:
 	int GetShaderId()
 	{
 		return this->AnimMat->GetShaderId();
+	}
+	std::map<std::string, SkelAn*> GetArt()
+	{
+		return this->Skeleton;
+	}
+	std::vector<Nodes*> GetNodesInfo()
+	{
+		return this->TreeNodes;
+	}
+	std::vector<AnimMesh*> GetMeshes()
+	{
+		return { this->meshes };
 	}
 };

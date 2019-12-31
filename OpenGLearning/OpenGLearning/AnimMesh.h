@@ -103,7 +103,7 @@ public:
 		{
 			this->IndexArray[ii] = NewMesh->GetIndices()[ii];
 		}
-
+		this->Inits = NewMesh->Inits();
 		this->InitVAO();
 	}
 	~AnimMesh()
