@@ -13,21 +13,25 @@ public:
 		this->TimeStamp = InitTimeStamp;
 		this->Joint_Trans = InitJoints;
 	}
-	glm::quat ReturnRot()
+	QuatParts ReturnRot()
 	{
-		return this->Joint_Trans.Rotation;
+		return this->Joint_Trans.Rot;
 	}
 	glm::vec3 GetOffset()
 	{
 		return this->Joint_Trans.Offset;
 	}
+	glm::vec3 GetScale()
+	{
+		return this->Joint_Trans.Scale;
+	}
 	float GetTimeStamp()
 	{
 		return this->TimeStamp;
 	}
-	void SetRot(glm::vec3 NewRot)
+	void SetRot(QuatParts NewRot)
 	{
-		this->Joint_Trans.Rotation = NewRot;
+		this->Joint_Trans.Rot = NewRot;
 	}
 	void NewOffset(glm::vec3 NewOffset)
 	{
@@ -39,6 +43,9 @@ class SkelAn
 private:
 	std::string ParentId;
 	std::vector<Frames*> AnimFrames;
+	glm::vec3 CurOffset;
+	glm::vec3 CurScale;
+	QuatParts CurRot;
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
 		float TimeLeft = CurrTime - FrmFound[0]->GetTimeStamp();
@@ -70,11 +77,14 @@ private:
 		Vals.push_back(AnimFrames[Count]);
 		return Vals;
 	}	
+	
 public:
 	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName)
+		:CurOffset(glm::vec3(0.f)),CurScale(glm::vec3(1.f)),CurRot(QuatParts())
 	{
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
+		
 	}
 	~SkelAn()
 	{
@@ -84,10 +94,10 @@ public:
 	{
 		std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
 		float Ratio = this->GetTimeRatio(CurTime, Found);
-		glm::quat newQuat = this->Interpolate(Found[0]->ReturnRot(), Found[1]->ReturnRot(), Ratio);
+		glm::quat newQuat = this->Interpolate(Found[0]->ReturnRot().GetQuat(), Found[1]->ReturnRot().GetQuat(), Ratio);
 		glm::vec3 AveragePos = this->AveragePos(Found[0]->GetOffset(), Found[1]->GetOffset(), Ratio);
 		glm::mat4 Matrix = glm::translate(glm::mat4(1.f), AveragePos);
-		if (ParentId != "None")
+		if (ParentId != "NULL")
 		{
 			return Temp[ParentId]->GetCurMat(Temp, CurTime) * Matrix * glm::mat4_cast(newQuat);
 		}
@@ -98,5 +108,29 @@ public:
 	std::string GetName()
 	{
 		return this->ParentId;
+	}
+	QuatParts GetRot()
+	{
+		return this->CurRot;
+	}
+	glm::vec3 GetOffset()
+	{
+		return this->CurOffset;
+	}
+	glm::vec3 GetScale()
+	{
+		return this->CurScale;
+	}
+	void SetRot(QuatParts NewRot)
+	{
+		this->CurRot = NewRot;
+	}
+	void SetOffset(glm::vec3 NewOffset)
+	{
+		this->CurOffset = NewOffset;
+	}
+	void SetScale(glm::vec3 NewScale)
+	{
+		this->CurScale = NewScale;
 	}
 };

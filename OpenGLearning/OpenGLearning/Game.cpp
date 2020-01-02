@@ -596,7 +596,8 @@ void Game::ImGuiOptions()
 						{
 							if(ImGui::TreeNode(ii.first.c_str()))
 							{
-								ImGui::Text(ii.second->GetName().c_str());
+								ImGui::Text("---The Parent is "); ImGui::SameLine(); ImGui::Text(ii.second->GetName().c_str()); ImGui::SameLine(); ImGui::Text("---");
+
 								ImGui::TreePop();
 							}
 						}
