@@ -22,6 +22,7 @@ private:
 	std::vector<Nodes*> TreeNodes;
 	std::vector<int> TextToUse;
 	std::map<std::string, SkelAn*> Skeleton;
+	std::vector<std::string> OrdRend;
 	std::string Name;
 	float TimeLength;
 	float TimePass = 0;
@@ -32,6 +33,7 @@ private:
 			for (auto& ii : Inits)
 			{
 				Skeleton[ii.Name] = new SkelAn(ii.AllFrames, ii.Parent);
+				OrdRend.push_back(ii.Name);
 			}
 		}
 		else
@@ -76,9 +78,9 @@ private:
 		else {
 			this->TimePass += TimePass;
 		}
-		for (auto& Bone : Skeleton)
+		for (auto& Bone : OrdRend)
 		{
-			TempMats.push_back(Bone.second->GetMat(this->Skeleton));
+			TempMats.push_back(this->Skeleton[Bone]->GetMat(this->Skeleton));
 		}
 
 		return TempMats;
@@ -86,9 +88,9 @@ private:
 	std::vector<glm::mat4> GetCurMat()
 	{
 		std::vector<glm::mat4> TempMats;
-		for (auto& Bone : Skeleton)
+		for (auto& Bone :OrdRend)
 		{
-			TempMats.push_back(Bone.second->GetCurMat(this->Skeleton, this->TimePass));
+			TempMats.push_back(this->Skeleton[Bone]->GetCurMat(this->Skeleton, this->TimePass));
 		}
 		return TempMats;
 	}
