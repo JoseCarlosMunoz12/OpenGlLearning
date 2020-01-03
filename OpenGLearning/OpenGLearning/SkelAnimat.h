@@ -77,7 +77,15 @@ private:
 		Vals.push_back(AnimFrames[Count]);
 		return Vals;
 	}	
-	
+	glm::mat4 UpdateMatrix()
+	{
+		glm::mat4 TempMat = glm::mat4(1.f);
+		TempMat = glm::translate(TempMat, this->CurOffset);
+		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
+		TempMat *= Quats;
+		TempMat = glm::scale(TempMat, this->CurScale);
+		return TempMat;
+	}
 public:
 	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName)
 		:CurOffset(glm::vec3(0.f)),CurScale(glm::vec3(1.f)),CurRot(QuatParts())
@@ -85,7 +93,7 @@ public:
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
 		
-	}
+	}	
 	~SkelAn()
 	{
 
@@ -104,6 +112,17 @@ public:
 		else {
 			return Matrix * glm::mat4_cast(newQuat);
 		}		
+	}
+	glm::mat4 GetMat(std::map<std::string, SkelAn*> Temp)
+	{
+		if (ParentId != "NULL")
+		{
+			return Temp[ParentId]->GetMat(Temp) * this->UpdateMatrix();
+		}
+		else {
+			return this->UpdateMatrix();
+		}
+		
 	}
 	std::string GetName()
 	{

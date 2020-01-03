@@ -65,9 +65,10 @@ private:
 	}
 	std::vector<glm::mat4> UpdateTime(float TimePass)
 	{
-		std::vector<glm::mat4> TempMats = {glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),
-		glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),
-		glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f) };
+		std::vector<glm::mat4> TempMats;
+		// = { glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),
+		//glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),
+		//glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f) };
 		if (TimePass > TimeLength)
 		{
 			this->TimePass = 0;
@@ -75,10 +76,10 @@ private:
 		else {
 			this->TimePass += TimePass;
 		}
-		//for (auto& Bone : Skeleton)
-		//{
-		//	TempMats.push_back(Bone.second->GetCurMat(this->Skeleton, this->TimePass));
-		//}
+		for (auto& Bone : Skeleton)
+		{
+			TempMats.push_back(Bone.second->GetMat(this->Skeleton));
+		}
 
 		return TempMats;
 	}

@@ -592,12 +592,45 @@ void Game::ImGuiOptions()
 					}
 					if (ImGui::TreeNode("Skeleton Hierarchy"))
 					{
-						for (auto& ii : Temps)
+						for (auto& ii : Temps) 
 						{
 							if(ImGui::TreeNode(ii.first.c_str()))
 							{
 								ImGui::Text("---The Parent is "); ImGui::SameLine(); ImGui::Text(ii.second->GetName().c_str()); ImGui::SameLine(); ImGui::Text("---");
+								QuatParts TempQuat = ii.second->GetRot();
+								glm::vec3 TempOffset = ii.second->GetOffset();
+								glm::vec3 TempScale = ii.second->GetScale();
+								ImGui::Text("Bone Rotation Angle"); ImGui::SameLine(); ImGui::Text("(%f)", TempQuat.Angle);
+								ImGui::Text("Bone Unit Vector"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempQuat.UnitVec.x, TempQuat.UnitVec.y, TempQuat.UnitVec.z);
+								if (ImGui::TreeNode("Bone Rotation"))
+								{
+									ImGui::SliderFloat("Angle", &TempQuat.Angle, -180.f, 180.f);
+									ImGui::SliderFloat("UnitVec X", &TempQuat.UnitVec.x, -1.f, 1.f);
+									ImGui::SliderFloat("UnitVec Y", &TempQuat.UnitVec.y, -1.f, 1.f);
+									ImGui::SliderFloat("UnitVec Z", &TempQuat.UnitVec.z, -1.f, 1.f);
+									TempQuat.UnitVec = glm::normalize(TempQuat.UnitVec);
+									ii.second->SetRot(TempQuat);
+									ImGui::TreePop();
+								}								
+								ImGui::Text("Bone Offset = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempOffset.x, TempOffset.y, TempOffset.z);
+								if (ImGui::TreeNode("Bone Offsets"))
+								{
+									ImGui::SliderFloat("XPos", &TempOffset.x, -10.f, 10.f);
+									ImGui::SliderFloat("YPos", &TempOffset.y, -10.f, 10.f);
+									ImGui::SliderFloat("ZPos", &TempOffset.z, -10.f, 10.f);
+									ii.second->SetOffset(TempOffset);
+									ImGui::TreePop();
+								}
+								ImGui::Text("Bone Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempScale.x, TempScale.y, TempScale.z);
+								if (ImGui::TreeNode("Bone Scales"))
+								{
+									ImGui::SliderFloat("XPos", &TempScale.x, -10.f, 10.f);
+									ImGui::SliderFloat("YPos", &TempScale.y, -10.f, 10.f);
+									ImGui::SliderFloat("ZPos", &TempScale.z, -10.f, 10.f);
+									ii.second->SetOffset(TempScale);
+									ImGui::TreePop();
 
+								}
 								ImGui::TreePop();
 							}
 						}
