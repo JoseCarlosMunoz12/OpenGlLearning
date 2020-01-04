@@ -20,7 +20,7 @@ private:
 	AnimMesh* meshes;
 	std::vector<GeneralTextInfo*> Tex;
 	std::vector<Nodes*> TreeNodes;
-	std::vector<int> TextToUse;
+	std::vector<int> TextToUse;		
 	std::map<std::string, SkelAn*> Skeleton;
 	std::vector<std::string> OrdRend;
 	std::string Name;
@@ -32,7 +32,7 @@ private:
 		{
 			for (auto& ii : Inits)
 			{
-				Skeleton[ii.Name] = new SkelAn(ii.AllFrames, ii.Parent);
+				Skeleton[ii.Name] = new SkelAn(ii.AllFrames, ii.Parent,ii.InitOffset);
 				OrdRend.push_back(ii.Name);
 			}
 		}
@@ -68,9 +68,6 @@ private:
 	std::vector<glm::mat4> UpdateTime(float TimePass)
 	{
 		std::vector<glm::mat4> TempMats;
-		// = { glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),
-		//glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),
-		//glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f),glm::mat4(1.f) };
 		if (TimePass > TimeLength)
 		{
 			this->TimePass = 0;

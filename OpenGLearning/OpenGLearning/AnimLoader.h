@@ -13,6 +13,7 @@ struct SkelArti
 	std::string Name;
 	std::string Parent;
 	std::vector<Frames*> AllFrames;
+	glm::vec3 InitOffset;
 };
 
 class ColladaLoader
@@ -104,7 +105,7 @@ class ColladaLoader
 		{
 			SkelArti TemSkel;
 			TemSkel.Name = Child->mChildren[ii]->mName.C_Str();
-			TemSkel.Parent = Name;
+			TemSkel.Parent = Name;			
 			this->SkelsInits.push_back(TemSkel);
 			if (Child->mChildren[ii]->mNumChildren != 0)
 			{
@@ -126,18 +127,26 @@ class ColladaLoader
 				this->CheckForChilds(Tem->mChildren[ii],"NULL");
 			}
 		}
-		this->SkelsInits;
 	}
 	void SetEachNodes(const aiScene* scene)
 	{
 		int Amount = scene->mAnimations[0]->mNumChannels;
 		for (int ii = 0; ii < Amount; ii++)
 		{
-			std::cout << scene->mAnimations[0]->mChannels[ii]->mNodeName.C_Str() << "\n";
-			std::cout << scene->mAnimations[0]->mChannels[ii]->mNumPositionKeys << "\n"; 
-			std::cout << scene->mAnimations[0]->mChannels[ii]->mNumRotationKeys << "\n";
-			std::cout << scene->mAnimations[0]->mChannels[ii]->mNumScalingKeys << "\n";
+			std::string Temp = scene->mAnimations[0]->mChannels[ii]->mNodeName.C_Str();
+			for (auto& jj : SkelsInits)
+			{
+				if (jj.Name == Temp)
+				{
+					jj.InitOffset.x = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.x;
+					jj.InitOffset.y = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.y;
+					jj.InitOffset.z = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.z;
+					break;
+				}
+			}
+				
 		}
+
 		
 	}
 public:
@@ -153,7 +162,7 @@ public:
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
 		this->MakeSkelsArt(scene);
-		//this->SetEachNodes(scene);
+		this->SetEachNodes(scene);
 	}
 	std::vector<AnimVertex> GetVertex()
 	{

@@ -44,7 +44,7 @@ void main()
 	vs_position = vec4(ModelMatrix * GLPos).xyz;
 	vs_texcoord = vertex_texcoord;
 
-	vec4 NormalL = BoneTransform * vec4(vertex_normal,0.f);
+	vec4 NormalL = BoneTransform * vec4(vertex_normal,1.f);
 	vs_normal = vec4(ModelMatrix * NormalL).xyz;
 
 	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * GLPos;

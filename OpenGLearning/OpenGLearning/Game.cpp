@@ -199,8 +199,8 @@ void Game::initModels()
 		0, 0, {0,1,2,3,4,5,6,7});
 	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0 });
-	//--Animated Models Components
 
+	//--Animated Models Components
 	//
 	//Pushing Models
 	//

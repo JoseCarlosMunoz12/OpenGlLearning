@@ -80,15 +80,15 @@ private:
 	glm::mat4 UpdateMatrix()
 	{
 		glm::mat4 TempMat = glm::mat4(1.f);
-		TempMat = glm::translate(TempMat, this->CurOffset);
+		TempMat = glm::translate(TempMat,this->CurOffset);	
 		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
-		TempMat *= Quats;
+		TempMat *= Quats;	
 		TempMat = glm::scale(TempMat, this->CurScale);
 		return TempMat;
 	}
 public:
-	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName)
-		:CurOffset(glm::vec3(0.f)),CurScale(glm::vec3(1.f)),CurRot(QuatParts())
+	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::vec3 InitOffset)
+		:CurOffset(InitOffset),CurScale(glm::vec3(1.f)),CurRot(QuatParts())
 	{
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
