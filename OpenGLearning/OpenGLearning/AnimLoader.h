@@ -14,6 +14,7 @@ struct SkelArti
 	std::string Parent;
 	std::vector<Frames*> AllFrames;
 	glm::vec3 InitOffset;
+	glm::vec3 InitScale;
 };
 
 class ColladaLoader
@@ -141,6 +142,9 @@ class ColladaLoader
 					jj.InitOffset.x = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.x;
 					jj.InitOffset.y = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.y;
 					jj.InitOffset.z = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.z;
+					jj.InitScale.x = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.x;
+					jj.InitScale.y = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.y;
+					jj.InitScale.z = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.z;
 					break;
 				}
 			}

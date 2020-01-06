@@ -87,8 +87,8 @@ private:
 		return TempMat;
 	}
 public:
-	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::vec3 InitOffset)
-		:CurOffset(InitOffset),CurScale(glm::vec3(1.f)),CurRot(QuatParts())
+	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::vec3 InitOffset,glm::vec3 InitScale = glm::vec3(1.f))
+		:CurOffset(InitOffset),CurScale(InitScale),CurRot(QuatParts())
 	{
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
