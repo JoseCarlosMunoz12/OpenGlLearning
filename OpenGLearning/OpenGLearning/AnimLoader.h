@@ -145,7 +145,14 @@ class ColladaLoader
 					if (jj.Name == Temp)
 					{
 						jj.InitOffset.x =set.x;
-						jj.InitOffset.y = -1*set.y;
+						if (set.y < 0)
+						{
+							jj.InitOffset.y = -1 * set.y;
+						}
+						else {
+							jj.InitOffset.y = set.y;
+						}
+						
 						jj.InitOffset.z = set.z;
 						jj.InitScale.x =  1.f;
 						jj.InitScale.y = 1.f;
