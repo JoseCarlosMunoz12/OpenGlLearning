@@ -63,8 +63,8 @@ class ColladaLoader
 			//Color
 			NewVertex.color = glm::vec3(0.f, 1.f, 0.f);
 			//Textures
-			NewVertex.texcoord.x = meshes->mTextureCoords[0][ii].y;
-			NewVertex.texcoord.y = meshes->mTextureCoords[0][ii].x;
+			NewVertex.texcoord.x = meshes->mTextureCoords[0][ii].x;
+			NewVertex.texcoord.y = meshes->mTextureCoords[0][ii].y;
 			//MatIds
 			NewVertex.MatId.x = -1;
 			NewVertex.MatId.y = -1;
@@ -169,7 +169,7 @@ public:
 		std::string File = "Models/ModelCol/";
 		File += FileName;
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
+		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices |aiProcess_FlipUVs);
 		aiMesh* meshes = scene->mMeshes[0];		
 		scene->mAnimations[0]->mChannels[0]->mPositionKeys[0].mTime;
 		this->MakeAnimVertex(meshes);
