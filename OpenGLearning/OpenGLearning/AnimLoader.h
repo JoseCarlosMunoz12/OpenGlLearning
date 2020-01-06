@@ -140,11 +140,11 @@ class ColladaLoader
 				if (jj.Name == Temp)
 				{
 					jj.InitOffset.x = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.x;
-					jj.InitOffset.y = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.y;
-					jj.InitOffset.z = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.z;
+					jj.InitOffset.y = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.z;
+					jj.InitOffset.z = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.y;
 					jj.InitScale.x = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.x;
 					jj.InitScale.y = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.y;
-					jj.InitScale.z = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.z;
+					jj.InitScale.z = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.z;					
 					break;
 				}
 			}
