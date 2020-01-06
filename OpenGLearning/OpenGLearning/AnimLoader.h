@@ -15,6 +15,7 @@ struct SkelArti
 	std::vector<Frames*> AllFrames;
 	glm::vec3 InitOffset;
 	glm::vec3 InitScale;
+	glm::mat4 InvTrans;
 };
 
 class ColladaLoader
@@ -93,7 +94,6 @@ class ColladaLoader
 			for (int jj = 0; jj < TempBone->mNumWeights; jj++)
 			{
 				int Vert = TempBone->mWeights[jj].mVertexId;
-				
 				this->SetIndex(&this->FinalVer[Vert],ii, TempBone->mWeights[jj].mWeight);
 			}			
 		}
@@ -104,6 +104,7 @@ class ColladaLoader
 		int Temps = Child->mNumChildren;
 		for (int ii = 0; ii < Temps; ii++)
 		{
+			
 			SkelArti TemSkel;
 			TemSkel.Name = Child->mChildren[ii]->mName.C_Str();
 			TemSkel.Parent = Name;			
@@ -129,28 +130,30 @@ class ColladaLoader
 			}
 		}
 	}
-	void SetEachNodes(const aiScene* scene)
+	void SetEachNodes(const aiMesh* mesh)
 	{
-		int Amount = scene->mAnimations[0]->mNumChannels;
-		for (int ii = 0; ii < Amount; ii++)
+		int BoneAmount = mesh->mNumBones;
+		for (int ii = 0; ii < BoneAmount; ii++)
 		{
-			std::string Temp = scene->mAnimations[0]->mChannels[ii]->mNodeName.C_Str();
-			for (auto& jj : SkelsInits)
-			{
-				if (jj.Name == Temp)
+			std::string Temp = mesh->mBones[ii]->mName.C_Str();
+			aiVector3D Templ;
+			aiQuaternion Tempq;
+			aiVector3D set;
+			mesh->mBones[ii]->mOffsetMatrix.Decompose(Templ, Tempq, set);
+				for (auto& jj : SkelsInits)
 				{
-					jj.InitOffset.x = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.x;
-					jj.InitOffset.y = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.z;
-					jj.InitOffset.z = scene->mAnimations[0]->mChannels[ii]->mPositionKeys->mValue.y;
-					jj.InitScale.x = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.x;
-					jj.InitScale.y = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.y;
-					jj.InitScale.z = scene->mAnimations[0]->mChannels[ii]->mScalingKeys->mValue.z;					
-					break;
+					if (jj.Name == Temp)
+					{
+						jj.InitOffset.x =set.x;
+						jj.InitOffset.y = -1*set.y;
+						jj.InitOffset.z = set.z;
+						jj.InitScale.x =  1.f;
+						jj.InitScale.y = 1.f;
+						jj.InitScale.z = 1.f;
+						break;
+					}
 				}
-			}
-				
 		}
-
 		
 	}
 public:
@@ -166,7 +169,7 @@ public:
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
 		this->MakeSkelsArt(scene);
-		this->SetEachNodes(scene);
+		this->SetEachNodes(meshes);
 	}
 	std::vector<AnimVertex> GetVertex()
 	{

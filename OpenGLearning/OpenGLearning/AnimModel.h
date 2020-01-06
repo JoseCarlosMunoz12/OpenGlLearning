@@ -163,7 +163,7 @@ public:
 			this->Tex[ii]->Bind(Num);
 			Num++;
 		}
-		meshes->Render(TreeNodes[0]->GetFinalMat4(), shader[TempShaderId], this->UpdateTime(TimePass));
+		meshes->Render(this->TreeNodes[0]->GetFinalMat4(), shader[TempShaderId], this->UpdateTime(TimePass));
 
 	}
 	//Other
