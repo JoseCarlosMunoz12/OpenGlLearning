@@ -32,7 +32,7 @@ private:
 		{
 			for (auto& ii : Inits)
 			{
-				Skeleton[ii.Name] = new SkelAn(ii.AllFrames, ii.Parent,ii.InitOffset,ii.InitScale);
+				Skeleton[ii.Name] = new SkelAn(ii.AllFrames, ii.Parent,ii.InitOffset,ii.InitQuat,ii.InitScale);
 				OrdRend.push_back(ii.Name);
 			}
 		}

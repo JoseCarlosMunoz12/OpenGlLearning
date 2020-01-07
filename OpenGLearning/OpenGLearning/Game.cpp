@@ -107,7 +107,7 @@ void Game::initTextures()
 	this->textures.push_back(new Texture("Images/pusheen.png", GL_TEXTURE_2D,GL_RGBA ));
 	this->textures.push_back(new Texture("Images/pusheen_specular.png", GL_TEXTURE_2D, GL_RGBA ));
 	//Second Texture
-	this->textures.push_back(new Texture("Images/diffuse.png", GL_TEXTURE_2D, GL_RGBA ));
+	this->textures.push_back(new Texture("Images/container.png", GL_TEXTURE_2D, GL_RGBA ));
 	this->textures.push_back(new Texture("Images/container_specular.png", GL_TEXTURE_2D, GL_RGBA ));
 	//Third Image
 	this->textures.push_back(new Texture("Images/Test1.png", GL_TEXTURE_2D, GL_RGBA ));
@@ -122,6 +122,7 @@ void Game::initTextures()
 	this->textures.push_back(new Texture("Images/stallTexture.png", GL_TEXTURE_2D, GL_RGBA ));
 	//Tree Texture
 	this->textures.push_back(new Texture("Images/tree.png", GL_TEXTURE_2D, GL_RGBA ));
+	this->textures.push_back(new Texture("Images/diffuse.png", GL_TEXTURE_2D, GL_RGBA));
 	//Shadow MapCreation
 	for (auto& ii : this->Shadows)
 	{
@@ -159,7 +160,7 @@ void Game::initModels()
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
-			&CustomObject("Monkey.obj"),
+			&CustomObject("untitled.obj"),
 			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
@@ -197,7 +198,7 @@ void Game::initModels()
 	//--Static Models Components
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, {0,1,2,3,4,5,6,7});
-	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(.1f), 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0 });
 
 	//--Animated Models Components
@@ -208,17 +209,17 @@ void Game::initModels()
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[13],this->textures[14],this->textures[15] },
+		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[0], { Terrain }));
-	/*this->models.push_back(new Model("Monk",
+	this->models.push_back(new Model("Monk",
 		glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
 		{ this->textures[2],this->textures[6],
-		this->textures[13],this->textures[14],this->textures[15] }, meshes[7], {Monk}));*/
+		this->textures[13],this->textures[14],this->textures[15] }, meshes[1], {Monk}));
 	//anim Models
 	this->animModel.push_back(new AnimModel("Test",
 		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 1.f), 1.f), this->MatTest[4],
-		{ this->textures[2],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[13],this->textures[14],this->textures[15] }, animMeshes[0], {Terrain}));
+		{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] }, animMeshes[0], {Terrain}));
 }
 
 void Game::initLights()
@@ -519,9 +520,9 @@ void Game::ImGuiOptions()
 					std::vector<Nodes*> TempNodes = this->animModel[this->AnimModelToMake]->GetNodesInfo();
 					std::vector<AnimMesh*> ModMesh = this->animModel[this->AnimModelToMake]->GetMeshes();
 					std::map<std::string, SkelAn*> Temps = this->animModel[this->AnimModelToMake]->GetArt();
-					ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
-					ImGui::Text("Model Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
-					if (ImGui::TreeNode("Textures Used"))
+					ImGui::Text("AnimModel Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
+					ImGui::Text("AnimModel Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
+					if (ImGui::TreeNode("Anim Textures Used"))
 					{
 						for (auto& ii : ModTex)
 						{
@@ -529,12 +530,12 @@ void Game::ImGuiOptions()
 						}
 						ImGui::TreePop();
 					}
-					if (ImGui::TreeNode("Nodes Info"))
+					if (ImGui::TreeNode("AnimNodes Info"))
 					{
 						int NodeCount = 0;
 						for (auto& ii : TempNodes)
 						{
-							std::string TempNodeId = "Node" + std::to_string(NodeCount);
+							std::string TempNodeId = "AnimNode" + std::to_string(NodeCount);
 							if (ImGui::TreeNode(TempNodeId.c_str()))
 							{
 								//Origin
@@ -619,6 +620,7 @@ void Game::ImGuiOptions()
 									ImGui::SliderFloat("YPos", &TempOffset.y, -10.f, 10.f);
 									ImGui::SliderFloat("ZPos", &TempOffset.z, -10.f, 10.f);
 									ii.second->SetOffset(TempOffset);
+									this->models[1]->GetNodesInfo()[0]->SetOrigin(TempOffset + ModPos);
 									ImGui::TreePop();
 								}
 								ImGui::Text("Bone Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempScale.x, TempScale.y, TempScale.z);
@@ -1150,14 +1152,6 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 			this->ReleaseModels();
 			this->LoadNewModels(RdMkFiles.DecipherFile(this->FileID));
 			this->FileID = -1;
-		}
-		ImGui::End();
-	}
-	{
-		ImGui::Begin("T");
-		if (ImGui::Button("Collada Reader"))
-		{
-			ColladaLoader Red("model.dae");
 		}
 		ImGui::End();
 	}

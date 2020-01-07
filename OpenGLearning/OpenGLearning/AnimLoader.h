@@ -15,7 +15,7 @@ struct SkelArti
 	std::vector<Frames*> AllFrames;
 	glm::vec3 InitOffset;
 	glm::vec3 InitScale;
-	glm::mat4 InvTrans;
+	QuatParts InitQuat;
 };
 
 class ColladaLoader
@@ -152,8 +152,8 @@ class ColladaLoader
 						else {
 							jj.InitOffset.y = set.y;
 						}
-						
-						jj.InitOffset.z = set.z;
+						jj.InitOffset.z = 0;
+						jj.InitQuat = QuatParts();
 						jj.InitScale.x =  1.f;
 						jj.InitScale.y = 1.f;
 						jj.InitScale.z = 1.f;
