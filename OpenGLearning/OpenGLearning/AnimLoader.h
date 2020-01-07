@@ -132,15 +132,15 @@ class ColladaLoader
 	}
 	void SetEachNodes(const aiScene* scene)
 	{
+		aiMatrix4x4 Temp = scene->mRootNode->mTransformation;
 		for (auto& jj : SkelsInits)
-			{				
-			aiMatrix4x4 temp = scene->mRootNode->FindNode(jj.Name.c_str())->mTransformation;
-				jj.InitOffset = glm::vec3(0.f);
-				jj.InitQuat = QuatParts();
-				jj.InitScale.x = 1.f;
-				jj.InitScale.y = 1.f;
-				jj.InitScale.z = 1.f;			
-			}		
+		{
+			jj.InitOffset = glm::vec3(0.f);
+			jj.InitQuat = QuatParts();
+			jj.InitScale.x = 1.f;
+			jj.InitScale.y = 1.f;
+			jj.InitScale.z = 1.f;			
+		}		
 	}
 public:
 	ColladaLoader(const char* FileName)
@@ -175,6 +175,7 @@ class AnimInf : public ColladaLoader
 private:
 	std::vector<AnimVertex> Vertices;
 	std::vector<GLuint> Indices;
+	glm::mat4 Trans;
 	std::vector<Frames*> AllFrames;
 public:
 	AnimInf(const char* FileName)
@@ -192,5 +193,5 @@ public:
 
 	inline const unsigned getNrOfVertices() { return this->Vertices.size(); }
 	inline const unsigned getNrOfIndices() { return this->Indices.size(); }
-
+	inline glm::mat4 GetTrans() { return this->Trans; }
 };
