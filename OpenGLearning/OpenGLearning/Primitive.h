@@ -773,12 +773,12 @@ private:
 			Vertex NewVertex;
 			//Position
 			NewVertex.position.x = Meshes->mVertices[ii].x;
-			NewVertex.position.y = Meshes->mVertices[ii].y;
-			NewVertex.position.z = Meshes->mVertices[ii].z;
+			NewVertex.position.y = Meshes->mVertices[ii].z;
+			NewVertex.position.z = -1 * Meshes->mVertices[ii].y;
 			//Normals
 			NewVertex.normal.x = Meshes->mNormals[ii].x;
-			NewVertex.normal.y = Meshes->mNormals[ii].y;
-			NewVertex.normal.z = Meshes->mNormals[ii].z;
+			NewVertex.normal.y = Meshes->mNormals[ii].z;
+			NewVertex.normal.z = -1 * Meshes->mNormals[ii].y;
 			//Color
 			NewVertex.color = glm::vec3(0.f, 1.f, 0.f);
 			//Texture Coordinates

@@ -83,7 +83,6 @@ private:
 		TempMat = glm::translate(TempMat,this->CurOffset);	
 		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
 		TempMat *= Quats;
-		TempMat = glm::translate(TempMat,-this->CurOffset);
 		TempMat = glm::scale(TempMat, this->CurScale);
 		return TempMat;
 	}

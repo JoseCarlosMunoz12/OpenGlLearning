@@ -55,7 +55,7 @@ class ColladaLoader
 			//Position
 			NewVertex.position.x = meshes->mVertices[ii].x;
 			NewVertex.position.y = meshes->mVertices[ii].z;
-			NewVertex.position.z = meshes->mVertices[ii].y;
+			NewVertex.position.z = -1 * meshes->mVertices[ii].y;
 			//Normals
 			NewVertex.normal.x = meshes->mNormals[ii].x;
 			NewVertex.normal.y = meshes->mNormals[ii].z;
@@ -81,9 +81,9 @@ class ColladaLoader
 		for (int ii = 0; ii < meshes->mNumFaces; ii++)
 		{
 			aiFace Faces = meshes->mFaces[ii];
-			FinalInd.push_back(Faces.mIndices[2]);
-			FinalInd.push_back(Faces.mIndices[1]);
 			FinalInd.push_back(Faces.mIndices[0]);
+			FinalInd.push_back(Faces.mIndices[1]);
+			FinalInd.push_back(Faces.mIndices[2]);
 		}
 	}
 	void IndexBones(aiMesh* meshes)
@@ -130,10 +130,11 @@ class ColladaLoader
 			}
 		}
 	}
-	void SetEachNodes()
+	void SetEachNodes(const aiScene* scene)
 	{
 		for (auto& jj : SkelsInits)
 			{				
+			aiMatrix4x4 temp = scene->mRootNode->FindNode(jj.Name.c_str())->mTransformation;
 				jj.InitOffset = glm::vec3(0.f);
 				jj.InitQuat = QuatParts();
 				jj.InitScale.x = 1.f;
@@ -153,7 +154,7 @@ public:
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
 		this->MakeSkelsArt(scene);
-		this->SetEachNodes();
+		this->SetEachNodes(scene);
 	}
 	std::vector<AnimVertex> GetVertex()
 	{

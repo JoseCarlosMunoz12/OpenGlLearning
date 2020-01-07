@@ -214,7 +214,7 @@ void Game::initModels()
 	this->models.push_back(new Model("Monk",
 		glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
 		{ this->textures[2],this->textures[6],
-		this->textures[13],this->textures[14],this->textures[15] }, meshes[1], {Monk}));
+		this->textures[14],this->textures[15],this->textures[16] }, meshes[2], {Monk}));
 	//anim Models
 	this->animModel.push_back(new AnimModel("Test",
 		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 1.f), 1.f), this->MatTest[4],
