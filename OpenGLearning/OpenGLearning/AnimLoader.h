@@ -130,38 +130,16 @@ class ColladaLoader
 			}
 		}
 	}
-	void SetEachNodes(const aiMesh* mesh)
+	void SetEachNodes()
 	{
-		int BoneAmount = mesh->mNumBones;
-		for (int ii = 0; ii < BoneAmount; ii++)
-		{
-			std::string Temp = mesh->mBones[ii]->mName.C_Str();
-			aiVector3D Templ;
-			aiQuaternion Tempq;
-			aiVector3D set;
-			mesh->mBones[ii]->mOffsetMatrix.Decompose(Templ, Tempq, set);
-				for (auto& jj : SkelsInits)
-				{
-					if (jj.Name == Temp)
-					{
-						jj.InitOffset.x =set.x;
-						if (set.y < 0)
-						{
-							jj.InitOffset.y = -1 * set.y;
-						}
-						else {
-							jj.InitOffset.y = set.y;
-						}
-						jj.InitOffset.z = 0;
-						jj.InitQuat = QuatParts();
-						jj.InitScale.x =  1.f;
-						jj.InitScale.y = 1.f;
-						jj.InitScale.z = 1.f;
-						break;
-					}
-				}
-		}
-		
+		for (auto& jj : SkelsInits)
+			{				
+				jj.InitOffset = glm::vec3(0.f);
+				jj.InitQuat = QuatParts();
+				jj.InitScale.x = 1.f;
+				jj.InitScale.y = 1.f;
+				jj.InitScale.z = 1.f;			
+			}		
 	}
 public:
 	ColladaLoader(const char* FileName)
@@ -170,13 +148,12 @@ public:
 		File += FileName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices |aiProcess_FlipUVs);
-		aiMesh* meshes = scene->mMeshes[0];		
-		scene->mAnimations[0]->mChannels[0]->mPositionKeys[0].mTime;
+		aiMesh* meshes = scene->mMeshes[0];
 		this->MakeAnimVertex(meshes);
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
 		this->MakeSkelsArt(scene);
-		this->SetEachNodes(meshes);
+		this->SetEachNodes();
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
