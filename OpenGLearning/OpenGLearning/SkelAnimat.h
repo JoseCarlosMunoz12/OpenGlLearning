@@ -83,6 +83,7 @@ private:
 		TempMat = glm::translate(TempMat,this->CurOffset);	
 		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
 		TempMat *= Quats;
+		TempMat = glm::translate(TempMat, -this->CurOffset);
 		TempMat = glm::scale(TempMat, this->CurScale);
 		return TempMat;
 	}
@@ -118,7 +119,7 @@ public:
 	{
 		if (ParentId != "NULL")
 		{
-			return Temp[ParentId]->GetMat(Temp) * this->UpdateMatrix();
+			return Temp[ParentId]->GetMat(Temp) * this->UpdateMatrix() ;
 		}
 		else {
 			return this->UpdateMatrix();

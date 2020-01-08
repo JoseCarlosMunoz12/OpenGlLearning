@@ -23,6 +23,19 @@ class ColladaLoader
 	std::vector<AnimVertex> FinalVer;
 	std::vector<GLuint> FinalInd;
 	std::vector<SkelArti> SkelsInits;
+	glm::mat4 Inv;
+	glm::mat4 aiMatrix4x4ToGlm(const aiMatrix4x4 from)
+	{
+		glm::mat4 to;
+
+
+		to[0][0] = (GLfloat)from.a1; to[0][1] = (GLfloat)from.b1;  to[0][2] = (GLfloat)from.c1; to[0][3] = (GLfloat)from.d1;
+		to[1][0] = (GLfloat)from.a2; to[1][1] = (GLfloat)from.b2;  to[1][2] = (GLfloat)from.c2; to[1][3] = (GLfloat)from.d2;
+		to[2][0] = (GLfloat)from.a3; to[2][1] = (GLfloat)from.b3;  to[2][2] = (GLfloat)from.c3; to[2][3] = (GLfloat)from.d3;
+		to[3][0] = (GLfloat)from.a4; to[3][1] = (GLfloat)from.b4;  to[3][2] = (GLfloat)from.c4; to[3][3] = (GLfloat)from.d4;
+
+		return to;
+	}
 	void SetIndex(AnimVertex* Fn, int BoneId, float BoneWieght)
 	{
 		if (Fn->MatId.x == -1)
@@ -132,10 +145,11 @@ class ColladaLoader
 	}
 	void SetEachNodes(const aiScene* scene)
 	{
-		aiMatrix4x4 Temp = scene->mRootNode->mTransformation;
+		const aiMatrix4x4 Temp = scene->mRootNode->mTransformation;		
+		this->Inv = this->aiMatrix4x4ToGlm(Temp);
 		for (auto& jj : SkelsInits)
 		{
-			jj.InitOffset = glm::vec3(0.f);
+			jj.InitOffset = glm::vec3(1.f);
 			jj.InitQuat = QuatParts();
 			jj.InitScale.x = 1.f;
 			jj.InitScale.y = 1.f;
@@ -168,6 +182,10 @@ public:
 	{
 		return this->SkelsInits;
 	}
+	glm::mat4 GetInv()
+	{
+		return this-> Inv;
+	}
 };
 
 class AnimInf : public ColladaLoader
@@ -175,7 +193,6 @@ class AnimInf : public ColladaLoader
 private:
 	std::vector<AnimVertex> Vertices;
 	std::vector<GLuint> Indices;
-	glm::mat4 Trans;
 	std::vector<Frames*> AllFrames;
 public:
 	AnimInf(const char* FileName)
@@ -193,5 +210,4 @@ public:
 
 	inline const unsigned getNrOfVertices() { return this->Vertices.size(); }
 	inline const unsigned getNrOfIndices() { return this->Indices.size(); }
-	inline glm::mat4 GetTrans() { return this->Trans; }
 };
