@@ -20,7 +20,6 @@ private:
 	GLuint VBO;
 	GLuint EBO;
 	std::vector<SkelArti> Inits;
-	glm::mat4 Inv;
 	std::string NameOfMesh;
 	void InitVAO()
 	{
@@ -105,7 +104,6 @@ public:
 			this->IndexArray[ii] = NewMesh->GetIndices()[ii];
 		}
 		this->Inits = NewMesh->Inits();
-		this->Inv = NewMesh->GetInv();
 		this->InitVAO();
 	}
 	~AnimMesh()
@@ -147,9 +145,5 @@ public:
 	std::vector<SkelArti> GetInits()
 	{
 		return this->Inits;
-	}	
-	glm::mat4 GetInv()
-	{
-		return glm::inverse(this->Inv);
 	}
 };
