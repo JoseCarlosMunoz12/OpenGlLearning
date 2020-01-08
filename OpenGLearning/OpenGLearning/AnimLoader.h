@@ -143,22 +143,34 @@ class ColladaLoader
 			}
 		}
 	}
+	aiMatrix4x4 GetParentMatrix(const aiScene* scene, std::string Name, std::string Parent)
+	{
+		if (Parent == "NULL")
+		{
+			return scene->mRootNode->FindNode(Name.c_str())->mTransformation;
+		}else {
+			for (auto& jj : SkelsInits)
+			{
+				if (jj.Name == Parent)
+				{
+					return GetParentMatrix(scene,jj.Name,jj.Parent) * scene->mRootNode->FindNode(Name.c_str())->mTransformation;
+					break;
+				}
+			}
+		}
+	}
 	void SetEachNodes(const aiScene* scene)
 	{
-		const aiMatrix4x4 Temp = scene->mRootNode->mTransformation;		
-		this->Inv = this->aiMatrix4x4ToGlm(Temp);
 		for (auto& jj : SkelsInits)
 		{
-			aiMatrix4x4 TempMat = scene->mRootNode->FindNode(jj.Name.c_str())->mTransformation;
+			aiMatrix4x4 TempMat = this->GetParentMatrix(scene, jj.Name, jj.Parent);
 			aiVector3D TempOffset;
 			aiVector3D TempScale;
 			aiQuaternion TempQuat;
-			TempMat.Decompose(TempScale, TempQuat, TempOffset);
-			jj.InitOffset = glm::vec3(0.f);
+			TempMat.Decompose(TempScale, TempQuat, TempOffset);			
+			jj.InitOffset = glm::vec3(TempOffset.x,TempOffset.z,-TempOffset.y);
 			jj.InitQuat = QuatParts();
-			jj.InitScale.x = 1.f;
-			jj.InitScale.y = 1.f;
-			jj.InitScale.z = 1.f;			
+			jj.InitScale = glm::vec3(TempScale.x, TempScale.z, TempScale.y);
 		}		
 	}
 public:
