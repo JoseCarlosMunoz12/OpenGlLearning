@@ -149,7 +149,12 @@ class ColladaLoader
 		this->Inv = this->aiMatrix4x4ToGlm(Temp);
 		for (auto& jj : SkelsInits)
 		{
-			jj.InitOffset = glm::vec3(1.f);
+			aiMatrix4x4 TempMat = scene->mRootNode->FindNode(jj.Name.c_str())->mTransformation;
+			aiVector3D TempOffset;
+			aiVector3D TempScale;
+			aiQuaternion TempQuat;
+			TempMat.Decompose(TempScale, TempQuat, TempOffset);
+			jj.InitOffset = glm::vec3(0.f);
 			jj.InitQuat = QuatParts();
 			jj.InitScale.x = 1.f;
 			jj.InitScale.y = 1.f;
