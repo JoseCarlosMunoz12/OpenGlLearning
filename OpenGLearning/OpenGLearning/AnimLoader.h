@@ -147,7 +147,9 @@ class ColladaLoader
 		}
 	}
 	void SetEachNodes(const aiScene* scene)
-	{
+	{	
+		std::cout <<scene->mAnimations[0]->mChannels[1]->mNodeName.C_Str() <<"\n";
+		std::cout << scene->mAnimations[0]->mChannels[1]->mPositionKeys->mValue.z << "\n";
 		for (auto& jj : SkelsInits)
 		{
 			aiMatrix4x4 TempMat = this->GetParentMatrix(scene, jj.Name, jj.Parent);
@@ -160,6 +162,20 @@ class ColladaLoader
 			jj.InitScale = glm::vec3(TempScale.x, TempScale.z, TempScale.y);
 		}		
 	}
+	void GetEachAnimFrams(const aiScene* scene)
+	{
+		if (scene->HasAnimations)
+		{
+			int NumOfAnim = scene->mNumAnimations;
+			for (int ii = 0; ii < NumOfAnim; ii++)
+			{
+				aiAnimation* TempAnim = scene->mAnimations[ii];
+				std::string name = TempAnim->mChannels[0]->mNodeName.C_Str();
+
+			}
+		}
+	}
+
 public:
 	ColladaLoader(const char* FileName)
 	{
