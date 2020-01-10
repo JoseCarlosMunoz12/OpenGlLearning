@@ -170,8 +170,6 @@ class ColladaLoader
 			}
 		}
 	}
-
-		
 	void GetEachAnimFrams(const aiScene* scene)
 	{		
 		if (scene->HasAnimations())

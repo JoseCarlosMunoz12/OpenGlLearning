@@ -79,9 +79,8 @@ private:
 		{
 			for (size_t ii = 0; ii < 100; ii++)
 			{
-				glm::mat4 Temp = glm::mat4(1.f);
 				std::string MatName = "Bones[" + std::to_string(ii) + "]";
-				shader->setMat4fv(Temp, MatName.c_str());
+				shader->setMat4fv(glm::mat4(1.f), MatName.c_str());
 			}
 		}
 	}

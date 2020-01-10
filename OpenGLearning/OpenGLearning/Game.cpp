@@ -164,7 +164,7 @@ void Game::initModels()
 			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
-			&ASSIMPLOAD("model.dae"),
+			&ASSIMPLOAD("Wolf_One_dae.dae"),
 			"ASSIMP"));
 	meshes.push_back(
 		new Mesh(
@@ -189,7 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&AnimInf("model.dae"), "TestFile"));
+	animMeshes.push_back(new AnimMesh(&AnimInf("Wolf_One_dae.dae"), "TestFile"));
 
 	//
 	//Meshes Componets are made
@@ -198,9 +198,9 @@ void Game::initModels()
 	//--Static Models Components
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, {0,1,2,3,4,5,6,7});
-	MeshsArtifacts Terrains(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(.1f),
+	MeshsArtifacts Terrains(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, { 0,1,2,3,4,5,6,7 });
-	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(.1f), 0, 0, { 0,1,2,3,4 });
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0 });
 
 	//--Animated Models Components
@@ -213,13 +213,13 @@ void Game::initModels()
 		{ this->textures[6],this->textures[7], this->textures[8], this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[0], { Terrain }));
-	this->models.push_back(new Model("Monk",
-		glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
-		{ this->textures[2],this->textures[6],
-		this->textures[14],this->textures[15],this->textures[16] }, meshes[2], {Monk}));
+	//this->models.push_back(new Model("Monk",
+	//	glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
+	//	{ this->textures[2],this->textures[6],
+	//	this->textures[14],this->textures[15],this->textures[16] }, meshes[2], {Monk}));
 	//anim Models
 	this->animModel.push_back(new AnimModel("Test",
-		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 1.f), 1.f), this->MatTest[4],
+		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f), this->MatTest[4],
 		{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] }, animMeshes[0], {Terrains}));
 }

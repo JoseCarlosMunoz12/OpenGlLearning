@@ -46,6 +46,8 @@ private:
 	glm::vec3 CurOffset;
 	glm::vec3 CurScale;
 	QuatParts CurRot;
+	glm::mat4 Matrix;
+	bool MatUpdated;
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
 		float TimeLeft = CurrTime - FrmFound[0]->GetTimeStamp();
@@ -77,15 +79,15 @@ private:
 		Vals.push_back(AnimFrames[Count]);
 		return Vals;
 	}	
-	glm::mat4 UpdateMatrix()
+	void UpdateMatrix()
 	{
-		glm::mat4 TempMat = glm::mat4(1.f);
-		TempMat = glm::translate(TempMat,this->CurOffset);	
+		Matrix = glm::mat4(1.f);
+		Matrix = glm::translate(Matrix,this->CurOffset);	
 		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
-		TempMat *= Quats;
-		TempMat = glm::translate(TempMat, -this->CurOffset);
-		TempMat = glm::scale(TempMat, this->CurScale);
-		return TempMat;
+		Matrix *= Quats;
+		Matrix = glm::translate(Matrix, -this->CurOffset);
+		Matrix = glm::scale(Matrix, this->CurScale);
+	
 	}
 public:
 	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::vec3 InitOffset,
@@ -94,7 +96,7 @@ public:
 	{
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
-		
+		this->Matrix = glm::mat4(1.f);
 	}	
 	~SkelAn()
 	{
@@ -117,12 +119,13 @@ public:
 	}
 	glm::mat4 GetMat(std::map<std::string, SkelAn*> Temp)
 	{
+		this->UpdateMatrix();
 		if (ParentId != "NULL")
 		{
-			return Temp[ParentId]->GetMat(Temp) * this->UpdateMatrix() ;
+			return Temp[ParentId]->GetMat(Temp) * this->Matrix ;
 		}
 		else {
-			return this->UpdateMatrix();
+			return this->Matrix;
 		}		
 	}
 	std::string GetName()
@@ -152,5 +155,9 @@ public:
 	void SetScale(glm::vec3 NewScale)
 	{
 		this->CurScale = NewScale;
+	}
+	bool Updated()
+	{
+		return this->MatUpdated;
 	}
 };

@@ -23,6 +23,7 @@ private:
 	std::vector<int> TextToUse;		
 	std::map<std::string, SkelAn*> Skeleton;
 	std::vector<std::string> OrdRend;
+	std::vector<glm::mat4> AllMats;
 	std::string Name;
 	float TimeLength;
 	float TimePass = 0;
@@ -82,14 +83,24 @@ private:
 
 		return TempMats;
 	}
-	std::vector<glm::mat4> GetCurMat()
+	void UpdateMats()
 	{
-		std::vector<glm::mat4> TempMats;
+		int Count = 0;
+		for (auto& Bone : OrdRend)
+		{
+			if (this->Skeleton[Bone]->Updated())
+			{
+				AllMats[Count] = glm::mat4(this->Skeleton[Bone]->GetMat(Skeleton));
+			}
+			Count++;
+		}
+	}
+	void GetCurMat()
+	{
 		for (auto& Bone :OrdRend)
 		{
-			TempMats.push_back(this->Skeleton[Bone]->GetCurMat(this->Skeleton, this->TimePass));
+			this->AllMats.push_back(this->Skeleton[Bone]->GetMat(this->Skeleton));
 		}
-		return TempMats;
 	}
 public:
 	AnimModel(std::string ModName, glm::vec3 InitPos,
@@ -104,6 +115,7 @@ public:
 		this->meshes = AnimMeshToUse;
 		this->MakeSkeleton(this->meshes->GetInits());		
 		this->MakeNodes(InitPos, M_Inits);
+		this->GetCurMat();
 	}
 	~AnimModel()
 	{
@@ -154,6 +166,7 @@ public:
 		{
 			ii->UpdateMatrix();
 		}
+		this->UpdateMats();
 		int TempShaderId = this->AnimMat->GetShaderId();
 		this->AnimMat->SendToShader(shader, LightMatrix);
 		int Num = 0;
@@ -163,20 +176,20 @@ public:
 			this->Tex[ii]->Bind(Num);
 			Num++;
 		}
-		meshes->Render(this->TreeNodes[0]->GetFinalMat4(), shader[TempShaderId], this->UpdateTime(TimePass));
+		meshes->Render(this->TreeNodes[0]->GetFinalMat4(), shader[TempShaderId],AllMats);
 
 	}
 	//Other
 	//Shadow Renderer
 	void ShadowRender(float PassTime, Shader* ShadowShader)
 	{
-
 		for (auto& ii : this->TreeNodes)
 		{
 			ii->UpdateMatrix();
 		}
+		this->UpdateMats();
 		ShadowShader->use();
-		this->meshes->Render(TreeNodes[0]->GetFinalMat4(), ShadowShader, this->GetCurMat());
+		this->meshes->Render(TreeNodes[0]->GetFinalMat4(), ShadowShader,AllMats);
 	}
 	//Get other general information
 	std::vector<GeneralTextInfo*> GetTextures()
