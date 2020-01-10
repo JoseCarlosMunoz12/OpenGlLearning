@@ -198,6 +198,8 @@ void Game::initModels()
 	//--Static Models Components
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, {0,1,2,3,4,5,6,7});
+	MeshsArtifacts Terrains(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(.1f),
+		0, 0, { 0,1,2,3,4,5,6,7 });
 	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(.1f), 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0 });
 
@@ -219,7 +221,7 @@ void Game::initModels()
 	this->animModel.push_back(new AnimModel("Test",
 		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 1.f), 1.f), this->MatTest[4],
 		{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16] }, animMeshes[0], {Terrain}));
+		this->textures[14],this->textures[15],this->textures[16] }, animMeshes[0], {Terrains}));
 }
 
 void Game::initLights()
@@ -629,7 +631,7 @@ void Game::ImGuiOptions()
 									ImGui::SliderFloat("XPos", &TempScale.x, -10.f, 10.f);
 									ImGui::SliderFloat("YPos", &TempScale.y, -10.f, 10.f);
 									ImGui::SliderFloat("ZPos", &TempScale.z, -10.f, 10.f);
-									ii.second->SetOffset(TempScale);
+									ii.second->SetScale(TempScale);
 									ImGui::TreePop();
 
 								}
