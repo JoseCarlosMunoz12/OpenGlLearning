@@ -88,7 +88,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			if (this->Skeleton[Bone]->Updated())
+			if (true)
 			{
 				AllMats[Count] = glm::mat4(this->Skeleton[Bone]->GetMat(Skeleton));
 			}

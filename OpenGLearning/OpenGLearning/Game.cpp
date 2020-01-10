@@ -189,7 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&AnimInf("Wolf_One_dae.dae"), "TestFile"));
+	animMeshes.push_back(new AnimMesh(&AnimInf("model.dae"), "TestFile"));
 
 	//
 	//Meshes Componets are made
@@ -622,7 +622,6 @@ void Game::ImGuiOptions()
 									ImGui::SliderFloat("YPos", &TempOffset.y, -10.f, 10.f);
 									ImGui::SliderFloat("ZPos", &TempOffset.z, -10.f, 10.f);
 									ii.second->SetOffset(TempOffset);
-									this->models[1]->GetNodesInfo()[0]->SetOrigin(TempOffset + ModPos);
 									ImGui::TreePop();
 								}
 								ImGui::Text("Bone Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempScale.x, TempScale.y, TempScale.z);

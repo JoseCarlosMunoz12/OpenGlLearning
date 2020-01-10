@@ -40,10 +40,11 @@ class ColladaLoader
 		{
 			Fn->MatId.z = BoneId;
 			Fn->Weights.z = BoneWieght;
-			float AllVals = Fn->Weights.x + Fn->Weights.y + Fn->Weights.z;
-			Fn->Weights.x /= AllVals;
-			Fn->Weights.y /= AllVals;
-			Fn->Weights.z /= AllVals;
+		}
+		else if (Fn->MatId.w == -1)
+		{
+			Fn->MatId.w = BoneId;
+			Fn->Weights.w = BoneWieght;			
 		}
 
 	}
