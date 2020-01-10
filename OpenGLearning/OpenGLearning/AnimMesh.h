@@ -88,7 +88,6 @@ public:
 	AnimMesh(AnimInf* NewMesh, std::string NewName)
 	{
 		this->NameOfMesh = NewName;
-
 		this->nrOfIndices = NewMesh->getNrOfIndices();
 		this->nrOfVertices = NewMesh->getNrOfVertices();
 		this->AnimVerArray = new AnimVertex[this->nrOfVertices];

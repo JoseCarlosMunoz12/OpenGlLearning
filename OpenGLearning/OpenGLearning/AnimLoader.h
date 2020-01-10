@@ -70,10 +70,12 @@ class ColladaLoader
 			NewVertex.MatId.x = -1;
 			NewVertex.MatId.y = -1;
 			NewVertex.MatId.z = -1;
+			NewVertex.MatId.w = -1;
 			//matWieghts
 			NewVertex.Weights.x = 0.f;
 			NewVertex.Weights.y = 0.f;
 			NewVertex.Weights.z = 0.f;
+			NewVertex.Weights.w = 0.f;
 			this->FinalVer.push_back(NewVertex);
 		}
 	}
@@ -203,8 +205,9 @@ public:
 		this->MakeAnimVertex(meshes);
 		this->MakeInd(meshes);
 		this->IndexBones(meshes);
-		this->MakeSkelsArt(scene);
+		this->MakeSkelsArt(scene);		
 		this->SetEachNodes(scene);
+		importer.FreeScene();
 	}
 	std::vector<AnimVertex> GetVertex()
 	{
