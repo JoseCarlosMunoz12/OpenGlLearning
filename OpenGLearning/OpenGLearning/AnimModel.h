@@ -17,7 +17,7 @@ class AnimModel
 {
 private:
 	StdMat* AnimMat;
-	AnimMesh* meshes;
+	std::vector<AnimMesh*> meshes;
 	std::vector<GeneralTextInfo*> Tex;
 	std::vector<Nodes*> TreeNodes;
 	std::vector<int> TextToUse;		
@@ -40,10 +40,6 @@ private:
 		else
 		{
 		}
-	}
-	void SetUpInits()
-	{
-
 	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
@@ -112,8 +108,8 @@ public:
 		:Name(ModName), AnimMat(material)
 	{
 		this->Tex = OrTexSpec;
-		this->meshes = AnimMeshToUse;
-		this->MakeSkeleton(this->meshes->GetInits());		
+		this->meshes.push_back(AnimMeshToUse);
+		this->MakeSkeleton(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
 		this->GetCurMat();
 	}
@@ -176,7 +172,7 @@ public:
 			this->Tex[ii]->Bind(Num);
 			Num++;
 		}
-		meshes->Render(this->TreeNodes[0]->GetFinalMat4(), shader[TempShaderId],AllMats);
+		meshes[0]->Render(this->TreeNodes[0]->GetFinalMat4(), shader[TempShaderId],AllMats);
 
 	}
 	//Other
@@ -189,7 +185,7 @@ public:
 		}
 		this->UpdateMats();
 		ShadowShader->use();
-		this->meshes->Render(TreeNodes[0]->GetFinalMat4(), ShadowShader,AllMats);
+		this->meshes[0]->Render(TreeNodes[0]->GetFinalMat4(), ShadowShader,AllMats);
 	}
 	//Get other general information
 	std::vector<GeneralTextInfo*> GetTextures()

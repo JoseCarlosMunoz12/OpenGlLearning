@@ -18,11 +18,45 @@ struct SkelArti
 	QuatParts InitQuat;
 };
 
-class ColladaLoader
+class AnimInf
 {
-	std::vector<AnimVertex> FinalVer;
-	std::vector<GLuint> FinalInd;
+private:
+	std::vector<AnimVertex> Vertices;
+	std::vector<GLuint> Indices;
+	std::vector<Frames*> AllFrames;
 	std::vector<SkelArti> SkelsInits;
+public:
+	void set(const AnimVertex* vertices, const unsigned nrofVertices,
+		const GLuint* indices, const unsigned nrOfIndices)
+	{
+		for (size_t i = 0; i < nrofVertices; i++)
+		{
+			this->Vertices.push_back(vertices[i]);
+		}
+		for (size_t i = 0; i < nrOfIndices; i++)
+		{
+			this->Indices.push_back(indices[i]);
+		}
+	}
+	void set(std::vector<AnimVertex> vertexFound, std::vector<GLuint> indicesFound, std::vector<SkelArti> SkelsInitsFound)
+	{
+		this->Vertices = vertexFound;
+		this->Indices = indicesFound;
+		this->SkelsInits = SkelsInitsFound;
+	}
+	std::vector<SkelArti> Inits()
+	{
+		return this->SkelsInits;
+	}
+	inline AnimVertex* GetVertices() { return this->Vertices.data(); };
+	inline GLuint* GetIndices() { return this->Indices.data(); };
+	inline const unsigned getNrOfVertices() { return this->Vertices.size(); }
+	inline const unsigned getNrOfIndices() { return this->Indices.size(); }
+	
+};
+
+class CLoader: public AnimInf
+{
 	void SetIndex(AnimVertex* Fn, int BoneId, float BoneWieght)
 	{
 		if (Fn->MatId.x == -1)
@@ -41,15 +75,11 @@ class ColladaLoader
 			Fn->MatId.z = BoneId;
 			Fn->Weights.z = BoneWieght;
 		}
-		else if (Fn->MatId.w == -1)
-		{
-			Fn->MatId.w = BoneId;
-			Fn->Weights.w = BoneWieght;			
-		}
 
 	}
-	void MakeAnimVertex(aiMesh* meshes)
+	std::vector<AnimVertex> MakeAnimVertex(aiMesh* meshes)
 	{
+		std::vector<AnimVertex> Temp;
 		for (int ii = 0; ii < meshes->mNumVertices; ii++)
 		{
 			AnimVertex NewVertex;
@@ -70,26 +100,27 @@ class ColladaLoader
 			NewVertex.MatId.x = -1;
 			NewVertex.MatId.y = -1;
 			NewVertex.MatId.z = -1;
-			NewVertex.MatId.w = -1;
 			//matWieghts
 			NewVertex.Weights.x = 0.f;
 			NewVertex.Weights.y = 0.f;
 			NewVertex.Weights.z = 0.f;
-			NewVertex.Weights.w = 0.f;
-			this->FinalVer.push_back(NewVertex);
+			Temp.push_back(NewVertex);
 		}
+		return Temp;
 	}
-	void MakeInd(aiMesh* meshes)
+	std::vector<GLuint> MakeInd(aiMesh* meshes)
 	{
+		std::vector<GLuint> FInd;
 		for (int ii = 0; ii < meshes->mNumFaces; ii++)
 		{
 			aiFace Faces = meshes->mFaces[ii];
-			FinalInd.push_back(Faces.mIndices[0]);
-			FinalInd.push_back(Faces.mIndices[1]);
-			FinalInd.push_back(Faces.mIndices[2]);
+			FInd.push_back(Faces.mIndices[0]);
+			FInd.push_back(Faces.mIndices[1]);
+			FInd.push_back(Faces.mIndices[2]);
 		}
+		return FInd;
 	}
-	void IndexBones(aiMesh* meshes)
+	void IndexBones(aiMesh* meshes, std::vector<AnimVertex>& FVert)
 	{
 		for (int ii = 0; ii < meshes->mNumBones; ii++)
 		{
@@ -97,12 +128,12 @@ class ColladaLoader
 			for (int jj = 0; jj < TempBone->mNumWeights; jj++)
 			{
 				int Vert = TempBone->mWeights[jj].mVertexId;
-				this->SetIndex(&this->FinalVer[Vert],ii, TempBone->mWeights[jj].mWeight);
+				this->SetIndex(&FVert[Vert],ii, TempBone->mWeights[jj].mWeight);
 			}			
 		}
 
 	}
-	void CheckForChilds(aiNode* Child, std::string Name)
+	void CheckForChilds(aiNode* Child, std::string Name,std::vector<SkelArti> &SkelsInit)
 	{
 		int Temps = Child->mNumChildren;
 		for (int ii = 0; ii < Temps; ii++)
@@ -111,16 +142,16 @@ class ColladaLoader
 			SkelArti TemSkel;
 			TemSkel.Name = Child->mChildren[ii]->mName.C_Str();
 			TemSkel.Parent = Name;			
-			this->SkelsInits.push_back(TemSkel);
+			SkelsInit.push_back(TemSkel);
 			if (Child->mChildren[ii]->mNumChildren != 0)
 			{
-				this->CheckForChilds(Child->mChildren[ii], Child->mChildren[ii]->mName.C_Str());
+				this->CheckForChilds(Child->mChildren[ii], Child->mChildren[ii]->mName.C_Str(),SkelsInit);
 			}
 		}
 		
 
 	}
-	void MakeSkelsArt(const aiScene* scene)
+	void MakeSkelsArt(const aiScene* scene, std::vector<SkelArti> &SkelsInit)
 	{
 		aiNode* Tem = scene->mRootNode;
 		int Amount = Tem->mNumChildren;
@@ -129,31 +160,31 @@ class ColladaLoader
 			int Temps = Tem->mChildren[ii]->mNumChildren;
 			if (Temps !=0)
 			{
-				this->CheckForChilds(Tem->mChildren[ii],"NULL");
+				this->CheckForChilds(Tem->mChildren[ii],"NULL",SkelsInit);
 			}
 		}
 	}
-	aiMatrix4x4 GetParentMatrix(const aiScene* scene, std::string Name, std::string Parent)
+	aiMatrix4x4 GetParentMatrix(const aiScene* scene, std::string Name, std::string Parent,std::vector<SkelArti> &SkelsInit)
 	{
 		if (Parent == "NULL")
 		{
 			return scene->mRootNode->FindNode(Name.c_str())->mTransformation;
 		}else {
-			for (auto& jj : SkelsInits)
+			for (auto& jj : SkelsInit)
 			{
 				if (jj.Name == Parent)
 				{
-					return GetParentMatrix(scene,jj.Name,jj.Parent) * scene->mRootNode->FindNode(Name.c_str())->mTransformation;
+					return GetParentMatrix(scene,jj.Name,jj.Parent,SkelsInit) * scene->mRootNode->FindNode(Name.c_str())->mTransformation;
 					break;
 				}
 			}
 		}
 	}
-	void SetEachNodes(const aiScene* scene)
+	void SetEachNodes(const aiScene* scene, std::vector<SkelArti> &SkelsInit)
 	{	
-		for (auto& jj : SkelsInits)
+		for (auto& jj : SkelsInit)
 		{
-			aiMatrix4x4 TempMat = this->GetParentMatrix(scene, jj.Name, jj.Parent);
+			aiMatrix4x4 TempMat = this->GetParentMatrix(scene, jj.Name, jj.Parent,SkelsInit);
 			aiVector3D TempOffset;
 			aiVector3D TempScale;
 			aiQuaternion TempQuat;
@@ -163,13 +194,13 @@ class ColladaLoader
 			jj.InitScale = glm::vec3(TempScale.x, TempScale.z, TempScale.y);
 		}		
 	}
-	aiMatrix4x4 GetAnimMatr(const aiScene* scene, std::string Name)
+	aiMatrix4x4 GetAnimMatr(const aiScene* scene, std::string Name, std::vector<SkelArti> &SkelsInit)
 	{
-		for (auto& jj : SkelsInits)
+		for (auto& jj : SkelsInit)
 		{
 			if (jj.Name == Name)
 			{
-				return this->GetParentMatrix(scene, jj.Name, jj.Parent);
+				return this->GetParentMatrix(scene, jj.Name, jj.Parent,SkelsInit);
 			}
 		}
 	}
@@ -195,54 +226,24 @@ class ColladaLoader
 	}
 
 public:
-	ColladaLoader(const char* FileName)
+	CLoader(const char* FileName)
+		:AnimInf()
 	{
+		std::vector<AnimVertex> FinalVer;
+		std::vector<GLuint> FinalInd;
+		std::vector<SkelArti> SkelsInits;
 		std::string File = "Models/ModelCol/";
 		File += FileName;
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices |aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
 		aiMesh* meshes = scene->mMeshes[0];
-		this->MakeAnimVertex(meshes);
-		this->MakeInd(meshes);
-		this->IndexBones(meshes);
-		this->MakeSkelsArt(scene);		
-		this->SetEachNodes(scene);
+		FinalVer = this->MakeAnimVertex(meshes);
+		FinalInd =  this->MakeInd(meshes);
+		this->IndexBones(meshes,FinalVer);
+		this->MakeSkelsArt(scene,SkelsInits);		
+		this->SetEachNodes(scene,SkelsInits);
+		this->set(FinalVer, FinalInd,SkelsInits);
 		importer.FreeScene();
+		scene = NULL;
 	}
-	std::vector<AnimVertex> GetVertex()
-	{
-		return this->FinalVer;
-	}
-	std::vector<GLuint> GetIndex()
-	{
-		return this->FinalInd;
-	}
-	std::vector<SkelArti> Inits()
-	{
-		return this->SkelsInits;
-	}
-};
-
-class AnimInf : public ColladaLoader
-{
-private:
-	std::vector<AnimVertex> Vertices;
-	std::vector<GLuint> Indices;
-	std::vector<Frames*> AllFrames;
-public:
-	AnimInf(const char* FileName)
-		:ColladaLoader(FileName)
-	{		
-		this->Vertices = this->GetVertex();
-		this->Indices = this->GetIndex();
-	}
-	~AnimInf()
-	{
-
-	}
-	inline AnimVertex* GetVertices() { return this->Vertices.data(); };
-	inline GLuint* GetIndices() { return this->Indices.data(); };
-
-	inline const unsigned getNrOfVertices() { return this->Vertices.size(); }
-	inline const unsigned getNrOfIndices() { return this->Indices.size(); }
 };

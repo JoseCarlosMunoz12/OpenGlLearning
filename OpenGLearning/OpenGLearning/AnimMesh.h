@@ -50,10 +50,10 @@ private:
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(AnimVertex), (GLvoid*)offsetof(AnimVertex, normal));
 		glEnableVertexAttribArray(3);
 		//MatIds
-		glVertexAttribIPointer(4, 4, GL_INT, sizeof(AnimVertex), (GLvoid*)offsetof(AnimVertex, MatId));
+		glVertexAttribIPointer(4, 3, GL_INT, sizeof(AnimVertex), (GLvoid*)offsetof(AnimVertex, MatId));
 		glEnableVertexAttribArray(4);
 		//Weights
-		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(AnimVertex), (GLvoid*)offsetof(AnimVertex, Weights));
+		glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(AnimVertex), (GLvoid*)offsetof(AnimVertex, Weights));
 		glEnableVertexAttribArray(5);
 		//BIND VAO 0
 		glBindVertexArray(0);
@@ -85,7 +85,7 @@ private:
 		}
 	}
 public:
-	AnimMesh(AnimInf* NewMesh, std::string NewName)
+	AnimMesh(CLoader* NewMesh, std::string NewName)
 	{
 		this->NameOfMesh = NewName;
 		this->nrOfIndices = NewMesh->getNrOfIndices();
