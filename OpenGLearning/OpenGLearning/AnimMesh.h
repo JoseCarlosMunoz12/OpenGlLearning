@@ -28,6 +28,7 @@ private:
 		glBindVertexArray(this->VAO);
 		// Gen VBO and BIND and Send Data
 		glGenBuffers(1, &this->VBO);
+		glBindBuffer(GL_ARRAY_BUFFER,this->VBO);
 		glBufferData(GL_ARRAY_BUFFER, this->nrOfVertices * sizeof(AnimVertex), this->AnimVerArray,GL_STATIC_DRAW);
 		//GEN EBO and BIND And Send Data---------
 		if (this->nrOfIndices > 0)

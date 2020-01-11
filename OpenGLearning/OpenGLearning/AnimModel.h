@@ -108,7 +108,7 @@ public:
 		:Name(ModName), AnimMat(material)
 	{
 		this->Tex = OrTexSpec;
-		this->meshes.push_back(AnimMeshToUse);
+		this->meshes.push_back(AnimMeshToUse);		
 		this->MakeSkeleton(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
 		this->GetCurMat();

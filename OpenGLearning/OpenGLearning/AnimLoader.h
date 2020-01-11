@@ -243,7 +243,5 @@ public:
 		this->MakeSkelsArt(scene,SkelsInits);		
 		this->SetEachNodes(scene,SkelsInits);
 		this->set(FinalVer, FinalInd,SkelsInits);
-		importer.FreeScene();
-		scene = NULL;
 	}
 };
