@@ -21,8 +21,8 @@ struct AnimVertex
 	glm::vec3 color;
 	glm::vec2 texcoord;
 	glm::vec3 normal;
-	glm::ivec3 MatId;
-	glm::vec3 Weights;
+	glm::ivec4 MatId;
+	glm::vec4 Weights;
 };
 struct MouseItems
 {

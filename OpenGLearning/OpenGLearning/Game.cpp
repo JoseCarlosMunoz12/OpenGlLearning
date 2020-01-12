@@ -104,7 +104,7 @@ void Game::initShadows()
 void Game::initTextures()
 {
 	//Texture INIT----------
-	this->textures.push_back(new Texture("Images/pusheen.png", GL_TEXTURE_2D,GL_RGBA ));
+	this->textures.push_back(new Texture("Images/Linux Penguin (Texture).png", GL_TEXTURE_2D,GL_RGBA ));
 	this->textures.push_back(new Texture("Images/pusheen_specular.png", GL_TEXTURE_2D, GL_RGBA ));
 	//Second Texture
 	this->textures.push_back(new Texture("Images/container.png", GL_TEXTURE_2D, GL_RGBA ));
@@ -189,8 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));	
-	animMeshes.push_back(new AnimMesh(&CLoader("Wolf_One_dae.dae"), "TestFiletr"));
-	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test"));
+	animMeshes.push_back(new AnimMesh(&CLoader("Res.dae"), "Test"));
 
 	//
 	//Meshes Componets are made
@@ -201,7 +200,7 @@ void Game::initModels()
 		0, 0, {0,1,2,3,4,5,6,7});
 	MeshsArtifacts Terrains(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, { 0,1,2,3,4,5,6,7 });
-	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0,1,2,3,4 });
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(.1f), 0, 0, { 0,1,2,3,4 });
 	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0 });
 
 	//--Animated Models Components
@@ -218,18 +217,15 @@ void Game::initModels()
 		glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f), this->MatTest[1],
 		{ this->textures[2],this->textures[6],
 		this->textures[14],this->textures[15],this->textures[16] }, meshes[2], {Monk}));
-	this->models.push_back(new Model("Monkkk",
-			glm::vec3(1.f, this->MipMapsData[0]->ReturnValue(1.f, 4.f), 4.f), this->MatTest[1],
-			{ this->textures[2],this->textures[6],
-			this->textures[14],this->textures[15],this->textures[16] }, meshes[3], { Monk }));
+
 	//anim Models
-	this->animModel.push_back(new AnimModel("Tes1t",
-		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f), this->MatTest[4],
-		{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16] }, animMeshes[1], { Terrains }));
+	//this->animModel.push_back(new AnimModel("Tes1t",
+	//	glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f), this->MatTest[4],
+	//	{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+	//	this->textures[14],this->textures[15],this->textures[16] }, animMeshes[1], { Terrains }));
 	this->animModel.push_back(new AnimModel("Test",
 		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 4.f), 4.f), this->MatTest[4],
-		{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+		{ this->textures[9],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] }, animMeshes[0], { Terrains }));
 }
 
@@ -630,6 +626,8 @@ void Game::ImGuiOptions()
 									ImGui::SliderFloat("XPos", &TempOffset.x, -10.f, 10.f);
 									ImGui::SliderFloat("YPos", &TempOffset.y, -10.f, 10.f);
 									ImGui::SliderFloat("ZPos", &TempOffset.z, -10.f, 10.f);
+
+									this->models[0]->GetNodesInfo()[0]->SetOrigin( ModPos + TempOffset);								
 									ii.second->SetOffset(TempOffset);
 									ImGui::TreePop();
 								}

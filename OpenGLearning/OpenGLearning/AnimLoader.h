@@ -75,6 +75,11 @@ class CLoader: public AnimInf
 			Fn->MatId.z = BoneId;
 			Fn->Weights.z = BoneWieght;
 		}
+		else if (Fn->MatId.w == -1)
+		{
+			Fn->MatId.w = BoneId;
+			Fn->Weights.w = BoneWieght;
+		}
 
 	}
 	std::vector<AnimVertex> MakeAnimVertex(aiMesh* meshes)
@@ -100,10 +105,12 @@ class CLoader: public AnimInf
 			NewVertex.MatId.x = -1;
 			NewVertex.MatId.y = -1;
 			NewVertex.MatId.z = -1;
+			NewVertex.MatId.w = -1;
 			//matWieghts
 			NewVertex.Weights.x = 0.f;
 			NewVertex.Weights.y = 0.f;
 			NewVertex.Weights.z = 0.f;
+			NewVertex.Weights.w = 0.f;
 			Temp.push_back(NewVertex);
 		}
 		return Temp;
