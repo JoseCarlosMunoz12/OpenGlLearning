@@ -81,15 +81,10 @@ private:
 	}
 	void UpdateMats()
 	{
-		int Count = 0;
 		for (auto& Bone : OrdRend)
-		{
-			if (false)
-			{
-				AllMats[Count] = glm::mat4(this->Skeleton[Bone]->GetMat(Skeleton));
-			}
-			Count++;
-		}
+		{	
+			this->Skeleton[Bone]->UpdateMatrix();
+		}	
 	}
 	void GetCurMat()
 	{
