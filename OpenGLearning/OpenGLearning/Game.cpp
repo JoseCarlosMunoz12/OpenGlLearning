@@ -189,7 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));	
-	animMeshes.push_back(new AnimMesh(&CLoader("monks.dae"), "Test"));
+	animMeshes.push_back(new AnimMesh(&CLoader("Tree.dae"), "Test"));
 
 	//
 	//Meshes Componets are made
@@ -225,7 +225,7 @@ void Game::initModels()
 	//	this->textures[14],this->textures[15],this->textures[16] }, animMeshes[1], { Terrains }));
 	this->animModel.push_back(new AnimModel("Test",
 		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 4.f), 4.f), this->MatTest[4],
-		{ this->textures[9],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+		{ this->textures[10],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] }, animMeshes[0], { Terrains }));
 }
 
