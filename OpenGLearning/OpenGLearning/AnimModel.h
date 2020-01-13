@@ -81,13 +81,13 @@ private:
 	}
 	void UpdateMats()
 	{
-		/*int Count = 0;
+		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{	
 			this->Skeleton[Bone]->UpdateMatrix();
 			this->AllMats[Count] = this->Skeleton[Bone]->GetMat(Skeleton);
 			Count++;
-		}	*/
+		}	
 	}
 	void GetCurMat()
 	{

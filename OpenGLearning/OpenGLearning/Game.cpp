@@ -189,7 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));	
-	animMeshes.push_back(new AnimMesh(&CLoader("Res.dae"), "Test"));
+	animMeshes.push_back(new AnimMesh(&CLoader("monks.dae"), "Test"));
 
 	//
 	//Meshes Componets are made
@@ -627,7 +627,7 @@ void Game::ImGuiOptions()
 									ImGui::SliderFloat("YPos", &TempOffset.y, -10.f, 10.f);
 									ImGui::SliderFloat("ZPos", &TempOffset.z, -10.f, 10.f);
 
-									this->models[0]->GetNodesInfo()[0]->SetOrigin( ModPos + TempOffset);								
+									this->models[1]->GetNodesInfo()[0]->SetOrigin( ModPos + TempOffset);								
 									ii.second->SetOffset(TempOffset);
 									ImGui::TreePop();
 								}
