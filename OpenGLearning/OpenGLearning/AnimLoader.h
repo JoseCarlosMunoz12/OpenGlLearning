@@ -57,6 +57,8 @@ public:
 
 class CLoader: public AnimInf
 {
+	int Tempsas = 0;
+	std::map<std::string, int> BonesId;
 	void SetIndex(AnimVertex* Fn, int BoneId, float BoneWieght)
 	{
 		if (Fn->MatId.x == -1)
@@ -127,6 +129,10 @@ class CLoader: public AnimInf
 		}
 		return FInd;
 	}
+	void MakeBoneMap()
+	{
+
+	}
 	void IndexBones(aiMesh* meshes, std::vector<AnimVertex>& FVert)
 	{
 		for (int ii = 0; ii < meshes->mNumBones; ii++)
@@ -135,8 +141,7 @@ class CLoader: public AnimInf
 			for (int jj = 0; jj < TempBone->mNumWeights; jj++)
 			{
 				int Vert = TempBone->mWeights[jj].mVertexId;
-				std::cout << Vert << "\n";
-				this->SetIndex(&FVert[Vert],ii, TempBone->mWeights[jj].mWeight);
+				this->SetIndex(&FVert[Vert],ii + 1, TempBone->mWeights[jj].mWeight);
 			}			
 		}
 
@@ -144,11 +149,16 @@ class CLoader: public AnimInf
 	void CheckForChilds(aiNode* Child, std::string Name,std::vector<SkelArti> &SkelsInit)
 	{
 		int Temps = Child->mNumChildren;
+			
 		for (int ii = 0; ii < Temps; ii++)
 		{
-			
 			SkelArti TemSkel;
 			TemSkel.Name = Child->mChildren[ii]->mName.C_Str();
+			if (this->BonesId.find(TemSkel.Name) == BonesId.end())
+			{
+				BonesId[TemSkel.Name] = Tempsas;
+				Tempsas++;
+			}	
 			TemSkel.Parent = Name;			
 			SkelsInit.push_back(TemSkel);
 			if (Child->mChildren[ii]->mNumChildren != 0)
@@ -162,7 +172,7 @@ class CLoader: public AnimInf
 	void MakeSkelsArt(const aiScene* scene, std::vector<SkelArti> &SkelsInit)
 	{
 		aiNode* Tem = scene->mRootNode;
-		int Amount = Tem->mNumChildren;
+		int Amount = Tem->mNumChildren;			
 		for (int ii = 0; ii < Amount; ii++)
 		{
 			int Temps = Tem->mChildren[ii]->mNumChildren;
@@ -244,12 +254,12 @@ public:
 		File += FileName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
-		aiMesh* meshes = scene->mMeshes[0];
+		aiMesh* meshes = scene->mMeshes[1];
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd =  this->MakeInd(meshes);
-		this->IndexBones(meshes,FinalVer);
-		this->MakeSkelsArt(scene,SkelsInits);		
-		this->SetEachNodes(scene,SkelsInits);
+		this->MakeSkelsArt(scene,SkelsInits);
+		this->SetEachNodes(scene,SkelsInits);	
+		this->IndexBones(meshes,FinalVer);	
 		this->set(FinalVer, FinalInd,SkelsInits);
 	}
 };
