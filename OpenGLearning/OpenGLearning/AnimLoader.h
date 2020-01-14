@@ -244,7 +244,7 @@ public:
 		File += FileName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
-		aiMesh* meshes = scene->mMeshes[1];
+		aiMesh* meshes = scene->mMeshes[0];
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd =  this->MakeInd(meshes);
 		this->IndexBones(meshes,FinalVer);
