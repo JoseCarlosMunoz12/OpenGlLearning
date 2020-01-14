@@ -189,7 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));	
-	animMeshes.push_back(new AnimMesh(&CLoader("Obj.dae"), "Test"));
+	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test"));
 
 	//
 	//Meshes Componets are made

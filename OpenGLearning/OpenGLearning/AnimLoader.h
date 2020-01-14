@@ -129,19 +129,16 @@ class CLoader: public AnimInf
 		}
 		return FInd;
 	}
-	void MakeBoneMap()
-	{
-
-	}
 	void IndexBones(aiMesh* meshes, std::vector<AnimVertex>& FVert)
 	{
 		for (int ii = 0; ii < meshes->mNumBones; ii++)
 		{
 			aiBone* TempBone = meshes->mBones[ii];
+			std::string TempName = TempBone->mName.C_Str();
 			for (int jj = 0; jj < TempBone->mNumWeights; jj++)
 			{
 				int Vert = TempBone->mWeights[jj].mVertexId;
-				this->SetIndex(&FVert[Vert],ii + 1, TempBone->mWeights[jj].mWeight);
+				this->SetIndex(&FVert[Vert],this->BonesId[TempName], TempBone->mWeights[jj].mWeight);
 			}			
 		}
 
@@ -254,7 +251,7 @@ public:
 		File += FileName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
-		aiMesh* meshes = scene->mMeshes[1];
+		aiMesh* meshes = scene->mMeshes[0];
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd =  this->MakeInd(meshes);
 		this->MakeSkelsArt(scene,SkelsInits);
