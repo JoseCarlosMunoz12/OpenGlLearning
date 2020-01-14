@@ -135,6 +135,7 @@ class CLoader: public AnimInf
 			for (int jj = 0; jj < TempBone->mNumWeights; jj++)
 			{
 				int Vert = TempBone->mWeights[jj].mVertexId;
+				std::cout << Vert << "\n";
 				this->SetIndex(&FVert[Vert],ii, TempBone->mWeights[jj].mWeight);
 			}			
 		}
@@ -243,7 +244,7 @@ public:
 		File += FileName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
-		aiMesh* meshes = scene->mMeshes[0];
+		aiMesh* meshes = scene->mMeshes[1];
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd =  this->MakeInd(meshes);
 		this->IndexBones(meshes,FinalVer);
