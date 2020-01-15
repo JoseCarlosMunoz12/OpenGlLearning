@@ -239,7 +239,24 @@ class CLoader: public AnimInf
 			}
 		}
 	}
-
+	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> &SkelsInit)
+	{
+		if (!scene->HasAnimations())
+		{
+			std::cout << "None\n";
+			return;
+		}
+		aiAnimation* AnimFound = scene->mAnimations[0];
+		int AmountOfAnim = AnimFound->mNumChannels;
+		for (int ii = 0; ii < AmountOfAnim; ii++)
+		{
+			std::string Name = AnimFound->mChannels[ii]->mNodeName.C_Str();
+			std::cout << SkelsInit[this->BonesId[Name]].Name << "\n";
+			std::cout << AnimFound->mChannels[ii]->mNumPositionKeys << "\n";
+			std::cout << AnimFound->mChannels[ii]->mNumRotationKeys << "\n";
+			std::cout << AnimFound->mChannels[ii]->mNumScalingKeys << "\n";
+		}
+	}
 public:
 	CLoader(const char* FileName)
 		:AnimInf()
@@ -257,6 +274,7 @@ public:
 		this->MakeSkelsArt(scene,SkelsInits);
 		this->SetEachNodes(scene,SkelsInits);	
 		this->IndexBones(meshes,FinalVer);	
+		this->GetAnimFrams(scene,SkelsInits);
 		this->set(FinalVer, FinalInd,SkelsInits);
 	}
 };
