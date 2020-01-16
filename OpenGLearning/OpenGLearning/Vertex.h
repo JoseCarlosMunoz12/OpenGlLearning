@@ -67,6 +67,11 @@ struct QuatParts
 		this->Angle = InitAngle;
 		this->UnitVec = glm::vec3(0.f, 1.f, 0.f);
 	}
+	QuatParts(float InitAngle, glm::vec3 InitVec)
+	{
+		this->Angle = InitAngle;
+		this->UnitVec = InitVec;
+	}
 	glm::quat GetQuat()
 	{
 		glm::quat Temp;

@@ -237,9 +237,23 @@ class CLoader: public AnimInf
 			{
 				float FTime = Temps->mRotationKeys[jj].mTime;
 				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;
-				Joints TempJoint; 
+				float AngleRad = 2 *glm::acos(TempQuat.w) ;
+				glm::vec3 VecQuat;
+				if (AngleRad == 0.f)
+				{
+					VecQuat = glm::vec3(1.f,1.f,-1.f);
+				}
+				else {
+					VecQuat = glm::vec3(TempQuat.x / glm::sin(AngleRad),
+						TempQuat.y / glm::sin(AngleRad),
+						TempQuat.z / glm::sin(AngleRad));
+				}
+				AngleRad = AngleRad / glm::pi<float>() * 180.f;
+				QuatParts TempQuats = QuatParts(AngleRad, glm::vec3(VecQuat.x, VecQuat.y, -1 * VecQuat.z));
+				Joints TempJoint;  
 				TempJoint.Offset = glm::vec3(1.f);
 				TempJoint.Scale = glm::vec3(1.f);
+				TempJoint.Rot = TempQuats;
 				TempFrames.push_back(new Frames(FTime, TempJoint));
 			}
 			SkelsInit[this->BonesId[Name]].AllFrames = TempFrames;
