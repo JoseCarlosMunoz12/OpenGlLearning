@@ -239,7 +239,7 @@ class CLoader: public AnimInf
 			}
 		}
 	}
-	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> &SkelsInit)
+	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> SkelsInit)
 	{
 		if (!scene->HasAnimations())
 		{
@@ -251,6 +251,7 @@ class CLoader: public AnimInf
 		for (int ii = 0; ii < AmountOfAnim; ii++)
 		{
 			std::string Name = AnimFound->mChannels[ii]->mNodeName.C_Str();
+			std::cout << Name << "\n";
 			std::cout << SkelsInit[this->BonesId[Name]].Name << "\n";
 			std::cout << AnimFound->mChannels[ii]->mNumPositionKeys << "\n";
 			std::cout << AnimFound->mChannels[ii]->mNumRotationKeys << "\n";
