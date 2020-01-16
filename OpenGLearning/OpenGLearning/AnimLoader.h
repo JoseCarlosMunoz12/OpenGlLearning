@@ -23,7 +23,6 @@ class AnimInf
 private:
 	std::vector<AnimVertex> Vertices;
 	std::vector<GLuint> Indices;
-	std::vector<Frames*> AllFrames;
 	std::vector<SkelArti> SkelsInits;
 public:
 	void set(const AnimVertex* vertices, const unsigned nrofVertices,
@@ -216,26 +215,6 @@ class CLoader: public AnimInf
 			if (jj.Name == Name)
 			{
 				return this->GetParentMatrix(scene, jj.Name, jj.Parent,SkelsInit);
-			}
-		}
-	}
-	void GetEachAnimFrams(const aiScene* scene)
-	{		
-		if (scene->HasAnimations())
-		{
-			int NumOfAnim = scene->mNumAnimations;
-			for (int ii = 0; ii < NumOfAnim; ii++)
-			{
-				aiAnimation* TempAnim = scene->mAnimations[ii];
-				int NumChans = TempAnim->mNumChannels;
-
-				for (int jj = 0; jj < NumChans; jj++)
-				{
-					
-					std::string name = TempAnim->mChannels[jj]->mNodeName.C_Str();					
-				}
-				
-
 			}
 		}
 	}

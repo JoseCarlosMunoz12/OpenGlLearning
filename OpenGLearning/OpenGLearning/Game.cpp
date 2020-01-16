@@ -189,8 +189,8 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));	
-	//animMeshes.push_back(new AnimMesh(&CLoader("TreeTest.dae"), "Test"));
-	animMeshes.push_back(new AnimMesh(&CLoader("AnimTest.dae"), "Test"));
+	//animMeshes.push_back(new AnimMesh(&CLoader("TreeTest.dae"), "Test0"));
+	animMeshes.push_back(new AnimMesh(&CLoader("AnimTest.dae"), "Test1"));
 
 	//
 	//Meshes Componets are made
