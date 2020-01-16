@@ -218,7 +218,7 @@ class CLoader: public AnimInf
 			}
 		}
 	}
-	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> SkelsInit)
+	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> &SkelsInit)
 	{
 		if (!scene->HasAnimations())
 		{
@@ -229,12 +229,19 @@ class CLoader: public AnimInf
 		int AmountOfAnim = AnimFound->mNumChannels;
 		for (int ii = 0; ii < AmountOfAnim; ii++)
 		{
+			int NumOfRot = AnimFound->mChannels[ii]->mNumRotationKeys;
 			std::string Name = AnimFound->mChannels[ii]->mNodeName.C_Str();
-			std::cout << Name << "\n";
-			std::cout << SkelsInit[this->BonesId[Name]].Name << "\n";
-			std::cout << AnimFound->mChannels[ii]->mNumPositionKeys << "\n";
-			std::cout << AnimFound->mChannels[ii]->mNumRotationKeys << "\n";
-			std::cout << AnimFound->mChannels[ii]->mNumScalingKeys << "\n";
+			aiNodeAnim* Temps = AnimFound->mChannels[ii];
+			std::vector<Frames*> TempFrames;
+			for (int jj = 0; jj <NumOfRot; jj++)
+			{
+				float FTime = Temps->mRotationKeys[jj].mTime;
+				Joints TempJoint;
+				TempJoint.Offset = glm::vec3(1.f);
+				TempJoint.Scale = glm::vec3(1.f);
+				TempFrames.push_back(new Frames(FTime, TempJoint));
+			}
+			SkelsInit[this->BonesId[Name]].AllFrames = TempFrames;
 		}
 	}
 public:
