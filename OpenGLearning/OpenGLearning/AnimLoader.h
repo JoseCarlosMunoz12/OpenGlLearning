@@ -236,7 +236,8 @@ class CLoader: public AnimInf
 			for (int jj = 0; jj <NumOfRot; jj++)
 			{
 				float FTime = Temps->mRotationKeys[jj].mTime;
-				Joints TempJoint;
+				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;
+				Joints TempJoint; 
 				TempJoint.Offset = glm::vec3(1.f);
 				TempJoint.Scale = glm::vec3(1.f);
 				TempFrames.push_back(new Frames(FTime, TempJoint));
