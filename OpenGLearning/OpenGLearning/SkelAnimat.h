@@ -73,6 +73,7 @@ private:
 			}
 			Count++;
 		}
+
 		return {AnimFrames[Count-1],AnimFrames[Count]};
 	}
 public:
@@ -92,7 +93,7 @@ public:
 	{
 		std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
 		float Ratio = this->GetTimeRatio(CurTime, Found);
-		//glm::quat newQuat = this->Interpolate(Found[0]->ReturnRot().GetQuat(), Found[1]->ReturnRot().GetQuat(), Ratio);
+		glm::quat newQuat = this->Interpolate(Found[0]->ReturnRot().GetQuat(), Found[1]->ReturnRot().GetQuat(), Ratio);
 		//this->CurOffset = this->AveragePos(Found[0]->GetOffset(), Found[1]->GetOffset(), Ratio);
 		this->UpdateMatrix();
 		if (ParentId != "NULL")
@@ -145,8 +146,7 @@ public:
 	{
 		Matrix = glm::mat4(1.f);
 		Matrix = glm::translate(Matrix,this->CurOffset);	
-		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
-		Matrix *= Quats;
+		Matrix *= glm::mat4_cast(this->CurRot.GetQuat());
 		Matrix = glm::translate(Matrix, -this->CurOffset);
 		Matrix = glm::scale(Matrix, this->CurScale);
 	

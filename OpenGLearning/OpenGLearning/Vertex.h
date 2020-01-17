@@ -79,8 +79,8 @@ struct QuatParts
 		Temp.x = UnitVec.x * glm::sin(RadAngle / 2);
 		Temp.y = UnitVec.y * glm::sin(RadAngle / 2);
 		Temp.z = UnitVec.z * glm::sin(RadAngle / 2);
-		Temp.w = glm::cos(RadAngle / 2);
-		return Temp;
+		Temp.w = UnitVec.z * glm::sin(RadAngle / 2);
+		return { UnitVec.x * glm::sin(RadAngle / 2),UnitVec.y * glm::sin(RadAngle / 2) ,UnitVec.z * glm::sin(RadAngle / 2) ,UnitVec.z * glm::sin(RadAngle / 2) };
 
 	}
 };

@@ -64,13 +64,11 @@ private:
 	}
 	void UpdateTime(float TimePass)
 	{
+		this->TimePass += TimePass;
 		std::vector<glm::mat4> TempMats;
 		if( (this->TimePass > this->TimeLength) || ( TimePass > this->TimeLength))
 		{
 			this->TimePass = 0;
-		}
-		else {
-			this->TimePass += TimePass;
 		}
 		int Count = 0;
 		for (auto& Bone : OrdRend)
