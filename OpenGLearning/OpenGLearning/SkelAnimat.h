@@ -74,8 +74,8 @@ private:
 			}
 			Count++;
 		}
-		Vals.push_back(AnimFrames[Count - 1]);
 		Vals.push_back(AnimFrames[Count]);
+		Vals.push_back(AnimFrames[Count + 1]);
 		return Vals;
 	}
 public:

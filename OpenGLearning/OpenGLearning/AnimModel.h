@@ -62,7 +62,7 @@ private:
 		}
 
 	}
-	std::vector<glm::mat4> UpdateTime(float TimePass)
+	void UpdateTime(float TimePass)
 	{
 		std::vector<glm::mat4> TempMats;
 		if (TimePass > TimeLength)
@@ -74,10 +74,8 @@ private:
 		}
 		for (auto& Bone : OrdRend)
 		{
-			TempMats.push_back(this->Skeleton[Bone]->GetMat(this->Skeleton));
+			TempMats.push_back(this->Skeleton[Bone]->GetCurMat(this->Skeleton,TimeLength));
 		}
-
-		return TempMats;
 	}
 	void UpdateMats()
 	{
@@ -154,13 +152,19 @@ public:
 		return this->TreeNodes[0]->GetScale();
 	}
 	//Render
-	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix)
+	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix,bool TimeDe)
 	{
 		for (auto& ii : this->TreeNodes)
 		{
 			ii->UpdateMatrix();
 		}
-		this->UpdateMats();
+		if (TimeDe)
+		{
+			this->UpdateTime(TimePass);
+		}
+		else {
+			this->UpdateMats();
+		}		
 		int TempShaderId = this->AnimMat->GetShaderId();
 		this->AnimMat->SendToShader(shader, LightMatrix);
 		int Num = 0;
