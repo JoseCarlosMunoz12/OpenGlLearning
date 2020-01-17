@@ -53,10 +53,13 @@ private:
 		float FrameDif = FrmFound[1]->GetTimeStamp() - FrmFound[0]->GetTimeStamp();
 		return TimeLeft / FrameDif;
 	}
-	glm::quat Interpolate(glm::quat FirstAngle, glm::quat Secondangle, float Ratio)
-	{		
-		return glm::mix(FirstAngle, Secondangle, Ratio);
+	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
+	{
+		float RatioAngle = (FirstAngle.Angle + Secondangle.Angle) * Ratio;
+		glm::vec3 RatioVec = FirstAngle.UnitVec * (1.f - Ratio) + Secondangle.UnitVec * Ratio;
+		return QuatParts(RatioAngle, RatioVec);
 	}
+
 	glm::vec3 AveragePos(glm::vec3 FirstPos, glm::vec3 SecondPos, float Ratio)
 	{
 		glm::vec3 Temp = FirstPos + SecondPos;
@@ -93,8 +96,7 @@ public:
 	{
 		std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
 		float Ratio = this->GetTimeRatio(CurTime, Found);
-		glm::quat newQuat = this->Interpolate(Found[0]->ReturnRot().GetQuat(), Found[1]->ReturnRot().GetQuat(), Ratio);
-		//this->CurOffset = this->AveragePos(Found[0]->GetOffset(), Found[1]->GetOffset(), Ratio);
+		this->CurRot = this->Interpolate(Found[0]->ReturnRot(), Found[1]->ReturnRot(), Ratio);
 		this->UpdateMatrix();
 		if (ParentId != "NULL")
 		{
