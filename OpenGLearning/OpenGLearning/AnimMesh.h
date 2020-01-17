@@ -20,6 +20,7 @@ private:
 	GLuint VBO;
 	GLuint EBO;
 	std::vector<SkelArti> Inits;
+	std::vector<float> TimeInits;
 	std::string NameOfMesh;
 	void InitVAO()
 	{
@@ -103,6 +104,7 @@ public:
 			this->IndexArray[ii] = NewMesh->GetIndices()[ii];
 		}
 		this->Inits = NewMesh->Inits();
+		this->TimeInits = NewMesh->GetTimeLength();
 		this->InitVAO();
 	}
 	~AnimMesh()
@@ -144,5 +146,9 @@ public:
 	std::vector<SkelArti> GetInits()
 	{
 		return this->Inits;
+	}
+	std::vector<float> GetTimes()
+	{
+		return this->TimeInits;
 	}
 };

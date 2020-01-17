@@ -1431,7 +1431,7 @@ void Game::render()
 	} 
 	for (auto& ii : this->animModel)
 	{	
-		ii->Render(this->dt, this->shaders, TempVal,false);
+		ii->Render(this->dt, this->shaders, TempVal,true);
 	}
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);

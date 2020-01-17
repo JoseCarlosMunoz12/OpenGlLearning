@@ -24,6 +24,7 @@ private:
 	std::vector<AnimVertex> Vertices;
 	std::vector<GLuint> Indices;
 	std::vector<SkelArti> SkelsInits;
+	std::vector<float> TimeLength;
 public:
 	void set(const AnimVertex* vertices, const unsigned nrofVertices,
 		const GLuint* indices, const unsigned nrOfIndices)
@@ -37,15 +38,23 @@ public:
 			this->Indices.push_back(indices[i]);
 		}
 	}
-	void set(std::vector<AnimVertex> vertexFound, std::vector<GLuint> indicesFound, std::vector<SkelArti> SkelsInitsFound)
+	void set(std::vector<AnimVertex> vertexFound,
+		std::vector<GLuint> indicesFound,
+		std::vector<SkelArti> SkelsInitsFound,
+		std::vector<float> TimeInit)
 	{
 		this->Vertices = vertexFound;
 		this->Indices = indicesFound;
 		this->SkelsInits = SkelsInitsFound;
+		this->TimeLength = TimeInit;
 	}
 	std::vector<SkelArti> Inits()
 	{
 		return this->SkelsInits;
+	}
+	std::vector<float> GetTimeLength()
+	{
+		return this->TimeLength;
 	}
 	inline AnimVertex* GetVertices() { return this->Vertices.data(); };
 	inline GLuint* GetIndices() { return this->Indices.data(); };
@@ -218,7 +227,7 @@ class CLoader: public AnimInf
 			}
 		}
 	}
-	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> &SkelsInit)
+	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> &SkelsInit,std::vector<float> &TimeInit)
 	{
 		if (!scene->HasAnimations())
 		{
@@ -227,6 +236,7 @@ class CLoader: public AnimInf
 		}
 		aiAnimation* AnimFound = scene->mAnimations[0];
 		int AmountOfAnim = AnimFound->mNumChannels;
+		TimeInit.push_back(AnimFound->mDuration);
 		for (int ii = 0; ii < AmountOfAnim; ii++)
 		{
 			int NumOfRot = AnimFound->mChannels[ii]->mNumRotationKeys;
@@ -266,6 +276,7 @@ public:
 		std::vector<AnimVertex> FinalVer;
 		std::vector<GLuint> FinalInd;
 		std::vector<SkelArti> SkelsInits;
+		std::vector<float> TimeInits;
 		std::string File = "Models/ModelCol/";
 		File += FileName;
 		Assimp::Importer importer;
@@ -276,7 +287,7 @@ public:
 		this->MakeSkelsArt(scene,SkelsInits);
 		this->SetEachNodes(scene,SkelsInits);	
 		this->IndexBones(meshes,FinalVer);	
-		this->GetAnimFrams(scene,SkelsInits);
-		this->set(FinalVer, FinalInd,SkelsInits);
+		this->GetAnimFrams(scene,SkelsInits,TimeInits);
+		this->set(FinalVer, FinalInd,SkelsInits,TimeInits);
 	}
 };

@@ -65,17 +65,15 @@ private:
 	void UpdateTime(float TimePass)
 	{
 		std::vector<glm::mat4> TempMats;
-		if (TimePass > TimeLength)
+		if (this->TimePass > TimeLength)
 		{
 			this->TimePass = 0;
 		}
 		else {
 			this->TimePass += TimePass;
 		}
-		for (auto& Bone : OrdRend)
-		{
-			TempMats.push_back(this->Skeleton[Bone]->GetCurMat(this->Skeleton,TimeLength));
-		}
+		std::cout << this->TimePass << "\n";
+		this->UpdateMats();
 	}
 	void UpdateMats()
 	{
@@ -104,7 +102,8 @@ public:
 		:Name(ModName), AnimMat(material)
 	{
 		this->Tex = OrTexSpec;
-		this->meshes.push_back(AnimMeshToUse);		
+		this->meshes.push_back(AnimMeshToUse);
+		this->TimeLength = AnimMeshToUse->GetTimes()[0];
 		this->MakeSkeleton(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
 		this->GetCurMat();
@@ -152,13 +151,13 @@ public:
 		return this->TreeNodes[0]->GetScale();
 	}
 	//Render
-	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix,bool TimeDe)
+	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix,bool TimeDep)
 	{
 		for (auto& ii : this->TreeNodes)
 		{
 			ii->UpdateMatrix();
 		}
-		if (TimeDe)
+		if (TimeDep)
 		{
 			this->UpdateTime(TimePass);
 		}
