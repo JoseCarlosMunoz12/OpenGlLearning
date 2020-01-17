@@ -115,6 +115,7 @@ private:
 	int DirLightsToShow = -1;
 	int CnLightsToShow = -1;
 	int ArLightsToShow = -1;
+	bool StarAnim = false;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
 	std::vector<AnimMesh*> animMeshes;
