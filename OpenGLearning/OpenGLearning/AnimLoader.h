@@ -255,8 +255,8 @@ class CLoader: public AnimInf
 				}
 				else {
 					VecQuat = glm::vec3(TempQuat.x / glm::sin(AngleRad),
-						TempQuat.y / glm::sin(AngleRad),
-						TempQuat.z / glm::sin(AngleRad));
+					TempQuat.y / glm::sin(AngleRad),
+					TempQuat.z / glm::sin(AngleRad));
 				}
 				AngleRad = AngleRad / glm::pi<float>() * 180.f;
 				QuatParts TempQuats = QuatParts(AngleRad, glm::vec3(VecQuat.x, VecQuat.y, -1 * VecQuat.z));

@@ -65,15 +65,21 @@ private:
 	void UpdateTime(float TimePass)
 	{
 		std::vector<glm::mat4> TempMats;
-		if (this->TimePass > TimeLength)
+		if( (this->TimePass > this->TimeLength) || ( TimePass > this->TimeLength))
 		{
 			this->TimePass = 0;
 		}
 		else {
 			this->TimePass += TimePass;
 		}
-		std::cout << this->TimePass << "\n";
-		this->UpdateMats();
+		int Count = 0;
+		for (auto& Bone : OrdRend)
+		{
+			this->Skeleton[Bone]->GetCurMat(this->Skeleton,this->TimePass);
+			this->AllMats[Count] = this->Skeleton[Bone]->GetMat(Skeleton);
+			Count++;
+		}
+		
 	}
 	void UpdateMats()
 	{
