@@ -56,6 +56,15 @@ private:
 	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
 	{
 		float RatioAngle = FirstAngle.Angle +  (Secondangle.Angle - FirstAngle.Angle) * Ratio;
+		if (RatioAngle > 0)
+		{
+			RatioAngle -= 180;
+		}
+		else if (RatioAngle < 0)
+		{
+			RatioAngle += 180;
+		}
+
 		glm::vec3 RatioVec = FirstAngle.UnitVec * (1.f - Ratio) + Secondangle.UnitVec * Ratio;
 		return QuatParts(RatioAngle, RatioVec);
 	}
