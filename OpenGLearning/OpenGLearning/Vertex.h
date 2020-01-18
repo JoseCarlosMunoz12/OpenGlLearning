@@ -70,7 +70,7 @@ struct QuatParts
 	QuatParts(float InitAngle, glm::vec3 InitVec)
 	{
 		this->Angle = InitAngle;
-		this->UnitVec = InitVec;
+		this->UnitVec = glm::normalize(InitVec);
 	}
 	glm::quat GetQuat()
 	{
@@ -79,8 +79,8 @@ struct QuatParts
 		Temp.x = UnitVec.x * glm::sin(RadAngle / 2);
 		Temp.y = UnitVec.y * glm::sin(RadAngle / 2);
 		Temp.z = UnitVec.z * glm::sin(RadAngle / 2);
-		Temp.w = UnitVec.z * glm::sin(RadAngle / 2);
-		return { UnitVec.x * glm::sin(RadAngle / 2),UnitVec.y * glm::sin(RadAngle / 2) ,UnitVec.z * glm::sin(RadAngle / 2) ,UnitVec.z * glm::sin(RadAngle / 2) };
+		Temp.w = glm::cos(RadAngle / 2);
+		return Temp;
 
 	}
 };

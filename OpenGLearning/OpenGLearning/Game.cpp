@@ -1112,6 +1112,7 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		ImGui::TreePop();
 		}
 		ImGui::Checkbox("Other window", &this->OtherWindow);
+		ImGui::Checkbox("Start Animation", &this->StarAnim);
 
 		if (ImGui::Button("Release Models"))
 		{
@@ -1431,7 +1432,7 @@ void Game::render()
 	} 
 	for (auto& ii : this->animModel)
 	{	
-		ii->Render(this->dt, this->shaders, TempVal,true);
+		ii->Render(this->dt, this->shaders, TempVal,this->StarAnim);
 	}
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);

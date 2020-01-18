@@ -73,8 +73,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			this->Skeleton[Bone]->GetCurMat(this->Skeleton,this->TimePass);
-			this->AllMats[Count] = this->Skeleton[Bone]->GetMat(Skeleton);
+			this->AllMats[Count] = this->Skeleton[Bone]->GetCurMat(this->Skeleton,this->TimePass);
 			Count++;
 		}
 		
@@ -165,9 +164,11 @@ public:
 		{
 			this->UpdateTime(TimePass);
 		}
-		else {
+		else
+		{
 			this->UpdateMats();
-		}		
+		}
+			
 		int TempShaderId = this->AnimMat->GetShaderId();
 		this->AnimMat->SendToShader(shader, LightMatrix);
 		int Num = 0;

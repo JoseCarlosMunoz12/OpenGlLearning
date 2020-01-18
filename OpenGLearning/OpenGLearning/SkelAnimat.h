@@ -55,7 +55,7 @@ private:
 	}
 	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
 	{
-		float RatioAngle = (FirstAngle.Angle + Secondangle.Angle) * Ratio;
+		float RatioAngle = FirstAngle.Angle +  (Secondangle.Angle - FirstAngle.Angle) * Ratio;
 		glm::vec3 RatioVec = FirstAngle.UnitVec * (1.f - Ratio) + Secondangle.UnitVec * Ratio;
 		return QuatParts(RatioAngle, RatioVec);
 	}
@@ -100,7 +100,7 @@ public:
 		this->UpdateMatrix();
 		if (ParentId != "NULL")
 		{
-			return Temp[ParentId]->GetCurMat(Temp, CurTime) * this->Matrix ;
+			return Temp[ParentId]->GetMat(Temp) * this->Matrix ;
 		}
 		else {
 			return this->Matrix;
@@ -148,9 +148,9 @@ public:
 	{
 		Matrix = glm::mat4(1.f);
 		Matrix = glm::translate(Matrix,this->CurOffset);	
-		Matrix *= glm::mat4_cast(this->CurRot.GetQuat());
+		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
+		Matrix *= Quats;
 		Matrix = glm::translate(Matrix, -this->CurOffset);
-		Matrix = glm::scale(Matrix, this->CurScale);
-	
+		Matrix = glm::scale(Matrix, this->CurScale);	
 	}
 };
