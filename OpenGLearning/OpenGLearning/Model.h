@@ -97,9 +97,13 @@ public:
 	{
 		return this->TreeNodes[0]->GetOrigin();
 	}
-	QuatParts GetgRotation()
+	glm::quat GetRotation()
 	{
 		return this->TreeNodes[0]->GetRotation();
+	}
+	glm::vec3 GetRotEuler()
+	{
+		return this->TreeNodes[0]->GetRotEuler();
 	}
 	std::vector<Nodes*> GetNodesInfo()
 	{

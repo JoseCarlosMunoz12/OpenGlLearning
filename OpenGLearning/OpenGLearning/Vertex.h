@@ -95,7 +95,7 @@ private:
 public:
 	glm::vec3 Position;
 	glm::vec3 Origin;
-	QuatParts Rotation;
+	glm::quat Rotation;
 	glm::vec3 Scale;
 	int ParentId;
 	int MeshId;
@@ -105,11 +105,11 @@ public:
 		this->Origin = glm::vec3(0.f);
 		this->Scale = glm::vec3(1.f);
 		this->Position = glm::vec3(0.f);
-		this->Rotation = QuatParts();
+		this->Rotation = glm::quat(glm::vec3(0.f));
 		this->MeshId = 0;
 		this->ParentId = 0;
 	}
-	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, QuatParts Rot, glm::vec3 Scale,
+	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, glm::quat Rot, glm::vec3 Scale,
 		int Mesh, int Parent, std::vector<int>Textures)
 	{
 		this->Origin = Origin;
@@ -124,7 +124,7 @@ public:
 struct NodesId
 {
 	glm::vec3 Pos;
-	QuatParts Rot;
+	glm::quat Rot;
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	int ParentId;
@@ -153,7 +153,7 @@ class Nodes
 {
 	Nodes* Parent;
 	glm::vec3 Position;
-	QuatParts Rot;
+	glm::quat Rot;
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
@@ -165,9 +165,30 @@ class Nodes
 		Rot = Rot / 180.f * glm::pi<float>();
 		return Rot;
 	}
+	glm::vec3 ToEulerAngles(glm::quat q)
+	{
+		glm::vec3 Angles;
+		double sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
+		double cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
+		Angles.x = std::atan2(sinr_cosp, cosr_cosp);
+
+		// pitch (y-axis rotation)
+		double sinp = 2 * (q.w * q.y - q.z * q.x);
+		if (std::abs(sinp) >= 1)
+			Angles.y = std::copysign(glm::pi<float>() / 2, sinp); // use 90 degrees if out of range
+		else
+			Angles.y = std::asin(sinp);
+
+		// yaw (z-axis rotation)
+		double siny_cosp = 2 * (q.w * q.z + q.x * q.y);
+		double cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
+		Angles.z = std::atan2(siny_cosp, cosy_cosp);
+
+		return Angles;
+	}
 public:
 	Nodes(Nodes* InitParent,
-		glm::vec3 InitPosition, glm::vec3 Origin, QuatParts InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
+		glm::vec3 InitPosition, glm::vec3 Origin, glm::quat InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
 		:Parent(InitParent), Position(InitPosition),Rot(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
@@ -176,7 +197,7 @@ public:
 		this->MeshId = InitMeshId;
 		this->ParentId = InitParentID;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		Matrix *= glm::mat4_cast(this->Rot.GetQuat());		
+		Matrix *= glm::mat4_cast(this->Rot);		
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 		
@@ -205,7 +226,11 @@ public:
 	{
 		return this->RelPos;
 	}
-	QuatParts GetRotation()
+	glm::vec3 GetRotEuler()
+	{
+		return this->ToEulerAngles(this->Rot);
+	}
+	glm::quat GetRotation()
 	{
 		return this->Rot;
 	}
@@ -226,7 +251,7 @@ public:
 	{
 		this->Matrix = glm::mat4(1.f);
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		glm::mat4 Temps = glm::mat4_cast(this->Rot.GetQuat());
+		glm::mat4 Temps = glm::mat4_cast(this->Rot);
 		Matrix *= Temps;
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
@@ -240,7 +265,11 @@ public:
 	{
 		this->Origin = origin;
 	}
-	void SetRotation(const QuatParts Parts)
+	void SetRotEuler(glm::vec3 NewAngles)
+	{
+		this->Rot = glm::quat(NewAngles);
+	}
+	void SetRotation(glm::quat Parts)
 	{
 		this->Rot = Parts;
 	}
