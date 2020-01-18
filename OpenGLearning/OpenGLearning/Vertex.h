@@ -146,7 +146,7 @@ struct Joints
 {
 	glm::vec3 Offset;	
 	glm::vec3 Scale;
-	QuatParts Rot;
+	glm::quat Rot;
 };
 
 class Nodes
@@ -163,28 +163,18 @@ class Nodes
 	glm::vec3 Convert(glm::vec3 Rot)
 	{
 		Rot = Rot / 180.f * glm::pi<float>();
+		
 		return Rot;
 	}
+	glm::vec3 ConvertDeg(glm::vec3 Rot)
+	{
+		Rot = Rot * 180.f / glm::pi<float>();
+		return Rot;
+	}
+
 	glm::vec3 ToEulerAngles(glm::quat q)
 	{
-		glm::vec3 Angles;
-		double sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
-		double cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
-		Angles.x = std::atan2(sinr_cosp, cosr_cosp);
-
-		// pitch (y-axis rotation)
-		double sinp = 2 * (q.w * q.y - q.z * q.x);
-		if (std::abs(sinp) >= 1)
-			Angles.y = std::copysign(glm::pi<float>() / 2, sinp); // use 90 degrees if out of range
-		else
-			Angles.y = std::asin(sinp);
-
-		// yaw (z-axis rotation)
-		double siny_cosp = 2 * (q.w * q.z + q.x * q.y);
-		double cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
-		Angles.z = std::atan2(siny_cosp, cosy_cosp);
-
-		return Angles;
+		return glm::eulerAngles(q);
 	}
 public:
 	Nodes(Nodes* InitParent,
@@ -228,7 +218,7 @@ public:
 	}
 	glm::vec3 GetRotEuler()
 	{
-		return this->ToEulerAngles(this->Rot);
+		return this->ConvertDeg(this->ToEulerAngles(this->Rot));
 	}
 	glm::quat GetRotation()
 	{
@@ -267,7 +257,8 @@ public:
 	}
 	void SetRotEuler(glm::vec3 NewAngles)
 	{
-		this->Rot = glm::quat(NewAngles);
+
+		this->Rot = glm::quat(this->Convert(NewAngles));
 	}
 	void SetRotation(glm::quat Parts)
 	{

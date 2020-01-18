@@ -4,7 +4,11 @@
 #include <map> 
 #include <algorithm>
 class Frames
-{
+{ 
+	glm::vec3 Convert(glm::vec3 Rot)
+	{
+
+	}
 	float TimeStamp;	
 	Joints Joint_Trans;
 public:
@@ -13,7 +17,7 @@ public:
 		this->TimeStamp = InitTimeStamp;
 		this->Joint_Trans = InitJoints;
 	}
-	QuatParts ReturnRot()
+	glm::quat ReturnRot()
 	{
 		return this->Joint_Trans.Rot;
 	}
@@ -29,7 +33,7 @@ public:
 	{
 		return this->TimeStamp;
 	}
-	void SetRot(QuatParts NewRot)
+	void SetRot(glm::quat NewRot)
 	{
 		this->Joint_Trans.Rot = NewRot;
 	}
@@ -45,7 +49,7 @@ private:
 	std::vector<Frames*> AnimFrames;
 	glm::vec3 CurOffset;
 	glm::vec3 CurScale;
-	QuatParts CurRot;
+	glm::quat CurRot;
 	glm::mat4 Matrix;
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
@@ -53,11 +57,9 @@ private:
 		float FrameDif = FrmFound[1]->GetTimeStamp() - FrmFound[0]->GetTimeStamp();
 		return TimeLeft / FrameDif;
 	}
-	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
+	glm::quat Interpolate(glm::quat FirstAngle, glm::quat Secondangle, float Ratio)
 	{
-		float RatioAngle = FirstAngle.Angle +  (Secondangle.Angle - FirstAngle.Angle) * Ratio;
-		glm::vec3 RatioVec = FirstAngle.UnitVec * (1.f - Ratio) + Secondangle.UnitVec * Ratio;
-		return QuatParts(RatioAngle, RatioVec);
+		return glm::mix(FirstAngle, Secondangle, Ratio);
 	}
 
 	glm::vec3 AveragePos(glm::vec3 FirstPos, glm::vec3 SecondPos, float Ratio)
@@ -81,7 +83,7 @@ private:
 	}
 public:
 	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::vec3 InitOffset,
-		QuatParts InitQuat = QuatParts(),glm::vec3 InitScale = glm::vec3(1.f))
+		glm::quat InitQuat =glm::quat(glm::vec3(0.f)),glm::vec3 InitScale = glm::vec3(1.f))
 		:CurOffset(InitOffset),CurScale(InitScale),CurRot(InitQuat)
 	{
 		this->ParentId = ParentName;
@@ -120,7 +122,7 @@ public:
 	{
 		return this->ParentId;
 	}
-	QuatParts GetRot()
+	glm::quat GetRot()
 	{
 		return this->CurRot;
 	}
@@ -132,7 +134,7 @@ public:
 	{
 		return this->CurScale;
 	}
-	void SetRot(QuatParts NewRot)
+	void SetRot(glm::quat NewRot)
 	{
 		this->CurRot = NewRot;
 	}
@@ -148,7 +150,7 @@ public:
 	{
 		Matrix = glm::mat4(1.f);
 		Matrix = glm::translate(Matrix,this->CurOffset);	
-		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
+		glm::mat4 Quats = glm::mat4_cast(this->CurRot);
 		Matrix *= Quats;
 		Matrix = glm::translate(Matrix, -this->CurOffset);
 		Matrix = glm::scale(Matrix, this->CurScale);	

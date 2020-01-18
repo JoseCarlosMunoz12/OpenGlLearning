@@ -476,7 +476,16 @@ void Game::ImGuiOptions()
 									ImGui::TreePop();
 								}
 								//Rotation								
-							
+								glm::vec3 VecRot = ii->GetRotEuler();
+								ImGui::Text("Node Rotation Eulor Angle ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecRot.x, VecRot.y, VecRot.z);
+								if (ImGui::TreeNode("Node Rotation"))
+								{
+									ImGui::SliderFloat("X Rot", &VecRot.x, -180.f, 180.f);
+									ImGui::SliderFloat("Y Rot", &VecRot.y, -180.f, 180.f);
+									ImGui::SliderFloat("Z Rot", &VecRot.z, -180.f, 180.f);
+									ii->SetRotEuler(VecRot);
+									ImGui::TreePop();
+								}
 								//Scale
 								glm::vec3 VecS = ii->GetScale();
 								ImGui::Text("Node Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecS.x, VecS.y, VecS.z);
