@@ -638,6 +638,23 @@ void Game::ImGuiOptions()
 						}
 						ImGui::TreePop();
 					}
+					if(ImGui::TreeNode("Animation Time"))
+					{ 
+						float AnimTime = this->animModel[this->AnimModelToMake]->GetTimePass();
+						float AnimLength = this->animModel[this->AnimModelToMake]->GetAnimLength();
+						ImGui::Text("Time Pass %f(s)",AnimTime);
+						ImGui::TreePop();
+						ImGui::Checkbox("Start Animation", &this->StarAnim);
+						if (this->StarAnim)
+						{
+							ImGui::Checkbox("Slider Animation", &this->SliderAnim);
+							if (this->SliderAnim)
+							{
+								ImGui::SliderFloat("Control Time Loc", &this->TimePass, 0.f, AnimLength);
+							}
+
+						}
+					}
 				}
 			}
 			else
@@ -1097,7 +1114,6 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 		ImGui::TreePop();
 		}
 		ImGui::Checkbox("Other window", &this->OtherWindow);
-		ImGui::Checkbox("Start Animation", &this->StarAnim);
 
 		if (ImGui::Button("Release Models"))
 		{
@@ -1394,6 +1410,10 @@ void Game::update()
 	this->updateDT();
 	this->updateInput();
 	this->ImGuiOptions();
+	if (!this->SliderAnim)
+	{
+		this->TimePass = this->dt;
+	}
 }
 
 void Game::render()
@@ -1417,7 +1437,7 @@ void Game::render()
 	} 
 	for (auto& ii : this->animModel)
 	{	
-		ii->Render(this->dt, this->shaders, TempVal,this->StarAnim);
+		ii->Render(this->TimePass, this->shaders, TempVal,this->StarAnim,this->SliderAnim);
 	}
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);

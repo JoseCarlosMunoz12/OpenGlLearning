@@ -253,6 +253,7 @@ class CLoader: public AnimInf
 				if (AngleRad == 0.f || AngleRad >= 179.9f)
 				{
 					VecQuat = glm::vec3(0.f,0.f,1.f);
+					AngleRad -= 90;
 				}
 				else {
 					AngleRad = AngleRad * glm::pi<float>() / 180.f;
@@ -261,7 +262,8 @@ class CLoader: public AnimInf
 					TempQuat.z / glm::sin(AngleRad));
 					AngleRad = AngleRad / glm::pi<float>() * 180.f;
 				}				
-				QuatParts TempQuats = QuatParts(AngleRad, glm::vec3(VecQuat.x, VecQuat.z, -1* VecQuat.y));
+				
+				QuatParts TempQuats = QuatParts(AngleRad, glm::vec3(VecQuat.x, VecQuat.y,  VecQuat.z));
 				Joints TempJoint;  
 				TempJoint.Offset = glm::vec3(1.f);
 				TempJoint.Scale = glm::vec3(1.f);

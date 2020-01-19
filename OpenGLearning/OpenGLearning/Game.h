@@ -115,7 +115,6 @@ private:
 	int DirLightsToShow = -1;
 	int CnLightsToShow = -1;
 	int ArLightsToShow = -1;
-	bool StarAnim = false;
 	// Meshes to reuse and not refind and make.
 	std::vector<Mesh*> meshes;
 	std::vector<AnimMesh*> animMeshes;
@@ -133,7 +132,10 @@ private:
 	int NewTexId0 = -1;
 	int NewTexId1 = -1;
 	int NewMeshID = -1;
-
+	// Animation Bools
+	float TimePass;
+	bool StarAnim = false;
+	bool SliderAnim = false;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);

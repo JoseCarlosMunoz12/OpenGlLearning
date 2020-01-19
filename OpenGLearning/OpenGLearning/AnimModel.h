@@ -25,7 +25,8 @@ private:
 	std::vector<std::string> OrdRend;
 	std::vector<glm::mat4> AllMats;
 	std::string Name;
-	float TimeLength;
+	std::vector<float> TimeLength;
+	int AnimChosen = 0;
 	float TimePass = 0;
 	void MakeSkeleton(std::vector<SkelArti> Inits)
 	{		
@@ -62,11 +63,27 @@ private:
 		}
 
 	}
+	void ControlTime(float TimePass)
+	{
+		if (TimePass >= this->TimeLength[this->AnimChosen])
+		{
+			this->TimePass = this->TimeLength[this->AnimChosen];
+		}
+		else
+		{
+			this->TimePass = TimePass;
+		}
+		int Count = 0;
+		for (auto& Bone : OrdRend)
+		{
+			this->AllMats[Count] = this->Skeleton[Bone]->GetCurMat(this->Skeleton, this->TimePass);
+			Count++;
+		}
+	}
 	void UpdateTime(float TimePass)
 	{
 		this->TimePass += TimePass;
-		std::vector<glm::mat4> TempMats;
-		if( (this->TimePass > this->TimeLength) || ( TimePass > this->TimeLength))
+		if( (this->TimePass > this->TimeLength[AnimChosen]) || ( TimePass > this->TimeLength[AnimChosen]))
 		{
 			this->TimePass = 0;
 		}
@@ -106,7 +123,7 @@ public:
 	{
 		this->Tex = OrTexSpec;
 		this->meshes.push_back(AnimMeshToUse);
-		this->TimeLength = AnimMeshToUse->GetTimes()[0];
+		this->TimeLength = AnimMeshToUse->GetTimes();
 		this->MakeSkeleton(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
 		this->GetCurMat();
@@ -153,8 +170,16 @@ public:
 	{
 		return this->TreeNodes[0]->GetScale();
 	}
+	float GetAnimLength()
+	{
+		return this->TimeLength[this->AnimChosen];
+	}
+	float GetTimePass()
+	{
+		return this->TimePass;
+	}
 	//Render
-	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix,bool TimeDep)
+	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix,bool TimeDep,bool Slider)
 	{
 		for (auto& ii : this->TreeNodes)
 		{
@@ -162,7 +187,14 @@ public:
 		}
 		if (TimeDep)
 		{
-			this->UpdateTime(TimePass);
+			if (Slider)
+			{
+				this->ControlTime(TimePass);
+			}
+			else
+			{
+				this->UpdateTime(TimePass);
+			}
 		}
 		else
 		{
