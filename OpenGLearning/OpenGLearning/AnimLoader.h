@@ -15,7 +15,7 @@ struct SkelArti
 	std::vector<Frames*> AllFrames;
 	glm::vec3 InitOffset;
 	glm::vec3 InitScale;
-	glm::quat InitQuat;
+	QuatParts InitQuat;
 };
 
 class AnimInf
@@ -213,7 +213,7 @@ class CLoader: public AnimInf
 			aiQuaternion TempQuat;
 			TempMat.Decompose(TempScale, TempQuat, TempOffset);			
 			jj.InitOffset = glm::vec3(TempOffset.x,TempOffset.z,-TempOffset.y);
-			jj.InitQuat = glm::quat(glm::vec3(0.f));
+			jj.InitQuat = QuatParts();
 			jj.InitScale = glm::vec3(TempScale.x, TempScale.z, TempScale.y);
 		}		
 	}

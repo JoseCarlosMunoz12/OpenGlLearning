@@ -146,7 +146,7 @@ struct Joints
 {
 	glm::vec3 Offset;	
 	glm::vec3 Scale;
-	glm::quat Rot;
+	QuatParts Rot;
 };
 
 class Nodes

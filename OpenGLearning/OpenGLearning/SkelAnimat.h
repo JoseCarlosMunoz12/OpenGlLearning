@@ -17,7 +17,7 @@ public:
 		this->TimeStamp = InitTimeStamp;
 		this->Joint_Trans = InitJoints;
 	}
-	glm::quat ReturnRot()
+	QuatParts ReturnRot()
 	{
 		return this->Joint_Trans.Rot;
 	}
@@ -33,7 +33,7 @@ public:
 	{
 		return this->TimeStamp;
 	}
-	void SetRot(glm::quat NewRot)
+	void SetRot(QuatParts NewRot)
 	{
 		this->Joint_Trans.Rot = NewRot;
 	}
@@ -49,7 +49,7 @@ private:
 	std::vector<Frames*> AnimFrames;
 	glm::vec3 CurOffset;
 	glm::vec3 CurScale;
-	glm::quat CurRot;
+	QuatParts CurRot;
 	glm::mat4 Matrix;
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
@@ -57,9 +57,9 @@ private:
 		float FrameDif = FrmFound[1]->GetTimeStamp() - FrmFound[0]->GetTimeStamp();
 		return TimeLeft / FrameDif;
 	}
-	glm::quat Interpolate(glm::quat FirstAngle, glm::quat Secondangle, float Ratio)
+	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
 	{
-		return glm::mix(FirstAngle, Secondangle, Ratio);
+		return QuatParts();
 	}
 
 	glm::vec3 AveragePos(glm::vec3 FirstPos, glm::vec3 SecondPos, float Ratio)
@@ -83,7 +83,7 @@ private:
 	}
 public:
 	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::vec3 InitOffset,
-		glm::quat InitQuat =glm::quat(glm::vec3(0.f)),glm::vec3 InitScale = glm::vec3(1.f))
+		QuatParts InitQuat = QuatParts(),glm::vec3 InitScale = glm::vec3(1.f))
 		:CurOffset(InitOffset),CurScale(InitScale),CurRot(InitQuat)
 	{
 		this->ParentId = ParentName;
@@ -122,7 +122,7 @@ public:
 	{
 		return this->ParentId;
 	}
-	glm::quat GetRot()
+	QuatParts GetRot()
 	{
 		return this->CurRot;
 	}
@@ -134,7 +134,7 @@ public:
 	{
 		return this->CurScale;
 	}
-	void SetRot(glm::quat NewRot)
+	void SetRot(QuatParts NewRot)
 	{
 		this->CurRot = NewRot;
 	}
@@ -150,7 +150,7 @@ public:
 	{
 		Matrix = glm::mat4(1.f);
 		Matrix = glm::translate(Matrix,this->CurOffset);	
-		glm::mat4 Quats = glm::mat4_cast(this->CurRot);
+		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
 		Matrix *= Quats;
 		Matrix = glm::translate(Matrix, -this->CurOffset);
 		Matrix = glm::scale(Matrix, this->CurScale);	
