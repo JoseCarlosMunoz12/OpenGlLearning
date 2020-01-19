@@ -59,7 +59,9 @@ private:
 	}
 	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
 	{
-		return QuatParts();
+		float NewAngle = FirstAngle.Angle + (Secondangle.Angle - FirstAngle.Angle) * Ratio;
+		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + Secondangle.UnitVec * Ratio;
+		return QuatParts(NewAngle,NewVec);
 	}
 
 	glm::vec3 AveragePos(glm::vec3 FirstPos, glm::vec3 SecondPos, float Ratio)
