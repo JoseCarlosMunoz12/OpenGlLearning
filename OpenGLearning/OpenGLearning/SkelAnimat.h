@@ -98,9 +98,12 @@ public:
 	}
 	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime)
 	{
-		std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
-		float Ratio = this->GetTimeRatio(CurTime, Found);
-		this->CurRot = this->Interpolate(Found[0]->ReturnRot(), Found[1]->ReturnRot(), Ratio);
+		if (AnimFrames.size() != 0)
+		{
+			std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
+			float Ratio = this->GetTimeRatio(CurTime, Found);
+			this->CurRot = this->Interpolate(Found[0]->ReturnRot(), Found[1]->ReturnRot(), Ratio);
+		}
 		this->UpdateMatrix();
 		if (ParentId != "NULL")
 		{
