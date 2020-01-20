@@ -190,7 +190,7 @@ void Game::initModels()
 		new Mesh(&Cube(),
 			"Cube"));	
 	//animMeshes.push_back(new AnimMesh(&CLoader("TreeTest.dae"), "Test0"));
-	animMeshes.push_back(new AnimMesh(&CLoader("CharRun.dae"), "Test1"));
+	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test1"));
 
 	//
 	//Meshes Componets are made
@@ -642,6 +642,7 @@ void Game::ImGuiOptions()
 					{ 
 						float AnimTime = this->animModel[this->AnimModelToMake]->GetTimePass();
 						float AnimLength = this->animModel[this->AnimModelToMake]->GetAnimLength();
+
 						ImGui::Text("Time Pass %f(s)",AnimTime);
 						ImGui::TreePop();
 						ImGui::Checkbox("Start Animation", &this->StarAnim);
@@ -651,7 +652,24 @@ void Game::ImGuiOptions()
 							if (this->SliderAnim)
 							{
 								ImGui::SliderFloat("Control Time Loc", &this->TimePass, 0.f, AnimLength);
+								for (auto&ii : Temps)
+								{
+									if (ImGui::TreeNode(ii.first.c_str()))
+									{
+										std::vector<Frames*> TempFrames = ii.second->GetFrames();
+										for (auto& Sec : TempFrames)
+										{
+											ImGui::Text("Time Loc %.3f (s)", Sec->GetTimeStamp());
+											QuatParts TQuat = Sec->GetRot();											
+											ImGui::Text("Angle %.3f",TQuat.Angle);
+											ImGui::Text("Unit Vector X = %.3f, Y = %.3f, Z = %.3f", TQuat.UnitVec.x, TQuat.UnitVec.y, TQuat.UnitVec.z);
+
+										}
+										ImGui::TreePop();
+									}
+								}
 							}
+
 
 						}
 					}

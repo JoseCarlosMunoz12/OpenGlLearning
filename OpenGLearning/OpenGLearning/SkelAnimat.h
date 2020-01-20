@@ -17,7 +17,7 @@ public:
 		this->TimeStamp = InitTimeStamp;
 		this->Joint_Trans = InitJoints;
 	}
-	QuatParts ReturnRot()
+	QuatParts GetRot()
 	{
 		return this->Joint_Trans.Rot;
 	}
@@ -102,7 +102,7 @@ public:
 		{
 			std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
 			float Ratio = this->GetTimeRatio(CurTime, Found);
-			this->CurRot = this->Interpolate(Found[0]->ReturnRot(), Found[1]->ReturnRot(), Ratio);
+			this->CurRot = this->Interpolate(Found[0]->GetRot(), Found[1]->GetRot(), Ratio);
 		}
 		this->UpdateMatrix();
 		if (ParentId != "NULL")
@@ -122,6 +122,10 @@ public:
 		else {
 			return this->Matrix;
 		}		
+	}
+	std::vector<Frames*> GetFrames()
+	{
+		return this->AnimFrames;
 	}
 	std::string GetName()
 	{
