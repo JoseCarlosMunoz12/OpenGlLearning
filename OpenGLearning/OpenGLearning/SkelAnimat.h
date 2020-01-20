@@ -81,6 +81,10 @@ private:
 			Count++;
 		}
 
+		if (Count = AnimFrames.size())
+		{
+			return { AnimFrames[Count - 1],AnimFrames[Count-1] };
+		}
 		return {AnimFrames[Count-1],AnimFrames[Count]};
 	}
 public:
