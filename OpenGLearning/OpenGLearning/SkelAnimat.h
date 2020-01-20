@@ -55,6 +55,10 @@ private:
 	{
 		float TimeLeft = CurrTime - FrmFound[0]->GetTimeStamp();
 		float FrameDif = FrmFound[1]->GetTimeStamp() - FrmFound[0]->GetTimeStamp();
+		if (FrameDif == 0)
+		{
+			return 0;
+		}
 		return TimeLeft / FrameDif;
 	}
 	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
@@ -81,7 +85,7 @@ private:
 			Count++;
 		}
 
-		if (Count = AnimFrames.size())
+		if (Count == AnimFrames.size())
 		{
 			return { AnimFrames[Count - 1],AnimFrames[Count-1] };
 		}
