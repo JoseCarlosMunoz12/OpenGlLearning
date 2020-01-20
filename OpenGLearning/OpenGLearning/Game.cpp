@@ -659,10 +659,23 @@ void Game::ImGuiOptions()
 										std::vector<Frames*> TempFrames = ii.second->GetFrames();
 										for (auto& Sec : TempFrames)
 										{
-											ImGui::Text("Time Loc %.3f (s)", Sec->GetTimeStamp());
-											QuatParts TQuat = Sec->GetRot();											
-											ImGui::Text("Angle %.3f",TQuat.Angle);
-											ImGui::Text("Unit Vector X = %.3f, Y = %.3f, Z = %.3f", TQuat.UnitVec.x, TQuat.UnitVec.y, TQuat.UnitVec.z);
+											std::string Value = "Time Loc =" + std::to_string(Sec->GetTimeStamp());
+											if(ImGui::TreeNode(Value.c_str()))
+											{
+												QuatParts TQuat = Sec->GetRot();											
+												ImGui::Text("Angle %.3f",TQuat.Angle);											
+												ImGui::Text("Unit Vector X = %.3f, Y = %.3f, Z = %.3f", TQuat.UnitVec.x, TQuat.UnitVec.y, TQuat.UnitVec.z);
+												bool ChangeDone0 = ImGui::SliderFloat("Angle", &TQuat.Angle, -180, 180.f);
+												bool ChangeDone1 = ImGui::SliderFloat("UnitVec X", &TQuat.UnitVec.x, -1.f, 1.f);
+												bool ChangeDone2 = ImGui::SliderFloat("UnitVec Y", &TQuat.UnitVec.y, -1.f, 1.f);
+												bool ChangeDone3 = ImGui::SliderFloat("UnitVec Z", &TQuat.UnitVec.z, -1.f, 1.f);
+												if (ChangeDone0 || ChangeDone1 || ChangeDone2 || ChangeDone3)
+												{
+													std::cout << "Changed!" << "\n";
+												}
+												ImGui::TreePop();
+
+											}
 
 										}
 										ImGui::TreePop();
