@@ -659,9 +659,11 @@ void Game::ImGuiOptions()
 										std::vector<Frames*> TempFrames = ii.second->GetFrames();
 										for (auto& Sec : TempFrames)
 										{
-											std::string Value = "Time Loc =" + std::to_string(Sec->GetTimeStamp());
+											float TimeStamp = Sec->GetTimeStamp();
+											std::string Value = "Time Loc =" + std::to_string(TimeStamp);
 											if(ImGui::TreeNode(Value.c_str()))
 											{
+												this->TimePass = TimeStamp;
 												QuatParts TQuat = Sec->GetRot();											
 												ImGui::Text("Angle %.3f",TQuat.Angle);											
 												ImGui::Text("Unit Vector X = %.3f, Y = %.3f, Z = %.3f", TQuat.UnitVec.x, TQuat.UnitVec.y, TQuat.UnitVec.z);
@@ -671,7 +673,7 @@ void Game::ImGuiOptions()
 												bool ChangeDone3 = ImGui::SliderFloat("UnitVec Z", &TQuat.UnitVec.z, -1.f, 1.f);
 												if (ChangeDone0 || ChangeDone1 || ChangeDone2 || ChangeDone3)
 												{
-													std::cout << "Changed!" << "\n";
+													Sec->SetRot(TQuat);
 												}
 												ImGui::TreePop();
 

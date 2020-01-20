@@ -83,7 +83,7 @@ private:
 	void UpdateTime(float TimePass)
 	{
 		this->TimePass += TimePass;
-		if( (this->TimePass > this->TimeLength[AnimChosen]) || ( TimePass > this->TimeLength[AnimChosen]))
+		if( (this->TimePass >= this->TimeLength[AnimChosen]) || ( TimePass >= this->TimeLength[AnimChosen]))
 		{
 			this->TimePass = 0;
 		}
