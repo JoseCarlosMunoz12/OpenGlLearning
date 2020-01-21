@@ -295,3 +295,23 @@ public:
 		this->set(FinalVer, FinalInd,SkelsInits,TimeInits);
 	}
 };
+
+class ColAnimLoader : public AnimInf
+{
+public:
+	ColAnimLoader(std::string ModelName, std::string AnimName)
+		:AnimInf()
+	{
+		std::vector<AnimVertex> FinalVer;
+		std::vector<GLuint> FinalInd;
+		std::vector<SkelArti> SkelsInits;
+		std::vector<float> TimeInits;
+		std::string File = "Models/ModelCol/";
+		std::string AnimFile = "";
+		File += ModelName;
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
+
+		this->set(FinalVer, FinalInd, SkelsInits, TimeInits);
+	}
+};
