@@ -172,4 +172,8 @@ public:
 		Matrix = glm::translate(Matrix, -this->CurOffset);
 		Matrix = glm::scale(Matrix, this->CurScale);	
 	}
+	void AddFrame()
+	{
+
+	}
 };

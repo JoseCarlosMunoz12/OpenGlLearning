@@ -95,7 +95,7 @@ private:
 public:
 	glm::vec3 Position;
 	glm::vec3 Origin;
-	glm::quat Rotation;
+	QuatParts Rotation;
 	glm::vec3 Scale;
 	int ParentId;
 	int MeshId;
@@ -105,11 +105,11 @@ public:
 		this->Origin = glm::vec3(0.f);
 		this->Scale = glm::vec3(1.f);
 		this->Position = glm::vec3(0.f);
-		this->Rotation = glm::quat(glm::vec3(0.f));
+		this->Rotation = QuatParts();
 		this->MeshId = 0;
 		this->ParentId = 0;
 	}
-	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, glm::quat Rot, glm::vec3 Scale,
+	MeshsArtifacts(glm::vec3 Pos, glm::vec3 Origin, QuatParts Rot, glm::vec3 Scale,
 		int Mesh, int Parent, std::vector<int>Textures)
 	{
 		this->Origin = Origin;
@@ -124,7 +124,7 @@ public:
 struct NodesId
 {
 	glm::vec3 Pos;
-	glm::quat Rot;
+	QuatParts Rot;
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	int ParentId;
@@ -153,7 +153,7 @@ class Nodes
 {
 	Nodes* Parent;
 	glm::vec3 Position;
-	glm::quat Rot;
+	QuatParts Rot;
 	glm::vec3 Scale;
 	glm::vec3 Origin;
 	glm::mat4 Matrix;
@@ -178,7 +178,7 @@ class Nodes
 	}
 public:
 	Nodes(Nodes* InitParent,
-		glm::vec3 InitPosition, glm::vec3 Origin, glm::quat InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
+		glm::vec3 InitPosition, glm::vec3 Origin, QuatParts InitRotation, glm::vec3 InitScale, int InitParentID, int InitMeshId)
 		:Parent(InitParent), Position(InitPosition),Rot(InitRotation), Scale(InitScale), Origin(Origin),
 		Matrix(glm::mat4(1.f))
 	{
@@ -187,7 +187,7 @@ public:
 		this->MeshId = InitMeshId;
 		this->ParentId = InitParentID;
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		Matrix *= glm::mat4_cast(this->Rot);		
+		Matrix *= glm::mat4_cast(this->Rot.GetQuat());		
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
 		
@@ -216,11 +216,7 @@ public:
 	{
 		return this->RelPos;
 	}
-	glm::vec3 GetRotEuler()
-	{
-		return this->ConvertDeg(this->ToEulerAngles(this->Rot));
-	}
-	glm::quat GetRotation()
+	QuatParts GetRotation()
 	{
 		return this->Rot;
 	}
@@ -241,7 +237,7 @@ public:
 	{
 		this->Matrix = glm::mat4(1.f);
 		this->Matrix = glm::translate(this->Matrix, this->Origin);
-		glm::mat4 Temps = glm::mat4_cast(this->Rot);
+		glm::mat4 Temps = glm::mat4_cast(this->Rot.GetQuat());
 		Matrix *= Temps;
 		this->Matrix = glm::translate(this->Matrix, this->RelPos);
 		this->Matrix = glm::scale(this->Matrix, this->Scale);
@@ -255,12 +251,7 @@ public:
 	{
 		this->Origin = origin;
 	}
-	void SetRotEuler(glm::vec3 NewAngles)
-	{
-
-		this->Rot = glm::quat(this->Convert(NewAngles));
-	}
-	void SetRotation(glm::quat Parts)
+	void SetRotation(QuatParts Parts)
 	{
 		this->Rot = Parts;
 	}

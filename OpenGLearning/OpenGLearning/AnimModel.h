@@ -141,7 +141,7 @@ public:
 	{
 		this->TreeNodes[0]->SetRelPos(NewRelPos);
 	}
-	void SetRot(glm::quat NewRot)
+	void SetRot(QuatParts NewRot)
 	{
 		this->TreeNodes[0]->SetRotation(NewRot);
 	}
@@ -162,7 +162,7 @@ public:
 	{
 		return this->TreeNodes[0]->GetRelPos();
 	}
-	glm::quat GetRot()
+	QuatParts GetRot()
 	{
 		return this->TreeNodes[0]->GetRotation();
 	}

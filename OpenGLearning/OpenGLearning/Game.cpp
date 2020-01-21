@@ -197,12 +197,12 @@ void Game::initModels()
 	//
 
 	//--Static Models Components
-	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), glm::quat(glm::vec3(0.f)), glm::vec3(1.f),
+	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, {0,1,2,3,4,5,6,7});
-	MeshsArtifacts Terrains(glm::vec3(0.f), glm::vec3(0.f), glm::quat(glm::vec3(0.f)), glm::vec3(1.f),
+	MeshsArtifacts Terrains(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, { 0,1,2,3,4,5,6,7 });
-	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), glm::quat(glm::vec3(0.f)), glm::vec3(.1f), 0, 0, { 0,1,2,3,4 });
-	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), glm::quat(glm::vec3(0.f)), glm::vec3(1.f), 0, 0, { 0 });
+	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(.1f), 0, 0, { 0,1,2,3,4 });
+	MeshsArtifacts Flat(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f), 0, 0, { 0 });
 
 	//--Animated Models Components
 	//
@@ -476,14 +476,16 @@ void Game::ImGuiOptions()
 									ImGui::TreePop();
 								}
 								//Rotation								
-								glm::vec3 VecRot = ii->GetRotEuler();
-								ImGui::Text("Node Rotation Eulor Angle ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecRot.x, VecRot.y, VecRot.z);
+								QuatParts VecRot = ii->GetRotation();
+								ImGui::Text("Node Rotation Angle = %f",VecRot.Angle);
+								ImGui::Text("Node Unit Vec"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecRot.UnitVec.x, VecRot.UnitVec.y, VecRot.UnitVec.z);
 								if (ImGui::TreeNode("Node Rotation"))
 								{
-									ImGui::SliderFloat("X Rot", &VecRot.x, -180.f, 180.f);
-									ImGui::SliderFloat("Y Rot", &VecRot.y, -180.f, 180.f);
-									ImGui::SliderFloat("Z Rot", &VecRot.z, -180.f, 180.f);
-									ii->SetRotEuler(VecRot);
+									ImGui::SliderFloat("Angle", &VecRot.Angle, -180.f, 180.f);
+									ImGui::SliderFloat("X Rot", &VecRot.UnitVec.x, -1.f, 1.f);
+									ImGui::SliderFloat("Y Rot", &VecRot.UnitVec.y, -1.f, 1.f);
+									ImGui::SliderFloat("Z Rot", &VecRot.UnitVec.z, -1.f, 1.f);
+									ii->SetRotation(VecRot);
 									ImGui::TreePop();
 								}
 								//Scale
@@ -572,7 +574,10 @@ void Game::ImGuiOptions()
 									ImGui::TreePop();
 								}
 								//Rotation								
-							
+								QuatParts QuatRel = ii->GetRotation();
+								ImGui::Text("Node Angle %.3f", QuatRel.Angle);
+								ImGui::Text("Node Unit Vector"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)",QuatRel.UnitVec.x, QuatRel.UnitVec.y, QuatRel.UnitVec.z);
+
 								//Scale
 								glm::vec3 VecS = ii->GetScale();
 								ImGui::Text("Node Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecS.x, VecS.y, VecS.z);
@@ -680,12 +685,14 @@ void Game::ImGuiOptions()
 											}
 
 										}
-										ImGui::TreePop();
+									if (ImGui::Button("Add Frames"))
+									{
+
+									}
+									ImGui::TreePop();
 									}
 								}
 							}
-
-
 						}
 					}
 				}
