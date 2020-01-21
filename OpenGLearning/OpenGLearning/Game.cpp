@@ -657,11 +657,13 @@ void Game::ImGuiOptions()
 							if (this->SliderAnim)
 							{
 								ImGui::SliderFloat("Control Time Loc", &this->TimePass, 0.f, AnimLength);
+								
 								for (auto&ii : Temps)
 								{
 									if (ImGui::TreeNode(ii.first.c_str()))
 									{
 										std::vector<Frames*> TempFrames = ii.second->GetFrames();
+										int FrameCount = 0;
 										for (auto& Sec : TempFrames)
 										{
 											float TimeStamp = Sec->GetTimeStamp();
@@ -680,14 +682,18 @@ void Game::ImGuiOptions()
 												{
 													Sec->SetRot(TQuat);
 												}
+												if (ImGui::Button("Delete Frame"))
+												{
+													ii.second->DeleteFrame(FrameCount);
+												}											
 												ImGui::TreePop();
-
 											}
-
+											FrameCount++;	
+											
 										}
 									if (ImGui::Button("Add Frames"))
 									{
-
+										ii.second->AddFrame(QuatParts(), glm::vec3(1.f),glm::vec3(1.f), this->TimePass);
 									}
 									ImGui::TreePop();
 									}

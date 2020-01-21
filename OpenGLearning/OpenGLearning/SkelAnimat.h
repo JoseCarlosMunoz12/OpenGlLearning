@@ -172,8 +172,33 @@ public:
 		Matrix = glm::translate(Matrix, -this->CurOffset);
 		Matrix = glm::scale(Matrix, this->CurScale);	
 	}
-	void AddFrame()
+	void DeleteFrame(int FrameCount)
 	{
+		this->AnimFrames.erase(this->AnimFrames.begin() + FrameCount);
+	}
+	void AddFrame(QuatParts NewQuat, glm::vec3 NewOffset, glm::vec3 NewScale,float NewTime)
+	{
+		int Count = 0;
+		for (auto& Frm : AnimFrames)
+		{
+			if (Frm->GetTimeStamp() > NewTime)
+			{
+				break;
+			}
+			Count++;		
+		}
+		Joints TempJoint;
+		TempJoint.Offset = NewOffset;
+		TempJoint.Rot = NewQuat;
+		TempJoint.Scale = NewScale;
+		if (this->AnimFrames.size() == 0)
+		{
+			this->AnimFrames.push_back(new Frames(NewTime, TempJoint));
+		}
+		else
+		{
+			this->AnimFrames.insert(this->AnimFrames.begin() + Count, 1, new Frames(NewTime, TempJoint));
+		}
 
 	}
 };
