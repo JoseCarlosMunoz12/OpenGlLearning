@@ -17,6 +17,11 @@ struct SkelArti
 	glm::vec3 InitScale;
 	QuatParts InitQuat;
 };
+struct AnimArti
+{
+	std::string Name;
+	std::vector<SkelArti> Inits;
+};
 //Base Class for Anim Primitives
 class AnimInf
 {

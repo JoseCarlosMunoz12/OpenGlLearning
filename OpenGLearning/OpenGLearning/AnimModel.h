@@ -42,6 +42,11 @@ private:
 		{
 		}
 	}
+	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
+	{
+
+
+	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
 		int Count = 0;
