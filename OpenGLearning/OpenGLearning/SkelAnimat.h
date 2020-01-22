@@ -232,5 +232,21 @@ public:
 	{
 
 	}
-
+	std::vector<std::string> GetOrder()
+	{
+		return this->Order;
+	}
+	std::string GetAnimName()
+	{
+		return this->Name;
+	}
+	glm::mat4 GetCurMat(std::string BoneName,float TimePass)
+	{
+		return this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
+	}
+	glm::mat4 GetMat(std::string BoneName)
+	{
+		this->Skeleton[BoneName]->UpdateMatrix();
+		return this->Skeleton[BoneName]->GetMat(this->Skeleton);
+	}
 };
