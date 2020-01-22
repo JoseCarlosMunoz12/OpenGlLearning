@@ -202,3 +202,35 @@ public:
 
 	}
 };
+class Animation
+{
+	std::string Name;
+	float TimeLength;
+	std::map<std::string, SkelAn*> Skeleton;
+	std::vector<std::string> Order;
+	void MakeSkeleton(std::vector<SkelArti> Inits)
+	{
+		if (Inits.size() != 0)
+		{
+			for (auto& ii : Inits)
+			{
+				Skeleton[ii.Name] = new SkelAn(ii.AllFrames, ii.Parent, ii.InitOffset, ii.InitQuat, ii.InitScale);
+				Order.push_back(ii.Name);
+			}
+		}
+		else
+		{
+		}
+	}
+public:
+	Animation(std::string NewName, std::vector<SkelArti> Inits)
+	{
+		this->Name = NewName;
+		this->MakeSkeleton(Inits);
+	}
+	~Animation()
+	{
+
+	}
+
+};
