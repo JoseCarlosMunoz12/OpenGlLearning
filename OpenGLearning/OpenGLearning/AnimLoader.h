@@ -17,7 +17,7 @@ struct SkelArti
 	glm::vec3 InitScale;
 	QuatParts InitQuat;
 };
-
+//Base Class for Anim Primitives
 class AnimInf
 {
 private:
@@ -62,9 +62,10 @@ public:
 	inline const unsigned getNrOfIndices() { return this->Indices.size(); }
 	
 };
-
-class CLoader: public AnimInf
+//Base classes for the ASSIMP Loading
+class Loading
 {
+protected:
 	int Tempsas = 0;
 	std::map<std::string, int> BonesId;
 	void SetIndex(AnimVertex* Fn, int BoneId, float BoneWieght)
@@ -235,6 +236,7 @@ class CLoader: public AnimInf
 			return;
 		}
 		aiAnimation* AnimFound = scene->mAnimations[0];
+
 		int AmountOfAnim = AnimFound->mNumChannels;
 		TimeInit.push_back(AnimFound->mDuration);
 		for (int ii = 0; ii < AmountOfAnim; ii++)
@@ -273,9 +275,13 @@ class CLoader: public AnimInf
 			SkelsInit[this->BonesId[Name]].AllFrames = TempFrames;
 		}
 	}
+
+};
+class CLoader: public AnimInf,public Loading
+{
 public:
 	CLoader(const char* FileName)
-		:AnimInf()
+		:AnimInf(),Loading()
 	{
 		std::vector<AnimVertex> FinalVer;
 		std::vector<GLuint> FinalInd;
@@ -296,11 +302,11 @@ public:
 	}
 };
 
-class ColAnimLoader : public AnimInf
+class ColAnimLoader : public AnimInf, public Loading
 {
 public:
 	ColAnimLoader(std::string ModelName, std::string AnimName)
-		:AnimInf()
+		:AnimInf(),Loading()
 	{
 		std::vector<AnimVertex> FinalVer;
 		std::vector<GLuint> FinalInd;
@@ -311,6 +317,12 @@ public:
 		File += ModelName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
+		aiMesh* meshes = scene->mMeshes[0];
+		FinalVer = this->MakeAnimVertex(meshes);
+		FinalInd = this->MakeInd(meshes);
+		this->MakeSkelsArt(scene, SkelsInits);
+		this->SetEachNodes(scene, SkelsInits);
+		this->IndexBones(meshes, FinalVer);
 
 		this->set(FinalVer, FinalInd, SkelsInits, TimeInits);
 	}

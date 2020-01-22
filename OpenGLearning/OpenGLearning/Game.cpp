@@ -647,9 +647,7 @@ void Game::ImGuiOptions()
 					{ 
 						float AnimTime = this->animModel[this->AnimModelToMake]->GetTimePass();
 						float AnimLength = this->animModel[this->AnimModelToMake]->GetAnimLength();
-
 						ImGui::Text("Time Pass %f(s)",AnimTime);
-						ImGui::TreePop();
 						ImGui::Checkbox("Start Animation", &this->StarAnim);
 						if (this->StarAnim)
 						{
@@ -700,7 +698,9 @@ void Game::ImGuiOptions()
 								}
 							}
 						}
+						ImGui::TreePop();
 					}
+
 				}
 			}
 			else
@@ -1176,7 +1176,7 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 
 		ImGui::End();
 	}
-	if (this->OtherWindow)
+	if (this->OtherWindow) 
 	{
 		ImGui::Begin("test", &this->OtherWindow);
 		static int clicked = 0;
@@ -1203,7 +1203,7 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 			ImGui::Text("No Files to Choose from");
 		}
 		std::string TempName = "asdf";
-		static char Name[100] = "Hellow World";
+		static char Name[100] = "";
 		ImGui::InputText(TempName.c_str(), Name, IM_ARRAYSIZE(Name));
 		if (ImGui::Button("Make File"))
 		{

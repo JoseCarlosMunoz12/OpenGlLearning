@@ -29,7 +29,7 @@ private:
 	int AnimChosen = 0;
 	float TimePass = 0;
 	void MakeSkeleton(std::vector<SkelArti> Inits)
-	{		
+	{	
 		if (Inits.size() != 0)
 		{
 			for (auto& ii : Inits)
