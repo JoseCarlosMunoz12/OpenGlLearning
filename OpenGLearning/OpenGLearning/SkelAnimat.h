@@ -220,6 +220,11 @@ public:
 	{
 
 	}
+
+	std::map<std::string, SkelAn*> GetMap()
+	{
+		return this->Skeleton;
+	}
 	std::vector<std::string> GetOrder()
 	{
 		return this->Order;

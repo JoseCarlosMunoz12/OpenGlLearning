@@ -532,7 +532,7 @@ void Game::ImGuiOptions()
 					std::vector<GeneralTextInfo*> ModTex = this->animModel[this->AnimModelToMake]->GetTextures();
 					std::vector<Nodes*> TempNodes = this->animModel[this->AnimModelToMake]->GetNodesInfo();
 					std::vector<AnimMesh*> ModMesh = this->animModel[this->AnimModelToMake]->GetMeshes();
-					std::map<std::string, SkelAn*> Temps = this->animModel[this->AnimModelToMake]->GetArt();
+					std::map<std::string, SkelAn*> Temps = this->animModel[this->AnimModelToMake]->GetArt();					
 					ImGui::Text("AnimModel Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
 					ImGui::Text("AnimModel Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
 					if (ImGui::TreeNode("Anim Textures Used"))
@@ -647,6 +647,9 @@ void Game::ImGuiOptions()
 					{ 
 						float AnimTime = this->animModel[this->AnimModelToMake]->GetTimePass();
 						float AnimLength = this->animModel[this->AnimModelToMake]->GetAnimLength();
+						std::vector<std::string> Anims = this->animModel[this->AnimModelToMake]->AllAnimations();
+						std::string AnimName = this->animModel[this->AnimModelToMake]->GetAnimName();
+						ImGui::Text(AnimName.c_str());
 						ImGui::Text("Time Pass %f(s)",AnimTime);
 						ImGui::Checkbox("Start Animation", &this->StarAnim);
 						if (this->StarAnim)

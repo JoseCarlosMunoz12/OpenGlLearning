@@ -42,6 +42,8 @@ private:
 			}
 			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder);
 		}
+		this->CurAnim = "First";
+		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
 	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
@@ -77,7 +79,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			this->AllMats[Count] = this->Skeleton[Bone]->GetCurMat(this->Skeleton, this->TimePass);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
 			Count++;
 		}
 	}
@@ -91,7 +93,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			this->AllMats[Count] = this->Skeleton[Bone]->GetCurMat(this->Skeleton,this->TimePass);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
 			Count++;
 		}
 		
@@ -101,8 +103,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{	
-			this->Skeleton[Bone]->UpdateMatrix();
-			this->AllMats[Count] = this->Skeleton[Bone]->GetMat(Skeleton);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone);
 			Count++;
 		}	
 	}
@@ -110,7 +111,7 @@ private:
 	{
 		for (auto& Bone :OrdRend)
 		{
-			this->AllMats.push_back(this->Skeleton[Bone]->GetMat(this->Skeleton));
+			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone));
 		}
 	}
 public:
@@ -250,7 +251,7 @@ public:
 	}
 	std::map<std::string, SkelAn*> GetArt()
 	{
-		return this->Skeleton;
+		return this->Animations[this->CurAnim]->GetMap();
 	}
 	std::vector<Nodes*> GetNodesInfo()
 	{
@@ -259,5 +260,18 @@ public:
 	std::vector<AnimMesh*> GetMeshes()
 	{
 		return { this->meshes };
+	}
+	std::vector<std::string> AllAnimations()
+	{
+		std::vector<std::string> AllAnim;
+		for (auto& ii : this->Animations)
+		{
+			AllAnim.push_back(ii.first);
+		}
+		return AllAnim;
+	}
+	std::string GetAnimName()
+	{
+		return this->CurAnim;
 	}
 };
