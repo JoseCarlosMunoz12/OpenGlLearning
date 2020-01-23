@@ -135,6 +135,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimFileMaker.h" />
     <ClInclude Include="AnimLoader.h" />
     <ClInclude Include="AnimMesh.h" />
     <ClInclude Include="AnimModel.h" />
@@ -179,7 +180,7 @@
     <None Include="Shaders\StaticShaders\vertex_core.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SaveFiles\Test.txt" />
+    <Text Include="SaveFiles\Models\Test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

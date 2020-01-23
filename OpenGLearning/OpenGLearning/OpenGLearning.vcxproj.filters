@@ -125,6 +125,9 @@
     <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AnimFileMaker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\StaticShaders\DebugFrag.glsl" />
@@ -141,6 +144,6 @@
     <None Include="Shaders\AnimShaders\BasicAnimVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SaveFiles\Test.txt" />
+    <Text Include="SaveFiles\Models\Test.txt" />
   </ItemGroup>
 </Project>

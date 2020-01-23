@@ -717,6 +717,13 @@ void Game::ImGuiOptions()
 						}
 						ImGui::TreePop();
 					}
+					std::string SaveAnim = "Animation File Name";
+					static char AnimName[100] = "";
+					ImGui::InputText(SaveAnim.c_str(), AnimName, IM_ARRAYSIZE(AnimName));
+					if (ImGui::Button("Save Animation"))
+
+					{
+					}
 				}
 			}
 			else
