@@ -20,32 +20,28 @@ private:
 	std::vector<AnimMesh*> meshes;
 	std::vector<GeneralTextInfo*> Tex;
 	std::vector<Nodes*> TreeNodes;
-	std::vector<int> TextToUse;		
-	std::map<std::string, SkelAn*> Skeleton;
+	std::vector<int> TextToUse;
+	std::map<std::string, Animation*> Animations;
 	std::vector<std::string> OrdRend;
 	std::vector<glm::mat4> AllMats;
 	std::string Name;
+	std::string CurAnim;
 	std::vector<float> TimeLength;
 	int AnimChosen = 0;
 	float TimePass = 0;
-	void MakeSkeleton(std::vector<SkelArti> Inits)
-	{	
-		if (Inits.size() != 0)
-		{
-			for (auto& ii : Inits)
-			{
-				Skeleton[ii.Name] = new SkelAn(ii.AllFrames, ii.Parent,ii.InitOffset,ii.InitQuat,ii.InitScale);
-				OrdRend.push_back(ii.Name);
-			}
-		}
-		else
-		{
-		}
-	}
 	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
 	{
-
-
+		for (auto& ii : AnimInits)
+		{
+			std::map<std::string, SkelAn*> TempMap;
+			std::vector<std::string> TempOrder;
+			for (auto& jj : ii.Inits)
+			{
+				TempMap[jj.Name] = new SkelAn(jj.AllFrames,jj.Parent,jj.InitOffset,jj.InitQuat,jj.InitScale);
+				TempOrder.push_back(jj.Name);
+			}
+			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder);
+		}
 	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
@@ -128,8 +124,8 @@ public:
 	{
 		this->Tex = OrTexSpec;
 		this->meshes.push_back(AnimMeshToUse);
-		this->TimeLength = AnimMeshToUse->GetTimes();
-		this->MakeSkeleton(AnimMeshToUse->GetInits());
+		this->TimeLength = AnimMeshToUse->GetTimes();		
+		this->MakeAnimationInfo(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
 		this->GetCurMat();
 	}

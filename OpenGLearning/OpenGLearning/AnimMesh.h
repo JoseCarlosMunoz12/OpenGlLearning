@@ -19,7 +19,7 @@ private:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;
-	std::vector<SkelArti> Inits;
+	std::vector<AnimArti> Inits;
 	std::vector<float> TimeInits;
 	std::string NameOfMesh;
 	void InitVAO()
@@ -143,7 +143,7 @@ public:
 	{
 		return this->NameOfMesh;
 	}
-	std::vector<SkelArti> GetInits()
+	std::vector<AnimArti> GetInits()
 	{
 		return this->Inits;
 	}

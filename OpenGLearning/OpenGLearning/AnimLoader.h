@@ -29,6 +29,7 @@ private:
 	std::vector<AnimVertex> Vertices;
 	std::vector<GLuint> Indices;
 	std::vector<SkelArti> SkelsInits;
+	std::vector<AnimArti> AnimInits;
 	std::vector<float> TimeLength;
 public:
 	void set(const AnimVertex* vertices, const unsigned nrofVertices,
@@ -45,17 +46,17 @@ public:
 	}
 	void set(std::vector<AnimVertex> vertexFound,
 		std::vector<GLuint> indicesFound,
-		std::vector<SkelArti> SkelsInitsFound,
+		std::vector<AnimArti> SkelsInitsFound,
 		std::vector<float> TimeInit)
 	{
 		this->Vertices = vertexFound;
 		this->Indices = indicesFound;
-		this->SkelsInits = SkelsInitsFound;
+		this->AnimInits = SkelsInitsFound;
 		this->TimeLength = TimeInit;
 	}
-	std::vector<SkelArti> Inits()
+	std::vector<AnimArti> Inits()
 	{
-		return this->SkelsInits;
+		return this->AnimInits;
 	}
 	std::vector<float> GetTimeLength()
 	{
@@ -291,6 +292,7 @@ public:
 		std::vector<AnimVertex> FinalVer;
 		std::vector<GLuint> FinalInd;
 		std::vector<SkelArti> SkelsInits;
+		std::vector<AnimArti> AnimInits;
 		std::vector<float> TimeInits;
 		std::string File = "Models/ModelCol/";
 		File += FileName;
@@ -303,10 +305,10 @@ public:
 		this->SetEachNodes(scene,SkelsInits);	
 		this->IndexBones(meshes,FinalVer);	
 		this->GetAnimFrams(scene,SkelsInits,TimeInits);
-		this->set(FinalVer, FinalInd,SkelsInits,TimeInits);
+		AnimInits.push_back({"First",SkelsInits});
+		this->set(FinalVer, FinalInd,AnimInits,TimeInits);
 	}
 };
-
 class ColAnimLoader : public AnimInf, public Loading
 {
 public:
@@ -329,6 +331,6 @@ public:
 		this->SetEachNodes(scene, SkelsInits);
 		this->IndexBones(meshes, FinalVer);
 
-		this->set(FinalVer, FinalInd, SkelsInits, TimeInits);
+		//this->set(FinalVer, FinalInd, SkelsInits, TimeInits);
 	}
 };
