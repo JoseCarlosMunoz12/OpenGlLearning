@@ -643,12 +643,25 @@ void Game::ImGuiOptions()
 						}
 						ImGui::TreePop();
 					}
-					if(ImGui::TreeNode("Animation Time"))
-					{ 
+					if (ImGui::TreeNode("Animation information"))
+					{
 						float AnimTime = this->animModel[this->AnimModelToMake]->GetTimePass();
 						float AnimLength = this->animModel[this->AnimModelToMake]->GetAnimLength();
 						std::vector<std::string> Anims = this->animModel[this->AnimModelToMake]->AllAnimations();
 						std::string AnimName = this->animModel[this->AnimModelToMake]->GetAnimName();
+						Anims.push_back("Test0");
+						Anims.push_back("Test1");
+						Anims.push_back("Test2");
+						Anims.push_back("Test3");
+						ImGui::ListBoxHeader("All Animations For Model",{200,30});
+						for (auto& jj : Anims)
+						{
+							if (ImGui::Selectable(jj.c_str(), jj == AnimName))
+							{
+
+							}
+						}
+						ImGui::ListBoxFooter();
 						ImGui::Text(AnimName.c_str());
 						ImGui::Text("Time Pass %f(s)",AnimTime);
 						ImGui::Checkbox("Start Animation", &this->StarAnim);
@@ -657,8 +670,7 @@ void Game::ImGuiOptions()
 							ImGui::Checkbox("Slider Animation", &this->SliderAnim);
 							if (this->SliderAnim)
 							{
-								ImGui::SliderFloat("Control Time Loc", &this->TimePass, 0.f, AnimLength);
-								
+								ImGui::SliderFloat("Control Time Loc", &this->TimePass, 0.f, AnimLength);								
 								for (auto&ii : Temps)
 								{
 									if (ImGui::TreeNode(ii.first.c_str()))

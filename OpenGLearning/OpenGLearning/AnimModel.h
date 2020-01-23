@@ -26,7 +26,7 @@ private:
 	std::vector<glm::mat4> AllMats;
 	std::string Name;
 	std::string CurAnim;
-	std::vector<float> TimeLength;
+	float TimeLength;
 	int AnimChosen = 0;
 	float TimePass = 0;
 	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
@@ -40,10 +40,11 @@ private:
 				TempMap[jj.Name] = new SkelAn(jj.AllFrames,jj.Parent,jj.InitOffset,jj.InitQuat,jj.InitScale);
 				TempOrder.push_back(jj.Name);
 			}
-			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder);
+			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder,ii.TimeLength);
 		}
 		this->CurAnim = "First";
 		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
+		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLengtht();
 	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
@@ -68,9 +69,9 @@ private:
 	}
 	void ControlTime(float TimePass)
 	{
-		if (TimePass >= this->TimeLength[this->AnimChosen])
+		if (TimePass >= this->TimeLength)
 		{
-			this->TimePass = this->TimeLength[this->AnimChosen];
+			this->TimePass = this->TimeLength;
 		}
 		else
 		{
@@ -86,7 +87,7 @@ private:
 	void UpdateTime(float TimePass)
 	{
 		this->TimePass += TimePass;
-		if( (this->TimePass >= this->TimeLength[AnimChosen]) || ( TimePass >= this->TimeLength[AnimChosen]))
+		if( (this->TimePass >= this->TimeLength) || ( TimePass >= this->TimeLength))
 		{
 			this->TimePass = 0;
 		}
@@ -124,8 +125,7 @@ public:
 		:Name(ModName), AnimMat(material)
 	{
 		this->Tex = OrTexSpec;
-		this->meshes.push_back(AnimMeshToUse);
-		this->TimeLength = AnimMeshToUse->GetTimes();		
+		this->meshes.push_back(AnimMeshToUse);		
 		this->MakeAnimationInfo(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
 		this->GetCurMat();
@@ -174,7 +174,7 @@ public:
 	}
 	float GetAnimLength()
 	{
-		return this->TimeLength[this->AnimChosen];
+		return this->TimeLength;
 	}
 	float GetTimePass()
 	{
@@ -263,7 +263,7 @@ public:
 	}
 	std::vector<std::string> AllAnimations()
 	{
-		std::vector<std::string> AllAnim;
+		std::vector < std::string > AllAnim;
 		for (auto& ii : this->Animations)
 		{
 			AllAnim.push_back(ii.first);

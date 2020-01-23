@@ -210,17 +210,22 @@ class Animation
 	std::vector<std::string> Order;
 
 public:
-	Animation(std::string NewName, std::map<std::string, SkelAn*> Inits, std::vector <std::string> NewOrder)
+	Animation(std::string NewName, std::map<std::string, SkelAn*> Inits,
+		std::vector <std::string> NewOrder,float NewTimeLength)
 	{
 		this->Name = NewName;
 		this->Skeleton = Inits;
 		this->Order = NewOrder;
+		this->TimeLength = NewTimeLength;
 	}
 	~Animation()
 	{
 
 	}
-
+	float GetTimeLengtht()
+	{
+		return this->TimeLength;
+	}
 	std::map<std::string, SkelAn*> GetMap()
 	{
 		return this->Skeleton;

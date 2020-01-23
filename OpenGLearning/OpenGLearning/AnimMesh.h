@@ -104,7 +104,6 @@ public:
 			this->IndexArray[ii] = NewMesh->GetIndices()[ii];
 		}
 		this->Inits = NewMesh->Inits();
-		this->TimeInits = NewMesh->GetTimeLength();
 		this->InitVAO();
 	}
 	~AnimMesh()

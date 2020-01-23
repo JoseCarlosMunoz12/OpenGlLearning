@@ -19,6 +19,7 @@ struct SkelArti
 };
 struct AnimArti
 {
+	float TimeLength;
 	std::string Name;
 	std::vector<SkelArti> Inits;
 };
@@ -30,7 +31,6 @@ private:
 	std::vector<GLuint> Indices;
 	std::vector<SkelArti> SkelsInits;
 	std::vector<AnimArti> AnimInits;
-	std::vector<float> TimeLength;
 public:
 	void set(const AnimVertex* vertices, const unsigned nrofVertices,
 		const GLuint* indices, const unsigned nrOfIndices)
@@ -46,21 +46,15 @@ public:
 	}
 	void set(std::vector<AnimVertex> vertexFound,
 		std::vector<GLuint> indicesFound,
-		std::vector<AnimArti> SkelsInitsFound,
-		std::vector<float> TimeInit)
+		std::vector<AnimArti> SkelsInitsFound)
 	{
 		this->Vertices = vertexFound;
 		this->Indices = indicesFound;
 		this->AnimInits = SkelsInitsFound;
-		this->TimeLength = TimeInit;
 	}
 	std::vector<AnimArti> Inits()
 	{
 		return this->AnimInits;
-	}
-	std::vector<float> GetTimeLength()
-	{
-		return this->TimeLength;
 	}
 	inline AnimVertex* GetVertices() { return this->Vertices.data(); };
 	inline GLuint* GetIndices() { return this->Indices.data(); };
@@ -305,8 +299,8 @@ public:
 		this->SetEachNodes(scene,SkelsInits);	
 		this->IndexBones(meshes,FinalVer);	
 		this->GetAnimFrams(scene,SkelsInits,TimeInits);
-		AnimInits.push_back({"First",SkelsInits});
-		this->set(FinalVer, FinalInd,AnimInits,TimeInits);
+		AnimInits.push_back({TimeInits[0],"First",SkelsInits});
+		this->set(FinalVer, FinalInd,AnimInits);
 	}
 };
 class ColAnimLoader : public AnimInf, public Loading
@@ -328,7 +322,6 @@ public:
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd = this->MakeInd(meshes);
 		this->MakeSkelsArt(scene, SkelsInits);
-		this->SetEachNodes(scene, SkelsInits);
 		this->IndexBones(meshes, FinalVer);
 
 		//this->set(FinalVer, FinalInd, SkelsInits, TimeInits);
