@@ -44,7 +44,7 @@ private:
 		}
 		this->CurAnim = "First";
 		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
-		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLengtht();
+		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
 	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
@@ -253,6 +253,10 @@ public:
 	{
 		return this->Animations[this->CurAnim]->GetMap();
 	}
+	Animation* GetCurAnim()
+	{
+		return this->Animations[this->CurAnim];
+	}
 	std::vector<Nodes*> GetNodesInfo()
 	{
 		return this->TreeNodes;
@@ -273,5 +277,18 @@ public:
 	std::string GetAnimName()
 	{
 		return this->CurAnim;
+	}
+	void ChangeAnim(std::string NewAnim)
+	{
+		this->CurAnim = NewAnim;
+		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
+	}
+	void AddAnimation(std::string NewAnim)
+	{
+		this->Animations[NewAnim] = new Animation(NewAnim, {}, {},24.f);
+	}
+	void DeleteAnimation(std::string AnimToDelete)
+	{
+		this->Animations.erase(AnimToDelete);
 	}
 };

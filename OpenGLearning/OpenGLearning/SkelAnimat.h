@@ -222,9 +222,13 @@ public:
 	{
 
 	}
-	float GetTimeLengtht()
+	float GetTimeLength()
 	{
 		return this->TimeLength;
+	}
+	void EditTimeLength(float NewTime)
+	{
+		this->TimeLength = NewTime;
 	}
 	std::map<std::string, SkelAn*> GetMap()
 	{

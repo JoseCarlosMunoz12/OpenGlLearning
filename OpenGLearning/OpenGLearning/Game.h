@@ -136,6 +136,7 @@ private:
 	float TimePass;
 	bool StarAnim = false;
 	bool SliderAnim = false;
+	bool EditAnim = false;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
