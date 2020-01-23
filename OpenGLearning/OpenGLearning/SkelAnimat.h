@@ -208,7 +208,6 @@ class Animation
 	float TimeLength;
 	std::map<std::string, SkelAn*> Skeleton;
 	std::vector<std::string> Order;
-
 public:
 	Animation(std::string NewName, std::map<std::string, SkelAn*> Inits,
 		std::vector <std::string> NewOrder,float NewTimeLength)

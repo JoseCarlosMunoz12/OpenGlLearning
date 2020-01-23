@@ -659,7 +659,7 @@ void Game::ImGuiOptions()
 						}
 						if (ImGui::Button("Add Animation"))
 						{
-							
+							this->animModel[this->AnimModelToMake]->AddAnimation("New Anim");
 						}
 						ImGui::ListBoxFooter();
 						ImGui::Text("Time Pass %f(s)",AnimTime);
@@ -667,11 +667,13 @@ void Game::ImGuiOptions()
 						if (this->StarAnim)
 						{
 							ImGui::Checkbox("Slider Animation", &this->SliderAnim);
-							ImGui::Checkbox("Edit Animation", &this->SliderAnim);
-							if (this->SliderAnim && this->EditAnim)
+							if (this->SliderAnim)
 							{
 								ImGui::SliderFloat("Control Time Loc", &this->TimePass, 0.f, AnimLength);
-
+							}
+							ImGui::Checkbox("Edit Animation", &this->EditAnim);
+							if (this->SliderAnim && this->EditAnim)
+							{
 								for (auto&ii : Temps)
 								{
 									if (ImGui::TreeNode(ii.first.c_str()))
