@@ -257,6 +257,15 @@ public:
 	{
 		return this->Animations[this->CurAnim];
 	}
+	std::vector<Animation*> GetAllAnimation()
+	{
+		std::vector<Animation*> TempAnim;
+		for (auto& ii : this->Animations)
+		{
+			TempAnim.push_back(ii.second);
+		}
+		return TempAnim;
+	}
 	std::vector<Nodes*> GetNodesInfo()
 	{
 		return this->TreeNodes;

@@ -120,6 +120,7 @@ private:
 	std::vector<AnimMesh*> animMeshes;
 	//File reader and maker
 	FileRdrMkr RdMkFiles;
+	AnimFileRdrMkr AnimRdrMk;
 	int FileID = -1;
 	std::string FileSave = "";
 	// Empty Variables for new models

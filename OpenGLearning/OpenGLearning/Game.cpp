@@ -721,8 +721,12 @@ void Game::ImGuiOptions()
 					static char AnimName[100] = "";
 					ImGui::InputText(SaveAnim.c_str(), AnimName, IM_ARRAYSIZE(AnimName));
 					if (ImGui::Button("Save Animation"))
-
 					{
+						if (AnimName != "")
+						{
+							AnimRdrMk.WriteFile(this->animModel[this->AnimModelToMake]->GetAllAnimation(),
+								this->animModel[this->AnimModelToMake]->GetAnimName(), AnimName);
+						}
 					}
 				}
 			}
@@ -1393,7 +1397,7 @@ Game::Game(const char * title,
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
 	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
-	RdMkFiles("SaveFiles/")
+	RdMkFiles("SaveFiles/Models/"),AnimRdrMk("SaveFiles/Animations/")
 {
 	
 	this->SkyColor = SkyColor;

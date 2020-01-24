@@ -32,3 +32,4 @@
 #include "AnimMesh.h"
 #include "AnimModel.h"
 #include "SkelAnimat.h"
+#include "AnimFileMaker.h"
