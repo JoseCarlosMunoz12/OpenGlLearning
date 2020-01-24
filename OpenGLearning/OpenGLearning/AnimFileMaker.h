@@ -56,8 +56,8 @@ public:
 				for (auto& kk : TempFrams)
 				{
 					Make << "<<<<t**" << kk->GetTimeStamp() << ">>>>\n";
-					Make << "<<<<<p+" << this->ConvertVec(kk->GetOffset());
-					Make << "q+" << this->ConvertQuat(kk->GetRot());
+					Make << "p+" << this->ConvertVec(kk->GetOffset()) + " ";
+					Make << "q+" << this->ConvertQuat(kk->GetRot()) + " ";
 					Make << "s+" << this->ConvertVec(kk->GetScale()) << "\n";
 				}
 			}
