@@ -37,7 +37,7 @@ public:
 	{
 		this->Joint_Trans.Rot = NewRot;
 	}
-	void NewOffset(glm::vec3 NewOffset)
+	void SetOffset(glm::vec3 NewOffset)
 	{
 		this->Joint_Trans.Offset = NewOffset;
 	}
@@ -99,6 +99,10 @@ public:
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
 		this->Matrix = glm::mat4(1.f);
+		for (auto& jj : this->AnimFrames)
+		{
+			jj->SetOffset(this->CurOffset);
+		}
 	}	
 	~SkelAn()
 	{

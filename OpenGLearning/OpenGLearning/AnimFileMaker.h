@@ -55,13 +55,17 @@ public:
 				std::vector<Frames*> TempFrams = jj.second->GetFrames();
 				for (auto& kk : TempFrams)
 				{
-					Make << "<<<<t**" << kk->GetTimeStamp() << ">>>>\n";
-					Make << "p+" << this->ConvertVec(kk->GetOffset()) + " ";
-					Make << "q+" << this->ConvertQuat(kk->GetRot()) + " ";
-					Make << "s+" << this->ConvertVec(kk->GetScale()) << "\n";
+					Make << kk->GetTimeStamp() << "\n";
+					Make << this->ConvertVec(kk->GetOffset()) + " ";
+					Make << this->ConvertQuat(kk->GetRot()) + " ";
+					Make << this->ConvertVec(kk->GetScale()) << "\n";
 				}
 			}
 		}
 		Make.close();
+	}
+	std::map<std::string, Animation*> ReadFile()
+	{
+
 	}
 };
