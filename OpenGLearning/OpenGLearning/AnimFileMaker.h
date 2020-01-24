@@ -12,11 +12,18 @@ class AnimFileRdrMkr
 	std::string FolderLoc;
 	std::string ConvertVec(glm::vec3 Vec)
 	{
-
+		std::string Temp = "";
+		Temp = std::to_string(Vec.x) + "*";
+		Temp += std::to_string(Vec.y) + "*";
+		Temp += std::to_string(Vec.z) ;
+		return Temp;
 	}
 	std::string ConvertQuat(QuatParts Quat)
 	{
-
+		std::string Temp = "";
+		Temp = std::to_string(Quat.Angle) + "*";
+		Temp += ConvertVec(Quat.UnitVec);
+		return Temp;
 	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
@@ -39,18 +46,20 @@ public:
 		{
 			std::string AnimName = ii->GetAnimName();
 			float AnimLength = ii->GetTimeLength();
-			Make << "<<" + AnimName + "\n";
-			Make << "<<" << AnimLength << "\n";
+			Make << "<<" + AnimName + ">>\n";
+			Make << "<<" << AnimLength << ">>\n";
 			std::map<std::string,SkelAn*> SkelsInf = ii->GetMap();
 			for (auto& jj : SkelsInf)
 			{
-				Make << "<<<" + jj.first+ "\n";
+				Make << "<<<" + jj.first+ ">>>\n";
 				std::vector<Frames*> TempFrams = jj.second->GetFrames();
 				for (auto& kk : TempFrams)
 				{
-					Make << "<<<<" << kk->GetTimeStamp() << "\n";
+					Make << "<<<<t**" << kk->GetTimeStamp() << ">>>>\n";
+					Make << "<<<<<p+" << this->ConvertVec(kk->GetOffset());
+					Make << "q+" << this->ConvertQuat(kk->GetRot());
+					Make << "s+" << this->ConvertVec(kk->GetScale()) << "\n";
 				}
-
 			}
 		}
 		Make.close();
