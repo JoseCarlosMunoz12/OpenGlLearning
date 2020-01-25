@@ -661,6 +661,10 @@ void Game::ImGuiOptions()
 						{
 							this->animModel[this->AnimModelToMake]->AddAnimation("New Anim",.5f);
 						}
+						if (ImGui::Button("Delete Animation"))
+						{
+							this->animModel[this->AnimModelToMake]->DeleteAnimation(AnimName);
+						}
 						ImGui::ListBoxFooter();
 						ImGui::Text("Time Pass %f(s)",AnimTime);
 						ImGui::Checkbox("Start Animation", &this->StarAnim);

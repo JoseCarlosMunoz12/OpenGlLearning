@@ -32,18 +32,20 @@ private:
 	float TimePass = 0;
 	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
 	{
-		std::map<std::string, SkelAn*> TempMap;
+		std::map<std::string, SkelAn*> BaseMap;
 		for (auto& ii : AnimInits)
 		{			
 			std::vector<std::string> TempOrder;
+			std::map<std::string, SkelAn*> TempMap;
 			for (auto& jj : ii.Inits)
 			{
 				TempMap[jj.Name] = new SkelAn(jj.AllFrames,jj.Parent,jj.InitOffset,jj.InitQuat,jj.InitScale);
 				TempOrder.push_back(jj.Name);
+				BaseMap[jj.Name] = new SkelAn({}, jj.Parent, jj.InitOffset, jj.InitQuat, jj.InitScale);
 			}
-			this->BaseSKel = TempMap;
 			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder,ii.TimeLength);
-			TempMap.clear(); 
+			this->BaseSKel = BaseMap;
+			BaseMap.clear();
 		}
 		this->CurAnim = "First";
 		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
