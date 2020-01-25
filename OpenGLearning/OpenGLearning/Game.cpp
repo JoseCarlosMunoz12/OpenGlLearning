@@ -1258,8 +1258,12 @@ void Game::ImGuiOptions()
 		std::string TempName = "Name of File";
 		static char Name[100] = "";
 		ImGui::InputText(TempName.c_str(), Name, IM_ARRAYSIZE(Name));
-		static float f0 = 0.001f;
-		ImGui::InputFloat("input float", &f0, 0.01f, 1.0f, "%.3f");
+		static float NewLength = 0.001f;
+		ImGui::InputFloat("Input Length (s)", &NewLength, 0.001f, .01f, "%.3f");
+		if (ImGui::Button("Add Animation"))
+		{
+			this->animModel[this->AnimModelToMake]->AddAnimation(Name, NewLength);
+		}
 		ImGui::End();
 	}
 }
