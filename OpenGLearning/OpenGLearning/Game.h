@@ -138,6 +138,7 @@ private:
 	bool StarAnim = false;
 	bool SliderAnim = false;
 	bool EditAnim = false;
+	bool AddAnim = false;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);

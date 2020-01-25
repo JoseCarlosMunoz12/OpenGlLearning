@@ -659,7 +659,7 @@ void Game::ImGuiOptions()
 						}
 						if (ImGui::Button("Add Animation"))
 						{
-							this->animModel[this->AnimModelToMake]->AddAnimation("New Anim",.5f);
+							this->AddAnim = true;
 						}
 						if (ImGui::Button("Delete Animation"))
 						{
@@ -678,6 +678,10 @@ void Game::ImGuiOptions()
 							ImGui::Checkbox("Edit Animation", &this->EditAnim);
 							if (this->SliderAnim && this->EditAnim)
 							{
+								if (ImGui::InputFloat("Edit Time Length", &AnimLength, 0.001f, 0.01f, "%.3f"))
+								{
+									this->animModel[this->AnimModelToMake]->SetTime(AnimLength);
+								}
 								for (auto&ii : Temps)
 								{
 									if (ImGui::TreeNode(ii.first.c_str()))
@@ -710,11 +714,11 @@ void Game::ImGuiOptions()
 											}
 											FrameCount++;											
 										}
-									if (ImGui::Button("Add Frames"))
-									{
-										ii.second->AddFrame(QuatParts(), glm::vec3(1.f),glm::vec3(1.f), this->TimePass);
-									}
-									ImGui::TreePop();
+										if (ImGui::Button("Add Frames"))
+										{
+											ii.second->AddFrame(QuatParts(), glm::vec3(1.f),glm::vec3(1.f), this->TimePass);
+										}
+										ImGui::TreePop();
 									}
 								}
 							}
@@ -744,19 +748,19 @@ void Game::ImGuiOptions()
 		ImGui::Spacing();
 		//New Model Customization
 		if (ImGui::TreeNode("PreMade Primtives, Meshes, etc."))
-	{
-		if(ImGui::TreeNode("Shaders"))
 		{
-			for (auto& ii : this->shaders)
+			if(ImGui::TreeNode("Shaders"))
 			{
-				if (ImGui::Selectable(ii->GetName()))
+				for (auto& ii : this->shaders)
 				{
-					std::cout << ii->GetShaderId() << "\n ";
+					if (ImGui::Selectable(ii->GetName()))
+					{
+						std::cout << ii->GetShaderId() << "\n ";
+					}
 				}
+				ImGui::TreePop();
 			}
-			ImGui::TreePop();
-		}
-		if (ImGui::TreeNode("Materials"))
+			if (ImGui::TreeNode("Materials"))
 		{
 			for (auto& ii : this->MatTest)
 			{
@@ -767,7 +771,7 @@ void Game::ImGuiOptions()
 			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("Textures"))
+			if (ImGui::TreeNode("Textures"))
 		{
 			for (auto& ii : this->textures)
 			{
@@ -778,7 +782,7 @@ void Game::ImGuiOptions()
 			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("Meshes"))
+			if (ImGui::TreeNode("Meshes"))
 		{
 			for (auto& ii : this->meshes)
 			{
@@ -789,8 +793,8 @@ void Game::ImGuiOptions()
 			}
 			ImGui::TreePop();
 		}
-		ImGui::TreePop();
-	}
+			ImGui::TreePop();
+		}
 		ImGui::Spacing();
 		ImGui::Spacing();
 		if (ImGui::TreeNode("Lights Information"))
@@ -932,7 +936,7 @@ void Game::ImGuiOptions()
 			}
 			ImGui::TreePop();
 		}
-			if (ImGui::TreeNode("Cone Lights"))
+		if (ImGui::TreeNode("Cone Lights"))
 		{
 			int Count = 0;
 			for (auto& ii : this->CnLights)
@@ -1045,11 +1049,11 @@ void Game::ImGuiOptions()
 			}
 			ImGui::TreePop();
 		}
-			if (ImGui::TreeNode("Point Lights"))
+		if (ImGui::TreeNode("Point Lights"))
 		{
 			ImGui::TreePop();
 		}
-			if (ImGui::TreeNode("Area Lights"))
+		if (ImGui::TreeNode("Area Lights"))
 		{
 			int Count = 0;
 			for (auto& ii : this->ArLights)
@@ -1092,7 +1096,7 @@ void Game::ImGuiOptions()
 				ImGui::Text(" Light Yaw and Pitch (%f,%f)", TempYaw, TempPitch);
 				if (ImGui::SliderFloat("Light Yaw", &TempYaw, -180.f, 180.f))
 				{
-this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
+					this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 				}
 				if (ImGui::SliderFloat("Light Pitch", &TempPitch, -90.f, 0.f))
 				{
@@ -1184,7 +1188,6 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 				{
 					this->ArLights[this->ArLightsToShow]->SetColor(glm::vec3(Cols[0], Cols[1], Cols[2]));
 				}
-
 			}
 			ImGui::TreePop();
 		}
@@ -1247,6 +1250,16 @@ this->ArLights[this->ArLightsToShow]->SetYaw(TempYaw);
 			this->LoadNewModels(RdMkFiles.DecipherFile(this->FileID));
 			this->FileID = -1;
 		}
+		ImGui::End();
+	}
+	if (this->AddAnim)
+	{
+		ImGui::Begin("Add Animation", &this->AddAnim);
+		std::string TempName = "Name of File";
+		static char Name[100] = "";
+		ImGui::InputText(TempName.c_str(), Name, IM_ARRAYSIZE(Name));
+		static float f0 = 0.001f;
+		ImGui::InputFloat("input float", &f0, 0.01f, 1.0f, "%.3f");
 		ImGui::End();
 	}
 }

@@ -156,6 +156,11 @@ public:
 	{
 		this->TreeNodes[0]->SetScale(NewScale);
 	}
+	void SetTime(float NewTimeLength)
+	{
+		this->Animations[this->CurAnim]->EditTimeLength(NewTimeLength);
+		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
+	}
 	//Getters
 	glm::vec3 GetPosition()
 	{
