@@ -659,7 +659,7 @@ void Game::ImGuiOptions()
 						}
 						if (ImGui::Button("Add Animation"))
 						{
-							this->animModel[this->AnimModelToMake]->AddAnimation("New Anim");
+							this->animModel[this->AnimModelToMake]->AddAnimation("New Anim",.5f);
 						}
 						ImGui::ListBoxFooter();
 						ImGui::Text("Time Pass %f(s)",AnimTime);

@@ -21,6 +21,7 @@ private:
 	std::vector<GeneralTextInfo*> Tex;
 	std::vector<Nodes*> TreeNodes;
 	std::vector<int> TextToUse;
+	std::map<std::string, SkelAn*> BaseSKel;
 	std::map<std::string, Animation*> Animations;
 	std::vector<std::string> OrdRend;
 	std::vector<glm::mat4> AllMats;
@@ -31,16 +32,18 @@ private:
 	float TimePass = 0;
 	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
 	{
+		std::map<std::string, SkelAn*> TempMap;
 		for (auto& ii : AnimInits)
-		{
-			std::map<std::string, SkelAn*> TempMap;
+		{			
 			std::vector<std::string> TempOrder;
 			for (auto& jj : ii.Inits)
 			{
 				TempMap[jj.Name] = new SkelAn(jj.AllFrames,jj.Parent,jj.InitOffset,jj.InitQuat,jj.InitScale);
 				TempOrder.push_back(jj.Name);
 			}
+			this->BaseSKel = TempMap;
 			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder,ii.TimeLength);
+			TempMap.clear(); 
 		}
 		this->CurAnim = "First";
 		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
@@ -292,9 +295,9 @@ public:
 		this->CurAnim = NewAnim;
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
 	}
-	void AddAnimation(std::string NewAnim)
+	void AddAnimation(std::string NewAnim,float TimeLength)
 	{
-		this->Animations[NewAnim] = new Animation(NewAnim, {}, {},24.f);
+		this->Animations[NewAnim] = new Animation(NewAnim,BaseSKel, this->OrdRend,TimeLength);
 	}
 	void DeleteAnimation(std::string AnimToDelete)
 	{
