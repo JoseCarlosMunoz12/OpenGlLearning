@@ -733,7 +733,7 @@ void Game::ImGuiOptions()
 						if (AnimName != "")
 						{
 							AnimRdrMk.WriteFile(this->animModel[this->AnimModelToMake]->GetAllAnimation(),
-								this->animModel[this->AnimModelToMake]->GetAnimName(), AnimName);
+								this->animModel[this->AnimModelToMake]->GetName(), AnimName);
 						}
 					}
 				}

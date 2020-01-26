@@ -46,12 +46,12 @@ public:
 		{
 			std::string AnimName = ii->GetAnimName();
 			float AnimLength = ii->GetTimeLength();
-			Make << "<<" + AnimName + ">>\n";
-			Make << "<<" << AnimLength << ">>\n";
+			Make << "--------<< " + AnimName + " >>--------\n";
+			Make << "<< " << AnimLength << " >>\n";
 			std::map<std::string,SkelAn*> SkelsInf = ii->GetMap();
 			for (auto& jj : SkelsInf)
 			{
-				Make << "<<<" + jj.first+ ">>>\n";
+				Make << "<<< " + jj.first+ " >>>\n";
 				std::vector<Frames*> TempFrams = jj.second->GetFrames();
 				for (auto& kk : TempFrams)
 				{
