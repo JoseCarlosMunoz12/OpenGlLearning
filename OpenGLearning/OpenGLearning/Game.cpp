@@ -1263,6 +1263,7 @@ void Game::ImGuiOptions()
 		if (ImGui::Button("Add Animation"))
 		{
 			this->animModel[this->AnimModelToMake]->AddAnimation(Name, NewLength);
+			this->AddAnim = false;
 		}
 		ImGui::End();
 	}

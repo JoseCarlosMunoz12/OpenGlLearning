@@ -41,7 +41,8 @@ private:
 			{
 				TempMap[jj.Name] = new SkelAn(jj.AllFrames,jj.Parent,jj.InitOffset,jj.InitQuat,jj.InitScale);
 				TempOrder.push_back(jj.Name);
-				BaseMap[jj.Name] = new SkelAn({jj.AllFrames[0]}, jj.Parent, jj.InitOffset, jj.InitQuat, jj.InitScale);
+				Frames* TempFrame = new Frames(0.f, {jj.InitOffset,jj.InitScale,QuatParts(0.f)});
+				BaseMap[jj.Name] = new SkelAn({TempFrame}, jj.Parent, jj.InitOffset, jj.InitQuat, jj.InitScale);
 			}
 			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder,ii.TimeLength);
 			this->BaseSKel = BaseMap;
