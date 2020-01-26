@@ -663,7 +663,7 @@ void Game::ImGuiOptions()
 						}
 						if (ImGui::Button("Delete Animation"))
 						{
-							this->animModel[this->AnimModelToMake]->DeleteAnimation(AnimName);
+							AnimName = this->animModel[this->AnimModelToMake]->DeleteAnimation(AnimName);
 						}
 						ImGui::ListBoxFooter();
 						ImGui::Text("Time Pass %f(s)",AnimTime);

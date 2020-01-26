@@ -307,8 +307,18 @@ public:
 	{
 		this->Animations[NewAnim] = new Animation(NewAnim,BaseSKel, this->OrdRend,TimeLength);
 	}
-	void DeleteAnimation(std::string AnimToDelete)
+	std::string DeleteAnimation(std::string AnimToDelete)
 	{
 		this->Animations.erase(AnimToDelete);
+		std::vector<std::string> Temp = this->AllAnimations();
+		if (Temp.size() != 0)
+		{
+			this->CurAnim = this->AllAnimations()[0];
+			return this->CurAnim;
+		}
+		else
+		{
+			return "NULL";
+		}
 	}
 };
