@@ -5,10 +5,6 @@
 #include <algorithm>
 class Frames
 { 
-	glm::vec3 Convert(glm::vec3 Rot)
-	{
-
-	}
 	float TimeStamp;	
 	Joints Joint_Trans;
 public:
