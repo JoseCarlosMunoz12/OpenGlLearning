@@ -311,14 +311,15 @@ public:
 	{
 		this->Animations.erase(AnimToDelete);
 		std::vector<std::string> Temp = this->AllAnimations();
-		if (Temp.size() != 0)
+		if (Temp.size() < 1)
 		{
-			this->CurAnim = this->AllAnimations()[0];
+			this->CurAnim = this->AllAnimations()[1];
 			return this->CurAnim;
 		}
 		else
 		{
-			return "NULL";
+			this->CurAnim = this->AllAnimations()[0];
+			return this->CurAnim;
 		}
 	}
 };

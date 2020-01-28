@@ -298,7 +298,7 @@ public:
 		this->MakeSkelsArt(scene,SkelsInits);
 		this->SetEachNodes(scene,SkelsInits);	
 		this->IndexBones(meshes,FinalVer);
-		AnimInits.push_back({0.f,"NULL",SkelsInits });
+		AnimInits.push_back({0.f,"",SkelsInits });
 		this->GetAnimFrams(scene,SkelsInits,TimeInits);
 		AnimInits.push_back({TimeInits[0],"First",SkelsInits});
 		this->set(FinalVer, FinalInd,AnimInits);

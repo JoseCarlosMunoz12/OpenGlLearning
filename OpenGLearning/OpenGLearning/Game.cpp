@@ -652,9 +652,12 @@ void Game::ImGuiOptions()
 						ImGui::ListBoxHeader("All Animations For Model",{200,60});
 						for (auto& jj : Anims)
 						{
-							if (ImGui::Selectable(jj.c_str(), jj == AnimName))
+							if ( jj != "")
 							{
-								this->animModel[this->AnimModelToMake]->ChangeAnim(jj);
+								if (ImGui::Selectable(jj.c_str(), jj == AnimName))
+								{
+									this->animModel[this->AnimModelToMake]->ChangeAnim(jj);
+								}
 							}
 						}
 						if (ImGui::Button("Add Animation"))
