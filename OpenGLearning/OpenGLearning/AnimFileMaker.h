@@ -64,7 +64,7 @@ public:
 		}
 		Make.close();
 	}
-	std::map<std::string, Animation*> ReadFile()
+	std::vector<AnimArti> ReadFile(std::string FileName)
 	{
 
 	}
