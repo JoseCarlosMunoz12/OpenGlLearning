@@ -58,7 +58,7 @@ public:
 	AnimFileRdrMkr(std::string FolderLoc)
 		:FolderLoc(FolderLoc)
 	{
-
+		this->InitMap();
 	}
 	~AnimFileRdrMkr()
 	{
@@ -107,9 +107,26 @@ public:
 			{
 				std::vector<std::string> out;
 				this->ReturnStringArray(Line, ' ', out);
-				std::cout << out[0] + "\n";
 				switch (this->AnimMap[out[0]])
 				{
+				case ANIMENUM::MODNAME:
+
+					break;
+				case ANIMENUM::ANIMNAME:
+
+					break;
+				case ANIMENUM::ANIMLENGTH:
+
+					break;
+				case ANIMENUM::BONENAME:
+
+					break;
+				case ANIMENUM::S:
+
+					break;
+				case ANIMENUM::PARTS:
+
+					break;
 				default:
 					break;
 				}
