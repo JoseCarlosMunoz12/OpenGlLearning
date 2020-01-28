@@ -9,7 +9,17 @@ namespace fs = std::filesystem;
 
 class AnimFileRdrMkr
 {
+	static enum ANIMENUM
+	{
+		MODNAME,
+		ANIMNAME,
+		ANIMLENGTH,
+		BONENAME,
+		S,
+		PARTS
+	};
 	std::string FolderLoc;
+	std::map<std::string, int> AnimMap;
 	std::string ConvertVec(glm::vec3 Vec)
 	{
 		std::string Temp = "";
@@ -24,6 +34,25 @@ class AnimFileRdrMkr
 		Temp = std::to_string(Quat.Angle) + "*";
 		Temp += ConvertVec(Quat.UnitVec);
 		return Temp;
+	}
+	void ReturnStringArray(std::string const& str, const char delim, std::vector<std::string>& out)
+	{
+		size_t start;
+		size_t end = 0;
+		while ((start = str.find_first_not_of(delim, end)) != std::string::npos)
+		{
+			end = str.find(delim, start);
+			out.push_back(str.substr(start, end - start));
+		}
+	}
+	void InitMap()
+	{
+		this->AnimMap["<ModelName>"] = ANIMENUM::MODNAME;
+		this->AnimMap["<AnimName>"] = ANIMENUM::ANIMNAME;
+		this->AnimMap["<AnimLength>"] = ANIMENUM::ANIMLENGTH;
+		this->AnimMap["<BoneName>"] = ANIMENUM::BONENAME;
+		this->AnimMap["<s>"] = ANIMENUM::S;
+		this->AnimMap["<Parts>"] = ANIMENUM::PARTS;
 	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
@@ -40,7 +69,7 @@ public:
 	{
 		std::ofstream Make;
 		Make.open(this->FolderLoc + FileName + ".txt");
-		Make <<"--------<" + AnimModel + ">--------\n";
+		Make <<"<ModelName> " + AnimModel + "\n";
 
 		for (auto& ii : AllAnim)
 		{
@@ -57,8 +86,8 @@ public:
 					std::vector<Frames*> TempFrams = jj.second->GetFrames();
 					for (auto& kk : TempFrams)
 					{
-						Make <<"s "<< kk->GetTimeStamp() << "\n";
-						Make << this->ConvertVec(kk->GetOffset()) + " ";
+						Make <<"<s> "<< kk->GetTimeStamp() << "\n";
+						Make <<"<Parts> "+ this->ConvertVec(kk->GetOffset()) + " ";
 						Make << this->ConvertQuat(kk->GetRot()) + " ";
 						Make << this->ConvertVec(kk->GetScale()) << "\n";
 					}
@@ -76,7 +105,14 @@ public:
 			std::string Line;
 			while (std::getline(FileData, Line))
 			{
-				std::cout << Line + "\n";
+				std::vector<std::string> out;
+				this->ReturnStringArray(Line, ' ', out);
+				std::cout << out[0] + "\n";
+				switch (this->AnimMap[out[0]])
+				{
+				default:
+					break;
+				}
 			}
 			FileData.close();
 		}
