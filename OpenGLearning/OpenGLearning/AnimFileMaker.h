@@ -45,20 +45,23 @@ public:
 		for (auto& ii : AllAnim)
 		{
 			std::string AnimName = ii->GetAnimName();
-			float AnimLength = ii->GetTimeLength();
-			Make << "--------<< " + AnimName + " >>--------\n";
-			Make << "<< " << AnimLength << " >>\n";
-			std::map<std::string,SkelAn*> SkelsInf = ii->GetMap();
-			for (auto& jj : SkelsInf)
+			if (AnimName != "")
 			{
-				Make << "<<< " + jj.first+ " >>>\n";
-				std::vector<Frames*> TempFrams = jj.second->GetFrames();
-				for (auto& kk : TempFrams)
+				float AnimLength = ii->GetTimeLength();
+				Make << "<AnimName> " + AnimName + "\n";
+				Make << "<AnimLength> " << AnimLength << "\n";
+				std::map<std::string,SkelAn*> SkelsInf = ii->GetMap();
+				for (auto& jj : SkelsInf)
 				{
-					Make << kk->GetTimeStamp() << "\n";
-					Make << this->ConvertVec(kk->GetOffset()) + " ";
-					Make << this->ConvertQuat(kk->GetRot()) + " ";
-					Make << this->ConvertVec(kk->GetScale()) << "\n";
+					Make << "<BoneName> " + jj.first+ "\n";
+					std::vector<Frames*> TempFrams = jj.second->GetFrames();
+					for (auto& kk : TempFrams)
+					{
+						Make <<"s "<< kk->GetTimeStamp() << "\n";
+						Make << this->ConvertVec(kk->GetOffset()) + " ";
+						Make << this->ConvertQuat(kk->GetRot()) + " ";
+						Make << this->ConvertVec(kk->GetScale()) << "\n";
+					}
 				}
 			}
 		}
@@ -66,6 +69,17 @@ public:
 	}
 	std::vector<AnimArti> ReadFile(std::string FileName)
 	{
-
+		std::vector<AnimArti> DataRead;
+		std::fstream FileData(this->FolderLoc + FileName);
+		if (FileData.is_open())
+		{
+			std::string Line;
+			while (std::getline(FileData, Line))
+			{
+				std::cout << Line + "\n";
+			}
+			FileData.close();
+		}
+		return DataRead;
 	}
 };
