@@ -16,7 +16,8 @@ class AnimFileRdrMkr
 		ANIMLENGTH,
 		BONENAME,
 		S,
-		PARTS
+		PARTS,
+		END
 	};
 	std::string FolderLoc;
 	std::map<std::string, int> AnimMap;
@@ -53,6 +54,7 @@ class AnimFileRdrMkr
 		this->AnimMap["<BoneName>"] = ANIMENUM::BONENAME;
 		this->AnimMap["<s>"] = ANIMENUM::S;
 		this->AnimMap["<Parts>"] = ANIMENUM::PARTS;
+		this->AnimMap["<END>"] = ANIMENUM::END;
 	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
@@ -92,6 +94,7 @@ public:
 						Make << this->ConvertVec(kk->GetScale()) << "\n";
 					}
 				}
+				Make << "<END>\n";
 			}
 		}
 		Make.close();
@@ -102,6 +105,7 @@ public:
 		std::fstream FileData(this->FolderLoc + FileName);
 		if (FileData.is_open())
 		{
+			AnimArti Temp;
 			std::string Line;
 			while (std::getline(FileData, Line))
 			{
@@ -110,13 +114,12 @@ public:
 				switch (this->AnimMap[out[0]])
 				{
 				case ANIMENUM::MODNAME:
-
 					break;
 				case ANIMENUM::ANIMNAME:
-
+					Temp.Name = out[1];
 					break;
 				case ANIMENUM::ANIMLENGTH:
-
+					Temp.TimeLength = std::stof(out[1]);
 					break;
 				case ANIMENUM::BONENAME:
 
@@ -125,7 +128,9 @@ public:
 
 					break;
 				case ANIMENUM::PARTS:
-
+					break;
+				case ANIMENUM::END:
+					DataRead.push_back(Temp);
 					break;
 				default:
 					break;
