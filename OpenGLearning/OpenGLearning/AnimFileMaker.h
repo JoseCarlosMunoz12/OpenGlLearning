@@ -116,7 +116,7 @@ public:
 				for (auto& jj : SkelsInf)
 				{
 					Make << "<BoneName> " + jj.first+ "\n";
-					Make << "<BoneParent>" + jj.second->GetName() + "\n";
+					Make << "<BoneParent> " + jj.second->GetName() + "\n";
 					std::vector<Frames*> TempFrams = jj.second->GetFrames();
 					for (auto& kk : TempFrams)
 					{
@@ -140,6 +140,8 @@ public:
 			AnimArti Temp;
 			std::vector<SkelArti> TempSkels;
 			SkelArti TempBone;
+			TempBone.InitOffset = glm::vec3(1.f);
+			TempBone.InitScale = glm::vec3(1.f);
 			float Frame_TimeStamp;
 			std::string Line;
 			while (std::getline(FileData, Line))
@@ -171,8 +173,10 @@ public:
 					Frame_TimeStamp = std::stof(out[1]);
 					break;
 				case ANIMENUM::PARTS:
-					TempBone.AllFrames.push_back(this->GetFrames(Frame_TimeStamp,
-																{out[1],out[2],out[3]}));
+					TempBone.AllFrames.push_back(
+						this->GetFrames(Frame_TimeStamp,
+										{out[1],out[2],out[3]}));
+					TempBone.InitOffset = TempBone.AllFrames[0]->GetOffset();					
 					break;
 				case ANIMENUM::END:					
 					DataRead.push_back(Temp);					
