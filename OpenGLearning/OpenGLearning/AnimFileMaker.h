@@ -15,6 +15,7 @@ class AnimFileRdrMkr
 		ANIMNAME,
 		ANIMLENGTH,
 		BONENAME,
+		BONEPARENT,
 		S,
 		PARTS,
 		END
@@ -84,6 +85,7 @@ class AnimFileRdrMkr
 		this->AnimMap["<s>"] = ANIMENUM::S;
 		this->AnimMap["<Parts>"] = ANIMENUM::PARTS;
 		this->AnimMap["<END>"] = ANIMENUM::END;
+		this->AnimMap["<BoneParent>"] = ANIMENUM::BONEPARENT;
 	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
@@ -114,6 +116,7 @@ public:
 				for (auto& jj : SkelsInf)
 				{
 					Make << "<BoneName> " + jj.first+ "\n";
+					Make << "<BoneParent>" + jj.second->GetName() + "\n";
 					std::vector<Frames*> TempFrams = jj.second->GetFrames();
 					for (auto& kk : TempFrams)
 					{
@@ -154,7 +157,15 @@ public:
 					Temp.TimeLength = std::stof(out[1]);
 					break;
 				case ANIMENUM::BONENAME:
+					if (TempBone.Name != "")
+					{
+						Temp.Inits.push_back(TempBone);
+						TempBone.AllFrames.clear();
+					}
 					TempBone.Name = out[1];					
+					break;
+				case ANIMENUM::BONEPARENT:
+					TempBone.Parent = out[1];
 					break;
 				case ANIMENUM::S:
 					Frame_TimeStamp = std::stof(out[1]);
