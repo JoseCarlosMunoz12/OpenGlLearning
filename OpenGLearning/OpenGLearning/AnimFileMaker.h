@@ -36,6 +36,35 @@ class AnimFileRdrMkr
 		Temp += ConvertVec(Quat.UnitVec);
 		return Temp;
 	}
+	glm::vec3 ToVec3(std::string Info)
+	{
+		std::vector<std::string> out;
+		this->ReturnStringArray(Info, '*', out);
+		return glm::vec3(std::stof(out[0]),
+			std::stof(out[1]), 
+			std::stof(out[2]));
+	}
+	QuatParts ToQuat(std::string Info)
+	{
+		std::vector<std::string> out;
+		this->ReturnStringArray(Info, '*', out);
+		return QuatParts(std::stof(out[0]),
+			glm::vec3(std::stof(out[1]),
+				std::stof(out[2]),
+				std::stof(out[3])));
+	}
+	Joints MakeJoints(std::vector<std::string> Info)
+	{
+		Joints TempJoint;		
+		TempJoint.Offset = this->ToVec3(Info[0]);
+		TempJoint.Rot = this->ToQuat(Info[1]);
+		TempJoint.Scale = this->ToVec3(Info[2]);
+		return TempJoint;
+	}
+	Frames* GetFrames(float TimeStamp, std::vector<std::string> Info)
+	{
+		return new Frames(TimeStamp,this->MakeJoints(Info));		
+	}
 	void ReturnStringArray(std::string const& str, const char delim, std::vector<std::string>& out)
 	{
 		size_t start;
@@ -106,6 +135,9 @@ public:
 		if (FileData.is_open())
 		{
 			AnimArti Temp;
+			std::vector<SkelArti> TempSkels;
+			SkelArti TempBone;
+			float Frame_TimeStamp;
 			std::string Line;
 			while (std::getline(FileData, Line))
 			{
@@ -122,15 +154,17 @@ public:
 					Temp.TimeLength = std::stof(out[1]);
 					break;
 				case ANIMENUM::BONENAME:
-
+					TempBone.Name = out[1];					
 					break;
 				case ANIMENUM::S:
-
+					Frame_TimeStamp = std::stof(out[1]);
 					break;
 				case ANIMENUM::PARTS:
+					TempBone.AllFrames.push_back(this->GetFrames(Frame_TimeStamp,
+																{out[1],out[2],out[3]}));
 					break;
-				case ANIMENUM::END:
-					DataRead.push_back(Temp);
+				case ANIMENUM::END:					
+					DataRead.push_back(Temp);					
 					break;
 				default:
 					break;
