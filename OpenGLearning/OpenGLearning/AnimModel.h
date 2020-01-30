@@ -33,6 +33,7 @@ private:
 	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
 	{
 		std::map<std::string, SkelAn*> BaseMap;
+		this->CurAnim = "";
 		for (auto& ii : AnimInits)
 		{			
 			std::vector<std::string> TempOrder;
@@ -47,8 +48,11 @@ private:
 			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder,ii.TimeLength);
 			this->BaseSKel = BaseMap;
 			BaseMap.clear();
-		}
-		this->CurAnim = "First";
+		}		
+		if (AnimInits.size() != 1)
+		{
+			 this->CurAnim = AnimInits[1].Name;
+		}		
 		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
 	}

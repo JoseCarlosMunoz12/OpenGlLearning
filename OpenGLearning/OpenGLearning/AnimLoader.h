@@ -300,7 +300,10 @@ public:
 		this->IndexBones(meshes,FinalVer);
 		AnimInits.push_back({0.f,"",SkelsInits });
 		this->GetAnimFrams(scene,SkelsInits,TimeInits);
-		AnimInits.push_back({TimeInits[0],"First",SkelsInits});
+		if (TimeInits.size() != 0)
+		{
+			AnimInits.push_back({TimeInits[0],"First",SkelsInits});
+		}
 		this->set(FinalVer, FinalInd,AnimInits);
 	}
 };
