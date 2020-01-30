@@ -190,8 +190,8 @@ void Game::initModels()
 		new Mesh(&Cube(),
 			"Cube"));	
 	//animMeshes.push_back(new AnimMesh(&CLoader("TreeTest.dae"), "Test0"));
-	//animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test1"));
-	animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
+	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test1"));
+	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 	
 
 	//

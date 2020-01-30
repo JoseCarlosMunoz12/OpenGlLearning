@@ -275,7 +275,6 @@ protected:
 			SkelsInit[this->BonesId[Name]].AllFrames = TempFrames;
 		}
 	}
-
 };
 class CLoader: public AnimInf,public Loading
 {
