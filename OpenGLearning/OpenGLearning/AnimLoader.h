@@ -307,18 +307,18 @@ public:
 		this->set(FinalVer, FinalInd,AnimInits);
 	}
 };
-class ColAnimLoader : public AnimInf, public Loading
+class ClAnimLr : public AnimInf, public Loading
 {
 public:
-	ColAnimLoader(std::string ModelName, std::string AnimName)
+	ClAnimLr(std::string ModelName,std::vector<AnimArti> Inits)
 		:AnimInf(),Loading()
 	{
 		std::vector<AnimVertex> FinalVer;
 		std::vector<GLuint> FinalInd;
 		std::vector<SkelArti> SkelsInits;
+		std::vector<AnimArti> AnimInits;
 		std::vector<float> TimeInits;
 		std::string File = "Models/ModelCol/";
-		std::string AnimFile = "";
 		File += ModelName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
@@ -326,8 +326,14 @@ public:
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd = this->MakeInd(meshes);
 		this->MakeSkelsArt(scene, SkelsInits);
+		this->SetEachNodes(scene, SkelsInits);
 		this->IndexBones(meshes, FinalVer);
-
-		//this->set(FinalVer, FinalInd, SkelsInits, TimeInits);
+		AnimInits.push_back({ 0.f,"",SkelsInits});
+		this->GetAnimFrams(scene, SkelsInits, TimeInits);
+		for (auto& jj : Inits)
+		{
+			AnimInits.push_back(jj);
+		}
+		this->set(FinalVer, FinalInd, AnimInits);
 	}
 };

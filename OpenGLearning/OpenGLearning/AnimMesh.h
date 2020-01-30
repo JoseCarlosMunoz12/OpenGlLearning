@@ -87,7 +87,7 @@ private:
 		}
 	}
 public:
-	AnimMesh(CLoader* NewMesh, std::string NewName)
+	AnimMesh(AnimInf* NewMesh, std::string NewName)
 	{
 		this->NameOfMesh = NewName;
 		this->nrOfIndices = NewMesh->getNrOfIndices();

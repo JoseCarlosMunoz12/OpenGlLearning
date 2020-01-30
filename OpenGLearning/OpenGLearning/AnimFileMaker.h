@@ -164,7 +164,7 @@ public:
 						Temp.Inits.push_back(TempBone);
 						TempBone.AllFrames.clear();
 					}
-					TempBone.Name = out[1];					
+					TempBone.Name = out[1];	
 					break;
 				case ANIMENUM::BONEPARENT:
 					TempBone.Parent = out[1];
@@ -178,7 +178,8 @@ public:
 										{out[1],out[2],out[3]}));
 					TempBone.InitOffset = TempBone.AllFrames[0]->GetOffset();					
 					break;
-				case ANIMENUM::END:					
+				case ANIMENUM::END:	
+					Temp.Inits.push_back(TempBone);
 					DataRead.push_back(Temp);					
 					break;
 				default:
