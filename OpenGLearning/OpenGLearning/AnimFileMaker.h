@@ -112,12 +112,13 @@ public:
 				float AnimLength = ii->GetTimeLength();
 				Make << "<AnimName> " + AnimName + "\n";
 				Make << "<AnimLength> " << AnimLength << "\n";
+				std::vector<std::string> Order = ii->GetOrder();
 				std::map<std::string,SkelAn*> SkelsInf = ii->GetMap();
-				for (auto& jj : SkelsInf)
+				for (auto& jj : Order)
 				{
-					Make << "<BoneName> " + jj.first+ "\n";
-					Make << "<BoneParent> " + jj.second->GetName() + "\n";
-					std::vector<Frames*> TempFrams = jj.second->GetFrames();
+					Make << "<BoneName> " + jj + "\n";
+					Make << "<BoneParent> " + SkelsInf[jj]->GetName() + "\n";
+					std::vector<Frames*> TempFrams = SkelsInf[jj]->GetFrames();
 					for (auto& kk : TempFrams)
 					{
 						Make <<"<s> "<< kk->GetTimeStamp() << "\n";

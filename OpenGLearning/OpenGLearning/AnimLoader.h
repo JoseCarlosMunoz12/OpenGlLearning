@@ -328,7 +328,6 @@ public:
 		this->SetEachNodes(scene, SkelsInits);
 		this->IndexBones(meshes, FinalVer);
 		AnimInits.push_back({ 0.f,"",SkelsInits});
-		this->GetAnimFrams(scene, SkelsInits, TimeInits);
 		for (auto& jj : Inits)
 		{
 			AnimInits.push_back(jj);
