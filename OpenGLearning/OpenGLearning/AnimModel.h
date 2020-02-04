@@ -30,9 +30,7 @@ private:
 	std::vector<glm::mat4> AllMats;
 	std::string Name;
 	std::string CurAnim;
-	std::mutex MyMutex;
-	std::vector<std::string> Ord0;
-	std::vector<std::string> Ord1;
+
 	float TimeLength;
 	int AnimChosen = 0;
 	float TimePass = 0;
@@ -64,18 +62,6 @@ private:
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
 		int Temp = OrdRend.size() / 2;
 		int Count = 0;
-		for (auto& jj : this->OrdRend)
-		{
-			if (Count < Temp)
-			{
-				Ord0.push_back(jj);
-			}
-			else
-			{
-				Ord1.push_back(jj);
-			}
-			Count++;
-		}
 	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
@@ -110,8 +96,9 @@ private:
 		}
 		int Count = 0;
 		for (auto& Bone : OrdRend)
-		{			
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
+		{
+			if (Count < 11)
+				this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
 			Count++;
 		}
 	}
@@ -125,32 +112,28 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
+			if (Count < 11)
+				this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
 			Count++;
 		}
 		
 	}
 	void UpdateMats()
 	{
-		auto start = std::chrono::system_clock::now();
-		int Count = 0;
+		/*int Count = 0;
 		for (auto& Bone : OrdRend)
-		{	
+		{	if (Count < 11)
 				this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone);			
 			Count++;
-		}	
-		std::chrono::duration<double> dur = std::chrono::system_clock::now() - start;
-		std::cout << "Time for addition " << dur.count() * 100 << " seconds" << std::endl;
+		}	*/
 	}
 	void GetCurMat()
 	{
 		for (auto& Bone :OrdRend)
 		{
-			
 			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone));
 		}
 	}
-
 public:
 	AnimModel(std::string ModName, glm::vec3 InitPos,
 		StdMat* material,
@@ -165,10 +148,11 @@ public:
 		this->MakeAnimationInfo(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
 		this->GetCurMat();		
+
 	}
 	~AnimModel()
 	{
-
+		
 	}
 	//Setters
 	void SetOrigin(glm::vec3 NewOrigin)
