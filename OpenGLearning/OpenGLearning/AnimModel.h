@@ -113,18 +113,30 @@ private:
 	}
 	void UpdateMats()
 	{
-		int Count = 0;
+		/*int Count = 0;
 		for (auto& Bone : OrdRend)
 		{	if (Count < 22)
 				this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone);			
 			Count++;
-		}	
+		}	*/
+		this->MltThreadUpdate(this->Animations[CurAnim], OrdRend, AllMats, 0);
 	}
 	void GetCurMat()
 	{
 		for (auto& Bone :OrdRend)
 		{
 			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone));
+		}
+	}
+	//MultiThreading For Animation
+	void MltThreadUpdate(Animation* CurAnim,
+		std::vector<std::string> Ord,
+		std::vector<glm::mat4> &Mats,int Val )
+	{
+		for (auto& jj : Ord)
+		{
+			Mats[Val] = CurAnim->GetMat(jj);
+			Val++;
 		}
 	}
 public:
