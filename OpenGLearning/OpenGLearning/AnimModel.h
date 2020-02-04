@@ -11,6 +11,9 @@
 #include <glm.hpp>
 #include <iostream>
 #include <vector>
+#include <Chrono>
+#include <thread>
+#include <mutex>
 
 
 class AnimModel
@@ -27,9 +30,13 @@ private:
 	std::vector<glm::mat4> AllMats;
 	std::string Name;
 	std::string CurAnim;
+	std::mutex MyMutex;
+	std::vector<std::string> Ord0;
+	std::vector<std::string> Ord1;
 	float TimeLength;
 	int AnimChosen = 0;
 	float TimePass = 0;
+
 	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
 	{
 		std::map<std::string, SkelAn*> BaseMap;
@@ -55,6 +62,20 @@ private:
 		}		
 		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
+		int Temp = OrdRend.size() / 2;
+		int Count = 0;
+		for (auto& jj : this->OrdRend)
+		{
+			if (Count < Temp)
+			{
+				Ord0.push_back(jj);
+			}
+			else
+			{
+				Ord1.push_back(jj);
+			}
+			Count++;
+		}
 	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
@@ -89,9 +110,8 @@ private:
 		}
 		int Count = 0;
 		for (auto& Bone : OrdRend)
-		{
-			if (Count < 22)
-				this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
+		{			
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
 			Count++;
 		}
 	}
@@ -105,40 +125,32 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			if (Count < 22)
-				this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
 			Count++;
 		}
 		
 	}
 	void UpdateMats()
 	{
-		/*int Count = 0;
+		auto start = std::chrono::system_clock::now();
+		int Count = 0;
 		for (auto& Bone : OrdRend)
-		{	if (Count < 22)
+		{	
 				this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone);			
 			Count++;
-		}	*/
-		this->MltThreadUpdate(this->Animations[CurAnim], OrdRend, AllMats, 0);
+		}	
+		std::chrono::duration<double> dur = std::chrono::system_clock::now() - start;
+		std::cout << "Time for addition " << dur.count() * 100 << " seconds" << std::endl;
 	}
 	void GetCurMat()
 	{
 		for (auto& Bone :OrdRend)
 		{
+			
 			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone));
 		}
 	}
-	//MultiThreading For Animation
-	void MltThreadUpdate(Animation* CurAnim,
-		std::vector<std::string> Ord,
-		std::vector<glm::mat4> &Mats,int Val )
-	{
-		for (auto& jj : Ord)
-		{
-			Mats[Val] = CurAnim->GetMat(jj);
-			Val++;
-		}
-	}
+
 public:
 	AnimModel(std::string ModName, glm::vec3 InitPos,
 		StdMat* material,
