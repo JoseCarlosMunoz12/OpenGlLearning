@@ -188,11 +188,11 @@ void Game::initModels()
 			"Cone"));
 	meshes.push_back(
 		new Mesh(&Cube(),
-			"Cube"));	
-	animMeshes.push_back(new AnimMesh(&CLoader("TreeTest.dae"), "Test0"));
-	//animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test1"));
+			"Cube"));
+	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test0"));
+	//animMeshes.push_back(new AnimMesh(&CLoader("Set.dae"), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
-	
+
 
 	//
 	//Meshes Componets are made
@@ -200,7 +200,7 @@ void Game::initModels()
 
 	//--Static Models Components
 	MeshsArtifacts Terrain(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
-		0, 0, {0,1,2,3,4,5,6,7});
+		0, 0, { 0,1,2,3,4,5,6,7 });
 	MeshsArtifacts Terrains(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(1.f),
 		0, 0, { 0,1,2,3,4,5,6,7 });
 	MeshsArtifacts Monk(glm::vec3(0.f), glm::vec3(0.f), QuatParts(), glm::vec3(.1f), 0, 0, { 0,1,2,3,4 });
@@ -213,29 +213,29 @@ void Game::initModels()
 	this->models.push_back(new Model("Terrain",
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
-		{this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16]},
-		meshes[0], {Terrain}));
+		{ this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] },
+		meshes[0], { Terrain }));
 	this->models.push_back(new Model("Monk",
-		glm::vec3(0.f,this->MipMapsData[0]->ReturnValue(0.f,0.f),0.f),
+		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f),
 		this->MatTest[1],
-		{this->textures[2],this->textures[6],
-		this->textures[14],this->textures[15],this->textures[16]},
-		meshes[2], {Monk}));
+		{ this->textures[2],this->textures[6],
+		this->textures[14],this->textures[15],this->textures[16] },
+		meshes[2], { Monk }));
 
 	//anim Models
-	/*this->animModel.push_back(new AnimModel("Tes1t",
-		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f),
-		this->MatTest[4],
-		{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16] },
-		animMeshes[1], {Terrains}));*/
+	//this->animModel.push_back(new AnimModel("Tes1t",
+	//	glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f),
+	//	this->MatTest[4],
+	//	{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+	//	this->textures[14],this->textures[15],this->textures[16] },
+	//	animMeshes[1], { Terrains }));
 	this->animModel.push_back(new AnimModel("Test",
 		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 4.f), 4.f),
 		this->MatTest[4],
-		{this->textures[11],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16]},
-		animMeshes[0], {Terrains}));
+		{ this->textures[11],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] },
+		animMeshes[0], { Terrains }));
 }
 
 void Game::initLights()
@@ -1538,7 +1538,7 @@ void Game::render()
 	for (auto& ii : this->models)
 	{
 		ii->TestRender(this->shaders,TempVal);
-	} 
+	}
 	for (auto& ii : this->animModel)
 	{	
 		ii->Render(this->TimePass, this->shaders, TempVal,this->StarAnim,this->SliderAnim);

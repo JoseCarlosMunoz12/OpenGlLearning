@@ -90,7 +90,8 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
+			if (Count < 22)
+				this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
 			Count++;
 		}
 	}
@@ -104,7 +105,8 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
+			if (Count < 22)
+				this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
 			Count++;
 		}
 		
@@ -113,8 +115,8 @@ private:
 	{
 		int Count = 0;
 		for (auto& Bone : OrdRend)
-		{	
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone);
+		{	if (Count < 22)
+				this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone);			
 			Count++;
 		}	
 	}
@@ -138,7 +140,7 @@ public:
 		this->meshes.push_back(AnimMeshToUse);		
 		this->MakeAnimationInfo(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
-		this->GetCurMat();
+		this->GetCurMat();		
 	}
 	~AnimModel()
 	{

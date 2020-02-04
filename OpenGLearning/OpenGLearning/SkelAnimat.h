@@ -3,6 +3,8 @@
 #include "Vertex.h"
 #include <map> 
 #include <algorithm>
+#include <thread>
+#include <mutex>
 class Frames
 { 
 	float TimeStamp;	
@@ -84,6 +86,10 @@ private:
 		if (Count == AnimFrames.size())
 		{
 			return { AnimFrames[Count - 1],AnimFrames[Count-1] };
+		}
+		if (Count == 0)
+		{
+			return{ AnimFrames[Count],AnimFrames[Count+1] };
 		}
 		return {AnimFrames[Count-1],AnimFrames[Count]};
 	}
@@ -216,6 +222,7 @@ public:
 		this->Skeleton = Inits;
 		this->Order = NewOrder;
 		this->TimeLength = NewTimeLength;
+		std::cout << Order.size() << "\n";
 	}
 	~Animation()
 	{
@@ -249,5 +256,6 @@ public:
 	{
 		this->Skeleton[BoneName]->UpdateMatrix();
 		return this->Skeleton[BoneName]->GetMat(this->Skeleton);
-	}
+	}	
+
 };
