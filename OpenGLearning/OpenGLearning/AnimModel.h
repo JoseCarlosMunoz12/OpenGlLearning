@@ -19,6 +19,11 @@
 class AnimModel
 {
 private:
+	struct OrdStruct
+	{
+		std::string Bone;
+		bool Active;
+	};
 	StdMat* AnimMat;
 	std::vector<AnimMesh*> meshes;
 	std::vector<GeneralTextInfo*> Tex;
@@ -27,6 +32,7 @@ private:
 	std::map<std::string, SkelAn*> BaseSKel;
 	std::map<std::string, Animation*> Animations;
 	std::vector<std::string> OrdRend;
+	std::vector<OrdStruct> OrRend;
 	std::vector<glm::mat4> AllMats;
 	std::string Name;
 	std::string CurAnim;
@@ -60,8 +66,10 @@ private:
 		}		
 		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
-		int Temp = OrdRend.size() / 2;
-		int Count = 0;
+		for (auto& jj : this->OrdRend)
+		{
+			OrRend.push_back({ jj,false });
+		}
 	}
 	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
@@ -84,6 +92,7 @@ private:
 		}
 
 	}
+	//Animation Functions
 	void ControlTime(float TimePass)
 	{
 		if (TimePass >= this->TimeLength)
@@ -120,12 +129,16 @@ private:
 	}
 	void UpdateMats()
 	{
-		/*int Count = 0;
-		for (auto& Bone : OrdRend)
-		{	if (Count < 11)
-				this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone);			
+		int Count = 0;
+		for (auto& Bone : OrRend)
+		{
+			if (Bone.Active)
+			{
+				this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone.Bone);
+				Bone.Active = false;
+			}
 			Count++;
-		}	*/
+		}	
 	}
 	void GetCurMat()
 	{
@@ -334,6 +347,17 @@ public:
 		{
 			this->CurAnim = this->AllAnimations()[0];
 			return this->CurAnim;
+		}
+	}
+	void ChangeBoneBool(std::string Bone)
+	{		
+		for (auto& jj : OrRend)
+		{
+			if (jj.Bone == Bone)
+			{
+				jj.Active = true;
+				break;
+			}
 		}
 	}
 };

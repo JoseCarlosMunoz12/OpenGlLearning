@@ -3,8 +3,6 @@
 #include "Vertex.h"
 #include <map> 
 #include <algorithm>
-#include <thread>
-#include <mutex>
 class Frames
 { 
 	float TimeStamp;	

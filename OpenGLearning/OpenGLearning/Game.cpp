@@ -189,8 +189,8 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	//animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test0"));
-	animMeshes.push_back(new AnimMesh(&CLoader("Set.dae"), "Test1"));
+	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test0"));
+	//animMeshes.push_back(new AnimMesh(&CLoader("Set.dae"), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
@@ -611,12 +611,16 @@ void Game::ImGuiOptions()
 								ImGui::Text("Bone Unit Vector"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempQuat.UnitVec.x, TempQuat.UnitVec.y, TempQuat.UnitVec.z);
 								if (ImGui::TreeNode("Bone Rotation"))
 								{
-									ImGui::SliderFloat("Angle", &TempQuat.Angle, -180.f, 180.f);
-									ImGui::SliderFloat("UnitVec X", &TempQuat.UnitVec.x, -1.f, 1.f);
-									ImGui::SliderFloat("UnitVec Y", &TempQuat.UnitVec.y, -1.f, 1.f);
-									ImGui::SliderFloat("UnitVec Z", &TempQuat.UnitVec.z, -1.f, 1.f);
+									bool Val0 = ImGui::SliderFloat("Angle", &TempQuat.Angle, -180.f, 180.f);
+									bool Val1 = ImGui::SliderFloat("UnitVec X", &TempQuat.UnitVec.x, -1.f, 1.f);
+									bool Val2 = ImGui::SliderFloat("UnitVec Y", &TempQuat.UnitVec.y, -1.f, 1.f);
+									bool Val3 = ImGui::SliderFloat("UnitVec Z", &TempQuat.UnitVec.z, -1.f, 1.f);
 									TempQuat.UnitVec = glm::normalize(TempQuat.UnitVec);
-									ii.second->SetRot(TempQuat);
+									if (Val0 or Val1 or Val2 or Val3)
+									{
+										ii.second->SetRot(TempQuat);
+										this->animModel[this->AnimModelToMake]->ChangeBoneBool(ii.first);
+									}
 									ImGui::TreePop();
 								}								
 								ImGui::Text("Bone Offset = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempOffset.x, TempOffset.y, TempOffset.z);
