@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "Vertex.h"
 #include "SkelAnimat.h"
 #include <map>
@@ -182,7 +182,7 @@ protected:
 		for (int ii = 0; ii < Amount; ii++)
 		{
 			int Temps = Tem->mChildren[ii]->mNumChildren;
-			if (Temps !=0)
+			if (Temps != 0)
 			{
 				this->CheckForChilds(Tem->mChildren[ii],"NULL",SkelsInit);
 			}

@@ -350,14 +350,10 @@ public:
 		}
 	}
 	void ChangeBoneBool(std::string Bone)
-	{		
-		for (auto& jj : OrRend)
-		{
-			if (jj.Bone == Bone)
-			{
-				jj.Active = true;
-				break;
-			}
-		}
+	{
+		std::vector<OrdStruct>::iterator I = std::find_if(OrRend.begin(),OrRend.end(),
+												[Bone](const OrdStruct& Vi) {return Vi.Bone == Bone; });
+		I->Active = true;
+	
 	}
 };
