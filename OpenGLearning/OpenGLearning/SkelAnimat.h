@@ -47,6 +47,7 @@ private:
 	glm::vec3 CurScale;
 	QuatParts CurRot;
 	glm::mat4 Matrix;
+	glm::mat4 RelMat;
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
 		float TimeLeft = CurrTime - FrmFound[0]->GetTimeStamp();
@@ -108,6 +109,7 @@ public:
 	{
 
 	}
+	//Updating Matrices
 	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime)
 	{
 		if (AnimFrames.size() != 0)
@@ -126,15 +128,29 @@ public:
 		}		
 	}
 	glm::mat4 GetMat(std::map<std::string, SkelAn*> Temp)
-	{
+	{/*
 		if (ParentId != "NULL")
 		{
 			return Temp[ParentId]->GetMat(Temp) * this->Matrix ;
 		}
-		else {
+		else {*/
 			return this->Matrix;
-		}		
+		/*}	*/	
 	}
+	glm::mat4 GetRelativeMat()
+	{
+		return this->RelMat;
+	}
+	void UpdateMatrix()
+	{
+		Matrix = glm::mat4(1.f);
+		Matrix = glm::translate(Matrix,this->CurOffset);	
+		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
+		Matrix *= Quats;
+		Matrix = glm::translate(Matrix, -this->CurOffset);
+		Matrix = glm::scale(Matrix, this->CurScale);	
+	}
+	//
 	std::vector<Frames*> GetFrames()
 	{
 		return this->AnimFrames;
@@ -167,15 +183,7 @@ public:
 	{
 		this->CurScale = NewScale;
 	}
-	void UpdateMatrix()
-	{
-		Matrix = glm::mat4(1.f);
-		Matrix = glm::translate(Matrix,this->CurOffset);	
-		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
-		Matrix *= Quats;
-		Matrix = glm::translate(Matrix, -this->CurOffset);
-		Matrix = glm::scale(Matrix, this->CurScale);	
-	}
+
 	void DeleteFrame(int FrameCount)
 	{
 		this->AnimFrames.erase(this->AnimFrames.begin() + FrameCount);
@@ -252,7 +260,7 @@ public:
 	}
 	glm::mat4 GetMat(std::string BoneName)
 	{
-		this->Skeleton[BoneName]->UpdateMatrix();
+		//this->Skeleton[BoneName]->UpdateMatrix();
 		return this->Skeleton[BoneName]->GetMat(this->Skeleton);
 	}	
 
