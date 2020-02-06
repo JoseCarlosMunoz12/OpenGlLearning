@@ -132,11 +132,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrRend)
 		{
-			/*if (Bone.Active)
-			{*/
-				this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone.Bone);
-		/*		Bone.Active = false;
-			}*/
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone.Bone,Bone.Active);
 			Count++;
 		}	
 	}
@@ -144,7 +140,7 @@ private:
 	{
 		for (auto& Bone :OrdRend)
 		{
-			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone));
+			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone,true));
 		}
 	}
 public:

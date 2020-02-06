@@ -64,7 +64,6 @@ private:
 		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + Secondangle.UnitVec * Ratio;
 		return QuatParts(NewAngle,NewVec);
 	}
-
 	glm::vec3 AveragePos(glm::vec3 FirstPos, glm::vec3 SecondPos, float Ratio)
 	{
 		glm::vec3 Temp = FirstPos + SecondPos;
@@ -127,16 +126,6 @@ public:
 			return this->Matrix;
 		}		
 	}
-	glm::mat4 GetMat(std::map<std::string, SkelAn*> Temp)
-	{/*
-		if (ParentId != "NULL")
-		{
-			return Temp[ParentId]->GetMat(Temp) * this->Matrix ;
-		}
-		else {*/
-			return this->Matrix;
-		/*}	*/	
-	}
 	glm::mat4 GetRelativeMat()
 	{
 		return this->RelMat;
@@ -148,8 +137,23 @@ public:
 		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
 		Matrix *= Quats;
 		Matrix = glm::translate(Matrix, -this->CurOffset);
-		Matrix = glm::scale(Matrix, this->CurScale);	
+		Matrix = glm::scale(Matrix, this->CurScale);
 	}
+	void UpdateRelMat(bool Active, std::map<std::string, SkelAn*> Temp)
+	{
+		if (Active)
+		{
+			this->UpdateMatrix();
+			if (this->ParentId != "NULL")
+			{
+				this->RelMat = Temp[this->ParentId]->GetRelativeMat() * this->Matrix;
+			}
+			else {
+				this->RelMat = this->Matrix;
+			}
+		}
+	}
+
 	//
 	std::vector<Frames*> GetFrames()
 	{
@@ -258,10 +262,9 @@ public:
 	{
 		return this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
 	}
-	glm::mat4 GetMat(std::string BoneName)
+	glm::mat4 GetMat(std::string BoneName,bool Active)
 	{
-		//this->Skeleton[BoneName]->UpdateMatrix();
-		return this->Skeleton[BoneName]->GetMat(this->Skeleton);
+		this->Skeleton[BoneName]->UpdateRelMat(Active,Skeleton);
+		return this->Skeleton[BoneName]->GetRelativeMat();
 	}	
-
 };
