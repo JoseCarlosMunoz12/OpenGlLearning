@@ -48,6 +48,21 @@ private:
 	QuatParts CurRot;
 	glm::mat4 Matrix;
 	glm::mat4 RelMat;
+	//Different Interpolations
+	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
+	{
+		float NewAngle = FirstAngle.Angle + (Secondangle.Angle - FirstAngle.Angle) * Ratio;
+		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + Secondangle.UnitVec * Ratio;
+		return QuatParts(NewAngle,NewVec);
+	}
+	QuatParts CosInter(QuatParts FirstAngle, QuatParts Secondangle, float Ratio,float Offset = 0.f)
+	{
+		float CosAngle = glm::cos(-Offset + (glm::pi<float>() + 2.f * Offset) * Ratio) / 2.f;
+		float NewAngle = FirstAngle.Angle + (FirstAngle.Angle - Secondangle.Angle) * CosAngle;
+		glm::vec3 NewVec = FirstAngle.UnitVec  + (FirstAngle.UnitVec);
+
+	}
+	//Ratios and In between Frames
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
 		float TimeLeft = CurrTime - FrmFound[0]->GetTimeStamp();
@@ -57,12 +72,6 @@ private:
 			return 0;
 		}
 		return TimeLeft / FrameDif;
-	}
-	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
-	{
-		float NewAngle = FirstAngle.Angle + (Secondangle.Angle - FirstAngle.Angle) * Ratio;
-		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + Secondangle.UnitVec * Ratio;
-		return QuatParts(NewAngle,NewVec);
 	}
 	glm::vec3 AveragePos(glm::vec3 FirstPos, glm::vec3 SecondPos, float Ratio)
 	{
@@ -117,7 +126,6 @@ public:
 			float Ratio = this->GetTimeRatio(CurTime, Found);
 			this->CurRot = this->Interpolate(Found[0]->GetRot(), Found[1]->GetRot(), Ratio);
 		}
-		this->UpdateMatrix();
 		this->UpdateRelMat(true, Temp);
 		return this->RelMat;	
 	}
