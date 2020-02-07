@@ -106,8 +106,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			if (Count < 11)
-				this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
 			Count++;
 		}
 	}
@@ -121,8 +120,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrdRend)
 		{
-			if (Count < 11)
-				this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
 			Count++;
 		}
 		

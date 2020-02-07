@@ -118,13 +118,8 @@ public:
 			this->CurRot = this->Interpolate(Found[0]->GetRot(), Found[1]->GetRot(), Ratio);
 		}
 		this->UpdateMatrix();
-		if (ParentId != "NULL")
-		{
-			return Temp[ParentId]->GetMat(Temp) * this->Matrix ;
-		}
-		else {
-			return this->Matrix;
-		}		
+		this->UpdateRelMat(true, Temp);
+		return this->RelMat;	
 	}
 	glm::mat4 GetRelativeMat()
 	{
