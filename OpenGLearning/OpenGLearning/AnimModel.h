@@ -31,7 +31,6 @@ private:
 	std::vector<int> TextToUse;
 	std::map<std::string, SkelAn*> BaseSKel;
 	std::map<std::string, Animation*> Animations;
-	std::vector<std::string> OrdRend;
 	std::vector<OrdStruct> OrRend;
 	std::vector<glm::mat4> AllMats;
 	std::string Name;
@@ -64,9 +63,9 @@ private:
 		{
 			 this->CurAnim = AnimInits[1].Name;
 		}		
-		this->OrdRend = this->Animations[this->CurAnim]->GetOrder();
+		std::vector<std::string> OrdRend = this->Animations[this->CurAnim]->GetOrder();
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
-		for (auto& jj : this->OrdRend)
+		for (auto& jj : OrdRend)
 		{
 			OrRend.push_back({ jj,false });
 		}
@@ -104,9 +103,9 @@ private:
 			this->TimePass = TimePass;
 		}
 		int Count = 0;
-		for (auto& Bone : OrdRend)
+		for (auto& Bone : OrRend)
 		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone, this->TimePass);			
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone.Bone, this->TimePass);			
 			Count++;
 		}
 	}
@@ -118,9 +117,9 @@ private:
 			this->TimePass = 0;
 		}
 		int Count = 0;
-		for (auto& Bone : OrdRend)
+		for (auto& Bone : OrRend)
 		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone,this->TimePass);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone.Bone,this->TimePass);
 			Count++;
 		}
 		
@@ -136,9 +135,9 @@ private:
 	}
 	void GetCurMat()
 	{
-		for (auto& Bone :OrdRend)
+		for (auto& Bone :OrRend)
 		{
-			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone,true));
+			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,true));
 		}
 	}
 public:
@@ -326,7 +325,12 @@ public:
 	}
 	void AddAnimation(std::string NewAnim,float TimeLength)
 	{
-		this->Animations[NewAnim] = new Animation(NewAnim,BaseSKel, this->OrdRend,TimeLength);
+		std::vector<std::string> OrdRend;
+		for (auto& jj : this->OrRend)
+		{
+			OrdRend.push_back(jj.Bone);
+		}
+		this->Animations[NewAnim] = new Animation(NewAnim,BaseSKel, OrdRend,TimeLength);
 	}
 	std::string DeleteAnimation(std::string AnimToDelete)
 	{
