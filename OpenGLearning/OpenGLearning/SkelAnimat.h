@@ -3,15 +3,23 @@
 #include "Vertex.h"
 #include <map> 
 #include <algorithm>
+enum InterType
+{
+	LINEAR,
+	QUADBENZ,
+	CUBEBENZ
+};
 class Frames
 { 
-	float TimeStamp;	
+	float TimeStamp;
+	Bezier_Bais Bias;
 	Joints Joint_Trans;
 public:
 	Frames(float InitTimeStamp, Joints InitJoints)
 	{
 		this->TimeStamp = InitTimeStamp;
 		this->Joint_Trans = InitJoints;
+		this->Bias = {0.f,0.f};
 	}
 	QuatParts GetRot()
 	{
@@ -25,6 +33,10 @@ public:
 	{
 		return this->Joint_Trans.Scale;
 	}
+	Bezier_Bais GetBezier()
+	{
+		return this->Bias;
+	}
 	float GetTimeStamp()
 	{
 		return this->TimeStamp;
@@ -36,6 +48,10 @@ public:
 	void SetOffset(glm::vec3 NewOffset)
 	{
 		this->Joint_Trans.Offset = NewOffset;
+	}
+	void SetBezier(Bezier_Bais NewBias)
+	{
+		this->Bias = NewBias;
 	}
 };
 class SkelAn
@@ -49,19 +65,20 @@ private:
 	glm::mat4 Matrix;
 	glm::mat4 RelMat;
 	//Different Interpolations
-	QuatParts Interpolate(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
+	QuatParts LinInter(QuatParts FirstAngle, QuatParts Secondangle, float Ratio)
 	{
 		float NewAngle = FirstAngle.Angle + (Secondangle.Angle - FirstAngle.Angle) * Ratio;
 		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + Secondangle.UnitVec * Ratio;
 		return QuatParts(NewAngle,NewVec);
 	}
-	QuatParts CosInter(QuatParts FirstAngle, QuatParts Secondangle, float Ratio,float Offset = 0.f)
+	QuatParts QuadBezInter(QuatParts FirstAngle, QuatParts SecondAngle, float Ratio, Bezier_Bais Bias)
 	{
-		float CosAngle = glm::cos(-Offset + (glm::pi<float>() + 2.f * Offset) * Ratio) / 2.f;
-		float NewAngle = FirstAngle.Angle + (FirstAngle.Angle - Secondangle.Angle) * CosAngle;
-		glm::vec3 NewVec = FirstAngle.UnitVec  + (FirstAngle.UnitVec);
-
-	}
+		float BezAngle0 = (1 - Ratio) * ((1 - Ratio) * FirstAngle.Angle + Ratio * Bias.Point0);
+		float BezAngle1 = Ratio * ((1-Ratio) * Bias.Point0 + Ratio*SecondAngle.Angle);
+		float NewAngle = BezAngle0 + BezAngle1;
+		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + SecondAngle.UnitVec * Ratio;
+		return QuatParts(NewAngle, NewVec);
+	}	
 	//Ratios and In between Frames
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
@@ -118,13 +135,21 @@ public:
 
 	}
 	//Updating Matrices
-	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime)
+	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime,InterType INTERPOl = LINEAR)
 	{
 		if (AnimFrames.size() != 0)
 		{
 			std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
 			float Ratio = this->GetTimeRatio(CurTime, Found);
-			this->CurRot = this->Interpolate(Found[0]->GetRot(), Found[1]->GetRot(), Ratio);
+			switch (INTERPOl)
+			{
+			case LINEAR:
+				this->CurRot = this->LinInter(Found[0]->GetRot(), Found[1]->GetRot(), Ratio);
+				break;
+			}
+
+
+			
 		}
 		this->UpdateRelMat(true, Temp);
 		return this->RelMat;	

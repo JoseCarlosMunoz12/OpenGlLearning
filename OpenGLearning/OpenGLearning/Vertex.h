@@ -148,7 +148,10 @@ struct Joints
 	glm::vec3 Scale;
 	QuatParts Rot;
 };
-
+struct Bezier_Bais {
+	float Point0;
+	float Point1;
+};
 class Nodes
 {
 	Nodes* Parent;
