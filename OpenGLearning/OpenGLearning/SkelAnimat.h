@@ -78,7 +78,14 @@ private:
 		float NewAngle = BezAngle0 + BezAngle1;
 		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + SecondAngle.UnitVec * Ratio;
 		return QuatParts(NewAngle, NewVec);
-	}	
+	}
+	QuatParts CubeBexInter(QuatParts FirstAngle, QuatParts SecondAngle, float Ratio, Bezier_Bais Bias)
+	{
+		float Const = glm::pow(1-Ratio,3)*FirstAngle.Angle + 3*glm::pow(1-Ratio,2) * Ratio*Bias.Point0
+			+3*(1-Ratio) * glm::pow(Ratio,2) *Bias.Point1 + glm::pow(Ratio,3) *SecondAngle.Angle;
+		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + SecondAngle.UnitVec * Ratio;
+		return QuatParts(Const, NewVec);
+	}
 	//Ratios and In between Frames
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
@@ -135,7 +142,7 @@ public:
 
 	}
 	//Updating Matrices
-	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime,InterType INTERPOl = LINEAR)
+	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime,InterType INTERPOl = CUBEBENZ)
 	{
 		if (AnimFrames.size() != 0)
 		{
@@ -146,10 +153,13 @@ public:
 			case LINEAR:
 				this->CurRot = this->LinInter(Found[0]->GetRot(), Found[1]->GetRot(), Ratio);
 				break;
-			}
-
-
-			
+			case QUADBENZ:
+				this->CurRot = this->QuadBezInter(Found[0]->GetRot(), Found[1]->GetRot(), Ratio, Found[0]->GetBezier());
+				break;
+			case CUBEBENZ:
+				this->CurRot = this->CubeBexInter(Found[0]->GetRot(), Found[1]->GetRot(), Ratio, Found[0]->GetBezier());
+				break;
+			}			
 		}
 		this->UpdateRelMat(true, Temp);
 		return this->RelMat;	
@@ -252,6 +262,7 @@ class Animation
 	float TimeLength;
 	std::map<std::string, SkelAn*> Skeleton;
 	std::vector<std::string> Order;
+	InterType CurType;
 public:
 	Animation(std::string NewName, std::map<std::string, SkelAn*> Inits,
 		std::vector<std::string> NewOrder, float NewTimeLength)

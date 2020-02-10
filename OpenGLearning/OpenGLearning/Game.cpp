@@ -189,9 +189,9 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test0"));
+	//animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&CLoader("Set.dae"), "Test1"));
-	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
+	animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
 	//
@@ -704,16 +704,25 @@ void Game::ImGuiOptions()
 											if(ImGui::TreeNode(Value.c_str()))
 											{
 												this->TimePass = TimeStamp;
-												QuatParts TQuat = Sec->GetRot();											
+												QuatParts TQuat = Sec->GetRot();
+												Bezier_Bais TBenz = Sec->GetBezier();
 												ImGui::Text("Angle %.3f",TQuat.Angle);											
 												ImGui::Text("Unit Vector X = %.3f, Y = %.3f, Z = %.3f", TQuat.UnitVec.x, TQuat.UnitVec.y, TQuat.UnitVec.z);
+												ImGui::Text("Const A = %.3f,Const B = %.3f",TBenz.Point0,TBenz.Point1);
 												bool ChangeDone0 = ImGui::SliderFloat("Angle", &TQuat.Angle, -180, 180.f);
 												bool ChangeDone1 = ImGui::SliderFloat("UnitVec X", &TQuat.UnitVec.x, -1.f, 1.f);
 												bool ChangeDone2 = ImGui::SliderFloat("UnitVec Y", &TQuat.UnitVec.y, -1.f, 1.f);
 												bool ChangeDone3 = ImGui::SliderFloat("UnitVec Z", &TQuat.UnitVec.z, -1.f, 1.f);
+												bool ChangeDone4 = ImGui::SliderFloat("Const A", &TBenz.Point0, -180.f, 180.f);
+												bool ChangeDone5 = ImGui::SliderFloat("Const", &TBenz.Point1, -180.f, 180.f);
 												if (ChangeDone0 || ChangeDone1 || ChangeDone2 || ChangeDone3)
 												{
+													TQuat.UnitVec = glm::normalize(TQuat.UnitVec);
 													Sec->SetRot(TQuat);
+												}
+												if (ChangeDone4 || ChangeDone5)
+												{
+													Sec->SetBezier(TBenz);
 												}
 												if (ImGui::Button("Delete Frame"))
 												{
