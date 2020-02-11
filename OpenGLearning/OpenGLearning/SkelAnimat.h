@@ -17,7 +17,7 @@ class Frames
 	Joints Joint_Trans;
 	InterType Type;
 public:
-	Frames(float InitTimeStamp, Joints InitJoints, InterType InitType = HOLD)
+	Frames(float InitTimeStamp, Joints InitJoints, InterType InitType = LINEAR)
 	{
 		this->TimeStamp = InitTimeStamp;
 		this->Joint_Trans = InitJoints;
