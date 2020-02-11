@@ -16,12 +16,15 @@ class AnimFileRdrMkr
 		ANIMLENGTH,
 		BONENAME,
 		BONEPARENT,
+		INTERTYPE,
 		S,
 		PARTS,
 		END
 	};
 	std::string FolderLoc;
 	std::map<std::string, int> AnimMap;
+	std::map<InterType, std::string> ChosenInter;
+	std::map<std::string, InterType> InterMap;
 	std::string ConvertVec(glm::vec3 Vec)
 	{
 		std::string Temp = "";
@@ -62,9 +65,9 @@ class AnimFileRdrMkr
 		TempJoint.Scale = this->ToVec3(Info[2]);
 		return TempJoint;
 	}
-	Frames* GetFrames(float TimeStamp, std::vector<std::string> Info)
+	Frames* GetFrames(float TimeStamp, std::vector<std::string> Info,InterType Type)
 	{
-		return new Frames(TimeStamp,this->MakeJoints(Info));		
+		return new Frames(TimeStamp,this->MakeJoints(Info),Type);		
 	}
 	void ReturnStringArray(std::string const& str, const char delim, std::vector<std::string>& out)
 	{
@@ -86,6 +89,15 @@ class AnimFileRdrMkr
 		this->AnimMap["<Parts>"] = ANIMENUM::PARTS;
 		this->AnimMap["<END>"] = ANIMENUM::END;
 		this->AnimMap["<BoneParent>"] = ANIMENUM::BONEPARENT;
+		this->AnimMap["<InterType>"] = ANIMENUM::INTERTYPE;
+		this->ChosenInter[HOLD] = "HOLD";
+		this->ChosenInter[LINEAR] = "LINEAR";
+		this->ChosenInter[QUADBENZ] = "QUADBENZ";
+		this->ChosenInter[CUBEBENZ] = "CUBEBENZ";
+		for (auto& jj : ChosenInter)
+		{
+			this->InterMap[jj.second] = jj.first;
+		}
 	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
@@ -121,6 +133,7 @@ public:
 					std::vector<Frames*> TempFrams = SkelsInf[jj]->GetFrames();
 					for (auto& kk : TempFrams)
 					{
+						Make << "<InterType> " << this->ChosenInter[kk->GetType()] <<"\n";
 						Make <<"<s> "<< kk->GetTimeStamp() << "\n";
 						Make <<"<Parts> "+ this->ConvertVec(kk->GetOffset()) + " ";
 						Make << this->ConvertQuat(kk->GetRot()) + " ";
@@ -143,6 +156,7 @@ public:
 			SkelArti TempBone;
 			TempBone.InitOffset = glm::vec3(1.f);
 			TempBone.InitScale = glm::vec3(1.f);
+			InterType Type = InterType::HOLD;
 			float Frame_TimeStamp;
 			std::string Line;
 			while (std::getline(FileData, Line))
@@ -170,13 +184,16 @@ public:
 				case ANIMENUM::BONEPARENT:
 					TempBone.Parent = out[1];
 					break;
+				case ANIMENUM::INTERTYPE:
+					Type = this->InterMap[out[1]];
+					break;
 				case ANIMENUM::S:
 					Frame_TimeStamp = std::stof(out[1]);
 					break;
 				case ANIMENUM::PARTS:
 					TempBone.AllFrames.push_back(
 						this->GetFrames(Frame_TimeStamp,
-										{out[1],out[2],out[3]}));
+										{out[1],out[2],out[3]},Type));
 					TempBone.InitOffset = TempBone.AllFrames[0]->GetOffset();					
 					break;
 				case ANIMENUM::END:	
