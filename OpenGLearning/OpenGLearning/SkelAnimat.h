@@ -5,6 +5,7 @@
 #include <algorithm>
 enum InterType
 {
+	HOLD,
 	LINEAR,
 	QUADBENZ,
 	CUBEBENZ
@@ -14,12 +15,14 @@ class Frames
 	float TimeStamp;
 	Bezier_Bais Bias;
 	Joints Joint_Trans;
+	InterType Type;
 public:
-	Frames(float InitTimeStamp, Joints InitJoints)
+	Frames(float InitTimeStamp, Joints InitJoints, InterType InitType = HOLD)
 	{
 		this->TimeStamp = InitTimeStamp;
 		this->Joint_Trans = InitJoints;
 		this->Bias = {0.f,0.f};
+		this->Type = InitType;
 	}
 	QuatParts GetRot()
 	{
@@ -37,6 +40,10 @@ public:
 	{
 		return this->Bias;
 	}
+	InterType GetType()
+	{
+		return this->Type;
+	}
 	float GetTimeStamp()
 	{
 		return this->TimeStamp;
@@ -52,6 +59,10 @@ public:
 	void SetBezier(Bezier_Bais NewBias)
 	{
 		this->Bias = NewBias;
+	}
+	void SetType(InterType NewType)
+	{
+		this->Type = NewType;
 	}
 };
 class SkelAn
@@ -142,14 +153,17 @@ public:
 
 	}
 	//Updating Matrices
-	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime,InterType INTERPOl = CUBEBENZ)
+	glm::mat4 GetCurMat(std::map<std::string, SkelAn*> Temp,float CurTime)
 	{
 		if (AnimFrames.size() != 0)
 		{
 			std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
 			float Ratio = this->GetTimeRatio(CurTime, Found);
-			switch (INTERPOl)
+			switch (Found[0]->GetType())
 			{
+			case HOLD:
+				this->CurRot = Found[0]->GetRot();
+				break;
 			case LINEAR:
 				this->CurRot = this->LinInter(Found[0]->GetRot(), Found[1]->GetRot(), Ratio);
 				break;

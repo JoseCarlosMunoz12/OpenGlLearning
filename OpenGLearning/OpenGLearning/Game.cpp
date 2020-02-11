@@ -697,24 +697,42 @@ void Game::ImGuiOptions()
 									{
 										std::vector<Frames*> TempFrames = ii.second->GetFrames();
 										int FrameCount = 0;
+										std::map<InterType, std::string> InterMap;
+										InterMap[HOLD] = "HOLD";
+										InterMap[LINEAR] = "LINEAR";
+										InterMap[QUADBENZ] = "QUADBENZ";
+										InterMap[CUBEBENZ] = "CUBEBENZ";
+
 										for (auto& Sec : TempFrames)
 										{
 											float TimeStamp = Sec->GetTimeStamp();
 											std::string Value = "Time Loc =" + std::to_string(TimeStamp);
 											if(ImGui::TreeNode(Value.c_str()))
 											{
-												this->TimePass = TimeStamp;
+												if (ImGui::Button("Set To Time"))
+												{
+													this->TimePass = TimeStamp;
+												}
 												QuatParts TQuat = Sec->GetRot();
 												Bezier_Bais TBenz = Sec->GetBezier();
-												ImGui::Text("Angle %.3f",TQuat.Angle);											
+												InterType SecType = Sec->GetType();
+												ImGui::Text("Angle %.3f",TQuat.Angle);										
 												ImGui::Text("Unit Vector X = %.3f, Y = %.3f, Z = %.3f", TQuat.UnitVec.x, TQuat.UnitVec.y, TQuat.UnitVec.z);
 												ImGui::Text("Const A = %.3f,Const B = %.3f",TBenz.Point0,TBenz.Point1);
+												ImGui::Text("Current Interpolation"); ImGui::SameLine(); ImGui::Text(InterMap[SecType].c_str());
 												bool ChangeDone0 = ImGui::SliderFloat("Angle", &TQuat.Angle, -180, 180.f);
 												bool ChangeDone1 = ImGui::SliderFloat("UnitVec X", &TQuat.UnitVec.x, -1.f, 1.f);
 												bool ChangeDone2 = ImGui::SliderFloat("UnitVec Y", &TQuat.UnitVec.y, -1.f, 1.f);
 												bool ChangeDone3 = ImGui::SliderFloat("UnitVec Z", &TQuat.UnitVec.z, -1.f, 1.f);
 												bool ChangeDone4 = ImGui::SliderFloat("Const A", &TBenz.Point0, -180.f, 180.f);
 												bool ChangeDone5 = ImGui::SliderFloat("Const", &TBenz.Point1, -180.f, 180.f);
+												for (auto& jj :InterMap)
+												{
+													if (ImGui::Selectable(jj.second.c_str(), jj.first == SecType))
+													{
+														Sec->SetType(jj.first);
+													}
+												}
 												if (ChangeDone0 || ChangeDone1 || ChangeDone2 || ChangeDone3)
 												{
 													TQuat.UnitVec = glm::normalize(TQuat.UnitVec);
