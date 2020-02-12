@@ -196,13 +196,13 @@ public:
 		if (Active)
 		{
 			this->UpdateMatrix();
-			if (this->ParentId != "NULL")
-			{
-				this->RelMat = Temp[this->ParentId]->GetRelativeMat() * this->Matrix;
-			}
-			else {
-				this->RelMat = this->Matrix;
-			}
+		}
+		if (this->ParentId != "NULL")
+		{
+			this->RelMat = Temp[this->ParentId]->GetRelativeMat() * this->Matrix;
+		}
+		else {
+			this->RelMat = this->Matrix;
 		}
 	}
 

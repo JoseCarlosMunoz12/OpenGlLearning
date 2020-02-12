@@ -129,7 +129,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrRend)
 		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone.Bone,true);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone.Bone,Bone.Active);
 			Count++;
 		}	
 	}
@@ -352,16 +352,5 @@ public:
 		std::vector<OrdStruct>::iterator I = std::find_if(OrRend.begin(),OrRend.end(),
 												[Bone](const OrdStruct& Vi){return Vi.Bone == Bone;});
 		I->Active = true;
-		std::map<std::string, SkelAn*> MAP = this->Animations[this->CurAnim]->GetMap();
-		auto Result = std::find_if(MAP.begin(),MAP.end(),
-			[Bone](const auto& M) {return M.second->GetName() == Bone; });
-		if (Result != MAP.end())
-		{
-		std::string TempStr = Result->first;
-		I = std::find_if(OrRend.begin(), OrRend.end(),
-			[TempStr](const OrdStruct& Vi) {return Vi.Bone == TempStr;});
-		if (I != OrRend.end())
-			I->Active = true;
-		}
 	}
 };
