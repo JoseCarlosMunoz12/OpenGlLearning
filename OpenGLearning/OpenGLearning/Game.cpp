@@ -294,6 +294,14 @@ void Game::updateDT()
 
 void Game::updateKeyboardInput()
 {
+	if (glfwJoystickPresent(GLFW_JOYSTICK_1))
+	{
+		std::cout << "Found\n";
+	}
+	if (glfwJoystickPresent(GLFW_JOYSTICK_2))
+	{
+		std::cout << "Hi player 2";
+	}	
 	if (glfwGetKey(this->window, GLFW_KEY_J) == GLFW_PRESS)
 	{
 		this->LightsToUse[0]->Move( glm::vec3(1.f, 0.f, 0.f));
