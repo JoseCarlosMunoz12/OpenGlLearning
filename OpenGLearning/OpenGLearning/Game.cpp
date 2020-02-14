@@ -294,14 +294,6 @@ void Game::updateDT()
 
 void Game::updateKeyboardInput()
 {
-	if (glfwJoystickPresent(GLFW_JOYSTICK_1))
-	{
-		std::cout << "Found\n";
-	}
-	if (glfwJoystickPresent(GLFW_JOYSTICK_2))
-	{
-		std::cout << "Hi player 2";
-	}	
 	if (glfwGetKey(this->window, GLFW_KEY_J) == GLFW_PRESS)
 	{
 		this->LightsToUse[0]->Move( glm::vec3(1.f, 0.f, 0.f));
@@ -361,6 +353,11 @@ void Game::updateKeyboardInput()
 	{
 		this->MouseToUse.SetMouseCenter(this->window,this->Window_Width, this->Window_Height);
 	}
+	if (this->CheckCntrl.ControllerExist())
+	{
+		this->camera.move(this->dt * this->CheckCntrl.GetLeftAnalogVals()[1] , FORWARD);
+		this->camera.move(this->dt * this->CheckCntrl.GetLeftAnalogVals()[0], RIGHT);
+	}
 }
 
 void Game::updateMouseInput()
@@ -388,6 +385,11 @@ void Game::updateMouseInput()
 	else
 	{
 		this->camera.updateInput(dt, -1, this->MouseToUse.GetOffset());
+		if (this->CheckCntrl.ControllerExist())
+		{
+			std::vector<float> Vals = this->CheckCntrl.GetRightAnalogVals();
+			this->camera.updateMouseInput(this->dt, Vals[0] * 10, Vals[1] * 10);
+		}
 	}
 
 }
@@ -1551,6 +1553,7 @@ void Game::setWindowShouldClose()
 void Game::update()
 {
 	//Update Input---
+	this->CheckCntrl.UpdateVals();
 	this->updateDT();
 	this->updateInput();
 	this->ImGuiOptions();
