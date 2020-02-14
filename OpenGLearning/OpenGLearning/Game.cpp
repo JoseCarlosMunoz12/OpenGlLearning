@@ -1315,6 +1315,7 @@ void Game::ImGuiOptions()
 		}
 		ImGui::End();
 	}
+	CheckCntrl.RenderBox();
 }
 
 void Game::updateUniforms()
@@ -1467,7 +1468,7 @@ Game::Game(const char * title,
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
 	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
-	RdMkFiles("SaveFiles/Models/"),AnimRdrMk("SaveFiles/Animations/")
+	RdMkFiles("SaveFiles/Models/"),AnimRdrMk("SaveFiles/Animations/"),CheckCntrl()
 {
 	
 	this->SkyColor = SkyColor;
@@ -1570,7 +1571,6 @@ void Game::render()
 	glViewport(0, 0, this->Window_Width, this->Window_Height);
 	glClearColor(this->SkyColor.r, this->SkyColor.g, this->SkyColor.b, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	
 	//Update uniforms
 	this->updateUniforms();
 	//render Models
