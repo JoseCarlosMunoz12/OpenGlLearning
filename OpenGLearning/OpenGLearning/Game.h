@@ -157,6 +157,7 @@ private:
 	void updateKeyboardInput();
 	void updateMouseInput();
 	void updateInput();
+	void updateController();
 	
 	std::vector<glm::mat4> updateShadows();
 

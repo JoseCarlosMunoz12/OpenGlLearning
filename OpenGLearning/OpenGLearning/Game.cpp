@@ -327,6 +327,7 @@ void Game::updateKeyboardInput()
 	{
 		glfwSetWindowShouldClose(this->window, GLFW_TRUE);
 	}
+
 	//Camera	
 	if (glfwGetKey(this->window , GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -348,27 +349,13 @@ void Game::updateKeyboardInput()
 	{
 		this->camera.move(this->dt, UP);
 	}
-	if (this->CheckCntrl.ControllerExist())
-	{
-		if (this->CheckCntrl.AButtonPressed())
-		{
-			this->camera.move(this->dt, UP);
-		}
-		if (this->CheckCntrl.BButtonPressed())
-		{
-			this->camera.move(this->dt, DOWN);
-		}
-	}
+
 	//None Camera inputs
 	if (glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
 	{
 		this->MouseToUse.SetMouseCenter(this->window,this->Window_Width, this->Window_Height);
 	}
-	if (this->CheckCntrl.ControllerExist())
-	{
-		this->camera.move(this->dt * this->CheckCntrl.GetLeftAnalogVals()[1] , FORWARD);
-		this->camera.move(this->dt * this->CheckCntrl.GetLeftAnalogVals()[0], RIGHT);
-	}
+
 }
 
 void Game::updateMouseInput()
@@ -396,12 +383,6 @@ void Game::updateMouseInput()
 	else
 	{
 		this->camera.updateInput(dt, -1, this->MouseToUse.GetOffset());
-		if (this->CheckCntrl.ControllerExist())
-		{
-			std::vector<float> Vals = this->CheckCntrl.GetRightAnalogVals();
-			std::vector<float> Axis_acc = this->CheckCntrl.GetAxisRate();
-			this->camera.updateMouseInput(this->dt, Vals[0] * Axis_acc[0], Vals[1] * Axis_acc[1]);
-		}
 	}
 
 }
@@ -415,8 +396,45 @@ void Game::updateInput()
 	this->updateOpenGLOptions();
 	this->updateKeyboardInput();
 	this->updateMouseInput();
+	this->updateController();
 }
+void Game::updateController()
+{
+	if (this->CheckCntrl.ControllerExist())
+	{
+		std::vector<float> Vals = this->CheckCntrl.GetRightAnalogVals();
+		std::vector<float> Axis_acc = this->CheckCntrl.GetAxisRate();
+		this->camera.updateMouseInput(this->dt, Vals[0] * Axis_acc[0], Vals[1] * Axis_acc[1]);
+		this->camera.move(this->dt * this->CheckCntrl.GetLeftAnalogVals()[1], FORWARD);
+		this->camera.move(this->dt * this->CheckCntrl.GetLeftAnalogVals()[0], RIGHT);
+		if (this->CheckCntrl.AButtonPressed())
+		{
+			this->camera.move(this->dt, UP);
+		}
+		if (this->CheckCntrl.BButtonPressed())
+		{
+			this->camera.move(this->dt, DOWN);
+		}
+		if (this->CheckCntrl.MenuButtonPressed())
+		{
 
+			glfwSetWindowShouldClose(this->window, GLFW_TRUE);
+		}
+		if (this->CheckCntrl.LeftBumperPressed())
+		{
+
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glDisable(GL_CULL_FACE);
+		}
+		else if (this->CheckCntrl.RightBumperPressed())
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			glFrontFace(GL_CCW);
+		}
+	}
+}
 void Game::ImGuiOptions()
 {
 	
@@ -1482,7 +1500,8 @@ Game::Game(const char * title,
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
 	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
-	RdMkFiles("SaveFiles/Models/"),AnimRdrMk("SaveFiles/Animations/"),CheckCntrl()
+	RdMkFiles("SaveFiles/Models/"),AnimRdrMk("SaveFiles/Animations/"),
+	CheckCntrl(GLFW_JOYSTICK_1)
 {
 	
 	this->SkyColor = SkyColor;
@@ -1565,7 +1584,7 @@ void Game::setWindowShouldClose()
 void Game::update()
 {
 	//Update Input---
-	this->CheckCntrl.UpdateVals();
+	this->CheckCntrl.UpdateVals(this->dt);
 	this->updateDT();
 	this->updateInput();
 	this->ImGuiOptions();
