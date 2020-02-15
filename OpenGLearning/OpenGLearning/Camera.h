@@ -14,7 +14,8 @@ enum direction{FORWARD = 0,
 				BACKWARD,
 				LEFT,
 				RIGHT, 
-				UP};
+				UP,
+				DOWN};
 
 class Camera
 {
@@ -100,6 +101,9 @@ public:
 			break;
 		case UP:
 			this->position.y += 1.f * this->movementSpeed * dt;
+			break;
+		case DOWN:
+			this->position.y -= 1.f * this->movementSpeed * dt;
 			break;
 		default:
 			break;

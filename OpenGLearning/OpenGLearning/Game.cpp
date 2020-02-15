@@ -348,6 +348,17 @@ void Game::updateKeyboardInput()
 	{
 		this->camera.move(this->dt, UP);
 	}
+	if (this->CheckCntrl.ControllerExist())
+	{
+		if (this->CheckCntrl.AButtonPressed())
+		{
+			this->camera.move(this->dt, UP);
+		}
+		if (this->CheckCntrl.BButtonPressed())
+		{
+			this->camera.move(this->dt, DOWN);
+		}
+	}
 	//None Camera inputs
 	if (glfwGetKey(this->window, GLFW_KEY_C) == GLFW_PRESS)
 	{
@@ -388,7 +399,8 @@ void Game::updateMouseInput()
 		if (this->CheckCntrl.ControllerExist())
 		{
 			std::vector<float> Vals = this->CheckCntrl.GetRightAnalogVals();
-			this->camera.updateMouseInput(this->dt, Vals[0] * 10, Vals[1] * 10);
+			std::vector<float> Axis_acc = this->CheckCntrl.GetAxisRate();
+			this->camera.updateMouseInput(this->dt, Vals[0] * Axis_acc[0], Vals[1] * Axis_acc[1]);
 		}
 	}
 
