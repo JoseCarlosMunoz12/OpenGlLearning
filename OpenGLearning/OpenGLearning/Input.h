@@ -18,6 +18,7 @@ class Input
 	struct ButtnsClick {
 		float Time;
 		float Prev;
+		bool D_Pressed;
 	};
 private:
 	int JoyStickID;
@@ -51,7 +52,12 @@ private:
 			ImGui::Text(jj.c_str());
 			ImGui::SameLine();
 			ImGui::Text((GLFW_PRESS == Bttns[Count])?(" Pressed for %.3f(s)"):(" Released"),BttnHold[Count].Time);
-			
+			ImGui::Text("%.3f",BttnHold[Count].Prev);
+			if (BttnHold[Count].D_Pressed)
+			{
+				ImGui::SameLine();
+				ImGui::Text("double Pressed");
+			}
 			Count++;
 		}
 		
@@ -73,7 +79,7 @@ public:
 			{
 				for (int jj = 0; jj < BttnAmount; jj++)
 				{
-					BttnHold.push_back({0.f,0.f});
+					BttnHold.push_back({0.f,0.f,false});
 				}
 			}
 			else
@@ -82,11 +88,23 @@ public:
 				for (auto& ii : BttnHold)
 				{
 					if (GLFW_PRESS == Bttns[Count])
-					{
+					{	
+						if (ii.Prev < 0.15f && ii.Prev != 0.f)
+						{
+							ii.D_Pressed = true;
+						}
+						else
+						{
+							ii.D_Pressed = false;
+						}
+						ii.Prev = 0.f;
 						ii.Time += Dt;
 					}
 					else {
-						ii.Prev = ii.Time;
+						if (!(ii.Prev >= 1.f))
+						{
+							ii.Prev += Dt;
+						}
 						ii.Time = 0;
 					}
 					Count++;
