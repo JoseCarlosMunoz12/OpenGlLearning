@@ -52,7 +52,6 @@ private:
 			ImGui::Text(jj.c_str());
 			ImGui::SameLine();
 			ImGui::Text((GLFW_PRESS == Bttns[Count])?(" Pressed for %.3f(s)"):(" Released"),BttnHold[Count].Time);
-			ImGui::Text("%.3f",BttnHold[Count].Prev);
 			if (BttnHold[Count].D_Pressed)
 			{
 				ImGui::SameLine();

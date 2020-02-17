@@ -248,24 +248,25 @@ protected:
 			for (int jj = 0; jj <NumOfRot; jj++)
 			{
 				float FTime = Temps->mRotationKeys[jj].mTime;
-				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;				
-				float AngleRad = 2 *glm::acos(TempQuat.w);
+				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;
+				
+				float AngleRad = 2 * glm::acos(TempQuat.w);
 				glm::vec3 VecQuat;
 				AngleRad = AngleRad / glm::pi<float>() * 180.f;
 				if (AngleRad == 0.f || AngleRad >= 179.9f)
 				{
 					VecQuat = glm::vec3(0.f,0.f,1.f);
-					AngleRad -= 90;
+					AngleRad -= 90.f;
 				}
 				else {
 					AngleRad = AngleRad * glm::pi<float>() / 180.f;
-					VecQuat = glm::vec3(TempQuat.x / glm::sin(AngleRad),
-					TempQuat.y / glm::sin(AngleRad),
+					VecQuat = glm::vec3(TempQuat.y / glm::sin(AngleRad),
+					TempQuat.x / glm::sin(AngleRad),
 					TempQuat.z / glm::sin(AngleRad));
 					AngleRad = AngleRad / glm::pi<float>() * 180.f;
 				}				
 				
-				QuatParts TempQuats = QuatParts(AngleRad, glm::vec3(VecQuat.x, VecQuat.y,  VecQuat.z));
+				QuatParts TempQuats = QuatParts(AngleRad,VecQuat);
 				Joints TempJoint;  
 				TempJoint.Offset = glm::vec3(1.f);
 				TempJoint.Scale = glm::vec3(1.f);
