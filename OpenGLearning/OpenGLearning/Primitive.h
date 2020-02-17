@@ -64,16 +64,16 @@ public:
 		{
 			//Position                    //Color                     //TexCoords			 //Normals
 			glm::vec3(-0.5f, 0.5f, 0.f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3(0.0f,0.0f, 1.0f),
-			glm::vec3(-0.5f,-0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f),
-			glm::vec3(0.5f,-0.5f, 0.f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f),
-			glm::vec3(0.5f, 0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3(0.0f,0.0f, 1.0f)
+			glm::vec3( 0.5f, 0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3(0.0f,0.0f, 1.0f),
+			glm::vec3(-0.5f,-0.5f, 0.f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(0.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f),
+			glm::vec3( 0.5f,-0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f)
 		};
 		unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
 		GLuint indices[] =
 		{
-			0,1,2, //Trianlge 1
-			0,2,3  //Triangle 2
+			0,2,1, //Trianlge 1
+			1,2,3  //Triangle 2
 		};
 		unsigned nrOfIndices = sizeof(indices) / sizeof(GLuint);
 
@@ -124,13 +124,13 @@ public:
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j <9; j++) {
 				//Position
-				positions.y = 0;
+				positions.z = 0;
 				positions.x = (((float)j-4.5f) / ((float)9-1 )) * 1;
-				positions.z = (((float)i-4.5f) / ((float)9-1 )) * 1;
+				positions.y = (((float)i-4.5f) / ((float)9-1 )) * 1;
 				//normals
 				normals.x = 0;
-				normals.y = 1;
-				normals.z = 0;
+				normals.z = 1;
+				normals.y = 0;
 				//Tex Coords
 				texCoords.x = (float)j / ((float)9-1);
 				texCoords.y = (float)i / ((float)9-1);
@@ -173,12 +173,12 @@ public:
 		{
 			for (int ii = 0; ii < Dimension; ii++)
 			{
-				positions.y = 0;
+				positions.z = 0;
 				positions.x = ((float)ii - Dimension/2)/ ((float)Dimension - 1) * Size;
-				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
+				positions.y = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 				normals.x = 0;
-				normals.y = 1;
-				normals.z = 0;
+				normals.z = 1;
+				normals.y = 0;
 				texCoords.x = (float)ii / ((float)Dimension - 1);
 				texCoords.y = (float)jj / ((float)Dimension - 1);
 				Vertex TempVertex = {positions,colors,texCoords,normals};
@@ -217,17 +217,17 @@ public:
 			for (int ii = 0; ii < Dimension; ii++)
 			{
 				positions.x = ((float)ii - Dimension / 2) / ((float)Dimension - 1) * Size;
-				positions.z = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
+				positions.y = ((float)jj - Dimension / 2) / ((float)Dimension - 1) * Size;
 
 								
-				positions.y = HeightMap->ReturnValue(positions.x, positions.z);
+				positions.z = HeightMap->ReturnValue(positions.x, positions.y);
 
 				normals.x = 0;
-				normals.y = 1;
-				normals.z = 0;
+				normals.z = 1;
+				normals.y = 0;
 
-				texCoords.x = (float)ii / ((float)Dimension - 1);
-				texCoords.y = (float)jj / ((float)Dimension - 1);
+				texCoords.y = (float)(Dimension - ii) / ((float)Dimension - 1);
+				texCoords.x = (float)(Dimension - jj) / ((float)Dimension - 1);
 				Vertex TempVertex = { positions,colors,texCoords,normals };
 				VertexOfTerrain.push_back(TempVertex);
 			}
@@ -236,9 +236,9 @@ public:
 		{
 			for (int ii = 0; ii < Dimension - 1; ii++)
 			{
-				GLuint TopLeft = (jj * Dimension) + ii;
+				GLuint TopLeft = (ii * Dimension) + jj;
 				GLuint TopRight = TopLeft + 1;
-				GLuint BottomLeft = ((jj + 1) * Dimension) + ii;
+				GLuint BottomLeft = ((ii + 1) * Dimension) + jj;
 				GLuint BottomRight = BottomLeft + 1;
 				IndecesOfTerrain.push_back(TopLeft);
 				IndecesOfTerrain.push_back(BottomLeft);
@@ -773,12 +773,12 @@ private:
 			Vertex NewVertex;
 			//Position
 			NewVertex.position.x = Meshes->mVertices[ii].x;
-			NewVertex.position.y = Meshes->mVertices[ii].z;
-			NewVertex.position.z = -1 * Meshes->mVertices[ii].y;
+			NewVertex.position.y = Meshes->mVertices[ii].y;
+			NewVertex.position.z =  Meshes->mVertices[ii].z;
 			//Normals
 			NewVertex.normal.x = Meshes->mNormals[ii].x;
-			NewVertex.normal.y = Meshes->mNormals[ii].z;
-			NewVertex.normal.z = -1 * Meshes->mNormals[ii].y;
+			NewVertex.normal.y = Meshes->mNormals[ii].y;
+			NewVertex.normal.z =  Meshes->mNormals[ii].z;
 			//Color
 			NewVertex.color = glm::vec3(0.f, 1.f, 0.f);
 			//Texture Coordinates
@@ -808,7 +808,7 @@ public:
 		std::string File = "Models/ModelCol/";
 		File += FileLoc;
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
 		if (!scene)
 		{
 			std::cout << "Error";

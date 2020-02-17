@@ -160,11 +160,11 @@ void Game::initModels()
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
-			&CustomObject("untitled.obj"),
+			&CustomObject("untitled.dae"),
 			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
-			&ASSIMPLOAD("Box1.dae"),
+			&ASSIMPLOAD("untitled.fbx"),
 			"ASSIMP"));
 	meshes.push_back(
 		new Mesh(
@@ -189,7 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&CLoader("Model.dae"), "Test0"));
+	//animMeshes.push_back(new AnimMesh(&CLoader("Model.dae"), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&CLoader("Set.dae"), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
@@ -215,9 +215,9 @@ void Game::initModels()
 		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
-		meshes[0], { Terrain }));
+		meshes[5], { Terrain }));
 	this->models.push_back(new Model("Monk",
-		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f),
+		glm::vec3(0.f, 0.f ,this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
 		this->MatTest[1],
 		{ this->textures[2],this->textures[6],
 		this->textures[14],this->textures[15],this->textures[16] },
@@ -230,12 +230,12 @@ void Game::initModels()
 	//	{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
 	//	this->textures[14],this->textures[15],this->textures[16] },
 	//	animMeshes[1], { Terrains }));
-	this->animModel.push_back(new AnimModel("Test",
-		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 4.f), 4.f),
-		this->MatTest[4],
-		{ this->textures[11],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16] },
-		animMeshes[0], { Terrains }));
+	//this->animModel.push_back(new AnimModel("Test",
+	//	glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 4.f), 4.f),
+	//	this->MatTest[4],
+	//	{ this->textures[11],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+	//	this->textures[14],this->textures[15],this->textures[16] },
+	//	animMeshes[0], { Terrains }));
 }
 
 void Game::initLights()
@@ -1499,7 +1499,7 @@ Game::Game(const char * title,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
 	: Window_Width(width), Window_Height(height),
 	GLVerMajor(GLmajorVer), GLVerMinor(GLminorVer),
-	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,1.f,0.f)),
+	camera(glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f),glm::vec3(0.f,0.f,1.f)),
 	RdMkFiles("SaveFiles/Models/"),AnimRdrMk("SaveFiles/Animations/"),
 	CheckCntrl(GLFW_JOYSTICK_1)
 {
@@ -1510,8 +1510,8 @@ Game::Game(const char * title,
 	this->frameBufferWidth = this->Window_Width;
 		
 	this-> camPosition = glm::vec3(0.f, 1.f, 0.f);
-	this-> worldUp = glm::vec3(0.f, 1.f, 0.f);
-	this-> camFront = glm::vec3(0.f, 0.f,1.f);
+	this-> worldUp = glm::vec3(0.f, 0.f, 1.f);
+	this-> camFront = glm::vec3(0.f, 0.f,-1.f);
 
 
 	this-> fov = 90.f;
@@ -1534,7 +1534,7 @@ Game::Game(const char * title,
 	this->initModels();
 	this->initLights();
 	this->initUniforms();
-	this->camera.SetPos(glm::vec3(0.f, this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f,0.f));
+	this->camera.SetPos(glm::vec3(0.f,0.f ,this->MipMapsData[HEIGHTMAP_1]->ReturnValue(0.f, 0.f) + 1.f));
 	const char* glsl_version = "#version 130";
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

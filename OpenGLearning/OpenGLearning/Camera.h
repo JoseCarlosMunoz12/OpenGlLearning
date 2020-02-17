@@ -37,9 +37,9 @@ private:
 
 	void UpdateCameraVectors()
 	{
-		this->front.x = cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
-		this->front.y = sin(glm::radians(this->pitch));
-		this->front.z = sin(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
+		this->front.x = -1*cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
+		this->front.z = sin(glm::radians(this->pitch));
+		this->front.y = sin(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
 
 		this->front = glm::normalize(this->front);
 		this->right = glm::normalize(glm::cross(this->front, this->worldUp));
@@ -100,10 +100,10 @@ public:
 			this->position += this->right * this->movementSpeed * dt;
 			break;
 		case UP:
-			this->position.y += 1.f * this->movementSpeed * dt;
+			this->position.z += 1.f * this->movementSpeed * dt;
 			break;
 		case DOWN:
-			this->position.y -= 1.f * this->movementSpeed * dt;
+			this->position.z -= 1.f * this->movementSpeed * dt;
 			break;
 		default:
 			break;

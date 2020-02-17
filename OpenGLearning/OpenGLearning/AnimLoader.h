@@ -101,12 +101,12 @@ protected:
 			AnimVertex NewVertex;
 			//Position
 			NewVertex.position.x = meshes->mVertices[ii].x;
-			NewVertex.position.y = meshes->mVertices[ii].z;
-			NewVertex.position.z = -1 * meshes->mVertices[ii].y;
+			NewVertex.position.y = meshes->mVertices[ii].y;
+			NewVertex.position.z =  meshes->mVertices[ii].z;
 			//Normals
 			NewVertex.normal.x = meshes->mNormals[ii].x;
-			NewVertex.normal.y = meshes->mNormals[ii].z;
-			NewVertex.normal.z = meshes->mNormals[ii].y;
+			NewVertex.normal.y = meshes->mNormals[ii].y;
+			NewVertex.normal.z = meshes->mNormals[ii].z;
 			//Color
 			NewVertex.color = glm::vec3(0.f, 1.f, 0.f);
 			//Textures
