@@ -212,7 +212,10 @@ protected:
 			aiVector3D TempOffset;
 			aiVector3D TempScale;
 			aiQuaternion TempQuat;
-			TempMat.Decompose(TempScale, TempQuat, TempOffset);			
+			TempMat.Decompose(TempScale, TempQuat, TempOffset);
+			float AngleRad = 2 * glm::acos(TempQuat.w);
+			AngleRad = AngleRad / glm::pi<float>() * 180.f;
+			std::cout << AngleRad << "\n";
 			jj.InitOffset = glm::vec3(TempOffset.x,TempOffset.y,TempOffset.z);
 			jj.InitQuat = QuatParts();
 			jj.InitScale = glm::vec3(TempScale.x, TempScale.y, TempScale.z);
@@ -228,9 +231,26 @@ protected:
 			}
 		}
 	}
-	aiMatrix4x4 GetKeyFrameMatrix(float Time,std::vector<SkelArti>SkelsInit, const aiScene* scene)
+	aiMatrix4x4 GetKeyFrameMatrix(float Time,std::string Name,std::vector<SkelArti>SkelsInit, const aiScene* scene)
 	{
-
+		std::vector<SkelArti>::iterator I = std::find_if(SkelsInit.begin(), SkelsInit.end(),
+			[Name](const SkelArti& Vi) {return Vi.Name == Name; });		
+		if (I->Parent == "NULL")
+		{
+			int Count = scene->mMeshes[0]->mNumBones;
+			for (int ii = 0; ii < Count; ii++)
+			{
+				if (scene->mMeshes[0]->mBones[ii]->mName.C_Str() == I->Parent)
+				{
+					aiMatrix4x4 Temp = scene->mMeshes[0]->mBones[ii]->mOffsetMatrix;
+					break;
+				}
+			}
+			aiMatrix4x4 st;
+			return st;
+		}
+		aiMatrix4x4 ste;
+		return ste;
 	}
 	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> &SkelsInit,std::vector<float> &TimeInit)
 	{
@@ -249,31 +269,25 @@ protected:
 			int NumOfRot = AnimFound->mChannels[ii]->mNumRotationKeys;			
 			std::string Name = AnimFound->mChannels[ii]->mNodeName.C_Str();	
 			aiMatrix4x4 InverseMatrix;
-			aiMatrix4x4 SInverse;
 			for (int kk = 0; kk < NumBones; kk++)
 			{
 				if (Name == scene->mMeshes[0]->mBones[kk]->mName.C_Str())
 				{
 					InverseMatrix = scene->mMeshes[0]->mBones[kk]->mOffsetMatrix;
-					if (SkelsInit[this->BonesId[Name]].Parent != "NULL")
-					{
-						
-					}
 					break;
 				}
 			}
-			std::cout << Name + "\n";
 			aiNodeAnim* Temps = AnimFound->mChannels[ii];		
 			std::vector<Frames*> TempFrames;
 			for (int jj = 0; jj <NumOfRot; jj++)
 			{
 				float FTime = Temps->mRotationKeys[jj].mTime;
 				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;
+				aiMatrix4x4 SInverse = this->GetKeyFrameMatrix(FTime,Name,SkelsInit,scene);
 				aiMatrix4x4 Te = SInverse * InverseMatrix * aiMatrix4x4(Temps->mScalingKeys[jj].mValue, TempQuat, Temps->mPositionKeys[jj].mValue);
 				aiVector3D Pos;
 				Te.DecomposeNoScaling(TempQuat, Pos);
 				float AngleRad = 2 * glm::acos(TempQuat.w);
-				std::cout << TempQuat.w << "\n";
 				float s = glm::sqrt(1 - TempQuat.w * TempQuat.w);
 				glm::vec3 VecQuat;
 				AngleRad = AngleRad / glm::pi<float>() * 180.f;
@@ -287,6 +301,8 @@ protected:
 					VecQuat = glm::normalize(VecQuat);
 				}			
 				QuatParts TempQuats = QuatParts(AngleRad,VecQuat);
+				aiVector3D Sert = aiVector3D(TempQuats.UnitVec.x, TempQuats.UnitVec.y, TempQuats.UnitVec.z);
+				aiQuaternion set = aiQuaternion( Sert,TempQuats.Angle);
 				Joints TempJoint;  
 				TempJoint.Offset = glm::vec3(1.f);
 				TempJoint.Scale = glm::vec3(1.f);
