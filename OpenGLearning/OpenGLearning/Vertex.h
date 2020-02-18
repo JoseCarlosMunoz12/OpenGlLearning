@@ -83,6 +83,12 @@ struct QuatParts
 		return Temp;
 
 	}
+	void Cout()
+	{
+		std::cout << this->Angle <<"\n";
+		std::cout << this->UnitVec.x <<"*" << this->UnitVec.y << "*" << this->UnitVec.z << "\n";
+
+	}
 };
 struct MeshsArtifacts
 {
