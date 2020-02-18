@@ -226,8 +226,8 @@ public:
 				normals.z = 1;
 				normals.y = 0;
 
-				texCoords.y = (float)(Dimension - ii) / ((float)Dimension - 1);
-				texCoords.x = (float)(Dimension - jj) / ((float)Dimension - 1);
+				texCoords.y = (float)ii / ((float)Dimension - 1);
+				texCoords.x = (float)jj / ((float)Dimension - 1);
 				Vertex TempVertex = { positions,colors,texCoords,normals };
 				VertexOfTerrain.push_back(TempVertex);
 			}
@@ -236,16 +236,16 @@ public:
 		{
 			for (int ii = 0; ii < Dimension - 1; ii++)
 			{
-				GLuint TopLeft = (ii * Dimension) + jj;
+				GLuint TopLeft = (jj * Dimension) + ii;
 				GLuint TopRight = TopLeft + 1;
-				GLuint BottomLeft = ((ii + 1) * Dimension) + jj;
+				GLuint BottomLeft = ((jj + 1) * Dimension) + ii;
 				GLuint BottomRight = BottomLeft + 1;
-				IndecesOfTerrain.push_back(TopLeft);
-				IndecesOfTerrain.push_back(BottomLeft);
-				IndecesOfTerrain.push_back(TopRight);
-				IndecesOfTerrain.push_back(TopRight);
-				IndecesOfTerrain.push_back(BottomLeft);
 				IndecesOfTerrain.push_back(BottomRight);
+				IndecesOfTerrain.push_back(BottomLeft);
+				IndecesOfTerrain.push_back(TopRight);
+				IndecesOfTerrain.push_back(TopRight);
+				IndecesOfTerrain.push_back(BottomLeft);
+				IndecesOfTerrain.push_back(TopLeft);
 			}
 		}
 		this->set(VertexOfTerrain, IndecesOfTerrain);

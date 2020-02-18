@@ -102,7 +102,7 @@ protected:
 			//Position
 			NewVertex.position.x = meshes->mVertices[ii].x;
 			NewVertex.position.y = meshes->mVertices[ii].y;
-			NewVertex.position.z =  meshes->mVertices[ii].z;
+			NewVertex.position.z = meshes->mVertices[ii].z;
 			//Normals
 			NewVertex.normal.x = meshes->mNormals[ii].x;
 			NewVertex.normal.y = meshes->mNormals[ii].y;
@@ -213,9 +213,9 @@ protected:
 			aiVector3D TempScale;
 			aiQuaternion TempQuat;
 			TempMat.Decompose(TempScale, TempQuat, TempOffset);			
-			jj.InitOffset = glm::vec3(TempOffset.x,TempOffset.z,-TempOffset.y);
+			jj.InitOffset = glm::vec3(TempOffset.x,TempOffset.y,TempOffset.z);
 			jj.InitQuat = QuatParts();
-			jj.InitScale = glm::vec3(TempScale.x, TempScale.z, TempScale.y);
+			jj.InitScale = glm::vec3(TempScale.x, TempScale.y, TempScale.z);
 		}		
 	}
 	aiMatrix4x4 GetAnimMatr(const aiScene* scene, std::string Name, std::vector<SkelArti> &SkelsInit)
@@ -241,31 +241,29 @@ protected:
 		TimeInit.push_back(AnimFound->mDuration);
 		for (int ii = 0; ii < AmountOfAnim; ii++)
 		{
-			int NumOfRot = AnimFound->mChannels[ii]->mNumRotationKeys;
-			std::string Name = AnimFound->mChannels[ii]->mNodeName.C_Str();
+			int NumOfRot = AnimFound->mChannels[ii]->mNumRotationKeys;			
+			std::string Name = AnimFound->mChannels[ii]->mNodeName.C_Str();	
+			std::cout << Name << "\n";
 			aiNodeAnim* Temps = AnimFound->mChannels[ii];
 			std::vector<Frames*> TempFrames;
 			for (int jj = 0; jj <NumOfRot; jj++)
 			{
 				float FTime = Temps->mRotationKeys[jj].mTime;
 				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;
-				
+				std::cout << TempQuat.w << "\n";
 				float AngleRad = 2 * glm::acos(TempQuat.w);
+				float s = glm::sqrt(1 - TempQuat.w * TempQuat.w);
 				glm::vec3 VecQuat;
 				AngleRad = AngleRad / glm::pi<float>() * 180.f;
-				if (AngleRad == 0.f || AngleRad >= 179.9f)
+				if (s <0.001)
 				{
-					VecQuat = glm::vec3(0.f,0.f,1.f);
-					AngleRad -= 90.f;
+					VecQuat = glm::vec3(TempQuat.x, TempQuat.y, TempQuat.z);
 				}
-				else {
-					AngleRad = AngleRad * glm::pi<float>() / 180.f;
-					VecQuat = glm::vec3(TempQuat.y / glm::sin(AngleRad),
-					TempQuat.x / glm::sin(AngleRad),
-					TempQuat.z / glm::sin(AngleRad));
-					AngleRad = AngleRad / glm::pi<float>() * 180.f;
-				}				
-				
+				else
+				{
+					VecQuat = glm::vec3(TempQuat.x/s, TempQuat.y/s, TempQuat.z/s);
+					VecQuat = glm::normalize(VecQuat);
+				}			
 				QuatParts TempQuats = QuatParts(AngleRad,VecQuat);
 				Joints TempJoint;  
 				TempJoint.Offset = glm::vec3(1.f);

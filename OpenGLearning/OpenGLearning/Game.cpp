@@ -156,7 +156,7 @@ void Game::initModels()
 	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1]),
+			&CustomTerrain(10, 10, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
@@ -189,7 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	//animMeshes.push_back(new AnimMesh(&CLoader("Model.dae"), "Test0"));
+	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&CLoader("Set.dae"), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
@@ -215,7 +215,7 @@ void Game::initModels()
 		this->MatTest[0],
 		{ this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
-		meshes[5], { Terrain }));
+		meshes[0], { Terrain }));
 	this->models.push_back(new Model("Monk",
 		glm::vec3(0.f, 0.f ,this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
 		this->MatTest[1],
@@ -230,12 +230,12 @@ void Game::initModels()
 	//	{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
 	//	this->textures[14],this->textures[15],this->textures[16] },
 	//	animMeshes[1], { Terrains }));
-	//this->animModel.push_back(new AnimModel("Test",
-	//	glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 4.f), 4.f),
-	//	this->MatTest[4],
-	//	{ this->textures[11],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
-	//	this->textures[14],this->textures[15],this->textures[16] },
-	//	animMeshes[0], { Terrains }));
+	this->animModel.push_back(new AnimModel("Test",
+		glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 4.f), 4.f),
+		this->MatTest[4],
+		{ this->textures[11],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] },
+		animMeshes[0], { Terrains }));
 }
 
 void Game::initLights()

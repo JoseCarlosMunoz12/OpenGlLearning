@@ -145,7 +145,6 @@
     <None Include="Shaders\StaticShaders\vertex_core.glsl" />
     <None Include="Shaders\AnimShaders\BasicAnimFrag.glsl" />
     <None Include="Shaders\AnimShaders\BasicAnimVertex.glsl" />
-    <None Include="..\..\..\..\..\Desktop\untitled.dae" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SaveFiles\Models\Test.txt" />
