@@ -189,7 +189,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&CLoader("Long.dae"), "Test0"));
+	animMeshes.push_back(new AnimMesh(&CLoader("Rest.dae"), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&CLoader("Set.dae"), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 

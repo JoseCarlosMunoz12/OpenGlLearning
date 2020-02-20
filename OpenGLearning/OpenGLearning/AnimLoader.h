@@ -16,6 +16,9 @@ struct SkelArti
 	glm::vec3 InitOffset;
 	glm::vec3 InitScale;
 	QuatParts InitQuat;
+	glm::mat4 TransMat;
+	glm::mat4 OffsetMat;
+	glm::mat4 Inv;
 };
 struct AnimArti
 {
@@ -206,7 +209,7 @@ protected:
 	}
 	void SetEachNodes(const aiScene* scene, std::vector<SkelArti> &SkelsInit)
 	{
-		aiMatrix4x4 Set = scene->mRootNode->mTransformation.Inverse();
+		aiMatrix4x4 Set = scene->mRootNode->mTransformation.Inverse();		
 		aiMatrix4x4 Off;
 		int Vals = scene->mMeshes[0]->mNumBones;
 		for (auto& jj : SkelsInit)
