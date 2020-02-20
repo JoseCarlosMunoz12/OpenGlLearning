@@ -206,15 +206,40 @@ protected:
 	}
 	void SetEachNodes(const aiScene* scene, std::vector<SkelArti> &SkelsInit)
 	{
+		aiMatrix4x4 Set = scene->mRootNode->mTransformation.Inverse();
+		aiMatrix4x4 Off;
+		int Vals = scene->mMeshes[0]->mNumBones;
 		for (auto& jj : SkelsInit)
 		{
-			aiMatrix4x4 TempMat = this->GetParentMatrix(scene, jj.Name, jj.Parent,SkelsInit);
+			for (int ii = 0; ii < Vals; ii++)
+			{
+				if (scene->mMeshes[0]->mBones[ii]->mName.C_Str() == jj.Name)
+				{
+					Off = scene->mMeshes[0]->mBones[ii]->mOffsetMatrix;
+					break;
+				}
+			}
+			aiMatrix4x4 TempMat = Set * this->GetParentMatrix(scene, jj.Name, jj.Parent,SkelsInit) * Off;
 			aiVector3D TempOffset;
 			aiVector3D TempScale;
 			aiQuaternion TempQuat;
 			TempMat.Decompose(TempScale, TempQuat, TempOffset);
+			float AngleRad = 2 * glm::acos(TempQuat.w);
+			float s = glm::sqrt(1 - TempQuat.w * TempQuat.w);
+			glm::vec3 VecQuat;
+			AngleRad = AngleRad / glm::pi<float>() * 180.f;
+			if (s < 0.001)
+			{
+				VecQuat = glm::vec3(TempQuat.x, TempQuat.y, TempQuat.z);
+			}
+			else
+			{
+				VecQuat = glm::vec3(TempQuat.x / s, TempQuat.y / s, TempQuat.z / s);
+				VecQuat = glm::normalize(VecQuat);
+			}
+			QuatParts TempQuats = QuatParts(AngleRad, VecQuat);
 			jj.InitOffset = glm::vec3(TempOffset.x,TempOffset.y,TempOffset.z);
-			jj.InitQuat = QuatParts();
+			jj.InitQuat = TempQuats;
 			jj.InitScale = glm::vec3(TempScale.x, TempScale.y, TempScale.z);
 		}		
 	}
@@ -283,7 +308,6 @@ protected:
 				aiVector3D Scal;
 				Te.Decompose(Scal,TempQuat, Pos);				
 				float AngleRad = 2 * glm::acos(TempQuat.w);
-				std::cout << TempQuat.w <<"\n";
 				float s = glm::sqrt(1 - TempQuat.w * TempQuat.w);
 				glm::vec3 VecQuat;
 				AngleRad = AngleRad / glm::pi<float>() * 180.f;

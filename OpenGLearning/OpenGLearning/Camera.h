@@ -37,7 +37,7 @@ private:
 
 	void UpdateCameraVectors()
 	{
-		this->front.x = -1*cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
+		this->front.x = -cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
 		this->front.z = sin(glm::radians(this->pitch));
 		this->front.y = sin(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
 

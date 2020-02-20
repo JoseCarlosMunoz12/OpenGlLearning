@@ -188,7 +188,6 @@ public:
 		Matrix = glm::translate(Matrix,this->CurOffset);	
 		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
 		Matrix *= Quats;
-		Matrix = glm::translate(Matrix, -this->CurOffset);
 		Matrix = glm::scale(Matrix, this->CurScale);
 	}
 	void UpdateRelMat(bool Active, std::map<std::string, SkelAn*> Temp)
@@ -197,15 +196,8 @@ public:
 		{
 			this->UpdateMatrix();
 		}
-		if (this->ParentId != "NULL")
-		{
-			this->RelMat = Temp[this->ParentId]->GetRelativeMat() * this->Matrix;
-		}
-		else {
-			this->RelMat = this->Matrix;
-		}
+		this->RelMat = this->Matrix;	
 	}
-
 	//
 	std::vector<Frames*> GetFrames()
 	{
@@ -239,7 +231,6 @@ public:
 	{
 		this->CurScale = NewScale;
 	}
-
 	void DeleteFrame(int FrameCount)
 	{
 		this->AnimFrames.erase(this->AnimFrames.begin() + FrameCount);
