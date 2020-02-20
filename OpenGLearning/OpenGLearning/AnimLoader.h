@@ -17,8 +17,6 @@ struct SkelArti
 	glm::vec3 InitScale;
 	QuatParts InitQuat;
 	glm::mat4 TransMat;
-	glm::mat4 OffsetMat;
-	glm::mat4 Inv;
 };
 struct AnimArti
 {
@@ -68,6 +66,15 @@ public:
 //Base classes for the ASSIMP Loading
 class Loading
 {
+private:
+	glm::mat4 aiMatToglmMat(aiMatrix4x4 aiVal)
+	{
+		glm::mat4 glmVal = glm::mat4(aiVal.a1, aiVal.b1, aiVal.c1, aiVal.d1,
+			aiVal.a2, aiVal.b2, aiVal.c2, aiVal.d2,
+			aiVal.a3, aiVal.b3, aiVal.c3, aiVal.d3,
+			aiVal.a4, aiVal.b4, aiVal.c4, aiVal.d4);
+		return glmVal;
+	}
 protected:
 	int Tempsas = 0;
 	std::map<std::string, int> BonesId;
@@ -210,10 +217,13 @@ protected:
 	void SetEachNodes(const aiScene* scene, std::vector<SkelArti> &SkelsInit)
 	{
 		aiMatrix4x4 Set = scene->mRootNode->mTransformation.Inverse();		
-		aiMatrix4x4 Off;
+		glm::mat4 InvMat = this->aiMatToglmMat(Set);
 		int Vals = scene->mMeshes[0]->mNumBones;
 		for (auto& jj : SkelsInit)
 		{
+			glm::mat4 OffMat;
+			glm::mat4 TransMat;
+			aiMatrix4x4 Off;
 			for (int ii = 0; ii < Vals; ii++)
 			{
 				if (scene->mMeshes[0]->mBones[ii]->mName.C_Str() == jj.Name)
@@ -222,7 +232,11 @@ protected:
 					break;
 				}
 			}
-			aiMatrix4x4 TempMat = Set * this->GetParentMatrix(scene, jj.Name, jj.Parent,SkelsInit) * Off;
+			OffMat = this->aiMatToglmMat(Off);
+			aiMatrix4x4 Trans = this->GetParentMatrix(scene, jj.Name, jj.Parent, SkelsInit);
+			TransMat = this->aiMatToglmMat(Trans);
+			glm::mat4 TestMat = InvMat * TransMat * OffMat;
+			aiMatrix4x4 TempMat = Set * Trans * Off;
 			aiVector3D TempOffset;
 			aiVector3D TempScale;
 			aiQuaternion TempQuat;
@@ -244,6 +258,7 @@ protected:
 			jj.InitOffset = glm::vec3(TempOffset.x,TempOffset.y,TempOffset.z);
 			jj.InitQuat = TempQuats;
 			jj.InitScale = glm::vec3(TempScale.x, TempScale.y, TempScale.z);
+			jj.TransMat = TestMat;
 		}		
 	}
 	aiMatrix4x4 GetAnimMatr(const aiScene* scene, std::string Name, std::vector<SkelArti> &SkelsInit)
@@ -306,6 +321,7 @@ protected:
 			{
 				float FTime = Temps->mRotationKeys[jj].mTime;
 				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;
+			
 				aiMatrix4x4 Te = SInverse * InverseMatrix * aiMatrix4x4(Temps->mScalingKeys[jj].mValue, TempQuat, Temps->mPositionKeys[jj].mValue)  ;
 				aiVector3D Pos;
 				aiVector3D Scal;
@@ -329,11 +345,11 @@ protected:
 				Joints TempJoint;  
 				TempJoint.Offset = glm::vec3(1.f);
 				TempJoint.Scale = glm::vec3(1.f);
-				TempJoint.Rot = TempQuats;
+				TempJoint.Rot = TempQuats;				
 				TempFrames.push_back(new Frames(FTime, TempJoint));
 			}
 			std::cout << "*-----*\n";
-			SkelsInit[this->BonesId[Name]].AllFrames = TempFrames;
+			SkelsInit[this->BonesId[Name]].AllFrames = TempFrames;			
 		}
 	}
 };

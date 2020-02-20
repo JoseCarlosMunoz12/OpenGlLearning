@@ -70,6 +70,7 @@ class SkelAn
 private:
 	std::string ParentId;
 	std::vector<Frames*> AnimFrames;
+	//Offset Matricex
 	glm::vec3 CurOffset;
 	glm::vec3 CurScale;
 	QuatParts CurRot;
@@ -136,13 +137,13 @@ private:
 		return {AnimFrames[Count-1],AnimFrames[Count]};
 	}
 public:
-	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::vec3 InitOffset,
+	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::mat4 InitMat,glm::vec3 InitOffset,
 		QuatParts InitQuat = QuatParts(),glm::vec3 InitScale = glm::vec3(1.f))
 		:CurOffset(InitOffset),CurScale(InitScale),CurRot(InitQuat)
 	{
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
-		this->Matrix = glm::mat4(1.f);
+		this->Matrix = InitMat;
 		for (auto& jj : this->AnimFrames)
 		{
 			jj->SetOffset(this->CurOffset);
@@ -184,11 +185,11 @@ public:
 	}
 	void UpdateMatrix()
 	{
-		Matrix = glm::mat4(1.f);
+	/*	Matrix = glm::mat4(1.f);
 		Matrix = glm::translate(Matrix,this->CurOffset);	
 		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
 		Matrix *= Quats;
-		Matrix = glm::scale(Matrix, this->CurScale);
+		Matrix = glm::scale(Matrix, this->CurScale);*/
 	}
 	void UpdateRelMat(bool Active, std::map<std::string, SkelAn*> Temp)
 	{
@@ -196,7 +197,13 @@ public:
 		{
 			this->UpdateMatrix();
 		}
-		this->RelMat = this->Matrix;	
+		//if (ParentId == "NULL")
+		//{
+		//}
+		//else {
+		//	this->RelMat = Temp[ParentId]->GetRelativeMat() * this->Matrix;
+		//}
+			this->RelMat = this->Matrix;
 	}
 	//
 	std::vector<Frames*> GetFrames()
