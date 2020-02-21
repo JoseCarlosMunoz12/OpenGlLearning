@@ -167,7 +167,7 @@ public:
 		{
 			std::vector<Frames*> Found = this->GetTwoFrames(CurTime);
 			float Ratio = this->GetTimeRatio(CurTime, Found);
-			switch (HOLD)
+			switch (Found[0]->GetType())
 			{
 			case HOLD:
 				this->CurRot = Found[0]->GetRot();
