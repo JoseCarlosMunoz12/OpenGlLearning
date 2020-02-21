@@ -77,6 +77,10 @@ private:
 			aiVal.a4, aiVal.b4, aiVal.c4, aiVal.d4);
 		return glmVal;
 	}
+	glm::vec3 aiVecToglmVec(aiVector3D aiVal)
+	{
+		return glm::vec3(aiVal.x, aiVal.y, aiVal.z);
+	}
 protected:
 	int Tempsas = 0;
 	std::map<std::string, int> BonesId;
@@ -247,25 +251,6 @@ protected:
 			jj.OffsetMat = OffMat;
 		}		
 	}
-
-	aiMatrix4x4 GetKeyFrameMatrix(std::string Name,std::vector<SkelArti>SkelsInit, const aiScene* scene)
-	{
-		std::vector<SkelArti>::iterator I = std::find_if(SkelsInit.begin(), SkelsInit.end(),
-			[Name](const SkelArti& Vi) {return Vi.Name == Name; });
-		if (I->Parent != "NULL")
-		{
-			int Count = scene->mMeshes[0]->mNumBones;
-			for (int ii = 0; ii < Count; ii++)
-			{
-				if (scene->mMeshes[0]->mBones[ii]->mName.C_Str() == I->Parent)
-				{
-					return this->GetKeyFrameMatrix(I->Parent,SkelsInit,scene) * scene->mMeshes[0]->mBones[ii]->mOffsetMatrix.Inverse();
-					break;
-				}
-			}
-		}
-		return aiMatrix4x4();
-	}
 	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> &SkelsInit,std::vector<float> &TimeInit)
 	{
 		if (!scene->HasAnimations())
@@ -298,8 +283,6 @@ protected:
 				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;
 				aiVector3D Scale = Temps->mScalingKeys[jj].mValue;
 				aiVector3D OffSet = Temps->mPositionKeys[jj].mValue;
-				aiMatrix4x4 S = aiMatrix4x4(Scale, TempQuat, OffSet);
-				S.Decompose(Scale, TempQuat, OffSet);
 				float AngleRad = 2 * glm::acos(TempQuat.w);
 				float s = glm::sqrt(1 - TempQuat.w * TempQuat.w);
 				glm::vec3 VecQuat;
@@ -315,16 +298,10 @@ protected:
 				}			
 				QuatParts TempQuats = QuatParts(AngleRad,VecQuat);
 				Joints TempJoint;  
-				TempJoint.Offset = glm::vec3(OffSet.x, OffSet.y, OffSet.z);
-				TempJoint.Scale = glm::vec3(1.f);
+				TempJoint.Offset =this->aiVecToglmVec(OffSet);
+				TempJoint.Scale = this->aiVecToglmVec(Scale);
 				TempJoint.Rot = TempQuats;				
 				TempFrames.push_back(new Frames(FTime, TempJoint));
-				glm::mat4 Test = glm::mat4(1.f);
-				Test = glm::translate(Test, TempJoint.Offset);
-				glm::mat4 Quats = glm::mat4_cast( TempJoint.Rot.GetQuat());
-				Test = Test * Quats;
-				Test = glm::scale(Test, TempJoint.Scale);
-				std::cout << "--\n";
 			}
 			SkelsInit[this->BonesId[Name]].AllFrames = TempFrames;			
 		}
