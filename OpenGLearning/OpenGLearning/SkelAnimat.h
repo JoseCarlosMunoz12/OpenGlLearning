@@ -99,6 +99,11 @@ private:
 		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + SecondAngle.UnitVec * Ratio;
 		return QuatParts(Const, NewVec);
 	}
+	glm::vec3 VecLinInter(glm::vec3 FirstPos,glm::vec3 SecondPos,float Ratio)
+	{
+		glm::vec3 NewVec = FirstPos * (1 - Ratio) + SecondPos * Ratio;
+		return NewVec;
+	}
 	//Ratios and In between Frames
 	float GetTimeRatio(float CurrTime, std::vector<Frames*> FrmFound)
 	{
@@ -166,9 +171,11 @@ public:
 			{
 			case HOLD:
 				this->CurRot = Found[0]->GetRot();
+				this->CurOffset = Found[0]->GetOffset();
 				break;
 			case LINEAR:
 				this->CurRot = this->LinInter(Found[0]->GetRot(), Found[1]->GetRot(), Ratio);
+				this->CurOffset = this->VecLinInter(Found[0]->GetOffset(), Found[1]->GetOffset(), Ratio);
 				break;
 			case QUADBENZ:
 				this->CurRot = this->QuadBezInter(Found[0]->GetRot(), Found[1]->GetRot(), Ratio, Found[0]->GetBezier());
@@ -179,7 +186,7 @@ public:
 			}			
 		}
 		this->UpdateRelMat(true, Temp);
-		return this->RelMat;	
+		return this->GetAllMats();	
 	}
 	glm::mat4 GetRelativeMat()
 	{
@@ -191,11 +198,11 @@ public:
 	}
 	void UpdateMatrix()
 	{
-	/*	Matrix = glm::mat4(1.f);
+		Matrix = glm::mat4(1.f);
 		Matrix = glm::translate(Matrix,this->CurOffset);	
 		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
 		Matrix *= Quats;
-		Matrix = glm::scale(Matrix, this->CurScale);*/
+		Matrix = glm::scale(Matrix, this->CurScale);
 	}
 	void UpdateRelMat(bool Active, std::map<std::string, SkelAn*> Temp)
 	{
@@ -318,7 +325,7 @@ public:
 	}
 	glm::mat4 GetCurMat(std::string BoneName,float TimePass)
 	{
-		return this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
+		return this->Inv * this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
 	}
 	glm::mat4 GetMat(std::string BoneName,bool Active)
 	{
