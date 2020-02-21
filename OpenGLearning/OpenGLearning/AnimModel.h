@@ -50,12 +50,12 @@ private:
 			std::map<std::string, SkelAn*> TempMap;
 			for (auto& jj : ii.Inits)
 			{
-				TempMap[jj.Name] = new SkelAn(jj.AllFrames,jj.Parent,jj.TransMat,jj.InitOffset,jj.InitQuat,jj.InitScale);
+				TempMap[jj.Name] = new SkelAn(jj.AllFrames,jj.Parent,jj.TransMat,jj.OffsetMat,jj.InitOffset,jj.InitQuat,jj.InitScale);
 				TempOrder.push_back(jj.Name);
 				Frames* TempFrame = new Frames(0.f, {jj.InitOffset,jj.InitScale,QuatParts(0.f)});
-				BaseMap[jj.Name] = new SkelAn({TempFrame}, jj.Parent,jj.TransMat, jj.InitOffset, jj.InitQuat, jj.InitScale);
+				BaseMap[jj.Name] = new SkelAn({TempFrame}, jj.Parent,jj.TransMat, jj.OffsetMat, jj.InitOffset, jj.InitQuat, jj.InitScale);
 			}
-			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder,ii.TimeLength);
+			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder,ii.TimeLength,ii.Inv);
 			this->BaseSKel = BaseMap;
 			BaseMap.clear();
 		}		
@@ -330,7 +330,7 @@ public:
 		{
 			OrdRend.push_back(jj.Bone);
 		}
-		this->Animations[NewAnim] = new Animation(NewAnim,BaseSKel, OrdRend,TimeLength);
+		this->Animations[NewAnim] = new Animation(NewAnim,BaseSKel, OrdRend,TimeLength,this->Animations[""]->GetInv());
 	}
 	std::string DeleteAnimation(std::string AnimToDelete)
 	{

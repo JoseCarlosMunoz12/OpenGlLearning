@@ -17,12 +17,14 @@ struct SkelArti
 	glm::vec3 InitScale;
 	QuatParts InitQuat;
 	glm::mat4 TransMat;
+	glm::mat4 OffsetMat;
 };
 struct AnimArti
 {
 	float TimeLength;
 	std::string Name;
 	std::vector<SkelArti> Inits;
+	glm::mat4 Inv;
 };
 //Base Class for Anim Primitives
 class AnimInf
@@ -214,10 +216,11 @@ protected:
 			}
 		}
 	}
-	void SetEachNodes(const aiScene* scene, std::vector<SkelArti> &SkelsInit)
+	void SetEachNodes(const aiScene* scene, std::vector<SkelArti> &SkelsInit,glm::mat4& Inv)
 	{
 		aiMatrix4x4 Set = scene->mRootNode->mTransformation.Inverse();		
 		glm::mat4 InvMat = this->aiMatToglmMat(Set);
+		Inv = InvMat;
 		int Vals = scene->mMeshes[0]->mNumBones;
 		for (auto& jj : SkelsInit)
 		{
@@ -234,8 +237,8 @@ protected:
 			}
 			OffMat = this->aiMatToglmMat(Off);
 			aiMatrix4x4 Trans = this->GetParentMatrix(scene, jj.Name, jj.Parent, SkelsInit);
-			TransMat = this->aiMatToglmMat(Trans);
-			glm::mat4 TestMat = InvMat * TransMat * OffMat;
+			TransMat = this->aiMatToglmMat(scene->mRootNode->FindNode(jj.Name.c_str())->mTransformation);
+			glm::mat4 TestMat = TransMat;
 			aiMatrix4x4 TempMat = Set * Trans * Off;
 			aiVector3D TempOffset;
 			aiVector3D TempScale;
@@ -258,7 +261,9 @@ protected:
 			jj.InitOffset = glm::vec3(TempOffset.x,TempOffset.y,TempOffset.z);
 			jj.InitQuat = TempQuats;
 			jj.InitScale = glm::vec3(TempScale.x, TempScale.y, TempScale.z);
+
 			jj.TransMat = TestMat;
+			jj.OffsetMat = OffMat;
 		}		
 	}
 	aiMatrix4x4 GetAnimMatr(const aiScene* scene, std::string Name, std::vector<SkelArti> &SkelsInit)
@@ -365,6 +370,7 @@ public:
 		std::vector<AnimArti> AnimInits;
 		std::vector<float> TimeInits;
 		std::string File = "Models/ModelCol/";
+		glm::mat4 Inv;
 		File += FileName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
@@ -372,13 +378,13 @@ public:
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd =  this->MakeInd(meshes);
 		this->MakeSkelsArt(scene,SkelsInits);
-		this->SetEachNodes(scene,SkelsInits);	
+		this->SetEachNodes(scene,SkelsInits,Inv);	
 		this->IndexBones(meshes,FinalVer);
-		AnimInits.push_back({0.f,"",SkelsInits });
+		AnimInits.push_back({0.f,"",SkelsInits,Inv});
 		this->GetAnimFrams(scene,SkelsInits,TimeInits);
 		if (TimeInits.size() != 0)
 		{
-			AnimInits.push_back({TimeInits[0],"First",SkelsInits});
+			AnimInits.push_back({TimeInits[0],"First",SkelsInits,Inv});
 		}
 		this->set(FinalVer, FinalInd,AnimInits);
 	}
@@ -395,6 +401,7 @@ public:
 		std::vector<AnimArti> AnimInits;
 		std::vector<float> TimeInits;
 		std::string File = "Models/ModelCol/";
+		glm::mat4 Inv;
 		File += ModelName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
@@ -402,9 +409,9 @@ public:
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd = this->MakeInd(meshes);
 		this->MakeSkelsArt(scene, SkelsInits);
-		this->SetEachNodes(scene, SkelsInits);
+		this->SetEachNodes(scene, SkelsInits,Inv);
 		this->IndexBones(meshes, FinalVer);
-		AnimInits.push_back({ 0.f,"",SkelsInits});
+		AnimInits.push_back({ 0.f,"",SkelsInits,Inv});
 		for (auto& jj : Inits)
 		{
 			AnimInits.push_back(jj);

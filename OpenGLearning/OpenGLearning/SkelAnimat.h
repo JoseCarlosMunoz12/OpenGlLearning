@@ -74,6 +74,7 @@ private:
 	glm::vec3 CurOffset;
 	glm::vec3 CurScale;
 	QuatParts CurRot;
+	glm::mat4 OffSet;
 	glm::mat4 Matrix;
 	glm::mat4 RelMat;
 	//Different Interpolations
@@ -137,13 +138,14 @@ private:
 		return {AnimFrames[Count-1],AnimFrames[Count]};
 	}
 public:
-	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::mat4 InitMat,glm::vec3 InitOffset,
+	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::mat4 InitMat,glm::mat4 IOffset,glm::vec3 InitOffset,
 		QuatParts InitQuat = QuatParts(),glm::vec3 InitScale = glm::vec3(1.f))
 		:CurOffset(InitOffset),CurScale(InitScale),CurRot(InitQuat)
 	{
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
 		this->Matrix = InitMat;
+		this->OffSet = IOffset;
 		for (auto& jj : this->AnimFrames)
 		{
 			jj->SetOffset(this->CurOffset);
@@ -183,6 +185,10 @@ public:
 	{
 		return this->RelMat;
 	}
+	glm::mat4 GetAllMats()
+	{
+		return this->RelMat * this->OffSet;
+	}
 	void UpdateMatrix()
 	{
 	/*	Matrix = glm::mat4(1.f);
@@ -197,13 +203,13 @@ public:
 		{
 			this->UpdateMatrix();
 		}
-		//if (ParentId == "NULL")
-		//{
-		//}
-		//else {
-		//	this->RelMat = Temp[ParentId]->GetRelativeMat() * this->Matrix;
-		//}
+		if (ParentId == "NULL")
+		{
 			this->RelMat = this->Matrix;
+		}
+		else {
+			this->RelMat = Temp[ParentId]->GetRelativeMat() * this->Matrix;
+		}
 	}
 	//
 	std::vector<Frames*> GetFrames()
@@ -275,14 +281,16 @@ class Animation
 	std::map<std::string, SkelAn*> Skeleton;
 	std::vector<std::string> Order;
 	InterType CurType;
+	glm::mat4 Inv;
 public:
 	Animation(std::string NewName, std::map<std::string, SkelAn*> Inits,
-		std::vector<std::string> NewOrder, float NewTimeLength)
+		std::vector<std::string> NewOrder, float NewTimeLength,glm::mat4 InitInv)
 	{
 		this->Name = NewName;
 		this->Skeleton = Inits;
 		this->Order = NewOrder;
 		this->TimeLength = NewTimeLength;
+		this->Inv = InitInv;
 	}
 	~Animation()
 	{
@@ -315,6 +323,10 @@ public:
 	glm::mat4 GetMat(std::string BoneName,bool Active)
 	{
 		this->Skeleton[BoneName]->UpdateRelMat(Active,Skeleton);
-		return this->Skeleton[BoneName]->GetRelativeMat();
+		return this->Inv * this->Skeleton[BoneName]->GetAllMats();
 	}	
+	glm::mat4 GetInv()
+	{
+		return this->Inv;
+	}
 };
