@@ -298,6 +298,8 @@ protected:
 				aiQuaternion TempQuat = Temps->mRotationKeys[jj].mValue;
 				aiVector3D Scale = Temps->mScalingKeys[jj].mValue;
 				aiVector3D OffSet = Temps->mPositionKeys[jj].mValue;
+				aiMatrix4x4 S = aiMatrix4x4(Scale, TempQuat, OffSet);
+				S.Decompose(Scale, TempQuat, OffSet);
 				float AngleRad = 2 * glm::acos(TempQuat.w);
 				float s = glm::sqrt(1 - TempQuat.w * TempQuat.w);
 				glm::vec3 VecQuat;
@@ -317,6 +319,12 @@ protected:
 				TempJoint.Scale = glm::vec3(1.f);
 				TempJoint.Rot = TempQuats;				
 				TempFrames.push_back(new Frames(FTime, TempJoint));
+				glm::mat4 Test = glm::mat4(1.f);
+				Test = glm::translate(Test, TempJoint.Offset);
+				glm::mat4 Quats = glm::mat4_cast( TempJoint.Rot.GetQuat());
+				Test = Test * Quats;
+				Test = glm::scale(Test, TempJoint.Scale);
+				std::cout << "--\n";
 			}
 			SkelsInit[this->BonesId[Name]].AllFrames = TempFrames;			
 		}

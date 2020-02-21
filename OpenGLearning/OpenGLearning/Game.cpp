@@ -1510,7 +1510,7 @@ Game::Game(const char * title,
 	this->frameBufferWidth = this->Window_Width;
 		
 	this-> camPosition = glm::vec3(0.f, 1.f, 0.f);
-	this-> worldUp = glm::vec3(0.f, 1.f, 0.f);
+	this-> worldUp = glm::vec3(0.f, 0.f, 1.f);
 	this-> camFront = glm::vec3(0.f, 0.f,-1.f);
 
 
