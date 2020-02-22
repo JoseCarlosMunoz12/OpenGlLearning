@@ -332,7 +332,7 @@ public:
 	glm::mat4 GetMat(std::string BoneName,bool Active)
 	{
 		this->Skeleton[BoneName]->UpdateRelMat(Active,Skeleton);
-		return  this->Skeleton[BoneName]->GetAllMats();
+		return this->Inv * this->Skeleton[BoneName]->GetAllMats();
 	}	
 	glm::mat4 GetInv()
 	{

@@ -84,7 +84,7 @@ private:
 protected:
 	int Tempsas = 0;
 	std::map<std::string, int> BonesId;
-	void SetIndex(AnimVertex* Fn, int BoneId, float BoneWieght)
+	void SetIndex(AnimVertex* Fn, int BoneId, float BoneWieght) 
 	{
 		if (Fn->MatId.x == -1)
 		{
@@ -107,7 +107,6 @@ protected:
 			Fn->MatId.w = BoneId;
 			Fn->Weights.w = BoneWieght;
 		}
-
 	}
 	std::vector<AnimVertex> MakeAnimVertex(aiMesh* meshes)
 	{
@@ -166,7 +165,6 @@ protected:
 				this->SetIndex(&FVert[Vert],this->BonesId[TempName], TempBone->mWeights[jj].mWeight);
 			}			
 		}
-
 	}
 	void CheckForChilds(aiNode* Child, std::string Name,std::vector<SkelArti> &SkelsInit)
 	{
@@ -188,8 +186,6 @@ protected:
 				this->CheckForChilds(Child->mChildren[ii], Child->mChildren[ii]->mName.C_Str(),SkelsInit);
 			}
 		}
-		
-
 	}
 	void MakeSkelsArt(const aiScene* scene, std::vector<SkelArti> &SkelsInit)
 	{
