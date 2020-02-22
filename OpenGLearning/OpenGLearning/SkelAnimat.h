@@ -74,6 +74,7 @@ private:
 	glm::vec3 CurOffset;
 	glm::vec3 CurScale;
 	QuatParts CurRot;
+	glm::quat Curquat;
 	glm::mat4 OffSet;
 	glm::mat4 Matrix;
 	glm::mat4 RelMat;
@@ -82,6 +83,7 @@ private:
 	{
 		float NewAngle = FirstAngle.Angle + (Secondangle.Angle - FirstAngle.Angle) * Ratio;
 		glm::vec3 NewVec = FirstAngle.UnitVec * (1 - Ratio) + Secondangle.UnitVec * Ratio;
+		this->Curquat = glm::slerp(FirstAngle.GetQuat(), Secondangle.GetQuat(), Ratio);
 		return QuatParts(NewAngle,NewVec);
 	}
 	QuatParts QuadBezInter(QuatParts FirstAngle, QuatParts SecondAngle, float Ratio, Bezier_Bais Bias)
@@ -200,7 +202,7 @@ public:
 	{
 		Matrix = glm::mat4(1.f);
 		Matrix = glm::translate(Matrix,this->CurOffset);	
-		glm::mat4 Quats = glm::mat4_cast(this->CurRot.GetQuat());
+		glm::mat4 Quats = glm::mat4_cast(this->Curquat);
 		Matrix *= Quats;
 		Matrix = glm::scale(Matrix, this->CurScale);
 	}
@@ -325,7 +327,7 @@ public:
 	}
 	glm::mat4 GetCurMat(std::string BoneName,float TimePass)
 	{
-		return  this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
+		return this->Inv *  this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
 	}
 	glm::mat4 GetMat(std::string BoneName,bool Active)
 	{

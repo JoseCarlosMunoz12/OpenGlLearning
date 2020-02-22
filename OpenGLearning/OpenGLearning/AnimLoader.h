@@ -251,30 +251,16 @@ protected:
 			jj.OffsetMat = OffMat;
 		}		
 	}
-	void GetAnimFrams(const aiScene* scene,std::vector<SkelArti> &SkelsInit,std::vector<float> &TimeInit)
+	void GetAnimFrams(aiAnimation* AnimFound,std::vector<SkelArti> &SkelsInit,std::vector<float> &TimeInit,std::string& AnimName)
 	{
-		if (!scene->HasAnimations())
-		{
-			std::cout << "None\n";
-			return;
-		}
-		aiAnimation* AnimFound = scene->mAnimations[0];		
+		AnimName  = AnimFound->mName.C_Str();
 		int AmountOfAnim = AnimFound->mNumChannels;
 		TimeInit.push_back(AnimFound->mDuration);
 		for (int ii = 0; ii < AmountOfAnim; ii++)
 		{
-			int NumBones = scene->mMeshes[0]->mNumBones;
 			int NumOfRot = AnimFound->mChannels[ii]->mNumRotationKeys;
 			std::string Name = AnimFound->mChannels[ii]->mNodeName.C_Str();			
-			aiMatrix4x4 InverseMatrix;
-			for (int kk = 0; kk < NumBones; kk++)
-			{
-				if (Name == scene->mMeshes[0]->mBones[kk]->mName.C_Str())
-				{
-					InverseMatrix = scene->mMeshes[0]->mBones[kk]->mOffsetMatrix;
-					break;
-				}
-			}
+		
 			aiNodeAnim* Temps = AnimFound->mChannels[ii];		
 			std::vector<Frames*> TempFrames;
 			for (int jj = 0; jj < NumOfRot; jj++)
@@ -320,6 +306,7 @@ public:
 		std::vector<float> TimeInits;
 		std::string File = "Models/ModelCol/";
 		glm::mat4 Inv;
+		std::string AnimName;
 		File += FileName;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
@@ -330,10 +317,18 @@ public:
 		this->SetEachNodes(scene,SkelsInits,Inv);	
 		this->IndexBones(meshes,FinalVer);
 		AnimInits.push_back({0.f,"",SkelsInits,Inv});
-		this->GetAnimFrams(scene,SkelsInits,TimeInits);
-		if (TimeInits.size() != 0)
+		if (scene->HasAnimations())
 		{
-			AnimInits.push_back({TimeInits[0],"First",SkelsInits,Inv});
+			int AnumNum = scene->mNumAnimations;
+			for (int ii = 0; ii < AnumNum; ii++)
+			{
+				this->GetAnimFrams(scene->mAnimations[ii], SkelsInits, TimeInits, AnimName);
+				if (TimeInits.size() != 0)
+				{
+					AnimInits.push_back({ TimeInits[0],AnimName,SkelsInits,Inv });
+				}
+
+			}
 		}
 		this->set(FinalVer, FinalInd,AnimInits);
 	}
