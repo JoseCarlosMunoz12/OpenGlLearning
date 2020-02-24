@@ -7,6 +7,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <string>
+#include <sstream>
 
 struct SkelArti
 {
@@ -355,6 +357,50 @@ public:
 		for (auto& jj : Inits)
 		{
 			AnimInits.push_back(jj);
+		}
+		this->set(FinalVer, FinalInd, AnimInits);
+	}
+};
+class MulClanimlr : public AnimInf, public Loading
+{
+public:
+	MulClanimlr(std::vector<std::string> FileNames)
+		:AnimInf(),Loading()
+	{
+
+		std::vector<AnimVertex> FinalVer;
+		std::vector<GLuint> FinalInd;
+		std::vector<SkelArti> SkelsInits;
+		std::vector<AnimArti> AnimInits;
+		std::vector<float> TimeInits;
+		std::string File = "Models/ModelCol/";
+		glm::mat4 Inv;
+		std::string AnimName;
+		File += FileNames[0];
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
+		aiMesh* meshes = scene->mMeshes[0];
+		FinalVer = this->MakeAnimVertex(meshes);
+		FinalInd = this->MakeInd(meshes);
+		this->MakeSkelsArt(scene, SkelsInits);
+		this->SetEachNodes(scene, SkelsInits, Inv);
+		this->IndexBones(meshes, FinalVer);
+		AnimInits.push_back({ 0.f,"",SkelsInits,Inv });
+		if (scene->HasAnimations())
+		{
+			for (auto& F_Name : FileNames)
+			{
+				const aiScene* F_scene = importer.ReadFile(F_Name, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
+				std::stringstream data(F_Name);
+				std::vector<std::string> Anim_Name;
+				std::string Line;
+				while (std::getline(data, Line, '_'))
+				{
+					Anim_Name.push_back(Line);
+				}
+				this->GetAnimFrams(F_scene->mAnimations[0], SkelsInits, TimeInits, AnimName);
+				AnimInits.push_back({ TimeInits[0],Anim_Name[1],SkelsInits,Inv });
+			}
 		}
 		this->set(FinalVer, FinalInd, AnimInits);
 	}
