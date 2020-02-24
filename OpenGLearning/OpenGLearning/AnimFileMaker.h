@@ -115,7 +115,11 @@ public:
 		std::ofstream Make;
 		Make.open(this->FolderLoc + FileName + ".txt");
 		Make <<"<ModelName> " + AnimModel + "\n";
-
+		//Bone offset and InitTransformation
+		Make << "<ModelTransforms>\n";
+		Make << "<ModelInversTransform>\n";
+		Make << "<ModelBoneOffsets>\n";
+		//Animation information
 		for (auto& ii : AllAnim)
 		{
 			std::string AnimName = ii->GetAnimName();
