@@ -114,10 +114,19 @@ public:
 	{
 		std::ofstream Make;
 		Make.open(this->FolderLoc + FileName + ".txt");
-		Make <<"<ModelName> " + AnimModel + "\n";
+		Make <<"<ModelName> " + AnimModel + "\n";	
+		std::vector<std::string> AllBones =	AllAnim[0]->GetOrder();
+		glm::mat4 ModInv = AllAnim[0]->GetInv();
+		std::string BonesNames = "";
+		for (auto& ii : AllBones)
+		{
+			BonesNames += ii + " ";
+		}
+		std::cout << ModInv[0][0] <<"\n";std::cout << ModInv[0][1] << "\n";	std::cout << ModInv[0][2] << "\n";std::cout << ModInv[0][3] << "\n";
 		//Bone offset and InitTransformation
-		Make << "<ModelTransforms>\n";
+		Make << "<ModelBones> " + BonesNames + "\n";
 		Make << "<ModelInversTransform>\n";
+		Make << "<ModelTransforms>\n";
 		Make << "<ModelBoneOffsets>\n";
 		//Animation information
 		for (auto& ii : AllAnim)
