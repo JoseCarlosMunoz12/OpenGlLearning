@@ -376,9 +376,8 @@ public:
 		std::string File = "Models/ModelCol/";
 		glm::mat4 Inv;
 		std::string AnimName;
-		File += FileNames[0];
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(File, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(File + FileNames[0], aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
 		aiMesh* meshes = scene->mMeshes[0];
 		FinalVer = this->MakeAnimVertex(meshes);
 		FinalInd = this->MakeInd(meshes);
@@ -390,16 +389,22 @@ public:
 		{
 			for (auto& F_Name : FileNames)
 			{
-				const aiScene* F_scene = importer.ReadFile(F_Name, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
-				std::stringstream data(F_Name);
+				const aiScene* F_scene = importer.ReadFile(File + F_Name, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
+				std::stringstream data(F_Name);				
 				std::vector<std::string> Anim_Name;
+				std::vector<std::string> Anim_Name0;
 				std::string Line;
 				while (std::getline(data, Line, '_'))
 				{
 					Anim_Name.push_back(Line);
 				}
+				std::stringstream Data(Anim_Name[1]);
+				while (std::getline(Data, Line, '.'))
+				{
+					Anim_Name0.push_back(Line);
+				}
 				this->GetAnimFrams(F_scene->mAnimations[0], SkelsInits, TimeInits, AnimName);
-				AnimInits.push_back({ TimeInits[0],Anim_Name[1],SkelsInits,Inv });
+				AnimInits.push_back({ TimeInits[0],Anim_Name0[0],SkelsInits,Inv });
 			}
 		}
 		this->set(FinalVer, FinalInd, AnimInits);
