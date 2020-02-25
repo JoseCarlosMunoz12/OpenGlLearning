@@ -220,7 +220,7 @@ public:
 			this->RelMat = Temp[ParentId]->GetRelativeMat() * this->Matrix;
 		}
 	}
-	//
+	//Getters
 	std::vector<Frames*> GetFrames()
 	{
 		return this->AnimFrames;
@@ -241,6 +241,11 @@ public:
 	{
 		return this->CurScale;
 	}
+	glm::mat4 GetOffsetMat()
+	{
+		return this->OffSet;
+	}
+	//Setters
 	void SetRot(QuatParts NewRot)
 	{
 		this->CurRot = NewRot;

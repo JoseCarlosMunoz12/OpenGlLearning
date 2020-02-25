@@ -99,6 +99,26 @@ class AnimFileRdrMkr
 			this->InterMap[jj.second] = jj.first;
 		}
 	}
+	std::string Mat4ToString(glm::mat4 Mat,bool CrL = true)
+	{
+		std::string Temp = "";
+		for (int ii = 0; ii < 4; ii++)
+		{
+			for (int jj = 0; jj < 4; jj++)
+			{
+				Temp += std::to_string(Mat[ii][jj]);
+				if (jj == 3 and ii == 3 and CrL)
+				{
+					Temp += "\n";
+				}
+				else
+				{
+					Temp += " ";
+				}
+			}
+		}
+		return Temp;
+	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
 		:FolderLoc(FolderLoc)
@@ -116,18 +136,30 @@ public:
 		Make.open(this->FolderLoc + FileName + ".txt");
 		Make <<"<ModelName> " + AnimModel + "\n";	
 		std::vector<std::string> AllBones =	AllAnim[0]->GetOrder();
-		glm::mat4 ModInv = AllAnim[0]->GetInv();
+		int BoneNum = AllBones.size()-1;
+		std::string Inv = this->Mat4ToString( AllAnim[0]->GetInv());
 		std::string BonesNames = "";
+		std::string OffSetMats = "";
+		std::map<std::string, SkelAn*> Skels = AllAnim[0]->GetMap();
+		int Count = 0;
 		for (auto& ii : AllBones)
 		{
 			BonesNames += ii + " ";
+			if (Count == BoneNum)
+			{
+				OffSetMats += this->Mat4ToString(Skels[ii]->GetOffsetMat());
+			}
+			else
+			{
+				OffSetMats += this->Mat4ToString(Skels[ii]->GetOffsetMat(),false);
+			}
+			Count++;
 		}
-		std::cout << ModInv[0][0] <<"\n";std::cout << ModInv[0][1] << "\n";	std::cout << ModInv[0][2] << "\n";std::cout << ModInv[0][3] << "\n";
 		//Bone offset and InitTransformation
 		Make << "<ModelBones> " + BonesNames + "\n";
-		Make << "<ModelInversTransform>\n";
+		Make << "<ModelInversTransform> " + Inv;
 		Make << "<ModelTransforms>\n";
-		Make << "<ModelBoneOffsets>\n";
+		Make << "<ModelBoneOffsets> " + OffSetMats;
 		//Animation information
 		for (auto& ii : AllAnim)
 		{
