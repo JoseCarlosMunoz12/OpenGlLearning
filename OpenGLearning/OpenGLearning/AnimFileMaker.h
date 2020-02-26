@@ -139,12 +139,14 @@ public:
 		int BoneNum = AllBones.size()-1;
 		std::string Inv = this->Mat4ToString( AllAnim[0]->GetInv());
 		std::string BonesNames = "";
+		std::string BonesParents = "";
 		std::string OffSetMats = "";
 		std::map<std::string, SkelAn*> Skels = AllAnim[0]->GetMap();
 		int Count = 0;
 		for (auto& ii : AllBones)
 		{
 			BonesNames += ii + " ";
+			BonesParents += Skels[ii]->GetName() + " ";
 			if (Count == BoneNum)
 			{
 				OffSetMats += this->Mat4ToString(Skels[ii]->GetOffsetMat());
@@ -157,12 +159,11 @@ public:
 		}
 		//Bone offset and InitTransformation
 		Make << "<ModelBones> " + BonesNames + "\n";
+		Make << "<ModelBonesParents> " + BonesParents + "\n";
 		Make << "<ModelInversTransform> " + Inv;
-		Make << "<ModelTransforms>\n";
 		Make << "<ModelBoneOffsets> " + OffSetMats;
 		//Animation information
-		for (auto& ii : AllAnim)
-		{
+		for (auto& ii : AllAnim)		{
 			std::string AnimName = ii->GetAnimName();
 			if (AnimName != "")
 			{
@@ -173,17 +174,26 @@ public:
 				std::map<std::string,SkelAn*> SkelsInf = ii->GetMap();
 				for (auto& jj : Order)
 				{
-					Make << "<BoneName> " + jj + "\n";
-					Make << "<BoneParent> " + SkelsInf[jj]->GetName() + "\n";
+					Make << "<AnimBone>" + jj + "\n";
+					std::string AnimInt = "";
+					std::string AnimType = "";
+					std::string AnimOffset = "";
+					std::string AnimRot = "";
+					std::string AnimScale = "";
 					std::vector<Frames*> TempFrams = SkelsInf[jj]->GetFrames();
 					for (auto& kk : TempFrams)
 					{
-						Make << "<InterType> " << this->ChosenInter[kk->GetType()] <<"\n";
-						Make <<"<s> "<< kk->GetTimeStamp() << "\n";
-						Make <<"<Parts> "+ this->ConvertVec(kk->GetOffset()) + " ";
-						Make << this->ConvertQuat(kk->GetRot()) + " ";
-						Make << this->ConvertVec(kk->GetScale()) << "\n";
+						AnimType += this->ChosenInter[kk->GetType()] + " ";
+						AnimInt += std::to_string(kk->GetTimeStamp()) + " ";
+						AnimOffset += this->ConvertVec(kk->GetOffset()) + " ";
+						AnimRot += this->ConvertQuat(kk->GetRot()) + " ";
+						AnimScale += this->ConvertVec(kk->GetScale()) + " ";
 					}
+					Make << "<AnimTimeInt> " + AnimInt + "\n";
+					Make << "<AnimType> " + AnimType + "\n";
+					Make << "<AnimOffset> " + AnimOffset + "\n";
+					Make << "<AnimRotate> " + AnimRot + "\n";
+					Make << "<AnimScale> " + AnimScale + "\n";
 				}
 				Make << "<END>\n";
 			}
