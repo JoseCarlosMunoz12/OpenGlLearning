@@ -14,11 +14,17 @@ class AnimFileRdrMkr
 		MODNAME,
 		ANIMNAME,
 		ANIMLENGTH,
+		ALLBONES,
+		ALLPARID,
+		INV,
+		BONESOFFSET,
 		BONENAME,
 		BONEPARENT,
 		INTERTYPE,
-		S,
-		PARTS,
+		ANIMTIME,
+		ANIMOFF,
+		ANIMROT,
+		ANIMSCALE,
 		END
 	};
 	std::string FolderLoc;
@@ -81,15 +87,24 @@ class AnimFileRdrMkr
 	}
 	void InitMap()
 	{
+		//File information Parser
 		this->AnimMap["<ModelName>"] = ANIMENUM::MODNAME;
+		//Skeleton Information
+		this->AnimMap["<ModelBones>"] = ANIMENUM::ALLBONES;
+		this->AnimMap["<ModelBonesParents>"] = ANIMENUM::ALLPARID;
+		this->AnimMap["<ModelInverseTransform>"] = ANIMENUM::INV;
+		this->AnimMap["<ModelBoneOffsets>"] = ANIMENUM::BONESOFFSET;
+		//Animation Information
 		this->AnimMap["<AnimName>"] = ANIMENUM::ANIMNAME;
 		this->AnimMap["<AnimLength>"] = ANIMENUM::ANIMLENGTH;
-		this->AnimMap["<BoneName>"] = ANIMENUM::BONENAME;
-		this->AnimMap["<s>"] = ANIMENUM::S;
-		this->AnimMap["<Parts>"] = ANIMENUM::PARTS;
+		this->AnimMap["<AnimTimeInt>"] = ANIMENUM::ANIMTIME;
+		this->AnimMap["<AnimType>"] = ANIMENUM::INTERTYPE;
+		this->AnimMap["<AnimOffset>"] = ANIMENUM::ANIMOFF;
+		this->AnimMap["<AnimRotate>"] = ANIMENUM::ANIMROT;
+		this->AnimMap["<AnimScale>"] = ANIMENUM::ANIMSCALE;
+		//End of catching Animation informaiton
 		this->AnimMap["<END>"] = ANIMENUM::END;
-		this->AnimMap["<BoneParent>"] = ANIMENUM::BONEPARENT;
-		this->AnimMap["<InterType>"] = ANIMENUM::INTERTYPE;
+		//Enum to to string and vice versa
 		this->ChosenInter[HOLD] = "HOLD";
 		this->ChosenInter[LINEAR] = "LINEAR";
 		this->ChosenInter[QUADBENZ] = "QUADBENZ";
@@ -118,6 +133,10 @@ class AnimFileRdrMkr
 			}
 		}
 		return Temp;
+	}
+	glm::mat4 StringToMat4(std::vector<std::string> Nums)
+	{
+
 	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
@@ -160,7 +179,7 @@ public:
 		//Bone offset and InitTransformation
 		Make << "<ModelBones> " + BonesNames + "\n";
 		Make << "<ModelBonesParents> " + BonesParents + "\n";
-		Make << "<ModelInversTransform> " + Inv;
+		Make << "<ModelInverseTransform> " + Inv;
 		Make << "<ModelBoneOffsets> " + OffSetMats;
 		//Animation information
 		for (auto& ii : AllAnim)		{
@@ -216,48 +235,7 @@ public:
 			std::string Line;
 			while (std::getline(FileData, Line))
 			{
-				std::vector<std::string> out;
-				this->ReturnStringArray(Line, ' ', out);
-				switch (this->AnimMap[out[0]])
-				{
-				case ANIMENUM::MODNAME:
-					break;
-				case ANIMENUM::ANIMNAME:
-					Temp.Name = out[1];
-					break;
-				case ANIMENUM::ANIMLENGTH:
-					Temp.TimeLength = std::stof(out[1]);
-					break;
-				case ANIMENUM::BONENAME:
-					if (TempBone.Name != "")
-					{
-						Temp.Inits.push_back(TempBone);
-						TempBone.AllFrames.clear();
-					}
-					TempBone.Name = out[1];	
-					break;
-				case ANIMENUM::BONEPARENT:
-					TempBone.Parent = out[1];
-					break;
-				case ANIMENUM::INTERTYPE:
-					Type = this->InterMap[out[1]];
-					break;
-				case ANIMENUM::S:
-					Frame_TimeStamp = std::stof(out[1]);
-					break;
-				case ANIMENUM::PARTS:
-					TempBone.AllFrames.push_back(
-						this->GetFrames(Frame_TimeStamp,
-										{out[1],out[2],out[3]},Type));
-					TempBone.InitOffset = TempBone.AllFrames[0]->GetOffset();					
-					break;
-				case ANIMENUM::END:	
-					Temp.Inits.push_back(TempBone);
-					DataRead.push_back(Temp);					
-					break;
-				default:
-					break;
-				}
+
 			}
 			FileData.close();
 		}

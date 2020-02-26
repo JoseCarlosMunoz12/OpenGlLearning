@@ -1330,6 +1330,11 @@ void Game::ImGuiOptions()
 			this->LoadNewModels(RdMkFiles.DecipherFile(this->FileID));
 			this->FileID = -1;
 		}
+		if (ImGui::Button("Load Anim File"))
+		{
+			this->AnimRdrMk.ReadFile("AnimSave.txt");
+		}
+
 		ImGui::End();
 	}
 	if (this->AddAnim)
