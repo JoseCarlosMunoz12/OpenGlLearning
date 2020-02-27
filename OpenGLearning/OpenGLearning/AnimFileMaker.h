@@ -193,7 +193,7 @@ public:
 				std::map<std::string,SkelAn*> SkelsInf = ii->GetMap();
 				for (auto& jj : Order)
 				{
-					Make << "<AnimBone>" + jj + "\n";
+					Make << "<AnimBone> " + jj + "\n";
 					std::string AnimInt = "";
 					std::string AnimType = "";
 					std::string AnimOffset = "";
@@ -235,7 +235,65 @@ public:
 			std::string Line;
 			while (std::getline(FileData, Line))
 			{
-
+				std::vector<std::string> out;
+				this->ReturnStringArray(Line, ' ', out);				
+				switch (this->AnimMap[out[0]])
+				{
+				case ANIMENUM::MODNAME:
+					std::cout << out[1] + "\n";
+					break;
+				case ANIMENUM::ALLBONES:
+					std::cout << out[1] + "\n";
+					break;
+				case ANIMENUM::ALLPARID:
+					std::cout << out[1] + "\n";
+					break;
+				case ANIMENUM::INV:
+					std::cout << out[1] + "\n";
+					break;
+				case ANIMENUM::BONESOFFSET:
+					std::cout << out[1] + "\n";
+					break;
+				case ANIMENUM::ANIMNAME:
+					std::cout << out[1] + "\n";
+					break;
+				case ANIMENUM::ANIMLENGTH:
+					std::cout << out[1] + "\n"; 
+					break;
+				case ANIMENUM::ANIMTIME:
+					if (out.size() > 1)
+					{
+						std::cout << out[1] + "\n";
+					}
+					break;
+				case ANIMENUM::INTERTYPE:
+					if (out.size() > 1)
+					{
+						std::cout << out[1] + "\n";
+					}
+					break;
+				case ANIMENUM::ANIMOFF:
+					if (out.size() > 1)
+					{
+						std::cout << out[1] + "\n";
+					}
+					break;
+				case ANIMENUM::ANIMROT:
+					if (out.size() > 1)
+					{
+						std::cout << out[1] + "\n";
+					}
+					break;
+				case ANIMENUM::ANIMSCALE:
+					if (out.size() > 1)
+					{
+						std::cout << out[1] + "\n";
+					}
+					break;
+				case ANIMENUM::END:
+					std::cout << "END\n";
+					break;
+				}
 			}
 			FileData.close();
 		}
