@@ -136,8 +136,13 @@ class AnimFileRdrMkr
 	}
 	glm::mat4 StringToMat4(std::vector<std::string> Nums)
 	{
-
+		glm::mat4 Temp = glm::mat4(std::stof(Nums[0]),std::stof(Nums[1]), std::stof(Nums[2]), std::stof(Nums[3]),
+			std::stof(Nums[4]), std::stof(Nums[5]), std::stof(Nums[6]), std::stof(Nums[7]),
+			std::stof(Nums[8]), std::stof(Nums[9]), std::stof(Nums[10]), std::stof(Nums[11]), 
+			std::stof(Nums[12]), std::stof(Nums[13]), std::stof(Nums[14]), std::stof(Nums[15]));
+		return Temp;
 	}
+
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
 		:FolderLoc(FolderLoc)
@@ -230,7 +235,8 @@ public:
 			SkelArti TempBone;
 			TempBone.InitOffset = glm::vec3(1.f);
 			TempBone.InitScale = glm::vec3(1.f);
-			InterType Type = InterType::HOLD;
+			InterType Type = InterType::LINEAR;
+			std::vector<std::string> InvStr;
 			float Frame_TimeStamp;
 			std::string Line;
 			while (std::getline(FileData, Line))
@@ -243,13 +249,18 @@ public:
 					std::cout << out[1] + "\n";
 					break;
 				case ANIMENUM::ALLBONES:
-					std::cout << out[1] + "\n";
+					std::cout << out[1] + " " + out[2] + " " + out[3] + "\n";
 					break;
 				case ANIMENUM::ALLPARID:
-					std::cout << out[1] + "\n";
+					std::cout << out[1] + " " + out[2] + " " + out[3] + "\n";
 					break;
 				case ANIMENUM::INV:
-					std::cout << out[1] + "\n";
+					for ( int ii = 1; ii < 17; ii++)
+					{
+						InvStr.push_back(out[ii]);
+					}
+					glm::mat4 TempInv = this->StringToMat4(InvStr);
+					InvStr.clear();
 					break;
 				case ANIMENUM::BONESOFFSET:
 					std::cout << out[1] + "\n";
@@ -291,12 +302,14 @@ public:
 					}
 					break;
 				case ANIMENUM::END:
+
 					std::cout << "END\n";
 					break;
 				}
 			}
 			FileData.close();
 		}
+		
 		return DataRead;
 	}
 };

@@ -385,7 +385,6 @@ public:
 		this->SetEachNodes(scene, SkelsInits, Inv);
 		this->IndexBones(meshes, FinalVer);
 		AnimInits.push_back({ 0.f,"",SkelsInits,Inv });
-
 		for (auto& F_Name : FileNames)
 		{
 			const aiScene* F_scene = importer.ReadFile(File + F_Name, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs);
