@@ -142,7 +142,22 @@ class AnimFileRdrMkr
 			std::stof(Nums[12]), std::stof(Nums[13]), std::stof(Nums[14]), std::stof(Nums[15]));
 		return Temp;
 	}
-
+	std::vector<glm::mat4> AllStrToMat(std::vector<std::string> Nums)
+	{
+		std::vector<glm::mat4> TempMat;
+		int Amount = (Nums.size() - 1) / 16;
+		std::cout << Amount <<"\n";
+		for (int ii = 0; ii < Amount; ii++)
+		{
+			std::vector<std::string> TempStr;
+			for (int jj = 1; jj < 17; jj++)
+			{
+				TempStr.push_back(Nums[jj + 16 * ii]);
+			}
+			TempMat.push_back(this->StringToMat4(TempStr));
+		}
+		return TempMat;
+	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
 		:FolderLoc(FolderLoc)
@@ -238,6 +253,8 @@ public:
 			InterType Type = InterType::LINEAR;
 			std::vector<std::string> InvStr;
 			float Frame_TimeStamp;
+			int SizeB;
+			int SizeID;
 			std::string Line;
 			while (std::getline(FileData, Line))
 			{
@@ -249,10 +266,20 @@ public:
 					std::cout << out[1] + "\n";
 					break;
 				case ANIMENUM::ALLBONES:
-					std::cout << out[1] + " " + out[2] + " " + out[3] + "\n";
+					SizeB = out.size();
+					for (int ii = 1; ii < SizeB; ii++)
+					{
+						std::cout << out[ii] + " ";
+					}
+					std::cout << "\n";
 					break;
 				case ANIMENUM::ALLPARID:
-					std::cout << out[1] + " " + out[2] + " " + out[3] + "\n";
+					SizeID = out.size();
+					for (int ii = 1; ii < SizeID; ii++)
+					{
+						std::cout << out[ii] + " ";
+					}					
+					std::cout << "\n";
 					break;
 				case ANIMENUM::INV:
 					for ( int ii = 1; ii < 17; ii++)
@@ -263,7 +290,7 @@ public:
 					InvStr.clear();
 					break;
 				case ANIMENUM::BONESOFFSET:
-					std::cout << out[1] + "\n";
+					this->AllStrToMat(out);
 					break;
 				case ANIMENUM::ANIMNAME:
 					std::cout << out[1] + "\n";
