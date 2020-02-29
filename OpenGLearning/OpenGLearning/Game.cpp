@@ -156,19 +156,11 @@ void Game::initModels()
 	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(10, 10, this->MipMapsData[HEIGHTMAP_1]),
+			&CustomTerrain(200, 200, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
 			&CustomObject("untitled.dae"),
-			"StallImage" + 0));
-	meshes.push_back(
-		new Mesh(
-			&ASSIMPLOAD("untitled.fbx"),
-			"ASSIMP"));
-	meshes.push_back(
-		new Mesh(
-			&ASSIMPLOAD("Box.dae"),
 			"StallImage" + 0));
 	meshes.push_back(
 		new Mesh(
@@ -189,8 +181,8 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Strike.dae","Snek_Up.dae","Snek_SideMove.dae" }), "Test0"));
-	animMeshes.push_back(new AnimMesh(&CLoader("untitled.dae"), "Test1"));
+	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"untitled.dae" }), "Test0"));
+	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
@@ -216,13 +208,6 @@ void Game::initModels()
 		{ this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[0], { Terrain }));
-	this->models.push_back(new Model("Monk",
-		glm::vec3(0.f, 0.f,this->MipMapsData[0]->ReturnValue(0.f, 0.f) ),
-		this->MatTest[1],
-		{ this->textures[13],this->textures[6],
-		this->textures[14],this->textures[15],this->textures[16] },
-		meshes[2], { Monk }));
-
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Tes1t",
 	//	glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f),
