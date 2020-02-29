@@ -189,8 +189,8 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Strike.dae","Snek_Up.dae","Snek_SideMove.dae" }), "Test0"));
-	//animMeshes.push_back(new AnimMesh(&CLoader("Set.dae"), "Test1"));
+	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Strike.dae","Snek_Up.dae","Snek_SideMove.dae" }), "Test0"));
+	animMeshes.push_back(new AnimMesh(&CLoader("untitled.dae"), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
