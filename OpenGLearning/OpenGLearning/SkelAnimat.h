@@ -153,10 +153,6 @@ public:
 		this->AnimFrames = InitFrames;
 		this->Matrix = InitMat;
 		this->OffSet = IOffset;
-		for (auto& jj : this->AnimFrames)
-		{
-			jj->SetOffset(this->CurOffset);
-		}
 	}	
 	~SkelAn()
 	{
