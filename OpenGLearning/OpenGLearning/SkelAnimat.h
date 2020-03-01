@@ -185,9 +185,13 @@ public:
 			case CUBEBENZ:
 				this->CurRot = this->CubeBexInter(Found[0]->GetRot(), Found[1]->GetRot(), Ratio, Found[0]->GetBezier());
 				break;
-			}			
+			}
+			this->UpdateRelMat(true, Temp);			
 		}
-		this->UpdateRelMat(true, Temp);
+		else
+		{
+			this->Matrix = glm::mat4(1.f);
+		}
 		return this->GetAllMats();	
 	}
 	glm::mat4 GetRelativeMat()
