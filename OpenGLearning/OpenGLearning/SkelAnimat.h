@@ -249,6 +249,7 @@ public:
 	void SetRot(QuatParts NewRot)
 	{
 		this->CurRot = NewRot;
+		this->Curquat = this->CurRot.GetQuat();
 	}
 	void SetOffset(glm::vec3 NewOffset)
 	{
@@ -332,7 +333,7 @@ public:
 	}
 	glm::mat4 GetCurMat(std::string BoneName,float TimePass)
 	{
-		return this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
+		return  this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
 	}
 	glm::mat4 GetMat(std::string BoneName,bool Active)
 	{

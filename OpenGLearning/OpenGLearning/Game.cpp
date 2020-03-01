@@ -181,8 +181,8 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"untitled.dae" }), "Test0"));
-	animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test1"));
+	animMeshes.push_back(new AnimMesh(&MulClanimlr({"model_Running.dae" }), "Test0"));
+	//animMeshes.push_back(new AnimMesh(&CLoader("model.dae"), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
@@ -214,7 +214,7 @@ void Game::initModels()
 	//	this->MatTest[4],
 	//	{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
 	//	this->textures[14],this->textures[15],this->textures[16] },
-	//	animMeshes[1], { Terrains }));
+	//	animMeshes[1], { Terrains })); 
 	this->animModel.push_back(new AnimModel("Test",
 		glm::vec3(0.f, 4.f, this->MipMapsData[0]->ReturnValue(0.f, 4.f)),
 		this->MatTest[4],
@@ -654,9 +654,8 @@ void Game::ImGuiOptions()
 									ImGui::SliderFloat("XPos", &TempOffset.x, -10.f, 10.f);
 									ImGui::SliderFloat("YPos", &TempOffset.y, -10.f, 10.f);
 									ImGui::SliderFloat("ZPos", &TempOffset.z, -10.f, 10.f);
-
-									this->models[1]->GetNodesInfo()[0]->SetOrigin( ModPos + TempOffset);								
 									ii.second->SetOffset(TempOffset);
+									this->animModel[this->AnimModelToMake]->ChangeBoneBool(ii.first);
 									ImGui::TreePop();
 								}
 								ImGui::Text("Bone Scale = "); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", TempScale.x, TempScale.y, TempScale.z);
@@ -666,6 +665,7 @@ void Game::ImGuiOptions()
 									ImGui::SliderFloat("YPos", &TempScale.y, -10.f, 10.f);
 									ImGui::SliderFloat("ZPos", &TempScale.z, -10.f, 10.f);
 									ii.second->SetScale(TempScale);
+									this->animModel[this->AnimModelToMake]->ChangeBoneBool(ii.first);
 									ImGui::TreePop();
 
 								}
@@ -741,6 +741,7 @@ void Game::ImGuiOptions()
 												QuatParts TQuat = Sec->GetRot();
 												Bezier_Bais TBenz = Sec->GetBezier();
 												InterType SecType = Sec->GetType();
+												glm::vec3 SecOffset = Sec->GetOffset();
 												ImGui::Text("Angle %.3f",TQuat.Angle);										
 												ImGui::Text("Unit Vector X = %.3f, Y = %.3f, Z = %.3f", TQuat.UnitVec.x, TQuat.UnitVec.y, TQuat.UnitVec.z);
 												ImGui::Text("Const A = %.3f,Const B = %.3f",TBenz.Point0,TBenz.Point1);
@@ -751,6 +752,7 @@ void Game::ImGuiOptions()
 												bool ChangeDone3 = ImGui::SliderFloat("UnitVec Z", &TQuat.UnitVec.z, -1.f, 1.f);
 												bool ChangeDone4 = ImGui::SliderFloat("Const A", &TBenz.Point0, -180.f, 180.f);
 												bool ChangeDone5 = ImGui::SliderFloat("Const", &TBenz.Point1, -180.f, 180.f);
+												ImGui::Text("Offset X = %.3f, Y = %.3f, Z = %.3f",SecOffset.x,SecOffset.y,SecOffset.z);
 												for (auto& jj :InterMap)
 												{
 													if (ImGui::Selectable(jj.second.c_str(), jj.first == SecType))

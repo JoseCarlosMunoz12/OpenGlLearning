@@ -129,7 +129,7 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrRend)
 		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone.Bone,Bone.Active);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone.Bone, Bone.Active);
 			Count++;
 		}	
 	}
@@ -137,7 +137,7 @@ private:
 	{
 		for (auto& Bone :OrRend)
 		{
-			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,false));
+			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,true));
 		}
 	}
 public:
