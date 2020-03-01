@@ -137,7 +137,7 @@ private:
 	{
 		for (auto& Bone :OrRend)
 		{
-			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,true));
+			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,false));
 		}
 	}
 public:
