@@ -156,7 +156,7 @@ void Game::initModels()
 	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(200, 200, this->MipMapsData[HEIGHTMAP_1]),
+			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(
