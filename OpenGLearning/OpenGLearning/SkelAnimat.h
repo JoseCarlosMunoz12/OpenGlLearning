@@ -186,7 +186,10 @@ public:
 		}
 		else
 		{
-			this->Matrix = glm::mat4(1.f);
+			this->Matrix = glm::mat4(1,0,0,0,
+									 0,0,1,0,
+									 0,-1,0,0,
+									 0,0,0,1);
 		}
 		return this->GetAllMats();	
 	}
@@ -333,7 +336,7 @@ public:
 	}
 	glm::mat4 GetCurMat(std::string BoneName,float TimePass)
 	{
-		return  this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
+		return this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
 	}
 	glm::mat4 GetMat(std::string BoneName,bool Active)
 	{
