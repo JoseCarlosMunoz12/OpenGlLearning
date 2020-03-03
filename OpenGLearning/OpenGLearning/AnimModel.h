@@ -92,29 +92,26 @@ private:
 
 	}
 	//Animation Functions
-	void ControlTime(float TimePass)
-	{
-		if (TimePass >= this->TimeLength)
+	void UpdateTime(float TimePass, bool ContTime = true)
+	{	
+		if (ContTime)
 		{
-			this->TimePass = this->TimeLength;
+			this->TimePass += TimePass;
+			if( (this->TimePass >= this->TimeLength) || ( TimePass >= this->TimeLength))
+			{
+				this->TimePass = 0;
+			}
 		}
 		else
 		{
-			this->TimePass = TimePass;
-		}
-		int Count = 0;
-		for (auto& Bone : OrRend)
-		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone.Bone, this->TimePass);			
-			Count++;
-		}
-	}
-	void UpdateTime(float TimePass)
-	{
-		this->TimePass += TimePass;
-		if( (this->TimePass >= this->TimeLength) || ( TimePass >= this->TimeLength))
-		{
-			this->TimePass = 0;
+			if (TimePass >= this->TimeLength)
+			{
+				this->TimePass = this->TimeLength;
+			}
+			else
+			{
+				this->TimePass = TimePass;
+			}
 		}
 		int Count = 0;
 		for (auto& Bone : OrRend)
@@ -139,6 +136,11 @@ private:
 		{
 			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,false));
 		}
+	}
+	void GetBlendMats(float TimePass, float Bias)
+	{
+
+
 	}
 public:
 	AnimModel(std::string ModName, glm::vec3 InitPos,
@@ -220,14 +222,7 @@ public:
 		}
 		if (TimeDep)
 		{
-			if (Slider)
-			{
-				this->ControlTime(TimePass);
-			}
-			else
-			{
-				this->UpdateTime(TimePass);
-			}
+				this->UpdateTime(TimePass,!Slider);
 		}
 		else
 		{
