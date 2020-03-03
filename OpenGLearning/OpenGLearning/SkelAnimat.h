@@ -76,6 +76,7 @@ private:
 	QuatParts CurRot;
 	glm::quat Curquat;
 	glm::mat4 OffSet;
+	glm::mat4 TransMat;
 	glm::mat4 Matrix;
 	glm::mat4 RelMat;
 	//Different Interpolations
@@ -152,6 +153,7 @@ public:
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
 		this->Matrix = InitMat;
+		this->TransMat = this->Matrix;
 		this->OffSet = IOffset;
 	}	
 	~SkelAn()
@@ -186,10 +188,7 @@ public:
 		}
 		else
 		{
-			this->Matrix = glm::mat4(1,0,0,0,
-									 0,0,1,0,
-									 0,-1,0,0,
-									 0,0,0,1);
+			this->Matrix = this->TransMat;
 		}
 		return this->GetAllMats();	
 	}

@@ -181,8 +181,8 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
-	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "model_Running.dae" }), "Test1"));
+	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
+	animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Un_Test.dae" }), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
