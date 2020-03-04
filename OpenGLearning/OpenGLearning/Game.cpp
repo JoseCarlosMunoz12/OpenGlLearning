@@ -181,8 +181,8 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
-	animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Un_Test.dae" }), "Test1"));
+	animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
+	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Un_Test.dae" }), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
@@ -705,7 +705,7 @@ void Game::ImGuiOptions()
 						//Animations in Blend
 						ImGui::ListBoxHeader("Current Blend", { 200,60 });
 						int BlendCount = 0;
-						for (auto& jj : Anims)
+						for (auto& jj : BlendAnims)
 						{
 							if (ImGui::Selectable(jj.c_str(),BlendCount == this->CurBlend ))
 							{
@@ -717,21 +717,30 @@ void Game::ImGuiOptions()
 						ImGui::ListBoxHeader("Animations to Blend", { 200,60 });
 						for (auto& jj : Anims)
 						{
-							ImGui::Selectable(jj.c_str(), jj == BlendAnims[this->CurBlend]);
-							{
-								
+							if(ImGui::Selectable(jj.c_str(), jj == BlendAnims[this->CurBlend]))
+							{								
+								BlendAnims[this->CurBlend] = jj;
+								this->animModel[this->AnimModelToMake]->SetBlends(BlendAnims);
 							}
 						}
 						ImGui::ListBoxFooter();
 						ImGui::Text("Time Pass %f(s)",AnimTime);
 						ImGui::Checkbox("Start Animation", &this->StarAnim);
-
+						ImGui::Checkbox("Start Blend", &this->BlendAnims);
 						if (this->StarAnim)
 						{
 							ImGui::Checkbox("Slider Animation", &this->SliderAnim);
 							if (this->SliderAnim)
 							{
 								ImGui::SliderFloat("Control Time Loc", &this->TimePass, 0.f, AnimLength);
+							}
+							if (this->BlendAnims)
+							{
+								float BlendBias = this->animModel[this->AnimModelToMake]->GetBiasBlend();
+								if (ImGui::SliderFloat("Bias Value of Blend", &BlendBias,0.f,1.f))
+								{
+									this->animModel[this->AnimModelToMake]->SetBiasBlend(BlendBias);
+								}
 							}
 							ImGui::Checkbox("Edit Animation", &this->EditAnim);
 							if (this->SliderAnim && this->EditAnim)
@@ -1630,7 +1639,7 @@ void Game::render()
 	}
 	for (auto& ii : this->animModel)
 	{	
-		ii->Render(this->TimePass, this->shaders, TempVal,this->StarAnim,this->SliderAnim);
+		ii->Render(this->TimePass, this->shaders, TempVal,this->StarAnim,this->SliderAnim,this->BlendAnims);
 	}
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);

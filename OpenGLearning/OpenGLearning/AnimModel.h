@@ -40,7 +40,7 @@ private:
 	float TimeLength;
 	int AnimChosen = 0;
 	float TimePass = 0;
-
+	float BiasVal = 0.f;
 	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
 	{
 		std::map<std::string, SkelAn*> BaseMap;
@@ -137,7 +137,7 @@ private:
 			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,false));
 		}
 	}
-	void GetBlendMats(float TimePass, float Bias, std::vector<std::string> Anims, bool ContTime = true)
+	void GetBlendMats(float TimePass, std::vector<std::string> Anims, bool ContTime = true)
 	{
 		int Count = 0;
 		if (ContTime)
@@ -165,7 +165,7 @@ private:
 		{
 			Mat0 = this->Animations[Anims[0]]->GetCurMat(Bone.Bone, this->TimePass);
 			Mat1 = this->Animations[Anims[1]]->GetCurMat(Bone.Bone, this->TimePass);
-			this->AllMats[Count] = Mat0 * (1 - Bias) + Mat1 * Bias;
+			this->AllMats[Count] = Mat0 * (1 - this->BiasVal) + Mat1 * this->BiasVal;
 			Count++;
 		}
 	}
@@ -211,9 +211,13 @@ public:
 		this->Animations[this->CurAnim]->EditTimeLength(NewTimeLength);
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
 	}
-	void SetBlendds(std::vector<std::string> NewBlend)
+	void SetBlends(std::vector<std::string> NewBlend)
 	{
 		this->Blend = NewBlend;
+	}
+	void SetBiasBlend(float NewBias)
+	{
+		this->BiasVal = NewBias;
 	}
 	//Getters
 	glm::vec3 GetPosition()
@@ -248,6 +252,10 @@ public:
 	{
 		return this->Blend;
 	}
+	float GetBiasBlend()
+	{
+		return this->BiasVal;
+	}
 	//Render
 	void Render(float TimePass,
 		std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix ,
@@ -261,7 +269,7 @@ public:
 		{
 			if (BlendAnim)
 			{
-				this->GetBlendMats(TimePass, .5f, this->Blend, !Slider);
+				this->GetBlendMats(TimePass, this->Blend, !Slider);
 			}
 			else
 			{
