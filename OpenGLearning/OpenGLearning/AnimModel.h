@@ -33,6 +33,7 @@ private:
 	std::map<std::string, Animation*> Animations;
 	std::vector<OrdStruct> OrRend;
 	std::vector<glm::mat4> AllMats;
+	std::vector<std::string> Blend;
 	std::string Name;
 	std::string CurAnim;
 
@@ -118,8 +119,7 @@ private:
 		{
 			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone.Bone,this->TimePass);
 			Count++;
-		}
-		
+		}		
 	}
 	void UpdateMats()
 	{
@@ -132,15 +132,42 @@ private:
 	}
 	void GetCurMat()
 	{
-		for (auto& Bone :OrRend)
+		for (auto& Bone : OrRend)
 		{
 			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,false));
 		}
 	}
-	void GetBlendMats(float TimePass, float Bias)
+	void GetBlendMats(float TimePass, float Bias, std::vector<std::string> Anims, bool ContTime = true)
 	{
-
-
+		int Count = 0;
+		if (ContTime)
+		{
+			this->TimePass += TimePass;
+			if ((this->TimePass >= this->TimeLength) || (TimePass >= this->TimeLength))
+			{
+				this->TimePass = 0;
+			}
+		}
+		else
+		{
+			if (TimePass >= this->TimeLength)
+			{
+				this->TimePass = this->TimeLength;
+			}
+			else
+			{
+				this->TimePass = TimePass;
+			}
+		}
+		glm::mat4 Mat0;
+		glm::mat4 Mat1;
+		for (auto& Bone : OrRend)
+		{
+			Mat0 = this->Animations[Anims[0]]->GetCurMat(Bone.Bone, this->TimePass);
+			Mat1 = this->Animations[Anims[1]]->GetCurMat(Bone.Bone, this->TimePass);
+			this->AllMats[Count] = Mat0 * (1 - Bias) + Mat1 * Bias;
+			Count++;
+		}
 	}
 public:
 	AnimModel(std::string ModName, glm::vec3 InitPos,
@@ -184,6 +211,10 @@ public:
 		this->Animations[this->CurAnim]->EditTimeLength(NewTimeLength);
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
 	}
+	void SetBlendds(std::vector<std::string> NewBlend)
+	{
+		this->Blend = NewBlend;
+	}
 	//Getters
 	glm::vec3 GetPosition()
 	{
@@ -213,8 +244,14 @@ public:
 	{
 		return this->TimePass;
 	}
+	std::vector<std::string> GetBlends()
+	{
+		return this->Blend;
+	}
 	//Render
-	void Render(float TimePass, std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix,bool TimeDep,bool Slider)
+	void Render(float TimePass,
+		std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix ,
+		bool TimeDep, bool Slider,bool BlendAnim = false)
 	{
 		for (auto& ii : this->TreeNodes)
 		{
@@ -222,7 +259,14 @@ public:
 		}
 		if (TimeDep)
 		{
+			if (BlendAnim)
+			{
+				this->GetBlendMats(TimePass, .5f, this->Blend, !Slider);
+			}
+			else
+			{
 				this->UpdateTime(TimePass,!Slider);
+			}
 		}
 		else
 		{

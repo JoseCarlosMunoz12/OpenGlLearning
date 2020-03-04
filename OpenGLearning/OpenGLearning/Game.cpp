@@ -679,7 +679,9 @@ void Game::ImGuiOptions()
 						float AnimTime = this->animModel[this->AnimModelToMake]->GetTimePass();
 						float AnimLength = this->animModel[this->AnimModelToMake]->GetAnimLength();
 						std::vector<std::string> Anims = this->animModel[this->AnimModelToMake]->AllAnimations();
+						std::vector<std::string> BlendAnims = this->animModel[this->AnimModelToMake]->GetBlends();
 						std::string AnimName = this->animModel[this->AnimModelToMake]->GetAnimName();
+						//Animations in model
 						ImGui::ListBoxHeader("All Animations For Model",{200,60});
 						for (auto& jj : Anims)
 						{
@@ -700,8 +702,11 @@ void Game::ImGuiOptions()
 							AnimName = this->animModel[this->AnimModelToMake]->DeleteAnimation(AnimName);
 						}
 						ImGui::ListBoxFooter();
+						//Animations in Blend
+
 						ImGui::Text("Time Pass %f(s)",AnimTime);
 						ImGui::Checkbox("Start Animation", &this->StarAnim);
+
 						if (this->StarAnim)
 						{
 							ImGui::Checkbox("Slider Animation", &this->SliderAnim);
