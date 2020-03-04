@@ -703,7 +703,15 @@ void Game::ImGuiOptions()
 						}
 						ImGui::ListBoxFooter();
 						//Animations in Blend
+						ImGui::ListBoxHeader("Animations to Blend", { 200,60 });
+						for (auto& jj : Anims)
+						{
+							ImGui::Selectable(jj.c_str(), jj == BlendAnims[0] or  jj == BlendAnims[1]);
+							{
 
+							}
+						}
+						ImGui::ListBoxFooter();
 						ImGui::Text("Time Pass %f(s)",AnimTime);
 						ImGui::Checkbox("Start Animation", &this->StarAnim);
 

@@ -183,7 +183,7 @@ public:
 		this->MakeAnimationInfo(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
 		this->GetCurMat();		
-
+		this->Blend = {"",""};
 	}
 	~AnimModel()
 	{
