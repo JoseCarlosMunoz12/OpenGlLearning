@@ -703,12 +703,23 @@ void Game::ImGuiOptions()
 						}
 						ImGui::ListBoxFooter();
 						//Animations in Blend
+						ImGui::ListBoxHeader("Current Blend", { 200,60 });
+						int BlendCount = 0;
+						for (auto& jj : Anims)
+						{
+							if (ImGui::Selectable(jj.c_str(),BlendCount == this->CurBlend ))
+							{
+								this->CurBlend = BlendCount;
+							}
+							BlendCount++;
+						}
+						ImGui::ListBoxFooter();
 						ImGui::ListBoxHeader("Animations to Blend", { 200,60 });
 						for (auto& jj : Anims)
 						{
-							ImGui::Selectable(jj.c_str(), jj == BlendAnims[0] or  jj == BlendAnims[1]);
+							ImGui::Selectable(jj.c_str(), jj == BlendAnims[this->CurBlend]);
 							{
-
+								
 							}
 						}
 						ImGui::ListBoxFooter();

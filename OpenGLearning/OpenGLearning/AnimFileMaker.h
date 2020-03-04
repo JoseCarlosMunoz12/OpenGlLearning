@@ -173,7 +173,6 @@ public:
 	{
 		std::ofstream Make;
 		Make.open(this->FolderLoc + FileName + ".txt");
-		Make <<"<ModelName> " + AnimModel + "\n";	
 		std::vector<std::string> AllBones =	AllAnim[0]->GetOrder();
 		int BoneNum = AllBones.size()-1;
 		std::string Inv = this->Mat4ToString( AllAnim[0]->GetInv());

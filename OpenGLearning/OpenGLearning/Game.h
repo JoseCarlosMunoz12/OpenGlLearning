@@ -133,12 +133,13 @@ private:
 	int NewTexId0 = -1;
 	int NewTexId1 = -1;
 	int NewMeshID = -1;
-	// Animation Bools
+	// Animation variables
 	float TimePass;
 	bool StarAnim = false;
 	bool SliderAnim = false;
 	bool EditAnim = false;
 	bool AddAnim = false;
+	int CurBlend = 0;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
