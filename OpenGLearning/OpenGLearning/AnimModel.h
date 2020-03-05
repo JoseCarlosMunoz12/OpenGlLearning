@@ -38,32 +38,34 @@ private:
 	std::string CurAnim;
 
 	float TimeLength;
+	float TransLength;
 	int AnimChosen = 0;
 	float TimePass = 0;
+	float TransTimePass = 0;
 	float BiasVal = 0.f;
 	void MakeAnimationInfo(std::vector<AnimArti> AnimInits)
 	{
 		std::map<std::string, SkelAn*> BaseMap;
 		this->CurAnim = "";
 		for (auto& ii : AnimInits)
-		{			
+		{
 			std::vector<std::string> TempOrder;
 			std::map<std::string, SkelAn*> TempMap;
 			for (auto& jj : ii.Inits)
 			{
-				TempMap[jj.Name] = new SkelAn(jj.AllFrames,jj.Parent,jj.TransMat,jj.OffsetMat,jj.InitOffset,jj.InitQuat,jj.InitScale);
+				TempMap[jj.Name] = new SkelAn(jj.AllFrames, jj.Parent, jj.TransMat, jj.OffsetMat, jj.InitOffset, jj.InitQuat, jj.InitScale);
 				TempOrder.push_back(jj.Name);
-				Frames* TempFrame = new Frames(0.f, {jj.InitOffset,jj.InitScale,QuatParts(0.f)});
-				BaseMap[jj.Name] = new SkelAn({TempFrame}, jj.Parent,jj.TransMat, jj.OffsetMat, jj.InitOffset, jj.InitQuat, jj.InitScale);
+				Frames* TempFrame = new Frames(0.f, { jj.InitOffset,jj.InitScale,QuatParts(0.f) });
+				BaseMap[jj.Name] = new SkelAn({ TempFrame }, jj.Parent, jj.TransMat, jj.OffsetMat, jj.InitOffset, jj.InitQuat, jj.InitScale);
 			}
-			this->Animations[ii.Name] = new Animation(ii.Name,TempMap,TempOrder,ii.TimeLength,ii.Inv);
+			this->Animations[ii.Name] = new Animation(ii.Name, TempMap, TempOrder, ii.TimeLength, ii.Inv);
 			this->BaseSKel = BaseMap;
 			BaseMap.clear();
-		}		
+		}
 		if (AnimInits.size() != 1)
 		{
-			 this->CurAnim = AnimInits[1].Name;
-		}		
+			this->CurAnim = AnimInits[1].Name;
+		}
 		std::vector<std::string> OrdRend = this->Animations[this->CurAnim]->GetOrder();
 		this->TimeLength = this->Animations[this->CurAnim]->GetTimeLength();
 		for (auto& jj : OrdRend)
@@ -71,7 +73,7 @@ private:
 			OrRend.push_back({ jj,false });
 		}
 	}
-	void MakeNodes( glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
+	void MakeNodes(glm::vec3 Pos, std::vector<MeshsArtifacts>Inits)
 	{
 		int Count = 0;
 		for (auto ii : Inits)
@@ -94,11 +96,11 @@ private:
 	}
 	//Animation Functions
 	void UpdateTime(float TimePass, bool ContTime = true)
-	{	
+	{
 		if (ContTime)
 		{
 			this->TimePass += TimePass;
-			if( (this->TimePass >= this->TimeLength) || ( TimePass >= this->TimeLength))
+			if ((this->TimePass >= this->TimeLength) || (TimePass >= this->TimeLength))
 			{
 				this->TimePass = 0;
 			}
@@ -117,9 +119,9 @@ private:
 		int Count = 0;
 		for (auto& Bone : OrRend)
 		{
-			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone.Bone,this->TimePass);
+			this->AllMats[Count] = this->Animations[this->CurAnim]->GetCurMat(Bone.Bone, this->TimePass);
 			Count++;
-		}		
+		}
 	}
 	void UpdateMats()
 	{
@@ -128,13 +130,13 @@ private:
 		{
 			this->AllMats[Count] = this->Animations[this->CurAnim]->GetMat(Bone.Bone, Bone.Active);
 			Count++;
-		}	
+		}
 	}
 	void GetCurMat()
 	{
 		for (auto& Bone : OrRend)
 		{
-			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone,false));
+			this->AllMats.push_back(this->Animations[this->CurAnim]->GetMat(Bone.Bone, false));
 		}
 	}
 	void GetBlendMats(float TimePass, std::vector<std::string> Anims, bool ContTime = true)
@@ -169,6 +171,32 @@ private:
 			Count++;
 		}
 	}
+	void GetTransitionMats(float TimePass, std::string TransAnim, bool& AnimChange, bool ContTime = true)
+	{
+		if (ContTime)
+		{
+			this->TransTimePass += TimePass;
+			if (this->TransTimePass >= this->TransLength)
+			{
+				this->TransTimePass = 0;
+				this->CurAnim = TransAnim;
+				AnimChange = false;
+				return;
+			}
+		}
+		else
+		{
+			if (TimePass >= this->TransLength)
+			{
+				this->TransTimePass = TransLength;
+			}
+			else
+			{
+				this->TransTimePass = TimePass;
+			}
+		}
+
+	}
 public:
 	AnimModel(std::string ModName, glm::vec3 InitPos,
 		StdMat* material,
@@ -179,15 +207,15 @@ public:
 		:Name(ModName), AnimMat(material)
 	{
 		this->Tex = OrTexSpec;
-		this->meshes.push_back(AnimMeshToUse);		
+		this->meshes.push_back(AnimMeshToUse);
 		this->MakeAnimationInfo(AnimMeshToUse->GetInits());
 		this->MakeNodes(InitPos, M_Inits);
-		this->GetCurMat();		
-		this->Blend = {"",""};
+		this->GetCurMat();
+		this->Blend = { "","" };
 	}
 	~AnimModel()
 	{
-		
+
 	}
 	//Setters
 	void SetOrigin(glm::vec3 NewOrigin)
@@ -219,6 +247,10 @@ public:
 	{
 		this->BiasVal = NewBias;
 	}
+	void SetTransTime(float NewTime)
+	{
+		this->TransLength = NewTime;
+	}	
 	//Getters
 	glm::vec3 GetPosition()
 	{
@@ -255,6 +287,10 @@ public:
 	float GetBiasBlend()
 	{
 		return this->BiasVal;
+	}
+	float GetTransTime()
+	{
+		return this->TransLength;
 	}
 	//Render
 	void Render(float TimePass,
