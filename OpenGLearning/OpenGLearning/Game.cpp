@@ -182,7 +182,7 @@ void Game::initModels()
 		new Mesh(&Cube(),
 			"Cube"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
-	animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae" }), "Test1"));
+	animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae", "Snek_Side.dae" }), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
