@@ -195,7 +195,17 @@ private:
 				this->TransTimePass = TimePass;
 			}
 		}
-
+		glm::mat4 Mat0;
+		glm::mat4 Mat1;
+		float Ratio = this->TransTimePass / this->TransLength;
+		int Count = 0;
+		for (auto& Bone : OrRend)
+		{
+			Mat0 = this->Animations[this->CurAnim]->GetCurMat(Bone.Bone, this->TimePass);
+			Mat1 = this->Animations[TransAnim]->GetCurMat(Bone.Bone, 0.f);
+			this->AllMats[Count] = Mat0 * (1 - Ratio) +  Mat1 * Ratio;
+			Count++;
+		}
 	}
 public:
 	AnimModel(std::string ModName, glm::vec3 InitPos,
