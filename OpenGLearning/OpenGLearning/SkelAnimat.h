@@ -189,6 +189,7 @@ public:
 		else
 		{
 			this->Matrix = this->TransMat;
+			this->UpdateRelMat(false, Temp);
 		}
 		return this->GetAllMats();	
 	}

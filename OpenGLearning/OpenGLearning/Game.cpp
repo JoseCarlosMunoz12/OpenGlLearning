@@ -181,8 +181,8 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
-	animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
-	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Un_Test.dae" }), "Test1"));
+	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
+	animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae" }), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("model.dae",this->AnimRdrMk.ReadFile("Test.txt")), "Test2"));
 
 
@@ -707,7 +707,8 @@ void Game::ImGuiOptions()
 						int BlendCount = 0;
 						for (auto& jj : BlendAnims)
 						{
-							if (ImGui::Selectable(jj.c_str(),BlendCount == this->CurBlend ))
+							std::string Temp =std::to_string(BlendCount) + "-" + jj;
+							if (ImGui::Selectable(Temp.c_str(),BlendCount == this->CurBlend ))
 							{
 								this->CurBlend = BlendCount;
 							}
