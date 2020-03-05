@@ -292,6 +292,10 @@ public:
 	{
 		return this->TransLength;
 	}
+	float GetTransTimePass()
+	{
+		return this->TransTimePass;
+	}
 	//Render
 	void Render(float TimePass,
 		std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix ,
