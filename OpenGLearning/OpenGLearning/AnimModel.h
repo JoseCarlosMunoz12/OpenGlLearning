@@ -179,7 +179,7 @@ private:
 			this->TransTimePass += TimePass;
 			if (this->TransTimePass >= this->TransLength)
 			{
-				this->TransTimePass = this->TransLength;
+				this->TransTimePass = 0.f;
 				this->CurAnim = TransAnim;
 				AnimChange = false;
 				return;
@@ -198,7 +198,15 @@ private:
 		}
 		glm::mat4 Mat0;
 		glm::mat4 Mat1;
-		float Ratio = this->TransTimePass / this->TransLength;
+		float Ratio;
+		if( this->TransLength == 0)
+		{
+			Ratio = 1;
+		}
+		else
+		{
+			Ratio = this->TransTimePass / this->TransLength;
+		}
 		int Count = 0;
 		for (auto& Bone : OrRend)
 		{
@@ -215,7 +223,7 @@ public:
 		AnimMesh* AnimMeshToUse,
 		std::vector<MeshsArtifacts>M_Inits,
 		glm::vec3 InitOr = glm::vec3(0.f), glm::vec3 InitRot = glm::vec3(0.f))
-		:Name(ModName), AnimMat(material)
+		:Name(ModName), AnimMat(material),TransLength(1.f)
 	{
 		this->Tex = OrTexSpec;
 		this->meshes.push_back(AnimMeshToUse);
