@@ -559,7 +559,8 @@ void Game::ImGuiOptions()
 					std::vector<GeneralTextInfo*> ModTex = this->animModel[this->AnimModelToMake]->GetTextures();
 					std::vector<Nodes*> TempNodes = this->animModel[this->AnimModelToMake]->GetNodesInfo();
 					std::vector<AnimMesh*> ModMesh = this->animModel[this->AnimModelToMake]->GetMeshes();
-					std::map<std::string, SkelAn*> Temps = this->animModel[this->AnimModelToMake]->GetArt();					
+					std::map<std::string, SkelAn*> Temps = this->animModel[this->AnimModelToMake]->GetArt();
+					std::string TransTo = this->animModel[this->AnimModelToMake]->GetCurNewAnim();
 					ImGui::Text("AnimModel Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
 					ImGui::Text("AnimModel Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
 					if (ImGui::TreeNode("Anim Textures Used"))
@@ -1640,7 +1641,7 @@ void Game::render()
 	}
 	for (auto& ii : this->animModel)
 	{	
-		ii->Render(this->TimePass, this->shaders, TempVal,this->StarAnim,this->SliderAnim,this->BlendAnims);
+		ii->Render(this->TimePass, this->shaders, TempVal,this->StarAnim,this->SliderAnim,this->TransAnims,this->BlendAnims);
 	}
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(window);

@@ -36,6 +36,7 @@ private:
 	std::vector<std::string> Blend;
 	std::string Name;
 	std::string CurAnim;
+	std::string NewAnim;
 
 	float TimeLength;
 	float TransLength;
@@ -178,7 +179,7 @@ private:
 			this->TransTimePass += TimePass;
 			if (this->TransTimePass >= this->TransLength)
 			{
-				this->TransTimePass = 0;
+				this->TransTimePass = this->TransLength;
 				this->CurAnim = TransAnim;
 				AnimChange = false;
 				return;
@@ -260,7 +261,11 @@ public:
 	void SetTransTime(float NewTime)
 	{
 		this->TransLength = NewTime;
-	}	
+	}
+	void SetNewTransAnm(std::string NewAnim)
+	{
+		this->NewAnim = NewAnim;
+	}
 	//Getters
 	glm::vec3 GetPosition()
 	{
@@ -306,10 +311,14 @@ public:
 	{
 		return this->TransTimePass;
 	}
+	std::string GetCurNewAnim()
+	{
+		return this->NewAnim;
+	}
 	//Render
 	void Render(float TimePass,
 		std::vector<Shader*>shader, std::vector<glm::mat4> LightMatrix ,
-		bool TimeDep, bool Slider,bool BlendAnim = false)
+		bool TimeDep, bool Slider,bool& Translate , bool BlendAnim = false)
 	{
 		for (auto& ii : this->TreeNodes)
 		{
@@ -320,6 +329,10 @@ public:
 			if (BlendAnim)
 			{
 				this->GetBlendMats(TimePass, this->Blend, !Slider);
+			}
+			else if (Translate)
+			{
+				this->GetTransitionMats(TimePass, this->NewAnim,Translate,!Slider);
 			}
 			else
 			{

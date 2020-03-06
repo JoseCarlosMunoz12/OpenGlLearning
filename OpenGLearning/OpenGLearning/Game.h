@@ -140,6 +140,7 @@ private:
 	bool EditAnim = false;
 	bool AddAnim = false;
 	bool BlendAnims = false;
+	bool TransAnims = false;
 	int CurBlend = 0;
 	//Private Functions
 	void initGLFW();
