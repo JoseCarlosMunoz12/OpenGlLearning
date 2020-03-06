@@ -181,6 +181,7 @@ private:
 			{
 				this->TransTimePass = 0.f;
 				this->CurAnim = TransAnim;
+				this->TimePass = 0.f;
 				AnimChange = false;
 				return;
 			}

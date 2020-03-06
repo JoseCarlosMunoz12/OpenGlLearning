@@ -297,6 +297,9 @@ public:
 				case ANIMENUM::BONESOFFSET:
 					this->AllStrToMat(out);
 					break;
+				case ANIMENUM::TRANSMAT:
+					this->AllStrToMat(out);
+					break;
 				case ANIMENUM::ANIMNAME:
 					std::cout << out[1] + "\n";
 					break;
@@ -334,14 +337,12 @@ public:
 					}
 					break;
 				case ANIMENUM::END:
-
 					std::cout << "END\n";
 					break;
 				}
 			}
 			FileData.close();
 		}
-		
 		return DataRead;
 	}
 };
