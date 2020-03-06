@@ -682,6 +682,7 @@ void Game::ImGuiOptions()
 						std::vector<std::string> Anims = this->animModel[this->AnimModelToMake]->AllAnimations();
 						std::vector<std::string> BlendAnims = this->animModel[this->AnimModelToMake]->GetBlends();
 						std::string AnimName = this->animModel[this->AnimModelToMake]->GetAnimName();
+						float TransTime = this->animModel[this->AnimModelToMake]->GetTransTime();
 						//Animations in model
 						ImGui::ListBoxHeader("All Animations For Model",{200,60});
 						for (auto& jj : Anims)
@@ -717,18 +718,46 @@ void Game::ImGuiOptions()
 						}
 						ImGui::ListBoxFooter();
 						ImGui::ListBoxHeader("Animations to Blend", { 200,60 });
+						int TransCount = 0;
 						for (auto& jj : Anims)
 						{
-							if(ImGui::Selectable(jj.c_str(), jj == BlendAnims[this->CurBlend]))
+							std::string TrC = std::to_string(TransCount) + "*" + jj;
+							if(ImGui::Selectable(TrC.c_str(), jj == BlendAnims[this->CurBlend]))
 							{								
 								BlendAnims[this->CurBlend] = jj;
 								this->animModel[this->AnimModelToMake]->SetBlends(BlendAnims);
 							}
+							TransCount++;
 						}
 						ImGui::ListBoxFooter();
+						//Animations to transition
+						std::string TempStr = "Transition to " + TransTo;
+						ImGui::Text(TempStr.c_str());
+						ImGui::ListBoxHeader("Anims to Transition", { 200,60 });
+						for (auto& jj : Anims)
+						{
+							if (ImGui::Selectable(jj.c_str(), jj == TransTo))
+							{
+								this->animModel[this->AnimModelToMake]->SetNewTransAnm(jj);
+							}
+						}
+						ImGui::ListBoxFooter();
+						ImGui::Text("Time To Transition is %.3f",TransTime);
+						if (ImGui::SliderFloat("Set Time", &TransTime, 0, 10))
+						{
+							this->animModel[this->AnimModelToMake]->SetTransTime(TransTime);
+						}
+						//--------------------------//
 						ImGui::Text("Time Pass %f(s)",AnimTime);
 						ImGui::Checkbox("Start Animation", &this->StarAnim);
-						ImGui::Checkbox("Start Blend", &this->BlendAnims);
+						if (ImGui::Checkbox("Start Blend", &this->BlendAnims))
+						{
+							this->TransAnims = false;
+						}
+						if (ImGui::Checkbox("Start Transition", &this->TransAnims))
+						{
+							this->BlendAnims = false;
+						}
 						if (this->StarAnim)
 						{
 							ImGui::Checkbox("Slider Animation", &this->SliderAnim);

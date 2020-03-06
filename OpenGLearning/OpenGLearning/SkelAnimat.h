@@ -148,12 +148,11 @@ private:
 public:
 	SkelAn(std::vector<Frames*> InitFrames, std::string ParentName,glm::mat4 InitMat,glm::mat4 IOffset,glm::vec3 InitOffset,
 		QuatParts InitQuat = QuatParts(),glm::vec3 InitScale = glm::vec3(1.f))
-		:CurOffset(InitOffset),CurScale(InitScale),CurRot(InitQuat)
+		:CurOffset(InitOffset),CurScale(InitScale),CurRot(InitQuat),TransMat(InitMat)
 	{
 		this->ParentId = ParentName;
 		this->AnimFrames = InitFrames;
 		this->Matrix = InitMat;
-		this->TransMat = this->Matrix;
 		this->OffSet = IOffset;
 	}	
 	~SkelAn()
@@ -248,6 +247,11 @@ public:
 	{
 		return this->OffSet;
 	}
+	glm::mat4 GetTransmat()
+	{
+		return this->TransMat;
+	}
+
 	//Setters
 	void SetRot(QuatParts NewRot)
 	{

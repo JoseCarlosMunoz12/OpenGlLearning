@@ -17,6 +17,7 @@ class AnimFileRdrMkr
 		ALLBONES,
 		ALLPARID,
 		INV,
+		TRANSMAT,
 		BONESOFFSET,
 		BONENAME,
 		BONEPARENT,
@@ -93,6 +94,7 @@ class AnimFileRdrMkr
 		this->AnimMap["<ModelBones>"] = ANIMENUM::ALLBONES;
 		this->AnimMap["<ModelBonesParents>"] = ANIMENUM::ALLPARID;
 		this->AnimMap["<ModelInverseTransform>"] = ANIMENUM::INV;
+		this->AnimMap["<ModelTransMat>"] = ANIMENUM::TRANSMAT;
 		this->AnimMap["<ModelBoneOffsets>"] = ANIMENUM::BONESOFFSET;
 		//Animation Information
 		this->AnimMap["<AnimName>"] = ANIMENUM::ANIMNAME;
@@ -179,6 +181,7 @@ public:
 		std::string BonesNames = "";
 		std::string BonesParents = "";
 		std::string OffSetMats = "";
+		std::string TransMats = "";
 		std::map<std::string, SkelAn*> Skels = AllAnim[0]->GetMap();
 		int Count = 0;
 		for (auto& ii : AllBones)
@@ -188,10 +191,12 @@ public:
 			if (Count == BoneNum)
 			{
 				OffSetMats += this->Mat4ToString(Skels[ii]->GetOffsetMat());
+				TransMats += this->Mat4ToString(Skels[ii]->GetTransmat());
 			}
 			else
 			{
 				OffSetMats += this->Mat4ToString(Skels[ii]->GetOffsetMat(),false);
+				TransMats += this->Mat4ToString(Skels[ii]->GetTransmat(),false);
 			}
 			Count++;
 		}
@@ -199,6 +204,7 @@ public:
 		Make << "<ModelBones> " + BonesNames + "\n";
 		Make << "<ModelBonesParents> " + BonesParents + "\n";
 		Make << "<ModelInverseTransform> " + Inv;
+		Make << "<ModelTransMat> " +  TransMats;
 		Make << "<ModelBoneOffsets> " + OffSetMats;
 		//Animation information
 		for (auto& ii : AllAnim)		{

@@ -342,8 +342,7 @@ public:
 		else
 		{
 			this->UpdateMats();
-		}
-			
+		}		
 		int TempShaderId = this->AnimMat->GetShaderId();
 		this->AnimMat->SendToShader(shader, LightMatrix);
 		int Num = 0;
