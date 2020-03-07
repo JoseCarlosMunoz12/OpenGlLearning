@@ -160,6 +160,19 @@ class AnimFileRdrMkr
 		}
 		return TempMat;
 	}
+	void SetUpAnimArt(std::vector<std::string> Bones, std::vector<std::string> BoneParent,
+		std::vector<SkelArti>& AllInf)
+	{
+		int TempCount = 0;
+		for (auto& jj : Bones)
+		{
+			SkelArti Temp;
+			Temp.Name = jj;
+			Temp.Parent = BoneParent[TempCount];
+			AllInf.push_back(Temp);
+			TempCount++;
+		}
+	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
 		:FolderLoc(FolderLoc)
@@ -171,7 +184,7 @@ public:
 
 	}
 	void WriteFile(std::vector<Animation*> AllAnim,
-		std::string AnimModel,std::string FileName)
+	std::string AnimModel,std::string FileName)
 	{
 		std::ofstream Make;
 		Make.open(this->FolderLoc + FileName + ".txt");
@@ -253,13 +266,15 @@ public:
 			AnimArti Temp;
 			std::vector<SkelArti> TempSkels;
 			SkelArti TempBone;
-			TempBone.InitOffset = glm::vec3(1.f);
-			TempBone.InitScale = glm::vec3(1.f);
+			std::vector<std::string> Bones;
+			std::vector<std::string> BoneParent;
+			std::vector<glm::mat4> TransMats;
+			std::vector<glm::mat4> BoneOffsets;
 			InterType Type = InterType::LINEAR;
 			std::vector<std::string> InvStr;
 			float Frame_TimeStamp;
 			int SizeB;
-			int SizeID;
+			int SizeID;			
 			std::string Line;
 			while (std::getline(FileData, Line))
 			{
@@ -274,17 +289,15 @@ public:
 					SizeB = out.size();
 					for (int ii = 1; ii < SizeB; ii++)
 					{
-						std::cout << out[ii] + " ";
+						Bones.push_back(out[ii]);
 					}
-					std::cout << "\n";
 					break;
 				case ANIMENUM::ALLPARID:
 					SizeID = out.size();
 					for (int ii = 1; ii < SizeID; ii++)
 					{
-						std::cout << out[ii] + " ";
-					}					
-					std::cout << "\n";
+						BoneParent.push_back(out[ii]);
+					}
 					break;
 				case ANIMENUM::INV:
 					for ( int ii = 1; ii < 17; ii++)
@@ -292,19 +305,19 @@ public:
 						InvStr.push_back(out[ii]);
 					}
 					glm::mat4 TempInv = this->StringToMat4(InvStr);
-					InvStr.clear();
+					this->SetUpAnimArt(Bones, BoneParent, TempSkels);
 					break;
 				case ANIMENUM::BONESOFFSET:
-					this->AllStrToMat(out);
+					BoneOffsets = this->AllStrToMat(out);
 					break;
 				case ANIMENUM::TRANSMAT:
-					this->AllStrToMat(out);
+					TransMats = this->AllStrToMat(out);
 					break;
 				case ANIMENUM::ANIMNAME:
-					std::cout << out[1] + "\n";
+					Temp.Name = out[1];
 					break;
 				case ANIMENUM::ANIMLENGTH:
-					std::cout << out[1] + "\n"; 
+					Temp.TimeLength =std::stof(out[1]); 
 					break;
 				case ANIMENUM::ANIMTIME:
 					if (out.size() > 1)

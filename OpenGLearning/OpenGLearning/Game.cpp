@@ -1336,7 +1336,7 @@ void Game::ImGuiOptions()
 		}
 		if (ImGui::Button("Read Anim"))
 		{
-			this->AnimRdrMk.ReadFile("Test.txt");
+			this->AnimRdrMk.ReadFile("AnimeTest.txt");
 		}
 
 		ImGui::End();
