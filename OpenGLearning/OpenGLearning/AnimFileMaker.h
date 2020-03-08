@@ -99,6 +99,7 @@ class AnimFileRdrMkr
 		//Animation Information
 		this->AnimMap["<AnimName>"] = ANIMENUM::ANIMNAME;
 		this->AnimMap["<AnimLength>"] = ANIMENUM::ANIMLENGTH;
+		this->AnimMap["<AnimBone>"] = ANIMENUM::BONENAME;
 		this->AnimMap["<AnimTimeInt>"] = ANIMENUM::ANIMTIME;
 		this->AnimMap["<AnimType>"] = ANIMENUM::INTERTYPE;
 		this->AnimMap["<AnimOffset>"] = ANIMENUM::ANIMOFF;
@@ -265,13 +266,19 @@ public:
 		{
 			AnimArti Temp;
 			std::vector<SkelArti> TempSkels;
+			glm::mat4 TempInv;
 			SkelArti TempBone;
 			std::vector<std::string> Bones;
 			std::vector<std::string> BoneParent;
 			std::vector<glm::mat4> TransMats;
 			std::vector<glm::mat4> BoneOffsets;
-			InterType Type = InterType::LINEAR;
 			std::vector<std::string> InvStr;
+			//All Vec and TGime And Type
+			std::vector<float> BoneTimeInt;
+			std::vector<InterType> BoneInterType;
+			std::vector<glm::vec3> BoneOffset;
+			std::vector<QuatParts> BoneQuats;
+			std::vector<glm::vec3> BoneScale;
 			float Frame_TimeStamp;
 			int SizeB;
 			int SizeID;			
@@ -304,7 +311,7 @@ public:
 					{
 						InvStr.push_back(out[ii]);
 					}
-					glm::mat4 TempInv = this->StringToMat4(InvStr);
+					TempInv = this->StringToMat4(InvStr);
 					this->SetUpAnimArt(Bones, BoneParent, TempSkels);
 					break;
 				case ANIMENUM::BONESOFFSET:
@@ -317,7 +324,15 @@ public:
 					Temp.Name = out[1];
 					break;
 				case ANIMENUM::ANIMLENGTH:
-					Temp.TimeLength =std::stof(out[1]); 
+					Temp.TimeLength = std::stof(out[1]); 
+					Temp.Inv = TempInv;
+					break;
+				case ANIMENUM::BONENAME:
+					if (Temp.Name != "")
+					{
+
+					}
+
 					break;
 				case ANIMENUM::ANIMTIME:
 					if (out.size() > 1)
