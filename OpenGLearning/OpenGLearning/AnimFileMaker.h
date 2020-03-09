@@ -175,6 +175,26 @@ class AnimFileRdrMkr
 			TempCount++;
 		}
 	}
+	std::vector<glm::vec3> GetAllVec3(std::vector<std::string> Vecs)
+	{
+		std::vector<glm::vec3> TempVec;
+		int Count = Vecs.size() - 1;
+		for (int ii = 1; ii < Count; ii++)
+		{
+			TempVec.push_back(this->ToVec3(Vecs[ii]));
+		}
+		return TempVec;
+	}
+	std::vector<QuatParts> GetAllQuats(std::vector<std::string> Quats)
+	{
+		std::vector<QuatParts> TempQuats;
+		int Count = Quats.size();
+		for (int ii = 1; ii < Count; ii++)
+		{
+			TempQuats.push_back(this->ToQuat(Quats[ii]));
+		}
+		return TempQuats;
+	}
 	void SetAnimArti(std::string Bone)
 	{
 
@@ -355,24 +375,23 @@ public:
 				case ANIMENUM::ANIMOFF:
 					if (out.size() > 1)
 					{
-						std::cout << out[1] + "\n";
+						BoneOffset = this->GetAllVec3(out);
 					}
 					break;
 				case ANIMENUM::ANIMROT:
 					if (out.size() > 1)
 					{
-						std::cout << out[1] + "\n";
+						BoneQuats = this->GetAllQuats(out);
 					}
 					break;
 				case ANIMENUM::ANIMSCALE:
 					if (out.size() > 1)
 					{
-						std::cout << out[1] + "\n";
+						BoneScale = this->GetAllVec3(out);
 					}
 					break;
 				case ANIMENUM::END:
-
-
+					DataRead.push_back(Temp);
 					std::cout << "END\n";
 					break;
 				}
