@@ -161,18 +161,24 @@ class AnimFileRdrMkr
 		}
 		return TempMat;
 	}
-	void SetUpAnimArt(std::vector<std::string> Bones, std::vector<std::string> BoneParent,
+	void SetUpSkelArt(std::vector<std::string> Bones, std::vector<std::string> BoneParent,
 		std::vector<SkelArti>& AllInf)
 	{
 		int TempCount = 0;
 		for (auto& jj : Bones)
 		{
-			SkelArti Temp;
+			SkelArti Temp;			
 			Temp.Name = jj;
 			Temp.Parent = BoneParent[TempCount];
+			Temp.OffsetMat;
 			AllInf.push_back(Temp);
 			TempCount++;
 		}
+	}
+	void SetAnimArti(std::string Bone)
+	{
+
+
 	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
@@ -312,7 +318,7 @@ public:
 						InvStr.push_back(out[ii]);
 					}
 					TempInv = this->StringToMat4(InvStr);
-					this->SetUpAnimArt(Bones, BoneParent, TempSkels);
+					this->SetUpSkelArt(Bones, BoneParent, TempSkels);
 					break;
 				case ANIMENUM::BONESOFFSET:
 					BoneOffsets = this->AllStrToMat(out);
@@ -325,7 +331,7 @@ public:
 					break;
 				case ANIMENUM::ANIMLENGTH:
 					Temp.TimeLength = std::stof(out[1]); 
-					Temp.Inv = TempInv;
+					Temp.Inv = TempInv;					
 					break;
 				case ANIMENUM::BONENAME:
 					if (Temp.Name != "")
@@ -365,6 +371,8 @@ public:
 					}
 					break;
 				case ANIMENUM::END:
+
+
 					std::cout << "END\n";
 					break;
 				}

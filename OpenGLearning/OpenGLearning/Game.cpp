@@ -1334,10 +1334,6 @@ void Game::ImGuiOptions()
 			}
 
 		}
-		if (ImGui::Button("Read Anim"))
-		{
-			this->AnimRdrMk.ReadFile("AnimeTest.txt");
-		}
 
 		ImGui::End();
 	}
@@ -1383,7 +1379,7 @@ void Game::ImGuiOptions()
 		}
 		if (ImGui::Button("Load Anim File"))
 		{
-			this->AnimRdrMk.ReadFile("AnimSave.txt");
+			this->AnimRdrMk.ReadFile("AnimeTest.txt");
 		}
 
 		ImGui::End();
