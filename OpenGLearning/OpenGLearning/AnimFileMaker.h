@@ -300,6 +300,7 @@ public:
 			std::vector<glm::mat4> BoneOffsets;
 			std::vector<std::string> InvStr;
 			//All Vec and TGime And Type
+			std::string BoneName = "";
 			std::vector<float> BoneTimeInt;
 			std::vector<InterType> BoneInterType;
 			std::vector<glm::vec3> BoneOffset;
@@ -354,11 +355,11 @@ public:
 					Temp.Inv = TempInv;					
 					break;
 				case ANIMENUM::BONENAME:
-					if (Temp.Name != "")
+					if (BoneName != "")
 					{
 
 					}
-
+					BoneName = out[1];
 					break;
 				case ANIMENUM::ANIMTIME:
 					if (out.size() > 1)
