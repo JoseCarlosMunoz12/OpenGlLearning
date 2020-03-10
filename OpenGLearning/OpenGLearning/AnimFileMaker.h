@@ -72,10 +72,6 @@ class AnimFileRdrMkr
 		TempJoint.Scale = this->ToVec3(Info[2]);
 		return TempJoint;
 	}
-	Frames* GetFrames(float TimeStamp, std::vector<std::string> Info,InterType Type)
-	{
-		return new Frames(TimeStamp,this->MakeJoints(Info),Type);		
-	}
 	void ReturnStringArray(std::string const& str, const char delim, std::vector<std::string>& out)
 	{
 		size_t start;
@@ -179,7 +175,7 @@ class AnimFileRdrMkr
 	std::vector<glm::vec3> GetAllVec3(std::vector<std::string> Vecs)
 	{
 		std::vector<glm::vec3> TempVec;
-		int Count = Vecs.size() - 1;
+		int Count = Vecs.size();
 		for (int ii = 1; ii < Count; ii++)
 		{
 			TempVec.push_back(this->ToVec3(Vecs[ii]));
@@ -204,7 +200,7 @@ class AnimFileRdrMkr
 		{
 			TempTypes.push_back( InterMap[Types[ii]]);
 		}
-
+		return TempTypes;
 	}
 	std::vector<float> GetAllTimes(std::vector <std::string> Vals)
 	{
@@ -216,13 +212,49 @@ class AnimFileRdrMkr
 		}
 		return TempTimes;
 	}
+	std::vector<Frames*> MakeFrames(std::vector<float> Times, std::vector<InterType> Types,
+		std::vector<glm::vec3> Pos, std::vector<QuatParts> Quats, std::vector<glm::vec3> Scales)
+	{
+		std::vector<Frames*> Temp;
+		int Count = 0;
+		for (auto& ii : Times)
+		{
+			Joints NewJoints;
+			NewJoints.Offset = Pos[Count];
+			NewJoints.Rot = Quats[Count];
+			NewJoints.Scale = Scales[Count];
+			Temp.push_back(new Frames(ii, NewJoints, Types[Count]));
+			Count++;
+		}
+		return Temp;
+	}
 	//Set AnimArti
 	void SetAnimArti(std::vector<SkelArti>& Inits, std::string Bone,
 		std::vector<glm::vec3> Pos,std::vector<QuatParts> Quats, std::vector<glm::vec3> Scale,
-		glm::mat4 TransMat,std::vector<glm::mat4> BoneMats)
+		std::vector<float> Times,std::vector<InterType> Types,
+		std::vector<glm::mat4> TransMat,std::vector<glm::mat4> BoneOffsets)
 	{
-
-
+		std::vector<SkelArti>::iterator it = std::find_if(Inits.begin(), Inits.end(),
+			[Bone](const SkelArti& Vi) {return Vi.Name == Bone; });
+		int Index = it - Inits.begin();
+		//Matrix for Bones and empty channels
+		it->TransMat = TransMat[Index];
+		it->OffsetMat = BoneOffsets[Index];
+		//First Offsets
+		if (Pos.size() != 0)
+		{
+			it->InitOffset = Pos[0];
+			it->InitQuat = Quats[0];
+			it->InitScale = Scale[0];
+		}
+		else
+		{
+			it->InitOffset = glm::vec3(0.f);
+			it->InitQuat = QuatParts();
+			it->InitScale = glm::vec3(0.f);
+		}
+		//Frame Creation
+		it->AllFrames = this->MakeFrames(Times, Types, Pos, Quats, Scale);
 	}
 public:
 	AnimFileRdrMkr(std::string FolderLoc)
@@ -314,7 +346,7 @@ public:
 		std::fstream FileData(this->FolderLoc + FileName);
 		if (FileData.is_open())
 		{
-			AnimArti Temp;
+			AnimArti Temp;			
 			std::vector<SkelArti> TempSkels;
 			glm::mat4 TempInv;
 			SkelArti TempBone;			
@@ -382,7 +414,7 @@ public:
 					if (BoneName != "")
 					{
 						//Set AnimBoneFrames
-
+						this->SetAnimArti(TempSkels,BoneName,BonePos,BoneQuats,BoneScale,BoneTimeInt,BoneInterType,TransMats,BoneOffsets);
 						//Reset Vecs
 						BoneTimeInt.clear();
 						BoneInterType.clear();
@@ -423,7 +455,9 @@ public:
 					}
 					break;
 				case ANIMENUM::END:
+					Temp.Inits = TempSkels;
 					DataRead.push_back(Temp);
+					BoneName = "";
 					std::cout << "END\n";
 					break;
 				}
