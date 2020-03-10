@@ -175,6 +175,7 @@ class AnimFileRdrMkr
 			TempCount++;
 		}
 	}
+	//convert strings to Values
 	std::vector<glm::vec3> GetAllVec3(std::vector<std::string> Vecs)
 	{
 		std::vector<glm::vec3> TempVec;
@@ -195,7 +196,30 @@ class AnimFileRdrMkr
 		}
 		return TempQuats;
 	}
-	void SetAnimArti(std::string Bone)
+	std::vector<InterType> GetTypes(std::vector<std::string> Types)
+	{
+		std::vector<InterType> TempTypes;
+		int IntSize = Types.size();
+		for (int ii = 1; ii < IntSize; ii++)
+		{
+			TempTypes.push_back( InterMap[Types[ii]]);
+		}
+
+	}
+	std::vector<float> GetAllTimes(std::vector <std::string> Vals)
+	{
+		std::vector<float> TempTimes;
+		int TimeSize = Vals.size();
+		for (int ii = 1; ii < TimeSize; ii++)
+		{
+			TempTimes.push_back(std::stof(Vals[ii]));
+		}
+		return TempTimes;
+	}
+	//Set AnimArti
+	void SetAnimArti(std::vector<SkelArti>& Inits, std::string Bone,
+		std::vector<glm::vec3> Pos,std::vector<QuatParts> Quats, std::vector<glm::vec3> Scale,
+		glm::mat4 TransMat,std::vector<glm::mat4> BoneMats)
 	{
 
 
@@ -293,7 +317,7 @@ public:
 			AnimArti Temp;
 			std::vector<SkelArti> TempSkels;
 			glm::mat4 TempInv;
-			SkelArti TempBone;
+			SkelArti TempBone;			
 			std::vector<std::string> Bones;
 			std::vector<std::string> BoneParent;
 			std::vector<glm::mat4> TransMats;
@@ -303,7 +327,7 @@ public:
 			std::string BoneName = "";
 			std::vector<float> BoneTimeInt;
 			std::vector<InterType> BoneInterType;
-			std::vector<glm::vec3> BoneOffset;
+			std::vector<glm::vec3> BonePos;
 			std::vector<QuatParts> BoneQuats;
 			std::vector<glm::vec3> BoneScale;
 			float Frame_TimeStamp;
@@ -357,26 +381,33 @@ public:
 				case ANIMENUM::BONENAME:
 					if (BoneName != "")
 					{
+						//Set AnimBoneFrames
 
+						//Reset Vecs
+						BoneTimeInt.clear();
+						BoneInterType.clear();
+						BonePos.clear();
+						BoneQuats.clear();
+						BoneScale.clear();
 					}
 					BoneName = out[1];
 					break;
 				case ANIMENUM::ANIMTIME:
 					if (out.size() > 1)
 					{
-						std::cout << out[1] + "\n";
+						BoneTimeInt = this->GetAllTimes(out);
 					}
 					break;
 				case ANIMENUM::INTERTYPE:
 					if (out.size() > 1)
 					{
-						std::cout << out[1] + "\n";
+						BoneInterType = this->GetTypes(out);
 					}
 					break;
 				case ANIMENUM::ANIMOFF:
 					if (out.size() > 1)
 					{
-						BoneOffset = this->GetAllVec3(out);
+						BonePos = this->GetAllVec3(out);
 					}
 					break;
 				case ANIMENUM::ANIMROT:
