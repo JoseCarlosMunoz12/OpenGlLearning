@@ -1399,7 +1399,6 @@ void Game::ImGuiOptions()
 	}
 	CheckCntrl.RenderBox();
 }
-
 void Game::updateUniforms()
 {
 	//Update uniforms
@@ -1497,7 +1496,6 @@ void Game::updateUniforms()
 		ii->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
 	}
 }
-
 std::vector<glm::mat4> Game::updateShadows()
 {
 	std::vector<glm::mat4> ReturnMatrix;
@@ -1543,7 +1541,6 @@ void Game::updateOpenGLOptions()
 		glFrontFace(GL_CCW);
 	}
 }
-
 Game::Game(const char * title,
 	const int width, const int height,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)
@@ -1595,7 +1592,6 @@ Game::Game(const char * title,
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
 }
-
 Game::~Game()
 {
 	ImGui::DestroyContext();
