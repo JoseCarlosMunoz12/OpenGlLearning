@@ -1379,12 +1379,12 @@ void Game::ImGuiOptions()
 		}
 		if (ImGui::Button("TestEngine"))
 		{
-			CPE::StaticCollisions Test("Jose");
-			Test.ShowName();
-			glm::vec3 Temp = Test.GetPos();
+			CPE::CollisionWorldSetup Set;
+			Set.Gravity = glm::vec3(0.f, 0.f, -1.f);
+			Set.Name = "Jose";
+			CPE::CollisionWorld Test(Set);
+			std::cout << Test.GetGravity().z << "\n";
 		}
-	
-
 		ImGui::End();
 	}
 	if (this->AddAnim)

@@ -2,19 +2,15 @@
 using namespace CoatlPhysicsEngine;
 
 StaticCollisions::StaticCollisions(std::string Name, glm::vec3 InitPos)
-	: CollisionWorld(Name),Pos(InitPos)
+	:Pos(InitPos)
 {
+
 }
 
 StaticCollisions::~StaticCollisions()
 {
-}
-
-void StaticCollisions::ShowName()
-{
 
 }
-
 glm::vec3 StaticCollisions::GetPos()
 {
 	return this->Pos;
