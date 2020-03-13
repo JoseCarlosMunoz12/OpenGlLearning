@@ -1380,6 +1380,7 @@ void Game::ImGuiOptions()
 		{
 			CPE::StaticCollisions Test("Jose");
 			Test.ShowName();
+			glm::vec3 Temp = Test.GetPos();
 		}
 	
 
