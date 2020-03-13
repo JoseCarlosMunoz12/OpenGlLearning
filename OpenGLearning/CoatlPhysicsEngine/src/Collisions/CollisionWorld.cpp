@@ -3,14 +3,13 @@
 using namespace CoatlPhysicsEngine;
 
 CollisionWorld::CollisionWorld(std::string SetWName)
-	:WorldName(SetWName)
+	:WorldName(SetWName),Gravity(glm::vec3(0.f,0.f,-9.81f))
 {
 }
 
-CoatlPhysicsEngine::CollisionWorld::CollisionWorld(CollisionWorldSetup SetUp)
-	:WorldName(SetUp.Name)
+CollisionWorld::CollisionWorld(CollisionWorldSetup SetUp)
+	:WorldName(SetUp.Name),Gravity(SetUp.Gravity)
 {
-	this->Gravity = SetUp.Gravity;
 }
 
 CollisionWorld::~CollisionWorld()

@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "StaticCollisions.h"
+#include "DynamicCollisions.h"
 namespace CoatlPhysicsEngine {
 	struct CollisionWorldSetup
 	{
@@ -11,8 +12,9 @@ namespace CoatlPhysicsEngine {
 	class CollisionWorld
 	{
 	private:
-		glm::vec3 Gravity = glm::vec3(0.f, 0.f, -9.81f);
-		StaticCollisions* AllStatics;
+		glm::vec3 Gravity;
+		StaticCollisions* Statics;
+		DynamicCollisions* Dynamics;
 		std::string WorldName;
 	public:
 		CollisionWorld(std::string SetWName);
