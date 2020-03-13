@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLearning", "OpenGLearning\OpenGLearning.vcxproj", "{1E5F5207-E91C-47A1-BBBC-3A2A5FA480F6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoatlPhysicsEngine", "CoatlPhysicsEngine\CoatlPhysicsEngine.vcxproj", "{8126AA97-F294-4D12-BB9A-F3C9570DAA42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,18 @@ Global
 		{1E5F5207-E91C-47A1-BBBC-3A2A5FA480F6}.Release|x64.Build.0 = Release|Win32
 		{1E5F5207-E91C-47A1-BBBC-3A2A5FA480F6}.Release|x86.ActiveCfg = Release|Win32
 		{1E5F5207-E91C-47A1-BBBC-3A2A5FA480F6}.Release|x86.Build.0 = Release|Win32
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Debug|Win32.Build.0 = Debug|Win32
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Debug|x64.ActiveCfg = Debug|x64
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Debug|x64.Build.0 = Debug|x64
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Debug|x86.ActiveCfg = Debug|Win32
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Debug|x86.Build.0 = Debug|Win32
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Release|Win32.ActiveCfg = Release|Win32
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Release|Win32.Build.0 = Release|Win32
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Release|x64.ActiveCfg = Release|x64
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Release|x64.Build.0 = Release|x64
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Release|x86.ActiveCfg = Release|Win32
+		{8126AA97-F294-4D12-BB9A-F3C9570DAA42}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

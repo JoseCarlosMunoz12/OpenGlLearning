@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "CoatlPhysicsEngine.h"
 void Game::initGLFW()
 {
 	//INIT GLFW
@@ -1375,10 +1376,12 @@ void Game::ImGuiOptions()
 			this->LoadNewModels(RdMkFiles.DecipherFile(this->FileID));
 			this->FileID = -1;
 		}
-		if (ImGui::Button("Load Anim File"))
+		if (ImGui::Button("TestEngine"))
 		{
-			this->AnimRdrMk.ReadFile("AnimeTest.txt");
+			CPE::StaticCollisions Test("Jose");
+			Test.ShowName();
 		}
+	
 
 		ImGui::End();
 	}
