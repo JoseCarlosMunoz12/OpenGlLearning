@@ -89,9 +89,6 @@
     <ClInclude Include="ImGui\imgui_impl_opengl3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MipMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
