@@ -9,13 +9,13 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 
-#include "Shapes/ColShapes.h"
+#include "../Shapes/ColShapes.h"
 
 namespace CoatlPhysicsEngine {
 	class DynamicCollisions
 	{
 	private:
-		std::vector<ColShapes*> ColShapes;
+		std::vector<ColShapes*> AllShapes;
 	public:
 		DynamicCollisions();
 		~DynamicCollisions();

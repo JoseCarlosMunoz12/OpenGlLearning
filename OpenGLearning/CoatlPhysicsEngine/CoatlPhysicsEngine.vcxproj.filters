@@ -21,13 +21,13 @@
     <ClInclude Include="src\Collisions\StaticCollisions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Collisions\Shapes\ColShapes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Collisions\CollisionWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Collisions\DynamicCollisions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shapes\ColShapes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Collisions\Shapes\ColShapes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Collisions\CollisionWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Collisions\DynamicCollisions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shapes\ColShapes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

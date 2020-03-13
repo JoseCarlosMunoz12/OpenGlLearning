@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "StaticCollisions.h"
 #include "DynamicCollisions.h"
+#include "StaticCollisions.h"
 namespace CoatlPhysicsEngine {
 	struct CollisionWorldSetup
 	{

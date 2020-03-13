@@ -9,7 +9,7 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 
-#include "Shapes/ColShapes.h"
+#include "../Shapes/ColShapes.h"
 
 namespace CoatlPhysicsEngine 
 {
@@ -17,6 +17,7 @@ namespace CoatlPhysicsEngine
 	{
 	private:
 		glm::vec3 Pos;
+		ColShapes* SEt;
 		std::vector<ColShapes*> AllShapes;
 	public:
 		StaticCollisions(std::string Name,glm::vec3 InitPos = glm::vec3(0.f));
