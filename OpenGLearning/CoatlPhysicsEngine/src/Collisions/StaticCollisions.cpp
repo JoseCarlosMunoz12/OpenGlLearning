@@ -1,7 +1,7 @@
 #include "StaticCollisions.h"
 using namespace CoatlPhysicsEngine;
 
-StaticCollisions::StaticCollisions(std::string Name,glm::vec3 InitPos = glm::vec3(1.f))
+StaticCollisions::StaticCollisions(std::string Name, glm::vec3 InitPos)
 	:Pos(InitPos)
 {
 	this->Name = Name;
