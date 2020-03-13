@@ -115,7 +115,6 @@ public:
 		this->updateUniform();
 		int TempShdrId = this->TestMat->GetShaderId();
  		this->TestMat->SendToShader(shader);
-		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
 		int Num = 0;
 		for (auto& ii : this->TreeNodes)
@@ -140,7 +139,6 @@ public:
 		this->updateUniform();
 		int TempShdrId = this->TestMat->GetShaderId();
 		this->TestMat->SendToShader(shader,LightMatrix);
-		shader[TempShdrId]->use();
 		Shader* T = shader[TempShdrId];
 		int Num = 0;
 		for (auto& ii : this->TreeNodes)

@@ -355,7 +355,6 @@ public:
 		int TempShaderId = this->AnimMat->GetShaderId();
 		this->AnimMat->SendToShader(shader, LightMatrix);
 		int Num = 0;
-		shader[TempShaderId]->use();
 		for (auto& ii : this->TextToUse)
 		{
 			this->Tex[ii]->Bind(Num);
