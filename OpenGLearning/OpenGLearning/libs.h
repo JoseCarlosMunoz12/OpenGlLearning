@@ -33,3 +33,5 @@
 #include "AnimModel.h"
 #include "SkelAnimat.h"
 #include "AnimFileMaker.h"
+
+#include "CoatlPhysicsEngine.h"

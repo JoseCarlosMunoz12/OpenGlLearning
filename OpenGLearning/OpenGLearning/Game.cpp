@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "CoatlPhysicsEngine.h"
 void Game::initGLFW()
 {
 	//INIT GLFW
@@ -382,6 +381,7 @@ void Game::updateInput()
 	this->updateMouseInput();
 	this->updateController();
 }
+
 void Game::updateController()
 {
 	if (this->CheckCntrl.ControllerExist())
@@ -419,6 +419,7 @@ void Game::updateController()
 		}
 	}
 }
+
 void Game::ImGuiOptions()
 {
 	
@@ -1403,6 +1404,7 @@ void Game::ImGuiOptions()
 	}
 	CheckCntrl.RenderBox();
 }
+
 void Game::updateUniforms()
 {
 	//Update uniforms
@@ -1500,6 +1502,7 @@ void Game::updateUniforms()
 		ii->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
 	}
 }
+
 std::vector<glm::mat4> Game::updateShadows()
 {
 	std::vector<glm::mat4> ReturnMatrix;
@@ -1596,6 +1599,7 @@ Game::Game(const char * title,
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
 }
+
 Game::~Game()
 {
 	ImGui::DestroyContext();

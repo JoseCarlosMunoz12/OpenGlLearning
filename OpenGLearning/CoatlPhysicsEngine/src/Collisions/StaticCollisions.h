@@ -8,17 +8,20 @@
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
 
+#include "CollisionWorld.h"
+
 namespace CoatlPhysicsEngine 
 {
-	class StaticCollisions
+	class StaticCollisions : CollisionWorld
 	{
+	private:
 		glm::vec3 Pos;
-		std::string Name;
 	public:
 		StaticCollisions(std::string Name,glm::vec3 InitPos = glm::vec3(0.f));
 		~StaticCollisions();
 		void ShowName();
 		glm::vec3 GetPos();
+		void SetPos(glm::vec3 NewPos);
 	};
 }
 

@@ -142,10 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Collisions\CollisionWorld.h" />
+    <ClInclude Include="src\Collisions\Shapes\ColShapes.h" />
     <ClInclude Include="src\CoatlPhysicsEngine.h" />
     <ClInclude Include="src\Collisions\StaticCollisions.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Collisions\CollisionWorld.cpp" />
+    <ClCompile Include="src\Collisions\Shapes\ColShapes.cpp" />
     <ClCompile Include="src\Collisions\StaticCollisions.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
