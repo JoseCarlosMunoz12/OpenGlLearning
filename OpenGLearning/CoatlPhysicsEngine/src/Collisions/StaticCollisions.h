@@ -17,13 +17,13 @@ namespace CoatlPhysicsEngine
 	{
 	private:
 		glm::vec3 Pos;
-		ColShapes* SEt;
 		std::vector<ColShapes*> AllShapes;
 	public:
 		StaticCollisions(std::string Name,glm::vec3 InitPos = glm::vec3(0.f));
 		~StaticCollisions();
 		glm::vec3 GetPos();
 		void SetPos(glm::vec3 NewPos);
+		ColShapes* MakeNewShape();
 	};
 }
 

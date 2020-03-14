@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Physics\Mass.h" />
     <ClInclude Include="src\Collisions\DynamicCollisions.h" />
     <ClInclude Include="src\Collisions\CollisionWorld.h" />
     <ClInclude Include="src\Shapes\ColShapes.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="src\Collisions\StaticCollisions.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Physics\Mass.cpp" />
     <ClCompile Include="src\Collisions\DynamicCollisions.cpp" />
     <ClCompile Include="src\Collisions\CollisionWorld.cpp" />
     <ClCompile Include="src\Shapes\ColShapes.cpp" />
