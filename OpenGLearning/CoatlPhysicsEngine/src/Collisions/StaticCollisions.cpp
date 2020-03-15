@@ -2,21 +2,24 @@
 using namespace CoatlPhysicsEngine;
 
 StaticCollisions::StaticCollisions(std::string Name, glm::vec3 InitPos)
-	:Pos(InitPos)
 {
 
 }
 
 StaticCollisions::~StaticCollisions()
-{
-
-}
-glm::vec3 StaticCollisions::GetPos()
-{
-	return this->Pos;
+{	
 }
 
-void StaticCollisions::SetPos(glm::vec3 NewPos)
+void StaticCollisions::UpdateCollisionCheck()
 {
-	this->Pos = NewPos;
+	int Size = AllStatics.size();
+	for (int ii = 0; ii < Size; ii++)
+	{
+		for (int jj = ii + 1; jj < Size; jj++)
+		{
+			AllStatics[ii]->DetecCollision(AllStatics[jj]);
+		}
+
+	}
+	
 }

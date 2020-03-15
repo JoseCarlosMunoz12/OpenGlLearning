@@ -33,6 +33,9 @@
     <ClInclude Include="src\Physics\Mass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bodies\Bodies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\Mass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bodies\Bodies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

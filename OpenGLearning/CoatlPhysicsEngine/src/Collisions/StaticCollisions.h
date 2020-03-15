@@ -10,20 +10,19 @@
 #include <vector>
 
 #include "../Shapes/ColShapes.h"
+#include "../Bodies/Bodies.h"
 
 namespace CoatlPhysicsEngine 
 {
 	class StaticCollisions
 	{
 	private:
-		glm::vec3 Pos;
-		std::vector<ColShapes*> AllShapes;
+		std::vector<Bodies*> AllStatics;
+		int NewCurId = 0;
 	public:
 		StaticCollisions(std::string Name,glm::vec3 InitPos = glm::vec3(0.f));
 		~StaticCollisions();
-		glm::vec3 GetPos();
-		void SetPos(glm::vec3 NewPos);
-		ColShapes* MakeNewShape();
+		void UpdateCollisionCheck();
 	};
 }
 
