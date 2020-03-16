@@ -1410,18 +1410,25 @@ void Game::ImGuiOptions()
 		if (ImGui::Button("Delete Collisions World"))
 		{
 			this->ColWorld = NULL;
+			this->Statics = NULL;
 		}
 		if (ColWorld)
 		{
 			std::string ColName = "Collision world Name is " + this->ColWorld->ShowName();
-			std::string ColGrav = "Collisions world Gravity is" + std:this->ColWorld->GetGravity().x;
+			std::string ColGrav = "Collisions world Gravity is %.3f";
 			ImGui::Text(ColName.c_str());
+			ImGui::Text(ColGrav.c_str(),this->ColWorld->GetGravity().z);
 			if (ImGui::Button("Create Static Collision"))
 			{
 				if(!this->Statics)
 				{
 					this->Statics = ColWorld->CreateStaticCol("Static Collisions");
 				}
+			}
+			if (this->Statics)
+			{
+				std::string StColName = this->Statics->GetName();
+				ImGui::Text(StColName.c_str());
 			}
 		}
 		ImGui::End();

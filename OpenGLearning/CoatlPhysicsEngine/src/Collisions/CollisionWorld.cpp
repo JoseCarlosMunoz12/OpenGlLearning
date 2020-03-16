@@ -13,7 +13,7 @@ CollisionWorld::CollisionWorld(CollisionWorldSetup SetUp)
 }
 
 CollisionWorld::~CollisionWorld()
-{
+{	
 	delete Statics;
 	delete Dynamics;
 }
