@@ -1406,14 +1406,22 @@ void Game::ImGuiOptions()
 			{
 				this->ColWorld = new CPE::CollisionWorld(Set);
 			}
-			std::cout << this->ColWorld->GetGravity().z << "\n";
-			std::cout << this->ColWorld->ShowName() << "\n";
 		}
-		if (ImGui::Button("Create Static Collision"))
+		if (ImGui::Button("Delete Collisions World"))
 		{
-			if(!this->Statics && ColWorld)
+			this->ColWorld = NULL;
+		}
+		if (ColWorld)
+		{
+			std::string ColName = "Collision world Name is " + this->ColWorld->ShowName();
+			std::string ColGrav = "Collisions world Gravity is" + std:this->ColWorld->GetGravity().x;
+			ImGui::Text(ColName.c_str());
+			if (ImGui::Button("Create Static Collision"))
 			{
-				this->Statics = ColWorld->CreateStaticCol("Static Collisions");
+				if(!this->Statics)
+				{
+					this->Statics = ColWorld->CreateStaticCol("Static Collisions");
+				}
 			}
 		}
 		ImGui::End();
