@@ -8,8 +8,9 @@ namespace CoatlPhysicsEngine {
 	{
 		ColShapes* BodPart;
 		Mass* BodMass;
-		BodyParts()
+		BodyParts()			
 		{
+			this->BodPart = NULL;
 			this->BodMass = NULL;
 		}
 	};
@@ -22,11 +23,13 @@ namespace CoatlPhysicsEngine {
 	{
 	private:
 		int ID;
-		std::vector<BodyParts*> BodyInf;		
+		std::vector<BodyParts*> BodyInf;
+		std::vector<OtherBody*> OtherInter;
 	public:
 		Bodies();
 		~Bodies();
-		bool DetecCollision(Bodies* OtherBody);
+		bool DetectCollision(Bodies* OtherBody);
+		void UpDateBodiesInf(Bodies* Body);
 		
 	};
 }

@@ -1,2 +1,2 @@
 #include "Mass.h"
-using namespace CoatPhysicsEngine;
+using namespace CoatlPhysicsEngine;

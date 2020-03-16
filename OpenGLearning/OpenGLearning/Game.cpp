@@ -1377,14 +1377,7 @@ void Game::ImGuiOptions()
 			this->LoadNewModels(RdMkFiles.DecipherFile(this->FileID));
 			this->FileID = -1;
 		}
-		if (ImGui::Button("TestEngine"))
-		{
-			CPE::CollisionWorldSetup Set;
-			Set.Gravity = glm::vec3(0.f, 0.f, -1.f);
-			Set.Name = "Jose";
-			CPE::CollisionWorld Test(Set);
-			std::cout << Test.GetGravity().z << "\n";
-		}
+
 		ImGui::End();
 	}
 	if (this->AddAnim)
@@ -1403,6 +1396,28 @@ void Game::ImGuiOptions()
 		ImGui::End();
 	}
 	CheckCntrl.RenderBox();
+	{
+		ImGui::Begin("Collision World Inf");
+		if (ImGui::Button("TestEngine"))
+		{
+			CPE::CollisionWorldSetup Set;
+			Set.Name = "Jose";
+			if (!ColWorld)
+			{
+				this->ColWorld = new CPE::CollisionWorld(Set);
+			}
+			std::cout << this->ColWorld->GetGravity().z << "\n";
+			std::cout << this->ColWorld->ShowName() << "\n";
+		}
+		if (ImGui::Button("Create Static Collision"))
+		{
+			if(!this->Statics && ColWorld)
+			{
+				this->Statics = ColWorld->CreateStaticCol("Static Collisions");
+			}
+		}
+		ImGui::End();
+	}
 }
 
 void Game::updateUniforms()
@@ -1560,6 +1575,8 @@ Game::Game(const char * title,
 	
 	this->SkyColor = SkyColor;
 	this->window = NULL;
+	this->ColWorld = NULL;
+	this->Statics = NULL;
 	this->frameBufferHeight = this->Window_Height;
 	this->frameBufferWidth = this->Window_Width;
 		
@@ -1605,6 +1622,7 @@ Game::~Game()
 	ImGui::DestroyContext();
 	glfwDestroyWindow(this->window );
 	glfwTerminate();
+	delete this->Statics;
 	for (auto& ii : this->MatTest)
 		delete ii;
 	for (auto& i : meshes)

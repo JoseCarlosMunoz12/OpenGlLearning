@@ -1,9 +1,9 @@
 #include "StaticCollisions.h"
 using namespace CoatlPhysicsEngine;
 
-StaticCollisions::StaticCollisions(std::string Name, glm::vec3 InitPos)
+StaticCollisions::StaticCollisions(std::string Name)
 {
-
+	this->Name = Name;
 }
 
 StaticCollisions::~StaticCollisions()
@@ -17,9 +17,14 @@ void StaticCollisions::UpdateCollisionCheck()
 	{
 		for (int jj = ii + 1; jj < Size; jj++)
 		{
-			AllStatics[ii]->DetecCollision(AllStatics[jj]);
+			AllStatics[ii]->DetectCollision(AllStatics[jj]);
 		}
 
 	}
 	
+}
+
+std::string CoatlPhysicsEngine::StaticCollisions::GetName()
+{
+	return this->Name;
 }

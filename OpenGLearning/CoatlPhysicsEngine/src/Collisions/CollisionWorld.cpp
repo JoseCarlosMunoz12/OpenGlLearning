@@ -14,7 +14,8 @@ CollisionWorld::CollisionWorld(CollisionWorldSetup SetUp)
 
 CollisionWorld::~CollisionWorld()
 {
-
+	delete Statics;
+	delete Dynamics;
 }
 
 std::string CollisionWorld::ShowName()
@@ -31,3 +32,10 @@ void CollisionWorld::ChangeName(std::string NewName)
 {
 	this->WorldName = NewName;
 }
+
+StaticCollisions* CoatlPhysicsEngine::CollisionWorld::CreateStaticCol(std::string Name)
+{
+	this->Statics = new StaticCollisions(Name);
+	return this->Statics;
+}
+

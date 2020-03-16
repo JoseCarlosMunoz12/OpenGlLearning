@@ -142,6 +142,9 @@ private:
 	bool BlendAnims = false;
 	bool TransAnims = false;
 	int CurBlend = 0;
+	// Collision and PHysics world
+	CPE::CollisionWorld* ColWorld;
+	CPE::StaticCollisions* Statics;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);

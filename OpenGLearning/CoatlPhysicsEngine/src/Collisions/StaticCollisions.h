@@ -17,12 +17,14 @@ namespace CoatlPhysicsEngine
 	class StaticCollisions
 	{
 	private:
+		std::string Name;
 		std::vector<Bodies*> AllStatics;
 		int NewCurId = 0;
 	public:
-		StaticCollisions(std::string Name,glm::vec3 InitPos = glm::vec3(0.f));
+		StaticCollisions(std::string Name);
 		~StaticCollisions();
 		void UpdateCollisionCheck();
+		std::string GetName();
 	};
 }
 
