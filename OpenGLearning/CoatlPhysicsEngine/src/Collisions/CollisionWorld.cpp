@@ -15,7 +15,9 @@ CollisionWorld::CollisionWorld(CollisionWorldSetup SetUp)
 CollisionWorld::~CollisionWorld()
 {	
 	delete Statics;
+	Statics = nullptr;
 	delete Dynamics;
+	Dynamics = nullptr;
 }
 
 std::string CollisionWorld::ShowName()

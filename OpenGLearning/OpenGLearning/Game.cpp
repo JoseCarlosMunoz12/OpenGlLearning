@@ -1409,6 +1409,7 @@ void Game::ImGuiOptions()
 		}
 		if (ImGui::Button("Delete Collisions World"))
 		{
+			delete this->ColWorld;
 			this->ColWorld = NULL;
 			this->Statics = NULL;
 		}
@@ -1424,6 +1425,15 @@ void Game::ImGuiOptions()
 				{
 					this->Statics = ColWorld->CreateStaticCol("Static Collisions");
 				}
+			}
+			if (ImGui::Button("Destroy Static Collision"))
+			{
+				if (this->Statics)
+				{
+					delete this->Statics;
+					this->Statics = NULL;
+				}
+
 			}
 			if (this->Statics)
 			{
@@ -1637,7 +1647,7 @@ Game::~Game()
 	ImGui::DestroyContext();
 	glfwDestroyWindow(this->window );
 	glfwTerminate();
-	delete this->Statics;
+	delete this->ColWorld;
 	for (auto& ii : this->MatTest)
 		delete ii;
 	for (auto& i : meshes)
