@@ -3,6 +3,7 @@
 #include <vector>
 #include "DynamicCollisions.h"
 #include "StaticCollisions.h"
+#include "../CollisionManager/CollisionManager.h"
 namespace CoatlPhysicsEngine {
 	struct CollisionWorldSetup
 	{
@@ -15,6 +16,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Gravity;
 		StaticCollisions* Statics;
 		DynamicCollisions* Dynamics;
+		CollisionManager ColMan;
 		std::string WorldName;
 	public:
 		CollisionWorld(std::string SetWName);
