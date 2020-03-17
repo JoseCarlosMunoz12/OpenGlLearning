@@ -13,10 +13,8 @@ namespace CoatlPhysicsEngine
 	class ColShapes
 	{
 	private:
-		virtual bool DetectCollision(ColShapes* Shapes) { return false; }
 	public:
 		ColShapes();
-
 		~ColShapes();
 	};
 }

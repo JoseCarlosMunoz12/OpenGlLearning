@@ -23,6 +23,7 @@ namespace CoatlPhysicsEngine {
 	{
 	private:
 		int ID;
+		glm::vec3 Pos;
 		std::vector<BodyParts*> BodyInf;
 		std::vector<OtherBody*> OtherInter;
 	public:

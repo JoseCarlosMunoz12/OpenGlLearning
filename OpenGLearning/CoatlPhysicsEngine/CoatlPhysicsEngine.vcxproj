@@ -142,6 +142,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Shapes\Sphere.h" />
+    <ClInclude Include="src\CollisionManager\SphereColSphere.h" />
     <ClInclude Include="src\CollisionManager\CollisionManager.h" />
     <ClInclude Include="src\Bodies\Bodies.h" />
     <ClInclude Include="src\Physics\Mass.h" />
@@ -152,6 +154,8 @@
     <ClInclude Include="src\Collisions\StaticCollisions.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Shapes\Sphere.cpp" />
+    <ClCompile Include="src\CollisionManager\SphereColSphere.cpp" />
     <ClCompile Include="src\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="src\Bodies\Bodies.cpp" />
     <ClCompile Include="src\Physics\Mass.cpp" />
