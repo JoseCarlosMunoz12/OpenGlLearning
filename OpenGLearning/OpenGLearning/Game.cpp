@@ -1411,7 +1411,6 @@ void Game::ImGuiOptions()
 		{
 			delete this->ColWorld;
 			this->ColWorld = NULL;
-			this->Statics = NULL;
 		}
 		if (ColWorld)
 		{
@@ -1419,26 +1418,22 @@ void Game::ImGuiOptions()
 			std::string ColGrav = "Collisions world Gravity is %.3f";
 			ImGui::Text(ColName.c_str());
 			ImGui::Text(ColGrav.c_str(),this->ColWorld->GetGravity().z);
-			if (ImGui::Button("Create Static Collision"))
+			CPE::StaticCollisions* TempStatic = this->ColWorld->GetCollision();
+			if (ImGui::Button("Create Static Collisions"))
+			{ 
+				this->ColWorld->CreateStaticCol("Stas");
+			}
+			if (TempStatic)
 			{
-				if(!this->Statics)
+				ImGui::Text(TempStatic->GetName().c_str());
+				if (ImGui::Button("Delete Static"))
 				{
-					this->Statics = ColWorld->CreateStaticCol("Static Collisions");
+					this->ColWorld->DeleteStatics();
 				}
 			}
-			if (ImGui::Button("Destroy Static Collision"))
+			else
 			{
-				if (this->Statics)
-				{
-					delete this->Statics;
-					this->Statics = NULL;
-				}
-
-			}
-			if (this->Statics)
-			{
-				std::string StColName = this->Statics->GetName();
-				ImGui::Text(StColName.c_str());
+				ImGui::Text("No Static Collisions");
 			}
 		}
 		ImGui::End();
@@ -1601,7 +1596,6 @@ Game::Game(const char * title,
 	this->SkyColor = SkyColor;
 	this->window = NULL;
 	this->ColWorld = NULL;
-	this->Statics = NULL;
 	this->frameBufferHeight = this->Window_Height;
 	this->frameBufferWidth = this->Window_Width;
 		

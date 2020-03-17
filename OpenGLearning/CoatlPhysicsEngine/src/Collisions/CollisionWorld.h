@@ -22,8 +22,9 @@ namespace CoatlPhysicsEngine {
 		~CollisionWorld();
 		std::string ShowName();
 		glm::vec3 GetGravity();
-		void ChangeName(std::string NewName);
-		//Create Static Collisions
-		StaticCollisions* CreateStaticCol(std::string Name);
+		void ChangeName(std::string NewName);		
+		void CreateStaticCol(std::string Name);
+		StaticCollisions* GetCollision();
+		void DeleteStatics();
 	};
 }
