@@ -1,27 +1,31 @@
 #include "Bodies.h"
 using namespace CoatlPhysicsEngine;
 
-Bodies::Bodies()
+
+Bodies::Bodies(int InitID)
 {
+	this->ID = InitID;
+}
+
+Bodies::Bodies(std::shared_ptr<ColShapes> InitShapes, int InitID)
+{
+	this->ID = InitID;
+	std::shared_ptr<BodyParts> Temp;
+	Temp->BodPart = InitShapes;
+	this->BodyInf.push_back(Temp);
 }
 
 Bodies::~Bodies()
 {
-	for (auto& ii : this->BodyInf)
-	{
-		delete ii;
-	}
 }
 
-bool Bodies::DetectCollision(Bodies* OtherBody)
+bool Bodies::DetectCollision(std::shared_ptr<Bodies>OtherBody)
 {
-	ColShapes* MyShape = this->BodyInf[0]->BodPart;
-	ColShapes* OtherShape = OtherBody->BodyInf[0]->BodPart;
-
 	return false;
 
 }
 
-void CoatlPhysicsEngine::Bodies::UpDateBodiesInf(Bodies* Body)
+void CoatlPhysicsEngine::Bodies::UpDateBodiesInf(std::shared_ptr<Bodies> Body)
 {
+
 }

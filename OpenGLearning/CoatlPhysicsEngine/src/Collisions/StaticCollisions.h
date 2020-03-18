@@ -18,7 +18,7 @@ namespace CoatlPhysicsEngine
 	{
 	private:
 		std::string Name;
-		std::vector<Bodies*> AllStatics;
+		std::vector<std::shared_ptr<Bodies>> AllStatics;
 		int NewCurId = 0;
 	public:
 		StaticCollisions(std::string Name);

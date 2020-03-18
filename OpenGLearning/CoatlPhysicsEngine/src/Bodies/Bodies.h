@@ -6,12 +6,10 @@
 namespace CoatlPhysicsEngine {
 	struct BodyParts
 	{
-		ColShapes* BodPart;
-		Mass* BodMass;
+		std::shared_ptr<ColShapes> BodPart;
+		std::shared_ptr<Mass> BodMass;
 		BodyParts()			
 		{
-			this->BodPart = NULL;
-			this->BodMass = NULL;
 		}
 	};
 	struct OtherBody
@@ -24,13 +22,15 @@ namespace CoatlPhysicsEngine {
 	private:
 		int ID;
 		glm::vec3 Pos;
-		std::vector<BodyParts*> BodyInf;
-		std::vector<OtherBody*> OtherInter;
+		std::vector<std::shared_ptr<BodyParts>> BodyInf;
+		std::vector<std::shared_ptr<OtherBody>> OtherInter;
 	public:
-		Bodies();
+		Bodies(int InitID);
+		Bodies(std::shared_ptr<ColShapes> InitShapes, int InitID);
 		~Bodies();
-		bool DetectCollision(Bodies* OtherBody);
-		void UpDateBodiesInf(Bodies* Body);
+		void AddShapes(ColShapes NewShape);
+		bool DetectCollision(std::shared_ptr<Bodies> OtherBody);
+		void UpDateBodiesInf(std::shared_ptr<Bodies> Body);
 		
 	};
 }

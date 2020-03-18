@@ -1404,13 +1404,12 @@ void Game::ImGuiOptions()
 			Set.Name = "Jose";
 			if (!ColWorld)
 			{
-				this->ColWorld = new CPE::CollisionWorld(Set);
+				this->ColWorld = std::make_unique<CPE::CollisionWorld>(Set);
 			}
 		}
 		if (ImGui::Button("Delete Collisions World"))
 		{
-			delete this->ColWorld;
-			this->ColWorld = NULL;
+			this->ColWorld.reset();
 		}
 		if (ColWorld)
 		{
@@ -1418,7 +1417,7 @@ void Game::ImGuiOptions()
 			std::string ColGrav = "Collisions world Gravity is %.3f";
 			ImGui::Text(ColName.c_str());
 			ImGui::Text(ColGrav.c_str(),this->ColWorld->GetGravity().z);
-			CPE::StaticCollisions* TempStatic = this->ColWorld->GetCollision();
+			std::shared_ptr<CPE::StaticCollisions> TempStatic = this->ColWorld->GetCollision();
 			if (ImGui::Button("Create Static Collisions"))
 			{ 
 				this->ColWorld->CreateStaticCol("Stas");
@@ -1641,7 +1640,6 @@ Game::~Game()
 	ImGui::DestroyContext();
 	glfwDestroyWindow(this->window );
 	glfwTerminate();
-	delete this->ColWorld;
 	for (auto& ii : this->MatTest)
 		delete ii;
 	for (auto& i : meshes)

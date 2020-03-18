@@ -13,13 +13,7 @@ CollisionWorld::CollisionWorld(CollisionWorldSetup SetUp)
 }
 
 CollisionWorld::~CollisionWorld()
-{	
-	if (Statics)
-		delete Statics;
-	Statics = NULL;
-	if (Dynamics)
-		delete Dynamics;
-	Dynamics = NULL;
+{
 }
 
 std::string CollisionWorld::ShowName()
@@ -39,11 +33,11 @@ void CollisionWorld::ChangeName(std::string NewName)
 
 void CoatlPhysicsEngine::CollisionWorld::CreateStaticCol(std::string Name)
 {
-	if(!Statics)
-		this->Statics = new StaticCollisions(Name);
+	if (!Statics)
+		this->Statics = std::make_shared<StaticCollisions>(Name);
 }
 
-StaticCollisions* CoatlPhysicsEngine::CollisionWorld::GetCollision()
+std::shared_ptr<StaticCollisions> CoatlPhysicsEngine::CollisionWorld::GetCollision()
 {
 	if (this->Statics)
 	{
@@ -54,6 +48,5 @@ StaticCollisions* CoatlPhysicsEngine::CollisionWorld::GetCollision()
 
 void CoatlPhysicsEngine::CollisionWorld::DeleteStatics()
 {
-	delete this->Statics;
-	this->Statics = NULL;
+	this->Statics.reset();
 }

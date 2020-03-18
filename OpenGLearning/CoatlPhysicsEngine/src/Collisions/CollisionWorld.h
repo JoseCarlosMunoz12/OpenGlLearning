@@ -14,8 +14,8 @@ namespace CoatlPhysicsEngine {
 	{
 	private:
 		glm::vec3 Gravity;
-		StaticCollisions* Statics;
-		DynamicCollisions* Dynamics;
+		std::shared_ptr<StaticCollisions> Statics;
+		std::shared_ptr<DynamicCollisions> Dynamics;
 		CollisionManager ColMan;
 		std::string WorldName;
 	public:
@@ -26,7 +26,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 GetGravity();
 		void ChangeName(std::string NewName);		
 		void CreateStaticCol(std::string Name);
-		StaticCollisions* GetCollision();
+		std::shared_ptr<StaticCollisions> GetCollision();
 		void DeleteStatics();
 	};
 }
