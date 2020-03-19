@@ -159,24 +159,13 @@ void Game::initModels()
 			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain"));
 	meshes.push_back(
-		new Mesh(
-			&CustomObject("untitled.dae"),
-			"StallImage" + 0));
-	meshes.push_back(
-		new Mesh(
-			&PlaneTerrain(),
-			"Tree"));
-	meshes.push_back(new Mesh(
-		&Quad(),
-		"Tree1"));
-	meshes.push_back(
-		new Mesh(&Sphere(1, 32, 32),
+		new Mesh(&Sphere(5, 32, 32),
 			"Sphere"));
 	meshes.push_back(
 		new Mesh(&Cylinder(1.f, 4.f, 40.f),
 			"Cylinder"));
 	meshes.push_back(
-		new Mesh(&Cone(1.f, 1.f, 40.f, 10),
+		new Mesh(&Cone(10.f, 10.f, 40.f, 10),
 			"Cone"));
 	meshes.push_back(
 		new Mesh(&Cube(),
@@ -206,6 +195,13 @@ void Game::initModels()
 		{ this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[0], { Terrain }));
+	this->models.push_back(new Model("Image",
+		glm::vec3(0.f, 0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
+		this->MatTest[1],
+		{ this->textures[9],this->textures[9],
+		this->textures[14],this->textures[15],this->textures[16] },
+		meshes[4], {Monk}));
+
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Tes1t",
 	//	glm::vec3(0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f), 0.f),
@@ -1434,6 +1430,11 @@ void Game::ImGuiOptions()
 					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(1.f);
 					
 					TempStatic->AddNewBody(glm::vec3(1.f),S_Temp);
+				}
+				std::vector<std::shared_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
+				for (auto& ii : Bods)
+				{
+					ImGui::Text("Bode Id is %d",ii->GetID());
 				}
 			}
 			else

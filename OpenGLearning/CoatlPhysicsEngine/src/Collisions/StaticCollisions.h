@@ -11,22 +11,26 @@
 
 #include "../Shapes/ColShapes.h"
 #include "../Bodies/Bodies.h"
+#include "../CollisionManager/CollisionManager.h"
 
 namespace CoatlPhysicsEngine 
 {
 	class StaticCollisions
 	{
 	private:
+		std::shared_ptr<CollisionManager> ColMan;
 		std::string Name;
 		std::vector<std::shared_ptr<Bodies>> AllStatics;
 		int NewCurId = 0;
 	public:
-		StaticCollisions(std::string Name);
+		StaticCollisions(std::string Name,std::shared_ptr<CollisionManager>InitCols);
 		~StaticCollisions();
 		void UpdateCollisionCheck();
 		void AddNewBody(glm::vec3 InitPos,std::shared_ptr<ColShapes> NewShape);
 		void AddNewBody(glm::vec3 InitPos,std::vector<std::shared_ptr<ColShapes>> NewShapes);
 		std::string GetName();
+		std::vector<std::shared_ptr<Bodies>> GetAllBodies();
+		std::shared_ptr<Bodies> GetABody(int ID);
 	};
 }
 

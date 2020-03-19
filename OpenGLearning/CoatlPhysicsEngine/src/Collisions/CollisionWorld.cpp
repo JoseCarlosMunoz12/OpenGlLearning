@@ -10,6 +10,7 @@ CollisionWorld::CollisionWorld(std::string SetWName)
 CollisionWorld::CollisionWorld(CollisionWorldSetup SetUp)
 	:WorldName(SetUp.Name),Gravity(SetUp.Gravity)
 {
+	this->ColMan = std::make_shared<CollisionManager>();
 }
 
 CollisionWorld::~CollisionWorld()
@@ -34,7 +35,7 @@ void CollisionWorld::ChangeName(std::string NewName)
 void CoatlPhysicsEngine::CollisionWorld::CreateStaticCol(std::string Name)
 {
 	if (!Statics)
-		this->Statics = std::make_shared<StaticCollisions>(Name);
+		this->Statics = std::make_shared<StaticCollisions>(Name,this->ColMan);
 }
 
 std::shared_ptr<StaticCollisions> CoatlPhysicsEngine::CollisionWorld::GetCollision()

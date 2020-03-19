@@ -42,7 +42,16 @@ bool Bodies::DetectCollision(std::shared_ptr<Bodies>OtherBody)
 
 }
 
-void CoatlPhysicsEngine::Bodies::UpDateBodiesInf(std::shared_ptr<Bodies> Body)
+void Bodies::UpDateBodiesInf(std::shared_ptr<Bodies> Body)
 {
 
+}
+
+int Bodies::GetID()
+{
+	return this->ID;
+}
+void Bodies::SetPosition(glm::vec3 NewPos)
+{
+	this->Pos = NewPos;
 }
