@@ -639,15 +639,15 @@ public:
 			{
 				if (ii != 0)
 				{
-					TempIndices.push_back(K1);
 					TempIndices.push_back(K2);
+					TempIndices.push_back(K1);
 					TempIndices.push_back(K1 +1);
 				}
 
 				if (ii != (StackCount - 1))
 				{
-					TempIndices.push_back(K1 +1);
 					TempIndices.push_back(K2);
+					TempIndices.push_back(K1 +1);
 					TempIndices.push_back(K2 + 1);
 				}
 			}
