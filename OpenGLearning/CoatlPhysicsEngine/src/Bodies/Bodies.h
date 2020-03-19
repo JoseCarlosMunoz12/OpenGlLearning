@@ -34,5 +34,6 @@ namespace CoatlPhysicsEngine {
 		void UpDateBodiesInf(std::shared_ptr<Bodies> Body);
 		int GetID();
 		void SetPosition(glm::vec3 NewPos);
+		glm::vec3 GetPos();
 	};
 }

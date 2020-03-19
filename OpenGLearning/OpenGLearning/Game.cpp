@@ -192,21 +192,21 @@ void Game::initModels()
 	this->models.push_back(new Model("Terrain",
 		glm::vec3(0.f, 0.f, 0.f),
 		this->MatTest[0],
-		{ this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16] },
-		meshes[0], { Terrain }));
+		{this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16]},
+		meshes[0], {Terrain}));
 	this->models.push_back(new Model("Sphere2",
 		glm::vec3(0.f, 0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
 		this->MatTest[1],
-		{ this->textures[9],this->textures[9],
-		this->textures[14],this->textures[15],this->textures[16] },
+		{this->textures[9],this->textures[9],
+		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[1], {Monk}));
 	this->models.push_back(new Model("Sphere1",
 		glm::vec3(0.f, 3.f, this->MipMapsData[0]->ReturnValue(0.f, 3.f)),
 		this->MatTest[1],
-		{ this->textures[10],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16] },
-		meshes[1], { Monk }));
+		{this->textures[10],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16]},
+		meshes[1], {Monk}));
 
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Tes1t",
