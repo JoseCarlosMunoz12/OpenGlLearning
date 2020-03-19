@@ -24,6 +24,8 @@ namespace CoatlPhysicsEngine
 		StaticCollisions(std::string Name);
 		~StaticCollisions();
 		void UpdateCollisionCheck();
+		void AddNewBody(glm::vec3 InitPos,std::shared_ptr<ColShapes> NewShape);
+		void AddNewBody(glm::vec3 InitPos,std::vector<std::shared_ptr<ColShapes>> NewShapes);
 		std::string GetName();
 	};
 }

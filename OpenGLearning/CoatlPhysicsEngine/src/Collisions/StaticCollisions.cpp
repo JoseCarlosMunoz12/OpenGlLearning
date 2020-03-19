@@ -24,6 +24,21 @@ void StaticCollisions::UpdateCollisionCheck()
 	
 }
 
+void StaticCollisions::AddNewBody(glm::vec3 InitPos, std::shared_ptr<ColShapes> NewShape)
+{
+	this->AllStatics.push_back(std::make_shared<Bodies>(InitPos,NewShape,this->NewCurId));
+	this->NewCurId++;
+}
+
+void StaticCollisions::AddNewBody(glm::vec3 InitPos, std::vector<std::shared_ptr<ColShapes>> NewShapes)
+{
+	for (auto& ii : NewShapes)
+	{
+		this->AllStatics.push_back(std::make_shared<Bodies>(InitPos,ii, this->NewCurId));
+	}
+	this->NewCurId++;
+}
+
 std::string CoatlPhysicsEngine::StaticCollisions::GetName()
 {
 	return this->Name;

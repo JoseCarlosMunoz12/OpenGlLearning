@@ -26,7 +26,8 @@ namespace CoatlPhysicsEngine {
 		std::vector<std::shared_ptr<OtherBody>> OtherInter;
 	public:
 		Bodies(int InitID);
-		Bodies(std::shared_ptr<ColShapes> InitShapes, int InitID);
+		Bodies(glm::vec3 NewPos,std::shared_ptr<ColShapes> InitShapes, int InitID);
+		Bodies(glm::vec3 NewPos,std::vector<std::shared_ptr<ColShapes>> InitShapes, int InitID);
 		~Bodies();
 		void AddShapes(ColShapes NewShape);
 		bool DetectCollision(std::shared_ptr<Bodies> OtherBody);

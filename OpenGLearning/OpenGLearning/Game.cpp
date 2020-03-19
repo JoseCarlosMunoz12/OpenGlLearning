@@ -1429,6 +1429,12 @@ void Game::ImGuiOptions()
 				{
 					this->ColWorld->DeleteStatics();
 				}
+				if(ImGui::Button("Add Sphere"))
+				{
+					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(1.f);
+					
+					TempStatic->AddNewBody(glm::vec3(1.f),S_Temp);
+				}
 			}
 			else
 			{
