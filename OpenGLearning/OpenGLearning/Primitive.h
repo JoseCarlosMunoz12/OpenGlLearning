@@ -616,8 +616,8 @@ public:
 				SectorAngle = jj * SectorStep;
 
 				Temp.position.x = XY * (float)glm::sin(SectorAngle);
-				Temp.position.y = Z;
-				Temp.position.z = XY * (float)glm::cos(SectorAngle);
+				Temp.position.z = Z;
+				Temp.position.y = XY * (float)glm::cos(SectorAngle);
 				
 				Temp.normal.x = Temp.position.x * lengthInv;
 				Temp.normal.y = Temp.position.y * lengthInv;
@@ -673,12 +673,12 @@ public:
 			for (int jj = 0; jj <= SectorCount; jj++)
 			{
 				Vertex VertexFound;
-				VertexFound.position.y = ii;
-				VertexFound.position.z = Radius * (float)glm::cos((float)jj * SectorStep); 
+				VertexFound.position.z = ii;
+				VertexFound.position.y = Radius * (float)glm::cos((float)jj * SectorStep); 
 				VertexFound.position.x = Radius * (float)glm::sin((float)jj * SectorStep);
 
-				VertexFound.normal.y = 0;
-				VertexFound.normal.z = VertexFound.position.z / Radius;
+				VertexFound.normal.z = 0;
+				VertexFound.normal.y = VertexFound.position.z / Radius;
 				VertexFound.normal.x = VertexFound.position.x / Radius;
 
 				VertexFound.texcoord.x = ii/ Height;
@@ -726,13 +726,13 @@ public:
 			for (int jj = 0; jj <= SectorCount; jj++)
 			{
 				Vertex VertexFound;
-				VertexFound.position.y = ii * DivStep;
+				VertexFound.position.z = ii * DivStep;
 				VertexFound.position.x = ConeRadius * (float)glm::sin((float)jj * SectorStep);
-				VertexFound.position.z = ConeRadius * (float)glm::cos((float)jj * SectorStep);
+				VertexFound.position.y = ConeRadius * (float)glm::cos((float)jj * SectorStep);
 
-				VertexFound.normal.y = 0;
+				VertexFound.normal.z = 0;
 				VertexFound.normal.x = VertexFound.position.x / ConeRadius;
-				VertexFound.normal.z = VertexFound.position.z / ConeRadius;
+				VertexFound.normal.y = VertexFound.position.z / ConeRadius;
 
 				VertexFound.texcoord.x = ii / HeightDiv;
 				VertexFound.texcoord.y = jj / SectorCount;
