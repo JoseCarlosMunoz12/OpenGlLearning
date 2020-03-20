@@ -16,5 +16,6 @@ namespace CoatlPhysicsEngine
 	public:
 		ColShapes();
 		~ColShapes();
+		virtual std::string GetShapeType();
 	};
 }

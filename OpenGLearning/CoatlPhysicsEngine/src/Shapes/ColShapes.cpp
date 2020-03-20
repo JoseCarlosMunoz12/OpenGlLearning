@@ -10,3 +10,8 @@ ColShapes::~ColShapes()
 {
 
 }
+
+std::string ColShapes::GetShapeType()
+{
+	return "Base";
+}

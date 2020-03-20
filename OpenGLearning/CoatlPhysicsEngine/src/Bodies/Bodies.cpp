@@ -56,7 +56,17 @@ void Bodies::SetPosition(glm::vec3 NewPos)
 	this->Pos = NewPos;
 }
 
-glm::vec3 CoatlPhysicsEngine::Bodies::GetPos()
+std::vector<std::string> CoatlPhysicsEngine::Bodies::AllShapeTypes()
+{
+	std::vector<std::string> Shapes;
+	for (auto& ii : this->BodyInf)
+	{
+		Shapes.push_back(ii->BodPart->GetShapeType());
+	}
+	return Shapes;
+}
+
+glm::vec3 Bodies::GetPos()
 {
 	return this->Pos;
 }

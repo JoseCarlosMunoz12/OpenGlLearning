@@ -8,5 +8,6 @@ namespace CoatlPhysicsEngine {
 		Sphere(float SetRadius);
 		~Sphere();
 		float GetRadius();
+		std::string GetShapeType() override;
 	};
 }
