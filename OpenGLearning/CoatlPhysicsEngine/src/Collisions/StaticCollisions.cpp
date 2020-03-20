@@ -20,7 +20,8 @@ void StaticCollisions::UpdateCollisionCheck()
 		{
 			AllStatics[ii]->DetectCollision(AllStatics[jj]);
 		}
-	}	
+	}
+	
 }
 
 void StaticCollisions::AddNewBody(glm::vec3 InitPos, std::shared_ptr<ColShapes> NewShape)

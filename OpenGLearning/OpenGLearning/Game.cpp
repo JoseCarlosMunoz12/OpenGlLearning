@@ -1440,7 +1440,20 @@ void Game::ImGuiOptions()
 				std::vector<std::shared_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
 				{
+					std::string BodPos = "Pos " + std::to_string(ii->GetID());
 					ImGui::Text("Bode Id is %d",ii->GetID());
+					glm::vec3 Temp = ii->GetPos();
+					ImGui::Indent();
+					ImGui::Text("Pos %.3f, %.3f, %.3f",Temp.x,Temp.y,Temp.z);
+					float Ar[3] = {Temp.x,Temp.y,Temp.z};
+					if (ImGui::SliderFloat3(BodPos.c_str(),Ar,-10.f,10.f))
+					{
+						Temp.x = Ar[0];
+						Temp.y = Ar[1];
+						Temp.z = Ar[2];
+						ii->SetPosition(Temp);
+					}
+					ImGui::Unindent();
 				}
 			}
 			else
