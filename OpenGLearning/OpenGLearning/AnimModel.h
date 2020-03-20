@@ -24,6 +24,7 @@ private:
 		std::string Bone;
 		bool Active;
 	};
+	int BodID;
 	StdMat* AnimMat;
 	std::vector<AnimMesh*> meshes;
 	std::vector<GeneralTextInfo*> Tex;
@@ -469,5 +470,13 @@ public:
 		std::vector<OrdStruct>::iterator I = std::find_if(OrRend.begin(),OrRend.end(),
 												[Bone](const OrdStruct& Vi){return Vi.Bone == Bone;});
 		I->Active = true;
+	}
+	void SetBodId(int NewID)
+	{
+		this->BodID = NewID;
+	}
+	int GetBodId()
+	{
+		return this->BodID;
 	}
 };
