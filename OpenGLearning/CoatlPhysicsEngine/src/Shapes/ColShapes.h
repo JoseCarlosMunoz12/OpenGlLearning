@@ -13,9 +13,11 @@ namespace CoatlPhysicsEngine
 	class ColShapes
 	{
 	private:
-	public:
-		ColShapes();
+		glm::vec3 Pos;
+	public:		
+		ColShapes(glm::vec3 SetPos);
 		~ColShapes();
 		virtual std::string GetShapeType();
+		glm::vec3 GetPos();
 	};
 }

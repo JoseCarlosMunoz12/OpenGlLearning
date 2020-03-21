@@ -1,6 +1,7 @@
 #include "Sphere.h"
 using namespace CoatlPhysicsEngine;
-Sphere::Sphere(float SetRadius)
+Sphere::Sphere(glm::vec3 SetPos,float SetRadius)
+	:ColShapes(SetPos)
 {
 	this->Radius = SetRadius;
 }

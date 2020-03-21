@@ -5,7 +5,7 @@ namespace CoatlPhysicsEngine {
 	{
 		float Radius;
 	public:
-		Sphere(float SetRadius);
+		Sphere(glm::vec3 SetPos,float SetRadius);
 		~Sphere();
 		float GetRadius();
 		std::string GetShapeType() override;
