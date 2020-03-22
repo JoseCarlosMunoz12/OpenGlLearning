@@ -9,7 +9,7 @@ namespace CoatlPhysicsEngine {
 		CollisionManager();
 		~CollisionManager();
 		template<typename _T,typename _N>
-		static bool Collided(_T R,_N S);
+		bool CheckCollide(_T R,_N N);
 	};
 }
 

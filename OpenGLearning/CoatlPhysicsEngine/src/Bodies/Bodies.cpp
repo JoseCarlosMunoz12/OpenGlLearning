@@ -15,7 +15,7 @@ Bodies::Bodies(glm::vec3 NewPos, std::shared_ptr<ColShapes> InitShapes, int Init
 	this->BodyInf[0]->BodPart = InitShapes;
 }
 
-Bodies::Bodies(glm::vec3 NewPos, std::vector<std::shared_ptr<ColShapes>> InitShapes, int InitID)
+Bodies::Bodies(glm::vec3 NewPos, std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
 {
 	this->Pos = NewPos;
 	this->ID = InitID;
@@ -31,7 +31,7 @@ Bodies::~Bodies()
 {
 }
 
-void Bodies::AddShapes(ColShapes NewShape)
+void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape)
 {
 
 }
@@ -60,4 +60,9 @@ void Bodies::SetPosition(glm::vec3 NewPos)
 glm::vec3 Bodies::GetPos()
 {
 	return this->Pos;
+}
+
+std::shared_ptr<ColShapes> CoatlPhysicsEngine::Bodies::GetShapes()
+{
+	return this->BodyInf[0]->BodPart;
 }

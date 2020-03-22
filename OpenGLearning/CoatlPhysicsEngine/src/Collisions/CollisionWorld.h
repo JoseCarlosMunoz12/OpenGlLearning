@@ -28,5 +28,6 @@ namespace CoatlPhysicsEngine {
 		void CreateStaticCol(std::string Name);
 		std::shared_ptr<StaticCollisions> GetCollision();
 		void DeleteStatics();
+		void UpdateWorld();
 	};
 }

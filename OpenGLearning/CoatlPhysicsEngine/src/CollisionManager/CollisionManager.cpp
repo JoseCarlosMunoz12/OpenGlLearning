@@ -13,12 +13,12 @@ CollisionManager::~CollisionManager()
 }
 
 template<typename _T, typename _N>
-static bool CollisionManager::Collided(_T R, _N S)
+bool CollisionManager::CheckCollide(_T R, _N N)
 {
 	return false;
 }
 template<>
-static bool CollisionManager::Collided(Sphere Sph0, Sphere Sph1)
+bool CollisionManager::CheckCollide(std::shared_ptr<Sphere> Sph0, std::shared_ptr<Sphere> SPh1)
 {
 	return true;
-} 
+}

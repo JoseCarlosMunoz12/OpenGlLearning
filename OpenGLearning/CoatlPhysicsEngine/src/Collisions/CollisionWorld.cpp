@@ -51,3 +51,11 @@ void CoatlPhysicsEngine::CollisionWorld::DeleteStatics()
 {
 	this->Statics.reset();
 }
+
+void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
+{
+	if (this->Statics)
+	{
+		this->Statics->UpdateCollisionCheck();
+	}
+}

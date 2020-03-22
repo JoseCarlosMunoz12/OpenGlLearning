@@ -8,9 +8,6 @@ namespace CoatlPhysicsEngine {
 	{
 		std::shared_ptr<ColShapes> BodPart;
 		std::shared_ptr<Mass> BodMass;
-		BodyParts()			
-		{
-		}
 	};
 	struct OtherBody
 	{
@@ -29,10 +26,11 @@ namespace CoatlPhysicsEngine {
 		Bodies(glm::vec3 NewPos,std::shared_ptr<ColShapes> InitShapes, int InitID);
 		Bodies(glm::vec3 NewPos,std::vector<std::shared_ptr<ColShapes>> InitShapes, int InitID);
 		~Bodies();
-		void AddShapes(ColShapes NewShape);
+		void AddShapes(std::shared_ptr<ColShapes> NewShape);
 		void UpDateBodiesInf(bool ColUPdate,std::shared_ptr<Bodies> Body);
 		int GetID();
 		void SetPosition(glm::vec3 NewPos);
 		glm::vec3 GetPos();
+		std::shared_ptr<ColShapes> GetShapes();
 	};
 }

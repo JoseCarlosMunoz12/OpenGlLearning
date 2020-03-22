@@ -1433,7 +1433,7 @@ void Game::ImGuiOptions()
 				}
 				if(ImGui::Button("Add Sphere"))
 				{
-					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(1.f);
+					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f),1.f);
 					
 					TempStatic->AddNewBody(glm::vec3(1.f),S_Temp);
 				}
@@ -1456,6 +1456,10 @@ void Game::ImGuiOptions()
 						}
 						ImGui::TreePop();
 					}
+				}
+				if (ImGui::Button("Collision Check"))
+				{
+					this->ColWorld->UpdateWorld();
 				}
 			}
 			else
