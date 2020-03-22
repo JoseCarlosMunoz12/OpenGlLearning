@@ -18,10 +18,7 @@ void StaticCollisions::UpdateCollisionCheck()
 	{
 		for (int jj = ii + 1; jj < Size; jj++)
 		{
-			std::shared_ptr<ColShapes> Val = AllStatics[ii]->GetShapes();
-			std::shared_ptr<ColShapes> Val0 = AllStatics[jj]->GetShapes();
-			bool Collied = false;
-			
+			bool Collied = false;			
 		}
 	}
 	
