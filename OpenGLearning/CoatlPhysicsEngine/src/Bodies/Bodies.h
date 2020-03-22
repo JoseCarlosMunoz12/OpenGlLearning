@@ -30,11 +30,9 @@ namespace CoatlPhysicsEngine {
 		Bodies(glm::vec3 NewPos,std::vector<std::shared_ptr<ColShapes>> InitShapes, int InitID);
 		~Bodies();
 		void AddShapes(ColShapes NewShape);
-		bool DetectCollision(std::shared_ptr<Bodies> OtherBody);
-		void UpDateBodiesInf(std::shared_ptr<Bodies> Body);
+		void UpDateBodiesInf(bool ColUPdate,std::shared_ptr<Bodies> Body);
 		int GetID();
 		void SetPosition(glm::vec3 NewPos);
-		std::vector<std::string> AllShapeTypes();
 		glm::vec3 GetPos();
 	};
 }

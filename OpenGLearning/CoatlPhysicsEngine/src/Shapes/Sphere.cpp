@@ -14,8 +14,3 @@ float CoatlPhysicsEngine::Sphere::GetRadius()
 {
 	return this->Radius;
 }
-
-std::string Sphere::GetShapeType()
-{
-	return "Sphere";
-}

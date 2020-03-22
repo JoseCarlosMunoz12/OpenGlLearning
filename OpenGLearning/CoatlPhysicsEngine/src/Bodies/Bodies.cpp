@@ -36,15 +36,16 @@ void Bodies::AddShapes(ColShapes NewShape)
 
 }
 
-bool Bodies::DetectCollision(std::shared_ptr<Bodies>OtherBody)
+void Bodies::UpDateBodiesInf(bool ColUPdate, std::shared_ptr<Bodies> Body)
 {
-	return false;
+	if (this->OtherInter.size() != 0)
+	{
 
-}
-
-void Bodies::UpDateBodiesInf(std::shared_ptr<Bodies> Body)
-{
-	Body->GetID();
+	}
+	else
+	{
+		
+	}
 }
 
 int Bodies::GetID()
@@ -54,16 +55,6 @@ int Bodies::GetID()
 void Bodies::SetPosition(glm::vec3 NewPos)
 {
 	this->Pos = NewPos;
-}
-
-std::vector<std::string> CoatlPhysicsEngine::Bodies::AllShapeTypes()
-{
-	std::vector<std::string> Shapes;
-	for (auto& ii : this->BodyInf)
-	{
-		Shapes.push_back(ii->BodPart->GetShapeType());
-	}
-	return Shapes;
 }
 
 glm::vec3 Bodies::GetPos()

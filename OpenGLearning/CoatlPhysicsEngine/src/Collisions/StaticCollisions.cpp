@@ -18,7 +18,8 @@ void StaticCollisions::UpdateCollisionCheck()
 	{
 		for (int jj = ii + 1; jj < Size; jj++)
 		{
-			AllStatics[ii]->DetectCollision(AllStatics[jj]);
+			bool Collied =	this->ColMan->Collided(AllStatics[ii], AllStatics[jj]);
+			
 		}
 	}
 	

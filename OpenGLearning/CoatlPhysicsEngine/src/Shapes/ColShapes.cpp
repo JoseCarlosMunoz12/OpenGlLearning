@@ -11,11 +11,6 @@ ColShapes::~ColShapes()
 
 }
 
-std::string ColShapes::GetShapeType()
-{
-	return "Base";
-}
-
 glm::vec3 CoatlPhysicsEngine::ColShapes::GetPos()
 {
 	return this->Pos;
