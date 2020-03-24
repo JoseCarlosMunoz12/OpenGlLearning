@@ -3,7 +3,12 @@ using namespace CoatlPhysicsEngine;
 
 bool CoatlPhysicsEngine::StaticCollisions::UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	return false;
+
+	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
+	{
+		return this->ColMan->CheckCollide(Bod0, *Sphere0);
+	}
+	return false;	
 }
 
 StaticCollisions::StaticCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
@@ -23,9 +28,11 @@ void StaticCollisions::UpdateCollisionCheck()
 	{
 		for (int jj = ii + 1; jj < Size; jj++)
 		{
-			std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(AllStatics[ii]->GetShapes());
-			std::shared_ptr<Sphere> Sphere1 = std::dynamic_pointer_cast<Sphere>(AllStatics[jj]->GetShapes());
-			bool Collied = this->ColMan->CheckCollide(*Sphere0, *Sphere1);
+			if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(AllStatics[ii]->GetShapes()))
+			{
+				bool Collied = this->UpdateBodies(*Sphere0, AllStatics[jj]);
+			}
+		
 		}
 	}
 	
