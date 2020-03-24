@@ -31,6 +31,8 @@ void StaticCollisions::UpdateCollisionCheck()
 			if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(AllStatics[ii]->GetShapes()))
 			{
 				bool Collied = this->UpdateBodies(*Sphere0, AllStatics[jj]);
+				AllStatics[ii]->UpDateBodiesInf(Collied, AllStatics[jj]);
+				AllStatics[jj]->UpDateBodiesInf(Collied, AllStatics[ii]);
 			}
 		
 		}
