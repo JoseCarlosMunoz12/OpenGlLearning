@@ -22,3 +22,8 @@ static bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
 {
 	return true;
 }
+template<>
+static bool CollisionManager::CheckCollide(ColShapes Sph0, ColShapes SPh1)
+{
+	return true;
+}

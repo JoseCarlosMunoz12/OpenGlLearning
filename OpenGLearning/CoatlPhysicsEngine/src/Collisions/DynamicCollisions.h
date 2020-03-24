@@ -10,14 +10,15 @@
 #include <vector>
 
 #include "../Shapes/ColShapes.h"
+#include "StaticCollisions.h"
 
 namespace CoatlPhysicsEngine {
-	class DynamicCollisions
+	class DynamicCollisions : public StaticCollisions
 	{
 	private:
 		std::vector<ColShapes*> AllShapes;
 	public:
-		DynamicCollisions();
+		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();
 	};
 }

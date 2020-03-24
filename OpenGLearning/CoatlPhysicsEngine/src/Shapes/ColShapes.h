@@ -16,7 +16,7 @@ namespace CoatlPhysicsEngine
 		glm::vec3 Pos;
 	public:		
 		ColShapes(glm::vec3 SetPos);
-		~ColShapes();
+		virtual ~ColShapes();
 		glm::vec3 GetPos();
 	};
 }

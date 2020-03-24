@@ -22,6 +22,8 @@ namespace CoatlPhysicsEngine
 		std::string Name;
 		std::vector<std::shared_ptr<Bodies>> AllStatics;
 		int NewCurId = 0;
+	protected:
+		bool UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1);
 	public:
 		StaticCollisions(std::string Name,std::shared_ptr<CollisionManager>InitCols);
 		~StaticCollisions();

@@ -8,7 +8,6 @@ ColShapes::ColShapes(glm::vec3 SetPos)
 
 ColShapes::~ColShapes()
 {
-
 }
 
 glm::vec3 CoatlPhysicsEngine::ColShapes::GetPos()
