@@ -10,21 +10,11 @@
 #include <vector>
 namespace CoatlPhysicsEngine
 {
-	static enum SHAPE_TYPE
-	{
-		S_BASE,
-		S_SPHERE,
-		S_ABOX,
-		S_OBOX,
-		S_CYLINDER,
-		S_CONVEX
-	};
 	class ColShapes
 	{
 	private:
 		glm::vec3 Pos;
-	public:		
-		virtual SHAPE_TYPE GetType();
+	public:
 		ColShapes(glm::vec3 SetPos);
 		virtual ~ColShapes();
 		glm::vec3 GetPos();

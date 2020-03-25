@@ -14,5 +14,6 @@ namespace CoatlPhysicsEngine {
 		AABB_Obj(glm::vec3 SetPos, float DimX, float DimY,float DimZ);
 		~AABB_Obj();
 		glm::vec3 GetLengths();
+		void SetLengths(glm::vec3 NewLengths);
 	};
 }

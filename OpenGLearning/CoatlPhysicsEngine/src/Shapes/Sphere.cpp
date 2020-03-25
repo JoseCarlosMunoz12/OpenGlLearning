@@ -15,7 +15,7 @@ float CoatlPhysicsEngine::Sphere::GetRadius()
 	return this->Radius;
 }
 
-SHAPE_TYPE CoatlPhysicsEngine::Sphere::GetType()
+void Sphere::SetRadius(float NewR)
 {
-	return SHAPE_TYPE::S_SPHERE;
+	this->Radius = NewR;
 }

@@ -36,3 +36,10 @@ glm::vec3 AABB_Obj::GetLengths()
 {
     return glm::vec3(this->XLength,this->YLength,this->ZLength);
 }
+
+void AABB_Obj::SetLengths(glm::vec3 NewLengths)
+{
+    this->XLength = NewLengths.x;
+    this->YLength = NewLengths.y;
+    this->ZLength = NewLengths.z;
+}
