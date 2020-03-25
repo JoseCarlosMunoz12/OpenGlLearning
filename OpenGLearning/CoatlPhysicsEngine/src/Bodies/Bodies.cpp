@@ -54,12 +54,12 @@ int Bodies::GetID()
 }
 void Bodies::SetPosition(glm::vec3 NewPos)
 {
-	this->Pos = NewPos;
+	this->BodyInf[0]->BodPart->SetPos(NewPos);
 }
 
 glm::vec3 Bodies::GetPos()
 {
-	return this->Pos;
+	return this->BodyInf[0]->BodPart->GetPos();
 }
 
 std::shared_ptr<ColShapes> CoatlPhysicsEngine::Bodies::GetShapes()
