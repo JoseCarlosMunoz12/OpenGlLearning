@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CollisionManager\AABBColAABB.h" />
     <ClInclude Include="src\Shapes\AABB_Obj.h" />
     <ClInclude Include="src\Shapes\Sphere.h" />
     <ClInclude Include="src\CollisionManager\SphereColSphere.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="src\Collisions\StaticCollisions.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CollisionManager\AABBColAABB.cpp" />
     <ClCompile Include="src\Shapes\AABB_Obj.cpp" />
     <ClCompile Include="src\Shapes\Sphere.cpp" />
     <ClCompile Include="src\CollisionManager\SphereColSphere.cpp" />

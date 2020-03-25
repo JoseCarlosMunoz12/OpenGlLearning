@@ -2,15 +2,11 @@
 using namespace CoatlPhysicsEngine;
 
 CollisionManager::CollisionManager()
-	:SphereColSphere()
-{
-
-}
+	:SphereColSphere(),AABBColAABB()
+{}
 
 CollisionManager::~CollisionManager()
-{
-
-}
+{}
 
 template<typename _T, typename _N>
  bool CollisionManager::CheckCollide(_T R, _N N)
@@ -27,3 +23,8 @@ template<>
 {
 	return true;
 }
+ template<>
+ bool CollisionManager::CheckCollide(AABBColAABB Obj0, AABBColAABB Obj1)
+ {
+     return true;
+ }

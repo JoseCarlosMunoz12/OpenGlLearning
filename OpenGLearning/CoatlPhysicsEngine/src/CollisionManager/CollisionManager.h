@@ -1,8 +1,10 @@
 #pragma once
 #include "SphereColSphere.h"
+#include "AABBColAABB.h"
 
 namespace CoatlPhysicsEngine {
-	class CollisionManager :public SphereColSphere
+	class CollisionManager
+		: public SphereColSphere, AABBColAABB
 	{
 	private:
 	public:		
