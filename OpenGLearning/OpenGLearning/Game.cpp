@@ -1431,35 +1431,38 @@ void Game::ImGuiOptions()
 				{
 					this->ColWorld->DeleteStatics();
 				}
-				if(ImGui::Button("Add Sphere"))
+				if(ImGui::Button("Add Box"))
 				{
-					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f),1.f);
+					std::shared_ptr<CPE::AABB_Obj> S_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f),1.f);
 					
 					TempStatic->AddNewBody(glm::vec3(1.f),S_Temp);
 				}
 				std::vector<std::shared_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
 				{
-					std::string BodPos = "Pos " + std::to_string(ii->GetID());
 					std::string BodID = "Bode Id is" +std::to_string( ii->GetID());
 					glm::vec3 Temp = ii->GetPos();
 					if (ImGui::TreeNode(BodID.c_str()))
 					{
 						ImGui::Text("Pos %.3f, %.3f, %.3f",Temp.x,Temp.y,Temp.z);
 						float Ar[3] = {Temp.x,Temp.y,Temp.z};
-						if (ImGui::SliderFloat3(BodPos.c_str(),Ar,-10.f,10.f))
+						if (ImGui::SliderFloat("One",&Ar[0],-10.f,10.f))
 						{
 							Temp.x = Ar[0];
+							ii->SetPosition(Temp);
+						}
+						if (ImGui::SliderFloat("Two", &Ar[1], -10.f, 10.f))
+						{
 							Temp.y = Ar[1];
+							ii->SetPosition(Temp);
+						}
+						if (ImGui::SliderFloat("Three", &Ar[2], -10.f, 10.f))
+						{
 							Temp.z = Ar[2];
 							ii->SetPosition(Temp);
 						}
 						ImGui::TreePop();
 					}
-				}
-				if (ImGui::Button("Collision Check"))
-				{
-					this->ColWorld->UpdateWorld();
 				}
 			}
 			else
@@ -1709,6 +1712,10 @@ void Game::update()
 	this->updateDT();
 	this->updateInput();
 	this->ImGuiOptions();
+	if (this->ColWorld)
+	{
+		this->ColWorld->UpdateWorld();
+	}
 	if (!this->SliderAnim)
 	{
 		this->TimePass = this->dt;

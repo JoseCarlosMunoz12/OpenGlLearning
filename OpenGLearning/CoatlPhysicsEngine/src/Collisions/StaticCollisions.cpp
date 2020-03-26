@@ -41,21 +41,28 @@ StaticCollisions::~StaticCollisions()
 void StaticCollisions::UpdateCollisionCheck()
 {
 	int Size = AllStatics.size();
+	bool Check = false;
 	for (int ii = 0; ii < Size; ii++)
 	{
 		for (int jj = ii + 1; jj < Size; jj++)
 		{
 			if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(AllStatics[ii]->GetShapes()))
 			{
-				this->UpdateBodies(*Sphere0, AllStatics[jj]);				
+				 Check = this->UpdateBodies(*Sphere0, AllStatics[jj]);				
 			}
 			else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(AllStatics[ii]->GetShapes()))
 			{
-				this->UpdateBodies(*Cube0, AllStatics[jj]);
-			}
-
-		
+				Check = this->UpdateBodies(*Cube0, AllStatics[jj]);
+			}		
 		}
+	}
+	if (Check)
+	{
+		std::cout << "Collided\n";
+	}
+	else
+	{
+		std::cout << "None\n";
 	}
 	
 }

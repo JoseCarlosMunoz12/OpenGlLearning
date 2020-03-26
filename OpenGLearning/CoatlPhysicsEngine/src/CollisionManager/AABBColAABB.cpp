@@ -7,24 +7,19 @@ bool AABBColAABB::AABBAABB(AABB_Obj Obj0, AABB_Obj Obj1)
 	glm::vec3 A_Pos = Obj0.GetPos();
 	glm::vec3 B = Obj1.GetLengths();
 	glm::vec3 B_Pos = Obj1.GetPos();
-
-	int R;
-	R = A.x + B.x;
-	if ((unsigned int)(A_Pos.x - B_Pos.x + R) > ( R + R ))
+	if (glm::abs(A_Pos.x - B_Pos.x) > (A.x + B.x))
 	{
-		return true;
+		return false;
 	}
-	R = A.y + B.y;
-	if ((unsigned int)(A_Pos.y - B_Pos.y + R) > (R + R))
+	if (glm::abs(A_Pos.y - B_Pos.y) > (A.y + B.y))
 	{
-		return true;
+		return false;
 	}
-	R = A.z + B.z;
-	if ((unsigned int)(A_Pos.z - B_Pos.z + R) > (R + R))
+	if (glm::abs(A_Pos.z - B_Pos.z) > (A.z + B.z))
 	{
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }
 
 AABBColAABB::AABBColAABB()
