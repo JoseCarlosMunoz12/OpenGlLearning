@@ -8,7 +8,24 @@ bool CoatlPhysicsEngine::StaticCollisions::UpdateBodies(Sphere Bod0, std::shared
 	{
 		return this->ColMan->CheckCollide(Bod0, *Sphere0);
 	}
+	else if (std::shared_ptr<AABB_Obj> AABB = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
+	{
+		return this->ColMan->CheckCollide(Bod0, *AABB);
+	}
 	return false;	
+}
+
+bool StaticCollisions::UpdateBodies(AABB_Obj Obj0, std::shared_ptr<Bodies> Bod1)
+{
+	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
+	{
+		return this->ColMan->CheckCollide(Obj0, *Sphere0);
+	}
+	else if (std::shared_ptr<AABB_Obj> AABB = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
+	{
+		return this->ColMan->CheckCollide(Obj0, *AABB);
+	}
+	return false;
 }
 
 StaticCollisions::StaticCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
@@ -30,16 +47,13 @@ void StaticCollisions::UpdateCollisionCheck()
 		{
 			if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(AllStatics[ii]->GetShapes()))
 			{
-				bool Collied = this->UpdateBodies(*Sphere0, AllStatics[jj]);
-				if (Collied)
-				{
-					std::cout << "Collided\n";
-				}
-				else
-				{
-					std::cout << "No Touch\n";
-				}
+				this->UpdateBodies(*Sphere0, AllStatics[jj]);				
 			}
+			else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(AllStatics[ii]->GetShapes()))
+			{
+				this->UpdateBodies(*Cube0, AllStatics[jj]);
+			}
+
 		
 		}
 	}
