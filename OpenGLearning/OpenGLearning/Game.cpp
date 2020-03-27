@@ -1720,6 +1720,15 @@ void Game::update()
 	{
 		this->TimePass = this->dt;
 	}
+
+	for (auto& ii : this->models)
+	{
+		ii->UpdateCollisions();
+	}
+	for (auto& ii : this->animModel)
+	{
+		ii->UpdateCollisions();
+	}
 }
 
 void Game::render()

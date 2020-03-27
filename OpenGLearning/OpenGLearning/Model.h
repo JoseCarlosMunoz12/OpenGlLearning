@@ -19,12 +19,10 @@ private:
 	std::vector<std::vector<int>> TextToUse;
 	glm::vec3 Position;
 	std::string Name;
+	std::weak_ptr<CPE::Bodies> ColdBody;
 	void updateUniform()
 	{
 
-	}
-	void updateCollision(glm::vec3 Collisiontest)
-	{
 	}
 	void MakeNodes(glm::vec3 Pos,std::vector<MeshsArtifacts> Inits)
 	{
@@ -75,6 +73,19 @@ public:
 	}
 	~Model()
 	{
+	}
+	//Collisions Functions
+	void UpdateCollisions()
+	{
+		if (!this->ColdBody.expired())
+		{
+			glm::vec3 ColPos = this->ColdBody.lock()->GetPos();
+			this->move(ColPos);
+		}
+	}
+	void SetColBody(std::shared_ptr<CPE::Bodies> NewBod)
+	{
+		this->ColdBody = NewBod;
 	}
 	//Format
 	void move(const glm::vec3 Move)

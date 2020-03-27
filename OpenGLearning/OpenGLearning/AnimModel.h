@@ -39,7 +39,7 @@ private:
 	std::string Name;
 	std::string CurAnim;
 	std::string NewAnim;
-
+	std::weak_ptr<CPE::Bodies> ColBody;
 	float TimeLength;
 	float TransLength;
 	int AnimChosen = 0;
@@ -238,6 +238,18 @@ public:
 	~AnimModel()
 	{
 
+	}
+	void UpdateCollisions()
+	{
+		if (!this->ColBody.expired())
+		{
+			glm::vec3 ColPos = this->ColBody.lock()->GetPos();
+			this->SetOrigin(ColPos);
+		}
+	}
+	void SetColBody(std::shared_ptr<CPE::Bodies> NewBod)
+	{
+		this->ColBody = NewBod;
 	}
 	//Setters
 	void SetOrigin(glm::vec3 NewOrigin)
