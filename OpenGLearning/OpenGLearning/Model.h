@@ -88,9 +88,13 @@ public:
 		this->ColdBody = NewBod;
 	}
 	//Format
-	void move(const glm::vec3 Move)
+	void move(const glm::vec3 Move,bool Fr_Col = true)
 	{
 		this->TreeNodes[0]->Move(Move);
+		if (!this->ColdBody.expired())
+		{
+			this->ColdBody.lock()->SetPosition(Move);
+		}
 	}
 	void scale(const glm::vec3 ReScale)
 	{

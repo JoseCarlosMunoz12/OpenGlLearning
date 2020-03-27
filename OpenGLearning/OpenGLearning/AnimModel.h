@@ -244,7 +244,7 @@ public:
 		if (!this->ColBody.expired())
 		{
 			glm::vec3 ColPos = this->ColBody.lock()->GetPos();
-			this->SetOrigin(ColPos);
+			this->SetOrigin(ColPos,false);
 		}
 	}
 	void SetColBody(std::shared_ptr<CPE::Bodies> NewBod)
@@ -252,9 +252,13 @@ public:
 		this->ColBody = NewBod;
 	}
 	//Setters
-	void SetOrigin(glm::vec3 NewOrigin)
+	void SetOrigin(glm::vec3 NewOrigin, bool Fr_Col = true)
 	{
 		this->TreeNodes[0]->SetOrigin(NewOrigin);
+		if (!this->ColBody.expired() && Fr_Col)
+		{
+			this->ColBody.lock()->SetPosition(NewOrigin);
+		}
 	}
 	void SetRelPos(glm::vec3 NewRelPos)
 	{
