@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Material.h"
+#include "CoatlPhysicsEngine.h"
 #include <map>
 #include <glew.h>
 #include <glfw3.h>
@@ -25,7 +26,7 @@ private:
 		bool Active;
 	};
 	int BodID;
-	StdMat* AnimMat;
+	StdMat* AnimMat;	
 	std::vector<AnimMesh*> meshes;
 	std::vector<GeneralTextInfo*> Tex;
 	std::vector<Nodes*> TreeNodes;

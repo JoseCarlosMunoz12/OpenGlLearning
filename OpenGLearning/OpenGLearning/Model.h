@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Material.h"
 #include "Vertex.h"
+#include "CoatlPhysicsEngine.h"
 #include <iostream>
 #include <string>
 

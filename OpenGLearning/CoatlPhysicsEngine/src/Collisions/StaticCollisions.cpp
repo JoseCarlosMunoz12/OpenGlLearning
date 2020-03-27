@@ -53,18 +53,10 @@ void StaticCollisions::UpdateCollisionCheck()
 			else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(AllStatics[ii]->GetShapes()))
 			{
 				Check = this->UpdateBodies(*Cube0, AllStatics[jj]);
-			}		
+			}
+
 		}
 	}
-	if (Check)
-	{
-		std::cout << "Collided\n";
-	}
-	else
-	{
-		std::cout << "None\n";
-	}
-	
 }
 
 void StaticCollisions::AddNewBody(glm::vec3 InitPos, std::shared_ptr<ColShapes> NewShape)
