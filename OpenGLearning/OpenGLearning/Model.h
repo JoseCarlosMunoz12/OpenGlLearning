@@ -94,7 +94,7 @@ public:
 		if (!this->ColBody.expired())
 		{
 			glm::vec3 ColPos = this->ColBody.lock()->GetPos();
-			this->move(ColPos,false);
+			this->move(ColPos);
 		}
 	}
 	void SetColBody(std::shared_ptr<CPE::Bodies> NewBod)
@@ -106,10 +106,10 @@ public:
 		return this->ColBody;
 	}
 	//Format
-	void move(const glm::vec3 Move,bool Fr_Col = true)
+	void move(const glm::vec3 Move)
 	{
 		this->TreeNodes[0]->SetOrigin(Move);
-		if (!this->ColBody.expired() && Fr_Col)
+		if (!this->ColBody.expired())
 		{
 			this->ColBody.lock()->SetPosition(Move);
 		}
@@ -134,6 +134,25 @@ public:
 	QuatParts GetRotation()
 	{
 		return this->TreeNodes[0]->GetRotation();
+	}
+	//Setters
+	void SetPosition(glm::vec3 NewPos)
+	{
+		this->TreeNodes[0]->SetOrigin(NewPos);
+
+		if (!this->ColBody.expired())
+		{
+			this->ColBody.lock()->SetPosition(NewPos);
+		}
+	}
+	void SetScale(glm::vec3 NewScale)
+	{
+		this->TreeNodes[0]->SetScale(NewScale);
+	}
+	void SetRotation(QuatParts NewQuat)
+	{
+		;
+		this->TreeNodes[0]->SetRotation(NewQuat);
 	}
 	std::vector<Nodes*> GetNodesInfo()
 	{

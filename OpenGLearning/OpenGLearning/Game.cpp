@@ -462,6 +462,16 @@ void Game::ImGuiOptions()
 					std::vector<Mesh*> ModMesh = this->models[this->ModelToMake]->GetMeshes();
 					ImGui::Text("Model Material Name = "); ImGui::SameLine(); ImGui::Text(ModMat->GetName());
 					ImGui::Text("Model Position (X,Y,Z) ="); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", ModPos.x, ModPos.y, ModPos.z);
+					if (ImGui::TreeNode("Model Position"))
+					{
+						bool Values[3];
+						Values[0] = ImGui::SliderFloat("XOr", &ModPos.x, -10.f, 10.f);
+						Values[1] = ImGui::SliderFloat("YOr", &ModPos.y, -10.f, 10.f);
+						Values[2] = ImGui::SliderFloat("ZOr", &ModPos.z, -10.f, 10.f);
+						if (Values[0] || Values[1] || Values[2])
+							this->models[this->ModelToMake]->SetPosition(ModPos);
+						ImGui::TreePop();
+					}
 					for (auto& ii : ModMesh)
 					{
 						ImGui::Text("Mesh used = "); ImGui::SameLine(); ImGui::Text(ii->GiveName());
