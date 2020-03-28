@@ -54,7 +54,6 @@ void StaticCollisions::UpdateCollisionCheck()
 			{
 				Check = this->UpdateBodies(*Cube0, AllStatics[jj]);
 			}
-
 		}
 	}
 }
@@ -79,9 +78,14 @@ std::string CoatlPhysicsEngine::StaticCollisions::GetName()
 	return this->Name;
 }
 
-std::vector<std::shared_ptr<Bodies>> CoatlPhysicsEngine::StaticCollisions::GetAllBodies()
+std::vector<std::weak_ptr<Bodies>> CoatlPhysicsEngine::StaticCollisions::GetAllBodies()
 {
-	return this->AllStatics;
+	std::vector<std::weak_ptr<Bodies>> Temp;
+	for (auto& jj : this->AllStatics)
+	{
+		Temp.push_back(jj);
+	}
+	return Temp;
 }
 
 std::shared_ptr<Bodies> CoatlPhysicsEngine::StaticCollisions::GetABody(int ID)

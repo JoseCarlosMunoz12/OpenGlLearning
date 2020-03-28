@@ -421,7 +421,7 @@ void Game::updateController()
 		}
 	}
 }
-
+ 
 void Game::ImGuiOptions()
 {
 	
@@ -533,6 +533,32 @@ void Game::ImGuiOptions()
 							NodeCount++;
 						}
 						ImGui::TreePop();
+					}
+					std::weak_ptr<CPE::Bodies> Temp = this->models[this->ModelToMake]->GetBodies();
+					if (!Temp.expired())
+					{
+						int ID = Temp.lock()->GetID();
+					}
+					else
+					{
+						ImGui::Text("Not Connected it");
+						if (this->ColWorld)
+						{
+							std::weak_ptr<CPE::StaticCollisions> TempStatic = this->ColWorld->GetCollision();
+							if (!TempStatic.expired())
+							{
+								std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic.lock()->GetAllBodies();
+								for (auto& ii : Bods)
+								{
+									std::shared_ptr<CPE::Bodies> Bod = ii.lock();
+									std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
+									if (ImGui::Selectable(BodID.c_str()))
+									{
+										this->models[this->ModelToMake]->SetColBody(ii.lock());
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -1433,15 +1459,16 @@ void Game::ImGuiOptions()
 				}
 				if(ImGui::Button("Add Box"))
 				{
-					std::shared_ptr<CPE::AABB_Obj> S_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f),1.f);
+					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f),1.f);
 					
 					TempStatic->AddNewBody(glm::vec3(1.f),S_Temp);
 				}
-				std::vector<std::shared_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
+				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
 				{
-					std::string BodID = "Bode Id is" +std::to_string( ii->GetID());
-					glm::vec3 Temp = ii->GetPos();
+					std::shared_ptr<CPE::Bodies> Bod = ii.lock();
+					std::string BodID = "Bode Id is" +std::to_string( Bod->GetID());
+					glm::vec3 Temp = Bod->GetPos();
 					if (ImGui::TreeNode(BodID.c_str()))
 					{
 						ImGui::Text("Pos %.3f, %.3f, %.3f",Temp.x,Temp.y,Temp.z);
@@ -1449,17 +1476,17 @@ void Game::ImGuiOptions()
 						if (ImGui::SliderFloat("One",&Ar[0],-10.f,10.f))
 						{
 							Temp.x = Ar[0];
-							ii->SetPosition(Temp);
+							Bod->SetPosition(Temp);
 						}
 						if (ImGui::SliderFloat("Two", &Ar[1], -10.f, 10.f))
 						{
 							Temp.y = Ar[1];
-							ii->SetPosition(Temp);
+							Bod->SetPosition(Temp);
 						}
 						if (ImGui::SliderFloat("Three", &Ar[2], -10.f, 10.f))
 						{
 							Temp.z = Ar[2];
-							ii->SetPosition(Temp);
+							Bod->SetPosition(Temp);
 						}
 						ImGui::TreePop();
 					}

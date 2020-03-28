@@ -32,7 +32,7 @@ namespace CoatlPhysicsEngine
 		void AddNewBody(glm::vec3 InitPos,std::shared_ptr<ColShapes> NewShape);
 		void AddNewBody(glm::vec3 InitPos,std::vector<std::shared_ptr<ColShapes>> NewShapes);
 		std::string GetName();
-		std::vector<std::shared_ptr<Bodies>> GetAllBodies();
+		std::vector<std::weak_ptr<Bodies>> GetAllBodies();
 		std::shared_ptr<Bodies> GetABody(int ID);
 	};
 }

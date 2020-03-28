@@ -235,6 +235,22 @@ public:
 		this->GetCurMat();
 		this->Blend = { "","" };
 	}
+
+	AnimModel(std::string ModName, glm::vec3 InitPos,
+		StdMat* material,
+		std::vector<GeneralTextInfo*> OrTexSpec,
+		AnimMesh* AnimMeshToUse,
+		std::vector<MeshsArtifacts>M_Inits,std::shared_ptr<CPE::Bodies> SetBody,
+		glm::vec3 InitOr = glm::vec3(0.f), glm::vec3 InitRot = glm::vec3(0.f))
+		:Name(ModName), AnimMat(material), TransLength(1.f),ColBody(SetBody)
+	{
+		this->Tex = OrTexSpec;
+		this->meshes.push_back(AnimMeshToUse);
+		this->MakeAnimationInfo(AnimMeshToUse->GetInits());
+		this->MakeNodes(InitPos, M_Inits);
+		this->GetCurMat();
+		this->Blend = { "","" };
+	}
 	~AnimModel()
 	{
 
@@ -250,6 +266,10 @@ public:
 	void SetColBody(std::shared_ptr<CPE::Bodies> NewBod)
 	{
 		this->ColBody = NewBod;
+	}
+	std::weak_ptr<CPE::Bodies> GetBodies()
+	{
+		return this->ColBody;
 	}
 	//Setters
 	void SetOrigin(glm::vec3 NewOrigin, bool Fr_Col = true)

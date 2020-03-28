@@ -19,7 +19,7 @@ private:
 	std::vector<std::vector<int>> TextToUse;
 	glm::vec3 Position;
 	std::string Name;
-	std::weak_ptr<CPE::Bodies> ColdBody;
+	std::weak_ptr<CPE::Bodies> ColBody;
 	void updateUniform()
 	{
 
@@ -71,29 +71,47 @@ public:
 		this->meshes.push_back(MeshUse);
 		this->MakeNodes(position, Inits);
 	}
+	Model(std::string ModelName,
+		glm::vec3 position,
+		StdMat* material, std::vector<GeneralTextInfo*>orTexSpec, Mesh* MeshUse, std::vector<MeshsArtifacts> Inits,
+		std::shared_ptr<CPE::Bodies> SetBody,
+		glm::vec3 InitRot = glm::vec3(0.f))
+		:ColBody(SetBody)
+	{
+		this->Position = position;
+		this->TestMat = material;
+		this->Tex = orTexSpec;
+		this->Name = ModelName;
+		this->meshes.push_back(MeshUse);
+		this->MakeNodes(position, Inits);
+	}
 	~Model()
 	{
 	}
 	//Collisions Functions
 	void UpdateCollisions()
 	{
-		if (!this->ColdBody.expired())
+		if (!this->ColBody.expired())
 		{
-			glm::vec3 ColPos = this->ColdBody.lock()->GetPos();
-			this->move(ColPos);
+			glm::vec3 ColPos = this->ColBody.lock()->GetPos();
+			this->move(ColPos,false);
 		}
 	}
 	void SetColBody(std::shared_ptr<CPE::Bodies> NewBod)
 	{
-		this->ColdBody = NewBod;
+		this->ColBody = NewBod;
+	}
+	std::weak_ptr<CPE::Bodies> GetBodies()
+	{
+		return this->ColBody;
 	}
 	//Format
 	void move(const glm::vec3 Move,bool Fr_Col = true)
 	{
-		this->TreeNodes[0]->Move(Move);
-		if (!this->ColdBody.expired())
+		this->TreeNodes[0]->SetOrigin(Move);
+		if (!this->ColBody.expired() && Fr_Col)
 		{
-			this->ColdBody.lock()->SetPosition(Move);
+			this->ColBody.lock()->SetPosition(Move);
 		}
 	}
 	void scale(const glm::vec3 ReScale)
