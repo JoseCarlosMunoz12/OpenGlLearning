@@ -54,14 +54,6 @@ void StaticCollisions::UpdateCollisionCheck()
 			{
 				Check = this->UpdateBodies(*Cube0, AllStatics[jj]);
 			}
-			if (Check)
-			{
-				std::cout << "Collided\n";
-			}
-			else
-			{
-				std::cout << "Nope\n";
-			}
 		}
 	}
 }

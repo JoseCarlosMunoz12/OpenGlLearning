@@ -150,8 +150,7 @@ public:
 		this->TreeNodes[0]->SetScale(NewScale);
 	}
 	void SetRotation(QuatParts NewQuat)
-	{
-		;
+	{		
 		this->TreeNodes[0]->SetRotation(NewQuat);
 	}
 	std::vector<Nodes*> GetNodesInfo()

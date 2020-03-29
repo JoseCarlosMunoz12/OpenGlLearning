@@ -1467,11 +1467,14 @@ void Game::ImGuiOptions()
 				{
 					this->ColWorld->DeleteStatics();
 				}
-				if(ImGui::Button("Add Box"))
+				if(ImGui::Button("Add Sphere"))
 				{
 					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f),1.f);
-					
 					TempStatic->AddNewBody(glm::vec3(1.f),S_Temp);
+				}
+				if (ImGui::Button("Add Box"))
+				{
+					std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
 				}
 				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
