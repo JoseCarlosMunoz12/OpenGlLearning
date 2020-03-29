@@ -1,7 +1,7 @@
 #include "StaticCollisions.h"
 using namespace CoatlPhysicsEngine;
 
-bool CoatlPhysicsEngine::StaticCollisions::UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1)
+bool StaticCollisions::UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1)
 {
 
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
