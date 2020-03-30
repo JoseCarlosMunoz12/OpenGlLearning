@@ -13,7 +13,8 @@ bool CoatlPhysicsEngine::SphereColAABB::SphereColsAABB(Sphere Sph0, AABB_Obj Obj
 {
 	glm::vec3 ClsPoint = Obj0.GetClosesPoint(Sph0.GetPos());
 	float Rad = Sph0.GetRadius();
-
-
-	return false;
+	glm::vec3 V = ClsPoint - Sph0.GetPos();
+	float Dot = glm::dot(V, ClsPoint);
+	Rad = Rad * Rad;
+	return  Dot <= Rad;
 }
