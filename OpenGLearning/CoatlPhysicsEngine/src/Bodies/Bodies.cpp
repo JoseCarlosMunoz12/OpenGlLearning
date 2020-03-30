@@ -36,16 +36,21 @@ void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape)
 
 }
 
-void Bodies::UpDateBodiesInf(bool ColUPdate, std::shared_ptr<Bodies> Body)
+void Bodies::UpDateBodiesInf(bool ColUpdate, std::shared_ptr<Bodies> Body)
 {
-	if (this->OtherInter.size() != 0)
+	int BodyId = Body->GetID();	
+	std::vector<int>::iterator ii = std::find(this->OtherBods.begin(), this->OtherBods.end(), BodyId);
+	if (ii != OtherBods.end())
 	{
-
+		if (!ColUpdate)
+			this->OtherBods.erase(ii);		
 	}
 	else
 	{
-		
+		if (ColUpdate)
+			this->OtherBods.push_back(BodyId);
 	}
+
 }
 
 int Bodies::GetID()
@@ -65,4 +70,9 @@ glm::vec3 Bodies::GetPos()
 std::shared_ptr<ColShapes> CoatlPhysicsEngine::Bodies::GetShapes()
 {
 	return this->BodyInf[0]->BodPart;
+}
+
+std::vector<int> CoatlPhysicsEngine::Bodies::GetAllCol()
+{
+	return this->OtherBods;
 }

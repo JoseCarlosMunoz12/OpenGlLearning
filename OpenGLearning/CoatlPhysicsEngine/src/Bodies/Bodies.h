@@ -9,18 +9,13 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<ColShapes> BodPart;
 		std::shared_ptr<Mass> BodMass;
 	};
-	struct OtherBody
-	{
-		bool Collided;
-		int ID;
-	};
 	class Bodies
 	{
 	private:
 		int ID;
 		glm::vec3 Pos;
 		std::vector<std::shared_ptr<BodyParts>> BodyInf;
-		std::vector<std::shared_ptr<OtherBody>> OtherInter;
+		std::vector<int> OtherBods;
 	public:
 		Bodies(int InitID);
 		Bodies(glm::vec3 NewPos,std::shared_ptr<ColShapes> InitShapes, int InitID);
@@ -32,5 +27,6 @@ namespace CoatlPhysicsEngine {
 		void SetPosition(glm::vec3 NewPos);
 		glm::vec3 GetPos();
 		std::shared_ptr<ColShapes> GetShapes();
+		std::vector<int> GetAllCol();
 	};
 }
