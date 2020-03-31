@@ -825,6 +825,7 @@ public:
 	{
 		std::vector<GLuint> TempIndices;
 		std::vector<Vertex> TempVertex;
+		//Top of the Capsule
 		glm::vec3 Clr = glm::vec3(1, 0, 1);
 		float Z, XY;								// Vertex Position
 		float lengthInv = 1.f / Rad;		// Vertex normal
@@ -850,6 +851,8 @@ public:
 				Temp.normal.x = Temp.position.x * lengthInv;
 				Temp.normal.y = Temp.position.y * lengthInv;
 				Temp.normal.z = Temp.position.z * lengthInv;
+
+				Temp.position.z += (Length / 2);
 
 				Temp.texcoord.x = (float)ii / SectorCount;
 
@@ -881,6 +884,9 @@ public:
 			}
 
 		}
+		//Body of capsules
+
+		//Bottom of Capsule
 		this->set(TempVertex, TempIndices);
 	}
 };
