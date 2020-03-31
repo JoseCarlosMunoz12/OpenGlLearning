@@ -195,7 +195,7 @@ void Game::initModels()
 		{this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[0], {Terrain}));
-	this->models.push_back(new Model("Sphere2",
+	this->models.push_back(new Model("Sphere0",
 		glm::vec3(0.f, 0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
 		this->MatTest[1],
 		{this->textures[9],this->textures[9],
@@ -207,6 +207,12 @@ void Game::initModels()
 		{this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[1], {Monk}));
+	//this->models.push_back(new Model("Cube0",
+	//	glm::vec3(0.f, 3.f, this->MipMapsData[0]->ReturnValue(0.f, 3.f)),
+	//	this->MatTest[1],
+	//	{ this->textures[10],this->textures[10],
+	//	this->textures[14],this->textures[15],this->textures[16] },
+	//	meshes[4], { Monk }));
 
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Tes1t",
@@ -1475,6 +1481,7 @@ void Game::ImGuiOptions()
 				if (ImGui::Button("Add Box"))
 				{
 					std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
+					TempStatic->AddNewBody(glm::vec3(0.f), B_Temp);
 				}
 				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
@@ -1504,7 +1511,7 @@ void Game::ImGuiOptions()
 						}
 						if(ImGui::TreeNode("Collided With"))
 						{
-							for (auto& ii : BodID)
+							for (auto& ii : ColId)
 							{
 								ImGui::Text("Body ID is %d", ii);
 							}
