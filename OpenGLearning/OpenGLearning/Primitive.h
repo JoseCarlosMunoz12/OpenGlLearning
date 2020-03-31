@@ -323,68 +323,69 @@ public:
 		std::vector<GLuint> IndecesOfCube;
 		glm::vec3 Normals[] =
 		{
-			glm::vec3(0.f,0.f,1.f), glm::vec3(-1.f,0.f,0.f),
-			glm::vec3(0.f,0.f,-1.f),glm::vec3(1.f,0.f,0.f),
+			glm::vec3(1.f,0.f,0.f), glm::vec3(0.f,1.f,0.f), glm::vec3(-1.f,0.f,0.f), glm::vec3(0.f,-1.f,0.f),
+			glm::vec3(0.f,0.f,1.f), glm::vec3(0.f,0.f,-1.f)
 		};
-		glm::vec2 TexCoords[] = 
+		glm::vec2 TexCoords[] =
 		{
-			glm::vec2(1.f,1.f),glm::vec2(0.f,1.f),
-			glm::vec2(0.f,0.f),glm::vec2(1.f,0.f)
+			glm::vec2(0.f,0.f),glm::vec2(1.f,0.f),
+			glm::vec2(0.f,1.f),glm::vec2(1.f,1.f)
 		};
 		glm::vec3 ColorsUsed = glm::vec3(0.f, 0.f, 1.f);
-		glm::vec3 Positions[] = 
+		glm::vec3 Positions[] =
 		{
-			//Top Plane
-			glm::vec3(0.5f,0.5f,0.5f),glm::vec3(-0.5f,0.5f,0.5f),
-			glm::vec3(-0.5f,0.5f,-0.5f),glm::vec3(0.5f,0.5f,-0.5f),
+			//Top Plane 
+			glm::vec3(0.5f,-0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f),
+			glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(-0.5f,-0.5f, 0.5f),
 			//Bottom Plane
-			glm::vec3(0.5f,-0.5f,0.5f),glm::vec3(-0.5f,-0.5f,0.5f),
-			glm::vec3(-0.5f,-0.5f,-0.5f),glm::vec3(0.5f,-0.5f,-0.5f)
+			glm::vec3(0.5f,-0.5f,-0.5f), glm::vec3(0.5f, 0.5f,-0.5f),
+			glm::vec3(-0.5f, 0.5f,-0.5f), glm::vec3(-0.5f,-0.5f,-0.5f)
 		};
-		int Part0 = 0;
-		int Part1 = 1;
-		int Part2 = 5;
-		int Part3 = 4;
-		for (size_t ii = 1; ii < 5; ii++)
+		int Index[] = {0,4,1,5};
+
+		for (int ii = 0; ii < 4; ii++)
 		{
-		
-			Vertex Vertex0 = {Positions[Part0],ColorsUsed,TexCoords[0],Normals[ii-1]};
-			Vertex Vertex1 = {Positions[Part1],ColorsUsed,TexCoords[1],Normals[ii-1]};
-			Vertex Vertex2 = {Positions[Part2],ColorsUsed,TexCoords[2],Normals[ii-1]};
-			Vertex Vertex3 = {Positions[Part3],ColorsUsed,TexCoords[3],Normals[ii-1]};
-			
-			VertexOfCube.push_back(Vertex1);
-			VertexOfCube.push_back(Vertex2);
-			VertexOfCube.push_back(Vertex0);
-			VertexOfCube.push_back(Vertex0);
-			VertexOfCube.push_back(Vertex2);
-			VertexOfCube.push_back(Vertex3);
-			
-			if (Part1 == 3)
+			VertexOfCube.push_back({ Positions[Index[0]],ColorsUsed,TexCoords[2],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[3]],ColorsUsed,TexCoords[1],Normals[ii] });
+			Index[0]++;
+			Index[1]++;
+			Index[2]++;
+			Index[3]++;
+			if (Index[2] == 4)
 			{
-				Part1 = 0;
+				Index[2] = 0;
 			}
-			else
+			if (Index[3] == 8)
 			{
-				Part1 += 1;
+				Index[3] = 4;
 			}
-			if (Part2 == 7)
-			{
-				Part2 = 4;
-			}
-			else
-			{
-				Part2 += 1;
-			}
-			Part0 += 1;
-			Part3 += 1;
 		}
-			   
-		for (size_t ii = 0; ii < VertexOfCube.size(); ii++)
+		int TopIndex[] = {3,0,2,1};
+		for (int ii = 4; ii < 6; ii++)
 		{
-			IndecesOfCube.push_back(ii);
+
+			VertexOfCube.push_back({ Positions[TopIndex[0]],ColorsUsed,TexCoords[2],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[3]],ColorsUsed,TexCoords[1],Normals[ii] });
+			TopIndex[0] = 6;
+			TopIndex[1] = 5;
+			TopIndex[2] = 7;
+			TopIndex[3] = 4;
 		}
 
+		int Count = 0;
+		for (auto& jj : VertexOfCube)
+		{
+			IndecesOfCube.push_back(Count);
+			Count++;
+		}
 		this->set(VertexOfCube, IndecesOfCube);
 	}
 
