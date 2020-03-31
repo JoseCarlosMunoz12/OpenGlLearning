@@ -170,6 +170,9 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Cube(),
 			"Cube"));
+	meshes.push_back(
+		new Mesh(&Capsule(1.f,1,32,32),
+			"Capsule"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae", "Snek_Side.dae" }), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("Snek_Up.dae",this->AnimRdrMk.ReadFile("AnimeTest.txt")), "Test2"));
@@ -195,24 +198,30 @@ void Game::initModels()
 		{this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[0], {Terrain}));
-	this->models.push_back(new Model("Sphere0",
-		glm::vec3(0.f, 0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
-		this->MatTest[1],
-		{this->textures[9],this->textures[9],
-		this->textures[14],this->textures[15],this->textures[16]},
-		meshes[1], {Monk}));
-	this->models.push_back(new Model("Sphere1",
-		glm::vec3(0.f, 3.f, this->MipMapsData[0]->ReturnValue(0.f, 3.f)),
-		this->MatTest[1],
-		{this->textures[10],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16]},
-		meshes[1], {Monk}));
-	this->models.push_back(new Model("Cube0",
-		glm::vec3(0.f, 3.f, this->MipMapsData[0]->ReturnValue(0.f, 3.f)),
+	//this->models.push_back(new Model("Sphere0",
+	//	glm::vec3(0.f, 0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
+	//	this->MatTest[1],
+	//	{this->textures[9],this->textures[9],
+	//	this->textures[14],this->textures[15],this->textures[16]},
+	//	meshes[1], {Monk}));
+	//this->models.push_back(new Model("Sphere1",
+	//	glm::vec3(0.f, 3.f, this->MipMapsData[0]->ReturnValue(0.f, 3.f)),
+	//	this->MatTest[1],
+	//	{this->textures[10],this->textures[10],
+	//	this->textures[14],this->textures[15],this->textures[16]},
+	//	meshes[1], {Monk}));
+	//this->models.push_back(new Model("Cube0",
+	//	glm::vec3(0.f, 3.f, this->MipMapsData[0]->ReturnValue(0.f, 3.f)),
+	//	this->MatTest[1],
+	//	{ this->textures[10],this->textures[10],
+	//	this->textures[14],this->textures[15],this->textures[16] },
+	//	meshes[4], { Monk }));
+	this->models.push_back(new Model("Capsule0",
+		glm::vec3(3.f, 3.f, this->MipMapsData[0]->ReturnValue(3.f, 3.f)),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
-		meshes[4], { Monk }));
+		meshes[5], { Monk }));
 
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Tes1t",

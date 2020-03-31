@@ -817,3 +817,70 @@ public:
 		this->set(FinalVertex(scene),FinalGluint(scene));
 	}
 };
+class Capsule :public Primitive
+{
+public:
+	Capsule(float Rad,float Length, float SectorCount, float StackCount)
+		:Primitive()
+	{
+		std::vector<GLuint> TempIndices;
+		std::vector<Vertex> TempVertex;
+		glm::vec3 Clr = glm::vec3(1, 0, 1);
+		float Z, XY;								// Vertex Position
+		float lengthInv = 1.f / Rad;		// Vertex normal
+		float PI = glm::pi<float>();
+		float SectorStep = 2 * PI / SectorCount;
+		float StackStep = PI / StackCount;
+		float SectorAngle, StackAngle;
+		for (int ii = 0; ii <= StackCount; ii++)
+		{
+			StackAngle = (PI - (ii * StackStep)) / 2;
+			XY = Rad * (float)glm::cos(StackAngle);
+			Z = Rad * (float)glm::sin(StackAngle);
+
+			for (int jj = 0; jj <= SectorCount; jj++)
+			{
+				Vertex Temp;
+				SectorAngle = jj * SectorStep;
+
+				Temp.position.x = XY * (float)glm::sin(SectorAngle);
+				Temp.position.z = Z;
+				Temp.position.y = XY * (float)glm::cos(SectorAngle);
+
+				Temp.normal.x = Temp.position.x * lengthInv;
+				Temp.normal.y = Temp.position.y * lengthInv;
+				Temp.normal.z = Temp.position.z * lengthInv;
+
+				Temp.texcoord.x = (float)ii / SectorCount;
+
+				Temp.texcoord.y = (float)jj / SectorCount;
+
+				TempVertex.push_back(Temp);
+			}
+		}
+		int K1, K2;
+		for (int ii = 0; ii < StackCount; ii++)
+		{
+			K1 = ii * (SectorCount + 1);
+			K2 = K1 + SectorCount + 1;
+			for (int jj = 0; jj < SectorCount; jj++, K1++, K2++)
+			{
+				if (ii != 0)
+				{
+					TempIndices.push_back(K2);
+					TempIndices.push_back(K1);
+					TempIndices.push_back(K1 + 1);
+				}
+
+				if (ii != (StackCount - 1))
+				{
+					TempIndices.push_back(K2);
+					TempIndices.push_back(K1 + 1);
+					TempIndices.push_back(K2 + 1);
+				}
+			}
+
+		}
+		this->set(TempVertex, TempIndices);
+	}
+};
