@@ -820,7 +820,8 @@ public:
 class Capsule :public Primitive
 {
 public:
-	Capsule(float Rad,float Length, float SectorCount, float StackCount)
+	Capsule(float Rad,float Length,
+		float SectorCount, float StackCount)
 		:Primitive()
 	{
 		std::vector<GLuint> TempIndices;
@@ -835,7 +836,7 @@ public:
 		float SectorAngle, StackAngle;
 		for (int ii = 0; ii <= StackCount; ii++)
 		{
-			StackAngle = (PI - (ii * StackStep)) / 2;
+			StackAngle = (PI/2 - (ii * StackStep));
 			XY = Rad * (float)glm::cos(StackAngle);
 			Z = Rad * (float)glm::sin(StackAngle);
 
@@ -852,7 +853,10 @@ public:
 				Temp.normal.y = Temp.position.y * lengthInv;
 				Temp.normal.z = Temp.position.z * lengthInv;
 
-				Temp.position.z += (Length / 2);
+				if (StackAngle > 0)
+					Temp.position.z += (Length / 2);
+				else
+					Temp.position.z -= (Length / 2);
 
 				Temp.texcoord.x = (float)ii / SectorCount;
 

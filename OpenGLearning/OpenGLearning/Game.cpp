@@ -171,7 +171,7 @@ void Game::initModels()
 		new Mesh(&Cube(),
 			"Cube"));
 	meshes.push_back(
-		new Mesh(&Capsule(1.f,1,32,32),
+		new Mesh(&Capsule(1.f,1.f,16,16),
 			"Capsule"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae", "Snek_Side.dae" }), "Test1"));
@@ -539,6 +539,7 @@ void Game::ImGuiOptions()
 									ImGui::SliderFloat("X Rot", &VecRot.UnitVec.x, -1.f, 1.f);
 									ImGui::SliderFloat("Y Rot", &VecRot.UnitVec.y, -1.f, 1.f);
 									ImGui::SliderFloat("Z Rot", &VecRot.UnitVec.z, -1.f, 1.f);
+									VecRot.UnitVec = glm::normalize(VecRot.UnitVec);
 									ii->SetRotation(VecRot);
 									ImGui::TreePop();
 								}
