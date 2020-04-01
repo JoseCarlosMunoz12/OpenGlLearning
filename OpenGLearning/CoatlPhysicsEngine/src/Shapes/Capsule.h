@@ -8,5 +8,7 @@ namespace CoatlPhysicsEngine{
 	public:
 		Capsule(glm::vec3 Pos,float InitRadius,float InitLength);
 		~Capsule();
+		float GetRadius();
+		float GetLength();
 	};
 }

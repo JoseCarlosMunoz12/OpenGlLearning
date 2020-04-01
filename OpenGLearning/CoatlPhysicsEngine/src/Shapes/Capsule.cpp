@@ -10,3 +10,13 @@ Capsule::Capsule(glm::vec3 Pos, float InitRadius, float InitLength)
 Capsule::~Capsule()
 {
 }
+
+float Capsule::GetRadius()
+{
+	return this->Radius;
+}
+
+float Capsule::GetLength()
+{
+	return this->Length;
+}
