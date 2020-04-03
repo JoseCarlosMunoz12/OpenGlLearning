@@ -1690,6 +1690,7 @@ void Game::updateOpenGLOptions()
 		glFrontFace(GL_CCW);
 	}
 }
+
 Game::Game(const char * title,
 	const int width, const int height,
 	const int GLmajorVer, const int GLminorVer, bool resizable,glm::vec3 SkyColor)

@@ -92,13 +92,14 @@ float Capsule::Distance(std::vector<glm::vec3> Segment)
 				T = 0.f;
 				S = glm::clamp(-C /A ,0.f,1.f);
 			}
-			else if(T >1.f)
+			else if(T > 1.f)
 			{
 				T = 1.f;
 				S = glm::clamp((B - C) /A, 0.f, 1.f);
 			}
 		}
 	}
+
 	C1 = this->BPos + D1 * S;
 	C2 = Segment[1] + D2 * T;
 
