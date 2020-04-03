@@ -10,6 +10,9 @@ namespace CoatlPhysicsEngine{
 		Capsule(glm::vec3 Pos,float InitRadius,float InitLength);
 		~Capsule();
 		float GetRadius();
-		glm::vec3 ClosestPoint(glm::vec3 Point);
+		glm::vec3 ClosestPoint_P(glm::vec3 Point);
+		float Distance(glm::vec3 Point);
+		float Distance(std::vector<glm::vec3> Segment);
+		std::vector<glm::vec3> GetSegment();
 	};
 }

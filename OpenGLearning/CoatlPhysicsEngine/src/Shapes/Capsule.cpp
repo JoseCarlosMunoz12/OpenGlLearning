@@ -17,7 +17,7 @@ float Capsule::GetRadius()
 	return this->Radius;
 }
 
-glm::vec3 Capsule::ClosestPoint(glm::vec3 Point)
+glm::vec3 Capsule::ClosestPoint_P(glm::vec3 Point)
 {
 	glm::vec3 AB = this->BPos - this->APos;
 	float s = glm::dot(AB, AB);
@@ -26,10 +26,23 @@ glm::vec3 Capsule::ClosestPoint(glm::vec3 Point)
 		d = 0.f;
 	if (d > 1.f)
 		d = 1.f;
+	return this->APos + d * AB;	
+}
 
-	glm::vec3 sed = this->APos + d * AB;
+float Capsule::Distance(glm::vec3 Point)
+{
+	glm::vec3 P1 = this->ClosestPoint_P(Point);
+	return glm::distance(P1, Point);
+}
 
-	std::cout << "df";
+float Capsule::Distance(std::vector<glm::vec3> Segment)
+{
+	float EPSILON = 0.00000001;
 
-	return glm::vec3();
+	return 0.0f;
+}
+
+std::vector<glm::vec3> CoatlPhysicsEngine::Capsule::GetSegment()
+{
+	return {this->APos,this->BPos};
 }

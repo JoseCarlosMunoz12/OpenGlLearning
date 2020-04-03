@@ -1536,6 +1536,13 @@ void Game::ImGuiOptions()
 				ImGui::Text("No Static Collisions");
 			}
 		}
+		if (ImGui::Button("Test Capsule"))
+		{
+			CPE::Capsule Set(glm::vec3(0.f), 1, 2);
+			float Val = Set.Distance(glm::vec3(0.f,2.f,1.f));
+			float Radius = Set.GetRadius();
+
+		}
 		ImGui::End();
 	}
 }
