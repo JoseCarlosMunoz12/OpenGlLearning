@@ -20,12 +20,12 @@ float Capsule::GetRadius()
 glm::vec3 Capsule::ClosestPoint_P(glm::vec3 Point)
 {
 	glm::vec3 AB = this->BPos - this->APos;
+
 	float s = glm::dot(AB, AB);
 	float d = glm::dot((Point - this->APos), AB) / s;
-	if (d < 0.f)
-		d = 0.f;
-	if (d > 1.f)
-		d = 1.f;
+
+	d = glm::clamp(d, 0.f, 1.f);
+
 	return this->APos + d * AB;	
 }
 

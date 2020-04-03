@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CollisionManager\CapsuleColSphere.h" />
     <ClInclude Include="src\CollisionManager\CapsuleColCapsule.h" />
     <ClInclude Include="src\Shapes\Capsule.h" />
     <ClInclude Include="src\CollisionManager\SphereColAABB.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\Collisions\StaticCollisions.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CollisionManager\CapsuleColSphere.cpp" />
     <ClCompile Include="src\CollisionManager\CapsuleColCapsule.cpp" />
     <ClCompile Include="src\Shapes\Capsule.cpp" />
     <ClCompile Include="src\CollisionManager\SphereColAABB.cpp" />
