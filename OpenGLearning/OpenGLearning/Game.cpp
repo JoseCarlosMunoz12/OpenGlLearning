@@ -1493,6 +1493,11 @@ void Game::ImGuiOptions()
 					std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
 					TempStatic->AddNewBody(glm::vec3(0.f), B_Temp);
 				}
+				if (ImGui::Button("Add Capsule"))
+				{
+					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(1.f),1.f,1.f);
+					TempStatic->AddNewBody(glm::vec3(0.f), C_Temp);
+				}
 				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
 				{
@@ -1535,13 +1540,6 @@ void Game::ImGuiOptions()
 			{
 				ImGui::Text("No Static Collisions");
 			}
-		}
-		if (ImGui::Button("Test Capsule"))
-		{
-			CPE::Capsule Set(glm::vec3(0.f), 1, 2);
-			float Val = Set.Distance(glm::vec3(0.f,2.f,1.f));
-			float Radius = Set.GetRadius();
-
 		}
 		ImGui::End();
 	}
