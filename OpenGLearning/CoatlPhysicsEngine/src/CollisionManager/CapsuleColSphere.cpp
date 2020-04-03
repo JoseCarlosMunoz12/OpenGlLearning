@@ -1,7 +1,7 @@
 #include "CapsuleColSphere.h"
 using namespace CoatlPhysicsEngine;
 
-bool CoatlPhysicsEngine::CapsuleColSphere::Collision(Capsule Cap0, Sphere Sph0)
+bool CapsuleColSphere::Collision(Capsule Cap0, Sphere Sph0)
 {
 	float Sph_R = Sph0.GetRadius();
 	float Cp_R = Cap0.GetRadius();
@@ -12,6 +12,6 @@ bool CoatlPhysicsEngine::CapsuleColSphere::Collision(Capsule Cap0, Sphere Sph0)
 	return R_Sqr > DisSqr;
 }
 
-CoatlPhysicsEngine::CapsuleColSphere::CapsuleColSphere()
+CapsuleColSphere::CapsuleColSphere()
 {
 }

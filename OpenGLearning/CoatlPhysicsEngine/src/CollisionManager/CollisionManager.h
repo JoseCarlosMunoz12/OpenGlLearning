@@ -1,11 +1,15 @@
 #pragma once
 #include "SphereColSphere.h"
 #include "AABBColAABB.h"
+#include "CapsuleColCapsule.h"
+
 #include "SphereColAABB.h"
+#include "CapsuleColSphere.h"
 
 namespace CoatlPhysicsEngine {
 	class CollisionManager
-		: public SphereColSphere, AABBColAABB, SphereColAABB
+		: public SphereColSphere,AABBColAABB,CapsuleColCapsule,
+		 SphereColAABB, CapsuleColSphere
 	{
 	private:
 	public:		
