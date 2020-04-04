@@ -3,7 +3,6 @@ using namespace CoatlPhysicsEngine;
 
 bool StaticCollisions::UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1)
 {
-
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
 		return this->ColMan->CheckCollide(Bod0, *Sphere0);
@@ -11,6 +10,10 @@ bool StaticCollisions::UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1)
 	else if (std::shared_ptr<AABB_Obj> AABB = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
 	{
 		return this->ColMan->CheckCollide(Bod0, *AABB);
+	}
+	else if (std::shared_ptr<Capsule> Cap = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
+	{
+		return this->ColMan->CheckCollide(Bod0, *Cap);
 	}
 	return false;	
 }
@@ -24,6 +27,28 @@ bool StaticCollisions::UpdateBodies(AABB_Obj Obj0, std::shared_ptr<Bodies> Bod1)
 	else if (std::shared_ptr<AABB_Obj> AABB = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
 	{
 		return this->ColMan->CheckCollide(Obj0, *AABB);
+	}
+	/*else if (std::shared_ptr<Capsule> Cap = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
+	{
+		return this->ColMan->CheckCollide(Obj0, Cap);
+	}*/
+	return false;
+}
+
+bool StaticCollisions::UpdateBodies(Capsule Cap0, std::shared_ptr<Bodies> Bod1)
+{
+
+	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
+	{
+		return this->ColMan->CheckCollide(Cap0, *Sphere0);
+	}
+	//else if (std::shared_ptr<AABB_Obj> AABB = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
+	//{
+	//	return this->ColMan->CheckCollide(Cap0, *AABB);
+	//}
+	else if (std::shared_ptr<Capsule> Cap = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
+	{
+		return this->ColMan->CheckCollide(Cap0, *Cap);
 	}
 	return false;
 }
@@ -53,6 +78,10 @@ void StaticCollisions::UpdateCollisionCheck()
 			else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(AllStatics[ii]->GetShapes()))
 			{
 				Check = this->UpdateBodies(*Cube0, AllStatics[jj]);
+			}
+			else if ( std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(AllStatics[ii]->GetShapes()))
+			{
+				Check = this->UpdateBodies(*Cap0,AllStatics[jj]);
 			}
 			AllStatics[ii]->UpDateBodiesInf(Check, AllStatics[jj]);
 			AllStatics[jj]->UpDateBodiesInf(Check, AllStatics[ii]);

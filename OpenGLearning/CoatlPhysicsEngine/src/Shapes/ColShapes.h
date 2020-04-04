@@ -12,12 +12,12 @@ namespace CoatlPhysicsEngine
 {
 	class ColShapes
 	{
-	private:
+	protected:
 		glm::vec3 Pos;
 	public:
 		ColShapes(glm::vec3 SetPos);
 		virtual ~ColShapes();
 		glm::vec3 GetPos();
-		void SetPos(glm::vec3 NewPOs);
+		virtual void SetPos(glm::vec3 NewPOs);
 	};
 }
