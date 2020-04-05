@@ -48,6 +48,20 @@ glm::vec3 AABB_Obj::GetLengths()
         this->ZLength / 2);
 }
 
+std::vector<glm::vec3> AABB_Obj::GetPoints()
+{
+    std::vector<glm::vec3> Lines;
+
+
+
+	return Lines;
+}
+
+std::vector<int> AABB_Obj::GetSegmentsID()
+{
+    return {};
+}
+
 void AABB_Obj::SetLengths(glm::vec3 NewLengths)
 {
     this->XLength = NewLengths.x;
@@ -55,7 +69,7 @@ void AABB_Obj::SetLengths(glm::vec3 NewLengths)
     this->ZLength = NewLengths.z;
 }
 
-glm::vec3 CoatlPhysicsEngine::AABB_Obj::GetClosesPoint(glm::vec3 Point)
+glm::vec3 AABB_Obj::GetClosesPoint(glm::vec3 Point)
 {
     glm::vec3 P = Point;
     glm::vec3 L = GetLengths();

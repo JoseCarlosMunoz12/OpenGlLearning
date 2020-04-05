@@ -45,6 +45,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return CheckCollide(Sph0, obj);
  }
+
  template<>
  bool CollisionManager::CheckCollide(Capsule Cap, Sphere Sph)
  {
@@ -54,4 +55,15 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  bool CollisionManager::CheckCollide(Sphere Sph,Capsule Cap)
  {
      return CheckCollide(Cap, Sph);
+ }
+
+ template<>
+ bool CollisionManager::CheckCollide(Capsule Cap, AABB_Obj Obj)
+ {
+     return false;
+ }
+ template<>
+ bool CollisionManager::CheckCollide(AABB_Obj Obj, Capsule Cap)
+ {
+     return CheckCollide(Cap, Obj);
  }
