@@ -222,12 +222,12 @@ void Game::initModels()
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[5], { Monk }));
-	this->models.push_back(new Model("Sphere0",
+	this->models.push_back(new Model("Cube",
 		glm::vec3(0.f, 0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
-		meshes[1], { Monk }));
+		meshes[4], { Monk }));
 
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Tes1t",
@@ -1489,7 +1489,7 @@ void Game::ImGuiOptions()
 				{
 					this->ColWorld->DeleteStatics();
 				}
-				if(ImGui::Button("Add Sphere"))
+				if (ImGui::Button("Add Sphere"))
 				{
 					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f),1.f);
 					TempStatic->AddNewBody(glm::vec3(1.f),S_Temp);
@@ -1501,7 +1501,7 @@ void Game::ImGuiOptions()
 				}
 				if (ImGui::Button("Add Capsule"))
 				{
-					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(1.f),1.f,1.f);
+					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f),1.f,1.f);
 					TempStatic->AddNewBody(glm::vec3(0.f), C_Temp);
 				}
 				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();

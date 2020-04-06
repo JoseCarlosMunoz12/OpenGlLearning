@@ -8,6 +8,7 @@ Capsule::Capsule(glm::vec3 Pos, float InitRadius, float InitLength)
 	this->BPos = glm::vec3(0.f,0.f,InitLength/2);
 	this->APos = -glm::vec3(0.f, 0.f, InitLength / 2);
 }
+
 Capsule::~Capsule()
 {
 }
@@ -106,7 +107,7 @@ float Capsule::Distance(std::vector<glm::vec3> Segment)
 	return glm::dot(C1 - C2, C1 - C2);
 }
 
-std::vector<glm::vec3> CoatlPhysicsEngine::Capsule::GetSegment()
+std::vector<glm::vec3> Capsule::GetSegment()
 {
 	return {this->Pos + this->APos,
 		this->Pos + this->BPos};
