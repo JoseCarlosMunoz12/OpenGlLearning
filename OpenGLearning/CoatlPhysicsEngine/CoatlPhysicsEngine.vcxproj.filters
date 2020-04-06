@@ -63,6 +63,9 @@
     <ClInclude Include="src\CollisionManager\CapsuleColSphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CollisionManager\CapsuleColAABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CollisionManager\CapsuleColSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionManager\CapsuleColAABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

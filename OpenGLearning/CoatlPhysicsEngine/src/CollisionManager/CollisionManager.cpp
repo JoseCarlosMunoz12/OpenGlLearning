@@ -3,7 +3,7 @@ using namespace CoatlPhysicsEngine;
 
 CollisionManager::CollisionManager()
 	:SphereColSphere(),AABBColAABB(),CapsuleColCapsule(),
-        SphereColAABB(), CapsuleColSphere()
+        SphereColAABB(), CapsuleColSphere(), CapsuleColAABB()
 {}
 CollisionManager::~CollisionManager()
 {}
@@ -60,7 +60,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  template<>
  bool CollisionManager::CheckCollide(Capsule Cap, AABB_Obj Obj)
  {
-     return false;
+     return CapColAABB(Cap,Obj);
  }
  template<>
  bool CollisionManager::CheckCollide(AABB_Obj Obj, Capsule Cap)

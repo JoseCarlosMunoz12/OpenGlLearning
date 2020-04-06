@@ -49,17 +49,26 @@ glm::vec3 AABB_Obj::GetLengths()
 }
 
 std::vector<glm::vec3> AABB_Obj::GetPoints()
-{
-    std::vector<glm::vec3> Lines;
-
-
-
+{    
+    glm::vec3 L = GetLengths();
+    glm::vec3 Positions[] =
+    {
+        //Top Plane 
+        glm::vec3( L.x,-L.y, L.z), glm::vec3(L.x, L.y, L.z),
+        glm::vec3(-L.x, L.y, L.z), glm::vec3(-L.x,-L.y, L.z),
+        //Bottom Plane
+        glm::vec3( L.x,-L.y,-L.z), glm::vec3( L.x, L.y,-L.z),
+        glm::vec3(-L.x, L.y,-L.z), glm::vec3(-L.x,-L.y,-L.z)
+    };
+    std::vector<glm::vec3> Lines(std::begin(Positions),std::end(Positions));
 	return Lines;
 }
 
 std::vector<int> AABB_Obj::GetSegmentsID()
 {
-    return {};
+    return {0,1,1,2,2,3,3,0,
+        4,5,5,6,6,7,7,4,
+        0,4,1,5,2,6,3,7};
 }
 
 void AABB_Obj::SetLengths(glm::vec3 NewLengths)

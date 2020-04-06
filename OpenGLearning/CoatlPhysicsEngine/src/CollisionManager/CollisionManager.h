@@ -5,11 +5,12 @@
 
 #include "SphereColAABB.h"
 #include "CapsuleColSphere.h"
+#include "CapsuleColAABB.h"
 
 namespace CoatlPhysicsEngine {
 	class CollisionManager
 		: public SphereColSphere,AABBColAABB,CapsuleColCapsule,
-		 SphereColAABB, CapsuleColSphere
+		 SphereColAABB, CapsuleColSphere, CapsuleColAABB
 	{
 	private:
 	public:		

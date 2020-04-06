@@ -817,6 +817,7 @@ public:
 		this->set(FinalVertex(scene),FinalGluint(scene));
 	}
 };
+
 class Capsule :public Primitive
 {
 public:
