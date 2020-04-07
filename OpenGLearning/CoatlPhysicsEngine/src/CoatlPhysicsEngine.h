@@ -6,6 +6,7 @@
 #include "Shapes/Sphere.h"
 #include "Shapes/AABB_Obj.h"
 #include "Shapes/Capsule.h"
+#include "Shapes/MeshMap.h"
 
 namespace CPE = CoatlPhysicsEngine;
 
