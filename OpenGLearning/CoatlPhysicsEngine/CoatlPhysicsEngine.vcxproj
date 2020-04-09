@@ -160,6 +160,7 @@
     <ClInclude Include="src\Shapes\ColShapes.h" />
     <ClInclude Include="src\CoatlPhysicsEngine.h" />
     <ClInclude Include="src\Collisions\StaticCollisions.h" />
+    <ClInclude Include="src\Shapes\Triangles.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Shapes\MeshMap.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="src\Collisions\CollisionWorld.cpp" />
     <ClCompile Include="src\Shapes\ColShapes.cpp" />
     <ClCompile Include="src\Collisions\StaticCollisions.cpp" />
+    <ClCompile Include="src\Shapes\Triangles.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1547,6 +1547,14 @@ void Game::ImGuiOptions()
 				ImGui::Text("No Static Collisions");
 			}
 		}
+		if (ImGui::Button("Test Triangle"))
+		{
+			std::vector<glm::vec3> Set = { glm::vec3(0.f,1.f,0.f),
+				glm::vec3(0.f,0.f,1.f) ,
+				glm::vec3(1.f,0.f,0.f) };
+			CPE::Triangles Se(glm::vec3(0.f), Set);
+			std::vector<glm::vec3> Segs = Se.GetSegments();
+		}
 		ImGui::End();
 	}
 }
