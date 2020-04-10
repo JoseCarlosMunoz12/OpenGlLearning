@@ -43,7 +43,28 @@ glm::vec3 CoatlPhysicsEngine::Triangles::GetClosestPoint(glm::vec3 Point)
 		return Pos + Points[0] + V * AB;
 	}
 
+	glm::vec3 CP = Point - (Points[2] + Pos);
+	float D5 = glm::dot(AB, CP);
+	float D6 = glm::dot(AC, CP);
+	if (D6 >= 0.f && D5 <= D6)
+		return (Points[2] + Pos);
 
+	float VB = D5 * D2 - D1 * D6;
+	if (VB <= 0.f && D2 >= 0.f && D6 <= 0.f)
+	{
+		float W = D2 / (D2 - D6);
+		return Pos + Points[0] + W * AC;
+	}
 
-	return glm::vec3();
+	float VA = D3 * D6 - D5 * D4;
+	if (VA <= 0.f && (D4 - D3) <= 0.f && (D5 - D6) >=0.f)
+	{
+		float W = (D4 - D3) / ((D4 - D3) +(D5 -D6));
+		return Pos + Points[1] + W * ( Points[2] - Points[1]);
+	}
+	float Denom = 1.0f / (VA + VB + VC);
+	float V = VB * Denom;
+	float W = VC * Denom;
+
+	return (Pos + Points[0] + V * AB + W * AC);
 }
