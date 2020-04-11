@@ -57,7 +57,7 @@ glm::vec3 CoatlPhysicsEngine::Triangles::GetClosestPoint(glm::vec3 Point)
 	}
 
 	float VA = D3 * D6 - D5 * D4;
-	if (VA <= 0.f && (D4 - D3) <= 0.f && (D5 - D6) >=0.f)
+	if (VA <= 0.f && (D4 - D3) >= 0.f && (D5 - D6) >= 0.f)
 	{
 		float W = (D4 - D3) / ((D4 - D3) +(D5 -D6));
 		return Pos + Points[1] + W * ( Points[2] - Points[1]);
