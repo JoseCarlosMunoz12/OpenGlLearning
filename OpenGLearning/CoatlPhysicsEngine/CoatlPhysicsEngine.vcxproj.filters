@@ -66,9 +66,6 @@
     <ClInclude Include="src\CollisionManager\CapsuleColAABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shapes\MeshMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Shapes\Triangles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -123,9 +120,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CollisionManager\CapsuleColAABB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Shapes\MeshMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Shapes\Triangles.cpp">

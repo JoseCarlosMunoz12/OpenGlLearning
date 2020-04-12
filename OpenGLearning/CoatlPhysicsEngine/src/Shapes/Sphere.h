@@ -1,6 +1,5 @@
 #pragma once
 #include "ColShapes.h"
-#include "../Maths/Maths.h"
 namespace CoatlPhysicsEngine {
 	class Sphere :public ColShapes
 	{

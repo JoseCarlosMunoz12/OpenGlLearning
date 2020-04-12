@@ -12,7 +12,6 @@ Sphere::~Sphere()
 
 float Sphere::GetRadius()
 {
-	glm::vec3 se = MATH::Set();
 	return this->Radius;
 }
 

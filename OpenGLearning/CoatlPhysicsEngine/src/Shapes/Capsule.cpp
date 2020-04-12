@@ -20,20 +20,12 @@ float Capsule::GetRadius()
 
 glm::vec3 Capsule::ClosestPoint_P(glm::vec3 Point)
 {
-	glm::vec3 AB = this->BPos - this->APos;
-
-	float s = glm::dot(AB, AB);
-	float d = glm::dot((Point -(this->Pos + this->APos)), AB) / s;
-
-	d = glm::clamp(d, 0.f, 1.f);
-
-	return this->Pos + this->APos + d * AB;	
+	return MATH::ClosestPoint_Pnt({APos,BPos}, Pos, Point);
 }
 
 float Capsule::Distance(glm::vec3 Point)
 {
-	glm::vec3 P1 = this->ClosestPoint_P(Point);
-	return glm::distance(P1, Point);
+	return MATH::Distance_Cap_Pnt({ APos,BPos }, Pos, Point);
 }
 
 float Capsule::Distance(std::vector<glm::vec3> Segment)

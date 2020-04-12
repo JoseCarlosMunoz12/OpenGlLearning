@@ -53,3 +53,23 @@ glm::vec3 MATH::ClosestPoint_Seg(std::vector<glm::vec3> triangle, glm::vec3 Pos,
 
 	return (Pos + triangle[0] + V * AB + W * AC);
 }
+
+glm::vec3 MATH::ClosestPoint_Pnt(std::vector<glm::vec3> Seg, glm::vec3 Pos, glm::vec3 Point)
+{
+	glm::vec3 AB = Seg[1] - Seg[0];
+
+	float s = glm::dot(AB, AB);
+	float d = glm::dot((Point - (Pos + Seg[0])), AB) / s;
+
+	d = glm::clamp(d, 0.f, 1.f);
+
+	return Pos + Seg[0] + d * AB;
+}
+
+float MATH::Distance_Cap_Pnt(std::vector<glm::vec3> Seg, glm::vec3 Pos, glm::vec3 Point)
+{
+	glm::vec3 P1 = MATH::ClosestPoint_Pnt(Seg, Pos, Point);
+
+	return glm::distance(P1,Point);
+}
+
