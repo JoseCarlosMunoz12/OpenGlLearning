@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Maths\Maths.h" />
     <ClInclude Include="src\Shapes\MeshMap.h" />
     <ClInclude Include="src\CollisionManager\CapsuleColAABB.h" />
     <ClInclude Include="src\CollisionManager\CapsuleColSphere.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\Shapes\Triangles.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Maths\Maths.cpp" />
     <ClCompile Include="src\Shapes\MeshMap.cpp" />
     <ClCompile Include="src\CollisionManager\CapsuleColAABB.cpp" />
     <ClCompile Include="src\CollisionManager\CapsuleColSphere.cpp" />

@@ -8,6 +8,9 @@
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
 #include <vector>
+
+#include "../Maths/Maths.h"
+
 namespace CoatlPhysicsEngine
 {
 	class ColShapes

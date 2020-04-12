@@ -22,7 +22,7 @@ std::vector<glm::vec3> Triangles::GetSegments()
 
 glm::vec3 CoatlPhysicsEngine::Triangles::GetClosestPoint(glm::vec3 Point)
 {
-	glm::vec3 AB = Points[1] - Points[0];
+	/*glm::vec3 AB = Points[1] - Points[0];
 	glm::vec3 AC = Points[2] - Points[0];
 	glm::vec3 AP = Point - (Points[0] + Pos);
 	float D1 = glm::dot(AB, AP);
@@ -66,5 +66,6 @@ glm::vec3 CoatlPhysicsEngine::Triangles::GetClosestPoint(glm::vec3 Point)
 	float V = VB * Denom;
 	float W = VC * Denom;
 
-	return (Pos + Points[0] + V * AB + W * AC);
+	return (Pos + Points[0] + V * AB + W * AC);*/
+	return MATH::ClosestPoint_Seg(GetSegments(), Pos, Point);
 }

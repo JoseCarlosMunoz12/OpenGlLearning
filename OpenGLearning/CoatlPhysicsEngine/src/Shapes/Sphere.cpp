@@ -10,8 +10,9 @@ Sphere::~Sphere()
 {
 }
 
-float CoatlPhysicsEngine::Sphere::GetRadius()
+float Sphere::GetRadius()
 {
+	glm::vec3 se = MATH::Set();
 	return this->Radius;
 }
 
