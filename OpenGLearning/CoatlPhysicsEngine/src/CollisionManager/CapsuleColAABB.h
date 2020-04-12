@@ -6,8 +6,6 @@
 namespace CoatlPhysicsEngine {
 	class CapsuleColAABB
 	{
-	private:
-		float ClosestPoint(std::vector<glm::vec3> Cap, std::vector<glm::vec3> Segment);
 	protected:
 		bool CapColAABB(Capsule Cap,AABB_Obj Obj);
 	public:

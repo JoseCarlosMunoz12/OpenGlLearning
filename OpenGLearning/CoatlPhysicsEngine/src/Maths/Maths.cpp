@@ -66,10 +66,151 @@ glm::vec3 MATH::ClosestPoint_Pnt(std::vector<glm::vec3> Seg, glm::vec3 Pos, glm:
 	return Pos + Seg[0] + d * AB;
 }
 
-float MATH::Distance_Cap_Pnt(std::vector<glm::vec3> Seg, glm::vec3 Pos, glm::vec3 Point)
+float MATH::Distance_Pnt(std::vector<glm::vec3> Seg, glm::vec3 Pos, glm::vec3 Point)
 {
 	glm::vec3 P1 = MATH::ClosestPoint_Pnt(Seg, Pos, Point);
 
 	return glm::distance(P1,Point);
 }
 
+float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, glm::vec3 Pos, std::vector<glm::vec3> Seg1)
+{
+	float EPSILON = 0.00000001;
+
+	glm::vec3 D1 = Seg0[1] - Seg0[0];
+	glm::vec3 D2 = Seg1[0] - Seg1[1];
+	glm::vec3 R = Pos + Seg0[0] - Seg1[1];
+
+	float A = glm::dot(D1, D1);
+	float E = glm::dot(D2, D2);
+	float F = glm::dot(D2, R);
+
+	float S, T;
+	glm::vec3 C1;
+	glm::vec3 C2;
+	if (A <= EPSILON && E <= EPSILON)
+	{
+		S = 0.f;
+		T = 0.f;
+		C1 = Seg0[1]  + Pos;
+		C2 = Seg1[1];
+		return glm::dot(C1 - C2, C1 - C2);
+	}
+
+	if (A <= EPSILON)
+	{
+		S = 0.f;
+		T = F / E;
+		T = glm::clamp(T, 0.f, 1.f);
+	}
+	else
+	{
+		float C = glm::dot(D1, R);
+		if (E <= EPSILON)
+		{
+			T = 0.f;
+			S = glm::clamp(-C / A, 0.f, 1.f);
+		}
+		else
+		{
+			float B = glm::dot(D1, D2);
+			float Denom = A * E - B * B;
+			if (Denom != 0.f)
+			{
+				S = glm::clamp((B * F - C * E), 0.f, 1.f);
+			}
+			else
+			{
+				S = 0.f;
+			}
+			T = (B * S + F) / E;
+
+			if (T < 0.f)
+			{
+				T = 0.f;
+				S = glm::clamp(-C / A, 0.f, 1.f);
+			}
+			else if (T > 1.f)
+			{
+				T = 1.f;
+				S = glm::clamp((B - C) / A, 0.f, 1.f);
+			}
+		}
+	}
+
+	C1 = Pos + Seg0[1] + D1 * S;
+	C2 = Seg1[1] + D2 * T;
+
+	return glm::dot(C1 - C2, C1 - C2);
+}
+
+float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1)
+{
+	float EPSILON = 0.00000001;
+
+	glm::vec3 D1 = Seg0[0] - Seg0[1];
+	glm::vec3 D2 = Seg1[0] - Seg1[1];
+	glm::vec3 R = Seg0[1] - Seg1[1];
+
+	float A = glm::dot(D1, D1);
+	float E = glm::dot(D2, D2);
+	float F = glm::dot(D2, R);
+
+	float S, T;
+	glm::vec3 C1;
+	glm::vec3 C2;
+	if (A <= EPSILON && E <= EPSILON)
+	{
+		S = 0.f;
+		T = 0.f;
+		C1 = Seg0[1];
+		C2 = Seg1[1];
+		return glm::dot(C1 - C2, C1 - C2);
+	}
+
+	if (A <= EPSILON)
+	{
+		S = 0.f;
+		T = F / E;
+		T = glm::clamp(T, 0.f, 1.f);
+	}
+	else
+	{
+		float C = glm::dot(D1, R);
+		if (E <= EPSILON)
+		{
+			T = 0.f;
+			S = glm::clamp(-C / A, 0.f, 1.f);
+		}
+		else
+		{
+			float B = glm::dot(D1, D2);
+			float Denom = A * E - B * B;
+			if (Denom != 0.f)
+			{
+				S = glm::clamp((B * F - C * E), 0.f, 1.f);
+			}
+			else
+			{
+				S = 0.f;
+			}
+			T = (B * S + F) / E;
+
+			if (T < 0.f)
+			{
+				T = 0.f;
+				S = glm::clamp(-C / A, 0.f, 1.f);
+			}
+			else if (T > 1.f)
+			{
+				T = 1.f;
+				S = glm::clamp((B - C) / A, 0.f, 1.f);
+			}
+		}
+	}
+
+	C1 = Seg0[1] + D1 * S;
+	C2 = Seg1[1] + D2 * T;
+
+	return glm::dot(C1 - C2, C1 - C2);
+}
