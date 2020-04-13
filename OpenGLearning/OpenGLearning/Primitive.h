@@ -279,10 +279,10 @@ public:
 	{
 		std::vector<Vertex> AllVertex;
 		glm::vec3 Norm = glm::cross((Points[0]-Points[1]), (Points[0] - Points[2]));
-		glm::vec2 TexCo[3] = {glm::vec2(0.0f, 1.0f),
+		glm::vec2 TexCo[3] = {glm::vec2(1.0f, 0.0f),
 							  glm::vec2(0.0f, 0.0f),
-							  glm::vec2(1.0f, 0.0f)};
-		int Count;
+							  glm::vec2(0.0f, 1.0f)};
+		int Count = 0;
 		for (auto& jj : Points)
 		{
 			Vertex Temp;
@@ -293,7 +293,7 @@ public:
 			Count++;
 			AllVertex.push_back(Temp);
 		}
-		std::vector<GLuint> Index = {0,1,2};
+		std::vector<GLuint> Index = {2,1,0};
 		this->set(AllVertex, Index);
 	}
 };
