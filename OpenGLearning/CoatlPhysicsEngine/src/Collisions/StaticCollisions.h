@@ -26,6 +26,7 @@ namespace CoatlPhysicsEngine
 		bool UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1);
 		bool UpdateBodies(AABB_Obj Obj0, std::shared_ptr<Bodies> Bod1);
 		bool UpdateBodies(Capsule Cap0, std::shared_ptr<Bodies> Bod1);
+		bool UpdateBodies(Triangles Tr, std::shared_ptr<Bodies> Bod1);
 	public:
 		StaticCollisions(std::string Name,std::shared_ptr<CollisionManager>InitCols);
 		~StaticCollisions();
