@@ -263,8 +263,7 @@ public:
 			//Position                    //Color                     //TexCoords			 //Normals
 			glm::vec3(-0.5f, 0.5f, 0.f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3(0.0f,0.0f, 1.0f),
 			glm::vec3(-0.5f,-0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f),
-			glm::vec3(0.5f,-0.5f, 0.f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f),
-			glm::vec3(0.5f, 0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(1.0f,1.0f),  glm::vec3(0.0f,0.0f, 1.0f)
+			glm::vec3(0.5f,-0.5f, 0.f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f)
 		};
 		unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
@@ -275,6 +274,12 @@ public:
 		unsigned nrOfIndices = sizeof(indices) / sizeof(GLuint);
 
 		this->set(vertices, nrOfVertices, indices, nrOfIndices);
+	}
+	Triangle(std::vector<glm::vec3> Points)
+	{
+		std::vector<Vertex> AllVertex;
+		glm::vec3 Norm = glm::cross((Points[0]-Points[1]), (Points[0] - Points[2]));
+
 	}
 };
 
