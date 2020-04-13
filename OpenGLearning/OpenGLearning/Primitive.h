@@ -263,7 +263,7 @@ public:
 			//Position                    //Color                     //TexCoords			 //Normals
 			glm::vec3(-0.5f, 0.5f, 0.f), glm::vec3(1.0f,0.0f,0.0f),  glm::vec2(0.0f,1.0f),  glm::vec3(0.0f,0.0f, 1.0f),
 			glm::vec3(-0.5f,-0.5f, 0.f), glm::vec3(0.0f,1.0f,0.0f),  glm::vec2(0.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f),
-			glm::vec3(0.5f,-0.5f, 0.f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f)
+			glm::vec3( 0.5f,-0.5f, 0.f), glm::vec3(0.0f,0.0f,1.0f),  glm::vec2(1.0f,0.0f),  glm::vec3(0.0f,0.0f, 1.0f)
 		};
 		unsigned nrOfVertices = sizeof(vertices) / sizeof(Vertex);
 
@@ -279,7 +279,22 @@ public:
 	{
 		std::vector<Vertex> AllVertex;
 		glm::vec3 Norm = glm::cross((Points[0]-Points[1]), (Points[0] - Points[2]));
-
+		glm::vec2 TexCo[3] = {glm::vec2(0.0f, 1.0f),
+							  glm::vec2(0.0f, 0.0f),
+							  glm::vec2(1.0f, 0.0f)};
+		int Count;
+		for (auto& jj : Points)
+		{
+			Vertex Temp;
+			Temp.position = jj;
+			Temp.color = glm::vec3(0.f, 1.f, 0.f);
+			Temp.normal = Norm;
+			Temp.texcoord = TexCo[Count];
+			Count++;
+			AllVertex.push_back(Temp);
+		}
+		std::vector<GLuint> Index = {0,1,2};
+		this->set(AllVertex, Index);
 	}
 };
 

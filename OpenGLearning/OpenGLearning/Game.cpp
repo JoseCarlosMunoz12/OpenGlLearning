@@ -153,6 +153,9 @@ void Game::initMaterials()
 
 void Game::initModels()
 {
+	std::vector<glm::vec3> Set = { glm::vec3(1.f,0.f,0.f),
+		glm::vec3(0.f,0.f,0.f) ,
+		glm::vec3(0.f,1.f,0.f) };
 	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
@@ -173,6 +176,9 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Capsule(1.f,1.f,16,16),
 			"Capsule"));
+	meshes.push_back(
+		new Mesh(&Triangle(Set),
+			"Triangle" ));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae", "Snek_Side.dae" }), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("Snek_Up.dae",this->AnimRdrMk.ReadFile("AnimeTest.txt")), "Test2"));
@@ -228,6 +234,12 @@ void Game::initModels()
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[4], { Monk }));
+	this->models.push_back(new Model("Triangle",
+		glm::vec3(0.f, 0.f, this->MipMapsData[0]->ReturnValue(0.f, 0.f)),
+		this->MatTest[1],
+		{ this->textures[10],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] },
+		meshes[6], { Monk }));
 
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Tes1t",
@@ -1503,6 +1515,14 @@ void Game::ImGuiOptions()
 				{
 					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f),1.f,1.f);
 					TempStatic->AddNewBody(glm::vec3(0.f), C_Temp);
+				}
+				if (ImGui::Button("Add Triangle"))
+				{
+					std::vector<glm::vec3> Set = { glm::vec3(1.f,0.f,0.f),
+						glm::vec3(0.f,0.f,0.f) ,
+						glm::vec3(0.f,1.f,0.f) };
+					std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
+					TempStatic->AddNewBody(glm::vec3(0.f), Tr_Temp);
 				}
 				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
