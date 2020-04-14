@@ -212,5 +212,12 @@ float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg
 	C1 = Seg0[1] + D1 * S;
 	C2 = Seg1[1] + D2 * T;
 
-	return glm::dot(C1 - C2, C1 - C2);
+	return glm::distance(C1,C2);
 }
+
+float MATH::Distance_Tr_Pnt(std::vector<glm::vec3> Tr, glm::vec3 Pos, glm::vec3 Pnt)
+{
+	glm::vec3 Dis = MATH::ClosestPoint_Seg(Tr, Pos, Pnt);
+	return glm::distance(Dis,Pnt);
+}
+

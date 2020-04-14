@@ -12,7 +12,6 @@ bool CapsuleColAABB::CapColAABB(Capsule Cap, AABB_Obj Obj)
 		jj = jj + Pos;
 	}
 	float R = Cap.GetRadius();
-	R = R * R;
 	for (int ii = 0; ii < Size; ii++)
 	{
 		int JJ = ii * 2;
