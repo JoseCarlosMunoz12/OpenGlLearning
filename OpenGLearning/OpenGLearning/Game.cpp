@@ -153,8 +153,8 @@ void Game::initMaterials()
 
 void Game::initModels()
 {
-	std::vector<glm::vec3> Set = { glm::vec3(1.f,0.f,0.f),
-		glm::vec3(0.f,0.f,0.f) ,
+	std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
+		glm::vec3(0.f,0.f,2.f) ,
 		glm::vec3(0.f,1.f,0.f) };
 	//Meshes Made to be use
 	meshes.push_back(
@@ -1518,8 +1518,8 @@ void Game::ImGuiOptions()
 				}
 				if (ImGui::Button("Add Triangle"))
 				{
-					std::vector<glm::vec3> Set = { glm::vec3(1.f,0.f,0.f),
-						glm::vec3(0.f,0.f,0.f) ,
+					std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
+						glm::vec3(0.f,0.f,2.f) ,
 						glm::vec3(0.f,1.f,0.f) };
 					std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
 					TempStatic->AddNewBody(glm::vec3(0.f), Tr_Temp);
@@ -1567,15 +1567,7 @@ void Game::ImGuiOptions()
 				ImGui::Text("No Static Collisions");
 			}
 		}		
-		if (ImGui::Button("Test Triangle"))
-		{
-			std::vector<glm::vec3> Set = { glm::vec3(1.f,0.f,0.f),
-				glm::vec3(0.f,0.f,0.f) ,
-				glm::vec3(0.f,1.f,0.f) };
-			CPE::Triangles Se(glm::vec3(0.f), Set);
-			glm::vec3 LocInTriangle = Se.GetClosestPoint(glm::vec3(-1.f,.5f,0.f));
 
-		}
 		ImGui::End();
 	}
 }

@@ -5,12 +5,11 @@ bool CapsuleColCapsule::CapsuleCols(Capsule Cap0, Capsule Cap1)
 {
 	float Cap0R = Cap0.GetRadius();
 	float Cap1R = Cap1.GetRadius();
-	float RDisSqr = Cap0R + Cap1R;
-	RDisSqr = RDisSqr * RDisSqr;
+	float RDis = Cap0R + Cap1R;
 
-	float DisSqr = Cap0.Distance(Cap1.GetSegment());
+	float Dis = Cap0.Distance(Cap1.GetSegment());
 
-	return DisSqr < RDisSqr;
+	return RDis > Dis;
 }
 
 CapsuleColCapsule::CapsuleColCapsule()

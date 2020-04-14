@@ -162,6 +162,7 @@
     <ClInclude Include="src\Collisions\StaticCollisions.h" />
     <ClInclude Include="src\Shapes\Triangles.h" />
     <ClInclude Include="src\CollisionManager\TriangleColSphere.h" />
+    <ClInclude Include="src\CollisionManager\TriangleColCapsule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Maths\Maths.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="src\Collisions\StaticCollisions.cpp" />
     <ClCompile Include="src\Shapes\Triangles.cpp" />
     <ClCompile Include="src\CollisionManager\TriangleColSphere.cpp" />
+    <ClCompile Include="src\CollisionManager\TriangleColCapsule.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

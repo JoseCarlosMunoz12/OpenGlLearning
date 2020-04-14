@@ -24,3 +24,4 @@ glm::vec3 CoatlPhysicsEngine::Triangles::GetClosestPoint(glm::vec3 Point)
 {	
 	return MATH::ClosestPoint_Seg(GetSegments(), Pos, Point);
 }
+
