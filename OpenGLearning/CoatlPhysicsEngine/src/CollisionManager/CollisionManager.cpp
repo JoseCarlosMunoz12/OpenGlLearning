@@ -3,7 +3,8 @@ using namespace CoatlPhysicsEngine;
 
 CollisionManager::CollisionManager()
 	:SphereColSphere(),AABBColAABB(),CapsuleColCapsule(),
-        SphereColAABB(), CapsuleColSphere(), CapsuleColAABB(),TriangleColSphere()
+        SphereColAABB(), CapsuleColSphere(), CapsuleColAABB(),TriangleColSphere(),
+    TriangleColCapsule()
 {}
 CollisionManager::~CollisionManager()
 {}
@@ -43,7 +44,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  template<>
  bool CollisionManager::CheckCollide(AABB_Obj obj, Sphere Sph0)
  {
-     return CheckCollide(Sph0, obj);
+     return SphereColsAABB(Sph0, obj);
  }
 
  template<>
@@ -54,7 +55,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  template<>
  bool CollisionManager::CheckCollide(Sphere Sph,Capsule Cap)
  {
-     return CheckCollide(Cap, Sph);
+     return Collision(Cap, Sph);
  }
 
  template<>
@@ -65,7 +66,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  template<>
  bool CollisionManager::CheckCollide(AABB_Obj Obj, Capsule Cap)
  {
-     return CheckCollide(Cap, Obj);
+     return CapColAABB(Cap, Obj);
  }
 
  template<>
@@ -76,5 +77,16 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  template<>
  bool CollisionManager::CheckCollide(Sphere Sph, Triangles Tr)
  {
-     return CheckCollide(Tr, Sph);
+     return TrColSphere(Tr, Sph);
+ }
+
+ template<>
+ bool CollisionManager::CheckCollide(Triangles Tr, Capsule Cap)
+ {
+     return TrColCap(Tr, Cap);
+ }
+ template<>
+ bool CollisionManager::CheckCollide(Capsule Cap, Triangles Tr)
+ {
+     return TrColCap(Tr, Cap);
  }
