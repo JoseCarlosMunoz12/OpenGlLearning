@@ -5,6 +5,12 @@ glm::vec3 MATH::Set()
 	return glm::vec3(1.f);
 }
 
+glm::vec3 MATH::ClosetPoint_Pln(Plane Pl, glm::vec3 Point)
+{
+	float T = glm::dot(Pl.Normal, Point);
+	return  Point + T * Pl.Normal;
+}
+
 glm::vec3 MATH::ClosestPoint_Seg(std::vector<glm::vec3> triangle, glm::vec3 Pos, glm::vec3 Point)
 {
 	glm::vec3 AB = triangle[1] - triangle[0];
