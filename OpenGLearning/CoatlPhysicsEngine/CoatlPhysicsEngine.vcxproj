@@ -150,6 +150,7 @@
     <ClInclude Include="src\CollisionManager\SphereColAABB.h" />
     <ClInclude Include="src\CollisionManager\AABBColAABB.h" />
     <ClInclude Include="src\Shapes\AABB_Obj.h" />
+    <ClInclude Include="src\Shapes\SimpleShapes.h" />
     <ClInclude Include="src\Shapes\Sphere.h" />
     <ClInclude Include="src\CollisionManager\SphereColSphere.h" />
     <ClInclude Include="src\CollisionManager\CollisionManager.h" />

@@ -81,6 +81,9 @@
     <ClInclude Include="src\CollisionManager\TriangleColAABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Shapes\SimpleShapes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
