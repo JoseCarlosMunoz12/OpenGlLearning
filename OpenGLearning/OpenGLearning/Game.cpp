@@ -159,25 +159,25 @@ void Game::initModels()
 	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain(500, 500, this->MipMapsData[HEIGHTMAP_1]),
+			&CustomTerrain_M(500, 500, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain"));
 	meshes.push_back(
-		new Mesh(&Sphere(1, 32, 32),
+		new Mesh(&Sphere_M(1, 32, 32),
 			"Sphere"));
 	meshes.push_back(
-		new Mesh(&Cylinder(1.f, 4.f, 40.f),
+		new Mesh(&Cylinder_M(1.f, 4.f, 40.f),
 			"Cylinder"));
 	meshes.push_back(
-		new Mesh(&Cone(10.f, 10.f, 40.f, 10),
+		new Mesh(&Cone_M(10.f, 10.f, 40.f, 10),
 			"Cone"));
 	meshes.push_back(
-		new Mesh(&Cube(),
+		new Mesh(&Cube_M(),
 			"Cube"));
 	meshes.push_back(
-		new Mesh(&Capsule(1.f,1.f,16,16),
+		new Mesh(&Capsule_M(1.f,1.f,16,16),
 			"Capsule"));
 	meshes.push_back(
-		new Mesh(&Triangle(Set),
+		new Mesh(&Triangle_M(Set),
 			"Triangle" ));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"Tree_Side.dae", "Tree_Jump.dae"}), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae", "Snek_Side.dae" }), "Test1"));

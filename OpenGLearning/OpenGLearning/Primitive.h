@@ -54,10 +54,10 @@ public:
 
 };
 
-class Quad : public Primitive
+class Quad_M : public Primitive
 {
 public:
-	Quad()
+	Quad_M()
 		:Primitive()
 	{
 		Vertex vertices[] =
@@ -81,10 +81,10 @@ public:
 	}
 };
 
-class PlaneTerrain : public Primitive
+class PlaneTerrain_M : public Primitive
 {
 public:
-	PlaneTerrain()
+	PlaneTerrain_M()
 		:Primitive()
 	{
 		Vertex vertices[] = 
@@ -108,10 +108,10 @@ public:
 	}
 };
 
-class CustomTerrain :public Primitive
+class CustomTerrain_M :public Primitive
 {
 public:
-	CustomTerrain()
+	CustomTerrain_M()
 		:Primitive()
 	{
 		Vertex v[9 * 9];
@@ -161,7 +161,7 @@ public:
 		
 		this->set(v,nrOfVertices,ind,nrOfIndices);
 	}
-	CustomTerrain(int Size, int Dimension)
+	CustomTerrain_M(int Size, int Dimension)
 	{
 		std::vector<Vertex> VertexOfTerrain;
 		std::vector<GLuint> IndecesOfTerrain;
@@ -203,7 +203,7 @@ public:
 		}
 		this->set(VertexOfTerrain, IndecesOfTerrain);
 	}
-	CustomTerrain(int Size, int Dimension, MipMap* HeightMap)
+	CustomTerrain_M(int Size, int Dimension, MipMap* HeightMap)
 	{
 
 		std::vector<Vertex> VertexOfTerrain;
@@ -252,10 +252,10 @@ public:
 	}
 };
 
-class Triangle : public Primitive
+class Triangle_M : public Primitive
 {
 public:
-	Triangle()
+	Triangle_M()
 		:Primitive()
 	{
 		Vertex vertices[] =
@@ -275,7 +275,7 @@ public:
 
 		this->set(vertices, nrOfVertices, indices, nrOfIndices);
 	}
-	Triangle(std::vector<glm::vec3> Points)
+	Triangle_M(std::vector<glm::vec3> Points)
 	{
 		std::vector<Vertex> AllVertex;
 		glm::vec3 Norm = glm::cross((Points[0]-Points[1]), (Points[0] - Points[2]));
@@ -298,10 +298,10 @@ public:
 	}
 };
 
-class Pyramid : public Primitive
+class Pyramid_M : public Primitive
 {
 public:
-	Pyramid()
+	Pyramid_M()
 		: Primitive()
 	{
 		Vertex vertices[] =
@@ -333,10 +333,10 @@ public:
 	}
 };
 
-class Cube : public Primitive
+class Cube_M : public Primitive
 {
 public:
-	Cube()
+	Cube_M()
 		:Primitive()
 	{
 		std::vector<Vertex> VertexOfCube;
@@ -409,7 +409,7 @@ public:
 		this->set(VertexOfCube, IndecesOfCube);
 	}
 
-	Cube(int Dimension, float DimensionSize)
+	Cube_M(int Dimension, float DimensionSize)
 		:Primitive()
 	{
 		std::vector<Vertex> VertexOfCube;
@@ -513,10 +513,10 @@ private:
 	}
 }; 
 
-class CustomObject : public Primitive
+class CustomObject_M : public Primitive
 {
 public:
-	CustomObject(const char* file)
+	CustomObject_M(const char* file)
 		:Primitive()
 	{
 
@@ -609,11 +609,11 @@ private:
 	}
 };
 
-class Sphere :public Primitive
+class Sphere_M :public Primitive
 {
 public:
 
-	Sphere(float Radius, float SectorCount, float StackCount)
+	Sphere_M(float Radius, float SectorCount, float StackCount)
 		:Primitive()
 	{
 		std::vector<GLuint> TempIndices;
@@ -678,10 +678,10 @@ public:
 	}
 };
 
-class Cylinder : public Primitive
+class Cylinder_M : public Primitive
 {
 public:
-	Cylinder(float Radius, int Height, int SectorCount)
+	Cylinder_M(float Radius, int Height, int SectorCount)
 		:Primitive()
 	{
 		std::vector<Vertex> TempVertex;
@@ -729,10 +729,10 @@ public:
 	}
 };
 
-class Cone : public Primitive
+class Cone_M : public Primitive
 {
 public:
-	Cone(float Height,float Radius,int SectorCount, int HeightDiv)
+	Cone_M(float Height,float Radius,int SectorCount, int HeightDiv)
 		:Primitive()
 	{
 		std::vector<Vertex> TempVertex;
@@ -782,7 +782,7 @@ public:
 	}
 };
 
-class ASSIMPLOAD :public Primitive
+class ASSIMPLOAD_M :public Primitive
 {
 private:
 	std::vector<Vertex> FinalVertex(const aiScene* scene)
@@ -823,7 +823,7 @@ private:
 		return TempInd;
 	}
 public:
-	ASSIMPLOAD(const char* FileLoc)
+	ASSIMPLOAD_M(const char* FileLoc)
 		:Primitive()
 	{
 		std::string File = "Models/ModelCol/";
@@ -838,10 +838,10 @@ public:
 	}
 };
 
-class Capsule :public Primitive
+class Capsule_M :public Primitive
 {
 public:
-	Capsule(float Rad,float Length,
+	Capsule_M(float Rad,float Length,
 		float SectorCount, float StackCount)
 		:Primitive()
 	{
