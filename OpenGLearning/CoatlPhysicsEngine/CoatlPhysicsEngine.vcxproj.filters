@@ -84,6 +84,9 @@
     <ClInclude Include="src\Shapes\SimpleShapes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Maths\ShapesCols.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -135,9 +138,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Shapes\Triangles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Maths\Maths.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CollisionManager\TriangleColSphere.cpp">
