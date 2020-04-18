@@ -227,3 +227,10 @@ float MATH::Distance_Tr_Pnt(std::vector<glm::vec3> Tr, glm::vec3 Pos, glm::vec3 
 	return glm::distance(Dis,Pnt);
 }
 
+bool MATH::TestAABBPlane(AABB_Obj Obj, Plane Pl)
+{
+	Obj.GetPos();
+	Obj.GetLengths();
+	return false;
+}
+
