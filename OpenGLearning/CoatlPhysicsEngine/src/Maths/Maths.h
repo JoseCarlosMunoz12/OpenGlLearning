@@ -24,5 +24,5 @@ namespace MATH {
 	float Distance_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1);
 	float Distance_Tr_Pnt(std::vector<glm::vec3> Tr,glm::vec3 Pos, glm::vec3 Pnt);
 	//boll Checks
-	bool TestAABBPlane();
+	bool TestAABBPlane(AABB_Obj Obj,Plane Pl);
 }

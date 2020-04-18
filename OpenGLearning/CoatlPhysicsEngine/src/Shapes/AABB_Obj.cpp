@@ -10,8 +10,7 @@ float AABB_Obj::GetPoint(float P, float Max, float Min)
     return P;
 }
 
-AABB_Obj::AABB_Obj(glm::vec3 SetPos,
-    float DimXYZ)
+AABB_Obj::AABB_Obj(glm::vec3 SetPos, float DimXYZ)
     :ColShapes(SetPos)
 {
     this->XLength = DimXYZ;
@@ -43,14 +42,17 @@ AABB_Obj::~AABB_Obj()
 
 glm::vec3 AABB_Obj::GetLengths()
 {
-    return glm::vec3(this->XLength / 2,
-        this->YLength / 2,
-        this->ZLength / 2);
+    return glm::vec3(this->XLength,
+        this->YLength,
+        this->ZLength);
 }
 
 std::vector<glm::vec3> AABB_Obj::GetPoints()
 {    
     glm::vec3 L = GetLengths();
+    L.x = L.x / 2;
+    L.y = L.y / 2;
+    L.z = L.z / 2;
     glm::vec3 Positions[] =
     {
         //Top Plane 
