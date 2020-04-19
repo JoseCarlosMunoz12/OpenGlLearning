@@ -154,7 +154,7 @@ void Game::initMaterials()
 void Game::initModels()
 {
 	std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
-		glm::vec3(0.f,0.f,2.f) ,
+		glm::vec3(0.f,0.f,0.f) ,
 		glm::vec3(0.f,1.f,0.f) };
 	//Meshes Made to be use
 	meshes.push_back(
@@ -1519,7 +1519,7 @@ void Game::ImGuiOptions()
 				if (ImGui::Button("Add Triangle"))
 				{
 					std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
-						glm::vec3(0.f,0.f,2.f) ,
+						glm::vec3(0.f,0.f,0.f) ,
 						glm::vec3(0.f,1.f,0.f) };
 					std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
 					TempStatic->AddNewBody(glm::vec3(0.f), Tr_Temp);

@@ -30,10 +30,11 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 	glm::vec3 V1 = (TrPnt[1] + TrPos) - C;
 	glm::vec3 V2 = (TrPnt[2] + TrPos) - C;
 	
-	glm::vec3 F0 = V1 - V0;
-	glm::vec3 F1 = V2 - V1;
-	glm::vec3 F2 = V0 - V2;
+	glm::vec3 F0 = TrPnt[1] - TrPnt[0];
+	glm::vec3 F1 = TrPnt[2] - TrPnt[1];
+	glm::vec3 F2 = TrPnt[0] - TrPnt[2];
 	//Region test in this scope
+	if (false)
 	{
 		//Tests Region a00
 		glm::vec3 a00(0.f, -F0.z, F0.y);
@@ -102,7 +103,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P0 = glm::dot(V0, a20);
 		P2 = glm::dot(V1, a20);
 		P1 = glm::dot(V2, a20);
-		R = Ex.y * glm::abs(F0.z) + Ex.z * glm::abs(F0.y);
+		R = Ex.x * glm::abs(F0.z) + Ex.y * glm::abs(F0.y);
 		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
@@ -112,17 +113,17 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P0 = glm::dot(V0, a21);
 		P2 = glm::dot(V1, a21);
 		P1 = glm::dot(V2, a21);
-		R = Ex.y * glm::abs(F1.z) + Ex.z * glm::abs(F1.y);
+		R = Ex.x * glm::abs(F1.z) + Ex.y * glm::abs(F1.y);
 		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
-		//Tests Region a12
+		//Tests Region a22
 		glm::vec3 a22(-F2.y, F2.x, 0.f);
 		P0 = glm::dot(V0, a22);
 		P2 = glm::dot(V1, a22);
 		P1 = glm::dot(V2, a22);
-		R = Ex.y * glm::abs(F2.z) + Ex.z * glm::abs(F2.y);
+		R = Ex.x * glm::abs(F2.z) + Ex.y * glm::abs(F2.y);
 		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
