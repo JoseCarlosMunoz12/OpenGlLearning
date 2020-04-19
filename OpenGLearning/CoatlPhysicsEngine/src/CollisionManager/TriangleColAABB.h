@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "../Shapes/Triangles.h"
 #include "../Shapes/AABB_Obj.h"
 namespace CoatlPhysicsEngine {
