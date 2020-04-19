@@ -112,7 +112,29 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 			return false;
 		}
 	}
-	return true;
+	//Region test the three axes for the face normals of AABB
+	{
+		if (std::max(V0.x,V1.x,V2.x) < -Ex.x ||
+			std::min(V0.x, V1.x, V2.x) > Ex.x)
+		{
+			return false;
+		}
+		if (std::max(V0.y, V1.y, V2.y) < -Ex.y ||
+			std::min(V0.y, V1.y, V2.y) > Ex.y)
+		{
+			return false;
+		}
+		if (std::max(V0.z, V1.z, V2.z) < -Ex.z ||
+			std::min(V0.z, V1.z, V2.z) > Ex.z)
+		{
+			return false;
+		}
+	}
+	//Ratio test seperatin axis
+	Plane Pl;
+	Pl.Normal = glm::cross(F0, F1);
+	Pl.D = glm::dot(Pl.Normal, V0);
+	return MATH::TestAABBPlane(AABB, Pl);
 }
 
 TriangleColAABB::TriangleColAABB()

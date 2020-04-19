@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "../Shapes/Triangles.h"
 #include "../Shapes/AABB_Obj.h"
+#include "../Shapes/SimpleShapes.h"
 namespace CoatlPhysicsEngine {
 	class TriangleColAABB
 	{
