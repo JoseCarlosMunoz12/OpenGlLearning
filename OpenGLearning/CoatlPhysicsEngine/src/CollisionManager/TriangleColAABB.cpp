@@ -6,6 +6,9 @@ bool CoatlPhysicsEngine::TriangleColAABB::PlaneABB(Plane Pl, AABB_Obj Obj)
 
 	glm::vec3 C = Obj.GetPos();
 	glm::vec3 Ex = Obj.GetLengths();
+	Ex.x = Ex.x / 2;
+	Ex.y = Ex.y / 2;
+	Ex.z = Ex.z / 2;
 	float R = Ex.x * glm::abs(C.x) + Ex.y * glm::abs(C.y) + Ex.z * glm::abs(C.z);
 	float S = glm::dot(Pl.Normal, C) - Pl.D;
 	return  glm::abs(S) <= R;
@@ -17,6 +20,9 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 
 	glm::vec3 C = AABB.GetPos();
 	glm::vec3 Ex = AABB.GetLengths();
+	Ex.x = Ex.x / 2;
+	Ex.y = Ex.y / 2;
+	Ex.z = Ex.z / 2;
 	glm::vec3 TrPos = Tr.GetPos();
 	std::vector<glm::vec3> TrPnt = Tr.GetSegments();
 
@@ -64,7 +70,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P0 = glm::dot(V0, a10);
 		P2 = glm::dot(V1, a10);
 		P1 = glm::dot(V2, a10);
-		R = Ex.y * glm::abs(F0.z) + Ex.z * glm::abs(F0.y);
+		R = Ex.x * glm::abs(F0.z) + Ex.z * glm::abs(F0.y);
 		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
@@ -92,7 +98,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		}
 
 		//Tests Region a20
-		glm::vec3 a20(-F0.y, -F0.x, 0.f);
+		glm::vec3 a20(-F0.y, F0.x, 0.f);
 		P0 = glm::dot(V0, a20);
 		P2 = glm::dot(V1, a20);
 		P1 = glm::dot(V2, a20);
@@ -102,7 +108,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 			return false;
 		}
 		//Tests Region a21
-		glm::vec3 a21(-F1.y, -F1.x, 0.f);
+		glm::vec3 a21(-F1.y, F1.x, 0.f);
 		P0 = glm::dot(V0, a21);
 		P2 = glm::dot(V1, a21);
 		P1 = glm::dot(V2, a21);
@@ -112,7 +118,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 			return false;
 		}
 		//Tests Region a12
-		glm::vec3 a22(-F2.y, -F2.x, 0.f);
+		glm::vec3 a22(-F2.y, F2.x, 0.f);
 		P0 = glm::dot(V0, a22);
 		P2 = glm::dot(V1, a22);
 		P1 = glm::dot(V2, a22);
