@@ -1,6 +1,16 @@
 #include "TriangleColAABB.h"
 using namespace CoatlPhysicsEngine;
 
+bool CoatlPhysicsEngine::TriangleColAABB::PlaneABB(Plane Pl, AABB_Obj Obj)
+{
+
+	glm::vec3 C = Obj.GetPos();
+	glm::vec3 Ex = Obj.GetLengths();
+	float R = Ex.x * glm::abs(C.x) + Ex.y * glm::abs(C.y) + Ex.z * glm::abs(C.z);
+	float S = glm::dot(Pl.Normal, C) - Pl.D;
+	return  glm::abs(S) <= R;
+}
+
 bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 {
 	float P0, P1, P2, R;
@@ -25,7 +35,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a00);
 		P1 = glm::dot(V2, a00);
 		R = Ex.y * glm::abs(F0.z) + Ex.z * glm::abs(F0.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
@@ -35,7 +45,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a01);
 		P1 = glm::dot(V2, a01);
 		R = Ex.y * glm::abs(F1.z) + Ex.z * glm::abs(F1.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
@@ -45,7 +55,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a02);
 		P1 = glm::dot(V2, a02);
 		R = Ex.y * glm::abs(F2.z) + Ex.z * glm::abs(F2.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
@@ -55,7 +65,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a10);
 		P1 = glm::dot(V2, a10);
 		R = Ex.y * glm::abs(F0.z) + Ex.z * glm::abs(F0.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
@@ -66,7 +76,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a11);
 		P1 = glm::dot(V2, a11);
 		R = Ex.y * glm::abs(F1.z) + Ex.z * glm::abs(F1.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
@@ -76,7 +86,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a12);
 		P1 = glm::dot(V2, a12);
 		R = Ex.y * glm::abs(F2.z) + Ex.z * glm::abs(F2.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
@@ -87,7 +97,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a20);
 		P1 = glm::dot(V2, a20);
 		R = Ex.y * glm::abs(F0.z) + Ex.z * glm::abs(F0.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
@@ -97,7 +107,7 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a21);
 		P1 = glm::dot(V2, a21);
 		R = Ex.y * glm::abs(F1.z) + Ex.z * glm::abs(F1.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
@@ -107,34 +117,35 @@ bool TriangleColAABB::TrColAABB(Triangles Tr, AABB_Obj AABB)
 		P2 = glm::dot(V1, a22);
 		P1 = glm::dot(V2, a22);
 		R = Ex.y * glm::abs(F2.z) + Ex.z * glm::abs(F2.y);
-		if (glm::max(-std::max(P0, P1, P2), std::min(P0, P1, P2)) > R)
+		if (glm::max(-std::max({ P0, P1, P2 }), std::min({ P0, P1, P2 })) > R)
 		{
 			return false;
 		}
 	}
 	//Region test the three axes for the face normals of AABB
 	{
-		if (std::max(V0.x,V1.x,V2.x) < -Ex.x ||
-			std::min(V0.x, V1.x, V2.x) > Ex.x)
+		if (std::max({ V0.x,V1.x,V2.x }) < -Ex.x ||
+			std::min({ V0.x, V1.x, V2.x }) > Ex.x)
 		{
 			return false;
 		}
-		if (std::max(V0.y, V1.y, V2.y) < -Ex.y ||
-			std::min(V0.y, V1.y, V2.y) > Ex.y)
+		if (std::max({ V0.y, V1.y, V2.y }) < -Ex.y ||
+			std::min({ V0.y, V1.y, V2.y }) > Ex.y)
 		{
 			return false;
 		}
-		if (std::max(V0.z, V1.z, V2.z) < -Ex.z ||
-			std::min(V0.z, V1.z, V2.z) > Ex.z)
+		if (std::max({ V0.z, V1.z, V2.z }) < -Ex.z ||
+			std::min({V0.z, V1.z, V2.z}) > Ex.z)
 		{
 			return false;
 		}
 	}
 	//Ratio test seperatin axis
-	Plane Pl;
-	Pl.Normal = glm::cross(F0, F1);
-	Pl.D = glm::dot(Pl.Normal, V0);
-	return MATH::TestAABBPlane(AABB, Pl);
+	Plane PL;
+	PL.Normal = glm::cross(F0,F1);
+	PL.D = glm::dot(PL.Normal, V0);
+
+	return PlaneABB(PL, AABB);
 }
 
 TriangleColAABB::TriangleColAABB()

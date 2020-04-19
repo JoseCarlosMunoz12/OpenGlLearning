@@ -226,13 +226,3 @@ float MATH::Distance_Tr_Pnt(std::vector<glm::vec3> Tr, glm::vec3 Pos, glm::vec3 
 	glm::vec3 Dis = MATH::ClosestPoint_Seg(Tr, Pos, Pnt);
 	return glm::distance(Dis,Pnt);
 }
-
-bool MATH::TestAABBPlane(AABB_Obj Obj, Plane Pl)
-{
-	glm::vec3 C = Obj.GetPos();
-	glm::vec3 Ex = Obj.GetLengths();
-	float R = Ex.x * glm::abs(C.x) + Ex.y * glm::abs(C.y) + Ex.z * glm::abs(C.z);
-	float S = glm::dot(Pl.Normal, C) - Pl.D;
-	return  glm::abs(S) <= R;
-}
-

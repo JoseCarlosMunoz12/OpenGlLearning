@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "../Shapes/SimpleShapes.h"
-#include "../Shapes/AABB_Obj.h"
 using namespace CoatlPhysicsEngine;
 namespace MATH {
 	glm::vec3 Set();
@@ -23,6 +22,4 @@ namespace MATH {
 	float Distance_Seg(std::vector<glm::vec3> Seg0, glm::vec3 Pos, std::vector<glm::vec3> Seg1);
 	float Distance_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1);
 	float Distance_Tr_Pnt(std::vector<glm::vec3> Tr,glm::vec3 Pos, glm::vec3 Pnt);
-	//boll Checks
-	bool TestAABBPlane(AABB_Obj Obj,Plane Pl);
-}
+} 
