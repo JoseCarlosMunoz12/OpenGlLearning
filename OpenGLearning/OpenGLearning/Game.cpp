@@ -1488,10 +1488,10 @@ void Game::ImGuiOptions()
 			std::string ColName = "Collision world Name is " + this->ColWorld->ShowName();
 			std::string ColGrav = "Collisions world Gravity is %.3f";
 			ImGui::Text(ColName.c_str());
-			ImGui::Text(ColGrav.c_str(),this->ColWorld->GetGravity().z);
+			ImGui::Text(ColGrav.c_str(), this->ColWorld->GetGravity().z);
 			std::shared_ptr<CPE::StaticCollisions> TempStatic = this->ColWorld->GetCollision();
 			if (ImGui::Button("Create Static Collisions"))
-			{ 
+			{
 				this->ColWorld->CreateStaticCol("Stas");
 			}
 			if (TempStatic)
@@ -1503,8 +1503,8 @@ void Game::ImGuiOptions()
 				}
 				if (ImGui::Button("Add Sphere"))
 				{
-					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f),1.f);
-					TempStatic->AddNewBody(glm::vec3(1.f),S_Temp);
+					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f), 1.f);
+					TempStatic->AddNewBody(glm::vec3(1.f), S_Temp);
 				}
 				if (ImGui::Button("Add Box"))
 				{
@@ -1513,7 +1513,7 @@ void Game::ImGuiOptions()
 				}
 				if (ImGui::Button("Add Capsule"))
 				{
-					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f),1.f,1.f);
+					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
 					TempStatic->AddNewBody(glm::vec3(0.f), C_Temp);
 				}
 				if (ImGui::Button("Add Triangle"))
@@ -1529,13 +1529,13 @@ void Game::ImGuiOptions()
 				{
 					std::shared_ptr<CPE::Bodies> Bod = ii.lock();
 					std::vector<int> ColId = Bod->GetAllCol();
-					std::string BodID = "Bode Id is" +std::to_string( Bod->GetID());
+					std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
 					glm::vec3 Temp = Bod->GetPos();
 					if (ImGui::TreeNode(BodID.c_str()))
 					{
-						ImGui::Text("Pos %.3f, %.3f, %.3f",Temp.x,Temp.y,Temp.z);
-						float Ar[3] = {Temp.x,Temp.y,Temp.z};
-						if (ImGui::SliderFloat("One",&Ar[0],-10.f,10.f))
+						ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
+						float Ar[3] = { Temp.x,Temp.y,Temp.z };
+						if (ImGui::SliderFloat("One", &Ar[0], -10.f, 10.f))
 						{
 							Temp.x = Ar[0];
 							Bod->SetPosition(Temp);
@@ -1550,7 +1550,7 @@ void Game::ImGuiOptions()
 							Temp.z = Ar[2];
 							Bod->SetPosition(Temp);
 						}
-						if(ImGui::TreeNode("Collided With"))
+						if (ImGui::TreeNode("Collided With"))
 						{
 							for (auto& ii : ColId)
 							{
@@ -1566,8 +1566,7 @@ void Game::ImGuiOptions()
 			{
 				ImGui::Text("No Static Collisions");
 			}
-		}	
-
+		}
 		ImGui::End();
 	}
 }
