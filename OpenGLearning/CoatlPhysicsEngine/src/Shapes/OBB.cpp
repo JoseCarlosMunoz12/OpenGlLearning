@@ -50,7 +50,7 @@ void OBB::SetUnitVec(glm::vec3 SetUnitVec)
 
 std::vector<glm::vec3> OBB::GetSegments()
 {
-	glm::quat TempQuat = glm::angleAxis(this->Angle, this->UnitVec);
+	glm::quat TempQuat = glm::angleAxis(glm::radians(this->Angle), this->UnitVec);
 	glm::mat4 RotMat = glm::mat4_cast(TempQuat);
 
 	glm::vec3 Positions[] =
