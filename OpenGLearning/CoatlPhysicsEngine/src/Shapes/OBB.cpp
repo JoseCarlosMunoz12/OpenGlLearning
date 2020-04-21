@@ -8,16 +8,20 @@ OBB::OBB(glm::vec3 Pos, float DimXYZ)
 	this->Ex.z = DimXYZ / 2;
 }
 
-OBB::OBB(glm::vec3 Pos, float DimX, float DimXY)
+OBB::OBB(glm::vec3 Pos, float DimX, float DimXZ)
 	:ColShapes(Pos), Angle(0.f), UnitVec(glm::vec3(0.f, 0.f, 1.f))
 {
-
+	this->Ex.x = DimX/2;
+	this->Ex.y = DimXZ/2;
+	this->Ex.z = DimXZ/2;
 }
 
 OBB::OBB(glm::vec3 Pos, float DimX, float DimY, float DimZ)
 	:ColShapes(Pos), Angle(0.f), UnitVec(glm::vec3(0.f, 0.f, 1.f))
 {
-
+	this->Ex.x = DimX/2;
+	this->Ex.y = DimY/2;
+	this->Ex.z = DimZ/2;
 }
 
 OBB::~OBB()
@@ -26,20 +30,22 @@ OBB::~OBB()
 
 glm::vec3 OBB::GetUnitVec()
 {
-	return glm::vec3();
+	return this->UnitVec;
 }
 
 float OBB::GetAngle()
 {
-	return 0.0f;
+	return this->Angle;
 }
 
 void OBB::SetAngle(float SetAngle)
 {
+	this->Angle = SetAngle;
 }
 
 void OBB::SetUnitVec(glm::vec3 SetUnitVec)
 {
+	this->UnitVec = SetUnitVec;
 }
 
 std::vector<glm::vec3> OBB::GetSegments()
@@ -49,5 +55,5 @@ std::vector<glm::vec3> OBB::GetSegments()
 
 glm::vec3 OBB::GetLenghts()
 {
-	return glm::vec3();
+	return this->Ex;
 }
