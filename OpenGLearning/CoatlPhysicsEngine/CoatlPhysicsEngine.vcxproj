@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CollisionManager\OBBColOBB.h" />
     <ClInclude Include="src\Shapes\OBB.h" />
     <ClInclude Include="src\Maths\Maths.h" />
     <ClInclude Include="src\CollisionManager\CapsuleColAABB.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\CollisionManager\TriangleColAABB.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CollisionManager\OBBColOBB.cpp" />
     <ClCompile Include="src\Shapes\OBB.cpp" />
     <ClCompile Include="src\Maths\Maths.cpp" />
     <ClCompile Include="src\CollisionManager\CapsuleColAABB.cpp" />

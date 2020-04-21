@@ -1511,6 +1511,11 @@ void Game::ImGuiOptions()
 					std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
 					TempStatic->AddNewBody(glm::vec3(0.f), B_Temp);
 				}
+				if (ImGui::Button("Add OBB Box"))
+				{
+					std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f),1.f);
+					TempStatic->AddNewBody(glm::vec3(0.f), OB_Temp);
+				}
 				if (ImGui::Button("Add Capsule"))
 				{
 					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
