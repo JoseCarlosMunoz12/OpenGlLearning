@@ -3,7 +3,7 @@ using namespace CoatlPhysicsEngine;
 OBB::OBB(glm::vec3 Pos, float DimXYZ)
 	:ColShapes(Pos), Angle(0.f),UnitVec(glm::vec3(0.f,0.f,1.f))
 {
-	this->Ex.x = DimXYZ/2;
+	this->Ex.x = DimXYZ / 2;
 	this->Ex.y = DimXYZ / 2;
 	this->Ex.z = DimXYZ / 2;
 }
@@ -50,7 +50,26 @@ void OBB::SetUnitVec(glm::vec3 SetUnitVec)
 
 std::vector<glm::vec3> OBB::GetSegments()
 {
-	return std::vector<glm::vec3>();
+	glm::quat TempQuat = glm::angleAxis(this->Angle, this->UnitVec);
+	glm::mat4 RotMat = glm::mat4_cast(TempQuat);
+
+	glm::vec3 Positions[] =
+	{
+		//Top Plane 
+		glm::vec3(Ex.x,-Ex.y, Ex.z), glm::vec3(Ex.x, Ex.y, Ex.z),
+		glm::vec3(-Ex.x, Ex.y, Ex.z), glm::vec3(-Ex.x,-Ex.y, Ex.z),
+		//Bottom Plane
+		glm::vec3(Ex.x,-Ex.y,-Ex.z), glm::vec3(Ex.x, Ex.y,-Ex.z),
+		glm::vec3(-Ex.x, Ex.y,-Ex.z), glm::vec3(-Ex.x,-Ex.y,-Ex.z)
+	};
+	std::vector<glm::vec3> Lines(std::begin(Positions), std::end(Positions));
+	for (auto& jj : Lines)
+	{
+		glm::vec4 Set = glm::vec4(jj.x, jj.y, jj.z, 0.f);
+		Set = Set * RotMat;
+		jj = glm::vec3(Set.x, Set.y, Set.z);
+	}
+	return Lines;
 }
 
 glm::vec3 OBB::GetLenghts()
