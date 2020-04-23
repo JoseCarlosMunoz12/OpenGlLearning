@@ -275,7 +275,7 @@ bool MATH::ProjColl(std::vector<glm::vec3> Seg, std::vector<glm::vec3> Sh_Vert0,
 	float TotalLength = SegDis0 + SegDis1;
 	float MaxL = glm::max(MaxMin0, MaxMin1);
 
-	return MaxL < TotalLength;
+	return MaxL > TotalLength;
 }
 
 void MATH::SetMaxMins(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal)
