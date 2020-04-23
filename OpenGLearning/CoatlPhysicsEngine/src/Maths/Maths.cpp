@@ -257,8 +257,8 @@ bool MATH::ProjColl(std::vector<glm::vec3> Seg, std::vector<glm::vec3> Sh_Vert0,
 	{
 		if (Count == 0)
 		{
-			Max0 = jj;
-			Min0 = jj;
+			Max1 = jj;
+			Min1 = jj;
 			Count++;
 		}
 		glm::vec3 AJJ = jj - Seg[0];
@@ -267,8 +267,15 @@ bool MATH::ProjColl(std::vector<glm::vec3> Seg, std::vector<glm::vec3> Sh_Vert0,
 		glm::vec3 TempPos = Seg[0] + Num / Denom * AB;
 		MATH::SetMaxMins(Max1, Min1, TempPos);
 	}
+	float SegDis0 = glm::distance(Max0, Min0);
+	float SegDis1 = glm::distance(Max1, Min1);
+	float MaxMin0 = glm::distance(Max0, Min1);
+	float MaxMin1 = glm::distance(Max1, Min0);
 
-	return false;
+	float TotalLength = SegDis0 + SegDis1;
+	float MaxL = glm::max(MaxMin0, MaxMin1);
+
+	return MaxL < TotalLength;
 }
 
 void MATH::SetMaxMins(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal)
