@@ -10,51 +10,32 @@ bool TriangleColTriangle::TrColTr(Triangles Tr0, Triangles Tr1)
 		ii = ii + Tr0Pos;
 	}
 	glm::vec3 Tr1Pos = Tr1.GetPos();
-	//Check if Positions are the same, instant collision
 	std::vector<glm::vec3> Tr1Seg = Tr1.GetSegments();
 	for (auto& ii : Tr1Seg)
 	{
 		ii = ii + Tr1Pos;
 	}
-	if (Tr0Pos.x == Tr1Pos.x && Tr0Pos.y == Tr1Pos.y && Tr0Pos.z == Tr1Pos.z)
+	//make And Check planes are on the same side
 	{
-		return true;
-	}
-	glm::vec3 Tr0Cross = glm::cross((Tr0Seg[1] - Tr0Seg[0]), (Tr0Seg[2] - Tr0Seg[1]));
-	glm::vec3 Tr1Cross = glm::cross((Tr1Seg[1] - Tr1Seg[0]), (Tr1Seg[2] - Tr1Seg[1]));
-	glm::vec3 Cross = glm::cross(Tr0Cross, Tr1Cross);
-	float Val = glm::dot(Cross, Cross);
-	if (Val == 0)
-	{
-		return false;
-	}
-	//if not parallel check with SAT algorithm on all sides
-	for (int ii = 0; ii < 3; ii++)
-	{
-		float Va = ii + 1;
-		if (ii == 2)
+		C_Plane Tr0_P(Tr0Seg);
+		if (Tr0_P.SameLocPl(Tr1Seg))
 		{
-			Va = 0;
-		}
-		if (MATH::ProjColl({Tr0Seg[ii],Tr0Seg[Va]}, Tr0Seg, Tr1Seg))
-		{
-			return true;
+			return false;
 		}
 	}
-
-	for (int ii = 0; ii < 3; ii++)
 	{
-		float Va = ii + 1;
-		if (ii == 2)
+		C_Plane Tr1_P(Tr1Seg);
+		if (Tr1_P.SameLocPl(Tr0Seg))
 		{
-			Va = 0;
-		}
-		if (MATH::ProjColl({ Tr1Seg[ii],Tr1Seg[Va] }, Tr0Seg, Tr1Seg))
-		{
-			return true;
+			return false;
 		}
 	}
-	return false;
+	//
+	//
+	//
+	//
+	//
+	return true;
 }
 
 TriangleColTriangle::TriangleColTriangle()
