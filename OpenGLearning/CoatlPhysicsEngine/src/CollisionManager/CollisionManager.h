@@ -10,12 +10,13 @@
 #include "TriangleColSphere.h"
 #include "TriangleColCapsule.h"
 #include "TriangleColAABB.h"
+#include "TriangleColTriangle.h"
 
 namespace CoatlPhysicsEngine {
 	class CollisionManager
 		: public SphereColSphere,AABBColAABB,CapsuleColCapsule,
 		 SphereColAABB, CapsuleColSphere, CapsuleColAABB,
-		TriangleColSphere,TriangleColCapsule,TriangleColAABB
+		TriangleColSphere,TriangleColCapsule,TriangleColAABB,TriangleColTriangle
 	{
 	private:
 	public:		

@@ -1572,6 +1572,20 @@ void Game::ImGuiOptions()
 				ImGui::Text("No Static Collisions");
 			}
 		}
+		if (ImGui::Button("Test Triangle"))
+		{
+			CPE::Triangles Se(glm::vec3(0.f), { glm::vec3(0.f,0.f,0.f) ,glm::vec3(1.f,1.f,0.f) ,glm::vec3(1.f,0.f,0.f) });
+			CPE::Triangles Se1(glm::vec3(0.f), { glm::vec3(0.f,0.f,1.f) ,glm::vec3(1.f,1.f,0.f) ,glm::vec3(1.f,0.f,1.f) });
+			CPE::TriangleColTriangle s;
+			if (s.TrColTr(Se, Se1))
+			{
+				std::cout << "Collided\n";
+			}
+			else
+			{
+				std::cout << "No Collided\n";
+			}
+		}
 		ImGui::End();
 	}
 }
