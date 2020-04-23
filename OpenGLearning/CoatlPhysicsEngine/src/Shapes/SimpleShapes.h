@@ -29,6 +29,7 @@ namespace CoatlPhysicsEngine {
 				if (Count == 0)
 				{
 					C = jj;
+					Count++; 
 				}
 				else
 				{

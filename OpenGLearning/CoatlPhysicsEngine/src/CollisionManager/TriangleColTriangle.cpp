@@ -16,25 +16,23 @@ bool TriangleColTriangle::TrColTr(Triangles Tr0, Triangles Tr1)
 		ii = ii + Tr1Pos;
 	}
 	//make And Check planes are on the same side
+	C_Plane Tr0_P(Tr0Seg);
+	if (Tr0_P.SameLocPl(Tr1Seg))
 	{
-		C_Plane Tr0_P(Tr0Seg);
-		if (Tr0_P.SameLocPl(Tr1Seg))
+		return false;
+	}
+	C_Plane Tr1_P(Tr1Seg);
+	if (Tr1_P.SameLocPl(Tr0Seg))
 		{
 			return false;
 		}
-	}
+	
+	//Find Plane Intersection normal and project
+	glm::vec3 PlSegDir = glm::cross(Tr0_P.Normal, Tr1_P.Normal);	
+	if (MATH::ProjColl({ glm::vec3(0.f),PlSegDir }, Tr0Seg, Tr1Seg))
 	{
-		C_Plane Tr1_P(Tr1Seg);
-		if (Tr1_P.SameLocPl(Tr0Seg))
-		{
-			return false;
-		}
+		return false;
 	}
-	//
-	//
-	//
-	//
-	//
 	return true;
 }
 
