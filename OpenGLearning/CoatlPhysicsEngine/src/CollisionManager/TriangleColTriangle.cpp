@@ -38,7 +38,7 @@ bool TriangleColTriangle::TrColTr(Triangles Tr0, Triangles Tr1)
 		}
 		if (MATH::ProjColl({Tr0Seg[ii],Tr0Seg[Va]}, Tr0Seg, Tr1Seg))
 		{
-			return false;
+			return true;
 		}
 	}
 
@@ -51,10 +51,10 @@ bool TriangleColTriangle::TrColTr(Triangles Tr0, Triangles Tr1)
 		}
 		if (MATH::ProjColl({ Tr1Seg[ii],Tr1Seg[Va] }, Tr0Seg, Tr1Seg))
 		{
-			return false;
+			return true;
 		}
 	}
-	return true;
+	return false;
 }
 
 TriangleColTriangle::TriangleColTriangle()
