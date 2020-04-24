@@ -8,12 +8,12 @@ OBB::OBB(glm::vec3 Pos, float DimXYZ)
 	this->Ex.z = DimXYZ / 2;
 }
 
-OBB::OBB(glm::vec3 Pos, float DimX, float DimXZ)
+OBB::OBB(glm::vec3 Pos, float DimX, float DimYZ)
 	:ColShapes(Pos), Angle(0.f), UnitVec(glm::vec3(0.f, 0.f, 1.f))
 {
 	this->Ex.x = DimX/2;
-	this->Ex.y = DimXZ/2;
-	this->Ex.z = DimXZ/2;
+	this->Ex.y = DimYZ/2;
+	this->Ex.z = DimYZ/2;
 }
 
 OBB::OBB(glm::vec3 Pos, float DimX, float DimY, float DimZ)
@@ -22,6 +22,30 @@ OBB::OBB(glm::vec3 Pos, float DimX, float DimY, float DimZ)
 	this->Ex.x = DimX/2;
 	this->Ex.y = DimY/2;
 	this->Ex.z = DimZ/2;
+}
+
+CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float DimXYZ, float InitAngle, glm::vec3 InitUnitVec)
+	:ColShapes(Pos),Angle(InitAngle),UnitVec(InitUnitVec)
+{
+	this->Ex.x = DimXYZ / 2;
+	this->Ex.y = DimXYZ / 2;
+	this->Ex.z = DimXYZ / 2;
+}
+
+CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float DimX, float DimYZ, float InitAngle, glm::vec3 InitUnitVec)
+	: ColShapes(Pos), Angle(InitAngle), UnitVec(InitUnitVec)
+{
+	this->Ex.x = DimX / 2;
+	this->Ex.y = DimYZ / 2;
+	this->Ex.z = DimYZ / 2;
+}
+
+CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float DimX, float DimY, float DimZ, float InitAngle, glm::vec3 InitUnitVec)
+	: ColShapes(Pos), Angle(InitAngle), UnitVec(InitUnitVec)
+{
+	this->Ex.x = DimX / 2;
+	this->Ex.y = DimY / 2;
+	this->Ex.z = DimZ / 2;
 }
 
 OBB::~OBB()
@@ -66,7 +90,7 @@ std::vector<glm::vec3> OBB::GetSegments()
 	for (auto& jj : Lines)
 	{
 		glm::vec4 Set = glm::vec4(jj.x, jj.y, jj.z, 0.f);
-		Set = Set * RotMat;
+		Set *= RotMat;
 		jj = glm::vec3(Set.x, Set.y, Set.z);
 	}
 	return Lines;
