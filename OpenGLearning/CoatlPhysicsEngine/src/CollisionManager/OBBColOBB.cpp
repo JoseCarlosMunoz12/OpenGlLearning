@@ -26,7 +26,21 @@ bool OBBColOBB::OBBCol(OBB Ob0, OBB Ob1)
 			return false;
 		}
 	}
+	for (auto& ii : Ob0_N)
+	{
+		for (auto& jj : Ob1_N)
+		{
+			glm::vec3 N = glm::cross(ii, jj);
+			if (!(N.x == 0 && N.y == 0 && N.z == 0))
+			{
+				if (MATH::ProjColl(N, Ob0_Segs, Ob1_Segs))
+				{
+					return false;
+				}
 
+			}
+		}
+	}
 	return true;
 }
 
