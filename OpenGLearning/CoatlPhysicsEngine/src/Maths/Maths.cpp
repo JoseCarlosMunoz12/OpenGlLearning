@@ -278,6 +278,57 @@ bool MATH::ProjColl(std::vector<glm::vec3> Seg, std::vector<glm::vec3> Sh_Vert0,
 	return MaxL > TotalLength;
 }
 
+bool MATH::ProjColl(glm::vec3 Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1)
+{
+	//Max Min of Shape 0
+	glm::vec3 Max0;
+	glm::vec3 Min0;
+	//Max Min of Shape 1
+	glm::vec3 Max1;
+	glm::vec3 Min1;
+
+	glm::vec3 AB = Normal;
+	int Count = 0;
+	for (auto& jj : Sh_Vert0)
+	{
+		if (Count == 0)
+		{
+			Max0 = jj;
+			Min0 = jj;
+			Count++;
+		}
+		glm::vec3 AJJ = jj;
+		float Num = glm::dot(AJJ, AB);
+		float Denom = glm::dot(AB, AB);
+		glm::vec3 TempPos = Num / Denom * AB;
+		MATH::SetMaxMins(Max0, Min0, TempPos);
+	}
+	Count = 0;
+	for (auto& jj : Sh_Vert1)
+	{
+		if (Count == 0)
+		{
+			Max1 = jj;
+			Min1 = jj;
+			Count++;
+		}
+		glm::vec3 AJJ = jj;
+		float Num = glm::dot(AJJ, AB);
+		float Denom = glm::dot(AB, AB);
+		glm::vec3 TempPos = Num / Denom * AB;
+		MATH::SetMaxMins(Max1, Min1, TempPos);
+	}
+	float SegDis0 = glm::distance(Max0, Min0);
+	float SegDis1 = glm::distance(Max1, Min1);
+	float MaxMin0 = glm::distance(Max0, Min1);
+	float MaxMin1 = glm::distance(Max1, Min0);
+
+	float TotalLength = SegDis0 + SegDis1;
+	float MaxL = glm::max(MaxMin0, MaxMin1);
+
+	return MaxL > TotalLength;
+}
+
 void MATH::SetMaxMins(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal)
 {
 	//Check if Greater in Max
