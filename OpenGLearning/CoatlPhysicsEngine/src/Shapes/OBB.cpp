@@ -24,7 +24,7 @@ OBB::OBB(glm::vec3 Pos, float DimX, float DimY, float DimZ)
 	this->Ex.z = DimZ/2;
 }
 
-CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float DimXYZ, float InitAngle, glm::vec3 InitUnitVec)
+CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimXYZ)
 	:ColShapes(Pos),Angle(InitAngle),UnitVec(InitUnitVec)
 {
 	this->Ex.x = DimXYZ / 2;
@@ -32,7 +32,7 @@ CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float DimXYZ, float InitAngle, glm::
 	this->Ex.z = DimXYZ / 2;
 }
 
-CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float DimX, float DimYZ, float InitAngle, glm::vec3 InitUnitVec)
+CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimX, float DimYZ)
 	: ColShapes(Pos), Angle(InitAngle), UnitVec(InitUnitVec)
 {
 	this->Ex.x = DimX / 2;
@@ -40,7 +40,7 @@ CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float DimX, float DimYZ, float InitA
 	this->Ex.z = DimYZ / 2;
 }
 
-CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float DimX, float DimY, float DimZ, float InitAngle, glm::vec3 InitUnitVec)
+CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimX, float DimY, float DimZ)
 	: ColShapes(Pos), Angle(InitAngle), UnitVec(InitUnitVec)
 {
 	this->Ex.x = DimX / 2;

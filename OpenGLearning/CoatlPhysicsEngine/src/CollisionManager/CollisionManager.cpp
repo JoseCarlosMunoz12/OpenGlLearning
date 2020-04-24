@@ -4,7 +4,8 @@ using namespace CoatlPhysicsEngine;
 CollisionManager::CollisionManager()
 	:SphereColSphere(),AABBColAABB(),CapsuleColCapsule(),
         SphereColAABB(), CapsuleColSphere(), CapsuleColAABB(),TriangleColSphere(),
-    TriangleColCapsule(),TriangleColAABB(),TriangleColTriangle()
+    TriangleColCapsule(),TriangleColAABB(),TriangleColTriangle(),
+    OBBColOBB()
 {}
 CollisionManager::~CollisionManager()
 {}
