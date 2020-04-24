@@ -1575,15 +1575,15 @@ void Game::ImGuiOptions()
 		if (ImGui::Button("Test OBB Boxes"))
 		{
 			CPE::OBB Box0(glm::vec3(0.f), 1);
-			CPE::OBB Box1(glm::vec3(0.f,0.f,1.f), 1);
-			CPE::OBBColOBB Sd;
-			if (Sd.OBBCol(Box1, Box0))
+			CPE::AABB_Obj(glm::vec3(0.f), 1);
+
+		/*	if (Sd.OBBCol(Box1, Box0))
 			{
 				std::cout << "Collide\n";
 			}
 			else {
 				std::cout << "No Collide\n";
-			}
+			}*/
 		}
 		ImGui::End();
 	}

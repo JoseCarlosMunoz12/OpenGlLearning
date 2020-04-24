@@ -89,8 +89,12 @@ std::vector<glm::vec3> OBB::GetSegments()
 	std::vector<glm::vec3> Lines(std::begin(Positions), std::end(Positions));
 	for (auto& jj : Lines)
 	{
+		jj = jj + this->Pos;
+	}
+	for (auto& jj : Lines)
+	{
 		glm::vec4 Set = glm::vec4(jj.x, jj.y, jj.z, 0.f);
-		Set *= RotMat;
+		Set = Set * RotMat;
 		jj = glm::vec3(Set.x, Set.y, Set.z);
 	}
 	return Lines;
