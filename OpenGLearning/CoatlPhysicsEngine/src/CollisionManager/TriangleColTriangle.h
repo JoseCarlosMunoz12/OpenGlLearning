@@ -5,9 +5,9 @@ namespace CoatlPhysicsEngine {
 	class TriangleColTriangle
 	{
 	protected:
-		bool TrColTr(Triangles Tr0, Triangles Tr1);
 	public:
 		TriangleColTriangle();
 		~TriangleColTriangle();
+		bool TrColTr(Triangles Tr0, Triangles Tr1);
 	};
 }
