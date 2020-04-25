@@ -67,6 +67,16 @@ std::vector<glm::vec3> AABB_Obj::GetPoints()
 	return Lines;
 }
 
+std::vector<glm::vec3> CoatlPhysicsEngine::AABB_Obj::GetSegs()
+{
+    std::vector<glm::vec3> Temp = GetPoints();
+    for (auto& ii : Temp)
+    {
+        ii = ii + this->Pos;
+    }
+    return Temp;
+}
+
 std::vector<int> AABB_Obj::GetSegmentsID()
 {
     return {0,1,1,2,2,3,3,0,

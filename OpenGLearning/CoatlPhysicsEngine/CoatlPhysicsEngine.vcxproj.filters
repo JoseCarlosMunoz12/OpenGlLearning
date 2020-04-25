@@ -93,6 +93,9 @@
     <ClInclude Include="src\CollisionManager\TriangleColTriangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CollisionManager\ABBColOBB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -165,6 +168,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CollisionManager\TriangleColTriangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionManager\ABBColOBB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

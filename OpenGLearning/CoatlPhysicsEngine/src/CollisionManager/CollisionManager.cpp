@@ -36,6 +36,16 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return CapsuleCols(Cap0, Cap1);
  }
+ template<>
+ bool CollisionManager::CheckCollide(Triangles Tr0, Triangles Tr1)
+ {
+     return TrColTr(Tr0, Tr1);
+ }
+ template<>
+ bool CollisionManager::CheckCollide(OBB Ob0, OBB Ob1)
+ {
+     return OBBCol(Ob0, Ob1);
+ }
 ///Different Combinations
  template<>
  bool CollisionManager::CheckCollide(Sphere Sph0,AABB_Obj Obj)

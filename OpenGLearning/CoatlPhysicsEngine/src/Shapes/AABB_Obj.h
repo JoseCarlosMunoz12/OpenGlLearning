@@ -16,6 +16,7 @@ namespace CoatlPhysicsEngine {
 		~AABB_Obj();
 		glm::vec3 GetLengths();
 		std::vector<glm::vec3> GetPoints();
+		std::vector<glm::vec3> GetSegs();
 		std::vector<int> GetSegmentsID();
 		void SetLengths(glm::vec3 NewLengths);
 		glm::vec3 GetClosesPoint(glm::vec3 Point);
