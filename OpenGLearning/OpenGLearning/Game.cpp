@@ -1576,14 +1576,6 @@ void Game::ImGuiOptions()
 		{
 			CPE::OBB Box0(glm::vec3(0.f), 1);
 			CPE::AABB_Obj AABB(glm::vec3(0.f), 1);
-
-		/*	if (Sd.OBBCol(Box1, Box0))
-			{
-				std::cout << "Collide\n";
-			}
-			else {
-				std::cout << "No Collide\n";
-			}*/
 		}
 		ImGui::End();
 	}
