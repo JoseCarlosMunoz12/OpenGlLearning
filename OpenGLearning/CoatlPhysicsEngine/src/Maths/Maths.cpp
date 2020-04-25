@@ -329,6 +329,40 @@ bool MATH::ProjColl(glm::vec3 Normal, std::vector<glm::vec3> Sh_Vert0, std::vect
 	return MaxL > TotalLength;
 }
 
+bool MATH::SATColCheck(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1, std::vector<glm::vec3> Pnts0, std::vector<glm::vec3> Pnts1)
+{
+	for (auto& jj : Norm0)
+	{
+		if (MATH::ProjColl(jj, Pnts0, Pnts1))
+		{
+			return false;
+		}
+	}
+	for (auto& jj :Norm1)
+	{
+		if (MATH::ProjColl(jj, Pnts0, Pnts1))
+		{
+			return false;
+		}
+	}
+	for (auto& ii : Norm0)
+	{
+		for (auto& jj : Norm1)
+		{
+			glm::vec3 N = glm::cross(ii, jj);
+			if (!(N.x == 0 && N.y == 0 && N.z == 0))
+			{
+				if (MATH::ProjColl(N, Pnts0, Pnts1))
+				{
+					return false;
+				}
+
+			}
+		}
+	}
+	return true;
+}
+
 void MATH::SetMaxMins(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal)
 {
 	//Check if Greater in Max

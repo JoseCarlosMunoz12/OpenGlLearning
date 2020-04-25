@@ -2,6 +2,7 @@
 #include "SphereColSphere.h"
 #include "AABBColAABB.h"
 #include "CapsuleColCapsule.h"
+#include "OBBColOBB.h"
 
 #include "SphereColAABB.h"
 #include "CapsuleColSphere.h"
@@ -12,13 +13,13 @@
 #include "TriangleColAABB.h"
 #include "TriangleColTriangle.h"
 
-#include "OBBColOBB.h"
+#include "ABBColOBB.h"
 
 namespace CoatlPhysicsEngine {
 	class CollisionManager
 		: public SphereColSphere,AABBColAABB,CapsuleColCapsule,
 		 SphereColAABB, CapsuleColSphere, CapsuleColAABB,
-		TriangleColSphere,TriangleColCapsule,TriangleColAABB,TriangleColTriangle,OBBColOBB
+		TriangleColSphere,TriangleColCapsule,TriangleColAABB,TriangleColTriangle,OBBColOBB,ABBColOBB
 	{
 	private:
 	public:		

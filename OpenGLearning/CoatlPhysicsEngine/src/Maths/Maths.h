@@ -25,6 +25,8 @@ namespace MATH {
 	// Bool SegmentTest
 	bool ProjColl(std::vector<glm::vec3> Seg, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1);
 	bool ProjColl(glm::vec3 Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1);
+	bool SATColCheck(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
+		std::vector<glm::vec3> Pnts0,std::vector<glm::vec3> Pnts1);
 	//Return Changes
 	void SetMaxMins(glm::vec3 &Max, glm::vec3 &Min,glm::vec3 NewVal);
 } 
