@@ -1572,11 +1572,6 @@ void Game::ImGuiOptions()
 				ImGui::Text("No Static Collisions");
 			}
 		}
-		if (ImGui::Button("Test OBB Boxes"))
-		{
-			CPE::OBB Box0(glm::vec3(0.f), 1);
-			CPE::AABB_Obj AABB(glm::vec3(0.f), 1);
-		}
 		ImGui::End();
 	}
 }

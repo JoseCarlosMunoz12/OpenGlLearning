@@ -92,15 +92,16 @@ bool StaticCollisions::UpdateBodies(Triangles Tr, std::shared_ptr<Bodies> Bod1)
 
 bool StaticCollisions::UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1)
 {
-	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
-	{
-		return this->ColMan->CheckCollide(Tr, *Sphere0);
-	}
-	else if (std::shared_ptr<Capsule> Cap = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
-	{
-		return this->ColMan->CheckCollide(Tr, *Cap);
-	}
-	else if (std::shared_ptr<AABB_Obj> AABB = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
+	//if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
+	//{
+	//	return this->ColMan->CheckCollide(Tr, *Sphere0);
+	//}
+	//else if (std::shared_ptr<Capsule> Cap = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
+	//{
+	//	return this->ColMan->CheckCollide(Tr, *Cap);
+	//}
+	//else 
+		if (std::shared_ptr<AABB_Obj> AABB = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
 	{
 		return this->ColMan->CheckCollide(Tr, *AABB);
 	}
