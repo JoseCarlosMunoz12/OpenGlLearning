@@ -32,7 +32,9 @@ namespace CoatlPhysicsEngine {
 					Pos.push_back(Temp);
 				}
 				Count++;
-				int Val = glm::abs(Negs.size() - Pos.size());
+				int S = Negs.size();
+				int D =  Pos.size();
+				int Val = glm::abs(S - D);
 				if (Val != Count)
 				{
 					return false;

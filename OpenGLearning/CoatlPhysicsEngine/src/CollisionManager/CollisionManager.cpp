@@ -47,6 +47,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
      return OBBCol(Ob0, Ob1);
  }
 ///Different Combinations
+//Sphere X AABB
  template<>
  bool CollisionManager::CheckCollide(Sphere Sph0,AABB_Obj Obj)
  {
@@ -57,7 +58,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return SphereColsAABB(Sph0, obj);
  }
-
+ //Sphere X Capsule
  template<>
  bool CollisionManager::CheckCollide(Capsule Cap, Sphere Sph)
  {
@@ -68,7 +69,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return Collision(Cap, Sph);
  }
-
+ //Capsule X AABB
  template<>
  bool CollisionManager::CheckCollide(Capsule Cap, AABB_Obj Obj)
  {
@@ -79,7 +80,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return CapColAABB(Cap, Obj);
  }
-
+ //Sphere X Triangles
  template<>
  bool CollisionManager::CheckCollide(Triangles Tr, Sphere Sph)
  {
@@ -90,7 +91,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return TrColSphere(Tr, Sph);
  }
-
+ //Triangles X Capsule
  template<>
  bool CollisionManager::CheckCollide(Triangles Tr, Capsule Cap)
  {
@@ -101,7 +102,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return TrColCap(Tr, Cap);
  }
-
+ //Triangles X AABB
  template<>
  bool CollisionManager::CheckCollide(AABB_Obj Obj,Triangles Tr)
  {
@@ -112,7 +113,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return TrColAABB(Tr, Obj);
  }
-
+ //AABB X OBB
  template<>
  bool CollisionManager::CheckCollide(AABB_Obj AABB, OBB Obj)
  {
@@ -123,7 +124,7 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  {
      return ABBColsOBB(AABB, Obj);
  }
-
+ //Triangles X OBB
  template<>
  bool CollisionManager::CheckCollide(Triangles Tr, OBB Obj)
  {
