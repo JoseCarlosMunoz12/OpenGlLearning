@@ -17,29 +17,28 @@ namespace CoatlPhysicsEngine {
 		}
 		bool SameLocPl(std::vector<glm::vec3> Pnt)
 		{
-			std::vector<float> Vals;
+			int Count = 0;
+			std::vector<float> Negs;
+			std::vector<float> Pos;
 			for (auto& jj : Pnt)
 			{
-				Vals.push_back(glm::dot(Normal, jj) - Bias);
-			}
-			int Count = 0;
-			float C;
-			for (auto& jj : Vals)
-			{
-				if (Count == 0)
+				float Temp = glm::dot(Normal, jj) - Bias;
+				if (Temp <= 0)
 				{
-					C = jj;
-					Count++; 
+					Negs.push_back(Temp);
 				}
 				else
 				{
-					C *= jj;
-					if (C <= 0)
-					{
-						return false;
-					}
+					Pos.push_back(Temp);
+				}
+				Count++;
+				int Val = glm::abs(Negs.size() - Pos.size());
+				if (Val != Count)
+				{
+					return false;
 				}
 			}
+
 			return true;
 		}
 	};

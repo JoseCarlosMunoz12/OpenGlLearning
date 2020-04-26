@@ -1572,6 +1572,24 @@ void Game::ImGuiOptions()
 				ImGui::Text("No Static Collisions");
 			}
 		}
+		if (ImGui::Button("Test TR Col OBB"))
+		{
+			std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
+				glm::vec3(0.f,0.f,0.f) ,
+				glm::vec3(0.f,1.f,0.f) };
+			CPE::Triangles Tr(glm::vec3(0.f), Set);
+			CPE::OBB Obj(glm::vec3(0.f,0.f,2.f),1);
+			CPE::TriangleColOBB S;
+			if (S.TriColOBB(Tr, Obj))
+			{
+				std::cout << "Collided\n";
+			}
+			else
+			{
+				std::cout << "No Collided\n";
+			}
+
+			}
 		ImGui::End();
 	}
 }

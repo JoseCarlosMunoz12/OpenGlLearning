@@ -169,6 +169,7 @@
     <ClInclude Include="src\CollisionManager\TriangleColCapsule.h" />
     <ClInclude Include="src\CollisionManager\TriangleColAABB.h" />
     <ClInclude Include="src\CollisionManager\TriangleColTriangle.h" />
+    <ClInclude Include="src\CollisionManager\TriangleColOBB.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CollisionManager\ABBColOBB.cpp" />
@@ -196,6 +197,7 @@
     <ClCompile Include="src\CollisionManager\TriangleColCapsule.cpp" />
     <ClCompile Include="src\CollisionManager\TriangleColAABB.cpp" />
     <ClCompile Include="src\CollisionManager\TriangleColTriangle.cpp" />
+    <ClCompile Include="src\CollisionManager\TriangleColOBB.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,6 +14,7 @@
 #include "TriangleColTriangle.h"
 
 #include "ABBColOBB.h"
+#include "TriangleColOBB.h"
 
 namespace CoatlPhysicsEngine {
 	class CollisionManager
