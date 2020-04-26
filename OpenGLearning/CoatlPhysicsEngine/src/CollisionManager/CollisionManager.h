@@ -20,7 +20,8 @@ namespace CoatlPhysicsEngine {
 	class CollisionManager
 		: public SphereColSphere,AABBColAABB,CapsuleColCapsule,
 		 SphereColAABB, CapsuleColSphere, CapsuleColAABB,
-		TriangleColSphere,TriangleColCapsule,TriangleColAABB,TriangleColTriangle,OBBColOBB,ABBColOBB
+		TriangleColSphere,TriangleColCapsule,TriangleColAABB,TriangleColTriangle,
+		OBBColOBB,ABBColOBB,TriangleColOBB
 	{
 	private:
 	public:		
