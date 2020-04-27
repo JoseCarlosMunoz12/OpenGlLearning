@@ -142,6 +142,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OptimizaAlgorithm\OctoTree.h" />
+    <ClInclude Include="src\OptimizaAlgorithm\QuadTree.h" />
     <ClInclude Include="src\CollisionManager\CapsuleColOBB.h" />
     <ClInclude Include="src\CollisionManager\SphereColOBB.h" />
     <ClInclude Include="src\CollisionManager\ABBColOBB.h" />
@@ -174,6 +176,8 @@
     <ClInclude Include="src\CollisionManager\TriangleColOBB.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OptimizaAlgorithm\OctoTree.cpp" />
+    <ClCompile Include="src\OptimizaAlgorithm\QuadTree.cpp" />
     <ClCompile Include="src\CollisionManager\CapsuleColOBB.cpp" />
     <ClCompile Include="src\CollisionManager\SphereColOBB.cpp" />
     <ClCompile Include="src\CollisionManager\ABBColOBB.cpp" />

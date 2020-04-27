@@ -105,6 +105,12 @@
     <ClInclude Include="src\CollisionManager\CapsuleColOBB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\OptimizaAlgorithm\QuadTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OptimizaAlgorithm\OctoTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -189,6 +195,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CollisionManager\CapsuleColOBB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OptimizaAlgorithm\QuadTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OptimizaAlgorithm\OctoTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
