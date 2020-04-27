@@ -15,13 +15,14 @@
 
 #include "ABBColOBB.h"
 #include "TriangleColOBB.h"
+#include "SphereColOBB.h"
 
 namespace CoatlPhysicsEngine {
 	class CollisionManager
 		: public SphereColSphere,AABBColAABB,CapsuleColCapsule,
 		 SphereColAABB, CapsuleColSphere, CapsuleColAABB,
 		TriangleColSphere,TriangleColCapsule,TriangleColAABB,TriangleColTriangle,
-		OBBColOBB,ABBColOBB,TriangleColOBB
+		OBBColOBB,ABBColOBB,TriangleColOBB,SphereColOBB
 	{
 	private:
 	public:		

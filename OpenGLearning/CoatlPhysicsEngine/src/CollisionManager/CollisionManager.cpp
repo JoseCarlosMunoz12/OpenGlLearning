@@ -5,7 +5,7 @@ CollisionManager::CollisionManager()
 	:SphereColSphere(),AABBColAABB(),CapsuleColCapsule(),
         SphereColAABB(), CapsuleColSphere(), CapsuleColAABB(),TriangleColSphere(),
     TriangleColCapsule(),TriangleColAABB(),TriangleColTriangle(),
-    OBBColOBB(),ABBColOBB(),TriangleColOBB()
+    OBBColOBB(),ABBColOBB(),TriangleColOBB(),SphereColOBB()
 {}
 CollisionManager::~CollisionManager()
 {}
@@ -134,4 +134,15 @@ bool CollisionManager::CheckCollide(Sphere Sph0,Sphere SPh1)
  bool CollisionManager::CheckCollide( OBB Obj,Triangles Tr)
  {
      return TriColOBB(Tr, Obj);
+ }
+ //Sphere X OBB
+ template<>
+ bool CollisionManager::CheckCollide(Sphere SPh, OBB Obj)
+ {
+     return SphColOBB(SPh,Obj);
+ }
+ template<>
+ bool CollisionManager::CheckCollide(OBB Obj, Sphere SPh)
+ {
+     return SphColOBB(SPh, Obj);
  }

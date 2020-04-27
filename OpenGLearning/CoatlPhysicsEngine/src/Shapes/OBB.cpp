@@ -116,7 +116,8 @@ glm::vec3 OBB::GetClosestPoint(glm::vec3 Point)
 	int Count = 0;
 	for (int jj = 0; jj < 6; jj++)
 	{
-		glm::vec3 TempVec = MATH::ClosestPoint_Seg({Segs[jj*2],Segs[jj* 2+ 1]}, Point);
+		int Val = jj * 2;
+		glm::vec3 TempVec = MATH::ClosestPoint_Seg({ Segs[Ind[Val]], Segs[Ind[Val + 1]]}, Point);
 		float Temp = glm::distance(Point, TempVec);
 		if (Count > 0)
 		{
