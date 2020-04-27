@@ -8,13 +8,13 @@ bool CapsuleColOBB::CapColOBB(Capsule Cap, OBB Obj)
 		0,4,1,5,2,6,3,7 };
 	std::vector<glm::vec3> Points = Obj.GetSegments();
 	float R = Cap.GetRadius();
-	for (int ii = 0; ii < 6; ii++)
+	for (int ii = 0; ii < 12; ii++)
 	{
 		int JJ = ii * 2;
 		int KK = JJ + 1;
 		float Dis = MATH::Distance_Seg(Cap.GetSegment(), {Points[Ind[JJ]] ,Points[Ind[KK]] });
 		if (R > Dis)
-		{
+		{	
 			return true;
 		}
 	}
