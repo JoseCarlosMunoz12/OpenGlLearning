@@ -16,6 +16,7 @@ namespace MATH {
 	//Closest points for Shapes and Segments
 	glm::vec3 ClosetPoint_Pln(Plane Pl, glm::vec3 Point);
 	glm::vec3 ClosestPoint_Seg(std::vector<glm::vec3> trianlge, glm::vec3 Pos, glm::vec3 Point);
+	glm::vec3 ClosestPoint_Seg(std::vector<glm::vec3> Seg, glm::vec3 Point );
 	glm::vec3 ClosestPoint_Pnt(std::vector<glm::vec3> Seg, glm::vec3 Pos, glm::vec3 Point);
 	//DistanceValue
 	float Distance_Pnt(std::vector<glm::vec3> Seg, glm::vec3 Pos, glm::vec3 Point);

@@ -25,5 +25,6 @@ namespace CoatlPhysicsEngine {
 		void SetUnitVec(glm::vec3 SetUnitVec);
 		std::vector<glm::vec3> GetSegments();
 		glm::vec3 GetLenghts();
+		glm::vec3 GetClosestPoint(glm::vec3 Point);
 	};
 }

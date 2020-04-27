@@ -104,3 +104,34 @@ glm::vec3 OBB::GetLenghts()
 {
 	return this->Ex;
 }
+
+glm::vec3 OBB::GetClosestPoint(glm::vec3 Point)
+{
+	std::vector<glm::vec3> Segs = this->GetSegments();
+	glm::vec3 ClsPoints;
+	std::vector<int> Ind = {0,1,1,2,2,3,3,0,
+		4,5,5,6,6,7,7,4,
+		0,4,1,5,2,6,3,7 };
+	float Min;
+	int Count = 0;
+	for (int jj = 0; jj < 6; jj++)
+	{
+		glm::vec3 TempVec = MATH::ClosestPoint_Seg({Segs[jj*2],Segs[jj* 2+ 1]}, Point);
+		float Temp = glm::distance(Point, TempVec);
+		if (Count > 0)
+		{
+			if (Min >Temp)
+			{
+				Min = Temp;
+				ClsPoints = TempVec;
+			}
+		}
+		else
+		{
+			Min = Temp;
+			ClsPoints = TempVec;
+		}
+		Count++;
+	}
+	return ClsPoints;
+}
