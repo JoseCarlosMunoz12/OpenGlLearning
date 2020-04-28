@@ -13,12 +13,12 @@ namespace CoatlPhysicsEngine {
 		std::unique_ptr<QuadTree> SouthEast;
 		//Quadtree Parameters
 		AABB_Obj Parameters;
-		const int QT_CAp = 4;
+		const int QT_Cap = 4;
 		void InitChilds();
 	public:
 		QuadTree(AABB_Obj Range);
 		~QuadTree();
-		void Insert(std::shared_ptr<Bodies> Bod) override;
+		bool Insert(std::shared_ptr<Bodies> Bod) override;
 		std::vector<Bodies> GetQueries(AABB_Obj ABRange) override;
 	};
 }

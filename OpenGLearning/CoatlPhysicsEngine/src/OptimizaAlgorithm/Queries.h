@@ -6,7 +6,7 @@ namespace CoatlPhysicsEngine {
 	public:
 		Queries() {}
 		~Queries() {}
-		virtual void Insert(std::shared_ptr<Bodies> Bod)=0;
+		virtual bool Insert(std::shared_ptr<Bodies> Bod)=0;
 		virtual std::vector<Bodies> GetQueries(AABB_Obj ABRange) =0;
 	};
 }

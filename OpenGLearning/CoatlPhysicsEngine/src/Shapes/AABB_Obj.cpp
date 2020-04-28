@@ -107,3 +107,20 @@ glm::vec3 AABB_Obj::GetClosesPoint(glm::vec3 Point)
 	return P;
 }
 
+bool AABB_Obj::Inside(glm::vec3 Point)
+{
+     if (Point.x > Pos.x + XLength/2  && Point.x < Pos.x - XLength/2 )
+     {
+         return false;
+     }
+     if (Point.y > Pos.y + YLength / 2 && Point.y < Pos.y - YLength / 2)
+     {
+         return false;
+     }
+     if (Point.z > Pos.z + ZLength / 2 && Point.z < Pos.z - ZLength / 2)
+     {
+         return false;
+     }
+	return true;
+}
+
