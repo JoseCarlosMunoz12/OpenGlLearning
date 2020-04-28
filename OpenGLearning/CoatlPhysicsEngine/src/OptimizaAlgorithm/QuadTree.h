@@ -1,7 +1,8 @@
 #pragma once
 #include "Queries.h"
+#include "../Shapes/OBB.h"
 namespace CoatlPhysicsEngine {
-	class QuadTree : public Queries
+	class QuadTree
 	{
 	private:
 		//Holds Bodies in Quadtree part
@@ -12,13 +13,15 @@ namespace CoatlPhysicsEngine {
 		std::unique_ptr<QuadTree> SouthWest;
 		std::unique_ptr<QuadTree> SouthEast;
 		//Quadtree Parameters
-		AABB_Obj Parameters;
+		glm::vec3 Center;
+		float Ext;
 		const int QT_Cap = 4;
 		void InitChilds();
 	public:
-		QuadTree(AABB_Obj Range);
+		QuadTree(glm::vec3 Pos, float Dim);
 		~QuadTree();
-		bool Insert(std::shared_ptr<Bodies> Bod) override;
-		std::vector<Bodies> GetQueries(AABB_Obj ABRange) override;
+		bool Insert(std::shared_ptr<Bodies> Bod);
+		bool InsiePar(glm::vec3 Pos);
+		std::vector<Bodies> GetQueries(AABB_Obj ABRange);
 	};
 }

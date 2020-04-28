@@ -12,5 +12,7 @@
 
 #include "Maths/Maths.h"
 
+#include "OptimizaAlgorithm/QuadTree.h"
+
 namespace CPE = CoatlPhysicsEngine;
 
