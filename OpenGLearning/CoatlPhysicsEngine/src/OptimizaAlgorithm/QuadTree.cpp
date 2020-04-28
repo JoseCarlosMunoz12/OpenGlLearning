@@ -37,7 +37,7 @@ bool QuadTree::Insert(std::shared_ptr<Bodies> Bod)
 		return false;
 	}
 	int Size = Bods.size();
-	if (Size < QT_Cap )
+	if (Size < QT_Cap && NorthWest == NULL )
 	{
 		Bods.push_back(Bod);
 		return true;

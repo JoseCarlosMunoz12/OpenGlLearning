@@ -1504,22 +1504,22 @@ void Game::ImGuiOptions()
 				if (ImGui::Button("Add Sphere"))
 				{
 					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f), 1.f);
-					TempStatic->AddNewBody(glm::vec3(1.f), S_Temp);
+					TempStatic->AddNewBody(S_Temp);
 				}
 				if (ImGui::Button("Add Box"))
 				{
 					std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
-					TempStatic->AddNewBody(glm::vec3(0.f), B_Temp);
+					TempStatic->AddNewBody(B_Temp);
 				}
 				if (ImGui::Button("Add OBB Box"))
 				{
 					std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f),1.f);
-					TempStatic->AddNewBody(glm::vec3(0.f), OB_Temp);
+					TempStatic->AddNewBody(OB_Temp);
 				}
 				if (ImGui::Button("Add Capsule"))
 				{
 					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
-					TempStatic->AddNewBody(glm::vec3(0.f), C_Temp);
+					TempStatic->AddNewBody(C_Temp);
 				}
 				if (ImGui::Button("Add Triangle"))
 				{
@@ -1527,7 +1527,7 @@ void Game::ImGuiOptions()
 						glm::vec3(0.f,0.f,0.f) ,
 						glm::vec3(0.f,1.f,0.f) };
 					std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
-					TempStatic->AddNewBody(glm::vec3(0.f), Tr_Temp);
+					TempStatic->AddNewBody(Tr_Temp);
 				}
 				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
@@ -1573,17 +1573,23 @@ void Game::ImGuiOptions()
 			}
 			if (ImGui::Button("Test"))
 			{
-				CPE::QuadTree* Se = new CPE::QuadTree(glm::vec3(0.f),10.f);
+				CPE::QuadTree* Se = new CPE::QuadTree(glm::vec3(0.f),100.f);
 				std::vector<std::shared_ptr<CPE::Bodies>> Bods;
-				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(0.f,1.f,0.f), 1), 0));
-				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(1.f,0.f,0.f), 1), 1));
-				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(3.f,0.f,0.f), 1), 2));
-				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(0.f,2.f,0.f), 1), 3));
-				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(1.f,1.f,0.f), 1), 4));
+				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f,1.f,0.f), 1), 0));
+				Bods.push_back(std::make_shared<CPE::Bodies>( std::make_shared<CPE::OBB>(glm::vec3(1.f,0.f,0.f), 1), 1));
+				Bods.push_back(std::make_shared<CPE::Bodies>( std::make_shared<CPE::OBB>(glm::vec3(3.f,0.f,0.f), 1), 2));
+				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f,2.f,0.f), 1), 3));
+				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(1.f,1.f,0.f), 1), 4));
+				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f, 10.f, 0.f), 1), 5));
+				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(10.f, 0.f, 0.f), 1), 6));
+				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(3.f, 9.f, 0.f), 1), 7));
+				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(7.f, 2.f, 0.f), 1), 8));
+				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(8.f, 1.f, 0.f), 1), 9));
 				for (auto& jj : Bods)
 				{
 					Se->Insert(jj);
 				}
+				std::cout << "done\n";
 			}
 		}
 		ImGui::End();
