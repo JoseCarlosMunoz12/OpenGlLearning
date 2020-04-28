@@ -19,6 +19,15 @@ void QuadTree::SeperateBods()
 	Bods.clear();
 }
 
+bool QuadTree::InsidePar(glm::vec3 Pos)
+{
+	if (Pos.x > (Center.x + Ext) || Pos.x < (Center.x - Ext))
+		return false;
+	if (Pos.y > (Center.y + Ext) || Pos.y < (Center.y - Ext))
+		return false;
+	return true;
+}
+
 QuadTree::QuadTree(glm::vec3 Pos, float Dim)
 {
 	this->Center = Pos;
@@ -32,7 +41,7 @@ QuadTree::~QuadTree()
 bool QuadTree::Insert(std::shared_ptr<Bodies> Bod)
 {
 	glm::vec3 Pos = Bod->GetPos();
-	if (!InsiePar(Pos))
+	if (!InsidePar(Pos))
 	{
 		return false;
 	}
@@ -54,15 +63,13 @@ bool QuadTree::Insert(std::shared_ptr<Bodies> Bod)
 	//this happens if it fails.
 	return false;
 }
-bool QuadTree::InsiePar(glm::vec3 Pos)
+std::vector<Bodies> QuadTree::GetQueries(glm::vec3 Loc, float Ext)
 {
-	if (Pos.x > (Center.x + Ext) || Pos.x < (Center.x - Ext))
-		return false;
-	if (Pos.y > (Center.y + Ext) || Pos.y < (Center.y - Ext))
-		return false;
-	return true;
-}
-std::vector<Bodies> QuadTree::GetQueries(AABB_Obj ABRange)
-{
-	return std::vector<Bodies>();
+	std::vector<Bodies> Temp;
+	for (auto& jj : Bods)
+	{
+		Temp.push_back(*jj);
+	}
+
+	return Temp;
 }

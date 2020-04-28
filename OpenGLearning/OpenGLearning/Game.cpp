@@ -1590,6 +1590,7 @@ void Game::ImGuiOptions()
 					Se->Insert(jj);
 				}
 				std::cout << "done\n";
+				std::vector<CPE::Bodies> Set = Se->GetQueries(glm::vec3(1.f),10.f);
 			}
 		}
 		ImGui::End();
