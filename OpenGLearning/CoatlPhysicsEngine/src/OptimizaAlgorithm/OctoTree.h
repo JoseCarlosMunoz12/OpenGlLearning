@@ -1,5 +1,8 @@
 #pragma once
-class OctoTree
-{
-};
+#include "Queries.h"
+namespace CoatlPhysicsEngine {
+	class OctoTree : public Queries
+	{
 
+	};
+}
