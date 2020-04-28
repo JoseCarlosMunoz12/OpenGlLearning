@@ -17,11 +17,12 @@ namespace CoatlPhysicsEngine {
 		float Ext;
 		const int QT_Cap = 4;
 		void InitChilds();
+		void SeperateBods();
+		bool InsiePar(glm::vec3 Pos);
 	public:
 		QuadTree(glm::vec3 Pos, float Dim);
 		~QuadTree();
 		bool Insert(std::shared_ptr<Bodies> Bod);
-		bool InsiePar(glm::vec3 Pos);
 		std::vector<Bodies> GetQueries(AABB_Obj ABRange);
 	};
 }

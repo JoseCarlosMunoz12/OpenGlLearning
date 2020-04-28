@@ -10,6 +10,15 @@ void QuadTree::InitChilds()
 	this->SouthEast = std::make_unique<QuadTree>(glm::vec3(Pos.x + Ext / 2, Pos.y - Ext / 2, Pos.z), Ext / 2);
 }
 
+void QuadTree::SeperateBods()
+{
+	for (auto& jj : Bods)
+	{
+		this->Insert(jj);
+	}
+	Bods.clear();
+}
+
 QuadTree::QuadTree(glm::vec3 Pos, float Dim)
 {
 	this->Center = Pos;
@@ -36,6 +45,7 @@ bool QuadTree::Insert(std::shared_ptr<Bodies> Bod)
 	if (NorthWest == NULL)
 	{
 		this->InitChilds();
+		this->SeperateBods();
 	}
 	if (NorthWest->Insert(Bod)) return true;
 	if (NorthEast->Insert(Bod)) return true;
@@ -44,9 +54,13 @@ bool QuadTree::Insert(std::shared_ptr<Bodies> Bod)
 	//this happens if it fails.
 	return false;
 }
-bool CoatlPhysicsEngine::QuadTree::InsiePar(glm::vec3 Pos)
+bool QuadTree::InsiePar(glm::vec3 Pos)
 {
-	return false;
+	if (Pos.x > (Center.x + Ext) || Pos.x < (Center.x - Ext))
+		return false;
+	if (Pos.y > (Center.y + Ext) || Pos.y < (Center.y - Ext))
+		return false;
+	return true;
 }
 std::vector<Bodies> QuadTree::GetQueries(AABB_Obj ABRange)
 {
