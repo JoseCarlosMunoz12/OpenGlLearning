@@ -7,17 +7,15 @@ Bodies::Bodies(int InitID)
 	this->ID = InitID;
 }
 
-Bodies::Bodies(glm::vec3 NewPos, std::shared_ptr<ColShapes> InitShapes, int InitID)
+Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
 {
-	this->Pos = NewPos;
 	this->ID = InitID;
 	this->BodyInf.push_back(std::make_shared<BodyParts>());
 	this->BodyInf[0]->BodPart = InitShapes;
 }
 
-Bodies::Bodies(glm::vec3 NewPos, std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
+Bodies::Bodies( std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
 {
-	this->Pos = NewPos;
 	this->ID = InitID;
 	int Count = 0;
 	for (auto& ii : InitShapes)

@@ -171,17 +171,17 @@ void StaticCollisions::UpdateCollisionCheck()
 	}
 }
 
-void StaticCollisions::AddNewBody(glm::vec3 InitPos, std::shared_ptr<ColShapes> NewShape)
+void StaticCollisions::AddNewBody( std::shared_ptr<ColShapes> NewShape)
 {
-	this->AllStatics.push_back(std::make_shared<Bodies>(InitPos,NewShape,this->NewCurId));
+	this->AllStatics.push_back(std::make_shared<Bodies>(NewShape,this->NewCurId));
 	this->NewCurId++;
 }
 
-void StaticCollisions::AddNewBody(glm::vec3 InitPos, std::vector<std::shared_ptr<ColShapes>> NewShapes)
+void StaticCollisions::AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewShapes)
 {
 	for (auto& ii : NewShapes)
 	{
-		this->AllStatics.push_back(std::make_shared<Bodies>(InitPos,ii, this->NewCurId));
+		this->AllStatics.push_back(std::make_shared<Bodies>(ii, this->NewCurId));
 	}
 	this->NewCurId++;
 }

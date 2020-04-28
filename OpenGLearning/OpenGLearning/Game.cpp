@@ -1574,7 +1574,16 @@ void Game::ImGuiOptions()
 			if (ImGui::Button("Test"))
 			{
 				CPE::QuadTree* Se = new CPE::QuadTree(glm::vec3(0.f),10.f);
-				Se;
+				std::vector<std::shared_ptr<CPE::Bodies>> Bods;
+				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(0.f,1.f,0.f), 1), 0));
+				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(1.f,0.f,0.f), 1), 1));
+				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(3.f,0.f,0.f), 1), 2));
+				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(0.f,2.f,0.f), 1), 3));
+				Bods.push_back(std::make_shared<CPE::Bodies>(glm::vec3(0.f), std::make_shared<CPE::OBB>(glm::vec3(1.f,1.f,0.f), 1), 4));
+				for (auto& jj : Bods)
+				{
+					Se->Insert(jj);
+				}
 			}
 		}
 		ImGui::End();
