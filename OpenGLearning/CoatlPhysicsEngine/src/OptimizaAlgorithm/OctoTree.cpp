@@ -37,11 +37,11 @@ bool OctoTree::InsidePar(glm::vec3 Pos)
 
 bool OctoTree::InsidePar(glm::vec3 Pos, float Ex)
 {
-	if (glm::abs(Pos.x - Center.x) > (Ext + Ex))
+	if (glm::abs(Pos.x - Center.x) >= (Ext + Ex))
 		return false;
-	if (glm::abs(Pos.y - Center.y) > (Ext + Ex))
+	if (glm::abs(Pos.y - Center.y) >= (Ext + Ex))
 		return false;
-	if (glm::abs(Pos.z - Center.z) > (Ext + Ex))
+	if (glm::abs(Pos.z - Center.z) >= (Ext + Ex))
 		return false;
 	return true;
 }

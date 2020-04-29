@@ -30,9 +30,9 @@ bool QuadTree::InsidePar(glm::vec3 Pos)
 
 bool CoatlPhysicsEngine::QuadTree::InsidePar(glm::vec3 Pos, float Ex)
 {
-	if (glm::abs(Pos.x - Center.x) > (Ext + Ex))
+	if (glm::abs(Pos.x - Center.x) >= (Ext + Ex))
 		return false;
-	if (glm::abs(Pos.y - Center.y) > (Ext + Ex))
+	if (glm::abs(Pos.y - Center.y) >= (Ext + Ex))
 		return false;
 	return true;
 }
