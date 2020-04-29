@@ -19,6 +19,7 @@ namespace CoatlPhysicsEngine {
 		void InitChilds();
 		void SeperateBods();
 		bool InsidePar(glm::vec3 Pos);
+		bool InsidePar(glm::vec3 Pos, float Ex);
 	public:
 		QuadTree(glm::vec3 Pos, float Dim);
 		~QuadTree();

@@ -1571,27 +1571,28 @@ void Game::ImGuiOptions()
 			{
 				ImGui::Text("No Static Collisions");
 			}
-			if (ImGui::Button("Test"))
+		}
+		if (ImGui::Button("Test"))
+		{
+			CPE::QuadTree* Se = new CPE::QuadTree(glm::vec3(0.f),100.f);
+			std::vector<std::shared_ptr<CPE::Bodies>> Bods;
+			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f,1.f,0.f), 1), 0));
+			Bods.push_back(std::make_shared<CPE::Bodies>( std::make_shared<CPE::OBB>(glm::vec3(1.f,0.f,0.f), 1), 1));
+			Bods.push_back(std::make_shared<CPE::Bodies>( std::make_shared<CPE::OBB>(glm::vec3(3.f,0.f,0.f), 1), 2));
+			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f,2.f,0.f), 1), 3));
+			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(1.f,1.f,0.f), 1), 4));
+			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f, 10.f, 0.f), 1), 5));
+			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(10.f, 0.f, 0.f), 1), 6));
+			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(3.f, 9.f, 0.f), 1), 7));
+			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(7.f, 2.f, 0.f), 1), 8));
+			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(8.f, 1.f, 0.f), 1), 9));
+			for (auto& jj : Bods)
 			{
-				CPE::QuadTree* Se = new CPE::QuadTree(glm::vec3(0.f),100.f);
-				std::vector<std::shared_ptr<CPE::Bodies>> Bods;
-				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f,1.f,0.f), 1), 0));
-				Bods.push_back(std::make_shared<CPE::Bodies>( std::make_shared<CPE::OBB>(glm::vec3(1.f,0.f,0.f), 1), 1));
-				Bods.push_back(std::make_shared<CPE::Bodies>( std::make_shared<CPE::OBB>(glm::vec3(3.f,0.f,0.f), 1), 2));
-				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f,2.f,0.f), 1), 3));
-				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(1.f,1.f,0.f), 1), 4));
-				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f, 10.f, 0.f), 1), 5));
-				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(10.f, 0.f, 0.f), 1), 6));
-				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(3.f, 9.f, 0.f), 1), 7));
-				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(7.f, 2.f, 0.f), 1), 8));
-				Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(8.f, 1.f, 0.f), 1), 9));
-				for (auto& jj : Bods)
-				{
-					Se->Insert(jj);
-				}
-				std::cout << "done\n";
-				std::vector<CPE::Bodies> Set = Se->GetQueries(glm::vec3(1.f),10.f);
+				Se->Insert(jj);
 			}
+			std::cout << "done\n";
+			std::vector<CPE::Bodies> Set = Se->GetQueries(glm::vec3(1.f),4.f);
+			std::cout << Set.size() << "\n";
 		}
 		ImGui::End();
 	}

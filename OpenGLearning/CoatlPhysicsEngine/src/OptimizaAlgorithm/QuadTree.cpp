@@ -28,6 +28,15 @@ bool QuadTree::InsidePar(glm::vec3 Pos)
 	return true;
 }
 
+bool CoatlPhysicsEngine::QuadTree::InsidePar(glm::vec3 Pos, float Ex)
+{
+	if (glm::abs(Pos.x - Center.x) > (Ext + Ex))
+		return false;
+	if (glm::abs(Pos.y - Center.y) > (Ext + Ex))
+		return false;
+	return true;
+}
+
 QuadTree::QuadTree(glm::vec3 Pos, float Dim)
 {
 	this->Center = Pos;
@@ -41,21 +50,25 @@ QuadTree::~QuadTree()
 bool QuadTree::Insert(std::shared_ptr<Bodies> Bod)
 {
 	glm::vec3 Pos = Bod->GetPos();
+	//check if points can be inside
 	if (!InsidePar(Pos))
 	{
 		return false;
 	}
 	int Size = Bods.size();
+	//See if there is room in QuadTree
 	if (Size < QT_Cap && NorthWest == NULL )
 	{
 		Bods.push_back(Bod);
 		return true;
 	}
+	//Determine to
 	if (NorthWest == NULL)
 	{
 		this->InitChilds();
 		this->SeperateBods();
 	}
+	//Check which to insert
 	if (NorthWest->Insert(Bod)) return true;
 	if (NorthEast->Insert(Bod)) return true;
 	if (SouthWest->Insert(Bod)) return true;
@@ -66,10 +79,28 @@ bool QuadTree::Insert(std::shared_ptr<Bodies> Bod)
 std::vector<Bodies> QuadTree::GetQueries(glm::vec3 Loc, float Ext)
 {
 	std::vector<Bodies> Temp;
+	//Check if the Location and Ext is in the Quadtree
+	if (!InsidePar(Loc,Ext))
+		return Temp;
+	//Append all Bods in the Quad
 	for (auto& jj : Bods)
 	{
 		Temp.push_back(*jj);
 	}
+	//Terminate if there is no Children
+	if (NorthWest == NULL)
+		return Temp;
+	//get rest of Bodies
+	std::vector<Bodies> NWBods = NorthWest->GetQueries(Loc, Ext);
+	Temp.insert(Temp.end(), NWBods.begin(), NWBods.end());
 
+	std::vector<Bodies> NEBods = NorthEast->GetQueries(Loc, Ext);
+	Temp.insert(Temp.end(), NEBods.begin(), NEBods.end());
+
+	std::vector<Bodies> SWBods = SouthWest->GetQueries(Loc, Ext);
+	Temp.insert(Temp.end(), SWBods.begin(), SWBods.end());
+
+	std::vector<Bodies> SEBods = SouthEast->GetQueries(Loc, Ext);
+	Temp.insert(Temp.end(), SEBods.begin(), SEBods.end());
 	return Temp;
 }
