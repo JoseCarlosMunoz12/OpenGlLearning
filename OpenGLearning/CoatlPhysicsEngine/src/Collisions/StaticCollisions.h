@@ -23,6 +23,7 @@ namespace CoatlPhysicsEngine
 		std::shared_ptr<CollisionManager> ColMan;
 		std::string Name;
 		std::vector<std::shared_ptr<Bodies>> AllStatics;
+		std::unique_ptr<Queries> AlgoCheck;
 		int NewCurId = 0;
 	protected:
 		bool UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1);
@@ -39,6 +40,8 @@ namespace CoatlPhysicsEngine
 		std::string GetName();
 		std::vector<std::weak_ptr<Bodies>> GetAllBodies();
 		std::shared_ptr<Bodies> GetABody(int ID);
+		//change type of CollisionCheckALgoritme
+
 	};
 }
 

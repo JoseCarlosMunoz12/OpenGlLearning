@@ -31,7 +31,7 @@ namespace CoatlPhysicsEngine {
 		OctoTree(glm::vec3 InitCent, float Ex, int Cap = 8);
 		~OctoTree();
 		bool Insert(std::shared_ptr<Bodies> Bod) override;
-		std::vector<Bodies> GetQueries(glm::vec3 Loc, float Ext) override;
+		std::vector<std::shared_ptr<Bodies>> GetQueries(glm::vec3 Loc, float Ext) override;
 		std::string GetAlgorType() override;
 	};
 }
