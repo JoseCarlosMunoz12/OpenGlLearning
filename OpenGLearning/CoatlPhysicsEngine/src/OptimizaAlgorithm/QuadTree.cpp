@@ -37,7 +37,7 @@ bool CoatlPhysicsEngine::QuadTree::InsidePar(glm::vec3 Pos, float Ex)
 	return true;
 }
 
-QuadTree::QuadTree(glm::vec3 Pos, float Dim,int QuadSize = 4)
+QuadTree::QuadTree(glm::vec3 Pos, float Dim,int QuadSize)
 	:Queries()
 {
 	this->QT_Cap = QuadSize;

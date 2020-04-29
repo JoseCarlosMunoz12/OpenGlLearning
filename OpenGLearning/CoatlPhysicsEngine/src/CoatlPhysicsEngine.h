@@ -13,6 +13,7 @@
 #include "Maths/Maths.h"
 
 #include "OptimizaAlgorithm/QuadTree.h"
+#include "OptimizaAlgorithm/OctoTree.h"
 
 namespace CPE = CoatlPhysicsEngine;
 

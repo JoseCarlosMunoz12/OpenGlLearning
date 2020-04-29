@@ -2,7 +2,17 @@
 using namespace CoatlPhysicsEngine;
 void OctoTree::InitChilds()
 {
-
+	glm::vec3 Pos = Center;
+	//Top Layer
+	this->Box0 = std::make_unique<OctoTree>(glm::vec3(Pos.x - Ext / 2, Pos.y + Ext / 2, Pos.z + Ext / 2), Ext / 2);
+	this->Box1 = std::make_unique<OctoTree>(glm::vec3(Pos.x + Ext / 2, Pos.y + Ext / 2, Pos.z + Ext / 2), Ext / 2);
+	this->Box2 = std::make_unique<OctoTree>(glm::vec3(Pos.x - Ext / 2, Pos.y - Ext / 2, Pos.z + Ext / 2), Ext / 2);
+	this->Box3 = std::make_unique<OctoTree>(glm::vec3(Pos.x + Ext / 2, Pos.y - Ext / 2, Pos.z + Ext / 2), Ext / 2);
+	//Bottom Layer
+	this->Box4 = std::make_unique<OctoTree>(glm::vec3(Pos.x - Ext / 2, Pos.y + Ext / 2, Pos.z - Ext / 2), Ext / 2);
+	this->Box5 = std::make_unique<OctoTree>(glm::vec3(Pos.x + Ext / 2, Pos.y + Ext / 2, Pos.z - Ext / 2), Ext / 2);
+	this->Box6 = std::make_unique<OctoTree>(glm::vec3(Pos.x - Ext / 2, Pos.y - Ext / 2, Pos.z - Ext / 2), Ext / 2);
+	this->Box7 = std::make_unique<OctoTree>(glm::vec3(Pos.x + Ext / 2, Pos.y - Ext / 2, Pos.z - Ext / 2), Ext / 2);
 }
 
 void OctoTree::SeperateBods()
@@ -36,7 +46,7 @@ bool OctoTree::InsidePar(glm::vec3 Pos, float Ex)
 	return true;
 }
 
-OctoTree::OctoTree(glm::vec3 InitCent, float Ex, int Cap =4)
+OctoTree::OctoTree(glm::vec3 InitCent, float Ex, int Cap)
 {
 	this->Center = InitCent;
 	this->Ext = Ex;
