@@ -24,5 +24,6 @@ namespace CoatlPhysicsEngine {
 		~QuadTree();
 		bool Insert(std::shared_ptr<Bodies> Bod) override;
 		std::vector<Bodies> GetQueries(glm::vec3 Loc, float Ext) override;
+		std::string GetAlgorType() override;
 	};
 }

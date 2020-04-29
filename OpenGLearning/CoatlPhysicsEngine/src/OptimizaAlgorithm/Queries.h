@@ -7,5 +7,9 @@ namespace CoatlPhysicsEngine {
 		~Queries() {}
 		virtual bool Insert(std::shared_ptr<Bodies> Bod)=0;
 		virtual std::vector<Bodies> GetQueries(glm::vec3 Loc, float Ext) =0;
+		virtual std::string GetAlgorType()
+		{
+			return "None";
+		}
 	};
 }

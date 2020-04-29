@@ -131,3 +131,8 @@ std::vector<Bodies> OctoTree::GetQueries(glm::vec3 Loc, float Ext)
 
 	return Temp;
 }
+
+std::string CoatlPhysicsEngine::OctoTree::GetAlgorType()
+{
+	return "OctoTree";
+}

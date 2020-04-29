@@ -106,3 +106,8 @@ std::vector<Bodies> QuadTree::GetQueries(glm::vec3 Loc, float Ext)
 	Temp.insert(Temp.end(), SEBods.begin(), SEBods.end());
 	return Temp;
 }
+
+std::string CoatlPhysicsEngine::QuadTree::GetAlgorType()
+{
+	return "QuadTree";
+}

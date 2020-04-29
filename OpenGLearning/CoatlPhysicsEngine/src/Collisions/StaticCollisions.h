@@ -12,6 +12,8 @@
 #include "../Shapes/ColShapes.h"
 #include "../Bodies/Bodies.h"
 #include "../CollisionManager/CollisionManager.h"
+#include "../OptimizaAlgorithm/QuadTree.h"
+#include "../OptimizaAlgorithm/OctoTree.h"
 
 namespace CoatlPhysicsEngine 
 {
