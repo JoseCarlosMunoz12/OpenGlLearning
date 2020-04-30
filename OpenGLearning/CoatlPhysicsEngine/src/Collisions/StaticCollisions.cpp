@@ -127,6 +127,33 @@ bool StaticCollisions::UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1)
 	return false;
 }
 
+void StaticCollisions::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+{
+	bool Check = false;
+	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
+	{
+		Check = this->UpdateBodies(*Sphere0, Bod1);
+	}
+	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod0->GetShapes()))
+	{
+		Check = this->UpdateBodies(*Cube0, Bod1);
+	}
+	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod0->GetShapes()))
+	{
+		Check = this->UpdateBodies(*Cap0, Bod1);
+	}
+	else if (std::shared_ptr<Triangles> Tr = std::dynamic_pointer_cast<Triangles>(Bod0->GetShapes()))
+	{
+		Check = this->UpdateBodies(*Tr, Bod1);
+	}
+	else if (std::shared_ptr<OBB> Obj = std::dynamic_pointer_cast<OBB>(Bod0->GetShapes()))
+	{
+		Check = this->UpdateBodies(*Obj, Bod1);
+	}
+	Bod0->UpDateBodiesInf(Check, Bod1);
+	Bod1->UpDateBodiesInf(Check, Bod0);
+}
+
 StaticCollisions::StaticCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
 	:Ext(100.f),AlgoType(Alg_Type::B_F),B_Ex(4.f)
 {
@@ -140,6 +167,7 @@ StaticCollisions::~StaticCollisions()
 
 void StaticCollisions::UpdateCollisionCheck()
 {
+	//make approriate Algorithm
 	switch (AlgoType)
 	{
 	case Alg_Type::B_F:
@@ -152,40 +180,22 @@ void StaticCollisions::UpdateCollisionCheck()
 	default:
 		break;
 	}
+	//Add bodies into Algorithm
 	for (auto& jj : AllStatics)
 	{
 		this->AlgoCheck->Insert(jj);
 	}
+	//get queries and test them
 	int Size = AllStatics.size();
-	bool Check = false;
+	//O(nlog) for Quadtree and OctoTree
+	//O(n^2) for B_Force
 	for (int ii = 0; ii < Size; ii++)
 	{
-		for (int jj = ii + 1; jj < Size; jj++)
+		std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(AllStatics[ii], Ext);
+		for (auto& kk : Quer)
 		{
-			if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(AllStatics[ii]->GetShapes()))
-			{
-				 Check = this->UpdateBodies(*Sphere0, AllStatics[jj]);				
-			}
-			else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(AllStatics[ii]->GetShapes()))
-			{
-				Check = this->UpdateBodies(*Cube0, AllStatics[jj]);
-			}
-			else if ( std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(AllStatics[ii]->GetShapes()))
-			{
-				Check = this->UpdateBodies(*Cap0,AllStatics[jj]);
-			}
-			else if (std::shared_ptr<Triangles> Tr = std::dynamic_pointer_cast<Triangles>(AllStatics[ii]->GetShapes()))
-			{
-				Check = this->UpdateBodies(*Tr, AllStatics[jj]);
-			}
-			else if (std::shared_ptr<OBB> Obj = std::dynamic_pointer_cast<OBB>(AllStatics[ii]->GetShapes()))
-			{
-				Check = this->UpdateBodies(*Obj, AllStatics[jj]);
-			}
-			AllStatics[ii]->UpDateBodiesInf(Check, AllStatics[jj]);
-			AllStatics[jj]->UpDateBodiesInf(Check, AllStatics[ii]);
+			this->ColBods(AllStatics[ii], kk);
 		}
-
 	}
 }
 
@@ -204,12 +214,12 @@ void StaticCollisions::AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewSha
 	this->NewCurId++;
 }
 
-std::string CoatlPhysicsEngine::StaticCollisions::GetName()
+std::string StaticCollisions::GetName()
 {
 	return this->Name;
 }
 
-std::vector<std::weak_ptr<Bodies>> CoatlPhysicsEngine::StaticCollisions::GetAllBodies()
+std::vector<std::weak_ptr<Bodies>> StaticCollisions::GetAllBodies()
 {
 	std::vector<std::weak_ptr<Bodies>> Temp;
 	for (auto& jj : this->AllStatics)
@@ -219,7 +229,7 @@ std::vector<std::weak_ptr<Bodies>> CoatlPhysicsEngine::StaticCollisions::GetAllB
 	return Temp;
 }
 
-std::shared_ptr<Bodies> CoatlPhysicsEngine::StaticCollisions::GetABody(int ID)
+std::shared_ptr<Bodies> StaticCollisions::GetABody(int ID)
 {
 	std::shared_ptr<Bodies> Temp;
 	for (auto& ii : this->AllStatics)
@@ -231,4 +241,14 @@ std::shared_ptr<Bodies> CoatlPhysicsEngine::StaticCollisions::GetABody(int ID)
 		}
 	}
 	return Temp;
+}
+
+Alg_Type StaticCollisions::GetType()
+{
+	return this->AlgoType;
+}
+
+void StaticCollisions::SetNewType(Alg_Type NewType)
+{
+	this->AlgoType = NewType;
 }
