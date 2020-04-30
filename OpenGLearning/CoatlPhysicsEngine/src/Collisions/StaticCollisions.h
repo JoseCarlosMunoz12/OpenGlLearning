@@ -18,6 +18,7 @@
 
 namespace CoatlPhysicsEngine 
 {
+	
 	class StaticCollisions
 	{
 	private:
@@ -25,9 +26,17 @@ namespace CoatlPhysicsEngine
 		std::string Name;
 		std::vector<std::shared_ptr<Bodies>> AllStatics;
 		std::unique_ptr<Queries> AlgoCheck;
-		int NewCurId = 0;
+		int NewCurId = 0;		
 	protected:
+		enum Alg_Type
+		{
+			B_F,
+			Q_T,
+			O_T
+		};
 		float Ext;
+		float B_Ex;
+		Alg_Type AlgoType;
 		bool UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1);
 		bool UpdateBodies(AABB_Obj Obj0, std::shared_ptr<Bodies> Bod1);
 		bool UpdateBodies(Capsule Cap0, std::shared_ptr<Bodies> Bod1);

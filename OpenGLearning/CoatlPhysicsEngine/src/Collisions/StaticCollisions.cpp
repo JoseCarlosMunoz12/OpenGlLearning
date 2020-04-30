@@ -128,10 +128,10 @@ bool StaticCollisions::UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1)
 }
 
 StaticCollisions::StaticCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
-	:Ext(4.f)
+	:Ext(100.f),AlgoType(Alg_Type::B_F),B_Ex(4.f)
 {
 	this->ColMan = InitCols;
-	this->Name = Name;
+	this->Name = Name;	
 }
 
 StaticCollisions::~StaticCollisions()
@@ -140,6 +140,18 @@ StaticCollisions::~StaticCollisions()
 
 void StaticCollisions::UpdateCollisionCheck()
 {
+	switch (AlgoType)
+	{
+	case Alg_Type::B_F:
+		this->AlgoCheck = std::make_unique<B_Force>();
+		break;
+	case Alg_Type::Q_T:
+		this->AlgoCheck = std::make_unique<QuadTree>(glm::vec3(0.f),Ext);
+	case Alg_Type::O_T:
+		this->AlgoCheck = std::make_unique<OctoTree>(glm::vec3(0.f), Ext);
+	default:
+		break;
+	}
 	int Size = AllStatics.size();
 	bool Check = false;
 	for (int ii = 0; ii < Size; ii++)
