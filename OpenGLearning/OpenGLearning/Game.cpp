@@ -1570,6 +1570,23 @@ void Game::ImGuiOptions()
 						ImGui::TreePop();
 					}
 				}
+				if (ImGui::TreeNode("Change Algorithm Checks"))
+				{
+					Alg_Type val = TempStatic->GetType();
+					if (ImGui::Selectable("Brute Force", Alg_Type::B_F == val))
+					{
+						TempStatic->SetNewType(Alg_Type::B_F);
+					}
+					if (ImGui::Selectable("QuadTree", Alg_Type::Q_T == val))
+					{
+						TempStatic->SetNewType(Alg_Type::Q_T);
+					}
+					if (ImGui::Selectable("OctoTree", Alg_Type::O_T == val))
+					{
+						TempStatic->SetNewType(Alg_Type::O_T);
+					}
+					ImGui::TreePop();
+				}
 			}
 			else
 			{
