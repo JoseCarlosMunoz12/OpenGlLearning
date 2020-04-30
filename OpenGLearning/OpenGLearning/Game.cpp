@@ -1574,7 +1574,7 @@ void Game::ImGuiOptions()
 		}
 		if (ImGui::Button("Test"))
 		{
-			CPE::Queries* Se = new CPE::OctoTree(glm::vec3(0.f),100.f);
+			CPE::Queries* Se = new CPE::B_Force();
 			std::vector<std::shared_ptr<CPE::Bodies>> Bods;
 			Bods.push_back(std::make_shared<CPE::Bodies>(std::make_shared<CPE::OBB>(glm::vec3(0.f,1.f,-10.f), 1), 0));
 			Bods.push_back(std::make_shared<CPE::Bodies>( std::make_shared<CPE::OBB>(glm::vec3(-1.f,0.f,0.f), 1), 1));

@@ -128,6 +128,7 @@ bool StaticCollisions::UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1)
 }
 
 StaticCollisions::StaticCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
+	:Ext(4.f)
 {
 	this->ColMan = InitCols;
 	this->Name = Name;

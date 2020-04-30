@@ -14,6 +14,7 @@
 #include "../CollisionManager/CollisionManager.h"
 #include "../OptimizaAlgorithm/QuadTree.h"
 #include "../OptimizaAlgorithm/OctoTree.h"
+#include "../OptimizaAlgorithm/B_Force.h"
 
 namespace CoatlPhysicsEngine 
 {
@@ -26,11 +27,12 @@ namespace CoatlPhysicsEngine
 		std::unique_ptr<Queries> AlgoCheck;
 		int NewCurId = 0;
 	protected:
+		float Ext;
 		bool UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1);
 		bool UpdateBodies(AABB_Obj Obj0, std::shared_ptr<Bodies> Bod1);
 		bool UpdateBodies(Capsule Cap0, std::shared_ptr<Bodies> Bod1);
 		bool UpdateBodies(Triangles Tr, std::shared_ptr<Bodies> Bod1);
-		bool UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1);
+		bool UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1);		
 	public:
 		StaticCollisions(std::string Name,std::shared_ptr<CollisionManager>InitCols);
 		~StaticCollisions();
@@ -40,7 +42,7 @@ namespace CoatlPhysicsEngine
 		std::string GetName();
 		std::vector<std::weak_ptr<Bodies>> GetAllBodies();
 		std::shared_ptr<Bodies> GetABody(int ID);
-		//change type of CollisionCheckALgoritme
+		//change type of CollisionCheckAlgoritm
 
 	};
 }
