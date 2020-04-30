@@ -78,9 +78,10 @@ bool QuadTree::Insert(std::shared_ptr<Bodies> Bod)
 	//this happens if it fails.
 	return false;
 }
-std::vector<std::shared_ptr<Bodies>> QuadTree::GetQueries(glm::vec3 Loc, float Ext)
+std::vector<std::shared_ptr<Bodies>> QuadTree::GetQueries(std::shared_ptr<Bodies> Bod, float Ext)
 {
 	std::vector<std::shared_ptr<Bodies>> Temp;
+	glm::vec3 Loc = Bod->GetPos();
 	//Check if the Location and Ext is in the Quadtree
 	if (!InsidePar(Loc,Ext))
 		return Temp;
@@ -93,16 +94,16 @@ std::vector<std::shared_ptr<Bodies>> QuadTree::GetQueries(glm::vec3 Loc, float E
 	if (NorthWest == NULL)
 		return Temp;
 	//get rest of Bodies
-	std::vector<std::shared_ptr<Bodies>> NWBods = NorthWest->GetQueries(Loc, Ext);
-	Temp.insert(Temp.end(), NWBods.begin(), NWBods.end());
-
-	std::vector<std::shared_ptr<Bodies>> NEBods = NorthEast->GetQueries(Loc, Ext);
-	Temp.insert(Temp.end(), NEBods.begin(), NEBods.end());
-
-	std::vector<std::shared_ptr<Bodies>> SWBods = SouthWest->GetQueries(Loc, Ext);
-	Temp.insert(Temp.end(), SWBods.begin(), SWBods.end());
-
-	std::vector<std::shared_ptr<Bodies>> SEBods = SouthEast->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> NWBods = NorthWest->GetQueries(Bod, Ext);
+	Temp.insert(Temp.end(), NWBods.begin(), NWBods.end());				
+																		
+	std::vector<std::shared_ptr<Bodies>> NEBods = NorthEast->GetQueries(Bod, Ext);
+	Temp.insert(Temp.end(), NEBods.begin(), NEBods.end());				
+																		
+	std::vector<std::shared_ptr<Bodies>> SWBods = SouthWest->GetQueries(Bod, Ext);
+	Temp.insert(Temp.end(), SWBods.begin(), SWBods.end());				
+																		
+	std::vector<std::shared_ptr<Bodies>> SEBods = SouthEast->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), SEBods.begin(), SEBods.end());
 	return Temp;
 }

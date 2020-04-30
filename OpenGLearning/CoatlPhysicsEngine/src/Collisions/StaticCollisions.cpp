@@ -152,6 +152,10 @@ void StaticCollisions::UpdateCollisionCheck()
 	default:
 		break;
 	}
+	for (auto& jj : AllStatics)
+	{
+		this->AlgoCheck->Insert(jj);
+	}
 	int Size = AllStatics.size();
 	bool Check = false;
 	for (int ii = 0; ii < Size; ii++)
@@ -181,6 +185,7 @@ void StaticCollisions::UpdateCollisionCheck()
 			AllStatics[ii]->UpDateBodiesInf(Check, AllStatics[jj]);
 			AllStatics[jj]->UpDateBodiesInf(Check, AllStatics[ii]);
 		}
+
 	}
 }
 

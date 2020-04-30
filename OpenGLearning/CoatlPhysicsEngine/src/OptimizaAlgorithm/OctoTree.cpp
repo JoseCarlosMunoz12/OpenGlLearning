@@ -91,10 +91,11 @@ bool OctoTree::Insert(std::shared_ptr<Bodies> Bod)
 	return false;
 }
 
-std::vector<std::shared_ptr<Bodies>> OctoTree::GetQueries(glm::vec3 Loc, float Ext)
+std::vector<std::shared_ptr<Bodies>> OctoTree::GetQueries(std::shared_ptr<Bodies> Bod, float Ext)
 {
 	std::vector<std::shared_ptr<Bodies>> Temp;
 	//check if the locatin is in the OctoTre
+	glm::vec3 Loc = Bod->GetPos();
 	if (!InsidePar(Loc,Ext))
 		return Temp;
 	//Append all Bods in the Quad
@@ -105,28 +106,28 @@ std::vector<std::shared_ptr<Bodies>> OctoTree::GetQueries(glm::vec3 Loc, float E
 	if (Box0 == NULL)
 		return Temp;
 	//Get rest of Bodies
-	std::vector<std::shared_ptr<Bodies>> Bods0 = Box0->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> Bods0 = Box0->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods0.begin(), Bods0.end());
 
-	std::vector<std::shared_ptr<Bodies>> Bods1 = Box1->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> Bods1 = Box1->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods1.begin(), Bods1.end());
 
-	std::vector<std::shared_ptr<Bodies>> Bods2 = Box2->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> Bods2 = Box2->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods2.begin(), Bods2.end());
 
-	std::vector<std::shared_ptr<Bodies>> Bods3 = Box3->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> Bods3 = Box3->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods3.begin(), Bods3.end());
 
-	std::vector<std::shared_ptr<Bodies>> Bods4 = Box4->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> Bods4 = Box4->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods4.begin(), Bods4.end());
 
-	std::vector<std::shared_ptr<Bodies>> Bods5 = Box5->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> Bods5 = Box5->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods5.begin(), Bods5.end());
 
-	std::vector<std::shared_ptr<Bodies>> Bods6 = Box6->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> Bods6 = Box6->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods6.begin(), Bods6.end());
 
-	std::vector<std::shared_ptr<Bodies>> Bods7 = Box7->GetQueries(Loc, Ext);
+	std::vector<std::shared_ptr<Bodies>> Bods7 = Box7->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods7.begin(), Bods7.end());
 
 	return Temp;

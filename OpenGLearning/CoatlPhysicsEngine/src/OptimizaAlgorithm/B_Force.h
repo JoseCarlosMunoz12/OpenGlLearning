@@ -9,7 +9,7 @@ namespace CoatlPhysicsEngine {
 		B_Force();
 		~B_Force();
 		bool Insert(std::shared_ptr<Bodies> Bod) override;
-		std::vector<std::shared_ptr<Bodies>> GetQueries(glm::vec3 Loc, float Ext) override;
+		std::vector<std::shared_ptr<Bodies>> GetQueries(std::shared_ptr<Bodies> Bod, float Ext) override;
 		std::string GetAlgorType() override;
 	};
 }
