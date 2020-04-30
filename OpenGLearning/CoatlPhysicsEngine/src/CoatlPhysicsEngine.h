@@ -10,6 +10,8 @@
 #include "Shapes/Capsule.h"
 #include "Shapes/Triangles.h"
 
+#include "Physics/Mass.h"
+
 #include "Maths/Maths.h"
 
 namespace CPE = CoatlPhysicsEngine;

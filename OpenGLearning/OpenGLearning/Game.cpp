@@ -1501,33 +1501,37 @@ void Game::ImGuiOptions()
 				{
 					this->ColWorld->DeleteStatics();
 				}
-				if (ImGui::Button("Add Sphere"))
+				if (ImGui::TreeNode("Add New Shape"))
 				{
-					std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f), 1.f);
-					TempStatic->AddNewBody(S_Temp);
-				}
-				if (ImGui::Button("Add Box"))
-				{
-					std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
-					TempStatic->AddNewBody(B_Temp);
-				}
-				if (ImGui::Button("Add OBB Box"))
-				{
-					std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f),1.f);
-					TempStatic->AddNewBody(OB_Temp);
-				}
-				if (ImGui::Button("Add Capsule"))
-				{
-					std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
-					TempStatic->AddNewBody(C_Temp);
-				}
-				if (ImGui::Button("Add Triangle"))
-				{
-					std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
-						glm::vec3(0.f,0.f,0.f) ,
-						glm::vec3(0.f,1.f,0.f) };
-					std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
-					TempStatic->AddNewBody(Tr_Temp);
+					if (ImGui::Button("Add Sphere"))
+					{
+						std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f), 1.f);
+						TempStatic->AddNewBody(S_Temp);
+					}
+					if (ImGui::Button("Add Box"))
+					{
+						std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
+						TempStatic->AddNewBody(B_Temp);
+					}
+					if (ImGui::Button("Add OBB Box"))
+					{
+						std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f),1.f);
+						TempStatic->AddNewBody(OB_Temp);
+					}
+					if (ImGui::Button("Add Capsule"))
+					{
+						std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
+						TempStatic->AddNewBody(C_Temp);
+					}
+					if (ImGui::Button("Add Triangle"))
+					{
+						std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
+							glm::vec3(0.f,0.f,0.f) ,
+							glm::vec3(0.f,1.f,0.f) };
+						std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
+						TempStatic->AddNewBody(Tr_Temp);
+					}
+					ImGui::TreePop();
 				}
 				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 				for (auto& ii : Bods)
