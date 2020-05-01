@@ -88,7 +88,8 @@ std::vector<std::shared_ptr<Bodies>> QuadTree::GetQueries(std::shared_ptr<Bodies
 	//Append all Bods in the Quad
 	for (auto& jj : Bods)
 	{
-		Temp.push_back(jj);
+		if (jj->GetID() != Bod->GetID())
+			Temp.push_back(jj);
 	}
 	//Terminate if there is no Children
 	if (NorthWest == NULL)

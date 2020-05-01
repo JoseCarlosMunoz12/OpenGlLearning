@@ -98,10 +98,11 @@ std::vector<std::shared_ptr<Bodies>> OctoTree::GetQueries(std::shared_ptr<Bodies
 	glm::vec3 Loc = Bod->GetPos();
 	if (!InsidePar(Loc,Ext))
 		return Temp;
-	//Append all Bods in the Quad
+	//Append all Bods in the Octo and not include current Body
 	for (auto& jj : Bods)
 	{
-		Temp.push_back(jj);
+		if (jj->GetID() !=Bod->GetID())
+			Temp.push_back(jj);
 	}
 	if (Box0 == NULL)
 		return Temp;
@@ -130,6 +131,7 @@ std::vector<std::shared_ptr<Bodies>> OctoTree::GetQueries(std::shared_ptr<Bodies
 	std::vector<std::shared_ptr<Bodies>> Bods7 = Box7->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods7.begin(), Bods7.end());
 
+	
 	return Temp;
 }
 

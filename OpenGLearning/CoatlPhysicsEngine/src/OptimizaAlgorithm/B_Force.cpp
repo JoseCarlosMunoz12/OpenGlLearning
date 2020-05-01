@@ -21,8 +21,8 @@ std::vector<std::shared_ptr<Bodies>> B_Force::GetQueries(std::shared_ptr<Bodies>
 	{
 		if (JJ->GetID() == Bod->GetID())
 		{
-			break;
 			Count++;
+			break;
 		}
 		Count++;
 	}
