@@ -117,6 +117,9 @@
     <ClInclude Include="src\OptimizaAlgorithm\B_Force.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Collisions\Terrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -210,6 +213,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\OptimizaAlgorithm\B_Force.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Collisions\Terrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
