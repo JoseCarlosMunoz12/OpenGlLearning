@@ -31,20 +31,18 @@ public:
 		this->MapWidth = WidthForMap;
 		this->MapHeigth = HeightForMap;
 		this->MaxHeight = MaxHeightChoosen;
-		unsigned char* image = SOIL_load_image(filename,&this->Width,&this->Height,&this->NumOfChannels, SOIL_LOAD_RGBA);
+		unsigned char* image = SOIL_load_image(filename,&this->Width,&this->Height,&this->NumOfChannels, SOIL_LOAD_L);
 		RecordWidth = this->Width;
 		RecordHeight = this->Height;
-		unsigned int BytePerPixel = this->NumOfChannels;
+		unsigned int BytePerPixel = 1;
 		for (size_t ii = 0; ii < this->Height; ii++)
 		{
 			std::vector<glm::vec3> TempVec;
 			for (size_t jj = 0; jj < this->Width; jj++)
 			{
 				glm::vec3 TempVec3;
-				unsigned char* PixelOffset = image + (ii + jj * this->Width) * BytePerPixel;
+				unsigned char* PixelOffset = image + (jj + ii * this->Width) * BytePerPixel;
 				TempVec3.r = (float)PixelOffset[0];
-				TempVec3.g = (float)PixelOffset[1];
-				TempVec3.b = (float)PixelOffset[2];
 				TempVec.push_back(TempVec3);
 			}
 			this->MipMapHolder.push_back(TempVec);
