@@ -17,7 +17,7 @@ class MipMap
 {
 
 private:
-	std::vector<std::vector<glm::vec3>> MipMapHolder;
+	std::vector<std::vector<float>> MipMapHolder;
 	int Width;
 	int Height;
 	int NumOfChannels;
@@ -37,12 +37,12 @@ public:
 		unsigned int BytePerPixel = 1;
 		for (size_t ii = 0; ii < this->Height; ii++)
 		{
-			std::vector<glm::vec3> TempVec;
+			std::vector<float> TempVec;
 			for (size_t jj = 0; jj < this->Width; jj++)
 			{
-				glm::vec3 TempVec3;
+				float TempVec3;
 				unsigned char* PixelOffset = image + (jj + ii * this->Width) * BytePerPixel;
-				TempVec3.r = (float)PixelOffset[0];
+				TempVec3 = (float)PixelOffset[0];
 				TempVec.push_back(TempVec3);
 			}
 			this->MipMapHolder.push_back(TempVec);
@@ -53,7 +53,7 @@ public:
 	~MipMap()
 	{
 	}
-	float ReturnValue(float XPos, float YPos, RGBA_chosen ColorChosen = RED_CHOSEN)
+	float ReturnValue(float XPos, float YPos)
 	{
 		float MidPointWidth = this->MapWidth / 2;
 		float MidPointHeight = this->MapHeigth / 2;
@@ -77,42 +77,12 @@ public:
 		}
 		unsigned int XPosConv = (int)(XPos + MidPointWidth) / this->MapWidth * this->Width;
 		unsigned int YPosConv = (int)(YPos + MidPointWidth) / this->MapHeigth * this->Height;
-		float Val;
-		switch (ColorChosen)
-		{
-		case RED_CHOSEN:
-			Val = this->MipMapHolder[YPosConv][XPosConv].r / 255.f * this->MaxHeight;
-			/*if (Val == 10)
-				return  0;*/
-			return Val;
-			break;
-		case GREEN_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].g / 255.f * this->MaxHeight;
-			break;
-		case BLUE_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].b / 255.f * this->MaxHeight;
-			break;
-		default:
-			return 0.f;
-		}
+		return this->MipMapHolder[YPosConv][XPosConv] / 255.f * this->MaxHeight;
 	}
 	int ReturnColorChosen(float XPos, float YPos, RGBA_chosen ColorChosen)
 	{
 		unsigned int XPosConv = (int)(XPos + this->MapWidth / 2) / this->MapWidth * this->Width;
 		unsigned int YPosConv = (int)(YPos + this->MapHeigth / 2) / this->MapHeigth * this->Height;
-		switch (ColorChosen)
-		{
-		case RED_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].r;
-			break;
-		case GREEN_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].g;
-			break;
-		case BLUE_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].b;
-			break;
-		default:
-			return 0.f;
-		}
+			return this->MipMapHolder[YPosConv][XPosConv];
 	}
 };
