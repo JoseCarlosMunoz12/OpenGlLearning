@@ -129,7 +129,7 @@ void Game::initTextures()
 		this->textures.push_back(ii);
 	}	
 	//HeightMap Info
-	this->MipMapsData.push_back(new MipMap("Images/RangeTest.png", this->MapWidth,this->MapHeigth,10.f,100.f,100.f));
+	this->MipMapsData.push_back(new MipMap("Images/RangeTest.png", this->MapWidth,this->MapHeigth,10.f,10.f,10.f));
 }
 
 void Game::initMaterials()
@@ -159,7 +159,7 @@ void Game::initModels()
 	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain_M(100, 100, this->MipMapsData[HEIGHTMAP_1]),
+			&CustomTerrain_M(10, 10, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(&Sphere_M(1, 32, 32),
@@ -223,7 +223,7 @@ void Game::initModels()
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[4], { Monk }));
 	this->models.push_back(new Model("Capsule0",
-		glm::vec3(3.f,-50.f, this->MipMapsData[0]->ReturnValue(3.f, -50.f)),
+		glm::vec3(3.f,-50.f, this->MipMapsData[0]->ReturnValue(3.f, -5.f)),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },

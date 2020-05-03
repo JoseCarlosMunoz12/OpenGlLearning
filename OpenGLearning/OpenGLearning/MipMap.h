@@ -75,8 +75,10 @@ public:
 		{
 			YPos = -1 * MidPointHeight;
 		}
-		unsigned int XPosConv = (int)(XPos + MidPointWidth) / this->MapWidth * this->Width;
-		unsigned int YPosConv = (int)(YPos + MidPointWidth) / this->MapHeigth * this->Height;
+		int XPosConv = (int)(XPos + MidPointWidth) / this->MapWidth * this->Width ;
+		int YPosConv = (int)(YPos + MidPointWidth) / this->MapHeigth * this->Height ;
+		XPosConv = glm::clamp(XPosConv, 0, this->Width - 1);
+		YPosConv = glm::clamp(YPosConv, 0, this->Height - 1);
 		return this->MipMapHolder[YPosConv][XPosConv] / 255.f * this->MaxHeight;
 	}
 	int ReturnColorChosen(float XPos, float YPos, RGBA_chosen ColorChosen)
