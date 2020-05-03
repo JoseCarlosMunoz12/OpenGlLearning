@@ -129,7 +129,7 @@ void Game::initTextures()
 		this->textures.push_back(ii);
 	}	
 	//HeightMap Info
-	this->MipMapsData.push_back(new MipMap("Images/heightmap.png", this->MapWidth,this->MapHeigth,0.f,100.f,100.f));
+	this->MipMapsData.push_back(new MipMap("Images/Test.png", this->MapWidth,this->MapHeigth,10.f,100.f,100.f));
 }
 
 void Game::initMaterials()
@@ -223,7 +223,7 @@ void Game::initModels()
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[4], { Monk }));
 	this->models.push_back(new Model("Capsule0",
-		glm::vec3(3.f, 3.f, this->MipMapsData[0]->ReturnValue(3.f, 3.f)),
+		glm::vec3(3.f,-50.f, this->MipMapsData[0]->ReturnValue(3.f, -50.f)),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },

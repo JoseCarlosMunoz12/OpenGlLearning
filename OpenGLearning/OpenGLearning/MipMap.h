@@ -79,10 +79,14 @@ public:
 		}
 		unsigned int XPosConv = (int)(XPos + MidPointWidth) / this->MapWidth * this->Width;
 		unsigned int YPosConv = (int)(YPos + MidPointWidth) / this->MapHeigth * this->Height;
+		float Val;
 		switch (ColorChosen)
 		{
 		case RED_CHOSEN:
-			return this->MipMapHolder[YPosConv][XPosConv].r /255.f * this->MaxHeight;
+			Val = this->MipMapHolder[YPosConv][XPosConv].r / 255.f * this->MaxHeight;
+			/*if (Val == 10)
+				return  0;*/
+			return Val;
 			break;
 		case GREEN_CHOSEN:
 			return this->MipMapHolder[YPosConv][XPosConv].g / 255.f * this->MaxHeight;
