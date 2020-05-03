@@ -60,26 +60,31 @@ public:
 
 		if (XPos > MidPointWidth)
 		{
-			XPos = MidPointWidth;
+			XPos -= MidPointWidth;
 		}
 		else if (XPos < -1 * MidPointWidth)
 		{
-			XPos = -1 * MidPointWidth;
+			XPos += -1 * MidPointWidth;
 		}
 
 		if (YPos > MidPointHeight)
 		{
-			YPos > MidPointHeight;
+			YPos -= MidPointHeight;
 		}
 		else if (YPos < -1 * MidPointHeight)
 		{
-			YPos = -1 * MidPointHeight;
+			YPos += -1 * MidPointHeight;
 		}
 		int XPosConv = (int)(XPos + MidPointWidth) / this->MapWidth * this->Width ;
 		int YPosConv = (int)(YPos + MidPointWidth) / this->MapHeigth * this->Height ;
 		XPosConv = glm::clamp(XPosConv, 0, this->Width - 1);
 		YPosConv = glm::clamp(YPosConv, 0, this->Height - 1);
 		return this->MipMapHolder[YPosConv][XPosConv] / 255.f * this->MaxHeight;
+	}
+	glm::vec3 ReturnVecVal(float XPos, float Ypos)
+	{
+		float ZVal = ReturnValue(XPos, Ypos);
+		return glm::vec3(XPos, Ypos, ZVal);
 	}
 	int ReturnColorChosen(float XPos, float YPos, RGBA_chosen ColorChosen)
 	{
