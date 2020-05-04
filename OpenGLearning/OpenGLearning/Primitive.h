@@ -205,7 +205,6 @@ public:
 	}
 	CustomTerrain_M(int Size, int Dimension, MipMap* HeightMap)
 	{
-		Dimension -= 1;
 		std::vector<Vertex> VertexOfTerrain;
 		std::vector<GLuint> IndecesOfTerrain;
 		glm::vec3 positions;
@@ -216,8 +215,8 @@ public:
 		{
 			for (int ii = 0; ii < Dimension; ii++)
 			{
-				positions.x = ((float)ii - (Dimension-1) / 2) / ((float)Dimension ) * Size;
-				positions.y = ((float)jj - (Dimension-1) / 2) / ((float)Dimension) * Size;
+				positions.x = ((float)ii - (Dimension) / 2) / ((float)Dimension) * Size;
+				positions.y = ((float)jj - (Dimension) / 2) / ((float)Dimension) * Size;
 				if (positions.x == 3)
 				{
 					std::cout << "test";

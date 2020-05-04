@@ -129,7 +129,7 @@ void Game::initTextures()
 		this->textures.push_back(ii);
 	}	
 	//HeightMap Info
-	this->MipMapsData.push_back(new MipMap("Images/RangeTest.png", this->MapWidth,this->MapHeigth,10.f,10.f,10.f));
+	this->MipMapsData.push_back(new MipMap("Images/RangeTest.png", this->MapWidth,this->MapHeigth,10.f,100.f,100.f));
 }
 
 void Game::initMaterials()
@@ -159,7 +159,7 @@ void Game::initModels()
 	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain_M(10, 10, this->MipMapsData[HEIGHTMAP_1]),
+			&CustomTerrain_M(100, 100, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain"));
 	meshes.push_back(
 		new Mesh(&Sphere_M(1, 32, 32),

@@ -7,11 +7,6 @@
 #include <vector>
 #include <SOIL2.h>
 
-enum RGBA_chosen {
-	RED_CHOSEN,
-	GREEN_CHOSEN,
-	BLUE_CHOSEN
-};
 
 class MipMap
 {
@@ -86,10 +81,10 @@ public:
 		float ZVal = ReturnValue(XPos, Ypos);
 		return glm::vec3(XPos, Ypos, ZVal);
 	}
-	int ReturnColorChosen(float XPos, float YPos, RGBA_chosen ColorChosen)
+	int ReturnColorChosen(float XPos, float YPos)
 	{
 		unsigned int XPosConv = (int)(XPos + this->MapWidth / 2) / this->MapWidth * this->Width;
 		unsigned int YPosConv = (int)(YPos + this->MapHeigth / 2) / this->MapHeigth * this->Height;
-			return this->MipMapHolder[YPosConv][XPosConv];
+		return this->MipMapHolder[YPosConv][XPosConv];
 	}
 };
