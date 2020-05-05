@@ -16,8 +16,8 @@ Terrain::Terrain(std::vector<glm::vec3> Mesh, std::vector<int> Index,float Dim)
 		Loc.push_back(Mesh[Tr_V0] - Mesh[Tr_V0]);
 		Loc.push_back(Mesh[Tr_V1] - Mesh[Tr_V0]);
 		Loc.push_back(Mesh[Tr_V2] - Mesh[Tr_V0]);
-		std::shared_ptr<Triangles> Tr = std::make_shared<Triangles>(glm::vec3(Mesh[Tr_V0]), 				Loc);
-		std::shared_ptr<Bodies> Bod = std::make_shared<Bodies>(Count,glm::vec3(0.f));
+		std::shared_ptr<Triangles> Tr = std::make_shared<Triangles>(glm::vec3(Mesh[Tr_V0]),Loc);
+		std::shared_ptr<Bodies> Bod = std::make_shared<Bodies>(Count);
 		Bod->AddShapes(Tr);
 		TerWorld->Insert(Bod);
 	}

@@ -89,6 +89,31 @@ public:
 	}
 	void GetVertsAndInd(std::vector<glm::vec3> &Verts, std::vector<int> &Ind)
 	{
-
+		//Get Vertices of the world
+		for (int ii = 0; ii < this->MapWidth; ii++)
+		{
+			for (int jj = 0; jj < this->MapHeigth; jj++)
+			{
+				float X = ((float)ii - Width / 2);
+				float Y = ((float)jj - Height / 2);
+				Verts.push_back(ReturnVecVal(X, Y));
+			}
+		}
+		for (int jj = 0; jj < MapWidth - 1; jj++)
+		{
+			for (int ii = 0; ii < MapHeigth - 1; ii++)
+			{
+				GLuint TopLeft = (jj * MapHeigth) + ii;
+				GLuint TopRight = TopLeft + 1;
+				GLuint BottomLeft = ((jj + 1) * MapWidth) + ii;
+				GLuint BottomRight = BottomLeft + 1;
+				Ind.push_back(BottomRight);
+				Ind.push_back(BottomLeft);
+				Ind.push_back(TopRight);
+				Ind.push_back(TopRight);
+				Ind.push_back(BottomLeft);
+				Ind.push_back(TopLeft);
+			}
+		}
 	}
 };

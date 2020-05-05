@@ -15,9 +15,8 @@ namespace CoatlPhysicsEngine {
 		int ID;
 		std::vector<std::shared_ptr<BodyParts>> BodyInf;
 		std::vector<int> OtherBods;
-		glm::vec3 Pos;
 	public:
-		Bodies(int InitID,glm::vec3 Pos);
+		Bodies(int InitID);
 		Bodies(std::shared_ptr<ColShapes> InitShapes, int InitID);
 		Bodies(std::vector<std::shared_ptr<ColShapes>> InitShapes, int InitID);
 		~Bodies();

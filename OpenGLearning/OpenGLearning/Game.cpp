@@ -1594,8 +1594,11 @@ void Game::ImGuiOptions()
 			}
 			if (ImGui::Button("Terrain Test"))
 			{
-				CustomTerrain_M* Se = new CustomTerrain_M(100, 100, this->MipMapsData[HEIGHTMAP_1]);
-				CPE::Terrain World({}, {}, 500);
+				std::vector<glm::vec3> Verts;
+				std::vector<int> Ind;
+				this->MipMapsData[0]->GetVertsAndInd(Verts, Ind);
+				CPE::Terrain Bod(Verts, Ind, 100);
+				Bod.GetTerrs(glm::vec3(0.f), 10);
 			}
 		}
 		ImGui::End();
