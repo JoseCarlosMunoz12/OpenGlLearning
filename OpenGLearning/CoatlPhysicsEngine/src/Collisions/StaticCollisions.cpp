@@ -252,3 +252,8 @@ void StaticCollisions::SetNewType(Alg_Type NewType)
 {
 	this->AlgoType = NewType;
 }
+
+void StaticCollisions::SetTerrain(std::shared_ptr<Terrain> NewTer)
+{
+	this->Ter = NewTer;
+}

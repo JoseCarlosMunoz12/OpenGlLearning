@@ -1592,15 +1592,6 @@ void Game::ImGuiOptions()
 			{
 				ImGui::Text("No Static Collisions");
 			}
-			if (ImGui::Button("Terrain Test"))
-			{
-				std::vector<glm::vec3> Verts;
-				std::vector<int> Ind;
-				this->MipMapsData[0]->GetVertsAndInd(Verts, Ind);
-				CPE::Terrain* Bod = new CPE::Terrain(Verts, Ind, 100);
-				std::vector<std::shared_ptr<Bodies>> Bods = Bod->GetTerrs(this->MipMapsData[0]->ReturnVecVal(0,0), 1);
-				std::cout << "Done";
-			}
 		}
 		ImGui::End();
 	}

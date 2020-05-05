@@ -59,3 +59,8 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
 		this->Statics->UpdateCollisionCheck();
 	}
 }
+
+void CollisionWorld::SetTerrain(std::vector<glm::vec3> Ver, std::vector<int> Ind)
+{
+	this->Ter = std::make_shared<Terrain>();
+}

@@ -12,6 +12,7 @@
 #include "../Shapes/ColShapes.h"
 #include "../Bodies/Bodies.h"
 #include "../CollisionManager/CollisionManager.h"
+#include "Terrain.h"
 #include "../OptimizaAlgorithm/QuadTree.h"
 #include "../OptimizaAlgorithm/OctoTree.h"
 #include "../OptimizaAlgorithm/B_Force.h"
@@ -31,6 +32,7 @@ namespace CoatlPhysicsEngine
 		std::string Name;
 		std::vector<std::shared_ptr<Bodies>> AllStatics;
 		std::unique_ptr<Queries> AlgoCheck;
+		std::weak_ptr<Terrain> Ter;
 		int NewCurId = 0;		
 	protected:
 		float Ext;
@@ -54,6 +56,7 @@ namespace CoatlPhysicsEngine
 		//change and check type of CollisionCheckAlgoritm
 		Alg_Type GetType();
 		void SetNewType(Alg_Type NewType);
+		void SetTerrain(std::shared_ptr<Terrain> NewTer);
 	};
 }
 

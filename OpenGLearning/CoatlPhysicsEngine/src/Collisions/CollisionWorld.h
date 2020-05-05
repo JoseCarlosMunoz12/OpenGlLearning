@@ -18,6 +18,7 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<DynamicCollisions> Dynamics;
 		std::shared_ptr<CollisionManager> ColMan;
 		std::string WorldName;
+		std::shared_ptr<Terrain> Ter;
 	public:
 		CollisionWorld(std::string SetWName);
 		CollisionWorld(CollisionWorldSetup SetUp);
@@ -29,5 +30,6 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<StaticCollisions> GetCollision();
 		void DeleteStatics();
 		void UpdateWorld();
+		void SetTerrain(std::vector<glm::vec3>Ver, std::vector<int>Ind);
 	};
 }
