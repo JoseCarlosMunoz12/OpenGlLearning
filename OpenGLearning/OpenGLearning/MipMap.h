@@ -87,4 +87,8 @@ public:
 		unsigned int YPosConv = (int)(YPos + this->MapHeigth / 2) / this->MapHeigth * this->Height;
 		return this->MipMapHolder[YPosConv][XPosConv];
 	}
+	void GetVertsAndInd(std::vector<glm::vec3> &Verts, std::vector<int> &Ind)
+	{
+
+	}
 };

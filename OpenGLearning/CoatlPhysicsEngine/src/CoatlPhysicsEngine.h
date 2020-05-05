@@ -14,5 +14,7 @@
 
 #include "Maths/Maths.h"
 
+#include "Collisions/Terrain.h"
+
 namespace CPE = CoatlPhysicsEngine;
 

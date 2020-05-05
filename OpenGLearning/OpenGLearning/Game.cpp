@@ -1592,6 +1592,11 @@ void Game::ImGuiOptions()
 			{
 				ImGui::Text("No Static Collisions");
 			}
+			if (ImGui::Button("Terrain Test"))
+			{
+				CustomTerrain_M* Se = new CustomTerrain_M(100, 100, this->MipMapsData[HEIGHTMAP_1]);
+				CPE::Terrain World({}, {}, 500);
+			}
 		}
 		ImGui::End();
 	}
