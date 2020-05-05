@@ -94,8 +94,8 @@ public:
 		{
 			for (int jj = 0; jj < this->MapHeigth; jj++)
 			{
-				float X = ((float)ii - Width / 2);
-				float Y = ((float)jj - Height / 2);
+				float X = ((float)ii - MapWidth / 2);
+				float Y = ((float)jj - MapHeigth / 2);
 				Verts.push_back(ReturnVecVal(X, Y));
 			}
 		}

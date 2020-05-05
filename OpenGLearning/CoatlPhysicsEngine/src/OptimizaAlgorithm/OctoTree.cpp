@@ -130,8 +130,47 @@ std::vector<std::shared_ptr<Bodies>> OctoTree::GetQueries(std::shared_ptr<Bodies
 
 	std::vector<std::shared_ptr<Bodies>> Bods7 = Box7->GetQueries(Bod, Ext);
 	Temp.insert(Temp.end(), Bods7.begin(), Bods7.end());
+		
+	return Temp;
+}
 
-	
+std::vector<std::shared_ptr<Bodies>> CoatlPhysicsEngine::OctoTree::GetQueries(glm::vec3 Pos, float Ext)
+{
+	std::vector<std::shared_ptr<Bodies>> Temp;
+	if (!InsidePar(Pos, Ext))
+		return Temp;
+	//Append all Bods in the Octo and not include current Body
+	for (auto& jj : Bods)
+	{
+			Temp.push_back(jj);
+	}
+	if (Box0 == NULL)
+		return Temp;
+	//Get rest of Bodies
+	std::vector<std::shared_ptr<Bodies>> Bods0 = Box0->GetQueries(Pos, Ext);
+	Temp.insert(Temp.end(), Bods0.begin(), Bods0.end());
+
+	std::vector<std::shared_ptr<Bodies>> Bods1 = Box1->GetQueries(Pos, Ext);
+	Temp.insert(Temp.end(), Bods1.begin(), Bods1.end());
+
+	std::vector<std::shared_ptr<Bodies>> Bods2 = Box2->GetQueries(Pos, Ext);
+	Temp.insert(Temp.end(), Bods2.begin(), Bods2.end());
+
+	std::vector<std::shared_ptr<Bodies>> Bods3 = Box3->GetQueries(Pos, Ext);
+	Temp.insert(Temp.end(), Bods3.begin(), Bods3.end());
+
+	std::vector<std::shared_ptr<Bodies>> Bods4 = Box4->GetQueries(Pos, Ext);
+	Temp.insert(Temp.end(), Bods4.begin(), Bods4.end());
+
+	std::vector<std::shared_ptr<Bodies>> Bods5 = Box5->GetQueries(Pos, Ext);
+	Temp.insert(Temp.end(), Bods5.begin(), Bods5.end());
+
+	std::vector<std::shared_ptr<Bodies>> Bods6 = Box6->GetQueries(Pos, Ext);
+	Temp.insert(Temp.end(), Bods6.begin(), Bods6.end());
+
+	std::vector<std::shared_ptr<Bodies>> Bods7 = Box7->GetQueries(Pos, Ext);
+	Temp.insert(Temp.end(), Bods7.begin(), Bods7.end());
+
 	return Temp;
 }
 

@@ -1597,8 +1597,9 @@ void Game::ImGuiOptions()
 				std::vector<glm::vec3> Verts;
 				std::vector<int> Ind;
 				this->MipMapsData[0]->GetVertsAndInd(Verts, Ind);
-				CPE::Terrain Bod(Verts, Ind, 100);
-				Bod.GetTerrs(glm::vec3(0.f), 10);
+				CPE::Terrain* Bod = new CPE::Terrain(Verts, Ind, 100);
+				std::vector<std::shared_ptr<Bodies>> Bods = Bod->GetTerrs(this->MipMapsData[0]->ReturnVecVal(0,0), 1);
+				std::cout << "Done";
 			}
 		}
 		ImGui::End();
