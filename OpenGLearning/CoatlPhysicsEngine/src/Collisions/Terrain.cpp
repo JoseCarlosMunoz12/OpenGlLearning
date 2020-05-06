@@ -7,7 +7,7 @@ Terrain::Terrain(std::vector<glm::vec3> Mesh, std::vector<int> Index,float Dim)
 	int Range = Size / 3 / 2;
 	this->TerWorld = std::make_unique<OctoTree>(glm::vec3(0.f),Dim);
 	int Count = -1;
-	for (int ii = 0; ii < 8; ii++)
+	for (int ii = 0; ii < 10; ii++)
 	{
 		int Tr_V0 = ii * 3;
 		int Tr_V1 = Tr_V0 + 1;

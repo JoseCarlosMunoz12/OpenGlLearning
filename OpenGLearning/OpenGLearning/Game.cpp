@@ -1552,17 +1552,17 @@ void Game::ImGuiOptions()
 					{
 						ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
 						float Ar[3] = { Temp.x,Temp.y,Temp.z };
-						if (ImGui::SliderFloat("One", &Ar[0], -10.f, 10.f))
+						if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
 						{
 							Temp.x = Ar[0];
 							Bod->SetPosition(Temp);
 						}
-						if (ImGui::SliderFloat("Two", &Ar[1], -10.f, 10.f))
+						if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
 						{
 							Temp.y = Ar[1];
 							Bod->SetPosition(Temp);
 						}
-						if (ImGui::SliderFloat("Three", &Ar[2], -10.f, 10.f))
+						if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
 						{
 							Temp.z = Ar[2];
 							Bod->SetPosition(Temp);
