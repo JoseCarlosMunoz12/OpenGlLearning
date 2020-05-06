@@ -22,7 +22,6 @@ Terrain::Terrain(std::vector<glm::vec3> Mesh, std::vector<int> Index,float Dim)
 		TerWorld->Insert(Bod);
 		Count--;
 	}
-	std::cout << "Done\n";
 }
 
 Terrain::~Terrain()

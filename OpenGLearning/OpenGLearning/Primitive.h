@@ -217,11 +217,6 @@ public:
 			{
 				positions.x = ((float)ii - (Dimension) / 2) / ((float)Dimension) * Size;
 				positions.y = ((float)jj - (Dimension) / 2) / ((float)Dimension) * Size;
-				if (positions.x == 3)
-				{
-					std::cout << "test";
-				}
-								
 				positions.z = HeightMap->ReturnValue(positions.x, positions.y);
 
 				normals.x = 0;
