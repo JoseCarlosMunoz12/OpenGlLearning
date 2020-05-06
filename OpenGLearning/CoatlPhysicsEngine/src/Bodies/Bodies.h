@@ -22,6 +22,7 @@ namespace CoatlPhysicsEngine {
 		~Bodies();
 		void AddShapes(std::shared_ptr<ColShapes> NewShape);
 		void UpDateBodiesInf(bool ColUPdate,std::shared_ptr<Bodies> Body);
+		void ClearColsInf();
 		int GetID();
 		void SetPosition(glm::vec3 NewPos);
 		glm::vec3 GetPos();

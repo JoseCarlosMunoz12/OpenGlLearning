@@ -53,6 +53,11 @@ void Bodies::UpDateBodiesInf(bool ColUpdate, std::shared_ptr<Bodies> Body)
 
 }
 
+void Bodies::ClearColsInf()
+{
+	this->OtherBods.clear();
+}
+
 int Bodies::GetID()
 {
 	return this->ID;

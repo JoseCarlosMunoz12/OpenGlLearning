@@ -173,6 +173,7 @@ void StaticCollisions::UpdateCollisionCheck()
 	{
 		for (auto& jj : AllStatics)
 		{
+			jj->ClearColsInf();
 			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
 			for (auto& ii : Quer)
 			{
