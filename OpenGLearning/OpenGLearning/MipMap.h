@@ -116,4 +116,10 @@ public:
 			}
 		}
 	}
+	float GetMaxDim()
+	{
+		if (MapWidth > MapHeigth)
+			return MapWidth;
+		return MapHeigth;
+	}
 };

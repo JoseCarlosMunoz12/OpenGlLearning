@@ -30,6 +30,6 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<StaticCollisions> GetCollision();
 		void DeleteStatics();
 		void UpdateWorld();
-		void SetTerrain(std::vector<glm::vec3>Ver, std::vector<int>Ind);
+		void SetTerrain(std::vector<glm::vec3>Ver, std::vector<int>Ind, float Dim);
 	};
 }

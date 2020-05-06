@@ -6,8 +6,8 @@ Terrain::Terrain(std::vector<glm::vec3> Mesh, std::vector<int> Index,float Dim)
 	int Size = Index.size();
 	int Range = Size / 3 / 2;
 	this->TerWorld = std::make_unique<OctoTree>(glm::vec3(0.f),Dim);
-	int Count = 0;
-	for (int ii = 0; ii < Range; ii++)
+	int Count = -1;
+	for (int ii = 0; ii < 8; ii++)
 	{
 		int Tr_V0 = ii * 3;
 		int Tr_V1 = Tr_V0 + 1;
@@ -20,6 +20,7 @@ Terrain::Terrain(std::vector<glm::vec3> Mesh, std::vector<int> Index,float Dim)
 		std::shared_ptr<Bodies> Bod = std::make_shared<Bodies>(Count);
 		Bod->AddShapes(Tr);
 		TerWorld->Insert(Bod);
+		Count--;
 	}
 	std::cout << "Done\n";
 }

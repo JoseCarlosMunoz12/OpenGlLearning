@@ -35,7 +35,10 @@ void CollisionWorld::ChangeName(std::string NewName)
 void CoatlPhysicsEngine::CollisionWorld::CreateStaticCol(std::string Name)
 {
 	if (!Statics)
-		this->Statics = std::make_shared<StaticCollisions>(Name,this->ColMan);
+	{
+		this->Statics = std::make_shared<StaticCollisions>(Name, this->ColMan);
+		this->Statics->SetTerrain(this->Ter);
+	}
 }
 
 std::shared_ptr<StaticCollisions> CoatlPhysicsEngine::CollisionWorld::GetCollision()
@@ -60,7 +63,9 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
 	}
 }
 
-void CollisionWorld::SetTerrain(std::vector<glm::vec3> Ver, std::vector<int> Ind)
+void CollisionWorld::SetTerrain(std::vector<glm::vec3> Ver, std::vector<int> Ind, float Dim)
 {
-	this->Ter = std::make_shared<Terrain>();
+	this->Ter = std::make_shared<Terrain>(Ver, Ind, Dim);
+	if (this->Statics)
+		this->Statics->SetTerrain(Ter);
 }

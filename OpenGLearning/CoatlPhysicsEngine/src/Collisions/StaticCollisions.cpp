@@ -167,6 +167,19 @@ StaticCollisions::~StaticCollisions()
 
 void StaticCollisions::UpdateCollisionCheck()
 {
+	//Collision with World
+	//------------------------
+	if (!this->Ter.expired())
+	{
+		for (auto& jj : AllStatics)
+		{
+			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
+			for (auto& ii : Quer)
+			{
+				this->ColBods(jj, ii);
+			}
+		}
+	}
 	//make approriate Algorithm
 	switch (AlgoType)
 	{
