@@ -88,6 +88,28 @@ std::vector<std::weak_ptr<Bodies>> StaticCollisions::GetAllBodies()
 	return Temp;
 }
 
+std::vector<std::shared_ptr<Bodies>> StaticCollisions::GetBodies(std::shared_ptr<Bodies> Bod)
+{
+	switch (AlgoType)
+	{
+	case Alg_Type::B_F:
+		this->AlgoCheck = std::make_unique<B_Force>();
+		break;
+	case Alg_Type::Q_T:
+		this->AlgoCheck = std::make_unique<QuadTree>(glm::vec3(0.f), Ext);
+	case Alg_Type::O_T:
+		this->AlgoCheck = std::make_unique<OctoTree>(glm::vec3(0.f), Ext);
+	default:
+		break;
+	}
+	//Add bodies into Algorithm
+	for (auto& jj : AllBods)
+	{
+		this->AlgoCheck->Insert(jj);
+	}
+	return this->AlgoCheck->GetQueries(Bod,Ext);
+}
+
 std::shared_ptr<Bodies> StaticCollisions::GetABody(int ID)
 {
 	std::shared_ptr<Bodies> Temp;

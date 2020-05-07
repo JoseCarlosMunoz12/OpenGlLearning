@@ -74,7 +74,7 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
 	}
 	if (this->Dynamics)
 	{
-		this->Dynamics->UpdateCollisionCheck();
+		
 	}
 }
 
