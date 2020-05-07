@@ -5,6 +5,7 @@ using namespace CoatlPhysicsEngine;
 CollisionWorld::CollisionWorld(std::string SetWName)
 	:WorldName(SetWName),Gravity(glm::vec3(0.f,0.f,-9.81f))
 {
+	this->ColMan = std::make_shared<CollisionManager>();
 }
 
 CollisionWorld::CollisionWorld(CollisionWorldSetup SetUp)
@@ -41,6 +42,16 @@ void CoatlPhysicsEngine::CollisionWorld::CreateStaticCol(std::string Name)
 	}
 }
 
+void CollisionWorld::CreateDynamicCol(std::string Name)
+{
+	if (!Dynamics)
+	{
+		this->Dynamics = std::make_shared<DynamicCollisions>(Name, this->ColMan);
+		this->Dynamics->SetTerrain(this->Ter);
+
+	}
+}
+
 std::shared_ptr<StaticCollisions> CoatlPhysicsEngine::CollisionWorld::GetCollision()
 {
 	if (this->Statics)
@@ -61,6 +72,10 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
 	{
 		this->Statics->UpdateCollisionCheck();
 	}
+	if (this->Dynamics)
+	{
+		this->Dynamics->UpdateCollisionCheck();
+	}
 }
 
 void CollisionWorld::SetTerrain(std::vector<glm::vec3> Ver, std::vector<int> Ind, float Dim)
@@ -68,4 +83,6 @@ void CollisionWorld::SetTerrain(std::vector<glm::vec3> Ver, std::vector<int> Ind
 	this->Ter = std::make_shared<Terrain>(Ver, Ind, Dim);
 	if (this->Statics)
 		this->Statics->SetTerrain(Ter);
+	if (this->Dynamics)
+		this->Dynamics->SetTerrain(Ter);
 }
