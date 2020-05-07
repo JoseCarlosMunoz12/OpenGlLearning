@@ -4,7 +4,7 @@ using namespace CoatlPhysicsEngine;
 Terrain::Terrain(std::vector<glm::vec3> Mesh, std::vector<int> Index,float Dim)
 {
 	int Size = Index.size();
-	int Range = Size / 3 / 2;
+	int Range = Size / 3;
 	this->TerWorld = std::make_unique<OctoTree>(glm::vec3(0.f),Dim);
 	int Count = -1;
 	for (int ii = 0; ii < Range; ii++)
