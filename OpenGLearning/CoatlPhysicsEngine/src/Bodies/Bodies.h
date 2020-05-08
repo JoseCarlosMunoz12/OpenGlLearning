@@ -8,6 +8,12 @@ namespace CoatlPhysicsEngine {
 	{
 		std::shared_ptr<ColShapes> BodPart;
 		std::shared_ptr<Mass> BodMass;
+		BodyParts(std::shared_ptr<ColShapes> InitBod,
+			std::shared_ptr<Mass> InitMass = NULL)
+		{
+			BodPart = InitBod;
+			BodMass = InitMass;
+		}
 	};
 	class Bodies
 	{
@@ -24,6 +30,7 @@ namespace CoatlPhysicsEngine {
 		void UpDateBodiesInf(bool ColUPdate,std::shared_ptr<Bodies> Body);
 		void ClearColsInf();
 		int GetID();
+		void CalcPhysics();
 		void SetPosition(glm::vec3 NewPos);
 		glm::vec3 GetPos();
 		std::shared_ptr<ColShapes> GetShapes();

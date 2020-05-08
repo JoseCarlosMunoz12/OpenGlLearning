@@ -33,6 +33,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	}
 	//Check Collisions with each other
 
+	//Calculate All Physics Interaction
 
 }
 

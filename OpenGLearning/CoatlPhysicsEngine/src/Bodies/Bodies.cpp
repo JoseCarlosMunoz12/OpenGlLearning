@@ -10,8 +10,7 @@ Bodies::Bodies(int InitID)
 Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
 {
 	this->ID = InitID;
-	this->BodyInf.push_back(std::make_shared<BodyParts>());
-	this->BodyInf[0]->BodPart = InitShapes;
+	this->BodyInf.push_back(std::make_shared<BodyParts>(InitShapes));
 }
 
 Bodies::Bodies( std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
@@ -61,6 +60,10 @@ void Bodies::ClearColsInf()
 int Bodies::GetID()
 {
 	return this->ID;
+}
+
+void Bodies::CalcPhysics()
+{
 }
 
 void Bodies::SetPosition(glm::vec3 NewPos)
