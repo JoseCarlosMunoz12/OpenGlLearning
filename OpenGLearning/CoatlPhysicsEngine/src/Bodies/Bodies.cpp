@@ -10,17 +10,21 @@ Bodies::Bodies(int InitID)
 Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
 {
 	this->ID = InitID;
-	this->BodyInf.push_back(std::make_shared<BodyParts>(InitShapes));
+	int Count = this->BodyInf.size();
+	this->BodyInf.push_back(std::make_shared<BodyParts>()); 
+	this->BodyInf[Count]->BodPart = InitShapes;
+
 }
 
 Bodies::Bodies( std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
 {
 	this->ID = InitID;
-	int Count = 0;
+	int Count = this->BodyInf.size();
 	for (auto& ii : InitShapes)
 	{
 		this->BodyInf.push_back(std::make_shared<BodyParts>());
 		this->BodyInf[Count]->BodPart = ii;
+		Count++;
 	}
 }
 

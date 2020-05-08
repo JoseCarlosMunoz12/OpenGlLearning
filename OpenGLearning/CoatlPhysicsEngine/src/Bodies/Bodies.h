@@ -8,12 +8,6 @@ namespace CoatlPhysicsEngine {
 	{
 		std::shared_ptr<ColShapes> BodPart;
 		std::shared_ptr<Mass> BodMass;
-		BodyParts(std::shared_ptr<ColShapes> InitBod,
-			std::shared_ptr<Mass> InitMass = NULL)
-		{
-			BodPart = InitBod;
-			BodMass = InitMass;
-		}
 	};
 	class Bodies
 	{

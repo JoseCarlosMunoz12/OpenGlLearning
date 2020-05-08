@@ -27,9 +27,13 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		}
 	}
 	//Check Collision with Static Bodies
-	for (auto& jj : AllBods)
+	if (Statics)
 	{
-		Statics->CheckCol(jj);
+		for (auto& jj : AllBods)
+		{
+			Statics->CheckCol(jj);
+		}
+
 	}
 	//Check Collisions with each other
 
