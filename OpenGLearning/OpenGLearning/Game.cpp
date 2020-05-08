@@ -1510,94 +1510,98 @@ void Game::ImGuiOptions()
 			//Static Collision information
 			if (TempStatic)
 			{
-				ImGui::Text(TempStatic->GetName().c_str());
-				if (ImGui::Button("Delete Static"))
+				if (ImGui::TreeNode("Statics Col Information"))
 				{
-					this->ColWorld->DeleteStatics();
-				}
-				if (ImGui::TreeNode("Add New Shape"))
-				{
-					if (ImGui::Button("Add Sphere"))
+					ImGui::Text(TempStatic->GetName().c_str());
+					if (ImGui::Button("Delete Static"))
 					{
-						std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f), 1.f);
-						TempStatic->AddNewBody(S_Temp);
+						this->ColWorld->DeleteStatics();
 					}
-					if (ImGui::Button("Add Box"))
+					if (ImGui::TreeNode("Add New Shape"))
 					{
-						std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
-						TempStatic->AddNewBody(B_Temp);
-					}
-					if (ImGui::Button("Add OBB Box"))
-					{
-						std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f),1.f);
-						TempStatic->AddNewBody(OB_Temp);
-					}
-					if (ImGui::Button("Add Capsule"))
-					{
-						std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
-						TempStatic->AddNewBody(C_Temp);
-					}
-					if (ImGui::Button("Add Triangle"))
-					{
-						std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
-							glm::vec3(0.f,0.f,0.f) ,
-							glm::vec3(0.f,1.f,0.f) };
-						std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
-						TempStatic->AddNewBody(Tr_Temp);
-					}
-					ImGui::TreePop();
-				}
-				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
-				for (auto& ii : Bods)
-				{
-					std::shared_ptr<CPE::Bodies> Bod = ii.lock();
-					std::vector<int> ColId = Bod->GetAllCol();
-					std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
-					glm::vec3 Temp = Bod->GetPos();
-					if (ImGui::TreeNode(BodID.c_str()))
-					{
-						ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
-						float Ar[3] = { Temp.x,Temp.y,Temp.z };
-						if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
+						if (ImGui::Button("Add Sphere"))
 						{
-							Temp.x = Ar[0];
-							Bod->SetPosition(Temp);
+							std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f), 1.f);
+							TempStatic->AddNewBody(S_Temp);
 						}
-						if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
+						if (ImGui::Button("Add Box"))
 						{
-							Temp.y = Ar[1];
-							Bod->SetPosition(Temp);
+							std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
+							TempStatic->AddNewBody(B_Temp);
 						}
-						if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
+						if (ImGui::Button("Add OBB Box"))
 						{
-							Temp.z = Ar[2];
-							Bod->SetPosition(Temp);
+							std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f),1.f);
+							TempStatic->AddNewBody(OB_Temp);
 						}
-						if (ImGui::TreeNode("Collided With"))
+						if (ImGui::Button("Add Capsule"))
 						{
-							for (auto& ii : ColId)
-							{
-								ImGui::Text("Body ID is %d", ii);
-							}
-							ImGui::TreePop();
+							std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
+							TempStatic->AddNewBody(C_Temp);
+						}
+						if (ImGui::Button("Add Triangle"))
+						{
+							std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
+								glm::vec3(0.f,0.f,0.f) ,
+								glm::vec3(0.f,1.f,0.f) };
+							std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
+							TempStatic->AddNewBody(Tr_Temp);
 						}
 						ImGui::TreePop();
 					}
-				}
-				if (ImGui::TreeNode("Change Algorithm Checks"))
-				{
-					Alg_Type val = TempStatic->GetType();
-					if (ImGui::Selectable("Brute Force", Alg_Type::B_F == val))
+					std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
+					for (auto& ii : Bods)
 					{
-						TempStatic->SetNewType(Alg_Type::B_F);
+						std::shared_ptr<CPE::Bodies> Bod = ii.lock();
+						std::vector<int> ColId = Bod->GetAllCol();
+						std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
+						glm::vec3 Temp = Bod->GetPos();
+						if (ImGui::TreeNode(BodID.c_str()))
+						{
+							ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
+							float Ar[3] = { Temp.x,Temp.y,Temp.z };
+							if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
+							{
+								Temp.x = Ar[0];
+								Bod->SetPosition(Temp);
+							}
+							if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
+							{
+								Temp.y = Ar[1];
+								Bod->SetPosition(Temp);
+							}
+							if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
+							{
+								Temp.z = Ar[2];
+								Bod->SetPosition(Temp);
+							}
+							if (ImGui::TreeNode("Collided With"))
+							{
+								for (auto& ii : ColId)
+								{
+									ImGui::Text("Body ID is %d", ii);
+								}
+								ImGui::TreePop();
+							}
+							ImGui::TreePop();
+						}
 					}
-					if (ImGui::Selectable("QuadTree", Alg_Type::Q_T == val))
+					if (ImGui::TreeNode("Change Algorithm Checks"))
 					{
-						TempStatic->SetNewType(Alg_Type::Q_T);
-					}
-					if (ImGui::Selectable("OctoTree", Alg_Type::O_T == val))
-					{
-						TempStatic->SetNewType(Alg_Type::O_T);
+						Alg_Type val = TempStatic->GetType();
+						if (ImGui::Selectable("Brute Force", Alg_Type::B_F == val))
+						{
+							TempStatic->SetNewType(Alg_Type::B_F);
+						}
+						if (ImGui::Selectable("QuadTree", Alg_Type::Q_T == val))
+						{
+							TempStatic->SetNewType(Alg_Type::Q_T);
+						}
+						if (ImGui::Selectable("OctoTree", Alg_Type::O_T == val))
+						{
+							TempStatic->SetNewType(Alg_Type::O_T);
+						}
+						ImGui::TreePop();
 					}
 					ImGui::TreePop();
 				}
@@ -1605,45 +1609,101 @@ void Game::ImGuiOptions()
 			//Dynamic Collision Information
 			if (TempDynamic)
 			{
-				ImGui::Text(TempDynamic->GetName().c_str());
-				if (ImGui::Button("Delete Dynamic"))
+				if (ImGui::TreeNode("Dynamic Col information"))
 				{
-					this->ColWorld->DeleteDynamics();
-				}
-
-				if (ImGui::TreeNode("Add New Shape"))
-				{
-					if (ImGui::Button("Add Sphere"))
+					ImGui::Text(TempDynamic->GetName().c_str());
+					if (ImGui::Button("Delete Dynamic"))
 					{
-						std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f), 1.f);
-						TempDynamic->AddNewBody(S_Temp);
+						this->ColWorld->DeleteDynamics();
 					}
-					if (ImGui::Button("Add Box"))
+					if (ImGui::TreeNode("Add New Shape"))
 					{
-						std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
-						TempDynamic->AddNewBody(B_Temp);
+						if (ImGui::Button("Add Sphere"))
+						{
+							std::shared_ptr<CPE::Sphere> S_Temp = std::make_shared<CPE::Sphere>(glm::vec3(1.f), 1.f);
+							TempDynamic->AddNewBody(S_Temp);
+						}
+						if (ImGui::Button("Add Box"))
+						{
+							std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
+							TempDynamic->AddNewBody(B_Temp);
+						}
+						if (ImGui::Button("Add OBB Box"))
+						{
+							std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f), 1.f);
+							TempDynamic->AddNewBody(OB_Temp);
+						}
+						if (ImGui::Button("Add Capsule"))
+						{
+							std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
+							TempDynamic->AddNewBody(C_Temp);
+						}
+						if (ImGui::Button("Add Triangle"))
+						{
+							std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
+								glm::vec3(0.f,0.f,0.f) ,
+								glm::vec3(0.f,1.f,0.f) };
+							std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
+							TempDynamic->AddNewBody(Tr_Temp);
+						}
+						ImGui::TreePop();
 					}
-					if (ImGui::Button("Add OBB Box"))
+					std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempDynamic->GetAllBodies();
+					for (auto& ii : Bods)
 					{
-						std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f), 1.f);
-						TempDynamic->AddNewBody(OB_Temp);
+						std::shared_ptr<CPE::Bodies> Bod = ii.lock();
+						std::vector<int> ColId = Bod->GetAllCol();
+						std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
+						glm::vec3 Temp = Bod->GetPos();
+						if (ImGui::TreeNode(BodID.c_str()))
+						{
+							ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
+							float Ar[3] = { Temp.x,Temp.y,Temp.z };
+							if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
+							{
+								Temp.x = Ar[0];
+								Bod->SetPosition(Temp);
+							}
+							if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
+							{
+								Temp.y = Ar[1];
+								Bod->SetPosition(Temp);
+							}
+							if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
+							{
+								Temp.z = Ar[2];
+								Bod->SetPosition(Temp);
+							}
+							if (ImGui::TreeNode("Collided With"))
+							{
+								for (auto& ii : ColId)
+								{
+									ImGui::Text("Body ID is %d", ii);
+								}
+								ImGui::TreePop();
+							}
+							ImGui::TreePop();
+						}
 					}
-					if (ImGui::Button("Add Capsule"))
+					if (ImGui::TreeNode("Change Algorithm Checks"))
 					{
-						std::shared_ptr<CPE::Capsule> C_Temp = std::make_shared<CPE::Capsule>(glm::vec3(-1.f), 1.f, 1.f);
-						TempDynamic->AddNewBody(C_Temp);
-					}
-					if (ImGui::Button("Add Triangle"))
-					{
-						std::vector<glm::vec3> Set = { glm::vec3(1.f,1.f,0.f),
-							glm::vec3(0.f,0.f,0.f) ,
-							glm::vec3(0.f,1.f,0.f) };
-						std::shared_ptr<CPE::Triangles> Tr_Temp = std::make_shared<CPE::Triangles>(glm::vec3(0.f), Set);
-						TempDynamic->AddNewBody(Tr_Temp);
+						Alg_Type val = TempDynamic->GetType();
+						if (ImGui::Selectable("Brute Force", Alg_Type::B_F == val))
+						{
+							TempDynamic->SetNewType(Alg_Type::B_F);
+						}
+						if (ImGui::Selectable("QuadTree", Alg_Type::Q_T == val))
+						{
+							TempDynamic->SetNewType(Alg_Type::Q_T);
+						}
+						if (ImGui::Selectable("OctoTree", Alg_Type::O_T == val))
+						{
+							TempDynamic->SetNewType(Alg_Type::O_T);
+						}
+						ImGui::TreePop();
 					}
 					ImGui::TreePop();
 				}
-				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempDynamic->GetAllBodies();
 			}
 			else
 			{
