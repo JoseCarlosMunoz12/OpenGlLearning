@@ -30,7 +30,9 @@ namespace CoatlPhysicsEngine {
 		void CreateStaticCol(std::string Name);
 		void CreateDynamicCol(std::string Name);
 		std::shared_ptr<StaticCollisions> GetCollision();
+		std::shared_ptr<DynamicCollisions> GetDynCol();
 		void DeleteStatics();
+		void DeleteDynamics();
 		void UpdateWorld();
 		void SetTerrain(std::vector<glm::vec3>Ver, std::vector<int>Ind, float Dim);
 		void ToggleStaticCheck();

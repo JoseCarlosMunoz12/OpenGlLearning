@@ -33,7 +33,7 @@ void CollisionWorld::ChangeName(std::string NewName)
 	this->WorldName = NewName;
 }
 
-void CoatlPhysicsEngine::CollisionWorld::CreateStaticCol(std::string Name)
+void CollisionWorld::CreateStaticCol(std::string Name)
 {
 	if (!Statics)
 	{
@@ -48,11 +48,10 @@ void CollisionWorld::CreateDynamicCol(std::string Name)
 	{
 		this->Dynamics = std::make_shared<DynamicCollisions>(Name, this->ColMan);
 		this->Dynamics->SetTerrain(this->Ter);
-
 	}
 }
 
-std::shared_ptr<StaticCollisions> CoatlPhysicsEngine::CollisionWorld::GetCollision()
+std::shared_ptr<StaticCollisions> CollisionWorld::GetCollision()
 {
 	if (this->Statics)
 	{
@@ -61,9 +60,21 @@ std::shared_ptr<StaticCollisions> CoatlPhysicsEngine::CollisionWorld::GetCollisi
 	return NULL;
 }
 
+std::shared_ptr<DynamicCollisions> CollisionWorld::GetDynCol()
+{
+	if (this->Dynamics)
+		return this->Dynamics;
+	return NULL;
+}
+
 void CoatlPhysicsEngine::CollisionWorld::DeleteStatics()
 {
 	this->Statics.reset();
+}
+
+void CoatlPhysicsEngine::CollisionWorld::DeleteDynamics()
+{
+	this->Dynamics.reset();
 }
 
 void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
@@ -73,9 +84,10 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
 	{
 		this->Statics->UpdateCollisionCheck();
 	}
+	//Does Physics Maths and Dynamic Collisions
 	if (this->Dynamics)
 	{
-		
+		this->Dynamics->CheckCollision(this->Statics);
 	}
 }
 
@@ -93,7 +105,7 @@ void CollisionWorld::ToggleStaticCheck()
 	this->CheckStatics = !this->CheckStatics;
 }
 
-bool CoatlPhysicsEngine::CollisionWorld::StaticCheckStatus()
+bool CollisionWorld::StaticCheckStatus()
 {
 	return this->CheckStatics;
 }

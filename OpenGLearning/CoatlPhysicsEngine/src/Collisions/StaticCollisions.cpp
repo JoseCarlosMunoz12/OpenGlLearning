@@ -67,8 +67,8 @@ void StaticCollisions::AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewSha
 	for (auto& ii : NewShapes)
 	{
 		this->AllBods.push_back(std::make_shared<Bodies>(ii, this->NewCurId));
+		this->NewCurId++;
 	}
-	this->NewCurId++;
 }
 
 std::string StaticCollisions::GetName()
