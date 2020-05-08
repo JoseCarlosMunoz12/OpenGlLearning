@@ -68,7 +68,8 @@ void CoatlPhysicsEngine::CollisionWorld::DeleteStatics()
 
 void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
 {
-	if (this->Statics)
+	//check where the Statics are if touching the Terrain
+	if (this->Statics && CheckStatics)
 	{
 		this->Statics->UpdateCollisionCheck();
 	}
@@ -85,4 +86,14 @@ void CollisionWorld::SetTerrain(std::vector<glm::vec3> Ver, std::vector<int> Ind
 		this->Statics->SetTerrain(Ter);
 	if (this->Dynamics)
 		this->Dynamics->SetTerrain(Ter);
+}
+
+void CollisionWorld::ToggleStaticCheck()
+{
+	this->CheckStatics = !this->CheckStatics;
+}
+
+bool CoatlPhysicsEngine::CollisionWorld::StaticCheckStatus()
+{
+	return this->CheckStatics;
 }

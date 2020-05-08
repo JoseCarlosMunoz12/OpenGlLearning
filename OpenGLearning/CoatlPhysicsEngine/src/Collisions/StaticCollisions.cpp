@@ -12,8 +12,7 @@ StaticCollisions::~StaticCollisions()
 
 void StaticCollisions::UpdateCollisionCheck()
 {
-	//Collision with World
-	//------------------------
+	//This is to determine where the Static Bodies are at in the Terrain
 	if (!this->Ter.expired())
 	{
 		for (auto& jj : AllBods)
@@ -26,6 +25,10 @@ void StaticCollisions::UpdateCollisionCheck()
 			}
 		}
 	}
+}
+
+void StaticCollisions::CheckCol(std::shared_ptr<Bodies> Bod)
+{
 	//make approriate Algorithm
 	switch (AlgoType)
 	{
@@ -33,7 +36,7 @@ void StaticCollisions::UpdateCollisionCheck()
 		this->AlgoCheck = std::make_unique<B_Force>();
 		break;
 	case Alg_Type::Q_T:
-		this->AlgoCheck = std::make_unique<QuadTree>(glm::vec3(0.f),Ext);
+		this->AlgoCheck = std::make_unique<QuadTree>(glm::vec3(0.f), Ext);
 	case Alg_Type::O_T:
 		this->AlgoCheck = std::make_unique<OctoTree>(glm::vec3(0.f), Ext);
 	default:
@@ -45,16 +48,11 @@ void StaticCollisions::UpdateCollisionCheck()
 		this->AlgoCheck->Insert(jj);
 	}
 	//get queries and test them
-	int Size = AllBods.size();
-	//O(nlog) for Quadtree and OctoTree
-	//O(n^2) for B_Force
-	for (int ii = 0; ii < Size; ii++)
+	Bod->ClearColsInf();
+	std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(Bod, Ext);
+	for (auto& kk : Quer)
 	{
-		std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(AllBods[ii], Ext);
-		for (auto& kk : Quer)
-		{
-			this->ColBods(AllBods[ii], kk);
-		}
+		this->ColBods(Bod, kk);
 	}
 }
 
@@ -86,28 +84,6 @@ std::vector<std::weak_ptr<Bodies>> StaticCollisions::GetAllBodies()
 		Temp.push_back(jj);
 	}
 	return Temp;
-}
-
-std::vector<std::shared_ptr<Bodies>> StaticCollisions::GetBodies(std::shared_ptr<Bodies> Bod)
-{
-	switch (AlgoType)
-	{
-	case Alg_Type::B_F:
-		this->AlgoCheck = std::make_unique<B_Force>();
-		break;
-	case Alg_Type::Q_T:
-		this->AlgoCheck = std::make_unique<QuadTree>(glm::vec3(0.f), Ext);
-	case Alg_Type::O_T:
-		this->AlgoCheck = std::make_unique<OctoTree>(glm::vec3(0.f), Ext);
-	default:
-		break;
-	}
-	//Add bodies into Algorithm
-	for (auto& jj : AllBods)
-	{
-		this->AlgoCheck->Insert(jj);
-	}
-	return this->AlgoCheck->GetQueries(Bod,Ext);
 }
 
 std::shared_ptr<Bodies> StaticCollisions::GetABody(int ID)
