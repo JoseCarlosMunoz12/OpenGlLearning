@@ -457,7 +457,6 @@ void Game::updateController()
  
 void Game::ImGuiOptions()
 {
-	
 	{	
 		glm::vec3 TempCamera = this->camera.getPosition();
 		ImGui::Begin("Added DifferentModels");
@@ -582,6 +581,7 @@ void Game::ImGuiOptions()
 					if (!Temp.expired())
 					{
 						int ID = Temp.lock()->GetID();
+						ImGui::Text("Body Id is %d",ID);
 					}
 					else
 					{
@@ -601,6 +601,21 @@ void Game::ImGuiOptions()
 										this->models[this->ModelToMake]->SetColBody(ii.lock());
 									}
 								}
+							}
+							std::weak_ptr<CPE::DynamicCollisions> TempDynamic = this->ColWorld->GetDynCol();
+							if (!TempDynamic.expired())
+							{
+								std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempDynamic.lock()->GetAllBodies();
+								for (auto& ii : Bods)
+								{
+									std::shared_ptr<CPE::Bodies> Bod = ii.lock();
+									std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
+									if (ImGui::Selectable(BodID.c_str()))
+									{
+										this->models[this->ModelToMake]->SetColBody(ii.lock());
+									}
+								}
+
 							}
 						}
 					}
