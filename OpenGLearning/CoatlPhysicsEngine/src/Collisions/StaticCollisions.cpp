@@ -33,7 +33,7 @@ void StaticCollisions::CheckCol(std::shared_ptr<Bodies> Bod)
 	switch (AlgoType)
 	{
 	case Alg_Type::B_F:
-		this->AlgoCheck = std::make_unique<B_Force>();
+		this->AlgoCheck = std::make_unique<B_Force_Self>();
 		break;
 	case Alg_Type::Q_T:
 		this->AlgoCheck = std::make_unique<QuadTree>(glm::vec3(0.f), Ext);

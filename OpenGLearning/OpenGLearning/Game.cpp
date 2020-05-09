@@ -1546,7 +1546,7 @@ void Game::ImGuiOptions()
 						}
 						if (ImGui::Button("Add OBB Box"))
 						{
-							std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f),1.f);
+							std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f), 1.f);
 							TempStatic->AddNewBody(OB_Temp);
 						}
 						if (ImGui::Button("Add Capsule"))
@@ -1563,6 +1563,14 @@ void Game::ImGuiOptions()
 							TempStatic->AddNewBody(Tr_Temp);
 						}
 						ImGui::TreePop();
+					}
+					if (TempDynamic)
+					{
+						bool StatChech = this->ColWorld->StaticCheckStatus();
+						if (ImGui::Selectable("DynamicChecking", StatChech))
+						{
+							this->ColWorld->ToggleStaticCheck();
+						}
 					}
 					std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempStatic->GetAllBodies();
 					for (auto& ii : Bods)

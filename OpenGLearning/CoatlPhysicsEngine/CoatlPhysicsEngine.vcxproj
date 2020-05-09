@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OptimizaAlgorithm\B_Force_Self.h" />
     <ClInclude Include="src\Collisions\BaseCols.h" />
     <ClInclude Include="src\OptimizaAlgorithm\B_Force.h" />
     <ClInclude Include="src\OptimizaAlgorithm\OctoTree.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OptimizaAlgorithm\B_Force_Self.cpp" />
     <ClCompile Include="src\Collisions\BaseCols.cpp" />
     <ClCompile Include="src\OptimizaAlgorithm\B_Force.cpp" />
     <ClCompile Include="src\OptimizaAlgorithm\OctoTree.cpp" />

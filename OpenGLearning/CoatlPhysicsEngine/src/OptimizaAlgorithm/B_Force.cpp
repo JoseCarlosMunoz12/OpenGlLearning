@@ -16,20 +16,7 @@ bool B_Force::Insert(std::shared_ptr<Bodies> Bod)
 
 std::vector<std::shared_ptr<Bodies>> B_Force::GetQueries(std::shared_ptr<Bodies> Bod, float Ext)
 {
-	int Count = 0;
-	for (auto& JJ : Bods)
-	{
-		if (JJ->GetID() == Bod->GetID())
-		{
-			Count++;
-			break;
-		}
-		Count++;
-	}
-	
-	std::vector<std::shared_ptr<Bodies>> SetBods;
-	SetBods.insert(SetBods.end(), Bods.begin() + Count, Bods.end());
-	return SetBods;
+	return Bods;
 }
 
 std::string B_Force::GetAlgorType()

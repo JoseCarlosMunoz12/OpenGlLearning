@@ -16,6 +16,7 @@
 #include "../OptimizaAlgorithm/QuadTree.h"
 #include "../OptimizaAlgorithm/OctoTree.h"
 #include "../OptimizaAlgorithm/B_Force.h"
+#include "../OptimizaAlgorithm/B_Force_Self.h"
 
 namespace CoatlPhysicsEngine {
 	enum class Alg_Type
