@@ -1725,11 +1725,33 @@ void Game::ImGuiOptions()
 								std::shared_ptr<CPE::Particle> TempPart = Bod->GetBodyParts()[0]->BodParticle;
 								if (TempPart)
 								{
+									glm::vec3 Vel = TempPart->GetVel();
+									ImGui::TextWrapped("velocity is %.3f, %.3f, %f.3", Vel.x, Vel.y, Vel.z);
 
+									float Ar[3] = { Vel.x,Vel.y,Vel.z };
+									if (ImGui::SliderFloat("One", &Ar[0], -1.f, 1.f))
+									{
+										Vel.x = Ar[0];
+										TempPart->SetVel(Vel);
+									}
+									if (ImGui::SliderFloat("Two", &Ar[1], -1.f, 1.f))
+									{
+										Vel.y = Ar[1];
+										TempPart->SetVel(Vel);
+									}
+									if (ImGui::SliderFloat("Three", &Ar[2], -1.f, 1.f))
+									{
+										Vel.z = Ar[2];
+										TempPart->SetVel(Vel);
+									}
 								}
 								else
 								{
 									ImGui::Text("No partilce information");
+									if (ImGui::Button("Add informaiton to particle"))
+									{
+										Bod->SetParticle(0);
+									}
 								}
 								ImGui::TreePop();
 							}

@@ -26,6 +26,7 @@ namespace CoatlPhysicsEngine {
 		void CalcPhysics(float dt);
 		void SetPosition(glm::vec3 NewPos);
 		void SetParticle(int ShapeID);
+		void AddParticle();
 		glm::vec3 GetPos();
 		std::shared_ptr<ColShapes> GetShapes();
 		std::vector<int> GetAllCol();
