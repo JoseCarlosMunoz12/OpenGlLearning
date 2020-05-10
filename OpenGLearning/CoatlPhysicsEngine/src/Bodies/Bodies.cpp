@@ -75,6 +75,11 @@ void Bodies::SetPosition(glm::vec3 NewPos)
 	this->BodyInf[0]->BodPart->SetPos(NewPos);
 }
 
+void Bodies::SetParticle(int ShapeID)
+{
+	this->BodyInf[ShapeID]->BodPart = std::make_shared<Particle>();
+}
+
 glm::vec3 Bodies::GetPos()
 {
 	return this->BodyInf[0]->BodPart->GetPos();	
@@ -88,4 +93,14 @@ std::shared_ptr<ColShapes> CoatlPhysicsEngine::Bodies::GetShapes()
 std::vector<int> CoatlPhysicsEngine::Bodies::GetAllCol()
 {
 	return this->OtherBods;
+}
+
+std::vector<std::shared_ptr<BodyParts>> CoatlPhysicsEngine::Bodies::GetBodyParts()
+{
+	return this->BodyInf;
+}
+
+std::shared_ptr<BodyParts> CoatlPhysicsEngine::Bodies::GetSpecificBodyPart(int ID)
+{
+	return this->BodyInf[ID];
 }

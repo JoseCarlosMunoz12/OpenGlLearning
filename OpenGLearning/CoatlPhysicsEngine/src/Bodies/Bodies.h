@@ -6,6 +6,7 @@ namespace CoatlPhysicsEngine {
 	struct BodyParts
 	{
 		std::shared_ptr<ColShapes> BodPart;
+		std::shared_ptr<Particle> BodPart;
 	};
 	class Bodies
 	{
@@ -24,8 +25,11 @@ namespace CoatlPhysicsEngine {
 		int GetID();
 		void CalcPhysics();
 		void SetPosition(glm::vec3 NewPos);
+		void SetParticle(int ShapeID);
 		glm::vec3 GetPos();
 		std::shared_ptr<ColShapes> GetShapes();
 		std::vector<int> GetAllCol();
+		std::vector<std::shared_ptr<BodyParts>> GetBodyParts();
+		std::shared_ptr<BodyParts> GetSpecificBodyPart(int ID);
 	};
 }
