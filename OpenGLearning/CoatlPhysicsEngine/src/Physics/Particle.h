@@ -14,6 +14,7 @@ namespace CoatlPhysicsEngine {
 	private:
 		glm::vec3 Vel;
 		float InverMass;
+		void UpdateVel(glm::vec3 Acc, float dt);
 	public:
 		Particle(glm::vec3 InitVel);
 		Particle();

@@ -68,9 +68,27 @@ int Bodies::GetID()
 
 void Bodies::CalcPhysics(glm::vec3 Acc,float dt)
 {
+	bool TouchGround = false;
+	for (auto& jj : OtherBods)
+	{
+		if (jj < 0)
+		{
+			TouchGround = true;
+			break;
+		}
+	}
 	if (this->BodyInf[0]->BodParticle)
-	{	glm::vec3 NewPos = this->BodyInf[0]->BodParticle->UpdatePos(this->GetPos(), Acc, dt);
-		this->SetPosition(NewPos);
+	{
+		if (!TouchGround)
+		{
+			glm::vec3 NewPos = this->BodyInf[0]->BodParticle->UpdatePos(this->GetPos(), Acc, dt);
+			this->SetPosition(NewPos);
+
+		}
+		else
+		{
+			this->BodyInf[0]->BodParticle->SetVel(glm::vec3(0.f));
+		}
 	}
 }
 
