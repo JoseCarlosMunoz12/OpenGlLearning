@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Physics\Particle.h" />
     <ClInclude Include="src\OptimizaAlgorithm\B_Force_Self.h" />
     <ClInclude Include="src\Collisions\BaseCols.h" />
     <ClInclude Include="src\OptimizaAlgorithm\B_Force.h" />
@@ -167,7 +168,6 @@
     <ClInclude Include="src\CollisionManager\SphereColSphere.h" />
     <ClInclude Include="src\CollisionManager\CollisionManager.h" />
     <ClInclude Include="src\Bodies\Bodies.h" />
-    <ClInclude Include="src\Physics\Mass.h" />
     <ClInclude Include="src\Collisions\DynamicCollisions.h" />
     <ClInclude Include="src\Collisions\CollisionWorld.h" />
     <ClInclude Include="src\Shapes\ColShapes.h" />
@@ -182,6 +182,7 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Physics\Particle.cpp" />
     <ClCompile Include="src\OptimizaAlgorithm\B_Force_Self.cpp" />
     <ClCompile Include="src\Collisions\BaseCols.cpp" />
     <ClCompile Include="src\OptimizaAlgorithm\B_Force.cpp" />
@@ -204,7 +205,6 @@
     <ClCompile Include="src\CollisionManager\SphereColSphere.cpp" />
     <ClCompile Include="src\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="src\Bodies\Bodies.cpp" />
-    <ClCompile Include="src\Physics\Mass.cpp" />
     <ClCompile Include="src\Collisions\DynamicCollisions.cpp" />
     <ClCompile Include="src\Collisions\CollisionWorld.cpp" />
     <ClCompile Include="src\Shapes\ColShapes.cpp" />

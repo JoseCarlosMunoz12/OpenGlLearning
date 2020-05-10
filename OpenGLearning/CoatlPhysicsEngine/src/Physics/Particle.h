@@ -9,10 +9,13 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 namespace CoatlPhysicsEngine {
-	class Mass
+	class Particle
 	{
+	private:
+		glm::vec3 Vel;
 	public:
-		Mass();
-		~Mass();
+		Particle();
+		~Particle();
+		glm::vec3 UpdatePos(glm::vec3 Pos, glm::vec3 Ac, float dt);
 	};
 }

@@ -1,13 +1,11 @@
 #pragma once
 #include <vector>
-
 #include "../Shapes/ColShapes.h"
-#include "../Physics/Mass.h"
+#include "../Physics/Particle.h"
 namespace CoatlPhysicsEngine {
 	struct BodyParts
 	{
 		std::shared_ptr<ColShapes> BodPart;
-		std::shared_ptr<Mass> BodMass;
 	};
 	class Bodies
 	{
