@@ -1506,13 +1506,19 @@ void Game::ImGuiOptions()
 			ImGui::Text(ColGrav.c_str(), this->ColWorld->GetGravity().z);
 			std::shared_ptr<CPE::StaticCollisions> TempStatic = this->ColWorld->GetCollision();
 			std::shared_ptr<CPE::DynamicCollisions> TempDynamic = this->ColWorld->GetDynCol();
-			if (ImGui::Button("Create Static Collisions"))
+			if (!TempStatic)
 			{
-				this->ColWorld->CreateStaticCol("Stas");
+				if (ImGui::Button("Create Static Collisions"))
+				{
+					this->ColWorld->CreateStaticCol("Stas");
+				}
 			}
-			if (ImGui::Button("Create Dynamic Collision"))
+			if (!TempDynamic)
 			{
-				this->ColWorld->CreateDynamicCol("Dyn");
+				if (ImGui::Button("Create Dynamic Collision"))
+				{
+					this->ColWorld->CreateDynamicCol("Dyn");
+				}
 			}
 			if (ImGui::Button("Create Terrain"))
 			{
@@ -1522,6 +1528,7 @@ void Game::ImGuiOptions()
 				this->MipMapsData[0]->GetVertsAndInd(Vec, Ind);
 				this->ColWorld->SetTerrain(Vec, Ind, Dim);
 			}
+			ImGui::Text("---------");
 			//Static Collision information
 			if (TempStatic)
 			{
@@ -1629,6 +1636,10 @@ void Game::ImGuiOptions()
 					ImGui::TreePop();
 				}
 			}
+			else
+			{
+				ImGui::Text("No Static Collisions");
+			}
 			//Dynamic Collision Information
 			if (TempDynamic)
 			{
@@ -1730,7 +1741,7 @@ void Game::ImGuiOptions()
 			}
 			else
 			{
-				ImGui::Text("No Static Collisions");
+				ImGui::Text("No Dynamic Collisions");
 			}
 		}
 		ImGui::End();

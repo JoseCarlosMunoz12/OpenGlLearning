@@ -36,9 +36,33 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 
 	}
 	//Check Collisions with each other
-
+	//make approriate Algorithm
+	switch (AlgoType)
+	{
+	case Alg_Type::B_F:
+		this->AlgoCheck = std::make_unique<B_Force_Self>();
+		break;
+	case Alg_Type::Q_T:
+		this->AlgoCheck = std::make_unique<QuadTree>(glm::vec3(0.f), Ext);
+	case Alg_Type::O_T:
+		this->AlgoCheck = std::make_unique<OctoTree>(glm::vec3(0.f), Ext);
+	default:
+		break;
+	}
+	//Add bodies into Algorithm
+	for (auto& jj : AllBods)
+	{
+		this->AlgoCheck->Insert(jj);
+	}
 	//Calculate All Physics Interaction
-
+	for (auto& jj : AllBods)
+	{
+		std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
+		for (auto& ii : Quer)
+		{
+			this->ColBods(jj, ii);
+		}
+	}
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)
