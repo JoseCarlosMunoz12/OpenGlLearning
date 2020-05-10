@@ -65,6 +65,13 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	}
 }
 
+void DynamicCollisions::UpdatePhysics(float dt)
+{
+	//update Physics
+	for (auto& jj : AllBods)
+		jj->CalcPhysics(dt);
+}
+
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)
 {
 	this->AllBods.push_back(std::make_shared<Bodies>(NewShape, this->NewCurId));

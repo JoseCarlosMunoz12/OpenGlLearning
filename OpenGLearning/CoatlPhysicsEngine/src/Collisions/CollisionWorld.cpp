@@ -77,7 +77,7 @@ void CoatlPhysicsEngine::CollisionWorld::DeleteDynamics()
 	this->Dynamics.reset();
 }
 
-void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
+void CoatlPhysicsEngine::CollisionWorld::UpdateWorld(float dt)
 {
 	//check where the Statics are if touching the Terrain
 	if (this->Statics && CheckStatics)
@@ -88,6 +88,7 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld()
 	if (this->Dynamics)
 	{
 		this->Dynamics->CheckCollision(this->Statics);
+		this->Dynamics->UpdatePhysics(dt);
 	}
 }
 

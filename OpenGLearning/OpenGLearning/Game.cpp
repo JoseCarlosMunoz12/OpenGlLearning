@@ -1688,31 +1688,48 @@ void Game::ImGuiOptions()
 						std::shared_ptr<CPE::Bodies> Bod = ii.lock();
 						std::vector<int> ColId = Bod->GetAllCol();
 						std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
-						glm::vec3 Temp = Bod->GetPos();
 						if (ImGui::TreeNode(BodID.c_str()))
 						{
-							ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
-							float Ar[3] = { Temp.x,Temp.y,Temp.z };
-							if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
+							if (ImGui::TreeNode("General Information"))
 							{
-								Temp.x = Ar[0];
-								Bod->SetPosition(Temp);
-							}
-							if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
-							{
-								Temp.y = Ar[1];
-								Bod->SetPosition(Temp);
-							}
-							if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
-							{
-								Temp.z = Ar[2];
-								Bod->SetPosition(Temp);
-							}
-							if (ImGui::TreeNode("Collided With"))
-							{
-								for (auto& ii : ColId)
+								glm::vec3 Temp = Bod->GetPos();
+								ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
+								float Ar[3] = { Temp.x,Temp.y,Temp.z };
+								if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
 								{
-									ImGui::Text("Body ID is %d", ii);
+									Temp.x = Ar[0];
+									Bod->SetPosition(Temp);
+								}
+								if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
+								{
+									Temp.y = Ar[1];
+									Bod->SetPosition(Temp);
+								}
+								if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
+								{
+									Temp.z = Ar[2];
+									Bod->SetPosition(Temp);
+								}
+								if (ImGui::TreeNode("Collided With"))
+								{
+									for (auto& ii : ColId)
+									{
+										ImGui::Text("Body ID is %d", ii);
+									}
+									ImGui::TreePop();
+								}
+								ImGui::TreePop();
+							}
+							if (ImGui::TreeNode("Particle Information"))
+							{
+								std::shared_ptr<CPE::Particle> TempPart = Bod->GetBodyParts()[0]->BodParticle;
+								if (TempPart)
+								{
+
+								}
+								else
+								{
+									ImGui::Text("No partilce information");
 								}
 								ImGui::TreePop();
 							}
@@ -1989,7 +2006,7 @@ void Game::update()
 	this->ImGuiOptions();
 	if (this->ColWorld)
 	{
-		this->ColWorld->UpdateWorld();
+		this->ColWorld->UpdateWorld(dt);
 	}
 	if (!this->SliderAnim)
 	{

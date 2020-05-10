@@ -33,7 +33,7 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<DynamicCollisions> GetDynCol();
 		void DeleteStatics();
 		void DeleteDynamics();
-		void UpdateWorld();
+		void UpdateWorld(float dt);
 		void SetTerrain(std::vector<glm::vec3>Ver, std::vector<int>Ind, float Dim);
 		void ToggleStaticCheck();
 		bool StaticCheckStatus();

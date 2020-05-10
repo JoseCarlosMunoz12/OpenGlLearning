@@ -66,8 +66,12 @@ int Bodies::GetID()
 	return this->ID;
 }
 
-void Bodies::CalcPhysics()
+void Bodies::CalcPhysics(float dt)
 {
+	if (this->BodyInf[0]->BodParticle)
+	{	glm::vec3 NewPos = this->BodyInf[0]->BodParticle->UpdatePos(this->GetPos(), glm::vec3(0.f), dt);
+		this->SetPosition(NewPos);
+	}
 }
 
 void Bodies::SetPosition(glm::vec3 NewPos)
@@ -77,7 +81,7 @@ void Bodies::SetPosition(glm::vec3 NewPos)
 
 void Bodies::SetParticle(int ShapeID)
 {
-	this->BodyInf[ShapeID]->BodPart = std::make_shared<Particle>();
+	this->BodyInf[ShapeID]->BodParticle = std::make_shared<Particle>();
 }
 
 glm::vec3 Bodies::GetPos()
