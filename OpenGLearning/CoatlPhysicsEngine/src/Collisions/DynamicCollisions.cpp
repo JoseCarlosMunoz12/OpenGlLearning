@@ -65,11 +65,11 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	}
 }
 
-void DynamicCollisions::UpdatePhysics(float dt)
+void DynamicCollisions::UpdatePhysics(glm::vec3 Acc,float dt)
 {
 	//update Physics
 	for (auto& jj : AllBods)
-		jj->CalcPhysics(dt);
+		jj->CalcPhysics(Acc,dt);
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)

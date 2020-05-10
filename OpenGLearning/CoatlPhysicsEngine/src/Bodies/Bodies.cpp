@@ -66,10 +66,10 @@ int Bodies::GetID()
 	return this->ID;
 }
 
-void Bodies::CalcPhysics(float dt)
+void Bodies::CalcPhysics(glm::vec3 Acc,float dt)
 {
 	if (this->BodyInf[0]->BodParticle)
-	{	glm::vec3 NewPos = this->BodyInf[0]->BodParticle->UpdatePos(this->GetPos(), glm::vec3(0.f), dt);
+	{	glm::vec3 NewPos = this->BodyInf[0]->BodParticle->UpdatePos(this->GetPos(), Acc, dt);
 		this->SetPosition(NewPos);
 	}
 }

@@ -23,10 +23,9 @@ namespace CoatlPhysicsEngine {
 		void UpDateBodiesInf(bool ColUPdate,std::shared_ptr<Bodies> Body);
 		void ClearColsInf();
 		int GetID();
-		void CalcPhysics(float dt);
+		void CalcPhysics(glm::vec3 Acc,float dt);
 		void SetPosition(glm::vec3 NewPos);
 		void SetParticle(int ShapeID);
-		void AddParticle();
 		glm::vec3 GetPos();
 		std::shared_ptr<ColShapes> GetShapes();
 		std::vector<int> GetAllCol();
