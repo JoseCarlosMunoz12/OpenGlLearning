@@ -60,7 +60,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
 		for (auto& ii : Quer)
 		{
-			this->ColBods(jj, ii);
+			if (jj->GetID() != ii->GetID())
+				this->ColBods(jj, ii);
 		}
 	}
 }
