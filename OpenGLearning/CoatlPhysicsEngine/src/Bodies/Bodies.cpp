@@ -83,7 +83,6 @@ void Bodies::CalcPhysics(glm::vec3 Acc,float dt)
 		{
 			glm::vec3 NewPos = this->BodyInf[0]->BodParticle->UpdatePos(this->GetPos(), Acc, dt);
 			this->SetPosition(NewPos);
-
 		}
 		else
 		{

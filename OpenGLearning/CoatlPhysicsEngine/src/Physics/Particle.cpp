@@ -3,17 +3,28 @@ using namespace CoatlPhysicsEngine;
 
 void CoatlPhysicsEngine::Particle::UpdateVel(glm::vec3 Acc, float dt)
 {
+	float ValX = glm::pow(this->Vel.x, dt);
+	float ValY = glm::pow(this->Vel.y, dt);
+	float ValZ = glm::pow(this->Vel.z, dt);
 	this->Vel = Acc * dt + Vel;
 }
 
+Particle::Particle(glm::vec3 InitVel, float InitDamp)
+{
+	this->InverMass = 0.f;
+	this->Vel = InitVel;
+	this->Damping = InitDamp;
+}
+
 Particle::Particle(glm::vec3 InitVel)
+	:Damping(0.f)
 {
 	this->Vel = InitVel;
 	this->InverMass = 0.f;
 }
 
 Particle::Particle()
-	:Vel(glm::vec3(0.f)), InverMass(0.f)
+	:Vel(glm::vec3(0.f)), InverMass(0.f),Damping(1.f)
 {
 }
 

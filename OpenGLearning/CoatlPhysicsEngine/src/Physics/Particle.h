@@ -13,9 +13,11 @@ namespace CoatlPhysicsEngine {
 	{
 	private:
 		glm::vec3 Vel;
+		float Damping;
 		float InverMass;
 		void UpdateVel(glm::vec3 Acc, float dt);
 	public:
+		Particle(glm::vec3 InitVel,float InitDamp);
 		Particle(glm::vec3 InitVel);
 		Particle();
 		~Particle();
