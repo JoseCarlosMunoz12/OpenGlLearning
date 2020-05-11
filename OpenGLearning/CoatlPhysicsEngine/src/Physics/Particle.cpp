@@ -48,3 +48,13 @@ glm::vec3 Particle::GetVel()
 {
 	return this->Vel;
 }
+
+float Particle::GetInverseMass()
+{
+	return this->InverMass;
+}
+
+void Particle::ChangeInverseMass(float Mass)
+{
+	this->InverMass = 1 / Mass;
+}

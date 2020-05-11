@@ -259,14 +259,14 @@ void Game::initModels()
 void Game::initLights()
 {
 	//Initializing Dir lights
-	this->DirLights.push_back(new DrLights(0,glm::vec3(-1.f,-1.f,this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f),
+	this->DirLights.push_back(new DrLights(0,glm::vec3(-1.f,-1.f,this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 10.f),
 		glm::vec3(1.f, 1.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
-	this->DirLights.push_back(new DrLights(1, glm::vec3(-1.f, -1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 5.f),
+	this->DirLights.push_back(new DrLights(1, glm::vec3(-1.f, -1.f, this->MipMapsData[0]->ReturnValue(-1.f, -1.f) + 10.f),
 		glm::vec3(1.f, 0.f, 1.f), this->frameBufferWidth, this->frameBufferWidth));
 	//Init Cone Lights
 	//Init Arealights
 	this->ArLights.push_back(new AreaLights(glm::vec3(1.f, 1.f, 1.f),
-		glm::vec3(-1.f, 1.f, this->MipMapsData[0]->ReturnValue(-1.f, 1.f) + 5.f),
+		glm::vec3(-1.f, 1.f, this->MipMapsData[0]->ReturnValue(-1.f, 1.f) + 10.f),
 		24.f,12.f,2));
 
 	for (auto& ii : this->DirLights)

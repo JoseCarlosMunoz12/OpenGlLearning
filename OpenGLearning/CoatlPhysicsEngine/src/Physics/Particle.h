@@ -24,5 +24,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 UpdatePos(glm::vec3 Pos, glm::vec3 Ac, float dt);
 		void SetVel(glm::vec3 NewVel);
 		glm::vec3 GetVel();
+		float GetInverseMass();
+		void ChangeInverseMass(float Mass);
 	};
 }
