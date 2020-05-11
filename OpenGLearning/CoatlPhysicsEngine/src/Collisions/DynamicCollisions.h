@@ -13,6 +13,7 @@ namespace CoatlPhysicsEngine {
 		float Ext;
 		float B_Ex;
 		Alg_Type AlgoType;
+		void CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies>Bod1);
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();

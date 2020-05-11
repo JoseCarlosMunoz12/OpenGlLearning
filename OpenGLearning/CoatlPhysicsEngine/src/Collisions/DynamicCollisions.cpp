@@ -1,5 +1,9 @@
 #include "DynamicCollisions.h"
 using namespace CoatlPhysicsEngine;
+void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies> Bod1)
+{
+
+}
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
 	:BaseCols(Name,InitCols),Phy_Col(), Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
 {
