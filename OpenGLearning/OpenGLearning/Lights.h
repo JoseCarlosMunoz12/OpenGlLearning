@@ -101,8 +101,8 @@ public:
 	void UpdateFront()
 	{
 		this->Front.x = cos(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
-		this->Front.y = sin(glm::radians(this->Pitch));
-		this->Front.z = sin(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
+		this->Front.z = sin(glm::radians(this->Pitch));
+		this->Front.y = sin(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
 
 	}
 	virtual glm::mat4 GetLightMatrix(glm::vec3 WorldView) = 0;
