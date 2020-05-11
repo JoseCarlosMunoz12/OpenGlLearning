@@ -2,7 +2,7 @@
 #include "Phy_Col.h"
 #include <vector>
 namespace CoatlPhysicsEngine {
-	class Particle : public Phy_Col
+	class Particle 
 	{
 	private:
 		glm::vec3 Vel;

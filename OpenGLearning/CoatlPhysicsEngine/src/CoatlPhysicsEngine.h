@@ -10,8 +10,6 @@
 #include "Shapes/Capsule.h"
 #include "Shapes/Triangles.h"
 
-
-
 #include "Maths/Maths.h"
 
 #include "Collisions/Terrain.h"

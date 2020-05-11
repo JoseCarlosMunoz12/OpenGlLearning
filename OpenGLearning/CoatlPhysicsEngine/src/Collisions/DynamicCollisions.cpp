@@ -1,7 +1,7 @@
 #include "DynamicCollisions.h"
 using namespace CoatlPhysicsEngine;
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
-	:BaseCols(Name,InitCols), Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
+	:BaseCols(Name,InitCols),Phy_Col(), Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
 {
 
 }
@@ -40,7 +40,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	switch (AlgoType)
 	{
 	case Alg_Type::B_F:
-		this->AlgoCheck = std::make_unique<B_Force_Self>();
+		this->AlgoCheck = std::make_unique<B_Force>();
 		break;
 	case Alg_Type::Q_T:
 		this->AlgoCheck = std::make_unique<QuadTree>(glm::vec3(0.f), Ext);
@@ -54,7 +54,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	{
 		this->AlgoCheck->Insert(jj);
 	}
-	//Calculate All Physics Interaction
+	//Check Self Collision
 	for (auto& jj : AllBods)
 	{
 		std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
