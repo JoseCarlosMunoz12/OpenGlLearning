@@ -1,15 +1,8 @@
 #pragma once
-#include <string>
-#include <iostream>
-#include <glm.hpp>
-#include <vec2.hpp>
-#include <vec3.hpp>
-#include <vec4.hpp>
-#include <mat4x4.hpp>
-#include <gtc\type_ptr.hpp>
+#include "Phy_Col.h"
 #include <vector>
 namespace CoatlPhysicsEngine {
-	class Particle
+	class Particle : public Phy_Col
 	{
 	private:
 		glm::vec3 Vel;
