@@ -87,7 +87,7 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld(float dt)
 	//Does Physics Maths and Dynamic Collisions
 	if (this->Dynamics)
 	{
-		this->Dynamics->CheckCollision(this->Statics,dt);
+		this->Dynamics->CheckCollision(this->Statics,this->Gravity,dt);
 	}
 }
 

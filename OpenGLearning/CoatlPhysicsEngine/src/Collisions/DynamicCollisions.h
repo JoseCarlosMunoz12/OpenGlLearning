@@ -2,9 +2,10 @@
 #include "BaseCols.h"
 #include "StaticCollisions.h"
 #include "../Physics/Phy_Col.h"
+#include "../Physics/Phy_Motion.h"
 
 namespace CoatlPhysicsEngine {
-	class DynamicCollisions : public BaseCols, Phy_Col
+	class DynamicCollisions : public BaseCols, Phy_Col,Phy_Motion
 	{
 	private:
 		std::unique_ptr<Queries> AlgoCheck;
@@ -17,7 +18,7 @@ namespace CoatlPhysicsEngine {
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();
-		void CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt);
+		void CheckCollision(std::shared_ptr<StaticCollisions> Statics,glm::vec3 Grav,float dt);
 		//Body information of Class
 		void AddNewBody(std::shared_ptr<ColShapes> NewShape);
 		void AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewShapes);

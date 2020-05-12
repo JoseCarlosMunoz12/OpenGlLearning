@@ -1,7 +1,7 @@
 #include "Particle.h"
 using namespace CoatlPhysicsEngine;
 
-void CoatlPhysicsEngine::Particle::UpdateVel(glm::vec3 Acc, float dt)
+void Particle::UpdateVel(glm::vec3 Acc, float dt)
 {
 	float ValX = glm::pow(this->Vel.x, dt);
 	float ValY = glm::pow(this->Vel.y, dt);
@@ -34,9 +34,10 @@ Particle::~Particle()
 
 glm::vec3 Particle::UpdatePos(glm::vec3 Pos, glm::vec3 Ac, float dt)
 {
-	float TimeSq = dt * dt * .5;
 	this->UpdateVel(Ac, dt);
-	return Pos + Vel *dt + Ac * TimeSq;
+	float TimSqr = dt * dt * .5f;
+	glm::vec3 NewPos = Pos + Vel * dt + Ac * TimSqr ;
+	return NewPos;
 }
 
 void Particle::SetVel(glm::vec3 NewVel)

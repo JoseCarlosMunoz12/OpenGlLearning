@@ -5,7 +5,8 @@ void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bo
 
 }
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
-	:BaseCols(Name,InitCols),Phy_Col(), Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
+	:BaseCols(Name,InitCols),Phy_Col(),Phy_Motion(),
+	Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
 {
 
 }
@@ -15,21 +16,42 @@ DynamicCollisions::~DynamicCollisions()
 
 }
 
-void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt)
+void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,glm::vec3 Grav,float dt)
 {
 	//Check Collision with The Terrain
 	if (!this->Ter.expired())
 	{
 		for (auto& jj : AllBods)
 		{
+			float DivDt = dt;
 			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
-			for (auto& ii : Quer)
+			std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
+			for (int kk = 0; kk <= 1; kk++)
 			{
-				if (!this->ColBods(jj, ii))
+				bool Collided = false;
+				glm::vec3 PrevPos = jj->GetPos();
+				for (auto& ii : Quer)
 				{
-					
+					Collided = this->ColBods(jj, ii);
+					if (Collided && Temp)
+					{
+						Temp->SetVel(glm::vec3(0.f));
+						jj->SetPosition(PrevPos);
+						break;	
+					}
 				}
-			}
+				if(Collided)
+				{
+					break;
+				}
+				else
+				{
+					if (Temp)
+					{
+						jj->SetPosition(this->UpdateParPos(PrevPos, Grav, DivDt * (float)kk, Temp));
+					}
+				}
+			}						
 		}
 	}
 	//Check Collision with Static Bodies
