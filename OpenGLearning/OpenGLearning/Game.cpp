@@ -1733,6 +1733,7 @@ void Game::ImGuiOptions()
 									if (ImGui::Button("Add informaiton to particle"))
 									{
 										Bod->SetParticle(0);
+										Bod->GetSpecificBodyPart(0)->BodParticle->SetVel(glm::vec3(0.f,10.f,0.f));
 									}
 								}
 								ImGui::TreePop();
