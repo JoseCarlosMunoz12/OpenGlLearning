@@ -17,8 +17,7 @@ namespace CoatlPhysicsEngine {
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();
-		void CheckCollision(std::shared_ptr<StaticCollisions> Statics);
-		void UpdatePhysics(glm::vec3 Acc,float dt);
+		void CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt);
 		//Body information of Class
 		void AddNewBody(std::shared_ptr<ColShapes> NewShape);
 		void AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewShapes);

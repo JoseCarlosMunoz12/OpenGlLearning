@@ -39,57 +39,11 @@ void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape)
 	this->BodyInf[Size]->BodPart = NewShape;
 }
 
-void Bodies::UpDateBodiesInf(bool ColUpdate, std::shared_ptr<Bodies> Body)
-{
-	int BodyId = Body->GetID();	
-	std::vector<int>::iterator ii = std::find(this->OtherBods.begin(), this->OtherBods.end(), BodyId);
-	if (ii != OtherBods.end())
-	{
-		if (!ColUpdate)
-			this->OtherBods.erase(ii);		
-	}
-	else
-	{
-		if (ColUpdate)
-			this->OtherBods.push_back(BodyId);
-	}
-
-}
-
-void Bodies::ClearColsInf()
-{
-	this->OtherBods.clear();
-}
-
 int Bodies::GetID()
 {
 	return this->ID;
 }
 
-void Bodies::CalcPhysics(glm::vec3 Acc,float dt)
-{
-	bool TouchGround = false;
-	for (auto& jj : OtherBods)
-	{
-		if (jj < 0)
-		{
-			TouchGround = true;
-			break;
-		}
-	}
-	if (this->BodyInf[0]->BodParticle)
-	{
-		if (!TouchGround)
-		{
-			glm::vec3 NewPos = this->BodyInf[0]->BodParticle->UpdatePos(this->GetPos(), Acc, dt);
-			this->SetPosition(NewPos);
-		}
-		else
-		{
-			this->BodyInf[0]->BodParticle->SetVel(glm::vec3(0.f));
-		}
-	}
-}
 
 void Bodies::SetPosition(glm::vec3 NewPos)
 {
@@ -111,10 +65,6 @@ std::shared_ptr<ColShapes> CoatlPhysicsEngine::Bodies::GetShapes()
 	return this->BodyInf[0]->BodPart;
 }
 
-std::vector<int> CoatlPhysicsEngine::Bodies::GetAllCol()
-{
-	return this->OtherBods;
-}
 
 std::vector<std::shared_ptr<BodyParts>> CoatlPhysicsEngine::Bodies::GetBodyParts()
 {

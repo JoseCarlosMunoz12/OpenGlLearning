@@ -15,18 +15,20 @@ DynamicCollisions::~DynamicCollisions()
 
 }
 
-void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics)
+void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt)
 {
 	//Check Collision with The Terrain
 	if (!this->Ter.expired())
 	{
 		for (auto& jj : AllBods)
 		{
-			jj->ClearColsInf();
 			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
 			for (auto& ii : Quer)
 			{
-				this->ColBods(jj, ii);
+				if (!this->ColBods(jj, ii))
+				{
+					
+				}
 			}
 		}
 	}
@@ -65,17 +67,13 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		for (auto& ii : Quer)
 		{
 			if (jj->GetID() != ii->GetID())
+			{
 				this->ColBods(jj, ii);
+			}
 		}
 	}
 }
 
-void DynamicCollisions::UpdatePhysics(glm::vec3 Acc,float dt)
-{
-	//update Physics
-	for (auto& jj : AllBods)
-		jj->CalcPhysics(Acc,dt);
-}
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)
 {

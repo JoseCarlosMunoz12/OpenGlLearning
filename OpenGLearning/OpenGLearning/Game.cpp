@@ -1583,7 +1583,6 @@ void Game::ImGuiOptions()
 					for (auto& ii : Bods)
 					{
 						std::shared_ptr<CPE::Bodies> Bod = ii.lock();
-						std::vector<int> ColId = Bod->GetAllCol();
 						std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
 						glm::vec3 Temp = Bod->GetPos();
 						if (ImGui::TreeNode(BodID.c_str()))
@@ -1604,14 +1603,6 @@ void Game::ImGuiOptions()
 							{
 								Temp.z = Ar[2];
 								Bod->SetPosition(Temp);
-							}
-							if (ImGui::TreeNode("Collided With"))
-							{
-								for (auto& ii : ColId)
-								{
-									ImGui::Text("Body ID is %d", ii);
-								}
-								ImGui::TreePop();
 							}
 							ImGui::TreePop();
 						}
@@ -1686,7 +1677,6 @@ void Game::ImGuiOptions()
 					for (auto& ii : Bods)
 					{
 						std::shared_ptr<CPE::Bodies> Bod = ii.lock();
-						std::vector<int> ColId = Bod->GetAllCol();
 						std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
 						if (ImGui::TreeNode(BodID.c_str()))
 						{
@@ -1709,14 +1699,6 @@ void Game::ImGuiOptions()
 								{
 									Temp.z = Ar[2];
 									Bod->SetPosition(Temp);
-								}
-								if (ImGui::TreeNode("Collided With"))
-								{
-									for (auto& ii : ColId)
-									{
-										ImGui::Text("Body ID is %d", ii);
-									}
-									ImGui::TreePop();
 								}
 								ImGui::TreePop();
 							}

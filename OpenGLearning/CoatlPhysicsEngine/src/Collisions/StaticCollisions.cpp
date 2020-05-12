@@ -17,7 +17,6 @@ void StaticCollisions::UpdateCollisionCheck()
 	{
 		for (auto& jj : AllBods)
 		{
-			jj->ClearColsInf();
 			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
 			for (auto& ii : Quer)
 			{
@@ -48,7 +47,6 @@ void StaticCollisions::CheckCol(std::shared_ptr<Bodies> Bod)
 		this->AlgoCheck->Insert(jj);
 	}
 	//get queries and test them
-	Bod->ClearColsInf();
 	std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(Bod, Ext);
 	for (auto& kk : Quer)
 	{

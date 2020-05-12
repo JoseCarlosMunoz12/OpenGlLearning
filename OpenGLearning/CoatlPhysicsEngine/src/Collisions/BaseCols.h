@@ -40,7 +40,7 @@ namespace CoatlPhysicsEngine {
 		std::unique_ptr<Queries> AlgoCheck;
 		std::weak_ptr<Terrain> Ter;
 		int NewCurID;
-		void ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		bool ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 	public:
 		BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols);
 		~BaseCols();
