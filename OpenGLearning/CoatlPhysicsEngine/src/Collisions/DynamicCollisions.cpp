@@ -4,6 +4,7 @@ void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bo
 {
 
 }
+
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
 	:BaseCols(Name,InitCols),Phy_Col(),Phy_Motion(),
 	Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
@@ -24,39 +25,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		for (auto& jj : AllBods)
 		{
 			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
-			std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
-			bool Collided = false;
-
-			glm::vec3 PrevPos = jj->GetPos();
-			glm::vec3 FinalPos = PrevPos; 
-			if (Temp)
-			{
-				FinalPos = this->UpdateParPos(PrevPos, Grav, dt, Temp);
-			}
 			for (auto& ii : Quer)
 			{
-				glm::vec3 Div = FinalPos - PrevPos;
-				Div.x = Div.x / 50;
-				Div.y = Div.y / 50;
-				Div.z = Div.z / 50;
-				for (int ll = 0; ll <= 50; ll++)
-				{
-					jj->SetPosition(PrevPos + Div *(float)ll);
-					Collided = this->ColBods(jj, ii);
-					if (Collided && Temp)
-					{
-						Temp->SetVel(glm::vec3(0.f));
-						break;
-					}
-				}
-				if (Collided)
-				{
-					break;
-				}
-			}
-			if (!Collided)
-			{
-				jj->SetPosition(FinalPos);
+				this->ColBods(jj, ii);
 			}
 		}
 	}
@@ -101,7 +72,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		}
 	}
 }
-
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)
 {
