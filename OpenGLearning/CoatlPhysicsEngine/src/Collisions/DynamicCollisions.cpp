@@ -32,6 +32,10 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				Collided = this->ColBods(jj, ii);
 				if (Collided)
 				{
+					if (Temp)
+					{
+						glm::vec3 Vel = Temp->GetVel();
+					}
 					break;
 				}
 			}
