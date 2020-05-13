@@ -35,12 +35,23 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			}
 			for (auto& ii : Quer)
 			{
-				jj->SetPosition(PrevPos);
-				Collided = this->ColBods(jj, ii);
-				if (Collided && Temp)
+				glm::vec3 Div = FinalPos - PrevPos;
+				Div.x = Div.x / 50;
+				Div.y = Div.y / 50;
+				Div.z = Div.z / 50;
+				for (int ll = 0; ll <= 50; ll++)
 				{
-					Temp->SetVel(glm::vec3(0.f));
-					break;	
+					jj->SetPosition(PrevPos + Div *(float)ll);
+					Collided = this->ColBods(jj, ii);
+					if (Collided && Temp)
+					{
+						Temp->SetVel(glm::vec3(0.f));
+						break;
+					}
+				}
+				if (Collided)
+				{
+					break;
 				}
 			}
 			if (!Collided)

@@ -210,24 +210,24 @@ void Game::initModels()
 		{this->textures[9],this->textures[9],
 		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[1], {Monk}));
-	//this->models.push_back(new Model("Sphere1",
-	//	 this->MipMapsData[0]->ReturnVecVal(-6.f, 3.f),
-	//	this->MatTest[1],
-	//	{this->textures[10],this->textures[10],
-	//	this->textures[14],this->textures[15],this->textures[16]},
-	//	meshes[1], {Monk}));
+	this->models.push_back(new Model("Sphere1",
+		 this->MipMapsData[0]->ReturnVecVal(-6.f, 3.f),
+		this->MatTest[1],
+		{this->textures[10],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16]},
+		meshes[1], {Monk}));
 	//this->models.push_back(new Model("Cube0",
 	//	this->MipMapsData[0]->ReturnVecVal(0.f, 3.f),
 	//	this->MatTest[1],
 	//	{ this->textures[10],this->textures[10],
 	//	this->textures[14],this->textures[15],this->textures[16] },
 	//	meshes[4], { Monk }));
-	//this->models.push_back(new Model("Capsule0",
-	//	this->MipMapsData[0]->ReturnVecVal(3.f, -5.f),
-	//	this->MatTest[1],
-	//	{ this->textures[10],this->textures[10],
-	//	this->textures[14],this->textures[15],this->textures[16] },
-	//	meshes[5], { Monk }));
+	this->models.push_back(new Model("Capsule0",
+		this->MipMapsData[0]->ReturnVecVal(3.f, -5.f),
+		this->MatTest[1],
+		{ this->textures[10],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] },
+		meshes[5], { Monk }));
 	//this->models.push_back(new Model("Cube",
 	//	this->MipMapsData[0]->ReturnVecVal(10.f, -3.f),
 	//	this->MatTest[1],
@@ -1733,7 +1733,7 @@ void Game::ImGuiOptions()
 									if (ImGui::Button("Add informaiton to particle"))
 									{
 										Bod->SetParticle(0);
-										Bod->GetSpecificBodyPart(0)->BodParticle->SetVel(glm::vec3(0.f,10.f,0.f));
+										Bod->GetSpecificBodyPart(0)->BodParticle->SetVel(glm::vec3(0.f,0.f,10.f));
 									}
 								}
 								ImGui::TreePop();
