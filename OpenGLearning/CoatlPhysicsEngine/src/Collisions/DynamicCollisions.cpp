@@ -25,10 +25,18 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		for (auto& jj : AllBods)
 		{
 			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
+			std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
+			bool Collided = false;
 			for (auto& ii : Quer)
 			{
-				this->ColBods(jj, ii);
+				Collided = this->ColBods(jj, ii);
+				if (Collided)
+				{
+					break;
+				}
 			}
+			if (Temp && !Collided)
+				jj->SetPosition(Temp->UpdatePos(jj->GetPos(), Grav, dt));
 		}
 	}
 	//Check Collision with Static Bodies
