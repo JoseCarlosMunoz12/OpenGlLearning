@@ -1,26 +1,26 @@
 #include "DynamicCollisions.h"
 using namespace CoatlPhysicsEngine;
 bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
-	glm::vec3 Vel,
+	glm::vec3 Vel, glm::vec3 Pos,
 	float t0, float t1, float& NewDt)
 {
-	glm::vec3 Pos = Bod0->GetPos();
-	float Mid = t0 + (t1 - t0) / 2.f;
-	glm::vec3 TempPos0 = MATH::ClosestPoint_Seg({Pos,Pos + Vel * Mid}, Bod1->GetPos());
-	glm::vec3 TempPos1 = MATH::ClosestPoint_Seg({Pos + Vel * Mid ,Pos + Vel * t1}, Bod1->GetPos());
-	Bod0->SetPosition(TempPos0);
-	if (this->ColBods(Bod0, Bod1))
+	if (t1 - t0 < EPSILON)
 	{
-		if (BinColDetection(Bod0, Bod1,Vel, t0, Mid, NewDt))
-		{
-			return true;
-		}
+		NewDt = t0;
+		return true;
 	}
-	if (BinColDetection(Bod0, Bod1,Vel, Mid, t1, NewDt))
+	float Mid = t0 + (t1 - t0) / 2.f;
+	glm::vec3 TempPos0 = MATH::ClosestPoint_Seg({Pos + Vel * t0,Pos + Vel * Mid}, Bod1->GetPos());
+	Bod0->SetPosition(TempPos0);
+	if (!this->ColBods(Bod0, Bod1))
+	{
+		return false;
+	}
+	if (BinColDetection(Bod0, Bod1, Vel,Pos, t0, Mid, NewDt))
 	{
 		return true;
 	}
-	return false;
+	return BinColDetection(Bod0, Bod1, Vel,Pos, Mid, t1, NewDt);
 }
 void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies> Bod1)
 {
@@ -53,34 +53,18 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				bool Collided = false;
 				glm::vec3 PrevPos = jj->GetPos();
 				glm::vec3 Bod_Vel= Temp->GetVel();
-				float DivDt = dt / 50;
 				float F_dt = dt;
 				for (auto& ii : Quer)
 				{
-					for (int kk = 0; kk <= 50; kk++)
+					if (this->BinColDetection(jj, ii,
+						Temp->GetVel(),jj->GetPos(),
+						0, dt, F_dt))
 					{
-						F_dt = DivDt * (float)kk;
-						jj->SetPosition(PrevPos + Bod_Vel  * F_dt);
-						Collided = this->ColBods(jj, ii);
-						if (Collided)
-						{
-							if (glm::abs(Bod_Vel.z) > 0.2f)
-							{
-								jj->SetPosition(PrevPos + Bod_Vel * DivDt * (float)(kk - 1));
-								Temp->SetVel(glm::vec3(0.f, 0.f, -Bod_Vel.z / 2));
-							}
-							else
-							{
-								Temp->SetVel(glm::vec3(0.f));
-							}
-							break;
-						}
-					}
-					if (Collided)
+						Temp->SetVel(glm::vec3(0.f));
 						break;
+					}
 				}
-				if (!Collided)
-					jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,F_dt*.8));
+				jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,F_dt));
 			}
 
 		}
@@ -116,17 +100,17 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		this->AlgoCheck->Insert(jj);
 	}
 	////Check Self Collision
-	//for (auto& jj : AllBods)
-	//{
-	//	std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
-	//	for (auto& ii : Quer)
-	//	{
-	//		if (jj->GetID() != ii->GetID())
-	//		{
-	//			this->ColBods(jj, ii);
-	//		}
-	//	}
-	//}
+	for (auto& jj : AllBods)
+	{
+		std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
+		for (auto& ii : Quer)
+		{
+			if (jj->GetID() != ii->GetID())
+			{
+				this->ColBods(jj, ii);
+			}
+		}
+	}
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)

@@ -17,7 +17,7 @@ namespace CoatlPhysicsEngine {
 		Alg_Type AlgoType;
 		const float EPSILON = 0.00017;
 		bool BinColDetection(std::shared_ptr<Bodies> Bod0,std::shared_ptr<Bodies> Bod1,
-			glm::vec3 Vel,
+			glm::vec3 Vel,glm::vec3 InitPos,
 			float t0, float t1,
 			float &NewDt );
 		void CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies>Bod1);
