@@ -42,7 +42,15 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						Collided = this->ColBods(jj, ii);
 						if (Collided)
 						{
-							Temp->SetVel(glm::vec3(0.f));
+							if (glm::abs(Bod_Vel.z) > 0.2f)
+							{
+								jj->SetPosition(PrevPos + Bod_Vel * DivDt * (float)(kk - 1));
+								Temp->SetVel(glm::vec3(0.f, 0.f, -Bod_Vel.z / 2));
+							}
+							else
+							{
+								Temp->SetVel(glm::vec3(0.f));
+							}
 							break;
 						}
 					}
@@ -50,7 +58,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						break;
 				}
 				if (!Collided)
-					jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,F_dt));
+					jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,F_dt*.8));
 			}
 
 		}

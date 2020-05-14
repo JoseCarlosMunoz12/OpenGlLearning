@@ -1,5 +1,6 @@
 #pragma once
 #include "../OptimizaAlgorithm/OctoTree.h"
+#include "../Shapes/AABB_Obj.h"
 #include "../Shapes/Triangles.h"
 namespace CoatlPhysicsEngine
 {

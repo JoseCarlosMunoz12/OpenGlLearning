@@ -6,6 +6,7 @@
 namespace CoatlPhysicsEngine {
 	class CapsuleColAABB
 	{
+	private:
 	protected:
 		bool CapColAABB(Capsule Cap,AABB_Obj Obj);
 	public:
