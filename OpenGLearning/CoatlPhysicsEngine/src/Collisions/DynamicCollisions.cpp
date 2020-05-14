@@ -4,13 +4,13 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 	glm::vec3 Vel, glm::vec3 Pos,
 	float t0, float t1, float& NewDt)
 {
-	if (t1 - t0 < EPSILON)
+	if ((t1 - t0 ) < EPSILON)
 	{
 		NewDt = t0;
 		return true;
 	}
 	float Mid = t0 + (t1 - t0) / 2.f;
-	glm::vec3 TempPos0 = MATH::ClosestPoint_Seg({Pos + Vel * t0,Pos + Vel * Mid}, Bod1->GetPos());
+	glm::vec3 TempPos0 = MATH::ClosestPoint_Seg({Pos + Vel * t0,Pos + Vel * t1}, Bod1->GetPos());
 	Bod0->SetPosition(TempPos0);
 	if (!this->ColBods(Bod0, Bod1))
 	{
@@ -56,15 +56,25 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				float F_dt = dt;
 				for (auto& ii : Quer)
 				{
-					if (this->BinColDetection(jj, ii,
-						Temp->GetVel(),jj->GetPos(),
-						0, dt, F_dt))
+					Collided = this->BinColDetection(jj, ii,
+						Bod_Vel, PrevPos,
+						0, dt, F_dt);
+					if (Collided)
 					{
-						Temp->SetVel(glm::vec3(0.f));
+						if (glm::abs(Bod_Vel.z) > 0.2)
+						{
+
+							Temp->SetVel(glm::vec3(0.f,0.f,-Bod_Vel.z/2));
+						}
+						else
+						{
+							Temp->SetVel(glm::vec3(0.f));
+						}
+						jj->SetPosition(PrevPos + Bod_Vel * F_dt);
 						break;
 					}
 				}
-				jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,F_dt));
+				jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,F_dt ));
 			}
 
 		}
