@@ -113,3 +113,8 @@ std::string CoatlPhysicsEngine::QuadTree::GetAlgorType()
 {
 	return "QuadTree";
 }
+
+void QuadTree::Erase()
+{
+	this->Bods.clear();
+}

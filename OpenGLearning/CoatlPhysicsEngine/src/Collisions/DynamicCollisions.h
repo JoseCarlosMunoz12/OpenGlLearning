@@ -28,6 +28,6 @@ namespace CoatlPhysicsEngine {
 		//change and check type of CollisionCheckAlgoritm
 		Alg_Type GetType();
 		void SetNewType(Alg_Type NewType);
-		void SetTerrain(std::shared_ptr<Terrain> NewTer);
+		void SetTerrain(std::shared_ptr<Terrain> NewTer);		
 	};
 }

@@ -178,3 +178,8 @@ std::string CoatlPhysicsEngine::OctoTree::GetAlgorType()
 {
 	return "OctoTree";
 }
+
+void CoatlPhysicsEngine::OctoTree::Erase()
+{
+	this->Bods.clear();
+}

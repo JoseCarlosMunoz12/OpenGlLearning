@@ -11,5 +11,6 @@ namespace CoatlPhysicsEngine {
 		{
 			return "None";
 		}
+		virtual void Erase() {};
 	};
 }

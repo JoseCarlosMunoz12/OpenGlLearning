@@ -23,3 +23,7 @@ std::string B_Force::GetAlgorType()
 {
 	return "Brute Force";
 }
+void B_Force::Erase()
+{
+	this->Bods.clear();
+}

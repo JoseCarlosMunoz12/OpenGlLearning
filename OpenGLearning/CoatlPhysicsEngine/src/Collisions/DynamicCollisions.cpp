@@ -31,17 +31,18 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				bool Collided = false;
 				glm::vec3 PrevPos = jj->GetPos();
 				glm::vec3 Bod_Vel= Temp->GetVel();
-				float DivDt = dt / 10;
+				float DivDt = dt / 50;
 				float F_dt = dt;
 				for (auto& ii : Quer)
 				{
-					for (int kk = 0; kk <= 10; kk++)
+					for (int kk = 0; kk <= 50; kk++)
 					{
 						F_dt = DivDt * (float)kk;
 						jj->SetPosition(PrevPos + Bod_Vel  * F_dt);
 						Collided = this->ColBods(jj, ii);
 						if (Collided)
 						{
+							Temp->SetVel(glm::vec3(0.f));
 							break;
 						}
 					}
@@ -64,6 +65,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 
 	}
 	//Check Collisions with each other
+	if (AlgoCheck)
+		AlgoCheck->Erase();
 	//make approriate Algorithm
 	switch (AlgoType)
 	{
@@ -77,23 +80,23 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	default:
 		break;
 	}
-	//Add bodies into Algorithm
+	////Add bodies into Algorithm
 	for (auto& jj : AllBods)
 	{
 		this->AlgoCheck->Insert(jj);
 	}
-	//Check Self Collision
-	for (auto& jj : AllBods)
-	{
-		std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
-		for (auto& ii : Quer)
-		{
-			if (jj->GetID() != ii->GetID())
-			{
-				this->ColBods(jj, ii);
-			}
-		}
-	}
+	////Check Self Collision
+	//for (auto& jj : AllBods)
+	//{
+	//	std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
+	//	for (auto& ii : Quer)
+	//	{
+	//		if (jj->GetID() != ii->GetID())
+	//		{
+	//			this->ColBods(jj, ii);
+	//		}
+	//	}
+	//}
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)

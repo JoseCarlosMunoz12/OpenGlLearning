@@ -24,3 +24,7 @@ std::string B_Force_Self::GetAlgorType()
 {
 	return "BruteForceSelf";
 }
+void B_Force_Self::Erase()
+{
+	this->Bods.clear();
+}

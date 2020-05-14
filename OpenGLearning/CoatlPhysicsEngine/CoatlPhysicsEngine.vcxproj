@@ -143,7 +143,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\DyCollisionManager\DynColManager.h" />
     <ClInclude Include="src\Physics\Phy_Motion.h" />
     <ClInclude Include="src\Physics\Phy_Col.h" />
     <ClInclude Include="src\Physics\Particle.h" />
@@ -185,7 +184,6 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\DyCollisionManager\DynColManager.cpp" />
     <ClCompile Include="src\Physics\Phy_Motion.cpp" />
     <ClCompile Include="src\Physics\Phy_Col.cpp" />
     <ClCompile Include="src\Physics\Particle.cpp" />

@@ -25,5 +25,6 @@ namespace CoatlPhysicsEngine {
 		bool Insert(std::shared_ptr<Bodies> Bod) override;
 		std::vector<std::shared_ptr<Bodies>> GetQueries(std::shared_ptr<Bodies> Bod, float Ext) override;
 		std::string GetAlgorType() override;
+		void Erase() override;
 	};
 }

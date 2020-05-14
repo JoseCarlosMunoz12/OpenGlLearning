@@ -34,5 +34,6 @@ namespace CoatlPhysicsEngine {
 		std::vector<std::shared_ptr<Bodies>> GetQueries(std::shared_ptr<Bodies> Bod, float Ext) override;
 		std::vector<std::shared_ptr<Bodies>> GetQueries(glm::vec3 Pos, float Ext);
 		std::string GetAlgorType() override;
+		void Erase() override;
 	};
 }
