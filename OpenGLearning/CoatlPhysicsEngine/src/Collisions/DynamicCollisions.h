@@ -14,6 +14,10 @@ namespace CoatlPhysicsEngine {
 		float Ext;
 		float B_Ex;
 		Alg_Type AlgoType;
+		bool BinColDetection(std::shared_ptr<Bodies> Bod0,std::shared_ptr<Bodies> Bod1,
+			glm::vec3 Vel,
+			std::vector<glm::vec3> Seg, float t0, float t1,
+			float &NewDt );
 		void CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies>Bod1);
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
