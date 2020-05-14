@@ -2,9 +2,10 @@
 
 #include "../Shapes/AABB_Obj.h"
 #include "../Shapes/Capsule.h"
+#include "TriangleColCapsule.h"
 
 namespace CoatlPhysicsEngine {
-	class CapsuleColAABB
+	class CapsuleColAABB : public TriangleColCapsule
 	{
 	private:
 	protected:
