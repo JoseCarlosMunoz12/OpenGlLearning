@@ -3,6 +3,7 @@
 #include "StaticCollisions.h"
 #include "../Physics/Phy_Col.h"
 #include "../Physics/Phy_Motion.h"
+#include "../Maths/Maths.h"
 
 namespace CoatlPhysicsEngine {
 	class DynamicCollisions : public BaseCols, Phy_Col,Phy_Motion
@@ -14,9 +15,10 @@ namespace CoatlPhysicsEngine {
 		float Ext;
 		float B_Ex;
 		Alg_Type AlgoType;
+		const float EPSILON = 0.00017;
 		bool BinColDetection(std::shared_ptr<Bodies> Bod0,std::shared_ptr<Bodies> Bod1,
 			glm::vec3 Vel,
-			std::vector<glm::vec3> Seg, float t0, float t1,
+			float t0, float t1,
 			float &NewDt );
 		void CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies>Bod1);
 	public:

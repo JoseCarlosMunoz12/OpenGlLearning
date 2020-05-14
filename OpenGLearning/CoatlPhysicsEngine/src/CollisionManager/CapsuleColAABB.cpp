@@ -14,8 +14,6 @@ bool CapsuleColAABB::CapColAABB(Capsule Cap, AABB_Obj Obj)
 	int Index[] = { 0,4,1,5 };
 	for (int ii = 0; ii < 4; ii++)
 	{
-
-		Triangles Tr();
 	}
 
 	int TopIndex[] = { 3,0,2,1 };
@@ -23,7 +21,6 @@ bool CapsuleColAABB::CapColAABB(Capsule Cap, AABB_Obj Obj)
 }
 
 CapsuleColAABB::CapsuleColAABB()
-	:TriangleColCapsule()
 {
 }
 

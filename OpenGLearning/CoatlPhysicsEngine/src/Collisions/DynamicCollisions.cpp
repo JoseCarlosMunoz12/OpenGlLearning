@@ -2,15 +2,21 @@
 using namespace CoatlPhysicsEngine;
 bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
 	glm::vec3 Vel,
-	std::vector<glm::vec3> Seg, 
 	float t0, float t1, float& NewDt)
 {
-	float Mid = t1 - t0;
-	if (BinColDetection(Bod0, Bod1,Vel, {}, t0, Mid, NewDt))
+	glm::vec3 Pos = Bod0->GetPos();
+	float Mid = t0 + (t1 - t0) / 2.f;
+	glm::vec3 TempPos0 = MATH::ClosestPoint_Seg({Pos,Pos + Vel * Mid}, Bod1->GetPos());
+	glm::vec3 TempPos1 = MATH::ClosestPoint_Seg({Pos + Vel * Mid ,Pos + Vel * t1}, Bod1->GetPos());
+	Bod0->SetPosition(TempPos0);
+	if (this->ColBods(Bod0, Bod1))
 	{
-		return true;
+		if (BinColDetection(Bod0, Bod1,Vel, t0, Mid, NewDt))
+		{
+			return true;
+		}
 	}
-	if (BinColDetection(Bod0, Bod1,Vel, {}, Mid, t1, NewDt))
+	if (BinColDetection(Bod0, Bod1,Vel, Mid, t1, NewDt))
 	{
 		return true;
 	}
