@@ -61,20 +61,18 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						0, dt, F_dt);
 					if (Collided)
 					{
-						if (glm::abs(Bod_Vel.z) > 0.2)
+						if (glm::abs(Bod_Vel.z) > 0.5f)
 						{
 
-							Temp->SetVel(glm::vec3(0.f,0.f,-Bod_Vel.z/2));
+							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
 						}
 						else
 						{
-							Temp->SetVel(glm::vec3(0.f));
+							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
 						}
-						jj->SetPosition(PrevPos + Bod_Vel * F_dt);
-						break;
 					}
 				}
-				jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,F_dt ));
+				jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,dt));
 			}
 
 		}
