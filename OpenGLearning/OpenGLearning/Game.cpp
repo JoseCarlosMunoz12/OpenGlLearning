@@ -1734,6 +1734,7 @@ void Game::ImGuiOptions()
 									{
 										Bod->SetParticle(0);
 										Bod->GetSpecificBodyPart(0)->BodParticle->SetVel(glm::vec3(0.f,0.f,10.f));
+										Bod->GetSpecificBodyPart(0)->BodParticle->SetMass(10.f);
 									}
 								}
 								ImGui::TreePop();

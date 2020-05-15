@@ -41,51 +41,7 @@ DynamicCollisions::~DynamicCollisions()
 
 void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,glm::vec3 Grav,float dt)
 {
-	//Check Collision with The Terrain
-	if (!this->Ter.expired())
-	{
-		for (auto& jj : AllBods)
-		{
-			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
-			std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
-			if (Temp)
-			{
-				bool Collided = false;
-				glm::vec3 PrevPos = jj->GetPos();
-				glm::vec3 Bod_Vel= Temp->GetVel();
-				float F_dt = dt;
-				for (auto& ii : Quer)
-				{
-					Collided = this->BinColDetection(jj, ii,
-						Bod_Vel, PrevPos,
-						0, dt, F_dt);
-					if (Collided)
-					{
-						if (glm::abs(Bod_Vel.z) > 0.5f)
-						{
 
-							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
-						}
-						else
-						{
-							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
-						}
-					}
-				}
-				jj->SetPosition(Temp->UpdatePos(PrevPos, Grav,dt));
-			}
-
-		}
-	}
-	//Check Collision with Static Bodies
-	if (Statics)
-	{
-		for (auto& jj : AllBods)
-		{
-			Statics->CheckCol(jj);
-		}
-
-	}
 	//Check Collisions with each other
 	if (AlgoCheck)
 		AlgoCheck->Erase();
@@ -102,22 +58,68 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	default:
 		break;
 	}
-	////Add bodies into Algorithm
+	//Add bodies into Algorithm
 	for (auto& jj : AllBods)
 	{
 		this->AlgoCheck->Insert(jj);
 	}
+	//Find all Collisions and Calculate its Force Geneartors
+	for (auto& jj : AllBods)
+	{	
+		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
+		if (Temp)
+		{
+			Temp->ResetForce();
+			float mass = 1 / Temp->GetInverseMass();
+			Temp->AcumForce(Grav * mass);
+			glm::vec3 PrevPos = jj->GetPos();
+			//Check Collision with The Terrain
+			if (!this->Ter.expired())
+			{
+				std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
+				bool Collided = false;
+				glm::vec3 Bod_Vel= Temp->GetVel();
+				float F_dt = dt;
+				for (auto& ii : Quer)
+				{
+					Collided = this->BinColDetection(jj, ii,
+						Bod_Vel, PrevPos,
+						0, dt, F_dt);
+					if (Collided)
+					{
+						if (glm::abs(Bod_Vel.z) > 0.5f)
+						{
+							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
+						}
+						else
+						{
+							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
+						}
+					}
+				}
+			}
+			//Check Collision with Static Bodies
+			if (Statics)
+			{
+				Statics->CheckCol(jj);
+			}
+			//Check Collision with Self
+			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
+			for (auto& ii : Quer)
+			{
+				if (jj->GetID() != ii->GetID())
+				{
+					this->ColBods(jj, ii);
+				}
+			}
+			jj->SetPosition(Temp->UpdatePos(PrevPos, dt));
+		}
+
+	}
+
 	////Check Self Collision
 	for (auto& jj : AllBods)
 	{
-		std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
-		for (auto& ii : Quer)
-		{
-			if (jj->GetID() != ii->GetID())
-			{
-				this->ColBods(jj, ii);
-			}
-		}
 	}
 }
 
