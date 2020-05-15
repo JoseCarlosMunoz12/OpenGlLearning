@@ -143,8 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Physics\Phy_Motion.h" />
-    <ClInclude Include="src\Physics\Phy_Col.h" />
+    <ClInclude Include="src\Physics\Ph_Motion\Phy_Motion.h" />
+    <ClInclude Include="src\Physics\Ph_Motion\Phy_Col.h" />
     <ClInclude Include="src\Physics\Particle.h" />
     <ClInclude Include="src\OptimizaAlgorithm\B_Force_Self.h" />
     <ClInclude Include="src\Collisions\BaseCols.h" />
@@ -184,8 +184,8 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Physics\Phy_Motion.cpp" />
-    <ClCompile Include="src\Physics\Phy_Col.cpp" />
+    <ClCompile Include="src\Physics\Ph_Motion\Phy_Motion.cpp" />
+    <ClCompile Include="src\Physics\Ph_Motion\Phy_Col.cpp" />
     <ClCompile Include="src\Physics\Particle.cpp" />
     <ClCompile Include="src\OptimizaAlgorithm\B_Force_Self.cpp" />
     <ClCompile Include="src\Collisions\BaseCols.cpp" />

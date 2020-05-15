@@ -1,12 +1,10 @@
 #pragma once
 #include "BaseCols.h"
 #include "StaticCollisions.h"
-#include "../Physics/Phy_Col.h"
-#include "../Physics/Phy_Motion.h"
 #include "../Maths/Maths.h"
 
 namespace CoatlPhysicsEngine {
-	class DynamicCollisions : public BaseCols, Phy_Col,Phy_Motion
+	class DynamicCollisions : public BaseCols
 	{
 	private:
 		std::unique_ptr<Queries> AlgoCheck;

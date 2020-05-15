@@ -28,7 +28,7 @@ void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bo
 }
 
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
-	:BaseCols(Name,InitCols),Phy_Col(),Phy_Motion(),
+	:BaseCols(Name,InitCols),
 	Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
 {
 
@@ -114,12 +114,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			}
 			jj->SetPosition(Temp->UpdatePos(PrevPos, dt));
 		}
-
-	}
-
-	////Check Self Collision
-	for (auto& jj : AllBods)
-	{
 	}
 }
 

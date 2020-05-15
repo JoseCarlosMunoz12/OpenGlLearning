@@ -126,10 +126,10 @@
     <ClInclude Include="src\Physics\Particle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\Phy_Col.h">
+    <ClInclude Include="src\Physics\Ph_Motion\Phy_Motion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\Phy_Motion.h">
+    <ClInclude Include="src\Physics\Ph_Motion\Phy_Col.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -236,10 +236,10 @@
     <ClCompile Include="src\Physics\Particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\Phy_Col.cpp">
+    <ClCompile Include="src\Physics\Ph_Motion\Phy_Motion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\Phy_Motion.cpp">
+    <ClCompile Include="src\Physics\Ph_Motion\Phy_Col.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
