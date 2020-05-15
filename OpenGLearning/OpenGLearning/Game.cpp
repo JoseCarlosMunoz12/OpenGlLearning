@@ -1727,7 +1727,7 @@ void Game::ImGuiOptions()
 										TempPart->SetVel(Vel);
 									}
 									ImGui::Text("Mass is %.3f",Mass);
-									if (ImGui::SliderFloat("ParticleMass", &Mass, 0, 20.f))
+									if (ImGui::SliderFloat("ParticleMass", &Mass, 0.5f, 20.f))
 									{
 										TempPart->SetMass(Mass);
 									}
