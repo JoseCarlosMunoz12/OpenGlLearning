@@ -41,11 +41,9 @@ DynamicCollisions::~DynamicCollisions()
 
 void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,glm::vec3 Grav,float dt)
 {
-
-	//Check Collisions with each other
+	//make approriate Algorithm
 	if (AlgoCheck)
 		AlgoCheck->Erase();
-	//make approriate Algorithm
 	switch (AlgoType)
 	{
 	case Alg_Type::B_F:
@@ -112,7 +110,16 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					this->ColBods(jj, ii);
 				}
 			}
-			jj->SetPosition(Temp->UpdatePos(PrevPos, dt));
+		}
+	}
+	//Update All Physics
+	for (auto& jj : AllBods)
+	{
+		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
+		if (Temp)
+		{
+			glm::vec3 Pos = jj->GetPos();
+			jj->SetPosition(Temp->UpdatePos(Pos, dt));
 		}
 	}
 }
