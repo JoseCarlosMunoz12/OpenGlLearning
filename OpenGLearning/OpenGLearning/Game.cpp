@@ -1708,8 +1708,8 @@ void Game::ImGuiOptions()
 								if (TempPart)
 								{
 									glm::vec3 Vel = TempPart->GetVel();
-									ImGui::TextWrapped("velocity is %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
-
+									float Mass = 1/ TempPart->GetInverseMass();
+									ImGui::Text("velocity is %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
 									float Ar[3] = { Vel.x,Vel.y,Vel.z };
 									if (ImGui::SliderFloat("One", &Ar[0], -1.f, 1.f))
 									{
@@ -1725,6 +1725,11 @@ void Game::ImGuiOptions()
 									{
 										Vel.z = Ar[2];
 										TempPart->SetVel(Vel);
+									}
+									ImGui::Text("Mass is %.3f",Mass);
+									if (ImGui::SliderFloat("ParticleMass", &Mass, 0, 20.f))
+									{
+										TempPart->SetMass(Mass);
 									}
 								}
 								else

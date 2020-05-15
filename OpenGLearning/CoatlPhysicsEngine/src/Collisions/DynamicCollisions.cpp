@@ -76,15 +76,12 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			if (!this->Ter.expired())
 			{
 				std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
-				bool Collided = false;
+				
 				glm::vec3 Bod_Vel= Temp->GetVel();
 				float F_dt = dt;
 				for (auto& ii : Quer)
 				{
-					Collided = this->BinColDetection(jj, ii,
-						Bod_Vel, PrevPos,
-						0, dt, F_dt);
-					if (Collided)
+					if (this->BinColDetection(jj, ii, Bod_Vel, PrevPos, 0, dt, F_dt))
 					{
 						if (glm::abs(Bod_Vel.z) > 0.1f)
 						{
