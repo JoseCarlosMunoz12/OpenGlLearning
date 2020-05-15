@@ -1,5 +1,5 @@
 #pragma once
-#include "Particle.h"
+#include "../Particle.h"
 namespace CoatlPhysicsEngine {
 	class Phy_Motion
 	{

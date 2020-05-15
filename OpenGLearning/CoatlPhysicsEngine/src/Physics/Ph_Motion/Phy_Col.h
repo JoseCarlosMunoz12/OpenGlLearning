@@ -1,11 +1,11 @@
 #pragma once
-#include "../Bodies/Bodies.h"
-#include "../Shapes/ColShapes.h"
-#include "../Shapes/Sphere.h"
-#include "../Shapes/AABB_Obj.h"
-#include "../Shapes/OBB.h"
-#include "../Shapes/Capsule.h"
-#include "../Shapes/Triangles.h"
+#include "../../Bodies/Bodies.h"
+#include "../../Shapes/ColShapes.h"
+#include "../../Shapes/Sphere.h"
+#include "../../Shapes/AABB_Obj.h"
+#include "../../Shapes/OBB.h"
+#include "../../Shapes/Capsule.h"
+#include "../../Shapes/Triangles.h"
 
 namespace CoatlPhysicsEngine {
 	class Phy_Col

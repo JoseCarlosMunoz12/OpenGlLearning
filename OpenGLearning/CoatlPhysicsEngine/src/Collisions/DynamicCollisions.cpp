@@ -68,6 +68,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		if (Temp)
 		{
 			Temp->ResetForce();
+			//Gravitaional Force
 			float mass = 1 / Temp->GetInverseMass();
 			Temp->AcumForce(Grav * mass);
 			glm::vec3 PrevPos = jj->GetPos();
@@ -85,7 +86,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						0, dt, F_dt);
 					if (Collided)
 					{
-						if (glm::abs(Bod_Vel.z) > 0.5f)
+						if (glm::abs(Bod_Vel.z) > 0.1f)
 						{
 							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
 						}
@@ -110,6 +111,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					this->ColBods(jj, ii);
 				}
 			}
+			jj->SetPosition(PrevPos);
 		}
 	}
 	//Update All Physics
