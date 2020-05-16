@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Physics\Ph_Motion\Phy_Base.h" />
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Drag.h" />
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Motion.h" />
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Col.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Physics\Ph_Motion\Phy_Base.cpp" />
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Drag.cpp" />
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Motion.cpp" />
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Col.cpp" />
