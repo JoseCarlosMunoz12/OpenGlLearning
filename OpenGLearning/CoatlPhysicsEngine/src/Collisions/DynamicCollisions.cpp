@@ -83,7 +83,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				{
 					if (this->BinColDetection(jj, ii, Bod_Vel, PrevPos, 0, dt, F_dt))
 					{
-						if (glm::abs(Bod_Vel.z) > 0.1f)
+						Temp->AcumForce(-Grav * mass);
+						if (glm::abs(Bod_Vel.z) > 1.f)
 						{
 							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
 						}
