@@ -20,7 +20,8 @@ glm::vec3 Phy_Drag::GetForce(Particle P0, Particle P1)
 {
 	glm::vec3 F = P0.GetVel();
 	float Mag = glm::length(F);
-	float DragCoefficient= -1 * (K0 * Mag + K1 * Mag * Mag);
-	glm::vec3 F = glm::normalize(F);
-	return F * DragCoefficient;
+	float DragCoefficient = -1 * (K0 * Mag + K1 * Mag * Mag);
+	F = glm::normalize(F);
+	F = DragCoefficient * F;
+	return F ;
 }

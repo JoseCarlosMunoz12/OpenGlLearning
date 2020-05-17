@@ -8,6 +8,7 @@
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
 #include <vector>
+
 namespace CoatlPhysicsEngine {
 	class Particle 
 	{
