@@ -15,7 +15,7 @@ void Particle::UpdateVel(float dt)
 }
 
 Particle::Particle(glm::vec3 InitVel, float InitDamp)
-	: Acum_Force(glm::vec3(0.f))
+	: Acum_Force(glm::vec3(0.f)),PhysicsID(0)
 {
 	this->InverMass = 0.f;
 	this->Vel = InitVel;
@@ -23,14 +23,14 @@ Particle::Particle(glm::vec3 InitVel, float InitDamp)
 }
 
 Particle::Particle(glm::vec3 InitVel)
-	:Damping(1.f), Acum_Force(glm::vec3(0.f))
+	:Damping(1.f), Acum_Force(glm::vec3(0.f)), PhysicsID(0)
 {
 	this->Vel = InitVel;
 	this->InverMass = 0.f;
 }
 
 Particle::Particle()
-	:Vel(glm::vec3(0.f)), InverMass(0.f),Damping(1.f), Acum_Force(glm::vec3(0.f))
+	:Vel(glm::vec3(0.f)), InverMass(10.f),Damping(1.f), Acum_Force(glm::vec3(0.f)), PhysicsID(0)
 {
 }
 
@@ -55,10 +55,11 @@ glm::vec3 Particle::GetVel()
 	return this->Vel;
 }
 
-float Particle::GetInverseMass()
+float CoatlPhysicsEngine::Particle::GetMass()
 {
-	return this->InverMass;
+	return 1 / this->InverMass;
 }
+
 
 void Particle::ChangeInverseMass(float Mass)
 {

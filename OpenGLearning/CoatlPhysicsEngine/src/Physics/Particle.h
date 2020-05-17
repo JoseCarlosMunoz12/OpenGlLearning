@@ -18,6 +18,7 @@ namespace CoatlPhysicsEngine {
 		float InverMass;
 		glm::vec3 Acum_Force;
 		void UpdateVel(float dt);
+		int PhysicsID;
 	public:
 		Particle(glm::vec3 InitVel,float InitDamp);
 		Particle(glm::vec3 InitVel);
@@ -26,7 +27,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 UpdatePos(glm::vec3 Pos, float dt);
 		void SetVel(glm::vec3 NewVel);
 		glm::vec3 GetVel();
-		float GetInverseMass();
+		float GetMass();
 		void ChangeInverseMass(float Mass);
 		void ResetForce();
 		void AcumForce(glm::vec3 Force);

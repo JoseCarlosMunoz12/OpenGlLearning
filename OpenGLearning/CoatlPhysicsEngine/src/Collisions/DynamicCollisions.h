@@ -2,13 +2,17 @@
 #include "BaseCols.h"
 #include "StaticCollisions.h"
 #include "../Maths/Maths.h"
+#include "../Physics/Phys_Libs.h"
 
 namespace CoatlPhysicsEngine {
 	class DynamicCollisions : public BaseCols
 	{
 	private:
+		std::unique_ptr<Phy_Base> F_Manager;
+		std::unique_ptr<Phy_Base> Grav_F_Manager;
 		std::unique_ptr<Queries> AlgoCheck;
 		std::weak_ptr<Terrain> Ter;
+		glm::vec3 Gravity;
 		int NewCurId = 100;
 		float Ext;
 		float B_Ex;
@@ -22,7 +26,7 @@ namespace CoatlPhysicsEngine {
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();
-		void CheckCollision(std::shared_ptr<StaticCollisions> Statics,glm::vec3 Grav,float dt);
+		void CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt);
 		//Body information of Class
 		void AddNewBody(std::shared_ptr<ColShapes> NewShape);
 		void AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewShapes);

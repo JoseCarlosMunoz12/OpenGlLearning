@@ -31,7 +31,8 @@ DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<Collision
 	:BaseCols(Name,InitCols),
 	Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
 {
-
+	this->Gravity = glm::vec3(0.f, 0.f, -9.81f);
+	this->Grav_F_Manager = std::make_unique<Phy_Grav>(this->Gravity);
 }
 
 DynamicCollisions::~DynamicCollisions()
@@ -39,7 +40,7 @@ DynamicCollisions::~DynamicCollisions()
 
 }
 
-void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,glm::vec3 Grav,float dt)
+void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt)
 {
 	//make approriate Algorithm
 	if (AlgoCheck)
@@ -67,10 +68,10 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
+			//resetForces on the Object
 			Temp->ResetForce();
 			//Gravitaional Force
-			float mass = 1 / Temp->GetInverseMass();
-			Temp->AcumForce(Grav * mass);
+			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			//Check Collision with The Terrain
 			if (!this->Ter.expired())
@@ -83,7 +84,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				{
 					if (this->BinColDetection(jj, ii, Bod_Vel, PrevPos, 0, dt, F_dt))
 					{
-						Temp->AcumForce(-Grav * mass);
+
+						Temp->AcumForce(-Gravity * Temp->GetMass());
 						if (glm::abs(Bod_Vel.z) > 1.f)
 						{
 							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));

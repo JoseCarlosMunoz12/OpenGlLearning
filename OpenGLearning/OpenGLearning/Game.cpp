@@ -1708,7 +1708,7 @@ void Game::ImGuiOptions()
 								if (TempPart)
 								{
 									glm::vec3 Vel = TempPart->GetVel();
-									float Mass = 1/ TempPart->GetInverseMass();
+									float Mass =TempPart->GetMass();
 									ImGui::Text("velocity is %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
 									float Ar[3] = { Vel.x,Vel.y,Vel.z };
 									if (ImGui::SliderFloat("One", &Ar[0], -1.f, 1.f))

@@ -138,6 +138,12 @@
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Physics\Phys_Libs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Ph_Motion\Phy_Grav.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -252,6 +258,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Ph_Motion\Phy_Grav.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
