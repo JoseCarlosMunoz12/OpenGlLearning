@@ -72,6 +72,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			Temp->ResetForce();
 			//Gravitaional Force
 			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
+			// Drag Force
+			this->F_Manager = std::make_unique<Phy_Drag>(1,1);
+			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			//Check Collision with The Terrain
 			if (!this->Ter.expired())

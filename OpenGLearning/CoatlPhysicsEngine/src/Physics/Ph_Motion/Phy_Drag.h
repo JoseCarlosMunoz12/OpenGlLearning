@@ -11,4 +11,5 @@ namespace CoatlPhysicsEngine {
 		Phy_Drag();
 		~Phy_Drag();
 		glm::vec3 GetForce(Particle P0,Particle P1) override;
+		glm::vec3 GetForce(Particle P0) override;
 	};}
