@@ -12,12 +12,6 @@ void Particle::UpdateVel(float dt)
 	glm::vec3 Acc = this->Acum_Force * InverMass;
 	this->Vel = Acc * dt + Vel;
 	Vel = Vel* glm::pow(Damping, dt);
-	if (glm::abs(Vel.x )< 0.15f)
-		Vel.x = 0.f;
-	if (glm::abs(Vel.y) < 0.15f)
-		Vel.y = 0.f;
-	if (glm::abs(Vel.z) < 0.15f)
-		Vel.z = 0.f;
 }
 
 Particle::Particle(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
