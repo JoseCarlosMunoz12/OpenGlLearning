@@ -13,6 +13,7 @@ namespace CoatlPhysicsEngine {
 	class Particle 
 	{
 	private:
+		glm::vec3 Pos;
 		glm::vec3 Vel;
 		float Damping;
 		float InverMass;
@@ -20,17 +21,19 @@ namespace CoatlPhysicsEngine {
 		void UpdateVel(float dt);
 		int PhysicsID;
 	public:
-		Particle(glm::vec3 InitVel,float InitDamp);
-		Particle(glm::vec3 InitVel);
-		Particle();
+		Particle(glm::vec3 Pos,glm::vec3 InitVel,float InitDamp);
+		Particle(glm::vec3 Pos,glm::vec3 InitVel);
+		Particle(glm::vec3 Pos);
 		~Particle();
-		glm::vec3 UpdatePos(glm::vec3 Pos, float dt);
+		glm::vec3 UpdatePos(float dt);
 		void SetVel(glm::vec3 NewVel);
 		glm::vec3 GetVel();
+		glm::vec3 GetPos();
 		float GetMass();
 		void ChangeInverseMass(float Mass);
 		void ResetForce();
 		void AcumForce(glm::vec3 Force);
 		void SetMass(float Mass);
+		void SetPos(glm::vec3 Pos);
 	};
 }

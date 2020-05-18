@@ -100,11 +100,13 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
+			jj->SetPosition(PrevPos);
 			//Check Collision with Static Bodies
 			if (Statics)
 			{
 				Statics->CheckCol(jj);
 			}
+			jj->SetPosition(PrevPos);
 			//Check Collision with Self
 			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
 			for (auto& ii : Quer)
@@ -128,8 +130,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-			glm::vec3 Pos = jj->GetPos();
-			jj->SetPosition(Temp->UpdatePos(Pos, dt));
+			jj->SetPosition(Temp->UpdatePos(dt));
 		}
 	}
 }

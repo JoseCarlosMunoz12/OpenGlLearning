@@ -48,11 +48,14 @@ int Bodies::GetID()
 void Bodies::SetPosition(glm::vec3 NewPos)
 {
 	this->BodyInf[0]->BodPart->SetPos(NewPos);
+	if (this->BodyInf[0]->BodParticle)
+		this->BodyInf[0]->BodParticle->SetPos(NewPos);
+
 }
 
 void Bodies::SetParticle(int ShapeID)
 {
-	this->BodyInf[ShapeID]->BodParticle = std::make_shared<Particle>();
+	this->BodyInf[ShapeID]->BodParticle = std::make_shared<Particle>(this->GetPos());
 }
 
 glm::vec3 Bodies::GetPos()

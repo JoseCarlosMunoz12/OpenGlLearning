@@ -1724,6 +1724,7 @@ void Game::ImGuiOptions()
 									if (ImGui::SliderFloat("Three", &Ar[2], -1.f, 1.f))
 									{
 										Vel.z = Ar[2];
+
 										TempPart->SetVel(Vel);
 									}
 									ImGui::Text("Mass is %.3f",Mass);
