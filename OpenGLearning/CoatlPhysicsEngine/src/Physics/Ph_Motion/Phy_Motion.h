@@ -1,7 +1,7 @@
 #pragma once
-#include "../Particle.h"
+#include "Phy_Base.h"
 namespace CoatlPhysicsEngine {
-	class Phy_Motion
+	class Phy_Motion : public Phy_Base
 	{
 	protected:
 		glm::vec3 UpdateParPos(glm::vec3 Pos, float dt,
@@ -9,5 +9,6 @@ namespace CoatlPhysicsEngine {
 	public:
 		Phy_Motion();
 		~Phy_Motion();
+
 	};
 }

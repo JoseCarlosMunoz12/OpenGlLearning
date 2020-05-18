@@ -73,7 +73,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//Gravitaional Force
 			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			// Drag Force
-			this->F_Manager = std::make_unique<Phy_Drag>(1,1);
+			this->F_Manager = std::make_unique<Phy_Drag>(0,0);
 			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			//Check Collision with The Terrain
@@ -111,7 +111,12 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			{
 				if (jj->GetID() != ii->GetID())
 				{
-					this->ColBods(jj, ii);
+					glm::vec3 Bod_Vel = Temp->GetVel();
+					float F_dt = dt;
+					if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
+					{
+
+					}
 				}
 			}
 			jj->SetPosition(PrevPos);
