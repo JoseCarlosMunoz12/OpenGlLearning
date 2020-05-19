@@ -8,7 +8,7 @@ namespace CoatlPhysicsEngine {
 	struct CollisionWorldSetup
 	{
 		std::string Name;
-		glm::vec3 Gravity = glm::vec3(0.f,0.f,-9.81);
+		glm::vec3 Gravity = glm::vec3(0.f, 0.f, -9.81);
 	};
 	class CollisionWorld
 	{
@@ -26,7 +26,7 @@ namespace CoatlPhysicsEngine {
 		~CollisionWorld();
 		std::string ShowName();
 		glm::vec3 GetGravity();
-		void ChangeName(std::string NewName);		
+		void ChangeName(std::string NewName);
 		void CreateStaticCol(std::string Name);
 		void CreateDynamicCol(std::string Name);
 		std::shared_ptr<StaticCollisions> GetCollision();

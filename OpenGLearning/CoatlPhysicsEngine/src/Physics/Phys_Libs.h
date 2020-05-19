@@ -6,3 +6,4 @@
 #include "Ph_Motion/Phy_Motion.h"
 #include "Ph_Motion/Phy_Col.h"
 #include "Ph_Motion/Phy_Spring.h"
+#include "Ph_Motion/Phy_Bungee.h"
