@@ -27,7 +27,7 @@ glm::vec3 CoatlPhysicsEngine::Phy_Drag::GetForce(Particle P0)
 
 	glm::vec3 F = P0.GetVel();
 	float Mag = glm::sqrt(F.x * F.x + F.y * F.y + F.z * F.z);
-	if (glm::abs(Mag) < .1f)
+	if (glm::abs(Mag) < 1.f)
 		return glm::vec3(0.f);
 	float DragCoefficient = -1 * (K0 * Mag + K1 * Mag * Mag);
 	F = glm::normalize(F);

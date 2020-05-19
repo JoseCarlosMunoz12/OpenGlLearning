@@ -20,6 +20,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Acum_Force;
 		void UpdateVel(float dt);
 		int PhysicsID;
+		//Time Factors
 	public:
 		Particle(glm::vec3 Pos,glm::vec3 InitVel,float InitDamp);
 		Particle(glm::vec3 Pos,glm::vec3 InitVel);

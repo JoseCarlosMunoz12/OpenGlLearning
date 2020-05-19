@@ -69,7 +69,6 @@ float CoatlPhysicsEngine::Particle::GetMass()
 	return 1 / this->InverMass;
 }
 
-
 void Particle::ChangeInverseMass(float Mass)
 {
 	this->InverMass = 1 / Mass;

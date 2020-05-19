@@ -14,7 +14,14 @@ Phy_Spring::~Phy_Spring()
 
 glm::vec3 Phy_Spring::GetForce(Particle P0)
 {	
-	return glm::vec3();
+	glm::vec3 F = P0.GetPos();
+	F = F - Lock_Pos;
+	float Mag = glm::length(F);
+	Mag = glm::abs(Mag - RestLength);
+	Mag = K * Mag;
+	F = glm::normalize(F);
+	F = -Mag * F;
+	return F;
 }
 
 glm::vec3 Phy_Spring::GetForce(Particle P0, Particle P1)
