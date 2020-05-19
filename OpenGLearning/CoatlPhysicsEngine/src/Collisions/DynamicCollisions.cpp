@@ -76,8 +76,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			this->F_Manager = std::make_unique<Phy_Drag>(1,0);
 			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			//Spring Force
-			this->F_Manager = std::make_unique<Phy_Spring>(glm::vec3(0.f, 0.f, 50.f),100.f,0.f);
-			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
+			this->F_Manager = std::make_unique<Phy_Spring>(glm::vec3(1.f, 1.f, 10.f),100.f, 10.f,0.f);
+			Temp->AcumForce(this->F_Manager->GetForce(*Temp,dt));
 			glm::vec3 PrevPos = jj->GetPos();
 			//Check Collision with The Terrain
 			if (!this->Ter.expired())

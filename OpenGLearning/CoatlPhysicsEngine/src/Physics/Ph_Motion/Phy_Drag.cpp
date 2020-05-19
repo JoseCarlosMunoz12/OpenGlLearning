@@ -34,3 +34,8 @@ glm::vec3 CoatlPhysicsEngine::Phy_Drag::GetForce(Particle P0)
 	F = DragCoefficient * F;
 	return F;
 }
+
+glm::vec3 CoatlPhysicsEngine::Phy_Drag::GetForce(Particle P0, float dt)
+{
+	return glm::vec3();
+}

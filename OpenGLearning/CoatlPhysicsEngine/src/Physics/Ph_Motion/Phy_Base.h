@@ -21,5 +21,6 @@ namespace CoatlPhysicsEngine {
 		}
 		virtual glm::vec3 GetForce(Particle P0, Particle P1) =0;
 		virtual glm::vec3 GetForce(Particle P0) = 0;
+		virtual glm::vec3 GetForce(Particle P0, float dt) = 0;
 	};
 }

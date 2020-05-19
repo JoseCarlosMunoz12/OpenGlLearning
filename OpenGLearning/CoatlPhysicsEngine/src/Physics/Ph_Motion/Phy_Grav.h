@@ -9,5 +9,6 @@ namespace CoatlPhysicsEngine {
 		~Phy_Grav();
 		glm::vec3 GetForce(Particle P0) override;
 		glm::vec3 GetForce(Particle P0, Particle P1) override;
+		glm::vec3 GetForce(Particle P0,float dt) override;
 	};
 }
