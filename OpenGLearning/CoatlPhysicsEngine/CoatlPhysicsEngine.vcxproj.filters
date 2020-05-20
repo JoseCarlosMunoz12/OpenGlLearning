@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CoatlPhysicsEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Collisions\StaticCollisions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -150,6 +147,12 @@
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Bungee.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CoatlPhysicsEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Ph_Motion\Phy_Buoyancy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -273,6 +276,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Bungee.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Ph_Motion\Phy_Buoyancy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

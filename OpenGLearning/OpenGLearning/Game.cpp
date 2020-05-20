@@ -171,7 +171,7 @@ void Game::initModels()
 		new Mesh(&Cone_M(10.f, 10.f, 40.f, 10),
 			"Cone"));
 	meshes.push_back(
-		new Mesh(&Prism_M(3,4,1),
+		new Mesh(&Prism_M(4,4,10),
 			"Cube"));
 	meshes.push_back(
 		new Mesh(&Capsule_M(1.f,1.f,16,16),
@@ -217,7 +217,7 @@ void Game::initModels()
 		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[1], {Monk}));
 	this->models.push_back(new Model("Cube0",
-		this->MipMapsData[0]->ReturnVecVal(0.f, 3.f),
+		glm::vec3(1.,1.,5.f),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },

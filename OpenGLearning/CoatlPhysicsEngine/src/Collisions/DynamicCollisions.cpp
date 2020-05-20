@@ -75,8 +75,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			// Drag Force
 			this->F_Manager = std::make_unique<Phy_Drag>(1,0);
 			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
-			//Spring Force
-			this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(1.f, 1.f, 10.f),1000.f, 100.f,2.f);
+			//Buoyancy
+			this->F_Manager = std::make_unique<Phy_Buoyancy>(0.f,0,10);
 			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			//Check Collision with The Terrain

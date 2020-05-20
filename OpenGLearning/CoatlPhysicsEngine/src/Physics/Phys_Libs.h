@@ -7,3 +7,4 @@
 #include "Ph_Motion/Phy_Col.h"
 #include "Ph_Motion/Phy_Spring.h"
 #include "Ph_Motion/Phy_Bungee.h"
+#include "Ph_Motion/Phy_Buoyancy.h"
