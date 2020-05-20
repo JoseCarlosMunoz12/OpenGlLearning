@@ -508,7 +508,225 @@ private:
 		}
 		return TempTexCoord;
 	}
-}; 
+};
+
+class Prism_M : public Primitive
+{
+public:
+	Prism_M(int DimXYZ) {
+
+		std::vector<Vertex> VertexOfCube;
+		std::vector<GLuint> IndecesOfCube;
+		glm::vec3 Normals[] =
+		{
+			glm::vec3(1.f,0.f,0.f), glm::vec3(0.f,1.f,0.f), glm::vec3(-1.f,0.f,0.f), glm::vec3(0.f,-1.f,0.f),
+			glm::vec3(0.f,0.f,1.f), glm::vec3(0.f,0.f,-1.f)
+		};
+		glm::vec2 TexCoords[] =
+		{
+			glm::vec2(0.f,0.f),glm::vec2(1.f,0.f),
+			glm::vec2(0.f,1.f),glm::vec2(1.f,1.f)
+		};
+		glm::vec3 ColorsUsed = glm::vec3(0.f, 0.f, 1.f);
+		glm::vec3 Positions[] =
+		{
+			//Top Plane 
+			glm::vec3((float)DimXYZ/2.f,-(float)DimXYZ/2.f, (float)DimXYZ/2.f), glm::vec3((float)DimXYZ/2.f, (float)DimXYZ/2.f, (float)DimXYZ/2.f),
+			glm::vec3(-(float)DimXYZ/2.f, (float)DimXYZ/2.f, (float)DimXYZ/2.f), glm::vec3(-(float)DimXYZ/2.f,-(float)DimXYZ/2.f, (float)DimXYZ/2.f),
+			//Bottom Plane
+			glm::vec3((float)DimXYZ/2.f,-(float)DimXYZ/2.f,-(float)DimXYZ/2.f), glm::vec3((float)DimXYZ/2.f, (float)DimXYZ/2.f,-(float)DimXYZ/2.f),
+			glm::vec3(-(float)DimXYZ/2.f, (float)DimXYZ/2.f,-(float)DimXYZ/2.f), glm::vec3(-(float)DimXYZ/2.f,-(float)DimXYZ/2.f,-(float)DimXYZ/2.f)
+		};
+		int Index[] = { 0,4,1,5 };
+
+		for (int ii = 0; ii < 4; ii++)
+		{
+			VertexOfCube.push_back({ Positions[Index[0]],ColorsUsed,TexCoords[2],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[3]],ColorsUsed,TexCoords[1],Normals[ii] });
+			Index[0]++;
+			Index[1]++;
+			Index[2]++;
+			Index[3]++;
+			if (Index[2] == 4)
+			{
+				Index[2] = 0;
+			}
+			if (Index[3] == 8)
+			{
+				Index[3] = 4;
+			}
+		}
+		int TopIndex[] = { 3,0,2,1 };
+		for (int ii = 4; ii < 6; ii++)
+		{
+
+			VertexOfCube.push_back({ Positions[TopIndex[0]],ColorsUsed,TexCoords[2],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[3]],ColorsUsed,TexCoords[1],Normals[ii] });
+			TopIndex[0] = 6;
+			TopIndex[1] = 5;
+			TopIndex[2] = 7;
+			TopIndex[3] = 4;
+		}
+
+		int Count = 0;
+		for (auto& jj : VertexOfCube)
+		{
+			IndecesOfCube.push_back(Count);
+			Count++;
+		}
+		this->set(VertexOfCube, IndecesOfCube);
+	}
+	Prism_M(int DimX, int DimYZ) {
+
+		std::vector<Vertex> VertexOfCube;
+		std::vector<GLuint> IndecesOfCube;
+		glm::vec3 Normals[] =
+		{
+			glm::vec3(1.f,0.f,0.f), glm::vec3(0.f,1.f,0.f), glm::vec3(-1.f,0.f,0.f), glm::vec3(0.f,-1.f,0.f),
+			glm::vec3(0.f,0.f,1.f), glm::vec3(0.f,0.f,-1.f)
+		};
+		glm::vec2 TexCoords[] =
+		{
+			glm::vec2(0.f,0.f),glm::vec2(1.f,0.f),
+			glm::vec2(0.f,1.f),glm::vec2(1.f,1.f)
+		};
+		glm::vec3 ColorsUsed = glm::vec3(0.f, 0.f, 1.f);
+		glm::vec3 Positions[] =
+		{
+			//Top Plane 
+			glm::vec3((float)DimX / 2.f,-(float)DimYZ / 2.f, (float)DimYZ / 2.f), glm::vec3((float)DimX / 2.f, (float)DimYZ / 2.f, (float)DimYZ / 2.f),
+			glm::vec3(-(float)DimX / 2.f, (float)DimYZ / 2.f, (float)DimYZ / 2.f), glm::vec3(-(float)DimX / 2.f,-(float)DimYZ / 2.f, (float)DimYZ / 2.f),
+			//Bottom Plane
+			glm::vec3((float)DimX / 2.f,-(float)DimYZ / 2.f,-(float)DimYZ / 2.f), glm::vec3((float)DimX / 2.f, (float)DimYZ / 2.f,-(float)DimYZ / 2.f),
+			glm::vec3(-(float)DimX / 2.f, (float)DimYZ / 2.f,-(float)DimYZ / 2.f), glm::vec3(-(float)DimX / 2.f,-(float)DimYZ / 2.f,-(float)DimYZ / 2.f)
+		};
+		int Index[] = { 0,4,1,5 };
+
+		for (int ii = 0; ii < 4; ii++)
+		{
+			VertexOfCube.push_back({ Positions[Index[0]],ColorsUsed,TexCoords[2],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[3]],ColorsUsed,TexCoords[1],Normals[ii] });
+			Index[0]++;
+			Index[1]++;
+			Index[2]++;
+			Index[3]++;
+			if (Index[2] == 4)
+			{
+				Index[2] = 0;
+			}
+			if (Index[3] == 8)
+			{
+				Index[3] = 4;
+			}
+		}
+		int TopIndex[] = { 3,0,2,1 };
+		for (int ii = 4; ii < 6; ii++)
+		{
+
+			VertexOfCube.push_back({ Positions[TopIndex[0]],ColorsUsed,TexCoords[2],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[3]],ColorsUsed,TexCoords[1],Normals[ii] });
+			TopIndex[0] = 6;
+			TopIndex[1] = 5;
+			TopIndex[2] = 7;
+			TopIndex[3] = 4;
+		}
+
+		int Count = 0;
+		for (auto& jj : VertexOfCube)
+		{
+			IndecesOfCube.push_back(Count);
+			Count++;
+		}
+		this->set(VertexOfCube, IndecesOfCube);
+	}
+	Prism_M(int DimX, int DimY, int DimZ) {
+
+		std::vector<Vertex> VertexOfCube;
+		std::vector<GLuint> IndecesOfCube;
+		glm::vec3 Normals[] =
+		{
+			glm::vec3(1.f,0.f,0.f), glm::vec3(0.f,1.f,0.f), glm::vec3(-1.f,0.f,0.f), glm::vec3(0.f,-1.f,0.f),
+			glm::vec3(0.f,0.f,1.f), glm::vec3(0.f,0.f,-1.f)
+		};
+		glm::vec2 TexCoords[] =
+		{
+			glm::vec2(0.f,0.f),glm::vec2(1.f,0.f),
+			glm::vec2(0.f,1.f),glm::vec2(1.f,1.f)
+		};
+		glm::vec3 ColorsUsed = glm::vec3(0.f, 0.f, 1.f);
+		glm::vec3 Positions[] =
+		{
+			//Top Plane 
+			glm::vec3((float)DimX / 2.f,-(float)DimY / 2.f, (float)DimZ / 2.f), glm::vec3((float)DimX / 2.f, (float)DimY / 2.f, (float)DimZ / 2.f),
+			glm::vec3(-(float)DimX / 2.f, (float)DimY / 2.f, (float)DimZ / 2.f), glm::vec3(-(float)DimX / 2.f,-(float)DimY / 2.f, (float)DimZ / 2.f),
+			//Bottom Plane
+			glm::vec3((float)DimX / 2.f,-(float)DimY / 2.f,-(float)DimZ / 2.f), glm::vec3((float)DimX / 2.f, (float)DimY / 2.f,-(float)DimZ / 2.f),
+			glm::vec3(-(float)DimX / 2.f, (float)DimY / 2.f,-(float)DimZ / 2.f), glm::vec3(-(float)DimX / 2.f,-(float)DimY / 2.f,-(float)DimZ / 2.f)
+		};
+		int Index[] = { 0,4,1,5 };
+
+		for (int ii = 0; ii < 4; ii++)
+		{
+			VertexOfCube.push_back({ Positions[Index[0]],ColorsUsed,TexCoords[2],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[Index[3]],ColorsUsed,TexCoords[1],Normals[ii] });
+			Index[0]++;
+			Index[1]++;
+			Index[2]++;
+			Index[3]++;
+			if (Index[2] == 4)
+			{
+				Index[2] = 0;
+			}
+			if (Index[3] == 8)
+			{
+				Index[3] = 4;
+			}
+		}
+		int TopIndex[] = { 3,0,2,1 };
+		for (int ii = 4; ii < 6; ii++)
+		{
+
+			VertexOfCube.push_back({ Positions[TopIndex[0]],ColorsUsed,TexCoords[2],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[2]],ColorsUsed,TexCoords[3],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[1]],ColorsUsed,TexCoords[0],Normals[ii] });
+			VertexOfCube.push_back({ Positions[TopIndex[3]],ColorsUsed,TexCoords[1],Normals[ii] });
+			TopIndex[0] = 6;
+			TopIndex[1] = 5;
+			TopIndex[2] = 7;
+			TopIndex[3] = 4;
+		}
+
+		int Count = 0;
+		for (auto& jj : VertexOfCube)
+		{
+			IndecesOfCube.push_back(Count);
+			Count++;
+		}
+		this->set(VertexOfCube, IndecesOfCube);
+	}
+};
 
 class CustomObject_M: public Primitive
 {
