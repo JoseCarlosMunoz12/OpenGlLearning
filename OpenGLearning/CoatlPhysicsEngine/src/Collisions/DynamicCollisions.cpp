@@ -75,9 +75,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			// Drag Force
 			this->F_Manager = std::make_unique<Phy_Drag>(1,0);
 			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
-			//Buoyancy
-			this->F_Manager = std::make_unique<Phy_Buoyancy>(0.f,0,10);
-			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			//Check Collision with The Terrain
 			if (!this->Ter.expired())
@@ -106,7 +103,19 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//Check Collision with Static Bodies
 			if (Statics)
 			{
-				Statics->CheckCol(jj);
+				std::vector<std::shared_ptr<Bodies>> Que = Statics->GetBods(jj);
+				for (auto& ii : Que)
+				{
+					if (this->ColBods(jj, ii))
+					{
+						std::cout << "Collided\n";
+					}
+					else
+					{
+
+						std::cout << " No Collided\n";
+					}
+				}
 			}
 			jj->SetPosition(PrevPos);
 			//Check Collision with Self

@@ -22,6 +22,7 @@ namespace CoatlPhysicsEngine
 		void AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewShapes);
 		std::string GetName();
 		std::vector<std::weak_ptr<Bodies>> GetAllBodies();
+		std::vector<std::shared_ptr<Bodies>> GetBods(std::shared_ptr<Bodies>Bod);
 		std::shared_ptr<Bodies> GetABody(int ID);
 		//change and check type of CollisionCheckAlgoritm
 		Alg_Type GetType();

@@ -1548,7 +1548,7 @@ void Game::ImGuiOptions()
 						}
 						if (ImGui::Button("Add Box"))
 						{
-							std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1.f), 1.f);
+							std::shared_ptr<CPE::AABB_Obj> B_Temp = std::make_shared<CPE::AABB_Obj>(glm::vec3(1., 1., 5.f), 4,4,10);
 							TempStatic->AddNewBody(B_Temp);
 						}
 						if (ImGui::Button("Add OBB Box"))
