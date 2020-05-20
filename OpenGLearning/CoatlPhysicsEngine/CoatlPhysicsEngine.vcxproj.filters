@@ -153,6 +153,9 @@
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Buoyancy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CollisionResolution\Col_Resolution.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -279,6 +282,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Buoyancy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionResolution\Col_Resolutiob.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
