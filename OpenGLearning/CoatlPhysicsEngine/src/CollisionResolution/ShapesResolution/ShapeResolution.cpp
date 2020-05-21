@@ -19,5 +19,5 @@ std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(_T T, _N N)
 template<>
 std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(Sphere T, Sphere N)
 {
-	return std::vector<std::shared_ptr<Contact>>();
+	return this->SphRelSph(T,N);
 }

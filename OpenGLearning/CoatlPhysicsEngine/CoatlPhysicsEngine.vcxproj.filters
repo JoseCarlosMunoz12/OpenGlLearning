@@ -293,9 +293,6 @@
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Buoyancy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CollisionResolution\Col_Resolutiob.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\CollisionResolution\Col_Resolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

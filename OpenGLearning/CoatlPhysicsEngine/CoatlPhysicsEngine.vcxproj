@@ -197,7 +197,6 @@
   <ItemGroup>
     <ClCompile Include="src\CollisionResolution\ShapesResolution\ShapeResolution.cpp" />
     <ClCompile Include="src\CollisionResolution\ShapesResolution\SphereRelSphere.cpp" />
-    <ClCompile Include="src\CollisionResolution\Col_Resolutiob.cpp" />
     <ClCompile Include="src\CollisionResolution\Col_Resolution.cpp" />
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Buoyancy.cpp" />
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Bungee.cpp" />
