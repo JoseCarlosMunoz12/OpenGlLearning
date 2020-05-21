@@ -2,7 +2,9 @@
 using namespace CoatlPhysicsEngine;
 std::vector<std::shared_ptr<Contact>>Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	return this->S_Res->GetContacts();
+	Sphere S(glm::vec3(0.f),2);
+	Sphere S1(glm::vec3(1.f), 2);
+	return this->S_Res->GetContacts(S,S);
 }
 Col_Resolution::Col_Resolution()
 {

@@ -2,6 +2,7 @@
 using namespace CoatlPhysicsEngine;
 
 CoatlPhysicsEngine::ShapeResolution::ShapeResolution()
+	:SphereRelSphere()
 {
 }
 
@@ -10,7 +11,13 @@ CoatlPhysicsEngine::ShapeResolution::~ShapeResolution()
 }
 
 template<typename _T, typename _N>
-inline std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(_T T, _N N)
+std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(_T T, _N N)
+{
+	return std::vector<std::shared_ptr<Contact>>();
+}
+
+template<>
+std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(Sphere T, Sphere N)
 {
 	return std::vector<std::shared_ptr<Contact>>();
 }
