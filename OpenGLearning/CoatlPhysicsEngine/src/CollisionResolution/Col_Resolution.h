@@ -9,21 +9,18 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 #include "../Bodies/Bodies.h"
+#include "Manifoldsh.h"
+#include "SphereRelSphere.h"
 namespace CoatlPhysicsEngine {
-	struct Contact
-	{
-		glm::vec3 ContactPoint;
-		glm::vec3 Normal;
-		float Penetration;
-	};
-	struct Manifold
-	{
-		std::vector<std::shared_ptr<Contact>> Contacts;
-		unsigned ContactCountl;
-		std::shared_ptr<Bodies> Bod0;
-		std::shared_ptr<Bodies> Bod1;
-	};
 	class Col_Resolution
 	{
+	private:
+		std::vector<std::shared_ptr<Contact>> MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		template<typename _T, typename _N>
+		std::vector<std::shared_ptr<Contact>> Create(_T R,_N N);
+	public:
+		Col_Resolution();
+		~Col_Resolution();
+		 std::shared_ptr<Manifold> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 	};
 }

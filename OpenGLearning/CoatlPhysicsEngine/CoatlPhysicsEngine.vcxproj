@@ -143,6 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CollisionResolution\Manifoldsh.h" />
+    <ClInclude Include="src\CollisionResolution\SphereRelSphere.h" />
     <ClInclude Include="src\CollisionResolution\Col_Resolution.h" />
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Buoyancy.h" />
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Bungee.h" />
@@ -192,7 +194,9 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CollisionResolution\SphereRelSphere.cpp" />
     <ClCompile Include="src\CollisionResolution\Col_Resolutiob.cpp" />
+    <ClCompile Include="src\CollisionResolution\Col_Resolution.cpp" />
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Buoyancy.cpp" />
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Bungee.cpp" />
     <ClCompile Include="src\Physics\Ph_Motion\Phy_Spring.cpp" />
