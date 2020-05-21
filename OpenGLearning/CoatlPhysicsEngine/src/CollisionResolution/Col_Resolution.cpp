@@ -2,7 +2,7 @@
 using namespace CoatlPhysicsEngine;
 std::vector<std::shared_ptr<Contact>>Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	return std::vector<std::shared_ptr<Contact>>();
+	return this->S_Res->GetContacts();
 }
 Col_Resolution::Col_Resolution()
 {
