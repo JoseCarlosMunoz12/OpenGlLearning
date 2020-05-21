@@ -22,6 +22,7 @@ std::vector<std::shared_ptr<Contact>> CoatlPhysicsEngine::Col_Resolution::MakeCo
 	//{
 	//	return this->S_Res->GetContacts(*Obj, Bod1);
 	//}
+	return std::vector<std::shared_ptr<Contact>>();
 
 }
 std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
