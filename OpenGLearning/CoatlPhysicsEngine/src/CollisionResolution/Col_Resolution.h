@@ -9,15 +9,14 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 #include "../Bodies/Bodies.h"
+#include "ShapesResolution/ShapeResolution.h"
 #include "Manifoldsh.h"
-#include "SphereRelSphere.h"
 namespace CoatlPhysicsEngine {
 	class Col_Resolution
 	{
 	private:
+		std::unique_ptr<ShapeResolution> S_Res;
 		std::vector<std::shared_ptr<Contact>> MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
-		template<typename _T, typename _N>
-		std::vector<std::shared_ptr<Contact>> Create(_T R,_N N);
 	public:
 		Col_Resolution();
 		~Col_Resolution();

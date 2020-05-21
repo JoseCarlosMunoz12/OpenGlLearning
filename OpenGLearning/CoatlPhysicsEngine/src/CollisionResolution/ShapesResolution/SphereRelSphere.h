@@ -1,6 +1,6 @@
 #pragma once
-#include "../Shapes/Sphere.h"
-#include "Manifoldsh.h"
+#include "../Manifoldsh.h"
+#include "../../Shapes/Sphere.h"
 namespace CoatlPhysicsEngine {
 	class SphereRelSphere
 	{

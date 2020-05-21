@@ -156,10 +156,13 @@
     <ClInclude Include="src\CollisionResolution\Col_Resolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CollisionResolution\SphereRelSphere.h">
+    <ClInclude Include="src\CollisionResolution\Manifoldsh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CollisionResolution\Manifoldsh.h">
+    <ClInclude Include="src\CollisionResolution\ShapesResolution\SphereRelSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CollisionResolution\ShapesResolution\ShapeResolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -296,7 +299,10 @@
     <ClCompile Include="src\CollisionResolution\Col_Resolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CollisionResolution\SphereRelSphere.cpp">
+    <ClCompile Include="src\CollisionResolution\ShapesResolution\SphereRelSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionResolution\ShapesResolution\ShapeResolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

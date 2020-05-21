@@ -1,4 +1,5 @@
 #pragma once
+#include "../Bodies/Bodies.h"
 	struct Contact
 	{
 		glm::vec3 ContactPoint;
