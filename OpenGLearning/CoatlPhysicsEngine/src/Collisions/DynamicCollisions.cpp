@@ -42,6 +42,7 @@ DynamicCollisions::~DynamicCollisions()
 
 void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt)
 {
+	std::vector<std::shared_ptr<Manifold>> ColRel;
 	//make approriate Algorithm
 	if (AlgoCheck)
 		AlgoCheck->Erase();
@@ -128,12 +129,19 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					float F_dt = dt;
 					if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
 					{
-
+						ColRel.push_back(this->Col_Rel->MakeManifold(jj, ii));
 					}
 				}
 			}
 			jj->SetPosition(PrevPos);
 		}
+	}
+	//Fix Resolution
+	for (auto& jj : ColRel)
+	{
+		if (jj->ContactCount >0)
+			jj->Contacts[0]->Penetration;
+
 	}
 	//Update All Physics
 	for (auto& jj : AllBods)

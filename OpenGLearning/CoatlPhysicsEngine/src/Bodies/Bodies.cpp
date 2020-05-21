@@ -53,6 +53,13 @@ void Bodies::SetPosition(glm::vec3 NewPos)
 
 }
 
+void CoatlPhysicsEngine::Bodies::MovePosition(glm::vec3 Add)
+{
+	glm::vec3 OldPos = this->BodyInf[0]->BodPart->GetPos();
+	OldPos += Add;
+	this->SetPosition(OldPos);
+}
+
 void Bodies::SetParticle(int ShapeID)
 {
 	this->BodyInf[ShapeID]->BodParticle = std::make_shared<Particle>(this->GetPos());

@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseCols.h"
 #include "StaticCollisions.h"
+#include "../CollisionResolution/Col_Resolution.h"
 #include "../Maths/Maths.h"
 #include "../Physics/Phys_Libs.h"
 
@@ -11,6 +12,7 @@ namespace CoatlPhysicsEngine {
 		std::unique_ptr<Phy_Base> F_Manager;
 		std::unique_ptr<Phy_Base> Grav_F_Manager;
 		std::unique_ptr<Queries> AlgoCheck;
+		std::unique_ptr<Col_Resolution> Col_Rel;
 		std::weak_ptr<Terrain> Ter;
 		glm::vec3 Gravity;
 		int NewCurId = 100;
