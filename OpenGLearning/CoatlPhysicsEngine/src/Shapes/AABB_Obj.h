@@ -8,7 +8,8 @@ namespace CoatlPhysicsEngine {
 		float XLength;
 		float YLength;
 		float ZLength;
-		float GetPoint(float P, float Max,float Min);		
+		float GetPoint(float P, float Max,float Min);
+		float LocPoint(float P, float Max, float Min);
 	public: 
 		AABB_Obj(glm::vec3 SetPos,float DimXYZ);
 		AABB_Obj(glm::vec3 SetPos,float DimX, float DimYZ);
@@ -22,5 +23,6 @@ namespace CoatlPhysicsEngine {
 		void SetLengths(glm::vec3 NewLengths);
 		glm::vec3 GetClosesPoint(glm::vec3 Point);
 		bool Inside(glm::vec3 Point);
+		glm::vec3 GetNorm(glm::vec3 Point);
 	};
 }
