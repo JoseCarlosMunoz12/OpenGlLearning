@@ -2,7 +2,7 @@
 using namespace CoatlPhysicsEngine;
 
 CoatlPhysicsEngine::ShapeResolution::ShapeResolution()
-	:SphereRelSphere()
+	:SphereRelSphere(),SphereRelAABB(),AABBRelAABB()
 {
 }
 
@@ -20,6 +20,12 @@ template<>
 std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(Sphere T, Sphere N)
 {
 	return this->SphRelSph(T,N);
+}
+
+template<>
+std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(AABB_Obj T, AABB_Obj N)
+{
+	return this->AABB_Rel(T, N);
 }
 
 template<>

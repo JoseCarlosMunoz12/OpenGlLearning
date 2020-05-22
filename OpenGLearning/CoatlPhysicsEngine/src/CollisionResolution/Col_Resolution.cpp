@@ -32,10 +32,10 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(AABB_Obj Obj,
 	{
 		return this->S_Res->GetContacts(Obj, *Sphere0);
 	}
-	//else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod0->GetShapes()))
-	//{
-	//	return this->S_Res->GetContacts(Obj, *Cube0);
-	//}
+	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod0->GetShapes()))
+	{
+		return this->S_Res->GetContacts(Obj, *Cube0);
+	}
 	//else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod0->GetShapes()))
 	//{
 	//	return this->S_Res->GetContacts(*Cap0, Bod1);

@@ -2,9 +2,10 @@
 #include "../Manifoldsh.h"
 #include "SphereRelSphere.h"
 #include "SphereRelAABB.h"
+#include "AABBRelAABB.h"
 namespace CoatlPhysicsEngine
 {
-	class ShapeResolution : public SphereRelSphere,SphereRelAABB
+	class ShapeResolution : public SphereRelSphere,SphereRelAABB,AABBRelAABB
 	{
 	public:
 		ShapeResolution();
