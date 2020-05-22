@@ -132,15 +132,3 @@ bool AABB_Obj::Inside(glm::vec3 Point)
      }
 	return true;
 }
-
-glm::vec3 AABB_Obj::GetNorm(glm::vec3 Point)
-{
-    glm::vec3 P= this->GetClosesPoint(Point);
-    glm::vec3 L = GetLengths();
-    glm::vec3 Pos = this->GetPos();
-    P.x = this->LocPoint(P.x, Pos.x + L.x, Pos.x - L.x);
-    P.y = this->LocPoint(P.y, Pos.y + L.y, Pos.y - L.y);
-    P.z = this->LocPoint(P.z, Pos.z + L.z, Pos.z - L.z);
-    return P;
-}
-

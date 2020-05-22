@@ -23,6 +23,5 @@ namespace CoatlPhysicsEngine {
 		void SetLengths(glm::vec3 NewLengths);
 		glm::vec3 GetClosesPoint(glm::vec3 Point);
 		bool Inside(glm::vec3 Point);
-		glm::vec3 GetNorm(glm::vec3 Point);
 	};
 }
