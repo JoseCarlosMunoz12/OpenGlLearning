@@ -1,6 +1,6 @@
 #include "Col_Resolution.h"
 using namespace CoatlPhysicsEngine;
-std::vector<std::shared_ptr<Contact>> CoatlPhysicsEngine::Col_Resolution::MakeContacts(Sphere Sph0, std::shared_ptr<Bodies> Bod0)
+std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(Sphere Sph0, std::shared_ptr<Bodies> Bod0)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
 	{

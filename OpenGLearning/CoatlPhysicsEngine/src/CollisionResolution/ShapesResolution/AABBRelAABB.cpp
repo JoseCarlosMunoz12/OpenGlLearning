@@ -31,8 +31,13 @@ std::vector<std::shared_ptr<Contact>> AABBRelAABB::AABB_Rel(AABB_Obj Obj0, AABB_
 			Norm = Faces[ii];
 		}
 	}
-
-	return std::vector<std::shared_ptr<Contact>>();
+	std::vector<std::shared_ptr<Contact>> Temp;
+	std::shared_ptr<Contact> S = std::make_shared<Contact>();
+	S->ContactPoint = Obj0.GetPos();
+	S->Normal = Norm;
+	S->Penetration = Penetration;
+	Temp.push_back(S);
+	return Temp;
 }
 
 AABBRelAABB::AABBRelAABB()
