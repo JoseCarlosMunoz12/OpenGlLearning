@@ -1,9 +1,10 @@
 #pragma once
 #include "../Manifoldsh.h"
 #include "SphereRelSphere.h"
+#include "SphereRelAABB.h"
 namespace CoatlPhysicsEngine
 {
-	class ShapeResolution : public SphereRelSphere
+	class ShapeResolution : public SphereRelSphere,SphereRelAABB
 	{
 	public:
 		ShapeResolution();

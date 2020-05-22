@@ -18,11 +18,13 @@ namespace CoatlPhysicsEngine {
 		std::unique_ptr<ShapeResolution> S_Res;
 		//
 		std::vector<std::shared_ptr<Contact>> MakeContacts(Sphere Sph0, std::shared_ptr<Bodies> Bod0);
+
+		std::vector<std::shared_ptr<Contact>> MakeContacts(AABB_Obj Sph0, std::shared_ptr<Bodies> Bod0);
 		//
 		std::vector<std::shared_ptr<Contact>> MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 	public:
 		Col_Resolution();
 		~Col_Resolution();
-		 std::shared_ptr<Manifold> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		 std::shared_ptr<Manifold> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,int ID);
 	};
 }

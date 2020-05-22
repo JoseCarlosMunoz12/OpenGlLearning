@@ -12,4 +12,8 @@
 		unsigned ContactCount;
 		std::shared_ptr<Bodies> Bod0;
 		std::shared_ptr<Bodies> Bod1;
+		//-1 for both are movable
+		//0 For Bod0 is only Movable
+		//1 For Bod1 is only Movable
+		int ID;
 	};

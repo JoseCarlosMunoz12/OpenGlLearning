@@ -89,6 +89,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				{
 					if (this->BinColDetection(jj, ii, Bod_Vel, PrevPos, 0, dt, F_dt))
 					{
+						ColRel.push_back(this->Col_Rel->MakeManifold(jj, ii, 0));
 						Temp->AcumForce(-Gravity * Temp->GetMass());
 						if (glm::abs(Bod_Vel.z) > 1.f)
 						{
@@ -130,7 +131,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					float F_dt = dt;
 					if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
 					{
-						ColRel.push_back(this->Col_Rel->MakeManifold(jj, ii));
+						ColRel.push_back(this->Col_Rel->MakeManifold(jj, ii,-1));
 					}
 				}
 			}
@@ -140,8 +141,24 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Fix Resolution
 	for (auto& jj : ColRel)
 	{
-		if (jj->ContactCount >0)
-			jj->Contacts[0]->Penetration;
+		if (jj->ContactCount > 0)
+		{
+			float Diff = jj->Contacts[0]->Penetration / 2.f;
+			glm::vec3 Norm = jj->Contacts[0]->Normal;
+			switch (jj->ID)
+			{
+			case 0:
+				jj->Bod0->MovePosition(2*Diff * Norm);
+				break;
+			case 1:
+				jj->Bod1->MovePosition(2 * Diff * Norm);
+				break;
+			default:
+				jj->Bod0->MovePosition(Diff * Norm);
+				jj->Bod1->MovePosition(Diff * -Norm);
+				break;
+			}
+		}
 
 	}
 	//Update All Physics
@@ -150,7 +167,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-			jj->SetPosition(Temp->UpdatePos(dt));
+			//jj->SetPosition(Temp->UpdatePos(dt));
 		}
 	}
 }

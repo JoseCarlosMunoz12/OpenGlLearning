@@ -65,6 +65,8 @@ glm::vec3 MATH::ClosestPoint_Seg(std::vector<glm::vec3> Seg, glm::vec3 Point)
 	glm::vec3 AB = Seg[1] - Seg[0];
 
 	float s = glm::dot(AB, AB);
+	if (s == 0.f)
+		return Seg[0];
 	float d = glm::dot((Point - Seg[0]), AB) / s;
 
 	d = glm::clamp(d, 0.f, 1.f);
