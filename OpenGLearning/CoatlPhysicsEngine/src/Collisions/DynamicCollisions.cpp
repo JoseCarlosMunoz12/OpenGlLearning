@@ -75,7 +75,10 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//Gravitaional Force
 			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			// Drag Force
-			this->F_Manager = std::make_unique<Phy_Drag>(1,0);
+			this->F_Manager = std::make_unique<Phy_Spring>(glm::vec3(0.f,0.f,10.f),96,10);
+			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
+			// Spring Force
+			this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
 			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			//Check Collision with The Terrain
@@ -152,6 +155,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				jj->Bod1->MovePosition(2 * Diff * Norm);
 				break;
 			default:
+				jj->Bod0->GetBodyParts()[0]->BodParticle->ResetForce();
+				jj->Bod1->GetBodyParts()[0]->BodParticle->ResetForce();
 				jj->Bod0->MovePosition(Diff * Norm);
 				jj->Bod1->MovePosition(Diff * -Norm);
 				break;
@@ -165,7 +170,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-		//	jj->SetPosition(Temp->UpdatePos(dt));
+			jj->SetPosition(Temp->UpdatePos(dt));
 		}
 	}
 }

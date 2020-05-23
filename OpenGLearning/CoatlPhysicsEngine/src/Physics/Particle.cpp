@@ -43,8 +43,9 @@ Particle::~Particle()
 
 glm::vec3 Particle::UpdatePos(float dt)
 {
-	glm::vec3 NewPos = Pos + Vel * dt;
+	//Eulor Method
 	this->UpdateVel(dt);
+	glm::vec3 NewPos = Pos + Vel * dt;
 	this->Pos = NewPos;
 	return NewPos;
 }
