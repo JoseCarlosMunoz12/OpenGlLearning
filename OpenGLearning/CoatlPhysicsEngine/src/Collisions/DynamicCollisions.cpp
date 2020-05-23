@@ -102,7 +102,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
-			jj->SetPosition(PrevPos);
 			//Check Collision with Static Bodies
 			if (Statics)
 			{
@@ -135,7 +134,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
-			jj->SetPosition(PrevPos);
 		}
 	}
 	//Fix Resolution
@@ -167,7 +165,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-			jj->SetPosition(Temp->UpdatePos(dt));
+		//	jj->SetPosition(Temp->UpdatePos(dt));
 		}
 	}
 }
