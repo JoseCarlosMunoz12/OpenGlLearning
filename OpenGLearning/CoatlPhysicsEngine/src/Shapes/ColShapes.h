@@ -22,5 +22,7 @@ namespace CoatlPhysicsEngine
 		virtual ~ColShapes();
 		glm::vec3 GetPos();
 		virtual void SetPos(glm::vec3 NewPOs);
+		virtual float GetVolume() = 0;
+		virtual float GetSegVolume() = 0;
 	};
 }

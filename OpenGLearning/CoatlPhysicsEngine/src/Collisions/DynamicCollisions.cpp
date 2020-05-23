@@ -149,7 +149,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			switch (jj->ID)
 			{
 			case 0:
-				jj->Bod0->MovePosition(2 * Diff * Norm);
+				std::cout << 2 * Diff <<"\n" ;
+				//jj->Bod0->MovePosition(2 * Diff * Norm);
 				break;
 			case 1:
 				jj->Bod1->MovePosition(2 * Diff * Norm);
@@ -170,7 +171,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-			jj->SetPosition(Temp->UpdatePos(dt));
+			//jj->SetPosition(Temp->UpdatePos(dt));
 		}
 	}
 }
