@@ -13,13 +13,16 @@ Phy_Buoyancy::~Phy_Buoyancy()
 }
 
 glm::vec3 Phy_Buoyancy::GetForce(Particle P0)
-{
-	return glm::vec3(0.f);
+{	
+	glm::vec3 Grav = glm::vec3(0.f, 0.f,9.81f);
+	glm::vec3 Pos =  P0.GetPos() - glm::vec3(0.f,0.f,W_Floor);
+
+	return 10 * W_Density * Grav;
 	
 }
 
 glm::vec3 Phy_Buoyancy::GetForce(Particle P0, Particle P1)
-{
+{	
 	return glm::vec3();
 }
 
