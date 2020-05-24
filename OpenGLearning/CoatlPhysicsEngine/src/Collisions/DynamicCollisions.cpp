@@ -149,8 +149,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			switch (jj->ID)
 			{
 			case 0:
-				std::cout << 2 * Diff <<"\n" ;
-				//jj->Bod0->MovePosition(2 * Diff * Norm);
+				jj->Bod0->MovePosition(2 * Diff * Norm);
 				break;
 			case 1:
 				jj->Bod1->MovePosition(2 * Diff * Norm);
