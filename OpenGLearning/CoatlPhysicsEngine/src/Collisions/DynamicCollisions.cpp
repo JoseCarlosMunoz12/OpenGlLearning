@@ -27,6 +27,22 @@ void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bo
 
 }
 
+bool CoatlPhysicsEngine::DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Manifold>> ColRel, std::shared_ptr<Manifold> NewMan)
+{
+	for (auto& jj : ColRel)
+	{
+		bool F_Same = false;
+		bool S_Same = false;
+		if (jj->Bod0->GetID() == NewMan->Bod0->GetID() || jj->Bod1->GetID() == NewMan->Bod0->GetID())
+			F_Same = true;
+		if (jj->Bod0->GetID() == NewMan->Bod1->GetID() || jj->Bod1->GetID() == NewMan->Bod1->GetID())
+			S_Same = true;
+		if (S_Same && F_Same)
+			return true;
+	}
+	return false;
+}
+
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
 	:BaseCols(Name,InitCols),
 	Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
@@ -92,7 +108,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				{
 					if (this->BinColDetection(jj, ii, Bod_Vel, PrevPos, 0, dt, F_dt))
 					{
-						ColRel.push_back(this->Col_Rel->MakeManifold(jj, ii, 0));
+						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
+						if (!this->ContainsManifold(ColRel, T))
+							ColRel.push_back(T);
 						Temp->AcumForce(-Gravity * Temp->GetMass());
 						if (glm::abs(Bod_Vel.z) > 1.f)
 						{
@@ -122,7 +140,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
-			jj->SetPosition(PrevPos);
 			//Check Collision with Self
 			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
 			for (auto& ii : Quer)
@@ -133,13 +150,16 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					float F_dt = dt;
 					if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
 					{
-						ColRel.push_back(this->Col_Rel->MakeManifold(jj, ii,-1));
+						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
+						if (!this->ContainsManifold(ColRel, T))
+							ColRel.push_back(T);
 					}
 				}
 			}
 		}
 	}
 	//Fix Resolution
+	int Count = 0;
 	for (auto& jj : ColRel)
 	{
 		if (jj->ContactCount > 0)
@@ -155,13 +175,28 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				jj->Bod1->MovePosition(2 * Diff * Norm);
 				break;
 			default:
-				jj->Bod0->GetBodyParts()[0]->BodParticle->ResetForce();
-				jj->Bod1->GetBodyParts()[0]->BodParticle->ResetForce();
-				jj->Bod0->MovePosition(Diff * Norm);
-				jj->Bod1->MovePosition(Diff * -Norm);
+				if (jj->Bod0->GetBodyParts()[0]->BodParticle)
+				{
+					jj->Bod0->GetBodyParts()[0]->BodParticle->ResetForce();
+					jj->Bod0->MovePosition(Diff * Norm);
+				}
+				if (jj->Bod1->GetBodyParts()[0]->BodParticle)
+				{
+					jj->Bod1->GetBodyParts()[0]->BodParticle->ResetForce();
+					jj->Bod1->MovePosition(Diff * -Norm);
+
+				}
+				std::cout <<Count << "\n";
+				glm::vec3 S = Diff * Norm;
+				std::cout << S.x << "\n";
+				std::cout << S.y << "\n";
+				std::cout << S.z << "\n";
+				std::cout <<"====[\n"; 
+
 				break;
 			}
 		}
+		Count++;
 
 	}
 	//Update All Physics

@@ -25,6 +25,7 @@ namespace CoatlPhysicsEngine {
 			float t0, float t1,
 			float &NewDt );
 		void CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies>Bod1);
+		bool ContainsManifold(std::vector<std::shared_ptr<Manifold>> ColRel, std::shared_ptr<Manifold> NewMan);
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();

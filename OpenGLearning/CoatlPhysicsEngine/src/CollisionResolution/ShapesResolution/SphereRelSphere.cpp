@@ -7,6 +7,11 @@ std::vector<std::shared_ptr<Contact>> SphereRelSphere::SphRelSph(Sphere Sph0, Sp
 	float Distance = glm::distance(Sph0.GetPos(), Sph1.GetPos());
 	float TotalR = Sph0.GetRadius() + Sph1.GetRadius();
 	glm::vec3 Norm = Sph1.GetPos() - Sph0.GetPos();
+	float ValTest = glm::dot(Norm, Norm);
+	if (ValTest == 0)
+	{
+		Norm = glm::vec3(1.f, 0.f, 0.f);
+	}
 	Norm = glm::normalize(Norm);
 	glm::vec3 ContactPoint = Sph0.GetPos() - Norm * Sph0.GetRadius();
 	Temp->Penetration = TotalR - Distance;

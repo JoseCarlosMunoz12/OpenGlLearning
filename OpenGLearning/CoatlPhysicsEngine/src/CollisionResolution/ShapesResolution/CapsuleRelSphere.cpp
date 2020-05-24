@@ -9,6 +9,11 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelSphere::CapRelSph(Capsule Cap, S
 	glm::vec3 Pos = Cap.ClosestPoint_P(Sph0.GetPos());
 	float Total_R = Cap.GetRadius() + Sph0.GetRadius();
 	glm::vec3 Norm = Pos - Sph0.GetPos();
+	float TestVal = glm::dot(Norm, Norm);
+	if (TestVal == 0)
+	{
+		Norm = glm::vec3(0.f, 0.f, 1.f);
+	}
 	Norm = glm::normalize(Norm);
 	glm::vec3 ContactPoint = Sph0.GetPos() - Norm * Sph0.GetRadius();
 	Cont->Penetration = Total_R - DisSqr;
