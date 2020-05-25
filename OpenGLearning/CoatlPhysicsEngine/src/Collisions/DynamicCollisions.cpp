@@ -91,9 +91,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//Gravitaional Force
 			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			// Drag Force
-			this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
-			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
-			//// Spring Force
+			/*this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
+			Temp->AcumForce(this->F_Manager->GetForce(*Temp));*/
+			// Spring Force
 			//this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
 			//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();

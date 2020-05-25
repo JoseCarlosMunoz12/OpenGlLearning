@@ -105,8 +105,9 @@ void MATH::ClosestSeg_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Se
 	{
 		S = 0.f;
 		T = 0.f;
-		Pos0 = Seg0[1];
-		Pos1 = Seg1[1];
+		Pos0 = Seg0[0];
+		Pos1 = Seg1[0];
+		return;
 	}
 
 	if (A <= EPSILON)
@@ -150,8 +151,8 @@ void MATH::ClosestSeg_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Se
 		}
 	}
 
-	Pos0 = Seg0[1] + D1 * S;
-	Pos1 = Seg1[1] + D2 * T;
+	Pos0 = Seg0[0] + D1 * S;
+	Pos1 = Seg1[0] + D2 * T;
 }
 
 float MATH::Distance_Pnt(std::vector<glm::vec3> Seg, glm::vec3 Pos, glm::vec3 Point)

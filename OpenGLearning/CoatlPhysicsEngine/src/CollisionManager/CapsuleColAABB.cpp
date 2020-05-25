@@ -22,9 +22,9 @@ bool CapsuleColAABB::CapColAABB(Capsule Cap, AABB_Obj Obj)
 	{
 		int JJ = ii * 2;
 		int KK = JJ + 1;
-		MATH::ClosestSeg_Seg(Cap.GetSegment(), { Points[ID[0]], Points[ID[1]] }, Pos0, Pos1);
+		MATH::ClosestSeg_Seg(Cap.GetSegment(), { Points[ID[JJ]], Points[ID[KK]] }, Pos0, Pos1);
 		Dis = glm::distance(Pos0, Pos1);
-		if (Dis > TempDis)
+		if (Dis < TempDis)
 		{
 			Dis = TempDis;
 			Cls_Pnt = Pos0;
@@ -32,9 +32,7 @@ bool CapsuleColAABB::CapColAABB(Capsule Cap, AABB_Obj Obj)
 	}
 	glm::vec3 ClsPoint = Obj.GetClosesPoint(Cls_Pnt);
 	float Rad = Cap.GetRadius();
-	glm::vec3 V = ClsPoint - ClsPoint;
-	float Dot = glm::dot(V, V);
-	Rad = Rad * Rad;
+	float Dot = glm::distance(ClsPoint, Cls_Pnt);
 	return  Dot <= Rad;
 }
 
