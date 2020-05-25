@@ -11,13 +11,31 @@ bool CapsuleColAABB::CapColAABB(Capsule Cap, AABB_Obj Obj)
 	{
 		jj = jj + Pos;
 	}
-	int Index[] = { 0,4,1,5 };
-	for (int ii = 0; ii < 4; ii++)
+	float R = Cap.GetRadius();
+	glm::vec3 Pos0;
+	glm::vec3 Pos1;
+	MATH::ClosestSeg_Seg(Cap.GetSegment(), { Points[ID[0]], Points[ID[1]] },Pos0,Pos1);
+	glm::vec3 Cls_Pnt = Pos0;
+	float TempDis = glm::distance(Pos0, Pos1);
+	float Dis;
+	for (int ii = 0; ii < Size; ii++)
 	{
+		int JJ = ii * 2;
+		int KK = JJ + 1;
+		MATH::ClosestSeg_Seg(Cap.GetSegment(), { Points[ID[0]], Points[ID[1]] }, Pos0, Pos1);
+		Dis = glm::distance(Pos0, Pos1);
+		if (Dis > TempDis)
+		{
+			Dis = TempDis;
+			Cls_Pnt = Pos0;
+		}
 	}
-
-	int TopIndex[] = { 3,0,2,1 };
-	return false;
+	glm::vec3 ClsPoint = Obj.GetClosesPoint(Cls_Pnt);
+	float Rad = Cap.GetRadius();
+	glm::vec3 V = ClsPoint - ClsPoint;
+	float Dot = glm::dot(V, V);
+	Rad = Rad * Rad;
+	return  Dot <= Rad;
 }
 
 CapsuleColAABB::CapsuleColAABB()
