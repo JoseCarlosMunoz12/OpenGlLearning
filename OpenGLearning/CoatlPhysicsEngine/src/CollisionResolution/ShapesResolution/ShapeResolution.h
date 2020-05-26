@@ -4,9 +4,10 @@
 #include "SphereRelAABB.h"
 #include "AABBRelAABB.h"
 #include "CapsuleRelSphere.h"
+#include "CapsuleRelAABB.h"
 namespace CoatlPhysicsEngine
 {
-	class ShapeResolution : public SphereRelSphere,SphereRelAABB,AABBRelAABB,CapsuleRelSphere
+	class ShapeResolution : public SphereRelSphere,SphereRelAABB,AABBRelAABB,CapsuleRelSphere,CapsuleRelAABB
 	{
 	public:
 		ShapeResolution();

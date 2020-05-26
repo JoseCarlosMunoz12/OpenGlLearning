@@ -204,18 +204,18 @@ void Game::initModels()
 		{this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[0], {Terrain}));
-	this->models.push_back(new Model("Sphere0",
-		this->MipMapsData[0]->ReturnVecVal(0.f, 0.f),
-		this->MatTest[1],
-		{this->textures[9],this->textures[9],
-		this->textures[14],this->textures[15],this->textures[16]},
-		meshes[1], {Monk}));
-	this->models.push_back(new Model("Sphere1",
-		 this->MipMapsData[0]->ReturnVecVal(-6.f, 3.f),
-		this->MatTest[1],
-		{this->textures[10],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16]},
-		meshes[1], {Monk}));
+	//this->models.push_back(new Model("Sphere0",
+	//	this->MipMapsData[0]->ReturnVecVal(0.f, 0.f),
+	//	this->MatTest[1],
+	//	{this->textures[9],this->textures[9],
+	//	this->textures[14],this->textures[15],this->textures[16]},
+	//	meshes[1], {Monk}));
+	//this->models.push_back(new Model("Sphere1",
+	//	 this->MipMapsData[0]->ReturnVecVal(-6.f, 3.f),
+	//	this->MatTest[1],
+	//	{this->textures[10],this->textures[10],
+	//	this->textures[14],this->textures[15],this->textures[16]},
+	//	meshes[1], {Monk}));
 	//this->models.push_back(new Model("Cube0",
 	//	glm::vec3(1.,1.,5.f),
 	//	this->MatTest[1],
@@ -228,12 +228,12 @@ void Game::initModels()
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[5], { Monk }));
-	//this->models.push_back(new Model("Cube",
-	//	this->MipMapsData[0]->ReturnVecVal(10.f, -3.f),
-	//	this->MatTest[1],
-	//	{ this->textures[10],this->textures[10],
-	//	this->textures[14],this->textures[15],this->textures[16] },
-	//	meshes[4], { Monk }));
+	this->models.push_back(new Model("Cube",
+		this->MipMapsData[0]->ReturnVecVal(10.f, -3.f),
+		this->MatTest[1],
+		{ this->textures[10],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] },
+		meshes[4], { Monk }));
 	//this->models.push_back(new Model("Triangle",
 	//	this->MipMapsData[0]->ReturnVecVal(4.f, 3.f),
 	//	this->MatTest[1],
