@@ -6,11 +6,7 @@ bool CapsuleColAABB::CapColAABB(Capsule Cap, AABB_Obj Obj)
 	std::vector<int> ID = Obj.GetSegmentsID();
 	int Size = ID.size() / 2;
 	glm::vec3 Pos = Obj.GetPos();
-	std::vector<glm::vec3> Points = Obj.GetPoints();
-	for (auto& jj : Points)
-	{
-		jj = jj + Pos;
-	}
+	std::vector<glm::vec3> Points = Obj.GetSegs();
 	float R = Cap.GetRadius();
 	glm::vec3 Pos0;
 	glm::vec3 Pos1;

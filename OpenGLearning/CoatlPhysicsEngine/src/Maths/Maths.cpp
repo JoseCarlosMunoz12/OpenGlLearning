@@ -421,7 +421,7 @@ bool MATH::SATColCheck(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm
 			return false;
 		}
 	}
-	for (auto& jj :Norm1)
+	for (auto& jj : Norm1)
 	{
 		if (MATH::ProjColl(jj, Pnts0, Pnts1))
 		{
@@ -439,7 +439,6 @@ bool MATH::SATColCheck(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm
 				{
 					return false;
 				}
-
 			}
 		}
 	}

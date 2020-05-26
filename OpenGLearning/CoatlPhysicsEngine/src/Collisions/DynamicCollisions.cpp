@@ -150,9 +150,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					float F_dt = dt;
 					if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
 					{
-						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
+						/*std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
 						if (!this->ContainsManifold(ColRel, T))
-							ColRel.push_back(T);
+							ColRel.push_back(T);*/
 					}
 				}
 			}
