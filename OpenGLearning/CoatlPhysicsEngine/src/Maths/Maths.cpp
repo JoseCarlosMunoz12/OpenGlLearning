@@ -476,3 +476,86 @@ void MATH::SetMaxMins(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal)
 	}
 }
 
+float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1)
+{
+	//Max Min of Shape 0
+	glm::vec3 Max0;
+	glm::vec3 Min0;
+	//Max Min of Shape 1
+	glm::vec3 Max1;
+	glm::vec3 Min1;
+
+	glm::vec3 AB = Normal;
+	int Count = 0;
+	for (auto& jj : Sh_Vert0)
+	{
+		if (Count == 0)
+		{
+			Max0 = jj;
+			Min0 = jj;
+			Count++;
+		}
+		glm::vec3 AJJ = jj;
+		float Num = glm::dot(AJJ, AB);
+		float Denom = glm::dot(AB, AB);
+		glm::vec3 TempPos = Num / Denom * AB;
+		MATH::SetMaxMins(Max0, Min0, TempPos);
+	}
+	Count = 0;
+	for (auto& jj : Sh_Vert1)
+	{
+		if (Count == 0)
+		{
+			Max1 = jj;
+			Min1 = jj;
+			Count++;
+		}
+		glm::vec3 AJJ = jj;
+		float Num = glm::dot(AJJ, AB);
+		float Denom = glm::dot(AB, AB);
+		glm::vec3 TempPos = Num / Denom * AB;
+		MATH::SetMaxMins(Max1, Min1, TempPos);
+	}
+	float MaxMin0 = glm::distance(Max0, Min1);
+	float MaxMin1 = glm::distance(Max1, Min0);
+	float MaxL = glm::min(MaxMin0, MaxMin1);
+	if (MaxL == MaxMin0)
+	{
+		Normal = -Normal;
+	}
+	return MaxL;
+}
+
+float MATH::SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
+	std::vector<glm::vec3> Pnts0, std::vector<glm::vec3> Pnts1,
+	glm::vec3 &Norm)
+{
+	glm::vec3 NormF = Norm0[0];
+	float Penetration = ProjPen(NormF,Pnts0,Pnts1);
+	for (auto& jj : Norm0)
+	{
+		
+	}
+	for (auto& jj : Norm1)
+	{
+		if (MATH::ProjColl(jj, Pnts0, Pnts1))
+		{
+			return false;
+		}
+	}
+	for (auto& ii : Norm0)
+	{
+		for (auto& jj : Norm1)
+		{
+			glm::vec3 N = glm::cross(ii, jj);
+			if (!(N.x == 0 && N.y == 0 && N.z == 0))
+			{
+				if (MATH::ProjColl(N, Pnts0, Pnts1))
+				{
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
