@@ -534,13 +534,20 @@ float MATH::SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm
 	float Penetration = ProjPen(NormF,Pnts0,Pnts1);
 	for (auto& jj : Norm0)
 	{
-		
+		float Temp = ProjPen(jj, Pnts0, Pnts1);
+		if (Temp < Penetration)
+		{
+			NormF = jj;
+			Penetration = Temp;
+		}
 	}
 	for (auto& jj : Norm1)
 	{
-		if (MATH::ProjColl(jj, Pnts0, Pnts1))
+		float Temp = ProjPen(jj, Pnts0, Pnts1);
+		if (Temp < Penetration)
 		{
-			return false;
+			NormF = jj;
+			Penetration = Temp;
 		}
 	}
 	for (auto& ii : Norm0)
@@ -550,12 +557,15 @@ float MATH::SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm
 			glm::vec3 N = glm::cross(ii, jj);
 			if (!(N.x == 0 && N.y == 0 && N.z == 0))
 			{
-				if (MATH::ProjColl(N, Pnts0, Pnts1))
+				float Temp = ProjPen(jj, Pnts0, Pnts1);
+				if (Temp < Penetration)
 				{
-					return false;
+					NormF = jj;
+					Penetration = Temp;
 				}
 			}
 		}
 	}
-	return true;
+	Norm = NormF;
+	return Penetration;
 }
