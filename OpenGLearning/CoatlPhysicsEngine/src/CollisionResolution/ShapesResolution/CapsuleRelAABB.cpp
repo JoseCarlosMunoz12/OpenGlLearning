@@ -3,7 +3,7 @@ using namespace CoatlPhysicsEngine;
 std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AABB_Obj Obj)
 {
 
-	/*std::vector<int> ID = Obj.GetSegmentsID();
+	std::vector<int> ID = Obj.GetSegmentsID();
 	int Size = ID.size() / 2;
 	glm::vec3 Pos = Obj.GetPos();
 	std::vector<glm::vec3> Points = Obj.GetPoints();
@@ -30,14 +30,21 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AA
 			Cls_Pnt = Pos0;
 		}
 	}
-	glm::vec3 ClsPoint = Obj.GetClosesPoint(Cls_Pnt);
-	float Dist = glm::distance(ClsPoint, Cls_Pnt);*/
 	std::vector<std::shared_ptr<Contact>> Temp;
-	//std::shared_ptr<Contact> Cnt = std::make_shared<Contact>();
-	//Cnt->Penetration = R - Dist;
-	//Cnt->Normal = -glm::normalize(ClsPoint - Cls_Pnt);
-	//Cnt->ContactPoint = ClsPoint + Cnt->Penetration * Cnt->Normal;
-	//Temp.push_back(Cnt);
+	std::shared_ptr<Contact> Cnt = std::make_shared<Contact>();
+	glm::vec3 ClsPoint = Obj.GetClosesPoint(Cls_Pnt);
+	float Dist = glm::distance(ClsPoint, Cls_Pnt);
+	if (Dist != 0)
+	{
+		Cnt->Penetration = R - Dist;
+		Cnt->Normal = -glm::normalize(ClsPoint - Cls_Pnt);
+		Cnt->ContactPoint = ClsPoint + Cnt->Penetration * Cnt->Normal;
+	}
+	else
+	{
+
+	}
+	Temp.push_back(Cnt);
 	return Temp;
 }
 

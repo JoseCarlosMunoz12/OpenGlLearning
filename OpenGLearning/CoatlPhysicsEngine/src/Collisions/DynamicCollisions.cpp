@@ -120,6 +120,12 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						{
 							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
 						}
+						std::cout << "Collided\n";
+					}
+					else
+					{
+
+						std::cout << " No Collided\n";
 					}
 				}
 			}

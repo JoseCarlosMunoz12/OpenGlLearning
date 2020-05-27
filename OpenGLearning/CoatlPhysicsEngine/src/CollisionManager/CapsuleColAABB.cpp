@@ -30,6 +30,7 @@ bool CapsuleColAABB::CapColAABB(Capsule Cap, AABB_Obj Obj)
 	float Rad = Cap.GetRadius();
 	float Dot = glm::distance(ClsPoint, Cls_Pnt);
 	return  Dot <= Rad;
+
 }
 
 CapsuleColAABB::CapsuleColAABB()
