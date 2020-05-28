@@ -17,14 +17,9 @@ namespace CoatlPhysicsEngine {
 		OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimX, float DimYZ);
 		OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec,float  DimX, float DimY, float DimZ);
 		~OBB();
-		//Getters
-		glm::vec3 GetUnitVec();
-		float GetAngle();
-		//Setters
-		void SetAngle(float SetAngle);
-		void SetUnitVec(glm::vec3 SetUnitVec);
 		std::vector<glm::vec3> GetSegments();
 		glm::vec3 GetLenghts();
 		glm::vec3 GetClosestPoint(glm::vec3 Point);
+		void SetQuat(glm::quat NewQuat) override;
 	};
 }

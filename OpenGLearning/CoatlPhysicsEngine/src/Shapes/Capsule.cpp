@@ -2,7 +2,7 @@
 using namespace CoatlPhysicsEngine;
 
 Capsule::Capsule(glm::vec3 Pos, float InitRadius, float InitLength)
-	:ColShapes(Pos),Angle(0.f),UnitVec(glm::vec3(0.f,0.f,1.f))
+	:ColShapes(Pos),UnitVec(glm::vec3(0.f,0.f,1.f))
 {
 	this->Radius = InitRadius;
 	this->BPos = glm::vec3(0.f,0.f,InitLength/2.f);
@@ -35,13 +35,23 @@ float Capsule::Distance(std::vector<glm::vec3> Segment)
 
 std::vector<glm::vec3> Capsule::GetSegment()
 {
-	return {this->Pos + this->APos,
-		this->Pos + this->BPos};
-}
-
-float Capsule::GetAngle()
-{
-	return this->Angle;
+	glm::mat4 RotMat = glm::mat4_cast(this->QuatAngle);
+	std::vector<glm::vec3> Verx;
+	{
+		glm::vec4 Set = glm::vec4(this->Pos.x + this->APos.x,
+			this->Pos.y + this->APos.y, this->Pos.z + this->APos.z, 
+			0);
+		Set = Set * RotMat;
+		Verx.push_back(glm::vec3(Set.x, Set.y, Set.z));
+	}
+	{
+		glm::vec4 Set = glm::vec4(this->Pos.x + this->BPos.x,
+			this->Pos.y + this->BPos.y, this->Pos.z + this->BPos.z,
+			0);
+		Set = Set * RotMat;
+		Verx.push_back(glm::vec3(Set.x, Set.y, Set.z));
+	}
+	return Verx;
 }
 
 glm::vec3 Capsule::GetUnitVec()
@@ -49,12 +59,13 @@ glm::vec3 Capsule::GetUnitVec()
 	return this->UnitVec;
 }
 
-void Capsule::SetAngle(float NewAngle)
-{
-	this->Angle = NewAngle;
-}
 
 void Capsule::SetVec(glm::vec3 NewVec)
 {
 	this->UnitVec = glm::normalize(NewVec);
+}
+
+void Capsule::SetQuat(glm::quat NewQuat)
+{
+	this->QuatAngle = NewQuat;
 }
