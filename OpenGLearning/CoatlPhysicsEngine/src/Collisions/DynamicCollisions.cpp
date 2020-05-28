@@ -120,12 +120,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						{
 							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
 						}
-						std::cout << "Collided\n";
-					}
-					else
-					{
-
-						std::cout << " No Collided\n";
 					}
 				}
 			}
@@ -156,9 +150,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					float F_dt = dt;
 					if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
 					{
-						/*std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
+						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
 						if (!this->ContainsManifold(ColRel, T))
-							ColRel.push_back(T);*/
+							ColRel.push_back(T);
 					}
 				}
 			}

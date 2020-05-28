@@ -489,31 +489,31 @@ float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vec
 	int Count = 0;
 	for (auto& jj : Sh_Vert0)
 	{
-		if (Count == 0)
-		{
-			Max0 = jj;
-			Min0 = jj;
-			Count++;
-		}
 		glm::vec3 AJJ = jj;
 		float Num = glm::dot(AJJ, AB);
 		float Denom = glm::dot(AB, AB);
 		glm::vec3 TempPos = Num / Denom * AB;
+		if (Count == 0)
+		{
+			Max0 = TempPos;
+			Min0 = TempPos;
+			Count++;
+		}
 		MATH::SetMaxMins(Max0, Min0, TempPos);
 	}
 	Count = 0;
 	for (auto& jj : Sh_Vert1)
 	{
-		if (Count == 0)
-		{
-			Max1 = jj;
-			Min1 = jj;
-			Count++;
-		}
 		glm::vec3 AJJ = jj;
 		float Num = glm::dot(AJJ, AB);
 		float Denom = glm::dot(AB, AB);
 		glm::vec3 TempPos = Num / Denom * AB;
+		if (Count == 0)
+		{
+			Max1 = TempPos;
+			Min1 = TempPos;
+			Count++;
+		}
 		MATH::SetMaxMins(Max1, Min1, TempPos);
 	}
 	float MaxMin0 = glm::distance(Max0, Min1);

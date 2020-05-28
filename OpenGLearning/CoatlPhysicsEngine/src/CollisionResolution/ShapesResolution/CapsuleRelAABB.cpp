@@ -50,7 +50,7 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AA
 			glm::normalize(Obj_Segs[3] - Obj_Segs[0]) ,
 			glm::normalize(Obj_Segs[4] - Obj_Segs[0]) };
 		glm::vec3 Norm;
-		Cnt->Penetration = MATH::SATContact(ABB_N, Obj_N, ABB_Segs, Obj_Segs, Norm);
+		Cnt->Penetration = MATH::SATContact(ABB_N, Obj_N, ABB_Segs, Obj_Segs, Norm) + R;
 		Cnt->Normal = Norm;
 		Cnt->ContactPoint = ClsPoint + Cnt->Penetration * Cnt->Normal;
 	}
