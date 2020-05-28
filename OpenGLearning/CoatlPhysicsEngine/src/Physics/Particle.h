@@ -20,7 +20,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Acum_Force;
 		void UpdateVel(float dt);
 		int PhysicsID;
-		//Time Factors
+		glm::quat AxisAngle;
 	public:
 		Particle(glm::vec3 Pos,glm::vec3 InitVel,float InitDamp);
 		Particle(glm::vec3 Pos,glm::vec3 InitVel);
@@ -30,11 +30,13 @@ namespace CoatlPhysicsEngine {
 		void SetVel(glm::vec3 NewVel);
 		glm::vec3 GetVel();
 		glm::vec3 GetPos();
+		glm::quat GetQuat();
 		float GetMass();
 		void ChangeInverseMass(float Mass);
 		void ResetForce();
 		void AcumForce(glm::vec3 Force);
 		void SetMass(float Mass);
 		void SetPos(glm::vec3 Pos);
+		void SetQuat(glm::quat NewQuat);
 	};
 }
