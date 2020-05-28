@@ -1683,22 +1683,34 @@ void Game::ImGuiOptions()
 							if (ImGui::TreeNode("General Information"))
 							{
 								glm::vec3 Temp = Bod->GetPos();
+								QuatParts Q_Angle = QuatParts(Bod->GetQuat());
 								ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
-								float Ar[3] = { Temp.x,Temp.y,Temp.z };
-								if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
+								if (ImGui::TreeNode("Position"))
 								{
-									Temp.x = Ar[0];
-									Bod->SetPosition(Temp);
+									float Ar[3] = { Temp.x,Temp.y,Temp.z };
+									if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
+									{
+										Temp.x = Ar[0];
+										Bod->SetPosition(Temp);
+									}
+									if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
+									{
+										Temp.y = Ar[1];
+										Bod->SetPosition(Temp);
+									}
+									if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
+									{
+										Temp.z = Ar[2];
+										Bod->SetPosition(Temp);
+									}
+									ImGui::TreePop();
 								}
-								if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
+								ImGui::Text("Angle %.3f", Q_Angle.Angle);
+								ImGui::Text("Unite Vector %.3f,%.3f,%.3f",
+								Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
+								if (ImGui::TreeNode("Angle and Direction"))
 								{
-									Temp.y = Ar[1];
-									Bod->SetPosition(Temp);
-								}
-								if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
-								{
-									Temp.z = Ar[2];
-									Bod->SetPosition(Temp);
+									ImGui::TreePop();
 								}
 								ImGui::TreePop();
 							}

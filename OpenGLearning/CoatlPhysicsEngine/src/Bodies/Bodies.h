@@ -24,6 +24,7 @@ namespace CoatlPhysicsEngine {
 		void MovePosition(glm::vec3 Add);
 		void SetParticle(int ShapeID);
 		glm::vec3 GetPos();
+		glm::quat GetQuat();
 		std::shared_ptr<ColShapes> GetShapes();
 		std::vector<std::shared_ptr<BodyParts>> GetBodyParts();
 		std::shared_ptr<BodyParts> GetSpecificBodyPart(int ID);
