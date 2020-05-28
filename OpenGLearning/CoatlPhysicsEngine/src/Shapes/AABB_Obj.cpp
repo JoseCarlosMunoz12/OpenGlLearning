@@ -132,3 +132,8 @@ bool AABB_Obj::Inside(glm::vec3 Point)
      }
 	return true;
 }
+
+void AABB_Obj::SetQuat(glm::quat NewQuat)
+{
+    return;
+}

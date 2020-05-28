@@ -9,5 +9,6 @@ namespace CoatlPhysicsEngine {
 		~Sphere();
 		float GetRadius();
 		void SetRadius(float NewR);
+		void SetQuat(glm::quat NewQuat) override;
 	};
 }

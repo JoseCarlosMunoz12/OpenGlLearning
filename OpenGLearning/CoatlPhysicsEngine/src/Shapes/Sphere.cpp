@@ -19,3 +19,8 @@ void Sphere::SetRadius(float NewR)
 {
 	this->Radius = NewR;
 }
+
+void Sphere::SetQuat(glm::quat NewQuat)
+{
+	this->QuatAngle = NewQuat;
+}
