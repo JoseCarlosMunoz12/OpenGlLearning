@@ -77,7 +77,7 @@ struct QuatParts
 		if (InitQuat.w > 1.f)
 			InitQuat = glm::normalize(InitQuat);
 		float s = glm::sqrt(1 - InitQuat.w * InitQuat.w);
-		this->Angle = 2.f * glm::acos(InitQuat.w);
+		this->Angle = 2.f * glm::acos(InitQuat.w) * 180.f / glm::pi<float>();;
 		if (Angle == 0.f)
 		{
 			this->UnitVec = glm::vec3(0.f, 0.f, 1.f);

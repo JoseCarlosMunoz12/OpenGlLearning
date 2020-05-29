@@ -94,7 +94,9 @@ public:
 		if (!this->ColBody.expired())
 		{
 			glm::vec3 ColPos = this->ColBody.lock()->GetPos();
+			QuatParts Se(this->ColBody.lock()->GetQuat());
 			this->move(ColPos);
+			this->SetRotation(Se);
 		}
 	}
 	void SetColBody(std::shared_ptr<CPE::Bodies> NewBod)

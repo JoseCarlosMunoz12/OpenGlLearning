@@ -130,13 +130,13 @@ void MATH::ClosestSeg_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Se
 			float Denom = A * E - B * B;
 			if (Denom != 0.f)
 			{
-				S = glm::clamp((B * F - C * E), 0.f, 1.f);
+				S = glm::clamp((B * F - C * E) / Denom, 0.f, 1.f);
 			}
 			else
 			{
 				S = 0.f;
 			}
-			T = (B * S + F) / E;
+			T = ((B * S) + F) / E;
 
 			if (T < 0.f)
 			{
@@ -206,7 +206,7 @@ float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, glm::vec3 Pos, std::vector
 			float Denom = A * E - B * B;
 			if (Denom != 0.f)
 			{
-				S = glm::clamp((B * F - C * E), 0.f, 1.f);
+				S = glm::clamp((B * F - C * E) / Denom, 0.f, 1.f);
 			}
 			else
 			{

@@ -1710,6 +1710,30 @@ void Game::ImGuiOptions()
 								Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
 								if (ImGui::TreeNode("Angle and Direction"))
 								{
+									glm::vec3 U = Q_Angle.UnitVec;
+									float Ar[3] = {U.x, U.y, U.z};
+									if (ImGui::SliderFloat("Axis Angle", &Q_Angle.Angle,0.f,180.f))
+									{
+										Bod->SetQuat(Q_Angle.GetQuat());
+									}
+									if (ImGui::SliderFloat("X-Axis", &Ar[0],-1.f,1.f))
+									{
+										U.x = Ar[0];
+										Q_Angle.UnitVec = glm::normalize(U);
+										Bod->SetQuat(Q_Angle.GetQuat());
+									}
+									if (ImGui::SliderFloat("Y-Axis", &Ar[1], -1.f, 1.f))
+									{
+										U.y = Ar[1];
+										Q_Angle.UnitVec = glm::normalize(U);
+										Bod->SetQuat(Q_Angle.GetQuat());
+									}
+									if (ImGui::SliderFloat("Z-Axis", &Ar[2], -1.f, 1.f))
+									{
+										U.z = Ar[2];
+										Q_Angle.UnitVec = glm::normalize(U);
+										Bod->SetQuat(Q_Angle.GetQuat());
+									}
 									ImGui::TreePop();
 								}
 								ImGui::TreePop();
