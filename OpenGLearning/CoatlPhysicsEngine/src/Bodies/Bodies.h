@@ -23,6 +23,7 @@ namespace CoatlPhysicsEngine {
 		void SetPosition(glm::vec3 NewPos);
 		void MovePosition(glm::vec3 Add);
 		void SetParticle(int ShapeID);
+		void SetQuat(glm::quat NewQuat);
 		glm::vec3 GetPos();
 		glm::quat GetQuat();
 		std::shared_ptr<ColShapes> GetShapes();

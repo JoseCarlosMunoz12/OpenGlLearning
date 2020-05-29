@@ -1683,7 +1683,7 @@ void Game::ImGuiOptions()
 							if (ImGui::TreeNode("General Information"))
 							{
 								glm::vec3 Temp = Bod->GetPos();
-								QuatParts Q_Angle = QuatParts(Bod->GetQuat());
+								QuatParts Q_Angle(Bod->GetQuat());
 								ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
 								if (ImGui::TreeNode("Position"))
 								{

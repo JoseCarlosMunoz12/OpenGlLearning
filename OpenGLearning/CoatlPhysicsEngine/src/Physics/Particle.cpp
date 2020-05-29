@@ -63,15 +63,16 @@ glm::vec3 Particle::GetVel()
 	return this->Vel;
 }
 
+glm::quat Particle::GetQuat()
+{
+	return this->AxisAngle;
+}
+
 glm::vec3 Particle::GetPos()
 {
 	return this->Pos;
 }
 
-glm::quat Particle::GetQuat()
-{
-	return this->AxisAngle;
-}
 
 float CoatlPhysicsEngine::Particle::GetMass()
 {
