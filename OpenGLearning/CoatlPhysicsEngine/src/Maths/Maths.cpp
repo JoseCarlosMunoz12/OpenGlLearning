@@ -181,8 +181,8 @@ float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, glm::vec3 Pos, std::vector
 	{
 		S = 0.f;
 		T = 0.f;
-		C1 = Seg0[1]  + Pos;
-		C2 = Seg1[1];
+		C1 = Seg0[0]  + Pos;
+		C2 = Seg1[0];
 		return glm::distance(C1, C2);
 	}
 
@@ -227,8 +227,8 @@ float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, glm::vec3 Pos, std::vector
 		}
 	}
 
-	C1 = Pos + Seg0[1] + D1 * S;
-	C2 = Seg1[1] + D2 * T;
+	C1 = Pos + Seg0[0] + D1 * S;
+	C2 = Seg1[0] + D2 * T;
 
 	return glm::distance(C1,C2);
 }
@@ -237,8 +237,8 @@ float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg
 {
 	float EPSILON = 0.00000001;
 
-	glm::vec3 D1 = Seg0[0] - Seg0[1];
-	glm::vec3 D2 = Seg1[0] - Seg1[1];
+	glm::vec3 D1 = Seg0[1] - Seg0[0];
+	glm::vec3 D2 = Seg1[1] - Seg1[0];
 	glm::vec3 R = Seg0[0] - Seg1[0];
 
 	float A = glm::dot(D1, D1);
@@ -252,8 +252,8 @@ float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg
 	{
 		S = 0.f;
 		T = 0.f;
-		C1 = Seg0[1];
-		C2 = Seg1[1];
+		C1 = Seg0[0];
+		C2 = Seg1[0];
 		return glm::distance(C1,C2);
 	}
 
@@ -298,8 +298,8 @@ float MATH::Distance_Seg(std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg
 		}
 	}
 
-	C1 = Seg0[1] + D1 * S;
-	C2 = Seg1[1] + D2 * T;
+	C1 = Seg0[0] + D1 * S;
+	C2 = Seg1[0] + D2 * T;
 
 	return glm::distance(C1,C2);
 }
