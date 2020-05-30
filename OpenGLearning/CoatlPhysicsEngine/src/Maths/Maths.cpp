@@ -519,7 +519,7 @@ float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vec
 	float MaxMin0 = glm::distance(Max0, Min1);
 	float MaxMin1 = glm::distance(Max1, Min0);
 	float MaxL = glm::min(MaxMin0, MaxMin1);
-	if (MaxL == MaxMin0)
+	if (MaxL == MaxMin1)
 	{
 		Normal = -Normal;
 	}
