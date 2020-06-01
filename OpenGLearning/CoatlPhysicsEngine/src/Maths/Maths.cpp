@@ -644,7 +644,26 @@ bool MATH::DoSimplex(std::vector<glm::vec3>& Simplex, glm::vec3& Dir)
 		}
 		else
 		{
-
+			if (glm::dot(AC, A0) >= 0)
+			{
+				glm::vec3 Cross = glm::cross(AC, A0);
+				Cross = glm::cross(Cross, AC);
+				if (glm::dot(AB, Cross) >= 0)
+				{
+					return true;
+				}
+				else
+				{
+					Simplex.erase(Simplex.begin() + 1);
+					Dir = Cross;
+				}
+			}
+			else
+			{
+				Simplex.erase(Simplex.begin() + 1);
+				Simplex.erase(Simplex.begin());
+				Dir = A0;
+			}
 		}
 	}
 	return false;
