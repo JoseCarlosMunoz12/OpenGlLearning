@@ -569,3 +569,56 @@ float MATH::SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm
 	Norm = NormF;
 	return Penetration;
 }
+
+glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
+{
+	float S = glm::dot(Pnts[0], Dir);
+	glm::vec3 MaxPnt = Pnts[0];
+	int Size = Pnts.size();
+	for (int ii = 1; ii < Size; ii++)
+	{
+		float T = glm::dot(Pnts[ii], Dir);
+		if (T > S)
+		{
+			S = T;
+			MaxPnt = Pnts[ii];
+		}
+	}
+	return MaxPnt;
+}
+
+glm::vec3 MATH::Support(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1, glm::vec3 Dir)
+{
+	return MaxDot(Pnt0,Dir) -  MaxDot(Pnt1,-Dir);
+}
+
+bool MATH::DoSimplex(std::vector<glm::vec3>& A, glm::vec3& Dir)
+{
+	int Length = A.size();
+	if (Length == 2)
+	{
+
+	}
+	else
+	{
+
+	}
+	return false;
+}
+
+bool MATH::GJK_Algorithm(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1)
+{
+	glm::vec3 A = Support(Pnt0, Pnt1, glm::vec3(0.f, 0.f, 1.f));
+	std::vector<glm::vec3> S;
+	S.push_back(A);
+	glm::vec3 D = -A;
+	while (true)
+	{
+		A = Support(Pnt0, Pnt1, D);
+		if (glm::dot(A, D) < 0)
+			return false;
+		S.push_back(A);
+
+	}
+	return false;
+}

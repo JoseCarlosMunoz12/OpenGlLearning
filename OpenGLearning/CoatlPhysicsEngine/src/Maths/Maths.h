@@ -36,4 +36,9 @@ namespace MATH {
 	float ProjPen(glm::vec3 &Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1);
 	float SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 	std::vector<glm::vec3> Pnts0, std::vector<glm::vec3> Pnts1,glm::vec3 &Norm);
+	//GJK Functions
+	glm::vec3 MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir);
+	glm::vec3 Support(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1, glm::vec3 Dir);
+	bool DoSimplex(std::vector<glm::vec3> &A, glm::vec3 &Dir);
+	bool GJK_Algorithm(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1);
 }
