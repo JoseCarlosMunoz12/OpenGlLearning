@@ -592,16 +592,60 @@ glm::vec3 MATH::Support(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1
 	return MaxDot(Pnt0,Dir) -  MaxDot(Pnt1,-Dir);
 }
 
-bool MATH::DoSimplex(std::vector<glm::vec3>& A, glm::vec3& Dir)
+bool MATH::DoSimplex(std::vector<glm::vec3>& Simplex, glm::vec3& Dir)
 {
-	int Length = A.size();
+	int Length = Simplex.size();
 	if (Length == 2)
 	{
-
+		glm::vec3 B = Simplex[0];
+		glm::vec3 A = Simplex[1];
+		glm::vec3 A0 = -A;
+		glm::vec3 AB = B - A;
+		if (glm::dot(AB, A0) >= 0)
+		{
+			glm::vec3 Temp = glm::cross(AB,A0);
+			Dir = glm::cross(Temp, AB);
+		}
+		else
+		{
+			Simplex.erase(Simplex.begin());
+			Dir = A0;
+		}
 	}
 	else
 	{
+		glm::vec3 C = Simplex[0];
+		glm::vec3 B = Simplex[1];
+		glm::vec3 A = Simplex[2];
+		glm::vec3 A0 = -A ;
+		glm::vec3 AB = B - A;
+		glm::vec3 AC = C - A;
+		if (glm::dot(AB, A0) >= 0)
+		{
+			glm::vec3 Cross = glm::cross(AB, A0);
+			Cross = glm::cross(Cross, AB);
+			if (glm::dot(Cross, AC) >= 0)
+			{
+				if (glm::dot(Cross, AB) >= 0)
+				{
+					return true;
+				}
+				else
+				{
+					Simplex.erase(Simplex.begin() + 1);
+					Dir = Cross;
+				}
+			}
+			else
+			{
+				Simplex.erase(Simplex.begin());
+				Dir = Cross;
+			}
+		}
+		else
+		{
 
+		}
 	}
 	return false;
 }
