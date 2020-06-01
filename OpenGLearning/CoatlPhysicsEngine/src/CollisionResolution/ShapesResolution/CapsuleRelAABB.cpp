@@ -36,6 +36,9 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AA
 	float Dist = glm::distance(ClsPoint, Cls_Pnt);
 	if (Dist != 0)
 	{
+		std::vector<glm::vec3> ABB_Segs = Cap.GetSegment();
+		std::vector<glm::vec3> Obj_Segs = Obj.GetSegs();
+		bool T = MATH::GJK_Algorithm(ABB_Segs, Obj_Segs);
 		Cnt->Penetration = R - Dist;
 		Cnt->Normal = -glm::normalize(ClsPoint - Cls_Pnt);
 	}

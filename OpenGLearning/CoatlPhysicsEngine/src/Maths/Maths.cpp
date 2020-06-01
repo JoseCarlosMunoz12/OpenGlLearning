@@ -605,11 +605,12 @@ bool MATH::DoSimplex(std::vector<glm::vec3>& Simplex, glm::vec3& Dir)
 		{
 			glm::vec3 Temp = glm::cross(AB,A0);
 			Dir = glm::cross(Temp, AB);
+			Dir = glm::normalize(Dir);
 		}
 		else
 		{
 			Simplex.erase(Simplex.begin());
-			Dir = A0;
+			Dir = glm::normalize(A0);
 		}
 	}
 	else
@@ -633,13 +634,13 @@ bool MATH::DoSimplex(std::vector<glm::vec3>& Simplex, glm::vec3& Dir)
 				else
 				{
 					Simplex.erase(Simplex.begin() + 1);
-					Dir = Cross;
+					Dir = glm::normalize(Cross);
 				}
 			}
 			else
 			{
 				Simplex.erase(Simplex.begin());
-				Dir = Cross;
+				Dir = glm::normalize(Cross);
 			}
 		}
 		else
@@ -655,14 +656,14 @@ bool MATH::DoSimplex(std::vector<glm::vec3>& Simplex, glm::vec3& Dir)
 				else
 				{
 					Simplex.erase(Simplex.begin() + 1);
-					Dir = Cross;
+					Dir = glm::normalize(Cross);
 				}
 			}
 			else
 			{
 				Simplex.erase(Simplex.begin() + 1);
 				Simplex.erase(Simplex.begin());
-				Dir = A0;
+				Dir = glm::normalize(A0);
 			}
 		}
 	}
@@ -674,14 +675,17 @@ bool MATH::GJK_Algorithm(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt
 	glm::vec3 A = Support(Pnt0, Pnt1, glm::vec3(0.f, 0.f, 1.f));
 	std::vector<glm::vec3> S;
 	S.push_back(A);
-	glm::vec3 D = -A;
+	glm::vec3 D = -glm::normalize(A);
 	while (true)
 	{
 		A = Support(Pnt0, Pnt1, D);
 		if (glm::dot(A, D) < 0)
 			return false;
 		S.push_back(A);
-
+		if (DoSimplex(S, D))
+		{
+			return true;
+		}
 	}
 	return false;
 }
