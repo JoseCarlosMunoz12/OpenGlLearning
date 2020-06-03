@@ -10,6 +10,13 @@
 #include <vector>
 #define GJK_MAX_ITERATIONS 20
 namespace CoatlPhysicsEngine {
+	struct gjk_vertex
+	{
+		glm::vec3 A;
+		glm::vec3 B;
+		glm::vec3 P;
+		int AId, BId;
+	};
 	struct gjk_support
 	{
 		int AId, BId;
@@ -22,14 +29,10 @@ namespace CoatlPhysicsEngine {
 	struct gjk_simplex
 	{
 		int Max_iter, iter;
-		struct gjk_vertex
-		{
-			glm::vec3 A;
-			glm::vec3 B;
-			glm::vec3 P;
-			int AId, BId;
-		}V[4];
-		glm::vec3 BC;
+		bool Hit;
+		int Cnt;
+		gjk_vertex V[4];
+		float BC[4];
 		float D;
 	};
 	struct gjk_result
@@ -40,7 +43,7 @@ namespace CoatlPhysicsEngine {
 		float Dis;
 		int Iter;
 	};
-	bool GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gjk_simplex> &Sup);
+	bool GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gjk_support> &Sup);
 	void GJK_analyze(std::shared_ptr<gjk_result> &Res);
 	void GJK_quat(std::shared_ptr<gjk_result>& Res, float A_radius, float B_Radius);
 }
