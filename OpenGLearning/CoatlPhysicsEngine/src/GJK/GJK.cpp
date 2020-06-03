@@ -31,6 +31,7 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 	{
 	case 1:	break;
 	case 2: {
+		//LINE
 		glm::vec3 A = S->V[0].P;
 		glm::vec3 B = S->V[1].P;
 		glm::vec3 AB = A - B;
@@ -54,6 +55,90 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 		S->BC[1] = v;
 		S->Cnt = 2;
 	} break;
+	case 3: {
+		//Triangle
+		glm::vec3 A = S->V[0].P;
+		glm::vec3 B = S->V[1].P;
+		glm::vec3 C = S->V[2].P;
+
+		glm::vec3 AB = A - B;
+		glm::vec3 BA = B - A;
+		glm::vec3 BC = B - C;
+		glm::vec3 CB = C - B;
+		glm::vec3 AC = A - C;
+		glm::vec3 CA = C - A;
+
+		float u_AB = glm::dot(B, BA);
+		float v_AB = glm::dot(A, AB);
+
+		float u_BC = glm::dot(C, CB);
+		float v_BC = glm::dot(B, BC);
+
+		float u_CA = glm::dot(A, AC);
+		float v_CA = glm::dot(C, CA);
+
+		if (v_AB <= 0.f && u_CA <= 0.f)
+		{
+			S->BC[0] = 1.f;
+			S->Cnt = 1;
+			break;
+		}
+		if (u_AB <= 0.f && v_BC <= 0.f)
+		{
+			S->V[0] = S->V[1];
+			S->BC[0] = 1.f;
+			S->Cnt = 1;
+			break;
+		}
+		if (u_BC <= 0.f && v_CA <= 0.f)
+		{
+			S->V[0] = S->V[2];
+			S->BC[0] = 1.f;
+			S->Cnt = 1;
+		}
+
+		glm::vec3 n = glm::cross(BA, CA);
+		glm::vec3 n1 = glm::cross(B, C);
+		glm::vec3 n2 = glm::cross(C, A);
+		glm::vec3 n3 = glm::cross(A, B);
+
+		float u_ABC = glm::dot(n1, n);
+		float v_ABC = glm::dot(n2, n);
+		float w_ABC = glm::dot(n3, n);
+		if (u_AB > 0.0f && v_AB > 0.0f && w_ABC <= 0.0f) {
+			/* region B */
+			S->BC[0] = u_AB;
+			S->BC[1] = v_AB;
+			S->Cnt = 2;
+			break;
+		}
+		if (u_BC > 0.0f && v_BC > 0.0f && u_BC <= 0.0f) {
+			/* region BC */
+			S->V[0] = S->V[1];
+			S->V[1] = S->V[2];
+			S->BC[0] = u_BC;
+			S->BC[1] = v_BC;
+			S->Cnt = 2;
+			break;
+		}
+		if (u_CA > 0.0f && v_CA > 0.0f && v_BC <= 0.0f) {
+			/* region CA */
+			S->V[1] = S->V[0];
+			S->V[0] = S->V[2];
+			S->BC[0] = u_CA;
+			S->BC[1] = v_CA;
+			S->Cnt = 2;
+			break;
+		}
+
+		S->BC[0] = u_ABC;
+		S->BC[1] = v_ABC;
+		S->BC[2] = w_ABC;
+		S->Cnt = 3;
+	} break;
+	case 4: {
+		//Tetrahedron
+	}break;
 	}
 	return false;
 }
