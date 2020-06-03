@@ -177,6 +177,9 @@
     <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelAABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GJK\GJK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -324,6 +327,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelAABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GJK\GJK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

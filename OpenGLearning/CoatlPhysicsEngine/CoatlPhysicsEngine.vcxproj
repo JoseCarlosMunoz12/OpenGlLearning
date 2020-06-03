@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GJK\GJK.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelAABB.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelSphere.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\AABBRelAABB.h" />
@@ -199,6 +200,7 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GJK\GJK.cpp" />
     <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelAABB.cpp" />
     <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelSphere.cpp" />
     <ClCompile Include="src\CollisionResolution\ShapesResolution\AABBRelAABB.cpp" />
