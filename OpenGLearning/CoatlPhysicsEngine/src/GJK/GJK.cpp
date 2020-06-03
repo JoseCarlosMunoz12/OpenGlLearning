@@ -138,8 +138,37 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 	} break;
 	case 4: {
 		//Tetrahedron
-	}break;
+		glm::vec3 A = S->V[0].P;
+		glm::vec3 B = S->V[1].P;
+		glm::vec3 C = S->V[2].P;
+		glm::vec3 D = S->V[3].P;
+
+		glm::vec3 AB = A - B;
+		glm::vec3 BA = B - A;
+		glm::vec3 BC = B - C;
+		glm::vec3 CB = C - B;
+		glm::vec3 CA = C - A;
+		glm::vec3 AC = A - C;
+
+		glm::vec3 DB = D - B;
+		glm::vec3 BD = B - D;
+		glm::vec3 DC = D - C;
+		glm::vec3 CD = C - D;
+		glm::vec3 DA = D - A;
+		glm::vec3 AD = A - D;
+
+		float u_AB = glm::dot(A, BA);
+		float v_AB = glm::dot(A, AB);
+
+	}break;}
+	//V. Check if origin is enclosed by tetrahedron
+	if (S->Cnt == 4)
+	{
+		S->Hit = true;
+		return  false;
 	}
+	//VI. Ensure closing in on orgin to prevent multi-step cycling
+
 	return false;
 }
 
