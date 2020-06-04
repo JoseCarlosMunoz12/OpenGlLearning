@@ -43,6 +43,7 @@ namespace CoatlPhysicsEngine {
 		float Dis;
 		int Iter;
 	};
+	float F3Box(glm::vec3 A, glm::vec3 B, glm::vec3 C);
 	bool GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gjk_support> &Sup);
 	void GJK_analyze(std::shared_ptr<gjk_result> &Res);
 	void GJK_quat(std::shared_ptr<gjk_result>& Res, float A_radius, float B_Radius);

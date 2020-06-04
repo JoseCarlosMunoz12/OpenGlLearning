@@ -1,6 +1,12 @@
 #include "GJK.h"
 using namespace CoatlPhysicsEngine;
 
+float CoatlPhysicsEngine::F3Box(glm::vec3 A, glm::vec3 B, glm::vec3 C)
+{
+	glm::vec3 N = glm::cross(A, B);
+	return glm::dot(N, C);
+}
+
 bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gjk_support> &Sup)
 {
 	if (!S || !Sup)
@@ -159,6 +165,136 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 
 		float u_AB = glm::dot(A, BA);
 		float v_AB = glm::dot(A, AB);
+
+		float u_BC = glm::dot(C, CB);
+		float v_BC = glm::dot(B, BC);
+
+		float u_CA = glm::dot(A, AC);
+		float v_CA = glm::dot(C, CA);
+
+		float u_BD = glm::dot(D, DB);
+		float v_BD = glm::dot(B, BD);
+
+		float u_DC = glm::dot(C, CD);
+		float v_DC = glm::dot(D, DC);
+
+		float u_AD = glm::dot(D, DA);
+		float v_AD = glm::dot(A, AD);
+		if (v_AB <= 0.f && u_CA <= 0.f && v_AD <= 0.f)
+		{
+			S->BC[0] = 1.f;
+			S->Cnt = 1;
+			break;
+		}
+		if (u_AB <= 0.f && v_BC <= 0.f && v_BD <= 0.f)
+		{
+			S->V[0] = S->V[1];
+			S->BC[0] = 1.0f;
+			S->Cnt = 1;
+			break;
+		}
+		if (u_BC <= 0.0f && v_CA <= 0.0f && u_DC <= 0.0f) {
+			/* region C */
+			S->V[0] = S->V[2];
+			S->BC[0] = 1.0f;
+			S->Cnt = 1;
+			break;
+		}
+		if (u_BD <= 0.0f && v_DC <= 0.0f && u_AD <= 0.0f) {
+			/* region D */
+			S->V[0] = S->V[3];
+			S->BC[0] = 1.0f;
+			S->Cnt = 1;
+			break;
+		}
+
+		glm::vec3 N = glm::cross(DA, BA);
+		glm::vec3 N1 = glm::cross(D, B);
+		glm::vec3 N2 = glm::cross(B, A);
+		glm::vec3 N3 = glm::cross(A, D);
+
+		float u_ADB = glm::dot(N1, N);
+		float v_ADB = glm::dot(N2, N);
+		float w_ADB = glm::dot(N3, N);
+
+		N = glm::cross(CA, DA);
+		N1 = glm::cross(C, D);
+		N2 = glm::cross(D, A);
+		N3 = glm::cross(A, C);
+
+		float u_ACD = glm::dot(N1, N);
+		float v_ACD = glm::dot(N2, N);
+		float w_ACD = glm::dot(N3, N);
+
+		N = glm::cross(BC, DC);
+		N1 = glm::cross(B, D);
+		N2 = glm::cross(C, A);
+		N3 = glm::cross(A, B);
+
+		float u_CBD = glm::dot(N1, N);
+		float v_CBD = glm::dot(N2, N);
+		float w_CBD = glm::dot(N3, N);
+
+		N = glm::cross(BA, CA);
+		N1 = glm::cross(B, C);
+		N2 = glm::cross(C, A);
+		N3 = glm::cross(A, B);
+
+		float u_ABC = glm::dot(N1, N);
+		float v_ABC = glm::dot(N2, N);
+		float w_ABC = glm::dot(N3, N);
+
+		if (w_ABC <= 0.0f && v_ADB <= 0.0f && u_AB > 0.0f && v_AB > 0.0f) {
+			/* region AB */
+			S->BC[0] = u_AB;
+			S->BC[1] = v_AB;
+			S->Cnt = 2;
+			break;
+		}
+		if (u_ABC <= 0.0f && w_CBD <= 0.0f && u_BC > 0.0f && v_BC > 0.0f) {
+			/* region BC */
+			S->V[0] = S->V[1];
+			S->V[1] = S->V[2];
+			S->BC[0] = u_BC;
+			S->BC[1] = v_BC;
+			S->Cnt = 2;
+			break;
+		}
+		if (v_ABC <= 0.0f && w_ACD <= 0.0f && u_CA > 0.0f && v_CA > 0.0f) {
+			/* region CA */
+			S->V[1] = S->V[0];
+			S->V[0] = S->V[2];
+			S->BC[0] = u_CA;
+			S->BC[1] = v_CA;
+			S->Cnt = 2;
+			break;
+		}
+		if (v_CBD <= 0.0f && u_ACD <= 0.0f && u_DC > 0.0f && v_DC > 0.0f) {
+			/* region DC */
+			S->V[0] = S->V[3];
+			S->V[1] = S->V[2];
+			S->BC[0] = u_DC;
+			S->BC[1] = v_DC;
+			S->Cnt = 2;
+			break;
+		}
+		if (v_ACD <= 0.0f && w_ADB <= 0.0f && u_AD > 0.0f && v_AD > 0.0f) {
+			/* region AD */
+			S->V[1] = S->V[3];
+			S->BC[0] = u_AD;
+			S->BC[1] = v_AD;
+			S->Cnt = 2;
+			break;
+		}
+		if (u_CBD <= 0.0f && u_ADB <= 0.0f && u_BD > 0.0f && v_BD > 0.0f) {
+			/* region BD */
+			S->V[0] = S->V[1];
+			S->V[1] = S->V[3];
+			S->BC[0] = u_BD;
+			S->BC[1] = v_BD;
+			S->Cnt = 2;
+			break;
+		}
 
 	}break;}
 	//V. Check if origin is enclosed by tetrahedron
