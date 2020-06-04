@@ -1,51 +1,39 @@
 #include "CapsuleRelAABB.h"
 using namespace CoatlPhysicsEngine;
+int CapsuleRelAABB::line_support(glm::vec3& Support, glm::vec3 D, Capsule Cap)
+{	
+	std::vector<glm::vec3> AB = Cap.GetSegment();
+	if (glm::dot(AB[0], D) < glm::dot(AB[1], D))
+	{
+		Support = AB[0];
+		return 0;
+	}
+	Support = AB[1];
+	return 0;
+}
 std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AABB_Obj Obj)
 {
-
-	std::vector<int> ID = Obj.GetSegmentsID();
-	int Size = ID.size() / 2;
-	glm::vec3 Pos = Obj.GetPos();
-	std::vector<glm::vec3> Points = Obj.GetPoints();
-	for (auto& jj : Points)
+	std::shared_ptr<gjk_support> s = std::make_shared<gjk_support>();
+	s->A = Obj.GetSegs()[0];
+	s->B = Cap.GetSegment()[0];
+	s->D = s->B - s->A;
+	std::shared_ptr<gjk_simplex> gsx =std::make_shared<gjk_simplex>();
+	while (GJK(gsx,s))
 	{
-		jj = jj + Pos;
-	}
-	float R = Cap.GetRadius();
-	glm::vec3 Pos0;
-	glm::vec3 Pos1;
-	MATH::ClosestSeg_Seg(Cap.GetSegment(), { Points[ID[0]], Points[ID[1]] }, Pos0, Pos1);
-	glm::vec3 Cls_Pnt = Pos0;
-	float TempDis = glm::distance(Pos0, Pos1);
-	float Dis;
-	for (int ii = 1; ii < Size; ii++)
-	{
-		int JJ = ii * 2;
-		int KK = JJ + 1;
-		MATH::ClosestSeg_Seg(Cap.GetSegment(), { Points[ID[JJ]], Points[ID[KK]] }, Pos0, Pos1);
-		Dis = glm::distance(Pos0, Pos1);
-		if (Dis < TempDis)
-		{
-			Dis = TempDis;
-			Cls_Pnt = Pos0;
-		}
+		s->BId = line_support(s->B, s->DB, Cap);
 	}
 	std::vector<std::shared_ptr<Contact>> Temp;
 	std::shared_ptr<Contact> Cnt = std::make_shared<Contact>();
-	glm::vec3 ClsPoint = Obj.GetClosesPoint(Cls_Pnt);
-	float Dist = glm::distance(ClsPoint, Cls_Pnt);
 	if (Dist != 0)
 	{
-		std::vector<glm::vec3> ABB_Segs = Cap.GetSegment();
-		std::vector<glm::vec3> Obj_Segs = Obj.GetSegs();
-		bool T = MATH::GJK_Algorithm(ABB_Segs, Obj_Segs);
-		Cnt->Penetration = R - Dist;
-		Cnt->Normal = -glm::normalize(ClsPoint - Cls_Pnt);
+		Cnt->Penetration;
+		Cnt->Normal;
 	}
 	else
 	{
 		std::vector<glm::vec3> ABB_Segs = Cap.GetSegment();
 		std::vector<glm::vec3> Obj_Segs = Obj.GetSegs();
+		float R = Cap.GetRadius();
 
 		std::vector<glm::vec3> ABB_N = { glm::normalize(ABB_Segs[1] - ABB_Segs[0]) };
 		std::vector<glm::vec3> Obj_N = { glm::normalize(Obj_Segs[1] - Obj_Segs[0]),
@@ -55,7 +43,7 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AA
 		Cnt->Penetration = MATH::SATContact(ABB_N, Obj_N, ABB_Segs, Obj_Segs, Norm) + R;
 		Cnt->Normal = Norm;
 	}
-		Cnt->ContactPoint = ClsPoint + Cnt->Penetration * Cnt->Normal;
+	Cnt->ContactPoint;
 	Temp.push_back(Cnt);
 	return Temp;
 }

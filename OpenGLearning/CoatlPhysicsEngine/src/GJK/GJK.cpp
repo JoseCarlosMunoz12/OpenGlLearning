@@ -482,6 +482,17 @@ void CoatlPhysicsEngine::GJK_quat(std::shared_ptr<gjk_result>& Res, float A_radi
 		{
 			Norm = glm::normalize(Norm);
 		}
-
+		glm::vec3 DA = Norm * A_radius;
+		glm::vec3 DB = Norm * B_Radius;
+		Res->P0 += DA;
+		Res->P1 -= DB;
+	}
+	else
+	{
+		glm::vec3 P = Res->P0 + Res->P1;
+		Res->P0 = P * .5f;
+		Res->P1 = Res->P0;
+		Res->Dis = 0.f;
+		Res->Hit = true;
 	}
 }
