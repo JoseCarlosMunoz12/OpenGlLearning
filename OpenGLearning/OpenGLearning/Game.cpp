@@ -7,7 +7,6 @@ void Game::initGLFW()
 			std::cout << "ERROR::GLFE_INIT_FAILED" << "\n";
 			glfwTerminate();
 	}
-		
 }
 
 void Game::initWindow(const char* title, bool resizable)

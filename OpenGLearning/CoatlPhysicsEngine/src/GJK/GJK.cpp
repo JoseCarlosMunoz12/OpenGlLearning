@@ -16,20 +16,23 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 	//I. Initialize
 	if (S->Cnt == 0)
 	{
-		S->D = 100.f;
-		S->Max_iter = !S->Max_iter ? 100.f : S->Max_iter;
+		S->D = GJK_FLT_MAX;
+		S->Max_iter = !S->Max_iter ? GJK_FLT_MAX : S->Max_iter;
 	}
 	// II. Check for Duplicaiton;
 	for (int ii = 0; ii < S->Cnt; ++ii)
 	{
 		if (Sup->AId != S->V[ii].AId)continue;
 		if (Sup->BId != S->V[ii].BId)continue;
+		return false;
 	}
 	// III. add Vertex into simplex
 	gjk_vertex vert = S->V[S->Cnt];
 	vert.A = Sup->A;
 	vert.B = Sup->B;
 	vert.P = Sup->D;
+	vert.AId = Sup->AId;
+	vert.BId = Sup->BId;
 	S->V[S->Cnt] = vert;
 	S->BC[S->Cnt++] = 1.f;
 	// IV. find closest simplex point
@@ -431,7 +434,7 @@ void CoatlPhysicsEngine::GJK_analyze(std::shared_ptr<gjk_result>& Res, std::shar
 		glm::vec3 A = s->V[0].A * AS;
 		glm::vec3 B = s->V[1].A * BS;
 		glm::vec3 C = s->V[0].B * AS;
-		glm::vec3 D = s->V[1].B * AS;
+		glm::vec3 D = s->V[1].B * BS;
 		Res->P0 = A - B;
 		Res->P1 = C - D;
 	}break;

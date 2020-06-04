@@ -16,21 +16,26 @@ int CoatlPhysicsEngine::CapsuleRelAABB::poly_support(glm::vec3& Support, glm::ve
 	int IMax = 0;
 	std::vector<glm::vec3> Vecs = obj.GetSegs();
 	float dMax = glm::dot(Vecs[0], D);
+	int Count = 0;
 	for (auto& j : Vecs)
 	{
 		float dot = glm::dot(j, D);
-		if (dot < dMax) continue;
-		IMax = 1, dMax = dot;
+		if (dot > dMax)
+		{
+			IMax = Count;
+			dMax = dot;
+		}
+		Count++;
 	}
 	return IMax;
 }
 std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AABB_Obj Obj)
 {
-	std::shared_ptr<gjk_support> s = std::make_shared<gjk_support>();
+	std::shared_ptr<gjk_support> s = std::make_shared<gjk_support>();	
 	s->A = Obj.GetSegs()[0];
 	s->B = Cap.GetSegment()[0];
 	s->D = s->B - s->A;
-	std::shared_ptr<gjk_simplex> gsx =std::make_shared<gjk_simplex>();
+	std::shared_ptr<gjk_simplex> gsx = std::make_shared<gjk_simplex>();
 	while (GJK(gsx,s))
 	{
 		s->AId = poly_support(s->A, s->DA, Obj);

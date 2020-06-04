@@ -9,6 +9,7 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 #define GJK_MAX_ITERATIONS 20
+#define GJK_FLT_MAX 3E+38F
 namespace CoatlPhysicsEngine {
 	struct gjk_vertex
 	{
