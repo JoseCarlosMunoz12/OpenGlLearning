@@ -16,8 +16,8 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 	//I. Initialize
 	if (S->Cnt == 0)
 	{
-		S->D = 3.40282347E+38F;
-		S->Max_iter = !S->Max_iter ? 3.40282347E+38F : S->Max_iter;
+		S->D = 100.f;
+		S->Max_iter = !S->Max_iter ? 100.f : S->Max_iter;
 	}
 	// II. Check for Duplicaiton;
 	for (int ii = 0; ii < S->Cnt; ++ii)
@@ -417,8 +417,71 @@ void CoatlPhysicsEngine::GJK_analyze(std::shared_ptr<gjk_result>& Res, std::shar
 	for (int ii = 0; ii < s->Cnt; ++ii)
 		Denom += s->BC[ii];
 	Denom = 1.0f / Denom;
+
+	switch (s->Cnt)
+	{
+	default:break;
+	case 1:{
+		Res->P0 = s->V[0].A;
+		Res->P1 = s->V[0].B;
+	}break;
+	case 2:{
+		float AS = Denom * s->BC[0];
+		float BS = Denom * s->BC[1];
+		glm::vec3 A = s->V[0].A * AS;
+		glm::vec3 B = s->V[1].A * BS;
+		glm::vec3 C = s->V[0].B * AS;
+		glm::vec3 D = s->V[1].B * AS;
+		Res->P0 = A - B;
+		Res->P1 = C - D;
+	}break;
+	case 3:{
+		float AS = Denom * s->BC[0];
+		float BS = Denom * s->BC[1];
+		float CS = Denom * s->BC[2];
+
+		glm::vec3 A = s->V[0].A * AS;
+		glm::vec3 B = s->V[1].A * BS;
+		glm::vec3 C = s->V[2].A * CS;
+				
+		glm::vec3 D = s->V[0].B * AS;
+		glm::vec3 E = s->V[1].B * BS;
+		glm::vec3 F = s->V[2].B * CS;
+		
+		Res->P0 = A + B + C;
+		Res->P1 = D + E + F;
+	}break;
+	case 4:{
+		glm::vec3 A = s->V[0].A * Denom * s->BC[0];
+		glm::vec3 B = s->V[1].A * Denom * s->BC[1];
+		glm::vec3 C = s->V[2].A * Denom * s->BC[2];
+		glm::vec3 D = s->V[3].A * Denom * s->BC[3];
+		Res->P0 = A + B + C + D;
+		Res->P1 = Res->P0;
+	}break;
+	}
+
+	if (!Res->Hit)
+	{
+		Res->Dis = glm::distance(Res->P1, Res->P0);
+	}
+	else
+	{
+		Res->Dis = 0;
+	}
 }
 
 void CoatlPhysicsEngine::GJK_quat(std::shared_ptr<gjk_result>& Res, float A_radius, float B_Radius)
 {
+	float Radius = A_radius + B_Radius;
+	if (Res->Dis > 0.0000001f && Res->Dis > Radius)
+	{
+		Res->Dis -= Radius;
+		glm::vec3 Norm = Res->P1 - Res->P1;
+		if (glm::dot(Norm, Norm) != 0.f)
+		{
+			Norm = glm::normalize(Norm);
+		}
+
+	}
 }
