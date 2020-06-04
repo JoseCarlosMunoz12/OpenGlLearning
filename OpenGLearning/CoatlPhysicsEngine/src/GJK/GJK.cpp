@@ -74,8 +74,8 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 		glm::vec3 BA = B - A;
 		glm::vec3 BC = B - C;
 		glm::vec3 CB = C - B;
-		glm::vec3 AC = A - C;
 		glm::vec3 CA = C - A;
+		glm::vec3 AC = A - C;
 
 		float u_AB = glm::dot(B, BA);
 		float v_AB = glm::dot(A, AB);
@@ -121,7 +121,7 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 			S->Cnt = 2;
 			break;
 		}
-		if (u_BC > 0.0f && v_BC > 0.0f && u_BC <= 0.0f) {
+		if (u_BC > 0.0f && v_BC > 0.0f && u_ABC <= 0.0f) {
 			/* region BC */
 			S->V[0] = S->V[1];
 			S->V[1] = S->V[2];
@@ -130,7 +130,7 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 			S->Cnt = 2;
 			break;
 		}
-		if (u_CA > 0.0f && v_CA > 0.0f && v_BC <= 0.0f) {
+		if (u_CA > 0.0f && v_CA > 0.0f && v_ABC <= 0.0f) {
 			/* region CA */
 			S->V[1] = S->V[0];
 			S->V[0] = S->V[2];
@@ -166,7 +166,7 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 		glm::vec3 DA = D - A;
 		glm::vec3 AD = A - D;
 
-		float u_AB = glm::dot(A, BA);
+		float u_AB = glm::dot(B, BA);
 		float v_AB = glm::dot(A, AB);
 
 		float u_BC = glm::dot(C, CB);
@@ -183,13 +183,13 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 
 		float u_AD = glm::dot(D, DA);
 		float v_AD = glm::dot(A, AD);
-		if (v_AB <= 0.f && u_CA <= 0.f && v_AD <= 0.f)
+		if (v_AB <= 0.0f && u_CA <= 0.0f && v_AD <= 0.f)
 		{
 			S->BC[0] = 1.f;
 			S->Cnt = 1;
 			break;
 		}
-		if (u_AB <= 0.f && v_BC <= 0.f && v_BD <= 0.f)
+		if (u_AB <= 0.0f && v_BC <= 0.0f && v_BD <= 0.f)
 		{
 			S->V[0] = S->V[1];
 			S->BC[0] = 1.0f;
@@ -231,8 +231,8 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 
 		N = glm::cross(BC, DC);
 		N1 = glm::cross(B, D);
-		N2 = glm::cross(C, A);
-		N3 = glm::cross(A, B);
+		N2 = glm::cross(D, C);
+		N3 = glm::cross(C, B);
 
 		float u_CBD = glm::dot(N1, N);
 		float v_CBD = glm::dot(N2, N);
@@ -324,7 +324,7 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 			S->Cnt = 3;
 			break;
 		}
-		if (v_abcd < 0.0f && u_ACD> 0.0f && v_ACD > 0.0f && w_ACD > 0.0f) {
+		if (v_abcd < 0.0f && u_ACD > 0.0f && v_ACD > 0.0f && w_ACD > 0.0f) {
 			/* region ACD */
 			S->V[1] = S->V[2];
 			S->V[2] = S->V[3];
