@@ -412,6 +412,11 @@ void CoatlPhysicsEngine::GJK_analyze(std::shared_ptr<gjk_result>& Res, std::shar
 {
 	Res->Iter = s->iter;
 	Res->Hit = s->Hit;
+
+	float Denom = 0.f;
+	for (int ii = 0; ii < s->Cnt; ++ii)
+		Denom += s->BC[ii];
+	Denom = 1.0f / Denom;
 }
 
 void CoatlPhysicsEngine::GJK_quat(std::shared_ptr<gjk_result>& Res, float A_radius, float B_Radius)
