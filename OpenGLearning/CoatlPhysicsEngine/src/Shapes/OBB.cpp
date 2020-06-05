@@ -59,12 +59,12 @@ std::vector<glm::vec3> OBB::GetSegments()
 
 	glm::vec3 Positions[] =
 	{
-		//Top Plane 
-		glm::vec3(Ex.x,-Ex.y, Ex.z), glm::vec3(Ex.x, Ex.y, Ex.z),
-		glm::vec3(-Ex.x, Ex.y, Ex.z), glm::vec3(-Ex.x,-Ex.y, Ex.z),
 		//Bottom Plane
 		glm::vec3(Ex.x,-Ex.y,-Ex.z), glm::vec3(Ex.x, Ex.y,-Ex.z),
-		glm::vec3(-Ex.x, Ex.y,-Ex.z), glm::vec3(-Ex.x,-Ex.y,-Ex.z)
+		glm::vec3(-Ex.x, Ex.y,-Ex.z), glm::vec3(-Ex.x,-Ex.y,-Ex.z),
+		//Top Plane 
+		glm::vec3(Ex.x,-Ex.y, Ex.z), glm::vec3(Ex.x, Ex.y, Ex.z),
+		glm::vec3(-Ex.x, Ex.y, Ex.z), glm::vec3(-Ex.x,-Ex.y, Ex.z)
 	};
 	std::vector<glm::vec3> Lines(std::begin(Positions), std::end(Positions));
 	for (auto& jj : Lines)

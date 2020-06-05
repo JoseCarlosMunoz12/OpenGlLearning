@@ -66,12 +66,12 @@ std::vector<glm::vec3> AABB_Obj::GetPoints()
     glm::vec3 L = GetLengths();
     glm::vec3 Positions[] =
     {
-        //Top Plane 
-        glm::vec3( L.x,-L.y, L.z), glm::vec3(L.x, L.y, L.z),
-        glm::vec3(-L.x, L.y, L.z), glm::vec3(-L.x,-L.y, L.z),
         //Bottom Plane
         glm::vec3( L.x,-L.y,-L.z), glm::vec3( L.x, L.y,-L.z),
-        glm::vec3(-L.x, L.y,-L.z), glm::vec3(-L.x,-L.y,-L.z)
+        glm::vec3(-L.x, L.y,-L.z), glm::vec3(-L.x,-L.y,-L.z),
+        //Top Plane 
+        glm::vec3( L.x,-L.y, L.z), glm::vec3(L.x, L.y, L.z),
+        glm::vec3(-L.x, L.y, L.z), glm::vec3(-L.x,-L.y, L.z)
     };
     std::vector<glm::vec3> Lines(std::begin(Positions),std::end(Positions));
 
