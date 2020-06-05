@@ -70,3 +70,22 @@ void Capsule::SetQuat(glm::quat NewQuat)
 {
 	this->QuatAngle = NewQuat;
 }
+
+glm::vec3 Capsule::Support(glm::vec3 Dir)
+{
+	std::vector<glm::vec3> Pnts = this->GetSegment();
+	float S = glm::dot(Pnts[0], Dir);
+	glm::vec3 MaxPnt = Pnts[0];
+	int Size = Pnts.size();
+	for (int ii = 1; ii < Size; ii++)
+	{
+		float T = glm::dot(Pnts[ii], Dir);
+		if (T > S)
+		{
+			S = T;
+			MaxPnt = Pnts[ii];
+		}
+	}
+	glm::vec3 Norm = glm::normalize(MaxPnt);
+	return MaxPnt + this->Radius * Norm;
+}

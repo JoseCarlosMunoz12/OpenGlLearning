@@ -20,5 +20,6 @@ namespace CoatlPhysicsEngine{
 		glm::vec3 GetUnitVec();
 		void SetVec(glm::vec3 NewVec);
 		void SetQuat(glm::quat NewQuat) override;
+		glm::vec3 Support(glm::vec3 Dir) override;
 	};
 }

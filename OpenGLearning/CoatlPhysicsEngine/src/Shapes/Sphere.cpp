@@ -24,3 +24,9 @@ void Sphere::SetQuat(glm::quat NewQuat)
 {
 	this->QuatAngle = NewQuat;
 }
+
+glm::vec3 CoatlPhysicsEngine::Sphere::Support(glm::vec3 Dir)
+{
+	glm::vec3 Norm = glm::normalize(Dir);
+	return this->Pos + this->Radius * Norm;
+}

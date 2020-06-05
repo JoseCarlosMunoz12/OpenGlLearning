@@ -24,5 +24,6 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 GetClosesPoint(glm::vec3 Point);
 		bool Inside(glm::vec3 Point);
 		void SetQuat(glm::quat NewQuat) override;
+		glm::vec3 Support(glm::vec3 Dir) override;
 	};
 }

@@ -25,6 +25,6 @@ namespace CoatlPhysicsEngine
 		glm::quat GetQuatAngle();
 		virtual void SetPos(glm::vec3 NewPOs);
 		virtual void SetQuat(glm::quat NewQuat) { return; };
-
+		virtual glm::vec3 Support(glm::vec3 Dir) = 0;
 	};
 }
