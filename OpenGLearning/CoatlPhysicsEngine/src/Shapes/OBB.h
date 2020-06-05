@@ -4,8 +4,6 @@ namespace CoatlPhysicsEngine {
 	class OBB : public ColShapes
 	{
 	private:
-		float Angle;
-		glm::vec3 UnitVec;
 		glm::vec3 Ex;
 	public:
 		//Upright OBB

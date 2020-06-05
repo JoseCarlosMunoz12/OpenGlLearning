@@ -3,6 +3,7 @@ using namespace CoatlPhysicsEngine;
 OBB::OBB(glm::vec3 Pos, float DimXYZ)
 	:ColShapes(Pos)
 {
+	this->QuatAngle = glm::angleAxis(0.f, glm::vec3(0.f, 0.f, 1.f));
 	this->Ex.x = DimXYZ / 2;
 	this->Ex.y = DimXYZ / 2;
 	this->Ex.z = DimXYZ / 2;
@@ -11,6 +12,7 @@ OBB::OBB(glm::vec3 Pos, float DimXYZ)
 OBB::OBB(glm::vec3 Pos, float DimX, float DimYZ)
 	:ColShapes(Pos)
 {
+	this->QuatAngle = glm::angleAxis(0.f, glm::vec3(0.f, 0.f, 1.f));
 	this->Ex.x = DimX/2;
 	this->Ex.y = DimYZ/2;
 	this->Ex.z = DimYZ/2;
@@ -19,30 +21,37 @@ OBB::OBB(glm::vec3 Pos, float DimX, float DimYZ)
 OBB::OBB(glm::vec3 Pos, float DimX, float DimY, float DimZ)
 	:ColShapes(Pos)
 {
+	this->QuatAngle = glm::angleAxis(0.f, glm::vec3(0.f, 0.f, 1.f));
 	this->Ex.x = DimX/2;
 	this->Ex.y = DimY/2;
 	this->Ex.z = DimZ/2;
 }
 
-CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimXYZ)
+OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimXYZ)
 	:ColShapes(Pos)
 {
+	float InitAng = InitAngle / 180.f * glm::pi<float>();
+	this->QuatAngle = glm::angleAxis(InitAng,InitUnitVec);
 	this->Ex.x = DimXYZ / 2;
 	this->Ex.y = DimXYZ / 2;
 	this->Ex.z = DimXYZ / 2;
 }
 
-CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimX, float DimYZ)
+OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimX, float DimYZ)
 	: ColShapes(Pos)
 {
+	float InitAng = InitAngle / 180.f * glm::pi<float>();
+	this->QuatAngle = glm::angleAxis(InitAng, InitUnitVec);
 	this->Ex.x = DimX / 2;
 	this->Ex.y = DimYZ / 2;
 	this->Ex.z = DimYZ / 2;
 }
 
-CoatlPhysicsEngine::OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimX, float DimY, float DimZ)
+OBB::OBB(glm::vec3 Pos, float InitAngle, glm::vec3 InitUnitVec, float DimX, float DimY, float DimZ)
 	: ColShapes(Pos)
 {
+	float InitAng = InitAngle / 180.f * glm::pi<float>();
+	this->QuatAngle = glm::angleAxis(InitAng, InitUnitVec);
 	this->Ex.x = DimX / 2;
 	this->Ex.y = DimY / 2;
 	this->Ex.z = DimZ / 2;
