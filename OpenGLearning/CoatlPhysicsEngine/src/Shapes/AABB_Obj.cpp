@@ -64,9 +64,6 @@ glm::vec3 CoatlPhysicsEngine::AABB_Obj::GetEx()
 std::vector<glm::vec3> AABB_Obj::GetPoints()
 {    
     glm::vec3 L = GetLengths();
-    L.x = L.x / 2;
-    L.y = L.y / 2;
-    L.z = L.z / 2;
     glm::vec3 Positions[] =
     {
         //Top Plane 

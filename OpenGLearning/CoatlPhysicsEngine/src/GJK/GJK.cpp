@@ -20,7 +20,7 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 		S->Max_iter = !S->Max_iter ? GJK_FLT_MAX : S->Max_iter;
 	}
 	// II. Check for Duplicaiton;
-	for (int ii = 0; ii < S->Cnt; ++ii)
+	for (int ii = 0; ii < S->Cnt; ii++)
 	{
 		if (Sup->AId != S->V[ii].AId)continue;
 		if (Sup->BId != S->V[ii].BId)continue;
@@ -358,7 +358,7 @@ bool CoatlPhysicsEngine::GJK(std::shared_ptr<gjk_simplex> &S, std::shared_ptr<gj
 	}
 	//VI. Ensure closing in on orgin to prevent multi-step cycling
 	glm::vec3 Pnt; float Denom = 0.f;
-	for (int ii = 0; ii < S->Cnt; ++ii)
+	for (int ii = 0; ii < S->Cnt; ii++)
 		Denom += S->BC[ii];
 	Denom = 1.f / Denom;
 
