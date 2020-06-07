@@ -170,7 +170,7 @@ void Game::initModels()
 		new Mesh(&Cone_M(10.f, 10.f, 40.f, 10),
 			"Cone"));
 	meshes.push_back(
-		new Mesh(&Prism_M(4,4,10),
+		new Mesh(&Prism_M(4,4,1),
 			"Cube"));
 	meshes.push_back(
 		new Mesh(&Capsule_M(1.f,1.f,16,16),
@@ -203,42 +203,36 @@ void Game::initModels()
 		{this->textures[6],this->textures[7], this->textures[8],this->textures[9],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[0], {Terrain}));
-	//this->models.push_back(new Model("Sphere0",
-	//	this->MipMapsData[0]->ReturnVecVal(0.f, 0.f),
-	//	this->MatTest[1],
-	//	{this->textures[9],this->textures[9],
-	//	this->textures[14],this->textures[15],this->textures[16]},
-	//	meshes[1], {Monk}));
-	//this->models.push_back(new Model("Sphere1",
-	//	 this->MipMapsData[0]->ReturnVecVal(-6.f, 3.f),
-	//	this->MatTest[1],
-	//	{this->textures[10],this->textures[10],
-	//	this->textures[14],this->textures[15],this->textures[16]},
-	//	meshes[1], {Monk}));
-	//this->models.push_back(new Model("Cube0",
-	//	glm::vec3(1.,1.,5.f),
-	//	this->MatTest[1],
-	//	{ this->textures[10],this->textures[10],
-	//	this->textures[14],this->textures[15],this->textures[16] },
-	//	meshes[4], { Monk }));
+	this->models.push_back(new Model("Sphere0",
+		this->MipMapsData[0]->ReturnVecVal(0.f, 0.f),
+		this->MatTest[1],
+		{this->textures[9],this->textures[9],
+		this->textures[14],this->textures[15],this->textures[16]},
+		meshes[1], {Monk}));
+	this->models.push_back(new Model("Sphere1",
+		 this->MipMapsData[0]->ReturnVecVal(-6.f, 3.f),
+		this->MatTest[1],
+		{this->textures[10],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16]},
+		meshes[1], {Monk}));
+	this->models.push_back(new Model("Cube0",
+		glm::vec3(1.,1.,5.f),
+		this->MatTest[1],
+		{ this->textures[10],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] },
+		meshes[4], { Monk }));
 	this->models.push_back(new Model("Capsule0",
 		this->MipMapsData[0]->ReturnVecVal(3.f, -5.f),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[5], { Monk }));
-	this->models.push_back(new Model("Cube",
-		this->MipMapsData[0]->ReturnVecVal(10.f, -3.f),
+	this->models.push_back(new Model("Triangle",
+		this->MipMapsData[0]->ReturnVecVal(4.f, 3.f),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
-		meshes[4], { Monk }));
-	//this->models.push_back(new Model("Triangle",
-	//	this->MipMapsData[0]->ReturnVecVal(4.f, 3.f),
-	//	this->MatTest[1],
-	//	{ this->textures[10],this->textures[10],
-	//	this->textures[14],this->textures[15],this->textures[16] },
-	//	meshes[6], { Monk }));
+		meshes[6], { Monk }));
 
 	//anim Models
 	//this->animModel.push_back(new AnimModel("Tes1t",

@@ -3,6 +3,7 @@ using namespace CoatlPhysicsEngine;
 
 bool BaseCols::UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1)
 {
+	
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
 		return this->ColMan->CheckCollide(Bod0, *Sphere0);
@@ -129,11 +130,14 @@ bool BaseCols::UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1)
 
 bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
+	
+	
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
 	{
 		return this->UpdateBodies(*Sphere0, Bod1);
 	}
-	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod0->GetShapes()))
+	return S->GJK(Bod0->GetShapes(), Bod1->GetShapes());
+	/*	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod0->GetShapes()))
 	{
 		return this->UpdateBodies(*Cube0, Bod1);
 	}
@@ -149,13 +153,14 @@ bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod
 	{
 		return this->UpdateBodies(*Obj, Bod1);
 	}
-	return false;
+	return false;*/
 }
 
 BaseCols::BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols)
 {
 	this->Name = Name;
 	this->ColMan = InitCols;
+	this->S = std::make_unique<GJK_Alg>();
 }
 
 BaseCols::~BaseCols()

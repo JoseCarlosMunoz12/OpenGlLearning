@@ -17,6 +17,7 @@
 #include "../OptimizaAlgorithm/OctoTree.h"
 #include "../OptimizaAlgorithm/B_Force.h"
 #include "../OptimizaAlgorithm/B_Force_Self.h"
+#include "../GJK/GJK.h"
 
 namespace CoatlPhysicsEngine {
 	enum class Alg_Type
@@ -39,6 +40,7 @@ namespace CoatlPhysicsEngine {
 		std::vector<std::shared_ptr<Bodies>> AllBods;
 		std::unique_ptr<Queries> AlgoCheck;
 		std::weak_ptr<Terrain> Ter;
+		std::unique_ptr<GJK_Alg> S;
 		int NewCurID;
 		bool ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 	public:
