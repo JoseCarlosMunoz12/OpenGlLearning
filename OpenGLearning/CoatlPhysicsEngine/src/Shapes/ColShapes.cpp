@@ -25,3 +25,8 @@ void CoatlPhysicsEngine::ColShapes::SetPos(glm::vec3 NewPos)
 {
 	this->Pos = NewPos;
 }
+
+glm::vec3 ColShapes::Support(glm::vec3 Dir)
+{
+	return glm::vec3(0.f);
+}
