@@ -130,9 +130,15 @@ bool BaseCols::UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1)
 
 bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	
-	
-	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
+	return S->GJK(Bod0->GetShapes(), Bod1->GetShapes());
+	/*{
+		std::cout << "Collided\n";
+	}
+	else
+	{
+		std::cout << "No Collided\n";
+	}*/
+	/*if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
 	{
 		return this->UpdateBodies(*Sphere0, Bod1);
 	}
@@ -152,7 +158,7 @@ bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod
 	{
 		return this->UpdateBodies(*Obj, Bod1);
 	}
-	return false;
+	return false;*/
 }
 
 BaseCols::BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols)
