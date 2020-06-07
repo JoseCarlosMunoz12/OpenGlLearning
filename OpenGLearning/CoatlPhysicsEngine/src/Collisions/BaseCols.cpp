@@ -136,8 +136,7 @@ bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod
 	{
 		return this->UpdateBodies(*Sphere0, Bod1);
 	}
-	return S->GJK(Bod0->GetShapes(), Bod1->GetShapes());
-	/*	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod0->GetShapes()))
+		else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod0->GetShapes()))
 	{
 		return this->UpdateBodies(*Cube0, Bod1);
 	}
@@ -153,7 +152,7 @@ bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod
 	{
 		return this->UpdateBodies(*Obj, Bod1);
 	}
-	return false;*/
+	return false;
 }
 
 BaseCols::BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols)

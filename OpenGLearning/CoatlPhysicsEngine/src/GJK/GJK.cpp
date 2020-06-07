@@ -16,7 +16,7 @@ glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B, glm::vec3 C)
 
 bool GJK_Alg::AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir, std::vector<glm::vec3> &Vertex)
 {
-	glm::vec3 NewVertex = Shape0->Support(Dir) - Shape1->Support(-Dir);
+	glm::vec3 NewVertex = glm::normalize(Shape0->Support(Dir) - Shape1->Support(-Dir));
 	Vertex.push_back(NewVertex);
 	return glm::dot(NewVertex,Dir) >= 0;
 }
