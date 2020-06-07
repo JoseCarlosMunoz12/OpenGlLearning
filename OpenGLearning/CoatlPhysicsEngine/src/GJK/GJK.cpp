@@ -18,7 +18,7 @@ bool CoatlPhysicsEngine::AddVertex(std::shared_ptr<ColShapes> Shape0, std::share
 {
 	glm::vec3 NewVertex = Shape0->Support(Dir) - Shape1->Support(-Dir);
 	Vertex.push_back(NewVertex);
-	return glm::dot(NewVertex,Dir) > 0;
+	return glm::dot(NewVertex,Dir) >= 0;
 }
 
 int CoatlPhysicsEngine::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, std::vector<glm::vec3> &Vertex,glm::vec3 &Dir)
@@ -26,10 +26,54 @@ int CoatlPhysicsEngine::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::sh
 	int Size = Vertex.size();
 	switch (Size)
 	{
+	case 0: {
+		glm::vec3 t_Dir = Shape1->GetPos() - Shape0->GetPos();
+		if (glm::dot(t_Dir, t_Dir) == 0)
+		{
+			Dir = t_Dir;
+		}
+		else
+		{
+			Dir = glm::normalize(t_Dir);
+		}
+	}break;
+	case 1: {
+		Dir = -Dir;
+	}break;
+	case 2: {
+		glm::vec3 AB = Vertex[1] - Vertex[0];
+		glm::vec3 A0 = -Vertex[0];
+		glm::vec3 t_Dir = glm::cross(A0, AB);
+		if (glm::dot(t_Dir, t_Dir) == 0)
+		{
+			Dir = t_Dir;
+		}
+		else
+		{
+			Dir = glm::normalize(t_Dir);
+		}
+	}break;
+	case 3: {
+		glm::vec3 AC = Vertex[2] - Vertex[0];
+		glm::vec3 AB = Vertex[1] - Vertex[0];
+		glm::vec3 t_Dir = glm::cross(AC, AB);
+		if (glm::dot(t_Dir, t_Dir) == 0)
+		{
+			Dir = t_Dir;
+		}
+		else
+		{
+			Dir = glm::normalize(t_Dir);
+		}
+		glm::vec3 A0 = -Vertex[0];
+		if (glm::dot(Dir, A0) < 0)
+			Dir = -Dir;
+	}break;
+	case 4: {}break;
 	default:
 		break;
 	}
-	return AddVertex(Shape0,Shape1,Dir,Vertex) ? 0 :1;
+	return AddVertex(Shape0,Shape1,Dir,Vertex) ? 0 : 1;
 }
 
 bool CoatlPhysicsEngine::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
