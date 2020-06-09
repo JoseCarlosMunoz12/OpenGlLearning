@@ -17,10 +17,7 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AA
 	glm::vec3 Norm = glm::vec3(0.f,0.f,1.f);
 	
 	float Pntrtn = 0.f;
-	if (MATH::GJK_Algorithm(CapSegs, Obj_Segs))
-		Pntrtn = MATH::SATContact(Obj_N, Cap_N, Obj_Segs, CapSegs, Norm);
-	if (Pntrtn < R)
-		Pntrtn = R - Pntrtn;
+	Pntrtn = R - MATH::SATContact(Obj_N, Cap_N, Obj_Segs, CapSegs, Norm);	
 	Cnt->Penetration = Pntrtn;
 	Cnt->Normal = Norm;
 	Cnt->ContactPoint;

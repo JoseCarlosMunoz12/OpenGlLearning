@@ -86,6 +86,6 @@ glm::vec3 Capsule::Support(glm::vec3 Dir)
 			MaxPnt = Pnts[ii];
 		}
 	}
-	glm::vec3 Norm = glm::normalize(MaxPnt);
+	glm::vec3 Norm = glm::normalize(Dir);
 	return MaxPnt + this->Radius * Norm;
 }

@@ -28,7 +28,8 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	{
 	case 0: {
 		Dir = Shape1->GetPos() - Shape0->GetPos();
-		
+		if (glm::dot(Dir, Dir) != 0)
+			Dir = glm::normalize(Dir);
 	}break;
 	case 1: {
 		Dir = -Dir;
@@ -37,13 +38,15 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		glm::vec3 A0 = -Vertex[0];
 		Dir = glm::cross(A0, AB);
-		
+		if (glm::dot(Dir, Dir) != 0)
+			Dir = glm::normalize(Dir);		
 	}break;
 	case 3: {
 		glm::vec3 AC = Vertex[2] - Vertex[0];
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		Dir = glm::cross(AC, AB);
-		
+		if (glm::dot(Dir, Dir) != 0)
+			Dir = glm::normalize(Dir);
 		glm::vec3 A0 = -Vertex[0];
 		if (glm::dot(Dir, A0) < 0)
 			Dir = -Dir;
@@ -56,8 +59,14 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 		glm::vec3 D0 = -Vertex[3];
 
 		glm::vec3 ABD_Norm = glm::cross(DB, DA);
+		if (glm::dot(ABD_Norm, ABD_Norm) != 0)
+			ABD_Norm = glm::normalize(ABD_Norm);
 		glm::vec3 BCD_Norm = glm::cross(DC, DB);
+		if (glm::dot(BCD_Norm, BCD_Norm) != 0)
+			BCD_Norm = glm::normalize(BCD_Norm);
 		glm::vec3 CAD_Norm = glm::cross(DA, DC);
+		if (glm::dot(CAD_Norm, CAD_Norm) != 0)
+			CAD_Norm = glm::normalize(CAD_Norm);
 		if (glm::dot(ABD_Norm, D0) > 0) {
 			Vertex.erase(Vertex.begin() + 2);
 			Dir = ABD_Norm;
@@ -87,10 +96,10 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	int Count = 0;
 	while (Result == 0)
 	{
-	Result = EvolveSimplex(Shape0, Shape1, Vert,Dir);
+		Result = EvolveSimplex(Shape0, Shape1, Vert,Dir);
 		Count++;
 		if (Count == 20)
-			return false;
+			return true;
 	}
 	if (Result == 1 )
 		return false;
