@@ -476,7 +476,7 @@ void MATH::SetMaxMins(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal)
 	}
 }
 
-float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1, float &R)
+float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1, float R)
 {
 	//Max Min of Shape 0
 	glm::vec3 Max0;
@@ -527,17 +527,16 @@ float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vec
 		Normal = -Normal;
 	}
 	if (MaxL >= MaxMin0 + MaxMin1)
-
-	return MinL;
+		return R - MinL;
+	return R + MinL;
 }
 
 float MATH::SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 	std::vector<glm::vec3> Pnts0, std::vector<glm::vec3> Pnts1,
-	glm::vec3 &Norm,float& R)
+	glm::vec3 &Norm,float R)
 {
-	float t_R = R;
 	glm::vec3 NormF = Norm0[0];
-	float Penetration = ProjPen(NormF,Pnts0,Pnts1,t_R);
+	float Penetration = ProjPen(NormF,Pnts0,Pnts1,R);
 	for (auto& jj : Norm0)
 	{
 		float Temp = ProjPen(jj, Pnts0, Pnts1,R);
