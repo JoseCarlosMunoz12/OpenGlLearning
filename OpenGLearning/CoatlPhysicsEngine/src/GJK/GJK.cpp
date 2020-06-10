@@ -110,7 +110,33 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 	Faces[3][3] = glm::normalize(glm::cross(Vertex[3] - Vertex[1], Vertex[2] - Vertex[1])); //BDC
 	int Num_Face = 4;
 	int ClosestFace;
+	for (int It = 0; It < EPA_MAX_NUM_ITERATIONS; It++)
+	{
+		//Find Fce that's closest to origin
+		float MinDist = glm::dot(Faces[0][0], Faces[0][3]);
+		ClosestFace = 0;		
+		for (int ii = 1 ; ii < Num_Face; ii++)
+		{
+			float dist = glm::dot(Faces[ii][0], Faces[ii][3]);
+			if (dist < MinDist)
+			{
+				MinDist = dist;
+				ClosestFace = ii;
+			}
+		}
+		//search normal to face that's closets to origin
+		glm::vec3 Search_Dir = Faces[ClosestFace][3];
+		glm::vec3 P = Shape1->Support(Search_Dir) - Shape0->Support(-Search_Dir);
+		float Dif = glm::dot(P, Search_Dir) - MinDist;
+		if (Dif < EPA_TOLERANCE)
+		{
+			return Faces[ClosestFace][3] * glm::dot(P, Search_Dir);
+		}
+		glm::vec3 LooseEdges[EPA_MAX_NUM_FACES][2];
+		int NumLooseEdge = 0;
+		//finad all triangles that are facing P
 
+	}
 	return glm::vec3();
 }
 
