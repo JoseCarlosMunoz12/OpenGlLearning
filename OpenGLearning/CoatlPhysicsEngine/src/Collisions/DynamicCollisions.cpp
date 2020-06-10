@@ -136,7 +136,14 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
 						if (!this->ContainsManifold(ColRel, T))
 							ColRel.push_back(T);
-						
+						if (glm::abs(Bod_Vel.z) > 0.125f)
+						{
+							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, glm::abs(Bod_Vel.z / 2)));
+						}
+						else
+						{
+							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
+						}
 					}
 				}
 			}
