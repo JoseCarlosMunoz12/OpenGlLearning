@@ -205,6 +205,7 @@ public:
 	}
 	CustomTerrain_M(int Size, int Dimension, MipMap* HeightMap)
 	{
+
 		std::vector<Vertex> VertexOfTerrain;
 		std::vector<GLuint> IndecesOfTerrain;
 		glm::vec3 positions;
@@ -602,11 +603,11 @@ public:
 		glm::vec3 Positions[] =
 		{
 			//Top Plane 
-			glm::vec3((float)DimX / 2.f,-(float)DimYZ / 2.f, (float)DimYZ / 2.f), glm::vec3((float)DimX / 2.f, (float)DimYZ / 2.f, (float)DimYZ / 2.f),
-			glm::vec3(-(float)DimX / 2.f, (float)DimYZ / 2.f, (float)DimYZ / 2.f), glm::vec3(-(float)DimX / 2.f,-(float)DimYZ / 2.f, (float)DimYZ / 2.f),
+			glm::vec3((float)DimX ,-(float)DimYZ , (float)DimYZ ), glm::vec3((float)DimX , (float)DimYZ , (float)DimYZ ),
+			glm::vec3(-(float)DimX , (float)DimYZ , (float)DimYZ ), glm::vec3(-(float)DimX ,-(float)DimYZ , (float)DimYZ ),
 			//Bottom Plane
-			glm::vec3((float)DimX / 2.f,-(float)DimYZ / 2.f,-(float)DimYZ / 2.f), glm::vec3((float)DimX / 2.f, (float)DimYZ / 2.f,-(float)DimYZ / 2.f),
-			glm::vec3(-(float)DimX / 2.f, (float)DimYZ / 2.f,-(float)DimYZ / 2.f), glm::vec3(-(float)DimX / 2.f,-(float)DimYZ / 2.f,-(float)DimYZ / 2.f)
+			glm::vec3((float)DimX ,-(float)DimYZ ,-(float)DimYZ ), glm::vec3((float)DimX , (float)DimYZ ,-(float)DimYZ ),
+			glm::vec3(-(float)DimX , (float)DimYZ ,-(float)DimYZ ), glm::vec3(-(float)DimX ,-(float)DimYZ ,-(float)DimYZ )
 		};
 		int Index[] = { 0,4,1,5 };
 
@@ -673,11 +674,11 @@ public:
 		glm::vec3 Positions[] =
 		{
 			//Top Plane 
-			glm::vec3((float)DimX / 2.f,-(float)DimY / 2.f, (float)DimZ / 2.f), glm::vec3((float)DimX / 2.f, (float)DimY / 2.f, (float)DimZ / 2.f),
-			glm::vec3(-(float)DimX / 2.f, (float)DimY / 2.f, (float)DimZ / 2.f), glm::vec3(-(float)DimX / 2.f,-(float)DimY / 2.f, (float)DimZ / 2.f),
+			glm::vec3((float)DimX ,-(float)DimY , (float)DimZ ), glm::vec3((float)DimX , (float)DimY , (float)DimZ ),
+			glm::vec3(-(float)DimX , (float)DimY , (float)DimZ ), glm::vec3(-(float)DimX ,-(float)DimY , (float)DimZ ),
 			//Bottom Plane
-			glm::vec3((float)DimX / 2.f,-(float)DimY / 2.f,-(float)DimZ / 2.f), glm::vec3((float)DimX / 2.f, (float)DimY / 2.f,-(float)DimZ / 2.f),
-			glm::vec3(-(float)DimX / 2.f, (float)DimY / 2.f,-(float)DimZ / 2.f), glm::vec3(-(float)DimX / 2.f,-(float)DimY / 2.f,-(float)DimZ / 2.f)
+			glm::vec3((float)DimX ,-(float)DimY ,-(float)DimZ ), glm::vec3((float)DimX , (float)DimY ,-(float)DimZ ),
+			glm::vec3(-(float)DimX , (float)DimY ,-(float)DimZ ), glm::vec3(-(float)DimX ,-(float)DimY ,-(float)DimZ )
 		};
 		int Index[] = { 0,4,1,5 };
 

@@ -23,8 +23,8 @@ public:
 	MipMap(const char* filename,int& RecordWidth, int& RecordHeight, float MaxHeightChoosen,
 			float WidthForMap, float HeightForMap)
 	{
-		this->MapWidth = WidthForMap;
-		this->MapHeigth = HeightForMap;
+		this->MapWidth = WidthForMap ;
+		this->MapHeigth = HeightForMap ;
 		this->MaxHeight = MaxHeightChoosen;
 		unsigned char* image = SOIL_load_image(filename,&this->Width,&this->Height,&this->NumOfChannels, SOIL_LOAD_L);
 		RecordWidth = this->Width;

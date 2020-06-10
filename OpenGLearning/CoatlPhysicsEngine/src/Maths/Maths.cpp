@@ -521,14 +521,11 @@ float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vec
 	float M0 = glm::distance(Max0, Min0);
 	float M1 = glm::distance(Max1, Min1);
 	float MinL = glm::min(MaxMin0, MaxMin1);
-	float MaxL = glm::max(MaxMin0, MaxMin1);
 	if (MinL == MaxMin1)
 	{
 		Normal = -Normal;
 	}
-	if (MaxL >= MaxMin0 + MaxMin1)
-		return R - MinL;
-	return R + MinL;
+	return  MinL;
 }
 
 float MATH::SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
