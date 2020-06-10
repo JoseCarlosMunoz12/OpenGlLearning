@@ -134,7 +134,42 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 		}
 		glm::vec3 LooseEdges[EPA_MAX_NUM_FACES][2];
 		int NumLooseEdge = 0;
-		//finad all triangles that are facing P
+		//find all triangles that are facing P
+		for (int ii = 0; ii < Num_Face; ii++)
+		{
+			if (glm::dot(Faces[ii][3], P - Faces[ii][0]) > 0)
+			{
+				for (int jj = 0; jj < 3; jj++)
+				{
+					glm::vec3 CurEdg[2] = {Faces[ii][jj],Faces[ii][(jj +1)%3]};
+					bool FoundEdge = false;
+					for (int kk = 0; kk < NumLooseEdge; kk++)
+					{
+						if(LooseEdges[kk][1] == CurEdg[0] && LooseEdges[kk][0] == CurEdg[1])
+						{
+							LooseEdges[kk][0] = LooseEdges[NumLooseEdge - 1][0];
+							LooseEdges[kk][1] = LooseEdges[NumLooseEdge - 1][1];
+							NumLooseEdge--;
+							FoundEdge = true;
+							kk = NumLooseEdge;
+						}
+					}
+					if (!FoundEdge)
+					{
+						if (NumLooseEdge >= EPA_MAX_NUM_LOOSE_EDGES)break;
+						LooseEdges[NumLooseEdge][0] = CurEdg[0];
+						LooseEdges[NumLooseEdge][1] = CurEdg[1];
+						NumLooseEdge++;
+					}
+				}
+				Faces[ii][0] = Faces[Num_Face - 1][0];
+				Faces[ii][1] = Faces[Num_Face - 1][1];
+				Faces[ii][2] = Faces[Num_Face - 1][2];
+				Faces[ii][3] = Faces[Num_Face - 1][3];
+				Num_Face--;
+				ii--;
+			}
+		}
 
 	}
 	return glm::vec3();
