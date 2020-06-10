@@ -170,9 +170,27 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 				ii--;
 			}
 		}
-
+		//Reconstruct polytope with p added
+		for (int ii = 0; ii < NumLooseEdge; ii++)
+		{
+			if (Num_Face > -EPA_MAX_NUM_FACES) break;
+			Faces[Num_Face][0] = LooseEdges[ii][0];
+			Faces[Num_Face][1] = LooseEdges[ii][1];
+			Faces[Num_Face][2] = P;
+			Faces[Num_Face][3] = glm::normalize(glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P));
+			float bias = 0.000001f;
+			float Diff = glm::dot(Faces[Num_Face][0],Faces[Num_Face][3]) +bias;
+			if (Dif < 0)
+			{
+				glm::vec3 Temp = Faces[Num_Face][0];
+				Faces[Num_Face][0] = Faces[Num_Face][1];
+				Faces[Num_Face][1] = Temp;
+				Faces[Num_Face][3] = -Faces[Num_Face][3];
+			}
+			Num_Face++;
+		}
 	}
-	return glm::vec3();
+	return Faces[ClosestFace][3] * glm::dot(Faces[ClosestFace][0], Faces[ClosestFace][3]);
 }
 
 bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
