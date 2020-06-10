@@ -88,6 +88,32 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	return AddVertex(Shape0,Shape1,Dir,Vertex) ? 0 : 1;
 }
 
+glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
+{
+	glm::vec3 Faces[EPA_MAX_NUM_FACES][4];//Array of faces, each with 3 verts and a normal
+
+	Faces[0][0] = Vertex[0];
+	Faces[0][1] = Vertex[1];
+	Faces[0][2] = Vertex[2];
+	Faces[0][3] = glm::normalize(glm::cross(Vertex[1] - Vertex[0], Vertex[2] - Vertex[0])); //ABC
+	Faces[1][0] = Vertex[0];
+	Faces[1][1] = Vertex[2];
+	Faces[1][2] = Vertex[3];
+	Faces[1][3] = glm::normalize(glm::cross(Vertex[2] - Vertex[0], Vertex[3] - Vertex[0])); //ACD
+	Faces[2][0] = Vertex[0];
+	Faces[2][1] = Vertex[3];
+	Faces[2][2] = Vertex[2];
+	Faces[2][3] = glm::normalize(glm::cross(Vertex[3] - Vertex[0], Vertex[1] - Vertex[0])); //ADB
+	Faces[3][0] = Vertex[1];
+	Faces[3][1] = Vertex[3];
+	Faces[3][2] = Vertex[2];
+	Faces[3][3] = glm::normalize(glm::cross(Vertex[3] - Vertex[1], Vertex[2] - Vertex[1])); //BDC
+	int Num_Face = 4;
+	int ClosestFace;
+
+	return glm::vec3();
+}
+
 bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
 	int Result = 0;

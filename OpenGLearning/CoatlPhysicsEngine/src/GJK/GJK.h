@@ -9,6 +9,10 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 #include "../Shapes/ColShapes.h"
+#define EPA_TOLERANCE 0.0001
+#define EPA_MAX_NUM_FACES 64
+#define EPA_MAX_NUM_LOOSE_EDGES 32
+#define EPA_MAX_NUM_ITERATIONS 64
 namespace CoatlPhysicsEngine {
 	//Evolving ID
 	// 0 = Still evolving
@@ -22,6 +26,7 @@ namespace CoatlPhysicsEngine {
 		bool AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir, std::vector<glm::vec3> &Vertex);
 		int EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 		std::vector<glm::vec3> &Vertex, glm::vec3& Dir);
+		glm::vec3 EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1);
 	public:
 		GJK_Alg();
 		~GJK_Alg();
