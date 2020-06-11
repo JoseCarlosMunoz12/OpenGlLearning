@@ -8,7 +8,9 @@ std::vector<std::shared_ptr<Contact>> SphereRelAABB::SphRelAABB(Sphere Sph0, AAB
 	float Rad = Sph0.GetRadius();
 	float Dis = glm::distance(ClsPoint,Sph0.GetPos());
 	float Dot = Rad - Dis;
-	glm::vec3 Norm = glm::normalize(Sph0.GetPos() - ClsPoint);
+	glm::vec3 Norm = Sph0.GetPos() - ClsPoint;
+	if (glm::dot(Norm, Norm) != 0)
+		 Norm = glm::normalize(Norm);
 	Cont->ContactPoint = Sph0.GetPos() - Norm * Rad;
 	Cont->Penetration = Dot;
 	Cont->Normal = Norm;

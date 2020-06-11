@@ -130,7 +130,8 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 		float Dif = glm::dot(P, Search_Dir) - MinDist;
 		if (Dif < EPA_TOLERANCE)
 		{
-			return Faces[ClosestFace][3] * glm::dot(P, Search_Dir);
+			float S = glm::dot(P, Search_Dir);
+			return Faces[ClosestFace][3] * S;
 		}
 		glm::vec3 LooseEdges[EPA_MAX_NUM_FACES][2];
 		int NumLooseEdge = 0;
@@ -173,7 +174,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 		//Reconstruct polytope with p added
 		for (int ii = 0; ii < NumLooseEdge; ii++)
 		{
-			if (Num_Face > -EPA_MAX_NUM_FACES) break;
+			if (Num_Face >= EPA_MAX_NUM_FACES) break;
 			Faces[Num_Face][0] = LooseEdges[ii][0];
 			Faces[Num_Face][1] = LooseEdges[ii][1];
 			Faces[Num_Face][2] = P;
@@ -190,7 +191,8 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 			Num_Face++;
 		}
 	}
-	return Faces[ClosestFace][3] * glm::dot(Faces[ClosestFace][0], Faces[ClosestFace][3]);
+	float G = glm::dot(Faces[ClosestFace][0], Faces[ClosestFace][3]);
+	return Faces[ClosestFace][3] * G;
 }
 
 bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
@@ -204,10 +206,18 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 		Result = EvolveSimplex(Shape0, Shape1, Vert,Dir);
 		Count++;
 		if (Count == 20)
+		{
+			glm::vec3 Fs = EPA(Vert, Shape0, Shape1);
+			float Val = glm::sqrt(glm::dot(Fs, Fs));
+			glm::vec3 Sd = glm::normalize(Fs);
 			return true;
+		}
 	}
 	if (Result == 1 )
 		return false;
+	glm::vec3 Fs = EPA(Vert, Shape0, Shape1);
+	float Val = glm::sqrt(glm::dot(Fs, Fs));
+	glm::vec3 Sd = glm::normalize(Fs);
 	return true;
 }
 
