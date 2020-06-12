@@ -56,7 +56,7 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 		glm::vec3 DB = Vertex[3] - Vertex[1];
 		glm::vec3 DC = Vertex[3] - Vertex[2];
 
-		glm::vec3 D0 = -Vertex[3];
+		glm::vec3 D0 = -glm::normalize(Vertex[3]);
 
 		glm::vec3 ABD_Norm = glm::cross(DB, DA);
 		if (glm::dot(ABD_Norm, ABD_Norm) != 0)
@@ -67,13 +67,13 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 		glm::vec3 CAD_Norm = glm::cross(DA, DC);
 		if (glm::dot(CAD_Norm, CAD_Norm) != 0)
 			CAD_Norm = glm::normalize(CAD_Norm);
-		if (glm::dot(ABD_Norm, D0) > 0) {
+		if (glm::dot(ABD_Norm, D0) >= 0) {
 			Vertex.erase(Vertex.begin() + 2);
 			Dir = ABD_Norm;
-		}else if (glm::dot(BCD_Norm, D0) > 0) {
+		}else if (glm::dot(BCD_Norm, D0) >= 0) {
 			Vertex.erase(Vertex.begin() + 0);
 			Dir = BCD_Norm;
-		}else if (glm::dot(CAD_Norm, D0) > 0) {
+		}else if (glm::dot(CAD_Norm, D0) >= 0) {
 			Vertex.erase(Vertex.begin() + 1);
 			Dir = CAD_Norm;
 		}
@@ -205,12 +205,9 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	{
 		Result = EvolveSimplex(Shape0, Shape1, Vert,Dir);
 		Count++;
-		if (Count == 20)
+		if (Count == 40)
 		{
-			glm::vec3 Fs = EPA(Vert, Shape0, Shape1);
-			float Val = glm::sqrt(glm::dot(Fs, Fs));
-			glm::vec3 Sd = glm::normalize(Fs);
-			return true;
+			return false;
 		}
 	}
 	if (Result == 1 )
