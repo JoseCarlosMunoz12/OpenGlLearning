@@ -1,5 +1,34 @@
 #include "OBB.h"
 using namespace CoatlPhysicsEngine;
+std::vector<glm::vec3> CoatlPhysicsEngine::OBB::GetSegOffset(float Ext)
+{
+	glm::mat4 RotMat = glm::mat4_cast(this->QuatAngle);
+	glm::vec3 Exts = Ex;
+	Exts.x += Ext;
+	Exts.y += Ext;
+	Exts.z += Ext;
+	glm::vec3 Positions[] =
+	{
+		//Bottom Plane
+		glm::vec3(Exts.x,-Exts.y,-Exts.z), glm::vec3(Exts.x, Exts.y,-Exts.z),
+		glm::vec3(-Exts.x, Exts.y,-Exts.z), glm::vec3(-Exts.x,-Exts.y,-Exts.z),
+		//Top Plane 
+		glm::vec3(Exts.x,-Exts.y, Exts.z), glm::vec3(Exts.x, Exts.y, Exts.z),
+		glm::vec3(-Exts.x, Exts.y, Exts.z), glm::vec3(-Exts.x,-Exts.y, Exts.z)
+	};
+	std::vector<glm::vec3> Lines(std::begin(Positions), std::end(Positions));
+	for (auto& jj : Lines)
+	{
+		jj = jj + this->Pos;
+	}
+	for (auto& jj : Lines)
+	{
+		glm::vec4 Set = glm::vec4(jj.x, jj.y, jj.z, 0.f);
+		Set = Set * RotMat;
+		jj = glm::vec3(Set.x, Set.y, Set.z);
+	}
+	return Lines;
+}
 OBB::OBB(glm::vec3 Pos, float DimXYZ)
 	:ColShapes(Pos)
 {
@@ -133,7 +162,7 @@ void OBB::SetQuat(glm::quat NewQuat)
 
 glm::vec3 OBB::Support(glm::vec3 Dir)
 {
-	std::vector<glm::vec3> Pnts = this->GetSegments();
+	std::vector<glm::vec3> Pnts = this->GetSegOffset(0.00001f);
 	float S = glm::dot(Pnts[0], Dir);
 	glm::vec3 MaxPnt = Pnts[0];
 	int Size = Pnts.size();
