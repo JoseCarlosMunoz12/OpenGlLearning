@@ -11,6 +11,7 @@
 #include "../Bodies/Bodies.h"
 #include "ShapesResolution/ShapeResolution.h"
 #include "Manifoldsh.h"
+#include "../GJK/GJK.h"
 namespace CoatlPhysicsEngine {
 	class Col_Resolution
 	{
@@ -23,6 +24,7 @@ namespace CoatlPhysicsEngine {
 		std::vector<std::shared_ptr<Contact>> MakeContacts(Capsule Cap, std::shared_ptr<Bodies> Bod0);
 		//
 		std::vector<std::shared_ptr<Contact>> MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		std::unique_ptr<GJK_Alg> S;
 	public:
 		Col_Resolution();
 		~Col_Resolution();

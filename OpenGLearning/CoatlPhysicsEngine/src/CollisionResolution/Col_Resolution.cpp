@@ -104,6 +104,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_p
 Col_Resolution::Col_Resolution()
 {
 	this->S_Res = std::make_unique<ShapeResolution>();
+	this->S = std::make_unique<GJK_Alg>();
 }
 
 Col_Resolution::~Col_Resolution()
