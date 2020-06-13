@@ -212,9 +212,27 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	}
 	if (Result == 1 )
 		return false;
-	glm::vec3 Fs = EPA(Vert, Shape0, Shape1);
-	float Val = glm::sqrt(glm::dot(Fs, Fs));
-	glm::vec3 Sd = glm::normalize(Fs);
+	return true;
+}
+
+bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVect)
+{
+	int Result = 0;
+	std::vector<glm::vec3> Vert;
+	glm::vec3 Dir;
+	int Count = 0;
+	while (Result == 0)
+	{
+		Result = EvolveSimplex(Shape0, Shape1, Vert, Dir);
+		Count++;
+		if (Count == 40)
+		{
+			break;
+		}
+	}
+	DistVect = EPA(Vert, Shape0, Shape1);
+	if (Result == 1)
+		return false;
 	return true;
 }
 
