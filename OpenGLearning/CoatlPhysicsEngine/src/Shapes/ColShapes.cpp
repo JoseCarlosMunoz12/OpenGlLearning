@@ -30,3 +30,8 @@ glm::vec3 ColShapes::Support(glm::vec3 Dir)
 {
 	return glm::vec3(0.f);
 }
+
+glm::vec3 ColShapes::EPA_Support(glm::vec3 Dir)
+{
+	return glm::vec3();
+}

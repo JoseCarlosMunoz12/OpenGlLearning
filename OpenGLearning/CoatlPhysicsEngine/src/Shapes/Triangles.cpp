@@ -56,3 +56,8 @@ glm::vec3 CoatlPhysicsEngine::Triangles::Support(glm::vec3 Dir)
 	return MaxPnt;
 }
 
+glm::vec3 CoatlPhysicsEngine::Triangles::EPA_Support(glm::vec3 Dir)
+{
+	return this->Support(Dir);
+}
+

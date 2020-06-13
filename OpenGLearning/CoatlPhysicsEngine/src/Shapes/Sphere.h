@@ -11,5 +11,6 @@ namespace CoatlPhysicsEngine {
 		void SetRadius(float NewR);
 		void SetQuat(glm::quat NewQuat) override;
 		glm::vec3 Support(glm::vec3 Dir) override;
+		glm::vec3 EPA_Support(glm::vec3 Dir) override;
 	};
 }

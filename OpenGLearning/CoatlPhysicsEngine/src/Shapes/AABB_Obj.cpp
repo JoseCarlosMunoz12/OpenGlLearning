@@ -180,3 +180,8 @@ glm::vec3 AABB_Obj::Support(glm::vec3 Dir)
     }
     return MaxPnt;
 }
+
+glm::vec3 CoatlPhysicsEngine::AABB_Obj::EPA_Support(glm::vec3 Dir)
+{
+    return this->Support(Dir);
+}

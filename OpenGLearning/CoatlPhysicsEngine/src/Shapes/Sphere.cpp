@@ -30,3 +30,8 @@ glm::vec3 CoatlPhysicsEngine::Sphere::Support(glm::vec3 Dir)
 	glm::vec3 Norm = glm::normalize(Dir);
 	return this->Pos + (this->Radius +0.00001f) * Norm;
 }
+
+glm::vec3 CoatlPhysicsEngine::Sphere::EPA_Support(glm::vec3 Dir)
+{
+	return this->Pos;
+}
