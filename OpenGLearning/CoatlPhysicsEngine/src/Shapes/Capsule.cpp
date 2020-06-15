@@ -87,7 +87,7 @@ glm::vec3 Capsule::Support(glm::vec3 Dir)
 		}
 	}
 	glm::vec3 Norm = glm::normalize(Dir);
-	return MaxPnt + (this->Radius + 0.00001f) * Norm;
+	return MaxPnt + (this->Radius + 0.01f) * Norm;
 }
 
 glm::vec3 CoatlPhysicsEngine::Capsule::EPA_Support(glm::vec3 Dir)
