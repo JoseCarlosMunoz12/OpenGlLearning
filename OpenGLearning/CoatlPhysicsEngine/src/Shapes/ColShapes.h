@@ -27,5 +27,6 @@ namespace CoatlPhysicsEngine
 		virtual void SetQuat(glm::quat NewQuat) { return; };
 		virtual glm::vec3 Support(glm::vec3 Dir);
 		virtual glm::vec3 EPA_Support(glm::vec3 Dir);
+		virtual std::vector<glm::vec3> GetVertecis();
 	};
 }
