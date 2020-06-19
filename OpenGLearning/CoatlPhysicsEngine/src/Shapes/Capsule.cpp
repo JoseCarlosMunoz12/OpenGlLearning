@@ -113,3 +113,9 @@ std::vector<glm::vec3> Capsule::GetVertices()
 {
 	return this->GetSegment();
 }
+
+std::vector<glm::vec3> CoatlPhysicsEngine::Capsule::GetNormals()
+{
+
+	return std::vector<glm::vec3>();
+}
