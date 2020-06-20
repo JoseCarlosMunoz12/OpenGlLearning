@@ -35,8 +35,4 @@ glm::vec3 Sphere::EPA_Support(glm::vec3 Dir)
 {
 	return this->Pos;
 }
-
-std::vector<glm::vec3> Sphere::GetNormals()
-{
-	return std::vector<glm::vec3>();
-}
+	

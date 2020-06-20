@@ -12,6 +12,5 @@ namespace CoatlPhysicsEngine {
 		void SetQuat(glm::quat NewQuat) override;
 		glm::vec3 Support(glm::vec3 Dir) override;
 		glm::vec3 EPA_Support(glm::vec3 Dir) override;
-		std::vector<glm::vec3> GetNormals() override;
 	};
 }
