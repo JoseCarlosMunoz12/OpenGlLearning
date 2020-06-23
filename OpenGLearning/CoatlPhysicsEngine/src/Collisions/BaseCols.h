@@ -29,11 +29,8 @@ namespace CoatlPhysicsEngine {
 	class BaseCols
 	{
 	private:
-		bool UpdateBodies(Sphere Bod0, std::shared_ptr<Bodies> Bod1);
-		bool UpdateBodies(AABB_Obj Obj0, std::shared_ptr<Bodies> Bod1);
-		bool UpdateBodies(Capsule Cap0, std::shared_ptr<Bodies> Bod1);
-		bool UpdateBodies(Triangles Tr, std::shared_ptr<Bodies> Bod1);
-		bool UpdateBodies(OBB Tr, std::shared_ptr<Bodies> Bod1);
+		bool UpdateBodies(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		bool UpdateBodies(Capsule Cap0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 	protected:
 		std::shared_ptr<CollisionManager> ColMan;
 		std::string Name;
