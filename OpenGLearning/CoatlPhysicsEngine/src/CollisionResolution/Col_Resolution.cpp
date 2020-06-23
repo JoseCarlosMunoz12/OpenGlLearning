@@ -46,7 +46,14 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	}
 	else
 	{
+		glm::vec3 NewDir;
+		if (!this->S->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(),NewDir))
+		{
 
+		}
+		else
+		{
+		}
 	}
 	return std::vector<std::shared_ptr<Contact>>();
 }
@@ -61,19 +68,8 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_p
 	{
 		return this->ContactCreate(*Cap0, Bod0, Bod0);
 	}
-	else
-	{
 		return this->ContactCreate(Bod0, Bod1);
-	}
-	/*else if (std::shared_ptr<Triangles> Tr = std::dynamic_pointer_cast<Triangles>(Bod0->GetShapes()))
-	{
-		return this->MakeContacts(*Tr, Bod1);
-	}
-	else if (std::shared_ptr<OBB> Obj = std::dynamic_pointer_cast<OBB>(Bod0->GetShapes()))
-	{
-		return this->MakeContacts(*Obj, Bod1);
-	}*/
-	return std::vector<std::shared_ptr<Contact>>();
+	
 }
 
 Col_Resolution::Col_Resolution()
