@@ -1,18 +1,18 @@
 #include "Col_Resolution.h"
 using namespace CoatlPhysicsEngine;
-std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
 		return this->S_Res->GetContacts(Sph0, *Sphere0);
 	}
-	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
-	{
-		return this->S_Res->GetContacts(Sph0, *Cube0);
-	}
 	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
 	{
 		return this->S_Res->GetContacts(Sph0, *Cap0);
+	}
+	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
+	{
+		return this->S_Res->GetContacts(Sph0, *Cube0);
 	}
 	//else if (std::shared_ptr<Triangles> Tr = std::dynamic_pointer_cast<Triangles>(Bod1->GetShapes()))
 	//{
@@ -26,19 +26,11 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(Sphere Sph0, 
 
 }
 
-std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(AABB_Obj Obj, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
-		return this->S_Res->GetContacts(Obj, *Sphere0);
-	}
-	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
-	{
-		return this->S_Res->GetContacts(Obj, *Cube0);
-	}
-	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
-	{
-		return this->S_Res->GetContacts(Obj, *Cap0);
+
 	}
 	//else if (std::shared_ptr<Triangles> Tr = std::dynamic_pointer_cast<Triangles>(Bod1->GetShapes()))
 	//{
@@ -51,7 +43,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(AABB_Obj Obj,
 	return std::vector<std::shared_ptr<Contact>>();
 }
 
-std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
@@ -80,25 +72,15 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_p
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
 	{
-		return this->MakeContacts(*Sphere0, Bod0,Bod1);
-	}
-	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod0->GetShapes()))
-	{
-		return this->MakeContacts(*Cube0, Bod0, Bod1);
+		return;
 	}
 	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod0->GetShapes()))
 	{
-		return this->MakeContacts(*Cap0, Bod0, Bod1);
-	}
-	glm::vec3 Se;
-	if (!this->S->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Se))
-	{
-		float Dir = glm::sqrt(glm::dot(Se, Se));
-		float Dirs = Dir;
+		return;
 	}
 	else
 	{
-		
+		return this->MakeContacts(Bod0, Bod1);
 	}
 	/*else if (std::shared_ptr<Triangles> Tr = std::dynamic_pointer_cast<Triangles>(Bod0->GetShapes()))
 	{
