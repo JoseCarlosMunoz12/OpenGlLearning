@@ -63,3 +63,8 @@ std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(Capsule N,AAB
 {
 	return this->CapRelAABB(N, T);
 }
+template<>
+std::vector<std::shared_ptr<Contact>> ShapeResolution::GetContacts(Capsule N, Capsule T)
+{
+	return this->CapRel(N, T);
+}
