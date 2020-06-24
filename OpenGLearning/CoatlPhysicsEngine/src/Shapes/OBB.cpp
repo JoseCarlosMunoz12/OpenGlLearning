@@ -182,3 +182,8 @@ glm::vec3 CoatlPhysicsEngine::OBB::EPA_Support(glm::vec3 Dir)
 {
 	return this->Support(Dir);
 }
+
+std::vector<glm::vec3> CoatlPhysicsEngine::OBB::GetVertices()
+{
+	return this->GetSegments();
+}

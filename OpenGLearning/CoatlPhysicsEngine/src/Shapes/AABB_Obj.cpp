@@ -185,3 +185,8 @@ glm::vec3 CoatlPhysicsEngine::AABB_Obj::EPA_Support(glm::vec3 Dir)
 {
     return this->Support(Dir);
 }
+
+std::vector<glm::vec3> CoatlPhysicsEngine::AABB_Obj::GetVertices()
+{
+    return this->GetSegs();
+}
