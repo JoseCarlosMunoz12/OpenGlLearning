@@ -28,7 +28,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 		glm::vec3 Norm;
 		float R = Sph0.GetRadius();
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(),Norm) + R;
-		Cont->Penetration = Pen;
+		Cont->Penetration = Pen + 0.001f;
 		Cont->Normal = -Norm;
 		Cont->ContactPoint = Sph0.GetPos() + Pen * Norm;
 		Temp.push_back(Cont);
@@ -42,22 +42,34 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	{
 		return this->S_Res->GetContacts(Cap, *Sphere0);
 	}
-	else if (std::shared_ptr<AABB_Obj> Cube0 = std::dynamic_pointer_cast<AABB_Obj>(Bod1->GetShapes()))
+	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
 	{
-		return this->S_Res->GetContacts(Cap, *Cube0);
+		return this->S_Res->GetContacts(Cap, *Cap0);
+	}
+	std::vector<std::shared_ptr<Contact>> Temp;
+	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+	glm::vec3 Vec;
+	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec))
+	{
+		float R = Cap.GetRadius();
+		float Pen = R - glm::distance(glm::vec3(0.f), Vec);
+		glm::vec3 Norm = glm::normalize(Vec);
+		Cont->Penetration = Pen + 0.001f;
+		Cont->Normal = -Norm;
+		Cont->ContactPoint = Cap.GetPos() + Pen * Norm;
+		Temp.push_back(Cont);
 	}
 	else
 	{
-		glm::vec3 NewDir;
-		if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(),NewDir))
-		{
-
-		}
-		else
-		{
-		}
+		glm::vec3 Norm;
+		float R = Cap.GetRadius();
+		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
+		Cont->Penetration = Pen + 0.001f;
+		Cont->Normal = -Norm;
+		Cont->ContactPoint = Cap.GetPos() + Pen * Norm;
+		Temp.push_back(Cont);
 	}
-	return std::vector<std::shared_ptr<Contact>>();
+	return Temp;
 }
 
 std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
@@ -70,10 +82,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	{
 
 	}
-	else
-	{
 
-	}
 	return std::vector<std::shared_ptr<Contact>>();
 }
 
