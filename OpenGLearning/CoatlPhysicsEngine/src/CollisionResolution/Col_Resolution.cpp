@@ -74,16 +74,65 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 
 std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
+	std::vector<std::shared_ptr<Contact>> Temp;
+	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+	glm::vec3 Vec;
+	if (std::shared_ptr<Sphere> Sph = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
 
+		if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec))
+		{
+			float R = Sph->GetRadius();
+			float Pen = R - glm::distance(glm::vec3(0.f), Vec);
+			glm::vec3 Norm = glm::normalize(Vec);
+			Cont->Penetration = Pen + 0.001f;
+			Cont->Normal = -Norm;
+			Cont->ContactPoint = Sph->GetPos() + Pen * Norm;
+			Temp.push_back(Cont);
+		}
+		else
+		{
+			glm::vec3 Norm;
+			float R = Sph->GetRadius();
+			float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
+			Cont->Penetration = Pen + 0.001f;
+			Cont->Normal = -Norm;
+			Cont->ContactPoint = Sph->GetPos() + Pen * Norm;
+			Temp.push_back(Cont);
+		}
 	}
-	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
+	else if (std::shared_ptr<Capsule> Cap = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
 	{
-
+		if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec))
+		{
+			float R = Cap->GetRadius();
+			float Pen = R - glm::distance(glm::vec3(0.f), Vec);
+			glm::vec3 Norm = glm::normalize(Vec);
+			Cont->Penetration = Pen + 0.001f;
+			Cont->Normal = -Norm;
+			Cont->ContactPoint = Cap->GetPos() + Pen * Norm;
+			Temp.push_back(Cont);
+		}
+		else
+		{
+			glm::vec3 Norm;
+			float R = Cap->GetRadius();
+			float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
+			Cont->Penetration = Pen + 0.001f;
+			Cont->Normal = -Norm;
+			Cont->ContactPoint = Cap->GetPos() + Pen * Norm;
+			Temp.push_back(Cont);
+		}
 	}
-
-	return std::vector<std::shared_ptr<Contact>>();
+	else
+	{
+		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
+		Cont->Penetration = Pen + 0.001f;
+		Cont->Normal = -Vec;
+		Cont->ContactPoint = Cap->GetPos() + Pen * Vec;
+		Temp.push_back(Cont);
+	}
+	return Temp;
 }
 
 std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
@@ -94,7 +143,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_p
 	}
 	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod0->GetShapes()))
 	{
-		return this->ContactCreate(*Cap0, Bod0, Bod0);
+		return this->ContactCreate(*Cap0, Bod0, Bod1);
 	}
 	return this->ContactCreate(Bod0, Bod1);	
 }
