@@ -61,3 +61,8 @@ glm::vec3 CoatlPhysicsEngine::Triangles::EPA_Support(glm::vec3 Dir)
 	return this->Support(Dir);
 }
 
+std::vector<glm::vec3> CoatlPhysicsEngine::Triangles::GetVertices()
+{
+	return this->GetSegments();
+}
+

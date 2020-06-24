@@ -35,4 +35,11 @@ glm::vec3 Sphere::EPA_Support(glm::vec3 Dir)
 {
 	return this->Pos;
 }
+
+std::vector<glm::vec3> CoatlPhysicsEngine::Sphere::GetVertices()
+{
+	std::vector<glm::vec3> Temp;
+	Temp.push_back(this->Pos);
+	return Temp;
+}
 	
