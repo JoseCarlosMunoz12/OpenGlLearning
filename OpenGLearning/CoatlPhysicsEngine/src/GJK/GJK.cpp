@@ -307,9 +307,9 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		}
 	}
 	DistVect = EPA(Vert, Shape0, Shape1);
-	if (Result == 1)
-		return false;
-	return true;
+	if (Result == 2 )
+		return true;
+	return false;
 }
 
 GJK_Alg::GJK_Alg::GJK_Alg()

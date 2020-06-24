@@ -55,7 +55,15 @@ float SAT::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vect
 float CoatlPhysicsEngine::SAT::SAT_Algo(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 	std::vector<glm::vec3> Pnts0, std::vector<glm::vec3> Pnts1, glm::vec3& Norm)
 {
-	glm::vec3 NormF = Norm0[0];
+	glm::vec3 NormF;
+	if (Norm0.size() != 0)
+	{
+		Norm = Norm0[0];
+	}
+	else
+	{
+		Norm = Norm1[0];
+	}
 	float Penetration = ProjPen(NormF, Pnts0, Pnts1);
 	for (auto& jj : Norm0)
 	{
