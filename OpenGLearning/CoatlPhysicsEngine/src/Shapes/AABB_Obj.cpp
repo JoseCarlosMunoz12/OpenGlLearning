@@ -181,12 +181,21 @@ glm::vec3 AABB_Obj::Support(glm::vec3 Dir)
     return MaxPnt;
 }
 
-glm::vec3 CoatlPhysicsEngine::AABB_Obj::EPA_Support(glm::vec3 Dir)
+glm::vec3 AABB_Obj::EPA_Support(glm::vec3 Dir)
 {
     return this->Support(Dir);
 }
 
-std::vector<glm::vec3> CoatlPhysicsEngine::AABB_Obj::GetVertices()
+std::vector<glm::vec3> AABB_Obj::GetVertices()
 {
     return this->GetSegs();
+}
+
+std::vector<glm::vec3> AABB_Obj::GetNormals()
+{
+    std::vector<glm::vec3> T = this->GetSegs();
+    std::vector<glm::vec3> AABB_N = { glm::normalize(T[1] - T[0]),
+        glm::normalize(T[3] - T[0]) ,
+        glm::normalize(T[4] - T[0]) };
+    return AABB_N;
 }

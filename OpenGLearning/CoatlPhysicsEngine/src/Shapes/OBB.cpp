@@ -178,12 +178,21 @@ glm::vec3 OBB::Support(glm::vec3 Dir)
 	return MaxPnt;
 }
 
-glm::vec3 CoatlPhysicsEngine::OBB::EPA_Support(glm::vec3 Dir)
+glm::vec3 OBB::EPA_Support(glm::vec3 Dir)
 {
 	return this->Support(Dir);
 }
 
-std::vector<glm::vec3> CoatlPhysicsEngine::OBB::GetVertices()
+std::vector<glm::vec3> OBB::GetVertices()
 {
 	return this->GetSegments();
+}
+
+std::vector<glm::vec3> OBB::GetNormals()
+{
+	std::vector<glm::vec3> T = this->GetSegments();
+	std::vector<glm::vec3> OBB_N = { glm::normalize(T[1] - T[0]),
+		glm::normalize(T[3] - T[0]) ,
+		glm::normalize(T[4] - T[0]) };
+	return OBB_N;
 }

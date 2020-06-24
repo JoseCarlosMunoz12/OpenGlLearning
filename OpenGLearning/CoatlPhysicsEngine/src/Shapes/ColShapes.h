@@ -28,5 +28,6 @@ namespace CoatlPhysicsEngine
 		virtual glm::vec3 Support(glm::vec3 Dir);
 		virtual glm::vec3 EPA_Support(glm::vec3 Dir);
 		virtual std::vector<glm::vec3> GetVertices();
+		virtual std::vector<glm::vec3> GetNormals();
 	};
 }

@@ -15,6 +15,7 @@ namespace CoatlPhysicsEngine{
 		glm::vec3 Support(glm::vec3 Dir) override;
 		glm::vec3 EPA_Support(glm::vec3 Dir) override;
 		std::vector<glm::vec3> GetVertices() override;
+		std::vector<glm::vec3> GetNormals() override;
 	};
 
 }
