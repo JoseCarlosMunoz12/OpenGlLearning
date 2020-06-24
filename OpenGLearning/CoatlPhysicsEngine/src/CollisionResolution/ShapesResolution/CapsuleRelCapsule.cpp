@@ -23,8 +23,6 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Ca
 	{
 
 	}
-	
-
 	return Temp;
 }
 
