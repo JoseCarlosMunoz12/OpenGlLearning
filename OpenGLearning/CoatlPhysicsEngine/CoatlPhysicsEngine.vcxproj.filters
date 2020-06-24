@@ -183,6 +183,9 @@
     <ClInclude Include="src\SAT\SAT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelCapsule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -336,6 +339,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SAT\SAT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelCapsule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
