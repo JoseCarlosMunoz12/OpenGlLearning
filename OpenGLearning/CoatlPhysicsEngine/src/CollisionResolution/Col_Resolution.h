@@ -12,6 +12,7 @@
 #include "ShapesResolution/ShapeResolution.h"
 #include "Manifoldsh.h"
 #include "../GJK/GJK.h"
+#include "../SAT/SAT.h"
 namespace CoatlPhysicsEngine {
 	class Col_Resolution
 	{
