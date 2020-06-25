@@ -60,7 +60,6 @@ glm::vec3 Capsule::GetUnitVec()
 	return this->UnitVec;
 }
 
-
 void Capsule::SetVec(glm::vec3 NewVec)
 {
 	this->UnitVec = glm::normalize(NewVec);
@@ -87,7 +86,7 @@ glm::vec3 Capsule::Support(glm::vec3 Dir)
 		}
 	}
 	glm::vec3 Norm = glm::normalize(Dir);
-	return MaxPnt + (this->Radius + 0.001f) * Norm;
+	return MaxPnt + (this->Radius) * Norm;
 }
 
 glm::vec3 CoatlPhysicsEngine::Capsule::EPA_Support(glm::vec3 Dir)
