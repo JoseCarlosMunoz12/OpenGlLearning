@@ -50,6 +50,10 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	if (this->SAT_->SAT_Check(Bod0->GetShapes(), Bod1->GetShapes()))
 	{
+		glm::vec3 vec;
+		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), vec);
+		float T = glm::distance(glm::vec3(0), vec);
+		vec = glm::normalize(vec);
 		float R = Cap.GetRadius();
 		glm::vec3 Norm;
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm);

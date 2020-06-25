@@ -89,7 +89,7 @@ glm::vec3 Capsule::Support(glm::vec3 Dir)
 	return MaxPnt + (this->Radius) * Norm;
 }
 
-glm::vec3 CoatlPhysicsEngine::Capsule::EPA_Support(glm::vec3 Dir)
+glm::vec3 Capsule::EPA_Support(glm::vec3 Dir)
 {
 	std::vector<glm::vec3> Pnts = this->GetSegment();
 	float S = glm::dot(Pnts[0], Dir);

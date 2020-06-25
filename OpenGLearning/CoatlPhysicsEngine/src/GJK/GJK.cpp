@@ -25,7 +25,10 @@ bool GJK_Alg::EPA_AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 {
 	glm::vec3 NewVertex = Shape0->EPA_Support(Dir) - Shape1->EPA_Support(-Dir);
 	Vertex.push_back(NewVertex);
-	return glm::dot(NewVertex, Dir) > 0;
+	if (Vertex.size() == 1)
+		return true;
+	bool val = glm::dot(NewVertex, Dir) > 0;
+	return val;
 }
 
 int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, std::vector<glm::vec3> &Vertex,glm::vec3 &Dir)
