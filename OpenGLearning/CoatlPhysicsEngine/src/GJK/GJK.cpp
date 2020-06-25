@@ -98,7 +98,7 @@ int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 	case 2: {
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		glm::vec3 A0 = -Vertex[0];
-		Dir = glm::cross(A0, AB);
+		Dir = this->TripleCross(AB, A0, AB);
 	}break;
 	case 3: {
 		glm::vec3 AC = Vertex[2] - Vertex[0];
