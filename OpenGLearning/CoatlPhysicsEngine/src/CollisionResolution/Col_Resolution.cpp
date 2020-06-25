@@ -48,7 +48,8 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	}
 	std::vector<std::shared_ptr<Contact>> Temp;
 	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
-	if (this->SAT_->SAT_Check(Bod0->GetShapes(), Bod1->GetShapes()))
+	glm::vec3 Vec;
+	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(),Vec))
 	{
 		float R = Cap.GetRadius();
 		glm::vec3 Norm ;
