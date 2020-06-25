@@ -108,7 +108,7 @@ glm::vec3 CoatlPhysicsEngine::Capsule::EPA_Support(glm::vec3 Dir)
 	return MaxPnt;
 }
 
-std::vector<glm::vec3> CoatlPhysicsEngine::Capsule::GetVertices()
+std::vector<glm::vec3> Capsule::GetVertices()
 {
 	return this->GetSegment();
 }
