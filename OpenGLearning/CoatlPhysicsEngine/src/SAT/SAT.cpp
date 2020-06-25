@@ -58,11 +58,11 @@ float CoatlPhysicsEngine::SAT::SAT_Algo(std::vector<glm::vec3> Norm0, std::vecto
 	glm::vec3 NormF;
 	if (Norm0.size() != 0)
 	{
-		Norm = Norm0[0];
+		NormF = Norm0[0];
 	}
 	else
 	{
-		Norm = Norm1[0];
+		NormF = Norm1[0];
 	}
 	float Penetration = ProjPen(NormF, Pnts0, Pnts1);
 	for (auto& jj : Norm0)
