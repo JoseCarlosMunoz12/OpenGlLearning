@@ -18,17 +18,15 @@ bool GJK_Alg::AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColSh
 {
 	glm::vec3 NewVertex = Shape0->Support(Dir) - Shape1->Support(-Dir);
 	Vertex.push_back(NewVertex);
-	return glm::dot(NewVertex,Dir) > 0;
+	return glm::dot(NewVertex,Dir) >= 0.f;
 }
 
 bool GJK_Alg::EPA_AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir, std::vector<glm::vec3>& Vertex)
 {
 	glm::vec3 NewVertex = Shape0->EPA_Support(Dir) - Shape1->EPA_Support(-Dir);
 	Vertex.push_back(NewVertex);
-	if (Vertex.size() == 1)
-		return true;
-	bool val = glm::dot(NewVertex, Dir) > 0;
-	return val;
+	float val = glm::dot(NewVertex, Dir);
+	return  val >= 0.f;
 }
 
 int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, std::vector<glm::vec3> &Vertex,glm::vec3 &Dir)
@@ -38,8 +36,6 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	{
 	case 0: {
 		Dir = Shape1->GetPos() - Shape0->GetPos();
-		if (glm::dot(Dir, Dir) != 0)
-			Dir = glm::normalize(Dir);
 	}break;
 	case 1: {
 		Dir = -Dir;
@@ -47,16 +43,12 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	case 2: {
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		glm::vec3 A0 = -Vertex[0];
-		Dir = glm::cross(A0, AB);
-		if (glm::dot(Dir, Dir) != 0)
-			Dir = glm::normalize(Dir);		
+		Dir = this->TripleCross(AB,A0, AB);	
 	}break;
 	case 3: {
 		glm::vec3 AC = Vertex[2] - Vertex[0];
 		glm::vec3 AB = Vertex[1] - Vertex[0];
-		Dir = glm::cross(AC, AB);
-		if (glm::dot(Dir, Dir) != 0)
-			Dir = glm::normalize(Dir);
+		Dir = glm::cross(AB, AC);
 		glm::vec3 A0 = -Vertex[0];
 		if (glm::dot(Dir, A0) < 0)
 			Dir = -Dir;
@@ -69,14 +61,8 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 		glm::vec3 D0 = -glm::normalize(Vertex[3]);
 
 		glm::vec3 ABD_Norm = glm::cross(DB, DA);
-		if (glm::dot(ABD_Norm, ABD_Norm) != 0)
-			ABD_Norm = glm::normalize(ABD_Norm);
 		glm::vec3 BCD_Norm = glm::cross(DC, DB);
-		if (glm::dot(BCD_Norm, BCD_Norm) != 0)
-			BCD_Norm = glm::normalize(BCD_Norm);
 		glm::vec3 CAD_Norm = glm::cross(DA, DC);
-		if (glm::dot(CAD_Norm, CAD_Norm) != 0)
-			CAD_Norm = glm::normalize(CAD_Norm);
 		if (glm::dot(ABD_Norm, D0) >= 0) {
 			Vertex.erase(Vertex.begin() + 2);
 			Dir = ABD_Norm;
@@ -105,8 +91,6 @@ int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 	{
 	case 0: {
 		Dir = Shape1->GetPos() - Shape0->GetPos();
-		if (glm::dot(Dir, Dir) != 0)
-			Dir = glm::normalize(Dir);
 	}break;
 	case 1: {
 		Dir = -Dir;
@@ -115,15 +99,11 @@ int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		glm::vec3 A0 = -Vertex[0];
 		Dir = glm::cross(A0, AB);
-		if (glm::dot(Dir, Dir) != 0)
-			Dir = glm::normalize(Dir);
 	}break;
 	case 3: {
 		glm::vec3 AC = Vertex[2] - Vertex[0];
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		Dir = glm::cross(AC, AB);
-		if (glm::dot(Dir, Dir) != 0)
-			Dir = glm::normalize(Dir);
 		glm::vec3 A0 = -Vertex[0];
 		if (glm::dot(Dir, A0) < 0)
 			Dir = -Dir;
@@ -136,23 +116,17 @@ int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 		glm::vec3 D0 = -glm::normalize(Vertex[3]);
 
 		glm::vec3 ABD_Norm = glm::cross(DB, DA);
-		if (glm::dot(ABD_Norm, ABD_Norm) != 0)
-			ABD_Norm = glm::normalize(ABD_Norm);
 		glm::vec3 BCD_Norm = glm::cross(DC, DB);
-		if (glm::dot(BCD_Norm, BCD_Norm) != 0)
-			BCD_Norm = glm::normalize(BCD_Norm);
 		glm::vec3 CAD_Norm = glm::cross(DA, DC);
-		if (glm::dot(CAD_Norm, CAD_Norm) != 0)
-			CAD_Norm = glm::normalize(CAD_Norm);
-		if (glm::dot(ABD_Norm, D0) >= 0) {
+		if (glm::dot(ABD_Norm, D0) > 0) {
 			Vertex.erase(Vertex.begin() + 2);
 			Dir = ABD_Norm;
 		}
-		else if (glm::dot(BCD_Norm, D0) >= 0) {
+		else if (glm::dot(BCD_Norm, D0) > 0) {
 			Vertex.erase(Vertex.begin() + 0);
 			Dir = BCD_Norm;
 		}
-		else if (glm::dot(CAD_Norm, D0) >= 0) {
+		else if (glm::dot(CAD_Norm, D0) > 0) {
 			Vertex.erase(Vertex.begin() + 1);
 			Dir = CAD_Norm;
 		}

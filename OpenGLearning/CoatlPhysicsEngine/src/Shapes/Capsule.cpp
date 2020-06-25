@@ -104,7 +104,6 @@ glm::vec3 Capsule::EPA_Support(glm::vec3 Dir)
 			MaxPnt = Pnts[ii];
 		}
 	}
-	glm::vec3 Norm = glm::normalize(Dir);
 	return MaxPnt;
 }
 
