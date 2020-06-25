@@ -116,9 +116,5 @@ std::vector<glm::vec3> CoatlPhysicsEngine::Capsule::GetVertices()
 
 std::vector<glm::vec3> Capsule::GetNormals()
 {
-	std::vector<glm::vec3> T = this->GetSegment();
-	glm::vec3 Norm = T[1] - T[0];
-	if (glm::dot(Norm, Norm) != 0.f)
-		Norm = glm::normalize(Norm);
-	return {Norm};
+	return {};
 }

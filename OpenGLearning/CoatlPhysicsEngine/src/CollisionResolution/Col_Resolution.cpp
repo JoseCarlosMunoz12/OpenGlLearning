@@ -52,9 +52,9 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec))
 	{
 		float R = Cap.GetRadius();
-		float Pen = R - glm::distance(glm::vec3(0.f), Vec);
-		glm::vec3 Norm = glm::normalize(Vec);
-		Cont->Penetration = Pen;
+		float Pen = glm::distance(glm::vec3(0.f), Vec);
+		glm::vec3 Norm =  glm::normalize(Vec);
+		Cont->Penetration = R - Pen;
 		Cont->Normal = -Norm;
 		Cont->ContactPoint = Cap.GetPos() + Pen * Norm;
 		Temp.push_back(Cont);
