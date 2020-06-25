@@ -18,7 +18,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 		float R = Sph0.GetRadius();
 		float Pen = R - glm::distance(glm::vec3(0.f), Vec);
 		glm::vec3 Norm = glm::normalize(Vec);
-		Cont->Penetration = Pen + 0.001f;
+		Cont->Penetration = Pen;
 		Cont->Normal = -Norm;
 		Cont->ContactPoint = Sph0.GetPos() + Pen * Norm;
 		Temp.push_back(Cont);
@@ -54,7 +54,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		float R = Cap.GetRadius();
 		float Pen = R - glm::distance(glm::vec3(0.f), Vec);
 		glm::vec3 Norm = glm::normalize(Vec);
-		Cont->Penetration = Pen + 0.001f;
+		Cont->Penetration = Pen;
 		Cont->Normal = -Norm;
 		Cont->ContactPoint = Cap.GetPos() + Pen * Norm;
 		Temp.push_back(Cont);
@@ -64,7 +64,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		glm::vec3 Norm;
 		float R = Cap.GetRadius();
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
-		Cont->Penetration = Pen + 0.001f;
+		Cont->Penetration = Pen;
 		Cont->Normal = -Norm;
 		Cont->ContactPoint = Cap.GetPos() + Pen * Norm;
 		Temp.push_back(Cont);
@@ -85,7 +85,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 			float R = Sph->GetRadius();
 			float Pen = R - glm::distance(glm::vec3(0.f), Vec);
 			glm::vec3 Norm = glm::normalize(Vec);
-			Cont->Penetration = Pen + 0.001f;
+			Cont->Penetration = Pen - 0.001f;
 			Cont->Normal = -Norm;
 			Cont->ContactPoint = Sph->GetPos() + Pen * Norm;
 			Temp.push_back(Cont);
@@ -95,7 +95,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 			glm::vec3 Norm;
 			float R = Sph->GetRadius();
 			float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
-			Cont->Penetration = Pen + 0.001f;
+			Cont->Penetration = Pen - 0.001f;
 			Cont->Normal = -Norm;
 			Cont->ContactPoint = Sph->GetPos() + Pen * Norm;
 			Temp.push_back(Cont);
@@ -108,7 +108,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 			float R = Cap->GetRadius();
 			float Pen = R - glm::distance(glm::vec3(0.f), Vec);
 			glm::vec3 Norm = glm::normalize(Vec);
-			Cont->Penetration = Pen + 0.001f;
+			Cont->Penetration = Pen - 0.001f;
 			Cont->Normal = -Norm;
 			Cont->ContactPoint = Cap->GetPos() + Pen * Norm;
 			Temp.push_back(Cont);
@@ -118,7 +118,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 			glm::vec3 Norm;
 			float R = Cap->GetRadius();
 			float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
-			Cont->Penetration = Pen + 0.001f;
+			Cont->Penetration = Pen - 0.001f;
 			Cont->Normal = -Norm;
 			Cont->ContactPoint = Cap->GetPos() + Pen * Norm;
 			Temp.push_back(Cont);
@@ -127,9 +127,9 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	else
 	{
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
-		Cont->Penetration = Pen + 0.001f;
+		Cont->Penetration = Pen;
 		Cont->Normal = -Vec;
-		Cont->ContactPoint = Cap->GetPos() + Pen * Vec;
+		Cont->ContactPoint = Bod0->GetShapes()->GetPos() + Pen * Vec;
 		Temp.push_back(Cont);
 	}
 	return Temp;
@@ -137,11 +137,11 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 
 std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
+	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
 	{
 		return this->ContactCreate(*Sphere0, Bod0, Bod1);
 	}
-	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
+	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod0->GetShapes()))
 	{
 		return this->ContactCreate(*Cap0, Bod0, Bod1);
 	}

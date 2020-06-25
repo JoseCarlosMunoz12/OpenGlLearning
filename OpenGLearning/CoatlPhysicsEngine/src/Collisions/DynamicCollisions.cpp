@@ -172,26 +172,28 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		//
 		if (jj->ContactCount > 0)
 		{
-			float Diff = jj->Contacts[0]->Penetration / 2.f;
+			float Diff = jj->Contacts[0]->Penetration;
+			if (Diff < 0.001f)
+				Diff = 0.f;
 			glm::vec3 Norm = jj->Contacts[0]->Normal;
 			switch (jj->ID)
 			{
 			case 0:
-				jj->Bod0->MovePosition(2 * Diff * Norm);
+				jj->Bod0->MovePosition( Diff * Norm);
 				break;
 			case 1:
-				jj->Bod1->MovePosition(2 * Diff * Norm);
+				jj->Bod1->MovePosition(Diff * Norm);
 				break;
 			default:
 				if (jj->Bod0->GetBodyParts()[0]->BodParticle)
 				{
 					jj->Bod0->GetBodyParts()[0]->BodParticle->ResetForce();
-					jj->Bod0->MovePosition(Diff * Norm);
+					jj->Bod0->MovePosition(Diff * Norm /2.f);
 				}
 				if (jj->Bod1->GetBodyParts()[0]->BodParticle)
 				{
 					jj->Bod1->GetBodyParts()[0]->BodParticle->ResetForce();
-					jj->Bod1->MovePosition(Diff * -Norm);
+					jj->Bod1->MovePosition(Diff * -Norm /2.f);
 
 				}
 				break;
