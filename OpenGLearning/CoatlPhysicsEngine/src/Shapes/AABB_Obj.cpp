@@ -194,8 +194,6 @@ std::vector<glm::vec3> AABB_Obj::GetVertices()
 std::vector<glm::vec3> AABB_Obj::GetNormals()
 {
     std::vector<glm::vec3> T = this->GetSegs();
-    std::vector<glm::vec3> AABB_N = { glm::normalize(T[1] - T[0]),
-        glm::normalize(T[3] - T[0]) ,
-        glm::normalize(T[4] - T[0]) };
+    std::vector<glm::vec3> AABB_N = {glm::vec3(1.f,0.f,0.f),glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f) };
     return AABB_N;
 }
