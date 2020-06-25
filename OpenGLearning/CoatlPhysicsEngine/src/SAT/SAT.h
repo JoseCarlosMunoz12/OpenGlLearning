@@ -21,5 +21,6 @@ namespace CoatlPhysicsEngine {
 		SAT();
 		~SAT();
 		float GetPenetrationContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1, glm::vec3& Norm);
+		bool SAT_Check(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1);
 	};
 }

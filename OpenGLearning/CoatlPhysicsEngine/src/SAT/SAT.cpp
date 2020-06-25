@@ -119,3 +119,12 @@ float SAT::GetPenetrationContacts(std::shared_ptr<ColShapes> Bod0, std::shared_p
 	std::vector<glm::vec3> Normals1 = Bod1->GetNormals();
 	return SAT_Algo(Normals0, Normals1, Vertex0, Vertex1, Norm);
 }
+
+bool CoatlPhysicsEngine::SAT::SAT_Check(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1)
+{
+	std::vector<glm::vec3> Vertex0 = Bod0->GetVertices();
+	std::vector<glm::vec3> Vertex1 = Bod1->GetVertices();
+	std::vector<glm::vec3> Normals0 = Bod0->GetNormals();
+	std::vector<glm::vec3> Normals1 = Bod1->GetNormals();
+	return MATH::SATColCheck(Normals0, Normals1, Vertex0, Vertex1);
+}
