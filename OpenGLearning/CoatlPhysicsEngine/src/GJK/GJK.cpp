@@ -36,6 +36,8 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	{
 	case 0: {
 		Dir = Shape1->GetPos() - Shape0->GetPos();
+		if (glm::dot(Dir, Dir) != 0.f)
+			Dir = glm::normalize(Dir);
 	}break;
 	case 1: {
 		Dir = -Dir;
@@ -43,12 +45,16 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	case 2: {
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		glm::vec3 A0 = -Vertex[0];
-		Dir = this->TripleCross(AB,A0, AB);	
+		Dir = this->TripleCross(AB,A0, AB);
+		if (glm::dot(Dir, Dir) != 0.f)
+			Dir = glm::normalize(Dir);
 	}break;
 	case 3: {
 		glm::vec3 AC = Vertex[2] - Vertex[0];
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		Dir = glm::cross(AB, AC);
+		if (glm::dot(Dir, Dir) != 0.f)
+			Dir = glm::normalize(Dir);
 		glm::vec3 A0 = -Vertex[0];
 		if (glm::dot(Dir, A0) < 0)
 			Dir = -Dir;
@@ -77,6 +83,8 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 		{
 			return 2;
 		}
+		if (glm::dot(Dir, Dir) != 0.f)
+			Dir = glm::normalize(Dir);
 	}break;
 	default:
 		break;
@@ -91,6 +99,8 @@ int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 	{
 	case 0: {
 		Dir = Shape1->GetPos() - Shape0->GetPos();
+		if (glm::dot(Dir, Dir) != 0.f)
+			Dir = glm::normalize(Dir);
 	}break;
 	case 1: {
 		Dir = -Dir;
@@ -233,7 +243,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 			Faces[Num_Face][2] = P;
 			Faces[Num_Face][3] = glm::normalize(glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P));
 			float bias = 0.000001f;
-			float Diff = glm::dot(Faces[Num_Face][0],Faces[Num_Face][3]) +bias;
+			float Diff = glm::dot(Faces[Num_Face][0],Faces[Num_Face][3]) + bias;
 			if (Dif < 0)
 			{
 				glm::vec3 Temp = Faces[Num_Face][0];
@@ -254,6 +264,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	std::vector<glm::vec3> Vert;
 	glm::vec3 Dir;
 	int Count = 0;
+	EvolveSimplex(Shape0, Shape1, Vert, Dir);
 	while (Result == 0)
 	{
 		Result = EvolveSimplex(Shape0, Shape1, Vert,Dir);
@@ -274,6 +285,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	std::vector<glm::vec3> Vert;
 	glm::vec3 Dir;
 	int Count = 0;
+	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
 	while (Result == 0)
 	{
 		Result = EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
