@@ -7,10 +7,11 @@ float GJK_Alg::F3Box(glm::vec3 A, glm::vec3 B, glm::vec3 C)
 	return glm::dot(N, C);
 }
 
-glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B, glm::vec3 C)
+glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B)
 {
+
 	glm::vec3 T = glm::cross(A, B);
-	glm::vec3 Result = glm::cross(T, C);
+	glm::vec3 Result = glm::cross(T, A);
 	return Result;
 }
 
@@ -18,6 +19,8 @@ bool GJK_Alg::AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColSh
 {
 	glm::vec3 NewVertex = Shape0->Support(Dir) - Shape1->Support(-Dir);
 	Vertex.push_back(NewVertex);
+	if (glm::dot(NewVertex, NewVertex) != 0.f)
+		NewVertex = glm::normalize(NewVertex);
 	return glm::dot(NewVertex,Dir) >= 0.f;
 }
 
@@ -25,6 +28,8 @@ bool GJK_Alg::EPA_AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 {
 	glm::vec3 NewVertex = Shape0->EPA_Support(Dir) - Shape1->EPA_Support(-Dir);
 	Vertex.push_back(NewVertex);
+	if (glm::dot(NewVertex, NewVertex) != 0.f)
+		NewVertex = glm::normalize(NewVertex);
 	float val = glm::dot(NewVertex, Dir);
 	return  val >= 0.f;
 }
@@ -45,7 +50,7 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	case 2: {
 		glm::vec3 AB = Vertex[1] - Vertex[0];
 		glm::vec3 A0 = -Vertex[0];
-		Dir = this->TripleCross(AB,A0, AB);
+		Dir = this->TripleCross(AB,A0);
 		if (glm::dot(Dir, Dir) != 0.f)
 			Dir = glm::normalize(Dir);
 	}break;
@@ -107,12 +112,22 @@ int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 	}break;
 	case 2: {
 		glm::vec3 AB = Vertex[1] - Vertex[0];
+		if (glm::dot(AB, AB) != 0.f)
+			AB = glm::normalize(AB);
 		glm::vec3 A0 = -Vertex[0];
-		Dir = this->TripleCross(AB, A0, AB);
+		if (glm::dot(A0, A0) != 0.f)
+			A0 = glm::normalize(A0);
+		Dir = this->TripleCross(AB, A0);
+		if (glm::dot(Dir, Dir) != 0.f)
+			Dir = glm::normalize(Dir);
 	}break;
 	case 3: {
 		glm::vec3 AC = Vertex[2] - Vertex[0];
+		if (glm::dot(AC, AC) != 0.f)
+			AC = glm::normalize(AC);
 		glm::vec3 AB = Vertex[1] - Vertex[0];
+		if (glm::dot(AB, AB) != 0.f)
+			AB = glm::normalize(AB);
 		Dir = glm::cross(AC, AB);
 		glm::vec3 A0 = -Vertex[0];
 		if (glm::dot(Dir, A0) < 0)
@@ -120,8 +135,14 @@ int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 	}break;
 	case 4: {
 		glm::vec3 DA = Vertex[3] - Vertex[0];
+		if (glm::dot(DA, DA) != 0.f)
+			DA = glm::normalize(DA);
 		glm::vec3 DB = Vertex[3] - Vertex[1];
+		if (glm::dot(DB, DB) != 0.f)
+			DB = glm::normalize(DB);
 		glm::vec3 DC = Vertex[3] - Vertex[2];
+		if (glm::dot(DC, DC) != 0.f)
+			DC = glm::normalize(DC);
 
 		glm::vec3 D0 = -glm::normalize(Vertex[3]);
 
