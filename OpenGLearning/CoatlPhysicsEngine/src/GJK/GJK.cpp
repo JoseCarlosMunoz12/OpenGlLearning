@@ -316,9 +316,12 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 			break;
 		}
 	}
-	DistVect = EPA(Vert, Shape0, Shape1);
-	if (Result == 2 )
+	if (Result == 2){
+		DistVect = EPA(Vert, Shape0, Shape1);
 		return true;
+	}
+	float S = MATH::Distance_Tr_Pnt(Vert, glm::vec3(0.f), glm::vec3(0.f));
+	glm::vec3 Pnt = MATH::ClosestPoint_Seg(Vert, glm::vec3(0.f));
 	return false;
 }
 
