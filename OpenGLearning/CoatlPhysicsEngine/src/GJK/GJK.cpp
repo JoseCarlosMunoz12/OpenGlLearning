@@ -11,6 +11,8 @@ glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B)
 {
 	glm::vec3 T = glm::cross(A, B);
 	glm::vec3 Result = glm::cross(T, A);
+	if (glm::dot(Result, Result) != 0.f)
+		Result = glm::normalize(Result);
 	return Result;
 }
 
@@ -47,48 +49,126 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 		Dir = -Dir;
 	}break;
 	case 2: {
-		glm::vec3 AB = Vertex[1] - Vertex[0];
-		glm::vec3 A0 = -Vertex[0];
-		Dir = this->TripleCross(AB,A0);
-		if (glm::dot(Dir, Dir) != 0.f)
-			Dir = glm::normalize(Dir);
-	}break;
-	case 3: {
-		glm::vec3 AC = Vertex[2] - Vertex[0];
-		glm::vec3 AB = Vertex[1] - Vertex[0];
-		Dir = glm::cross(AB, AC);
-		if (glm::dot(Dir, Dir) != 0.f)
-			Dir = glm::normalize(Dir);
-		glm::vec3 A0 = -Vertex[0];
-		if (glm::dot(Dir, A0) < 0)
-			Dir = -Dir;
-	}break;
-	case 4: {
-		glm::vec3 DA = Vertex[3] - Vertex[0];
-		glm::vec3 DB = Vertex[3] - Vertex[1];
-		glm::vec3 DC = Vertex[3] - Vertex[2];
-
-		glm::vec3 D0 = -glm::normalize(Vertex[3]);
-
-		glm::vec3 ABD_Norm = glm::cross(DB, DA);
-		glm::vec3 BCD_Norm = glm::cross(DC, DB);
-		glm::vec3 CAD_Norm = glm::cross(DA, DC);
-		if (glm::dot(ABD_Norm, D0) >= 0) {
-			Vertex.erase(Vertex.begin() + 2);
-			Dir = ABD_Norm;
-		}else if (glm::dot(BCD_Norm, D0) >= 0) {
-			Vertex.erase(Vertex.begin() + 0);
-			Dir = BCD_Norm;
-		}else if (glm::dot(CAD_Norm, D0) >= 0) {
-			Vertex.erase(Vertex.begin() + 1);
-			Dir = CAD_Norm;
+		glm::vec3 AB = Vertex[0] - Vertex[1];
+		glm::vec3 A0 = -Vertex[1];
+		if (glm::dot(AB, A0) > 0.f) {
+			Dir = this->TripleCross(AB,A0);
 		}
 		else
 		{
-			return 2;
+			Dir = glm::normalize(A0);
 		}
-		if (glm::dot(Dir, Dir) != 0.f)
-			Dir = glm::normalize(Dir);
+	}break;
+	case 3: {
+		glm::vec3 AC = Vertex[0] - Vertex[2];
+		glm::vec3 AB = Vertex[1] - Vertex[2];
+		glm::vec3 ABC = glm::cross(AB, AC);
+		glm::vec3 ABC_C_AC = glm::cross(ABC, AC);
+		glm::vec3 AB_C_ABC = glm::cross(AB, ABC);
+		glm::vec3 A0 = -Vertex[2];
+		if (glm::dot(ABC_C_AC,A0) >0.f)
+		{
+			if (glm::dot(AC, A0) > 0.f)
+			{
+				Dir = TripleCross(AC, A0);
+			}
+			else
+			{
+				if (glm::dot(AB, A0) > 0.f)
+				{
+					Dir = TripleCross(AB, A0);
+				}
+				else
+				{
+					Dir = glm::normalize(A0);
+				}
+			}
+		}
+		else
+		{
+			if (glm::dot(AB_C_ABC,A0) >0.f)
+			{
+				if(glm::dot(AB,A0) > 0.f)
+				{
+					Dir = TripleCross(AB, A0);
+				}
+				else
+				{
+					Dir = glm::normalize(A0);
+				}
+			}
+			else
+			{
+				if (glm::dot(ABC,A0) >0.f)
+				{
+					Dir = glm::normalize(ABC);
+				}
+				else
+				{
+					Dir = -glm::normalize(ABC);
+				}
+			}
+		}
+	}break;
+	case 4: {
+		//Points in the Simplex
+		glm::vec3 D = Vertex[0];
+		glm::vec3 C = Vertex[1];
+		glm::vec3 B = Vertex[2];
+		glm::vec3 A = Vertex[3];
+		//Directions
+		glm::vec3 AC = C - A;
+		glm::vec3 AB = B - A;
+		glm::vec3 AD = D - A;
+		glm::vec3 A0 = -A;
+		//Plane Faces
+		glm::vec3 AC_C_AB = glm::cross(AC, AB);
+		float v_ABC = glm::dot(AC_C_AB, A0);
+		glm::vec3 AB_C_AD = glm::cross(AB, AD);
+		float v_ABD = glm::dot(AB_C_AD, A0);
+		glm::vec3 AD_C_AC = glm::cross(AD, AC);
+		float v_ACD = glm::dot(AD_C_AC, A0);
+		int neg = 0;
+		int pos = 0;
+		//Check if Origin is in the simplex
+		if (v_ACD > 0.f)
+			pos++;
+		else
+			neg++;
+		if (v_ABD > 0.f)
+			pos++;
+		else
+			neg++;
+		if (v_ABC > 0.f)
+			pos++;
+		else
+			neg++;
+		if (pos == 3)
+			return 2;
+		if (neg == 3)
+			return 2;
+		//Find new direction and erase point
+		if (neg == 2 && pos == 1)
+		{
+			if (v_ACD > 0.f)
+			{
+				Vertex.erase(Vertex.begin() + 3);
+				Dir = glm::normalize(AD_C_AC);
+			}else if (v_ABD > 0.f)
+			{
+				Vertex.erase(Vertex.begin() + 2);
+				Dir = glm::normalize(AC_C_AB);
+			}
+			else
+			{
+				Vertex.erase(Vertex.begin() + 1);
+				Dir = glm::normalize(AC_C_AB);
+			}
+		}
+		else if (neg == 1 && pos ==2)
+		{
+
+		}
 	}break;
 	default:
 		break;
@@ -297,7 +377,7 @@ glm::vec3 GJK_Alg::DistToOrigin(std::vector<glm::vec3> Vert, glm::vec3 Dir)
 			}
 		}
 	}
-	Vert.erase(Vert.begin() + rmv);
+	Vert.erase(Vert.begin() + rmv);	
 	Plane PL(Vert);
 	float t = -PL.D;
 	return  -t * PL.Normal;
@@ -329,10 +409,8 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	int Result = 0;
 	std::vector<glm::vec3> Vert;
 	glm::vec3 Dir;
-	glm::vec3 InitDir;
 	int Count = 0;
-	EPA_EvolveSimplex(Shape0, Shape1, Vert, InitDir);
-	Dir = InitDir;
+	EPA_EvolveSimplex(Shape0, Shape1, Vert,Dir);
 	while (Result == 0)
 	{
 		Result = EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
@@ -346,7 +424,8 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		DistVec = EPA(Vert, Shape0, Shape1);
 		return true;
 	}
-	DistVec = this->DistToOrigin(Vert, InitDir);
+	//EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
+	DistVec = this->DistToOrigin(Vert,-Dir);
 	return false;
 }
 
