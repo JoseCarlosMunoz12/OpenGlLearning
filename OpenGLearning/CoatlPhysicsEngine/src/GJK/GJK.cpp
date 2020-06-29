@@ -280,25 +280,27 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 
 glm::vec3 GJK_Alg::DistToOrigin(std::vector<glm::vec3> Vert, glm::vec3 Dir)
 {
-	int Size = Vert.size();
 	glm::vec3 Zed = glm::vec3(0.f);
+	int Size = Vert.size();
+		int rmv = 0;
 	if (Size != 3)
 	{
 		float S = glm::dot(Vert[0], Dir);
-		int Excl = 0;
+		glm::vec3 MaxPnt = Vert[0];
 		for (int ii = 1; ii < Size; ii++)
 		{
 			float T = glm::dot(Vert[ii], Dir);
 			if (T > S)
 			{
 				S = T;
-				Excl = ii;
+				rmv = ii;
 			}
 		}
-		Vert.erase(Vert.begin() + Excl);
 	}
-	float S = MATH::Distance_Tr_Pnt(Vert, Zed, Zed);
-	return Zed;
+	Vert.erase(Vert.begin() + rmv);
+	Plane PL(Vert);
+	float t = PL.D;
+	return Zed - t * PL.Normal;
 
 }
 
@@ -323,13 +325,15 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	return true;
 }
 
-bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVect)
+bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVec)
 {
 	int Result = 0;
 	std::vector<glm::vec3> Vert;
 	glm::vec3 Dir;
+	glm::vec3 InitDir;
 	int Count = 0;
-	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
+	EPA_EvolveSimplex(Shape0, Shape1, Vert, InitDir);
+	Dir = InitDir;
 	while (Result == 0)
 	{
 		Result = EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
@@ -340,10 +344,10 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		}
 	}
 	if (Result == 2){
-		DistVect = EPA(Vert, Shape0, Shape1);
+		DistVec = EPA(Vert, Shape0, Shape1);
 		return true;
 	}
-	glm::vec3 Pnt = this->DistToOrigin(Vert, -Dir);
+	DistVec = this->DistToOrigin(Vert, InitDir);
 	return false;
 }
 

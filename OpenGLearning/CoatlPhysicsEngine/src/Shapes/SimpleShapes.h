@@ -5,6 +5,20 @@ namespace CoatlPhysicsEngine {
 	{
 		glm::vec3 Normal;
 		float D;
+		Plane()
+		{
+			Normal = glm::vec3(1.f, 0.f, 0.f);
+			D = 0.f;
+		}
+		Plane(std::vector<glm::vec3> Points)
+		{
+			glm::vec3 Vec0 = Points[1] - Points[0];
+			glm::vec3 Vec1 = Points[2] - Points[0];
+			Normal = glm::cross(Vec0, Vec1);
+			if (glm::dot(Normal, Normal) != 0.)
+				Normal = glm::normalize(Normal);
+			D = glm::dot(Normal, Points[1]);
+		}
 	};
 	struct C_Plane
 	{
