@@ -9,7 +9,6 @@ float GJK_Alg::F3Box(glm::vec3 A, glm::vec3 B, glm::vec3 C)
 
 glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B)
 {
-
 	glm::vec3 T = glm::cross(A, B);
 	glm::vec3 Result = glm::cross(T, A);
 	return Result;
@@ -279,6 +278,30 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 	return Faces[ClosestFace][3] * G;
 }
 
+glm::vec3 GJK_Alg::DistToOrigin(std::vector<glm::vec3> Vert, glm::vec3 Dir)
+{
+	int Size = Vert.size();
+	glm::vec3 Zed = glm::vec3(0.f);
+	if (Size != 3)
+	{
+		float S = glm::dot(Vert[0], Dir);
+		int Excl = 0;
+		for (int ii = 1; ii < Size; ii++)
+		{
+			float T = glm::dot(Vert[ii], Dir);
+			if (T > S)
+			{
+				S = T;
+				Excl = ii;
+			}
+		}
+		Vert.erase(Vert.begin() + Excl);
+	}
+	float S = MATH::Distance_Tr_Pnt(Vert, Zed, Zed);
+	return Zed;
+
+}
+
 bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
 	int Result = 0;
@@ -320,8 +343,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		DistVect = EPA(Vert, Shape0, Shape1);
 		return true;
 	}
-	float S = MATH::Distance_Tr_Pnt(Vert, glm::vec3(0.f), glm::vec3(0.f));
-	glm::vec3 Pnt = MATH::ClosestPoint_Seg(Vert, glm::vec3(0.f));
+	glm::vec3 Pnt = this->DistToOrigin(Vert, -Dir);
 	return false;
 }
 
