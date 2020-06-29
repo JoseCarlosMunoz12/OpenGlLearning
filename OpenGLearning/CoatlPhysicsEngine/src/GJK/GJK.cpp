@@ -293,11 +293,20 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 glm::vec3 GJK_Alg::DistToOrigin(std::vector<glm::vec3> Vert, glm::vec3 Dir)
 {
 	glm::vec3 Zed = glm::vec3(0.f);
+	//Closest Face finder
 	Plane P0({ Vert[0], Vert[1], Vert[2] });
 	Plane P1({ Vert[0], Vert[1], Vert[3] });
 	Plane P2({ Vert[0], Vert[2], Vert[3] }); 
 	Plane P3({ Vert[1], Vert[2], Vert[3] });
-	float Dis0 = glm::distance(Vert[0],Zed);
+	//Closest Line Seg
+	float Pnt0 = MATH::Distance_Pnt({ Vert[0], Vert[1] }, Zed, Zed);
+	float Pnt1 = MATH::Distance_Pnt({ Vert[0], Vert[2] }, Zed, Zed);
+	float Pnt2 = MATH::Distance_Pnt({ Vert[0], Vert[3] }, Zed, Zed);
+	float Pnt3 = MATH::Distance_Pnt({ Vert[1], Vert[2] }, Zed, Zed);
+	float Pnt4 = MATH::Distance_Pnt({ Vert[3], Vert[2] }, Zed, Zed);
+	float Pnt5 = MATH::Distance_Pnt({ Vert[1], Vert[3] }, Zed, Zed);
+	//Closest point
+	float Dis0 = glm::distance(Vert[0], Zed);
 	float Dis1 = glm::distance(Vert[1], Zed);
 	float Dis2 = glm::distance(Vert[2], Zed);
 	float Dis3 = glm::distance(Vert[3], Zed);
