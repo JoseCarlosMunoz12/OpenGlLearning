@@ -18,7 +18,9 @@ glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B)
 
 bool GJK_Alg::AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir, std::vector<glm::vec3> &Vertex)
 {
-	glm::vec3 NewVertex = Shape0->Support(Dir) - Shape1->Support(-Dir);
+	glm::vec3 Pnt0 = Shape0->Support(Dir);
+	glm::vec3 Pnt1 = Shape1->Support(-Dir);
+	glm::vec3 NewVertex = Pnt0 - Pnt1;
 	Vertex.push_back(NewVertex);
 	return glm::dot(NewVertex,Dir) >= 0.f;
 }
@@ -37,7 +39,7 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	switch (Size)
 	{
 	case 0: {
-		Dir = Shape1->GetPos() - Shape0->GetPos();
+		Dir = Shape0->GetPos() - Shape1->GetPos();
 		if (glm::dot(Dir, Dir) != 0.f)
 			Dir = glm::normalize(Dir);
 	}break;
@@ -112,7 +114,7 @@ int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 	switch (Size)
 	{
 	case 0: {
-		Dir = Shape1->GetPos() - Shape0->GetPos();
+		Dir = Shape0->GetPos() - Shape1->GetPos();
 		if (glm::dot(Dir, Dir) != 0.f)
 			Dir = glm::normalize(Dir);
 	}break;
@@ -308,7 +310,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	{
 		Result = EvolveSimplex(Shape0, Shape1, Vert,Dir);
 		Count++;
-		if (Count == 40)
+		if (Count == 64)
 		{
 			return false;
 		}
@@ -329,7 +331,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	{
 		Result = EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
 		Count++;
-		if (Count == 40)
+		if (Count == 64)
 		{
 			break;
 		}
@@ -338,6 +340,9 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		DistVec = EPA(Vert, Shape0, Shape1);
 		return true;
 	}
+	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
+	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
+	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
 	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
 	DistVec = this->DistToOrigin(Vert,Dir);
 	return false;
