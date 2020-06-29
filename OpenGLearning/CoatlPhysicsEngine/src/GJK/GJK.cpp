@@ -292,10 +292,15 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 
 glm::vec3 GJK_Alg::DistToOrigin(std::vector<glm::vec3> Vert, glm::vec3 Dir)
 {
+	glm::vec3 Zed = glm::vec3(0.f);
 	Plane P0({ Vert[0], Vert[1], Vert[2] });
 	Plane P1({ Vert[0], Vert[1], Vert[3] });
 	Plane P2({ Vert[0], Vert[2], Vert[3] }); 
 	Plane P3({ Vert[1], Vert[2], Vert[3] });
+	float Dis0 = glm::distance(Vert[0],Zed);
+	float Dis1 = glm::distance(Vert[1], Zed);
+	float Dis2 = glm::distance(Vert[2], Zed);
+	float Dis3 = glm::distance(Vert[3], Zed);
 	return glm::vec3(0.f);
 }
 
