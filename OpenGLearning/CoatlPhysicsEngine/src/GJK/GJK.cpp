@@ -282,7 +282,7 @@ glm::vec3 GJK_Alg::DistToOrigin(std::vector<glm::vec3> Vert, glm::vec3 Dir)
 {
 	glm::vec3 Zed = glm::vec3(0.f);
 	int Size = Vert.size();
-		int rmv = 0;
+	int rmv = 0;
 	if (Size != 3)
 	{
 		float S = glm::dot(Vert[0], Dir);
@@ -299,9 +299,8 @@ glm::vec3 GJK_Alg::DistToOrigin(std::vector<glm::vec3> Vert, glm::vec3 Dir)
 	}
 	Vert.erase(Vert.begin() + rmv);
 	Plane PL(Vert);
-	float t = PL.D;
-	return Zed - t * PL.Normal;
-
+	float t = -PL.D;
+	return  -t * PL.Normal;
 }
 
 bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
