@@ -19,6 +19,11 @@ glm::vec3 GJK_Alg::Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	return Shape0->Support(Dir) - Shape1->Support(-Dir);
 }
 
+glm::vec3 GJK_Alg::EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir)
+{
+	return Shape0->EPA_Support(Dir) - Shape1->EPA_Support(-Dir);
+}
+
 bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 	std::vector<glm::vec3> Verts, glm::vec3& Dir)
 {
@@ -97,6 +102,80 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		}
 	}break;
 	case 4: {
+		glm::vec3 A = Verts[3];
+		glm::vec3 B = Verts[2];
+		glm::vec3 C = Verts[1];
+		glm::vec3 D = Verts[0];
+
+		glm::vec3 AC = C - A;
+		glm::vec3 AD = D - A;
+		glm::vec3 AB = B - A;
+		glm::vec3 A0 = -A;
+
+		glm::vec3 AC_AB = glm::cross(AC, AB);
+		glm::vec3 AB_AD = glm::cross(AB, AD);
+		glm::vec3 AD_AC = glm::cross(AD, AC);
+
+		float vABC = glm::dot(AC_AB,A0);
+		float vABD = glm::dot(AB_AD,A0);
+		float vADC = glm::dot(AD_AC,A0);
+
+		int neg = 0;
+		int pos = 0;
+
+		if (vABC > 0)
+			pos++;
+		else
+			neg++;
+		if (vABD > 0)
+			pos++;
+		else
+			neg++;
+		if (vADC > 0)
+			pos++;
+		else
+			neg++;
+
+		if (neg == 3)
+			return true;
+		if (pos == 3)
+			return true;
+		if (neg == 2 and pos == 1)
+		{
+			if (vADC > 0.f)
+			{
+				Verts.erase(Verts.begin() + 3);
+				Dir = MATH::Normalize(AD_AC);
+			}
+			else if (vABD > 0.f)
+			{
+				Verts.erase(Verts.begin() + 2);
+				Dir = MATH::Normalize(AB_AD);
+			}
+			else
+			{
+				Verts.erase(Verts.begin() +  1);
+				Dir = MATH::Normalize(AC_AB);
+			}
+		}
+		else
+		{
+			if (vADC < 0.f)
+			{
+				Verts.erase(Verts.begin() + 3);
+				Dir = -MATH::Normalize(AD_AC);
+			}
+			else if (vABD < 0.f)
+			{
+				Verts.erase(Verts.begin() + 2);
+				Dir = -MATH::Normalize(AB_AD);
+			}
+			else
+			{
+				Verts.erase(Verts.begin() + 1);
+				Dir = -MATH::Normalize(AC_AB);
+			}
+		}
 	}break;
 	default:
 		break;
