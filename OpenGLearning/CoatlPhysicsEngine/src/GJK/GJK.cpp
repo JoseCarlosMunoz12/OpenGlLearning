@@ -32,8 +32,30 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		Dir = -MATH::Normalize(Verts[0]);
 	}break;
 	case 2: {
+		glm::vec3 AB = MATH::Normalize(Verts[0] - Verts[1]);
+		glm::vec3 A0 = -MATH::Normalize(Verts[1]);
+		if (glm::dot(AB,A0) > 0.f)
+			Dir = TripleCross(AB, A0);
+		else
+			Dir = A0;
 	}break;
 	case 3: {
+		glm::vec3 A = Verts[2];
+		glm::vec3 B = Verts[1];
+		glm::vec3 C = Verts[0];
+
+		glm::vec3 AB = B - A;
+		glm::vec3 AC = C - A;
+
+		glm::vec3 ABC = glm::cross(AB, AC);
+
+		glm::vec3 ABC_AC = glm::cross(ABC, AC);
+		glm::vec3 AB_ABC = glm::cross(AB, ABC);
+
+		if (glm::dot(ABC_AC, AC) > 0.f)
+		{
+
+		}
 	}break;
 	case 4: {
 	}break;
@@ -56,7 +78,8 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 		if (glm::dot(A, Dir) < 0.f)
 			return false;
 		Verts.push_back(A);
-		Simplex_Maker(Shape0, Shape1, Verts, Dir);
+		if (Simplex_Maker(Shape0, Shape1, Verts, Dir))
+			return true;
 	}
 	return false;
 }
