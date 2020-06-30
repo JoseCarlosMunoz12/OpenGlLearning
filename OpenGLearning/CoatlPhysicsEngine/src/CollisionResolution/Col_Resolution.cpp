@@ -13,7 +13,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 	std::vector<std::shared_ptr<Contact>> Temp;
 	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	glm::vec3 Vec;
-	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(),Vec))
+	if (!this->GJK_->EPA_GJK( Bod1->GetShapes(),Bod0->GetShapes(),Vec))
 	{
 		float R = Sph0.GetRadius();
 		float Pen = R - glm::distance(glm::vec3(0.f), Vec);
@@ -49,7 +49,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	std::vector<std::shared_ptr<Contact>> Temp;
 	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	glm::vec3 vec;
-	bool se = this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), vec);
+	bool se = this->GJK_->EPA_GJK( Bod1->GetShapes(),Bod0->GetShapes(), vec);
 	if (this->SAT_->SAT_Check(Bod0->GetShapes(), Bod1->GetShapes()))
 	{
 		float T = glm::distance(glm::vec3(0), vec);

@@ -10,10 +10,8 @@ float GJK_Alg::F3Box(glm::vec3 A, glm::vec3 B, glm::vec3 C)
 glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B)
 {
 	glm::vec3 T = glm::cross(A, B);
-	glm::vec3 Result = glm::cross(T, A);
-	if (glm::dot(Result, Result) != 0.f)
-		Result = glm::normalize(Result);
-	return Result;
+	glm::vec3 Result = glm::cross(T, A);	
+	return MATH::Normalize(Result);
 }
 
 bool GJK_Alg::AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir, std::vector<glm::vec3> &Vertex)
@@ -39,23 +37,15 @@ int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	switch (Size)
 	{
 	case 0: {
-		Dir = Shape0->GetPos() - Shape1->GetPos();
-		if (glm::dot(Dir, Dir) != 0.f)
-			Dir = glm::normalize(Dir);
+		Dir = MATH::Normalize(Shape0->GetPos() - Shape1->GetPos());
 	}break;
 	case 1: {
-		Dir = -Dir;
+		Dir = -MATH::Normalize(Vertex[0]);
 	}break;
 	case 2: {
-		glm::vec3 AB = Vertex[1] - Vertex[0];
-		if (glm::dot(AB, AB) != 0.f)
-			AB = glm::normalize(AB);
-		glm::vec3 A0 = -Vertex[0];
-		if (glm::dot(A0, A0) != 0.f)
-			A0 = glm::normalize(A0);
+		glm::vec3 AB = MATH::Normalize(Vertex[1] - Vertex[0]);
+		glm::vec3 A0 = -MATH::Normalize(Vertex[0]);
 		Dir = this->TripleCross(AB, A0);
-		if (glm::dot(Dir, Dir) != 0.f)
-			Dir = glm::normalize(Dir);
 	}break;
 	case 3: {
 		glm::vec3 AC = Vertex[2] - Vertex[0];

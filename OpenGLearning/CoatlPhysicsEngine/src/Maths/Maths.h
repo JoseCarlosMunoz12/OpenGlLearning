@@ -42,4 +42,6 @@ namespace MATH {
 	glm::vec3 Support(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1, glm::vec3 Dir);
 	bool DoSimplex(std::vector<glm::vec3> &A, glm::vec3 &Dir);
 	bool GJK_Algorithm(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1);
+	//Vector Maths
+	glm::vec3 Normalize(glm::vec3 Vec);
 }

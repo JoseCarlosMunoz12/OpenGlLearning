@@ -691,3 +691,10 @@ bool MATH::GJK_Algorithm(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt
 	}
 	return false;
 }
+
+glm::vec3 MATH::Normalize(glm::vec3 Vec)
+{
+	if (glm::dot(Vec, Vec) != 0.f)
+		return glm::normalize(Vec);
+	return Vec;
+}
