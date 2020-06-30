@@ -14,339 +14,55 @@ glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B)
 	return MATH::Normalize(Result);
 }
 
-bool GJK_Alg::AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir, std::vector<glm::vec3> &Vertex)
+glm::vec3 GJK_Alg::Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir)
 {
-	glm::vec3 Pnt0 = Shape0->Support(Dir);
-	glm::vec3 Pnt1 = Shape1->Support(-Dir);
-	glm::vec3 NewVertex = Pnt0 - Pnt1;
-	Vertex.push_back(NewVertex);
-	return glm::dot(NewVertex,Dir) >= 0.f;
+	return Shape0->Support(Dir) - Shape1->Support(-Dir);
 }
 
-bool GJK_Alg::EPA_AddVertex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir, std::vector<glm::vec3>& Vertex)
+bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
+	std::vector<glm::vec3> Verts, glm::vec3& Dir)
 {
-	glm::vec3 NewVertex = Shape0->EPA_Support(Dir) - Shape1->EPA_Support(-Dir);
-	Vertex.push_back(NewVertex);
-	float val = glm::dot(NewVertex, Dir);
-	return  val >= 0.f;
-}
-
-int GJK_Alg::EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, std::vector<glm::vec3> &Vertex,glm::vec3 &Dir)
-{
-	int Size = Vertex.size();
+	int Size = Verts.size();
 	switch (Size)
 	{
 	case 0: {
 		Dir = MATH::Normalize(Shape0->GetPos() - Shape1->GetPos());
 	}break;
 	case 1: {
-		Dir = -MATH::Normalize(Vertex[0]);
+		Dir = -MATH::Normalize(Verts[0]);
 	}break;
 	case 2: {
-		glm::vec3 AB = MATH::Normalize(Vertex[1] - Vertex[0]);
-		glm::vec3 A0 = -MATH::Normalize(Vertex[0]);
-		Dir = this->TripleCross(AB, A0);
 	}break;
 	case 3: {
-		glm::vec3 AC = Vertex[2] - Vertex[0];
-		if (glm::dot(AC, AC) != 0.f)
-			AC = glm::normalize(AC);
-		glm::vec3 AB = Vertex[1] - Vertex[0];
-		if (glm::dot(AB, AB) != 0.f)
-			AB = glm::normalize(AB);
-		Dir = glm::cross(AC, AB);
-		glm::vec3 A0 = -Vertex[0];
-		if (glm::dot(Dir, A0) < 0)
-			Dir = -Dir;
 	}break;
 	case 4: {
-		glm::vec3 DA = Vertex[3] - Vertex[0];
-		if (glm::dot(DA, DA) != 0.f)
-			DA = glm::normalize(DA);
-		glm::vec3 DB = Vertex[3] - Vertex[1];
-		if (glm::dot(DB, DB) != 0.f)
-			DB = glm::normalize(DB);
-		glm::vec3 DC = Vertex[3] - Vertex[2];
-		if (glm::dot(DC, DC) != 0.f)
-			DC = glm::normalize(DC);
-
-		glm::vec3 D0 = -glm::normalize(Vertex[3]);
-
-		glm::vec3 ABD_Norm = glm::cross(DB, DA);
-		glm::vec3 BCD_Norm = glm::cross(DC, DB);
-		glm::vec3 CAD_Norm = glm::cross(DA, DC);
-		if (glm::dot(ABD_Norm, D0) > 0) {
-			Vertex.erase(Vertex.begin() + 2);
-			Dir = ABD_Norm;
-		}
-		else if (glm::dot(BCD_Norm, D0) > 0) {
-			Vertex.erase(Vertex.begin() + 0);
-			Dir = BCD_Norm;
-		}
-		else if (glm::dot(CAD_Norm, D0) > 0) {
-			Vertex.erase(Vertex.begin() + 1);
-			Dir = CAD_Norm;
-		}
-		else
-		{
-			return 2;
-		}
 	}break;
 	default:
 		break;
 	}
-	return AddVertex(Shape0,Shape1,Dir,Vertex) ? 0 : 1;
-}
-
-int GJK_Alg::EPA_EvolveSimplex(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, std::vector<glm::vec3>& Vertex, glm::vec3& Dir)
-{
-	int Size = Vertex.size();
-	switch (Size)
-	{
-	case 0: {
-		Dir = Shape0->GetPos() - Shape1->GetPos();
-		if (glm::dot(Dir, Dir) != 0.f)
-			Dir = glm::normalize(Dir);
-	}break;
-	case 1: {
-		Dir = -Dir;
-	}break;
-	case 2: {
-		glm::vec3 AB = Vertex[1] - Vertex[0];
-		if (glm::dot(AB, AB) != 0.f)
-			AB = glm::normalize(AB);
-		glm::vec3 A0 = -Vertex[0];
-		if (glm::dot(A0, A0) != 0.f)
-			A0 = glm::normalize(A0);
-		Dir = this->TripleCross(AB, A0);
-		if (glm::dot(Dir, Dir) != 0.f)
-			Dir = glm::normalize(Dir);
-	}break;
-	case 3: {
-		glm::vec3 AC = Vertex[2] - Vertex[0];
-		if (glm::dot(AC, AC) != 0.f)
-			AC = glm::normalize(AC);
-		glm::vec3 AB = Vertex[1] - Vertex[0];
-		if (glm::dot(AB, AB) != 0.f)
-			AB = glm::normalize(AB);
-		Dir = glm::cross(AC, AB);
-		glm::vec3 A0 = -Vertex[0];
-		if (glm::dot(Dir, A0) < 0)
-			Dir = -Dir;
-	}break;
-	case 4: {
-		glm::vec3 DA = Vertex[3] - Vertex[0];
-		if (glm::dot(DA, DA) != 0.f)
-			DA = glm::normalize(DA);
-		glm::vec3 DB = Vertex[3] - Vertex[1];
-		if (glm::dot(DB, DB) != 0.f)
-			DB = glm::normalize(DB);
-		glm::vec3 DC = Vertex[3] - Vertex[2];
-		if (glm::dot(DC, DC) != 0.f)
-			DC = glm::normalize(DC);
-
-		glm::vec3 D0 = -glm::normalize(Vertex[3]);
-
-		glm::vec3 ABD_Norm = glm::cross(DB, DA);
-		glm::vec3 BCD_Norm = glm::cross(DC, DB);
-		glm::vec3 CAD_Norm = glm::cross(DA, DC);
-		if (glm::dot(ABD_Norm, D0) > 0) {
-			Vertex.erase(Vertex.begin() + 2);
-			Dir = ABD_Norm;
-		}
-		else if (glm::dot(BCD_Norm, D0) > 0) {
-			Vertex.erase(Vertex.begin() + 0);
-			Dir = BCD_Norm;
-		}
-		else if (glm::dot(CAD_Norm, D0) > 0) {
-			Vertex.erase(Vertex.begin() + 1);
-			Dir = CAD_Norm;
-		}
-		else
-		{
-			return 2;
-		}
-	}break;
-	default:
-		break;
-	}
-	return EPA_AddVertex(Shape0, Shape1, Dir, Vertex) ? 0 : 1;
-}
-
-glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
-{
-	glm::vec3 Faces[EPA_MAX_NUM_FACES][4];//Array of faces, each with 3 verts and a normal
-
-	Faces[0][0] = Vertex[0];
-	Faces[0][1] = Vertex[1];
-	Faces[0][2] = Vertex[2];
-	Faces[0][3] = glm::normalize(glm::cross(Vertex[1] - Vertex[0], Vertex[2] - Vertex[0])); //ABC
-	Faces[1][0] = Vertex[0];
-	Faces[1][1] = Vertex[2];
-	Faces[1][2] = Vertex[3];
-	Faces[1][3] = glm::normalize(glm::cross(Vertex[2] - Vertex[0], Vertex[3] - Vertex[0])); //ACD
-	Faces[2][0] = Vertex[0];
-	Faces[2][1] = Vertex[3];
-	Faces[2][2] = Vertex[2];
-	Faces[2][3] = glm::normalize(glm::cross(Vertex[3] - Vertex[0], Vertex[1] - Vertex[0])); //ADB
-	Faces[3][0] = Vertex[1];
-	Faces[3][1] = Vertex[3];
-	Faces[3][2] = Vertex[2];
-	Faces[3][3] = glm::normalize(glm::cross(Vertex[3] - Vertex[1], Vertex[2] - Vertex[1])); //BDC
-	int Num_Face = 4;
-	int ClosestFace;
-	for (int It = 0; It < EPA_MAX_NUM_ITERATIONS; It++)
-	{
-		//Find Fce that's closest to origin
-		float MinDist = glm::dot(Faces[0][0], Faces[0][3]);
-		ClosestFace = 0;		
-		for (int ii = 1 ; ii < Num_Face; ii++)
-		{
-			float dist = glm::dot(Faces[ii][0], Faces[ii][3]);
-			if (dist < MinDist)
-			{
-				MinDist = dist;
-				ClosestFace = ii;
-			}
-		}
-		//search normal to face that's closets to origin
-		glm::vec3 Search_Dir = Faces[ClosestFace][3];
-		glm::vec3 P = Shape1->EPA_Support(Search_Dir) - Shape0->EPA_Support(-Search_Dir);
-		float Dif = glm::dot(P, Search_Dir) - MinDist;
-		if (Dif < EPA_TOLERANCE)
-		{
-			float S = glm::dot(P, Search_Dir);
-			return Faces[ClosestFace][3] * S;
-		}
-		glm::vec3 LooseEdges[EPA_MAX_NUM_FACES][2];
-		int NumLooseEdge = 0;
-		//find all triangles that are facing P
-		for (int ii = 0; ii < Num_Face; ii++)
-		{
-			if (glm::dot(Faces[ii][3], P - Faces[ii][0]) > 0)
-			{
-				for (int jj = 0; jj < 3; jj++)
-				{
-					glm::vec3 CurEdg[2] = {Faces[ii][jj],Faces[ii][(jj +1)%3]};
-					bool FoundEdge = false;
-					for (int kk = 0; kk < NumLooseEdge; kk++)
-					{
-						if(LooseEdges[kk][1] == CurEdg[0] && LooseEdges[kk][0] == CurEdg[1])
-						{
-							LooseEdges[kk][0] = LooseEdges[NumLooseEdge - 1][0];
-							LooseEdges[kk][1] = LooseEdges[NumLooseEdge - 1][1];
-							NumLooseEdge--;
-							FoundEdge = true;
-							kk = NumLooseEdge;
-						}
-					}
-					if (!FoundEdge)
-					{
-						if (NumLooseEdge >= EPA_MAX_NUM_LOOSE_EDGES)break;
-						LooseEdges[NumLooseEdge][0] = CurEdg[0];
-						LooseEdges[NumLooseEdge][1] = CurEdg[1];
-						NumLooseEdge++;
-					}
-				}
-				Faces[ii][0] = Faces[Num_Face - 1][0];
-				Faces[ii][1] = Faces[Num_Face - 1][1];
-				Faces[ii][2] = Faces[Num_Face - 1][2];
-				Faces[ii][3] = Faces[Num_Face - 1][3];
-				Num_Face--;
-				ii--;
-			}
-		}
-		//Reconstruct polytope with p added
-		for (int ii = 0; ii < NumLooseEdge; ii++)
-		{
-			if (Num_Face >= EPA_MAX_NUM_FACES) break;
-			Faces[Num_Face][0] = LooseEdges[ii][0];
-			Faces[Num_Face][1] = LooseEdges[ii][1];
-			Faces[Num_Face][2] = P;
-			Faces[Num_Face][3] = glm::normalize(glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P));
-			float bias = 0.000001f;
-			float Diff = glm::dot(Faces[Num_Face][0],Faces[Num_Face][3]) + bias;
-			if (Dif < 0)
-			{
-				glm::vec3 Temp = Faces[Num_Face][0];
-				Faces[Num_Face][0] = Faces[Num_Face][1];
-				Faces[Num_Face][1] = Temp;
-				Faces[Num_Face][3] = -Faces[Num_Face][3];
-			}
-			Num_Face++;
-		}
-	}
-	float G = glm::dot(Faces[ClosestFace][0], Faces[ClosestFace][3]);
-	return Faces[ClosestFace][3] * G;
-}
-
-glm::vec3 GJK_Alg::DistToOrigin(std::vector<glm::vec3> Vert, glm::vec3 Dir)
-{
-	glm::vec3 Zed = glm::vec3(0.f);
-	//Closest Face finder
-	Plane P0({ Vert[0], Vert[1], Vert[2] });
-	Plane P1({ Vert[0], Vert[1], Vert[3] });
-	Plane P2({ Vert[0], Vert[2], Vert[3] }); 
-	Plane P3({ Vert[1], Vert[2], Vert[3] });
-	//Closest Line Seg
-	float Pnt0 = MATH::Distance_Pnt({ Vert[0], Vert[1] }, Zed, Zed);
-	float Pnt1 = MATH::Distance_Pnt({ Vert[0], Vert[2] }, Zed, Zed);
-	float Pnt2 = MATH::Distance_Pnt({ Vert[0], Vert[3] }, Zed, Zed);
-	float Pnt3 = MATH::Distance_Pnt({ Vert[1], Vert[2] }, Zed, Zed);
-	float Pnt4 = MATH::Distance_Pnt({ Vert[3], Vert[2] }, Zed, Zed);
-	float Pnt5 = MATH::Distance_Pnt({ Vert[1], Vert[3] }, Zed, Zed);
-	//Closest point
-	float Dis0 = glm::distance(Vert[0], Zed);
-	float Dis1 = glm::distance(Vert[1], Zed);
-	float Dis2 = glm::distance(Vert[2], Zed);
-	float Dis3 = glm::distance(Vert[3], Zed);
-	return glm::vec3(0.f);
+	return false;
 }
 
 bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
-	int Result = 0;
-	std::vector<glm::vec3> Vert;
+	std::vector<glm::vec3> Verts;
 	glm::vec3 Dir;
-	int Count = 0;
-	EvolveSimplex(Shape0, Shape1, Vert, Dir);
-	while (Result == 0)
+	Simplex_Maker(Shape0, Shape1,Verts, Dir);
+	Verts.push_back(Support(Shape0, Shape1, Dir));
+	Simplex_Maker(Shape0, Shape1, Verts, Dir);
+	for (int ii = 0; ii < 64; ii++)
 	{
-		Result = EvolveSimplex(Shape0, Shape1, Vert,Dir);
-		Count++;
-		if (Count == 64)
-		{
+		glm::vec3 A = Support(Shape0, Shape1, Dir);
+		if (glm::dot(A, Dir) < 0.f)
 			return false;
-		}
+		Verts.push_back(A);
+		Simplex_Maker(Shape0, Shape1, Verts, Dir);
 	}
-	if (Result == 1 )
-		return false;
-	return true;
+	return false;
 }
 
 bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVec)
 {
-	int Result = 0;
-	std::vector<glm::vec3> Vert;
-	glm::vec3 Dir;
-	int Count = 0;
-	EPA_EvolveSimplex(Shape0, Shape1, Vert,Dir);
-	while (Result == 0)
-	{
-		Result = EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
-		Count++;
-		if (Count == 64)
-		{
-			break;
-		}
-	}
-	if (Result == 2){
-		DistVec = EPA(Vert, Shape0, Shape1);
-		return true;
-	}
-	for(int ii = 0; ii < 5; ii++)
-		EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
-	DistVec = this->DistToOrigin(Vert,Dir);
 	return false;
 }
 
