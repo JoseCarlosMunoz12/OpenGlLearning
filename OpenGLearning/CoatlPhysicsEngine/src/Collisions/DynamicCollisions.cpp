@@ -97,28 +97,30 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
 			//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
-			//Check Collision with The Terrain
-			std::vector<std::shared_ptr<Bodies>> Quers = Ter.lock()->GetTerrs(jj->GetPos(), 1);
 			glm::vec3 Bod_Vel= Temp->GetVel();
 			float F_dt = dt;
-			if (!this->Ter.expired())
+			//Check Collision with The Terrain
+			if (!Ter.expired())
 			{
-				
-				for (auto& ii : Quers)
-				{
-					if (this->BinColDetection(jj, ii, Bod_Vel, PrevPos, 0, dt, F_dt))
+				std::vector<std::shared_ptr<Bodies>> Quers = Ter.lock()->GetTerrs(jj->GetPos(), 1);
+				if (!this->Ter.expired())
+				{					
+					for (auto& ii : Quers)
 					{
-						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
-						if (!this->ContainsManifold(ColRel, T))
-							ColRel.push_back(T);
-						Temp->AcumForce(-Gravity * Temp->GetMass());
-						if (glm::abs(Bod_Vel.z) > 0.125f)
+						if (this->BinColDetection(jj, ii, Bod_Vel, PrevPos, 0, dt, F_dt))
 						{
-							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z	/2)));
-						}
-						else
-						{
-							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
+							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
+							if (!this->ContainsManifold(ColRel, T))
+								ColRel.push_back(T);
+							Temp->AcumForce(-Gravity * Temp->GetMass());
+							if (glm::abs(Bod_Vel.z) > 0.125f)
+							{
+								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z	/2)));
+							}
+							else
+							{
+								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
+							}
 						}
 					}
 				}
@@ -144,6 +146,11 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						{
 							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
 						}
+						std::cout << "Collided\n";
+					}
+					else
+					{
+						std::cout << "no Collided\n";
 					}
 				}
 			}

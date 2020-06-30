@@ -344,10 +344,8 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		DistVec = EPA(Vert, Shape0, Shape1);
 		return true;
 	}
-	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
-	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
-	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
-	EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
+	for(int ii = 0; ii < 5; ii++)
+		EPA_EvolveSimplex(Shape0, Shape1, Vert, Dir);
 	DistVec = this->DistToOrigin(Vert,Dir);
 	return false;
 }
