@@ -14,6 +14,25 @@ glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B)
 	return MATH::Normalize(Result);
 }
 
+int GJK_Alg::Tr_Farthest_Point(std::vector<glm::vec3> Vec)
+{
+	glm::vec3 Zed = glm::vec3(0.f);
+	float R = glm::distance(Vec[0], Zed);
+	int Id = 0;
+	int Count = 0;
+	for (auto& ii : Vec)
+	{
+		float S = glm::distance(ii, Zed);
+		if (R < S)
+		{
+			R = S;
+			Id = Count;
+		}
+		Count++;
+	}
+	return Id;
+}
+
 glm::vec3 GJK_Alg::Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir)
 {
 	return Shape0->Support(Dir) - Shape1->Support(-Dir);
@@ -133,8 +152,19 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 
 glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
-
-	return glm::vec3();
+	glm::vec3 DirVect;
+	glm::vec3 Zed = glm::vec3(0.f);
+	glm::vec3 Dir = -MATH::Normalize(MATH::ClosestPoint_Seg(Verts, Zed, Zed));
+	while (true)
+	{
+		glm::vec3 A = EPA_Support(Shape0, Shape1, Dir);
+		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
+			return MATH::ClosestPoint_Seg(Verts, Zed, Zed);
+		int T = Tr_Farthest_Point(Verts);
+		Verts[T] = A;
+		Dir = -MATH::Normalize(MATH::ClosestPoint_Seg(Verts, Zed, Zed));
+	}
+	return DirVect;
 }
 
 bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
@@ -303,7 +333,6 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 
 bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVec)
 {
-
 	std::vector<glm::vec3> Verts;
 	glm::vec3 Dir;
 	Simplex_Maker(Shape0, Shape1, Verts, Dir);

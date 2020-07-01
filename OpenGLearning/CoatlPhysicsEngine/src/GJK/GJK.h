@@ -21,8 +21,10 @@ namespace CoatlPhysicsEngine {
 	class GJK_Alg
 	{
 	private:
+		//Other Vectors functions
 		float F3Box(glm::vec3 A, glm::vec3 B, glm::vec3 C);
 		glm::vec3 TripleCross(glm::vec3 A, glm::vec3 B);
+		int Tr_Farthest_Point(std::vector<glm::vec3> Vec);
 		//Simplex for GJK and EPA
 		glm::vec3 Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
 		glm::vec3 EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
