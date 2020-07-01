@@ -133,6 +133,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 
 glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
+
 	return glm::vec3();
 }
 
@@ -172,19 +173,13 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		if (glm::dot(ABC_AC, AC) > 0.f)
 		{
 			if (glm::dot(AC, AB) > 0.f)
-			{
 				Dir = TripleCross(AC, A0);
-			}
 			else
 			{
 				if(glm::dot(AB, A0) > 0.f)
-				{
 					Dir = TripleCross(AB, A0);
-				}
 				else
-				{
 					Dir = MATH::Normalize(A0);
-				}
 			}
 		}
 		else
@@ -192,24 +187,16 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 			if (glm::dot(AB_ABC,A0) > 0.f)
 			{
 				if (glm::dot(AB, A0) > 0.f)
-				{
 					Dir = TripleCross(AB, A0);
-				}
 				else
-				{
 					Dir = MATH::Normalize(A0);
-				}
 			}
 			else
 			{
 				if (glm::dot(ABC, A0) > 0.f)
-				{
 					Dir = MATH::Normalize(ABC);
-				}
 				else
-				{
 					Dir = -MATH::Normalize(ABC);
-				}
 			}
 		}
 	}break;
