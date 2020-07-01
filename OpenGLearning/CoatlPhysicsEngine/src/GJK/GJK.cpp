@@ -152,7 +152,6 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 
 glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
-	glm::vec3 DirVect;
 	glm::vec3 Zed = glm::vec3(0.f);
 	glm::vec3 Dir = -MATH::Normalize(MATH::ClosestPoint_Seg(Verts, Zed, Zed));
 	while (true)
@@ -164,7 +163,7 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 		Verts[T] = A;
 		Dir = -MATH::Normalize(MATH::ClosestPoint_Seg(Verts, Zed, Zed));
 	}
-	return DirVect;
+	return Zed;
 }
 
 bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
@@ -174,7 +173,7 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 	switch (Size)
 	{
 	case 0: {
-		Dir = MATH::Normalize(Shape0->GetPos() - Shape1->GetPos());
+		Dir = MATH::Normalize(glm::vec3(1.f));
 	}break;
 	case 1: {
 		Dir = -MATH::Normalize(Verts[0]);
@@ -200,9 +199,9 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		glm::vec3 ABC_AC = glm::cross(ABC, AC);
 		glm::vec3 AB_ABC = glm::cross(AB, ABC);
 
-		if (glm::dot(ABC_AC, AC) > 0.f)
+		if (glm::dot(ABC_AC, A0) > 0.f)
 		{
-			if (glm::dot(AC, AB) > 0.f)
+			if (glm::dot(AC, A0) > 0.f)
 				Dir = TripleCross(AC, A0);
 			else
 			{
@@ -248,7 +247,12 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		float vABC = glm::dot(AC_AB,A0);
 		float vABD = glm::dot(AB_AD,A0);
 		float vADC = glm::dot(AD_AC,A0);
-
+		if (glm::abs(vABC) < 0.00001f)
+			vABC = 0;
+		if (glm::abs(vABD) < 0.00001f)
+			vABC = 0;
+		if (glm::abs(vADC) < 0.00001f)
+			vABC = 0;
 		int neg = 0;
 		int pos = 0;
 
@@ -256,10 +260,12 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 			pos++;
 		else
 			neg++;
+
 		if (vABD > 0)
 			pos++;
 		else
 			neg++;
+
 		if (vADC > 0)
 			pos++;
 		else
@@ -319,7 +325,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	Simplex_Maker(Shape0, Shape1,Verts, Dir);
 	Verts.push_back(Support(Shape0, Shape1, Dir));
 	Simplex_Maker(Shape0, Shape1, Verts, Dir);
-	for (int ii = 0; ii < 124; ii++)
+	for (int ii = 0; ii < 64; ii++)
 	{
 		glm::vec3 A = Support(Shape0, Shape1, Dir);
 		if (glm::dot(A, Dir) < 0.f)
@@ -328,7 +334,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 		if (Simplex_Maker(Shape0, Shape1, Verts, Dir))
 			return true;
 	}
-	return true;
+	return false;
 }
 
 bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVec)
@@ -339,7 +345,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	Verts.push_back(EPA_Support(Shape0, Shape1, Dir));
 	Simplex_Maker(Shape0, Shape1, Verts, Dir);
 	bool Col = false;
-	for (int ii = 0; ii < 124; ii++)
+	for (int ii = 0; ii < 10; ii++)
 	{
 		glm::vec3 A = EPA_Support(Shape0, Shape1, Dir);
 		if (glm::dot(A, Dir) < 0.f)
@@ -354,7 +360,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	if (Col)
 		DistVec = EPA(Verts, Shape0, Shape1);
 	else
-		DistVec = C_F_E(Verts, Shape0, Shape1);
+		//DistVec = C_F_E(Verts, Shape0, Shape1);
 	return Col;
 }
 
