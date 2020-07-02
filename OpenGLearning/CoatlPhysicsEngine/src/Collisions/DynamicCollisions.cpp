@@ -22,12 +22,13 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 	}
 	return BinColDetection(Bod0, Bod1, Vel,Pos, Mid, t1, NewDt);
 }
+
 void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies> Bod1)
 {
 
 }
 
-bool CoatlPhysicsEngine::DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Manifold>> ColRel, std::shared_ptr<Manifold> NewMan)
+bool DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Manifold>> ColRel, std::shared_ptr<Manifold> NewMan)
 {
 	for (auto& jj : ColRel)
 	{
@@ -167,12 +168,10 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		//
 		if (jj->ContactCount > 0)
 		{
-			//float Diff = jj->Contacts[0]->Penetration;
-			float Diff = 0.f;
+			float Diff = jj->Contacts[0]->Penetration;
 			if (Diff < 0.001f)
 				Diff = 0.f;
-			//glm::vec3 Norm = jj->Contacts[0]->Normal;
-			glm::vec3 Norm = glm::vec3(0.f);
+			glm::vec3 Norm = jj->Contacts[0]->Normal;
 			switch (jj->ID)
 			{
 			case 0:
@@ -205,7 +204,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-			//jj->SetPosition(Temp->UpdatePos(dt));			
+			jj->SetPosition(Temp->UpdatePos(dt));			
 		}
 	}
 }

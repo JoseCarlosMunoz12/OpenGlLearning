@@ -14,10 +14,6 @@
 #define EPA_MAX_NUM_LOOSE_EDGES 32
 #define EPA_MAX_NUM_ITERATIONS 64
 namespace CoatlPhysicsEngine {
-	//Evolving ID
-	// 0 = Still evolving
-	// 1 = No intersection
-	// 2 = Intersection
 	class GJK_Alg
 	{
 	private:

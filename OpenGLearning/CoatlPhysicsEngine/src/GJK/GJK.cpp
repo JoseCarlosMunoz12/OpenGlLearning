@@ -353,9 +353,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		}
 	}
 	if (Col)
-	{
 		Dir = EPA(Verts, Shape0, Shape1);
-	}
 	else
 		DistVec = C_F_E(Verts, Shape0, Shape1);
 	return Col;
