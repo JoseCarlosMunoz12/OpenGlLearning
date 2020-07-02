@@ -52,7 +52,7 @@ float SAT::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vect
 	return  MinL;
 }
 
-float CoatlPhysicsEngine::SAT::SAT_Algo(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
+float SAT::SAT_Algo(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 	std::vector<glm::vec3> Pnts0, std::vector<glm::vec3> Pnts1, glm::vec3& Norm)
 {
 	glm::vec3 NormF;
@@ -120,7 +120,7 @@ float SAT::GetPenetrationContacts(std::shared_ptr<ColShapes> Bod0, std::shared_p
 	return SAT_Algo(Normals0, Normals1, Vertex0, Vertex1, Norm);
 }
 
-bool CoatlPhysicsEngine::SAT::SAT_Check(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1)
+bool SAT::SAT_Check(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1)
 {
 	std::vector<glm::vec3> Vertex0 = Bod0->GetVertices();
 	std::vector<glm::vec3> Vertex1 = Bod1->GetVertices();

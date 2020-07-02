@@ -1,5 +1,6 @@
 #include "DynamicCollisions.h"
 using namespace CoatlPhysicsEngine;
+
 bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
 	glm::vec3 Vel, glm::vec3 Pos,
 	float t0, float t1, float& NewDt)

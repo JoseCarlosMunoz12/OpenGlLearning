@@ -1,5 +1,6 @@
 #include "Col_Resolution.h"
 using namespace CoatlPhysicsEngine;
+
 std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
@@ -80,50 +81,11 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	glm::vec3 Vec;
 	if (std::shared_ptr<Sphere> Sph = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
-
-		if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec))
-		{
-			float R = Sph->GetRadius();
-			float Pen = R - glm::distance(glm::vec3(0.f), Vec);
-			glm::vec3 Norm = glm::normalize(Vec);
-			Cont->Penetration = Pen - 0.001f;
-			Cont->Normal = -Norm;
-			Cont->ContactPoint = Sph->GetPos() + Pen * Norm;
-			Temp.push_back(Cont);
-		}
-		else
-		{
-			glm::vec3 Norm;
-			float R = Sph->GetRadius();
-			float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
-			Cont->Penetration = Pen - 0.001f;
-			Cont->Normal = -Norm;
-			Cont->ContactPoint = Sph->GetPos() + Pen * Norm;
-			Temp.push_back(Cont);
-		}
+		return this->ContactCreate(*Sph, Bod1, Bod1);
 	}
 	else if (std::shared_ptr<Capsule> Cap = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
 	{
-		if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec))
-		{
-			float R = Cap->GetRadius();
-			float Pen = R - glm::distance(glm::vec3(0.f), Vec);
-			glm::vec3 Norm = glm::normalize(Vec);
-			Cont->Penetration = Pen - 0.001f;
-			Cont->Normal = -Norm;
-			Cont->ContactPoint = Cap->GetPos() + Pen * Norm;
-			Temp.push_back(Cont);
-		}
-		else
-		{
-			glm::vec3 Norm;
-			float R = Cap->GetRadius();
-			float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
-			Cont->Penetration = Pen - 0.001f;
-			Cont->Normal = -Norm;
-			Cont->ContactPoint = Cap->GetPos() + Pen * Norm;
-			Temp.push_back(Cont);
-		}
+		return this->ContactCreate(*Cap, Bod1, Bod0);
 	}
 	else
 	{
