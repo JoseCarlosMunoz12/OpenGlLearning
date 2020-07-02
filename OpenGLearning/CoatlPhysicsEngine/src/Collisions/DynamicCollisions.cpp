@@ -136,9 +136,11 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
 						if (!this->ContainsManifold(ColRel, T))
 							ColRel.push_back(T);
+						std::cout << "Collided\n";
 					}
 					else
 					{
+						std::cout << "No Collided\n";
 					}
 				}
 			}
@@ -167,10 +169,12 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		//
 		if (jj->ContactCount > 0)
 		{
-			float Diff = jj->Contacts[0]->Penetration;
+			//float Diff = jj->Contacts[0]->Penetration;
+			float Diff = 0.f;
 			if (Diff < 0.001f)
 				Diff = 0.f;
-			glm::vec3 Norm = jj->Contacts[0]->Normal;
+			//glm::vec3 Norm = jj->Contacts[0]->Normal;
+			glm::vec3 Norm = glm::vec3(0.f);
 			switch (jj->ID)
 			{
 			case 0:

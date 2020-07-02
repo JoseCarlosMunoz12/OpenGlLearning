@@ -11,7 +11,7 @@ glm::vec3 GJK_Alg::TripleCross(glm::vec3 A, glm::vec3 B)
 {
 	glm::vec3 T = glm::cross(A, B);
 	glm::vec3 Result = glm::cross(T, A);	
-	return MATH::Normalize(Result);
+	return  Result;
 }
 
 int GJK_Alg::Tr_Farthest_Point(std::vector<glm::vec3> Vec)
@@ -50,19 +50,19 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 	Faces[0][0] = Vertex[0];
 	Faces[0][1] = Vertex[1];
 	Faces[0][2] = Vertex[2];
-	Faces[0][3] = glm::normalize(glm::cross(Vertex[1] - Vertex[0], Vertex[2] - Vertex[0])); //ABC	
+	Faces[0][3] = glm::cross(Vertex[1] - Vertex[0], Vertex[2] - Vertex[0]); //ABC	
 	Faces[1][0] = Vertex[0];
 	Faces[1][1] = Vertex[2];
 	Faces[1][2] = Vertex[3];
-	Faces[1][3] = glm::normalize(glm::cross(Vertex[2] - Vertex[0], Vertex[3] - Vertex[0])); //ACD	
+	Faces[1][3] = glm::cross(Vertex[2] - Vertex[0], Vertex[3] - Vertex[0]); //ACD	
 	Faces[2][0] = Vertex[0];
 	Faces[2][1] = Vertex[3];
 	Faces[2][2] = Vertex[2];
-	Faces[2][3] = glm::normalize(glm::cross(Vertex[3] - Vertex[0], Vertex[1] - Vertex[0])); //ADB	
+	Faces[2][3] = glm::cross(Vertex[3] - Vertex[0], Vertex[1] - Vertex[0]); //ADB	
 	Faces[3][0] = Vertex[1];
 	Faces[3][1] = Vertex[3];
 	Faces[3][2] = Vertex[2];
-	Faces[3][3] = glm::normalize(glm::cross(Vertex[3] - Vertex[1], Vertex[2] - Vertex[1])); //BDC	
+	Faces[3][3] = glm::cross(Vertex[3] - Vertex[1], Vertex[2] - Vertex[1]); //BDC	
 	int Num_Face = 4;
 	int ClosestFace;
 	for (int It = 0; It < EPA_MAX_NUM_ITERATIONS; It++)
@@ -133,7 +133,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 			Faces[Num_Face][0] = LooseEdges[ii][0];
 			Faces[Num_Face][1] = LooseEdges[ii][1];
 			Faces[Num_Face][2] = P;
-			Faces[Num_Face][3] = glm::normalize(glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P));
+			Faces[Num_Face][3] = glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P);
 			float bias = 0.000001f;
 			float Diff = glm::dot(Faces[Num_Face][0], Faces[Num_Face][3]) + bias;
 			if (Dif < 0)
@@ -161,7 +161,7 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 			return MATH::ClosestPoint_Seg(Verts, Zed, Zed);
 		int T = Tr_Farthest_Point(Verts);
 		Verts[T] = A;
-		Dir = -MATH::Normalize(MATH::ClosestPoint_Seg(Verts, Zed, Zed));
+		Dir = -MATH::ClosestPoint_Seg(Verts, Zed, Zed);
 	}
 	return Zed;
 }
@@ -173,14 +173,14 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 	switch (Size)
 	{
 	case 0: {
-		Dir = MATH::Normalize(glm::vec3(1.f));
+		Dir = Shape0->GetPos() - Shape1->GetPos();
 	}break;
 	case 1: {
-		Dir = -MATH::Normalize(Verts[0]);
+		Dir = -Verts[0];
 	}break;
 	case 2: {
-		glm::vec3 AB = MATH::Normalize(Verts[0] - Verts[1]);
-		glm::vec3 A0 = -MATH::Normalize(Verts[1]);
+		glm::vec3 AB = Verts[0] - Verts[1];
+		glm::vec3 A0 = -Verts[1];
 		if (glm::dot(AB,A0) > 0.f)
 			Dir = TripleCross(AB, A0);
 		else
@@ -208,7 +208,7 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 				if(glm::dot(AB, A0) > 0.f)
 					Dir = TripleCross(AB, A0);
 				else
-					Dir = MATH::Normalize(A0);
+					Dir = A0;
 			}
 		}
 		else
@@ -218,14 +218,14 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 				if (glm::dot(AB, A0) > 0.f)
 					Dir = TripleCross(AB, A0);
 				else
-					Dir = MATH::Normalize(A0);
+					Dir = A0;
 			}
 			else
 			{
 				if (glm::dot(ABC, A0) > 0.f)
-					Dir = MATH::Normalize(ABC);
+					Dir = ABC;
 				else
-					Dir = -MATH::Normalize(ABC);
+					Dir = -ABC;
 			}
 		}
 	}break;
@@ -247,12 +247,7 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		float vABC = glm::dot(AC_AB,A0);
 		float vABD = glm::dot(AB_AD,A0);
 		float vADC = glm::dot(AD_AC,A0);
-		if (glm::abs(vABC) < 0.00001f)
-			vABC = 0;
-		if (glm::abs(vABD) < 0.00001f)
-			vABC = 0;
-		if (glm::abs(vADC) < 0.00001f)
-			vABC = 0;
+
 		int neg = 0;
 		int pos = 0;
 
@@ -279,36 +274,36 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		{
 			if (vADC > 0.f)
 			{
-				Verts.erase(Verts.begin() + 3);
-				Dir = MATH::Normalize(AD_AC);
+				Verts.erase(Verts.begin() + 1);
+				Dir = AD_AC;
 			}
 			else if (vABD > 0.f)
 			{
 				Verts.erase(Verts.begin() + 2);
-				Dir = MATH::Normalize(AB_AD);
+				Dir = AB_AD;
 			}
 			else
 			{
-				Verts.erase(Verts.begin() +  1);
-				Dir = MATH::Normalize(AC_AB);
+				Verts.erase(Verts.begin() +  0);
+				Dir = AC_AB;
 			}
 		}
 		else
 		{
 			if (vADC < 0.f)
 			{
-				Verts.erase(Verts.begin() + 3);
-				Dir = -MATH::Normalize(AD_AC);
+				Verts.erase(Verts.begin() + 1);
+				Dir = -AD_AC;
 			}
 			else if (vABD < 0.f)
 			{
 				Verts.erase(Verts.begin() + 2);
-				Dir = -MATH::Normalize(AB_AD);
+				Dir = -AB_AD;
 			}
 			else
 			{
-				Verts.erase(Verts.begin() + 1);
-				Dir = -MATH::Normalize(AC_AB);
+				Verts.erase(Verts.begin() + 0);
+				Dir = -AC_AB;
 			}
 		}
 	}break;
@@ -325,7 +320,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	Simplex_Maker(Shape0, Shape1,Verts, Dir);
 	Verts.push_back(Support(Shape0, Shape1, Dir));
 	Simplex_Maker(Shape0, Shape1, Verts, Dir);
-	for (int ii = 0; ii < 64; ii++)
+	for (int ii = 0; ii < 100; ii++)
 	{
 		glm::vec3 A = Support(Shape0, Shape1, Dir);
 		if (glm::dot(A, Dir) < 0.f)
@@ -358,8 +353,12 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		}
 	}
 	if (Col)
-		DistVec = EPA(Verts, Shape0, Shape1);
+	{
+		DistVec = glm::vec3(0.f);
+		EPA(Verts, Shape0, Shape1);
+	}
 	else
+		DistVec = glm::vec3(0.f);
 		//DistVec = C_F_E(Verts, Shape0, Shape1);
 	return Col;
 }
