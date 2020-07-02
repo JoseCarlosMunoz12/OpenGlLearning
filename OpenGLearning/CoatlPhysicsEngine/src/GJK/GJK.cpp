@@ -320,7 +320,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	Simplex_Maker(Shape0, Shape1,Verts, Dir);
 	Verts.push_back(Support(Shape0, Shape1, Dir));
 	Simplex_Maker(Shape0, Shape1, Verts, Dir);
-	for (int ii = 0; ii < 100; ii++)
+	for (int ii = 0; ii < 10; ii++)
 	{
 		glm::vec3 A = Support(Shape0, Shape1, Dir);
 		if (glm::dot(A, Dir) < 0.f)
@@ -354,12 +354,10 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	}
 	if (Col)
 	{
-		DistVec = glm::vec3(0.f);
 		Dir = EPA(Verts, Shape0, Shape1);
 	}
 	else
-		DistVec = glm::vec3(0.f);
-		//DistVec = C_F_E(Verts, Shape0, Shape1);
+		DistVec = C_F_E(Verts, Shape0, Shape1);
 	return Col;
 }
 
