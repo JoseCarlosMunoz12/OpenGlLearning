@@ -153,7 +153,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
 	glm::vec3 Zed = glm::vec3(0.f);
-	glm::vec3 Dir = -MATH::Normalize(MATH::ClosestPoint_Seg(Verts, Zed, Zed));
+	glm::vec3 Dir = -MATH::ClosestPoint_Seg(Verts, Zed, Zed);
 	while (true)
 	{
 		glm::vec3 A = EPA_Support(Shape0, Shape1, Dir);
@@ -355,7 +355,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	if (Col)
 	{
 		DistVec = glm::vec3(0.f);
-		EPA(Verts, Shape0, Shape1);
+		Dir = EPA(Verts, Shape0, Shape1);
 	}
 	else
 		DistVec = glm::vec3(0.f);
