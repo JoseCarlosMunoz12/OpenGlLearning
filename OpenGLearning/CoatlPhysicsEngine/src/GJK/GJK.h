@@ -25,7 +25,9 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
 		glm::vec3 EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
 		glm::vec3 EPA(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1);
-		glm::vec3 C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1);
+		glm::vec3 C_F_E(std::vector<glm::vec3> Verts,
+			std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
+			glm::vec3 Dir);
 		bool Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 			std::vector<glm::vec3>& Verts, glm::vec3& Dir);
 	public:
