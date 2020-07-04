@@ -161,7 +161,7 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 		Simplex_Maker(Shape0, Shape1, Verts, Dir);
 	}
 	glm::vec3 Zed = glm::vec3(0.f);
-	glm::vec3 Vec = MATH::ClosestPoint_Seg(Verts, Zed, Zed);
+	return MATH::ClosestPoint_Seg(Verts, Zed, Zed);
 	/*while (true)
 	{
 		glm::vec3 A = EPA_Support(Shape0, Shape1, Dir);
@@ -171,7 +171,6 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 		Verts[T] = A;
 		Dir = -MATH::ClosestPoint_Seg(Verts, Zed, Zed);
 	}*/
-	return Zed;
 }
 
 bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
