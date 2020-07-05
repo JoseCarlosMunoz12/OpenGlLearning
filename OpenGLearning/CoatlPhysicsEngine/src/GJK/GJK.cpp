@@ -155,22 +155,21 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 {
 	while (true)
 	{
-		if (Verts.size() == 3)
+		if (Verts.size() == 4)
 			break;
 		Verts.push_back(EPA_Support(Shape0, Shape1, Dir));
 		Simplex_Maker(Shape0, Shape1, Verts, Dir);
 	}
-	glm::vec3 Zed = glm::vec3(0.f);
-	glm::vec3 Vec = MATH::ClosestPoint_Seg(Verts, Zed, Zed);
-	/*while (true)
+	glm::vec3 Zed = glm::vec3(0.f);	
+	std::vector<int> C_Index;
+	while (true)
 	{
-		glm::vec3 A = EPA_Support(Shape0, Shape1, Dir);
-		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
-			return MATH::ClosestPoint_Seg(Verts, Zed, Zed);
-		int T = Tr_Farthest_Point(Verts);
-		Verts[T] = A;
-		Dir = -MATH::ClosestPoint_Seg(Verts, Zed, Zed);
-	}*/
+		C_Index = C_F_S(Verts);
+		glm::vec3 Z_D = MATH::ClosestPoint_Seg(Verts, Zed, Zed);
+		glm::vec3 F_D = MATH::ClosestPoint_Seg({Verts[0], Verts[C_Index[0]],Verts[C_Index[0]] }, Zed, Zed);
+		float Dis = glm::distance(F_D, Z_D);
+		Simplex_Maker(Shape0, Shape1, Verts, Dir);
+	}
 	return Zed;
 }
 
@@ -319,6 +318,63 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		break;
 	}
 	return false;
+}
+
+std::vector<int> GJK_Alg::C_F_S(std::vector<glm::vec3>& Verts)
+{
+	glm::vec3 A = Verts[3];
+	glm::vec3 B = Verts[2];
+	glm::vec3 C = Verts[1];
+	glm::vec3 D = Verts[0];
+
+	glm::vec3 AC = C - A;
+	glm::vec3 AD = D - A;
+	glm::vec3 AB = B - A;
+	glm::vec3 A0 = -A;
+
+	glm::vec3 AC_AB = glm::cross(AC, AB);
+	glm::vec3 AB_AD = glm::cross(AB, AD);
+	glm::vec3 AD_AC = glm::cross(AD, AC);
+
+	float vABC = glm::dot(AC_AB, A0);
+	float vABD = glm::dot(AB_AD, A0);
+	float vADC = glm::dot(AD_AC, A0);
+
+	int neg = 0;
+	int pos = 0;
+
+	if (vABC > 0)
+		pos++;
+	else
+		neg++;
+
+	if (vABD > 0)
+		pos++;
+	else
+		neg++;
+
+	if (vADC > 0)
+		pos++;
+	else
+		neg++;
+	if (neg == 2 and pos == 1)
+	{
+		if (vADC > 0.f)
+			return { 0, 2 };
+		else if (vABD > 0.f)
+			return { 0, 1 };
+		else
+			return { 1, 2 };
+	}
+	else
+	{
+		if (vADC < 0.f)
+			return { 0, 2 };
+		else if (vABD < 0.f)
+			return { 0, 1 };
+		else
+			return { 1, 2 };
+	}
 }
 
 bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)

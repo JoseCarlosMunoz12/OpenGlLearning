@@ -30,6 +30,7 @@ namespace CoatlPhysicsEngine {
 			glm::vec3 Dir);
 		bool Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 			std::vector<glm::vec3>& Verts, glm::vec3& Dir);
+		std::vector<int> C_F_S(std::vector<glm::vec3>& Verts);
 	public:
 		GJK_Alg();
 		~GJK_Alg();
