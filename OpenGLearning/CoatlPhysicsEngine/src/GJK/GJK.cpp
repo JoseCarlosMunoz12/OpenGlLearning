@@ -164,11 +164,13 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 	std::vector<int> C_Index;
 	while (true)
 	{
+		//Need to Fine closest face and keep that 
 		glm::vec3 A = EPA_Support(Shape0, Shape1, Dir);
-		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
-			return MATH::ClosestPoint_Seg(Verts, Zed, Zed);
-		int T = Tr_Farthest_Point(Verts);
-		Verts[T] = A;
+		int F_ = this->Tr_Farthest_Point(Verts);
+		Verts[F_] = A;
+		glm::vec3 R = MATH::ClosestPoint_Seg(Verts, Zed, Zed);
+		float R0 = glm::distance(Zed, R);
+		Simplex_Maker(Shape0, Shape1,Verts, Dir);
 	}
 	return Zed;
 }
