@@ -79,7 +79,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	glm::vec3 Vec;
 	if (std::shared_ptr<Sphere> Sph = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
-		return this->ContactCreate(*Sph, Bod1, Bod1);
+		return this->ContactCreate(*Sph, Bod1, Bod0);
 	}
 	else if (std::shared_ptr<Capsule> Cap = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
 	{
