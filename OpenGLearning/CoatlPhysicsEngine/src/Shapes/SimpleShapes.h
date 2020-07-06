@@ -12,8 +12,8 @@ namespace CoatlPhysicsEngine {
 		}
 		Plane(std::vector<glm::vec3> Points)
 		{
-			glm::vec3 Vec0 = Points[1] - Points[0];
-			glm::vec3 Vec1 = Points[2] - Points[0];
+			glm::vec3 Vec0 = Points[2] - Points[0];
+			glm::vec3 Vec1 = Points[1] - Points[0];
 			Normal = glm::cross(Vec0, Vec1);
 			if (glm::dot(Normal, Normal) != 0.f)
 				Normal = glm::normalize(Normal);

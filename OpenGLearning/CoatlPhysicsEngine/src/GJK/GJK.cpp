@@ -161,7 +161,9 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 		Simplex_Maker(Shape0, Shape1, Verts, Dir);
 	}
 	glm::vec3 Zed = glm::vec3(0.f);
-	return Zed;
+	float dist = glm::distance(Zed, MATH::ClosestPoint_Seg(Verts, Zed, Zed));
+	Dir = glm::normalize(Dir);
+	return dist * Dir;
 }
 
 bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
