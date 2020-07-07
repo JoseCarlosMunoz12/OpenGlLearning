@@ -169,7 +169,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		//false(0.f;
 		if (jj->ContactCount > 0)
 		{
-			float Diff = jj->Contacts[0]->Penetration/ 2.f;
+			float Diff = jj->Contacts[0]->Penetration;
 			glm::vec3 Norm = jj->Contacts[0]->Normal;
 			switch (jj->ID)
 			{
