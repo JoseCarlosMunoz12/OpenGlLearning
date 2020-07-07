@@ -177,7 +177,18 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 	glm::vec3 NewDir = -this->ClosestPoint(Verts);
 	glm::vec3 A = EPA_Support(Shape0, Shape1, NewDir);
 	glm::vec3 Zed = glm::vec3(0.f);
-	return Zed;
+	while (Verts.size() < 3)
+	{
+		Verts.push_back(A);
+		NewDir = -this->ClosestPoint(Verts);
+		A = EPA_Support(Shape0, Shape1, NewDir);
+		if (Verts.size() == 3)
+		{
+			int F_P = this->Tr_Farthest_Point(Verts);
+			Verts[F_P] = A;
+		}
+	}
+	return this->ClosestPoint(Verts);
 }
 
 bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
