@@ -698,3 +698,21 @@ glm::vec3 MATH::Normalize(glm::vec3 Vec)
 		return glm::normalize(Vec);
 	return Vec;
 }
+
+glm::vec3 MATH::ClampLowest(glm::vec3 Vec, float Limit)
+{
+	if (glm::abs(Vec.x) < Limit)
+		Vec.x = 0.f;
+	if (glm::abs(Vec.y) < Limit)
+		Vec.y = 0.f;
+	if (glm::abs(Vec.z) < Limit)
+		Vec.z = 0.f;
+	return	Vec;
+}
+
+bool MATH::IsSame(glm::vec3 Vec0, glm::vec3 Vec1)
+{
+	Vec0 = ClampLowest(Vec0, 0.001);
+	Vec1 = ClampLowest(Vec1, 0.001);
+	return Vec0 == Vec1;
+}

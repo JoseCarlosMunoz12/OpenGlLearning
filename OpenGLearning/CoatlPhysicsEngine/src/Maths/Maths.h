@@ -44,4 +44,7 @@ namespace MATH {
 	bool GJK_Algorithm(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1);
 	//Vector Maths
 	glm::vec3 Normalize(glm::vec3 Vec);
+	//Vector Check
+	glm::vec3 ClampLowest(glm::vec3 Vec, float Limit);
+	bool IsSame(glm::vec3 Vec0, glm::vec3 Vec1);
 }
