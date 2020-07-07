@@ -714,5 +714,6 @@ bool MATH::IsSame(glm::vec3 Vec0, glm::vec3 Vec1)
 {
 	Vec0 = ClampLowest(Vec0, 0.001);
 	Vec1 = ClampLowest(Vec1, 0.001);
-	return Vec0 == Vec1;
+	glm::vec3 T = Vec0 - Vec1;
+	return glm::dot(T, T) < 0.001;
 }
