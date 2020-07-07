@@ -117,5 +117,5 @@ std::vector<glm::vec3> Capsule::GetNormals()
 	std::vector<glm::vec3> Pnts = this->GetSegment();
 	glm::vec3 Norm = Pnts[1] - Pnts[0];
 	Norm = glm::normalize(Norm);
-	return {};
+	return {Norm};
 }
