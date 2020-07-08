@@ -3,11 +3,11 @@ using namespace CoatlPhysicsEngine;
 
 void Particle::UpdateVel(float dt)
 {
-	if (glm::abs(this->Acum_Force.x) < 0.5f)
+	if (glm::abs(this->Acum_Force.x) < 0.0625f)
 		this->Acum_Force.x = 0.f;
-	if (glm::abs(this->Acum_Force.y) < 0.5f)
+	if (glm::abs(this->Acum_Force.y) < 0.0625f)
 		this->Acum_Force.y = 0.f;
-	if (glm::abs(this->Acum_Force.z) < 0.5f)
+	if (glm::abs(this->Acum_Force.z) < 0.625f)
 		this->Acum_Force.z = 0.f;
 	glm::vec3 Acc = this->Acum_Force * InverMass;
 	this->Vel = Acc * dt + Vel;

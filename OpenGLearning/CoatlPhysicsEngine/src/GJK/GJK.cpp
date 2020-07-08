@@ -187,13 +187,18 @@ glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Col
 	glm::vec3 A = EPA_Support(Shape0, Shape1, -NewDir);
 	while (true)
 	{
+		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
+			break;
 		if (Verts.size() == 3)
 		{
 			int F_P = this->Tr_Farthest_Point(Verts);
 			Verts[F_P] = A;
 			break;
-		}else
+		}
+		else
+		{
 			Verts.push_back(A);
+		}
 		NewDir = this->ClosestPoint(Verts);
 		A = EPA_Support(Shape0, Shape1, -NewDir);
 	}
