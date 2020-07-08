@@ -182,12 +182,9 @@ glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes
 		Verts.push_back(A);
 		NewDir = -this->ClosestPoint(Verts);
 		A = EPA_Support(Shape0, Shape1, NewDir);
-		if (Verts.size() == 3)
-		{
-			int F_P = this->Tr_Farthest_Point(Verts);
-			Verts[F_P] = A;
-		}
 	}
+	int F_P = this->Tr_Farthest_Point(Verts);
+	Verts[F_P] = A;
 	return this->ClosestPoint(Verts);
 }
 
@@ -433,7 +430,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 			break;
 	}
 	if (Col)
-		Dir = EPA(Verts, Shape0, Shape1);
+		DistVec = EPA(Verts, Shape0, Shape1);
 	else
 		DistVec = C_F_E(Verts, Shape0, Shape1, Dir);
 	return Col;
