@@ -178,11 +178,12 @@ float GJK_Alg::Cl_Dist(std::vector<glm::vec3> Verts)
 
 glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
-	std::vector<glm::vec3> Verts;
-	Verts.push_back(EPA_Support(Shape0, Shape1, glm::vec3(1.f,0.f,0.f)));
+	std::vector<glm::vec3> Verts; 
+	glm::vec3 NewDir;
+	Simplex_Maker(Shape0, Shape1, Verts, NewDir);
+	Verts.push_back(EPA_Support(Shape0, Shape1,NewDir));
 	glm::vec3 Zed = glm::vec3(0.f);
-	glm::vec3 NewDir = this->ClosestPoint(Verts);
-	float T_Dis = glm::distance(Zed, NewDir);
+	NewDir = this->ClosestPoint(Verts);
 	glm::vec3 A = EPA_Support(Shape0, Shape1, -NewDir);
 	while (true)
 	{
@@ -190,14 +191,10 @@ glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Col
 		{
 			int F_P = this->Tr_Farthest_Point(Verts);
 			Verts[F_P] = A;
+			break;
 		}else
 			Verts.push_back(A);
 		NewDir = this->ClosestPoint(Verts);
-		float T_ND = glm::distance(Zed, NewDir);
-		if (T_Dis == T_ND)
-			break;
-		else
-			T_Dis = T_ND;
 		A = EPA_Support(Shape0, Shape1, -NewDir);
 	}
 	return this->ClosestPoint(Verts);
