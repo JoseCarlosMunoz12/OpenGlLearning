@@ -290,7 +290,7 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		int neg = 0;
 		int pos = 0;
 
-		if (vABC > 0)
+		if (vABC >= 0)
 			pos++;
 		else
 			neg++;

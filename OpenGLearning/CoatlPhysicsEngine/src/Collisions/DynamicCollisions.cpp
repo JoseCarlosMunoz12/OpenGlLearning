@@ -109,20 +109,22 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				{					
 					for (auto& ii : Quers)
 					{
-						if (this->BinColDetection(jj, ii, Bod_Vel, PrevPos, 0, dt, F_dt))
+						if (this->BinColDetection(jj, ii,Bod_Vel, PrevPos, 0, dt, F_dt))
 						{
+							jj->MovePosition(F_dt * Bod_Vel);
 							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
 							Temp->AcumForce(-Gravity * Temp->GetMass());
 							if (glm::abs(Bod_Vel.z) > 0.0625f)
 							{
-								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z	/2)));
+								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,-Bod_Vel.z/2));
 							}
 							else
 							{
 								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
 							}
+							jj->SetPosition(PrevPos);
 						}
 					}
 				}
