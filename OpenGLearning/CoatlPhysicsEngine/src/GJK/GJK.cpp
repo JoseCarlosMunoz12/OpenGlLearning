@@ -153,7 +153,6 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 glm::vec3 GJK_Alg::ClosestPoint(std::vector<glm::vec3> Verts)
 {
 	glm::vec3 Zed = glm::vec3(0.f);
-	int F_P = 0;
 	switch (Verts.size())
 	{
 	case 1:
@@ -177,18 +176,29 @@ float GJK_Alg::Cl_Dist(std::vector<glm::vec3> Verts)
 	return glm::distance(glm::vec3(0.f), Cl_P);
 }
 
-glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
-	glm::vec3 Dir)
+glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
+	std::vector<glm::vec3> Verts;
+	Verts.push_back(EPA_Support(Shape0, Shape1, glm::vec3(1.f,0.f,0.f)));
 	glm::vec3 Zed = glm::vec3(0.f);
-	glm::vec3 NewDir = -this->ClosestPoint(Verts);
-	float Dis = glm::distance(NewDir, Zed);
-	glm::vec3 A = EPA_Support(Shape0, Shape1, NewDir);
-	while (Verts.size() < 3)
+	glm::vec3 NewDir = this->ClosestPoint(Verts);
+	float T_Dis = glm::distance(Zed, NewDir);
+	glm::vec3 A = EPA_Support(Shape0, Shape1, -NewDir);
+	while (true)
 	{
-		Verts.push_back(A);
-		NewDir = -this->ClosestPoint(Verts);
-		A = EPA_Support(Shape0, Shape1, NewDir);
+		if (Verts.size() == 3)
+		{
+			int F_P = this->Tr_Farthest_Point(Verts);
+			Verts[F_P] = A;
+		}else
+			Verts.push_back(A);
+		NewDir = this->ClosestPoint(Verts);
+		float T_ND = glm::distance(Zed, NewDir);
+		if (T_Dis == T_ND)
+			break;
+		else
+			T_Dis = T_ND;
+		A = EPA_Support(Shape0, Shape1, -NewDir);
 	}
 	return this->ClosestPoint(Verts);
 }
@@ -429,6 +439,8 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		glm::vec3 A = EPA_Support(Shape0, Shape1, Dir);
 		if (glm::dot(A, Dir) <= 0.f)
 			break;
+		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
+			break;
 		Verts.push_back(A);
 		Col = Simplex_Maker(Shape0, Shape1, Verts, Dir);
 		if (Col)
@@ -437,7 +449,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	if (Col)
 		DistVec = EPA(Verts, Shape0, Shape1);
 	else
-		DistVec = C_F_E(Verts, Shape0, Shape1, Dir);
+		DistVec = C_F_E(Shape0, Shape1);
 	return Col;
 }
 
