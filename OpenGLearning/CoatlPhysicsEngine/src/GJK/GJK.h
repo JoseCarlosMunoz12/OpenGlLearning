@@ -26,6 +26,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
 		glm::vec3 EPA(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1);
 		glm::vec3 ClosestPoint(std::vector<glm::vec3> Verts);
+		float Cl_Dist(std::vector<glm::vec3> Verts);
 		glm::vec3 C_F_E(std::vector<glm::vec3> Verts,
 			std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 			glm::vec3 Dir);

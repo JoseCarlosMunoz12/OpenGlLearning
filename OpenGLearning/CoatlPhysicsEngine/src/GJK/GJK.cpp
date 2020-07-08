@@ -171,20 +171,25 @@ glm::vec3 GJK_Alg::ClosestPoint(std::vector<glm::vec3> Verts)
 	return Zed;
 }
 
+float GJK_Alg::Cl_Dist(std::vector<glm::vec3> Verts)
+{
+	glm::vec3 Cl_P = ClosestPoint(Verts);
+	return glm::distance(glm::vec3(0.f), Cl_P);
+}
+
 glm::vec3 GJK_Alg::C_F_E(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 	glm::vec3 Dir)
 {
-	glm::vec3 NewDir = -this->ClosestPoint(Verts);
-	glm::vec3 A = EPA_Support(Shape0, Shape1, NewDir);
 	glm::vec3 Zed = glm::vec3(0.f);
+	glm::vec3 NewDir = -this->ClosestPoint(Verts);
+	float Dis = glm::distance(NewDir, Zed);
+	glm::vec3 A = EPA_Support(Shape0, Shape1, NewDir);
 	while (Verts.size() < 3)
 	{
 		Verts.push_back(A);
 		NewDir = -this->ClosestPoint(Verts);
 		A = EPA_Support(Shape0, Shape1, NewDir);
 	}
-	int F_P = this->Tr_Farthest_Point(Verts);
-	Verts[F_P] = A;
 	return this->ClosestPoint(Verts);
 }
 
