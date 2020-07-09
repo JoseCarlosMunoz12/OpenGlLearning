@@ -184,6 +184,7 @@ glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Col
 	Verts.push_back(EPA_Support(Shape0, Shape1,NewDir));
 	glm::vec3 Zed = glm::vec3(0.f);
 	NewDir = this->ClosestPoint(Verts);
+	float Cl_Dis = glm::distance(Zed, NewDir);
 	glm::vec3 A = EPA_Support(Shape0, Shape1, -NewDir);
 	while (true)
 	{
@@ -193,13 +194,11 @@ glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Col
 		{
 			int F_P = this->Tr_Farthest_Point(Verts);
 			Verts[F_P] = A;
-			break;
 		}
 		else
-		{
 			Verts.push_back(A);
-		}
 		NewDir = this->ClosestPoint(Verts);
+		float Cur_Dis = glm::distance(Zed, NewDir);
 		A = EPA_Support(Shape0, Shape1, -NewDir);
 	}
 	return this->ClosestPoint(Verts);
