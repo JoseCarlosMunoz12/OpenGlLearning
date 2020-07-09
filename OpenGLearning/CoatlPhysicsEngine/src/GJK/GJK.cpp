@@ -22,7 +22,7 @@ int GJK_Alg::Tr_Farthest_Point(std::vector<glm::vec3> Vec)
 	int Count = 0;
 	for (auto& ii : Vec)
 	{
-		float S = glm::distance(ii, Zed);
+		float S = glm::dot(ii, ii);
 		if (R < S)
 		{
 			R = S;
@@ -170,6 +170,26 @@ glm::vec3 GJK_Alg::ClosestPoint(std::vector<glm::vec3> Verts)
 	return Zed;
 }
 
+std::vector<glm::vec3> GJK_Alg::NewSimplex(std::vector<glm::vec3> Verts, glm::vec3 NewPoint)
+{
+	int Vec[6] = {0,1,0,2,1,2};
+	int Vals = 0;
+	glm::vec3 Zed = glm::vec3(0.f);
+	glm::vec3 Dis = MATH::ClosestPoint_Seg({Verts[0],Verts[1],NewPoint}, Zed, Zed);
+	float P_Dis = glm::distance(Zed, Dis);
+	for (int ii = 1; ii < 3; ii++)
+	{
+		glm::vec3 NewDis = MATH::ClosestPoint_Seg({ Verts[Vec[2*ii]],Verts[Vec[2* ii +1]],NewPoint }, Zed, Zed);
+		float T_Dis = glm::distance(Zed, NewDis);
+		if (T_Dis < P_Dis)
+		{
+			P_Dis = T_Dis;
+			Vals = ii;
+		}
+	}
+	return {Verts[Vec[2 * Vals]], Verts[Vec[2*Vals + 1]], NewPoint};
+}
+
 float GJK_Alg::Cl_Dist(std::vector<glm::vec3> Verts)
 {
 	glm::vec3 Cl_P = ClosestPoint(Verts);
@@ -191,10 +211,7 @@ glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Col
 		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
 			break;
 		if (Verts.size() == 3)
-		{
-			int F_P = this->Tr_Farthest_Point(Verts);
-			Verts[F_P] = A;
-		}
+			Verts = this->NewSimplex(Verts, A);
 		else
 			Verts.push_back(A);
 		NewDir = this->ClosestPoint(Verts);
