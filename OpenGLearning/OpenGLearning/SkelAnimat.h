@@ -198,7 +198,7 @@ public:
 	}
 	glm::mat4 GetAllMats()
 	{
-		return this->RelMat *this->OffSet;
+		return this->RelMat * this->OffSet;
 	}
 	void UpdateMatrix()
 	{
@@ -340,12 +340,12 @@ public:
 	}
 	glm::mat4 GetCurMat(std::string BoneName,float TimePass)
 	{
-		return this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass);
+		return this->Inv * this->Skeleton[BoneName]->GetCurMat(this->Skeleton, TimePass) ;
 	}
 	glm::mat4 GetMat(std::string BoneName,bool Active)
 	{
 		this->Skeleton[BoneName]->UpdateRelMat(Active,Skeleton);
-		return this->Skeleton[BoneName]->GetAllMats();
+		return this->Inv * this->Skeleton[BoneName]->GetAllMats() ;
 	}	
 	glm::mat4 GetInv()
 	{
