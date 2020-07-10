@@ -198,7 +198,7 @@ public:
 	}
 	glm::mat4 GetAllMats()
 	{
-		return this->RelMat * this->OffSet;
+		return this->RelMat *this->OffSet;
 	}
 	void UpdateMatrix()
 	{
