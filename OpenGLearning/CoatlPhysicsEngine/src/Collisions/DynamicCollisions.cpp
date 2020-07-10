@@ -140,9 +140,16 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
 						if (!this->ContainsManifold(ColRel, T))
 							ColRel.push_back(T);
-					}
-					else
-					{
+						Temp->AcumForce(-Gravity * Temp->GetMass());
+						if (glm::abs(Bod_Vel.z) > 0.125f)
+						{
+							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, -Bod_Vel.z / 2));
+						}
+						else
+						{
+							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
+						}
+						jj->SetPosition(PrevPos);
 					}
 				}
 			}
@@ -172,6 +179,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		if (jj->ContactCount > 0)
 		{
 			float Diff = jj->Contacts[0]->Penetration;
+			if (Diff < 0.001)
+				Diff = 0.f;
 			glm::vec3 Norm = jj->Contacts[0]->Normal;
 			switch (jj->ID)
 			{

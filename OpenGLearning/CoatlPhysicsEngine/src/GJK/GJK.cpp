@@ -216,6 +216,10 @@ glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Col
 			Verts.push_back(A);
 		NewDir = this->ClosestPoint(Verts);
 		float Cur_Dis = glm::distance(Zed, NewDir);
+		if (Cur_Dis < Cl_Dis)
+			Cl_Dis = Cur_Dis;
+		else if (Cur_Dis == Cl_Dis)
+			break;
 		A = EPA_Support(Shape0, Shape1, -NewDir);
 	}
 	return this->ClosestPoint(Verts);
