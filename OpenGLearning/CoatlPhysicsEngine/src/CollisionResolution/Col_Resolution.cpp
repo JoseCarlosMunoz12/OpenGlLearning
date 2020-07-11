@@ -87,9 +87,11 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	}
 	else
 	{
-		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
+		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
+		float Pen = glm::distance(Vec, glm::vec3(0.f));
 		Cont->Penetration = Pen;
-		Cont->Normal = -Vec;
+		 Vec = MATH::Normalize(Vec);
+		Cont->Normal = Vec;
 		Cont->ContactPoint = Bod0->GetShapes()->GetPos() + Pen * Vec;
 		Temp.push_back(Cont);
 	}

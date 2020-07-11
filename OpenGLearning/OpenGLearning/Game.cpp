@@ -178,7 +178,7 @@ void Game::initModels()
 	meshes.push_back(
 		new Mesh(&Triangle_M(Set),
 			"Triangle" ));
-	animMeshes.push_back(new AnimMesh(&MulClanimlr({"model_Running.dae"}), "Test0"));
+	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"model_Running.dae"}), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae", "Snek_Side.dae" }), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("Snek_Up.dae",this->AnimRdrMk.ReadFile("AnimeTest.txt")), "Test2"));
 	//
@@ -241,12 +241,12 @@ void Game::initModels()
 	//	{ this->textures[13],this->textures[6], this->textures[8], this->textures[9],this->textures[10],
 	//	this->textures[14],this->textures[15],this->textures[16] },
 	//	animMeshes[1], { Terrains })); 
-	this->animModel.push_back(new AnimModel("Test",
-		this->MipMapsData[0]->ReturnVecVal(4.f, 3.f),
-		this->MatTest[4],
-		{ this->textures[13],this->textures[13], this->textures[8], this->textures[9],this->textures[10],
-		this->textures[14],this->textures[15],this->textures[16] },
-		animMeshes[0], { Terrains }));
+	//this->animModel.push_back(new AnimModel("Test",
+	//	this->MipMapsData[0]->ReturnVecVal(4.f, 3.f),
+	//	this->MatTest[4],
+	//	{ this->textures[13],this->textures[13], this->textures[8], this->textures[9],this->textures[10],
+	//	this->textures[14],this->textures[15],this->textures[16] },
+	//	animMeshes[0], { Terrains }));
 }
 
 void Game::initLights()
@@ -1648,7 +1648,7 @@ void Game::ImGuiOptions()
 						}
 						if (ImGui::Button("Add OBB Box"))
 						{
-							std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(0.f), 1.f);
+							std::shared_ptr<CPE::OBB> OB_Temp = std::make_shared<CPE::OBB>(glm::vec3(1.f), 4, 4, 1);
 							TempDynamic->AddNewBody(OB_Temp);
 						}
 						if (ImGui::Button("Add Capsule"))
