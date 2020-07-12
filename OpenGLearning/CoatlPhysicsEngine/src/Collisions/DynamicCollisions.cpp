@@ -193,12 +193,12 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			default:
 				if (jj->Bod0->GetBodyParts()[0]->BodParticle)
 				{
-					jj->Bod0->GetBodyParts()[0]->BodParticle->ResetForce();
+					//jj->Bod0->GetBodyParts()[0]->BodParticle->ResetForce();
 					jj->Bod0->MovePosition(Diff * Norm /2.f);
 				}
 				if (jj->Bod1->GetBodyParts()[0]->BodParticle)
 				{
-					jj->Bod1->GetBodyParts()[0]->BodParticle->ResetForce();
+					//jj->Bod1->GetBodyParts()[0]->BodParticle->ResetForce();
 					jj->Bod1->MovePosition(Diff * -Norm /2.f);
 				}
 				break;
@@ -213,7 +213,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-			//jj->SetPosition(Temp->UpdatePos(dt));			
+			jj->SetPosition(Temp->UpdatePos(dt));			
 		}
 	}
 }
