@@ -46,43 +46,46 @@ glm::vec3 GJK_Alg::EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
 {
 	glm::vec3 Faces[EPA_MAX_NUM_FACES][4];//Array of faces, each with 3 verts and a normal	
-
-	Faces[0][0] = Vertex[0];
-	Faces[0][1] = Vertex[1];
-	Faces[0][2] = Vertex[2];
-	Faces[0][3] = glm::cross(Vertex[1] - Vertex[0], Vertex[2] - Vertex[0]); //ABC	
-	Faces[1][0] = Vertex[0];
-	Faces[1][1] = Vertex[2];
-	Faces[1][2] = Vertex[3];
-	Faces[1][3] = glm::cross(Vertex[2] - Vertex[0], Vertex[3] - Vertex[0]); //ACD	
-	Faces[2][0] = Vertex[0];
-	Faces[2][1] = Vertex[3];
+	//A = 3
+	//B = 2
+	//C = 1
+	//D = 0
+	Faces[0][0] = Vertex[3];
+	Faces[0][1] = Vertex[2];
+	Faces[0][2] = Vertex[1];
+	Faces[0][3] = MATH::Normalize(glm::cross(Vertex[2] - Vertex[3], Vertex[1] - Vertex[3])); //ABC	
+	Faces[1][0] = Vertex[3];
+	Faces[1][1] = Vertex[1];
+	Faces[1][2] = Vertex[0];
+	Faces[1][3] = MATH::Normalize(glm::cross(Vertex[1] - Vertex[3], Vertex[0] - Vertex[3])); //ACD	
+	Faces[2][0] = Vertex[3];
+	Faces[2][1] = Vertex[0];
 	Faces[2][2] = Vertex[2];
-	Faces[2][3] = glm::cross(Vertex[3] - Vertex[0], Vertex[1] - Vertex[0]); //ADB	
-	Faces[3][0] = Vertex[1];
-	Faces[3][1] = Vertex[3];
-	Faces[3][2] = Vertex[2];
-	Faces[3][3] = glm::cross(Vertex[3] - Vertex[1], Vertex[2] - Vertex[1]); //BDC	
+	Faces[2][3] = MATH::Normalize(glm::cross(Vertex[0] - Vertex[3], Vertex[2] - Vertex[3])); //ADB	
+	Faces[3][0] = Vertex[2];
+	Faces[3][1] = Vertex[0];
+	Faces[3][2] = Vertex[1];
+	Faces[3][3] = MATH::Normalize(glm::cross(Vertex[0] - Vertex[2], Vertex[1] - Vertex[2])); //BDC	
 	int Num_Face = 4;
 	int ClosestFace;
 	for (int It = 0; It < EPA_MAX_NUM_ITERATIONS; It++)
 	{
-		//Find Fce that's closest to origin	
-		float MinDist = glm::dot(Faces[0][0], Faces[0][3]);
+		//Find Face that's closest to origin	
+		float Min_Dist = glm::dot(Faces[0][0], Faces[0][3]);
 		ClosestFace = 0;
 		for (int ii = 1; ii < Num_Face; ii++)
 		{
 			float dist = glm::dot(Faces[ii][0], Faces[ii][3]);
-			if (dist < MinDist)
+			if (dist < Min_Dist)
 			{
-				MinDist = dist;
+				Min_Dist = dist; 
 				ClosestFace = ii;
 			}
 		}
 		//search normal to face that's closets to origin	
 		glm::vec3 Search_Dir = Faces[ClosestFace][3];
-		glm::vec3 P = Shape1->EPA_Support(Search_Dir) - Shape0->EPA_Support(-Search_Dir);
-		float Dif = glm::dot(P, Search_Dir) - MinDist;
+		glm::vec3 P = EPA_Support(Shape0, Shape1, Search_Dir);
+		float Dif = glm::dot(P, Search_Dir) - Min_Dist;
 		if (Dif < EPA_TOLERANCE)
 		{
 			float S = glm::dot(P, Search_Dir);
@@ -133,7 +136,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 			Faces[Num_Face][0] = LooseEdges[ii][0];
 			Faces[Num_Face][1] = LooseEdges[ii][1];
 			Faces[Num_Face][2] = P;
-			Faces[Num_Face][3] = glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P);
+			Faces[Num_Face][3] = MATH::Normalize(glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P));
 			float bias = 0.000001f;
 			float Diff = glm::dot(Faces[Num_Face][0], Faces[Num_Face][3]) + bias;
 			if (Dif < 0)
@@ -469,7 +472,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 			break;
 	}
 	if (Col)
-		DistVec = EPA(Verts, Shape0, Shape1);
+		DistVec = -EPA(Verts, Shape0, Shape1);
 	else
 		DistVec = C_F_E(Shape0, Shape1);
 	return Col;
