@@ -6,7 +6,7 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelSphere::CapRelSph(Capsule Cap, S
 	std::vector<std::shared_ptr<Contact>> Temp;
 	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	float DisSqr = Cap.Distance(Sph0.GetPos());
-	glm::vec3 Pos = Cap.ClosestPoint_P(Sph0.GetPos());
+	glm::vec3 Pos = MATH::ClosestPoint_Seg(Cap.GetSegment(), Sph0.GetPos());
 	float Total_R = Cap.GetRadius() + Sph0.GetRadius();
 	glm::vec3 Norm = Pos - Sph0.GetPos();
 	float TestVal = glm::dot(Norm, Norm);

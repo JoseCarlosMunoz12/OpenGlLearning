@@ -216,13 +216,13 @@ void Game::initModels()
 		this->textures[14],this->textures[15],this->textures[16]},
 		meshes[1], {Monk}));
 	this->models.push_back(new Model("Cube0",
-		glm::vec3(1.,1.,5.f),
+		glm::vec3(1.f,-1.f,5.f),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[4], { Monk }));
 	this->models.push_back(new Model("Cube1",
-		glm::vec3(1.f, 3.f, 5.f),
+		glm::vec3(1.f, 9.f, 5.f),
 		this->MatTest[1],
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
