@@ -444,6 +444,8 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 		glm::vec3 A = Support(Shape0, Shape1, Dir);
 		if (glm::dot(A, Dir) <= 0.f)
 			return false;
+		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
+			break;
 		Verts.push_back(A);
 		if (Simplex_Maker(Shape0, Shape1, Verts, Dir))
 			return true;

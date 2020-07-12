@@ -175,7 +175,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	int Count = 0;
 	for (auto& jj : ColRel)
 	{
-		//false(0.f;
+		//(0.f;false
 		if (jj->ContactCount > 0)
 		{
 			float Diff = jj->Contacts[0]->Penetration;
@@ -199,7 +199,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				if (jj->Bod1->GetBodyParts()[0]->BodParticle)
 				{
 					//jj->Bod1->GetBodyParts()[0]->BodParticle->ResetForce();
-					jj->Bod1->MovePosition(Diff * -Norm /2.f);
+					jj->Bod1->MovePosition(-Diff * Norm /2.f);
 				}
 				break;
 			}
@@ -213,7 +213,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-			jj->SetPosition(Temp->UpdatePos(dt));			
+			//jj->SetPosition(Temp->UpdatePos(dt));			
 		}
 	}
 }
