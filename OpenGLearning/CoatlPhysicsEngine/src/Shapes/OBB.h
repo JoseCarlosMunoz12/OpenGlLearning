@@ -5,7 +5,6 @@ namespace CoatlPhysicsEngine {
 	{
 	private:
 		glm::vec3 Ex;
-		std::vector<glm::vec3> GetSegOffset(float Ext);
 	public:
 		//Upright OBB
 		OBB(glm::vec3 Pos, float DimXYZ);

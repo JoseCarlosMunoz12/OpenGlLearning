@@ -221,6 +221,12 @@ void Game::initModels()
 		{ this->textures[10],this->textures[10],
 		this->textures[14],this->textures[15],this->textures[16] },
 		meshes[4], { Monk }));
+	this->models.push_back(new Model("Cube1",
+		glm::vec3(1.f, 3.f, 5.f),
+		this->MatTest[1],
+		{ this->textures[10],this->textures[10],
+		this->textures[14],this->textures[15],this->textures[16] },
+		meshes[4], { Monk }));
 	this->models.push_back(new Model("Capsule0",
 		this->MipMapsData[0]->ReturnVecVal(3.f, -5.f),
 		this->MatTest[1],
