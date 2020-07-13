@@ -96,8 +96,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
 			//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			// Spring Force
-			//this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
-			//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
+			this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
+			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			glm::vec3 Bod_Vel= Temp->GetVel();
 			float F_dt = dt;
@@ -116,7 +116,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
 							Temp->AcumForce(-Gravity * Temp->GetMass());
-							if (glm::abs(Bod_Vel.z) > 0.0625f)
+							if (glm::abs(Bod_Vel.z) > 0.125f)
 							{
 								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,-Bod_Vel.z/2));
 							}
@@ -205,15 +205,14 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			}
 		}
 		Count++;
-
 	}
-	//Update All Physics
+	//Update All Physics	
 	for (auto& jj : AllBods)
 	{
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
 		if (Temp)
 		{
-			//jj->SetPosition(Temp->UpdatePos(dt));			
+			jj->SetPosition(Temp->UpdatePos(dt));			
 		}
 	}
 }
