@@ -9,11 +9,11 @@ std::vector<std::shared_ptr<Contact>> AABBRelAABB::AABB_Rel(AABB_Obj Obj0, AABB_
 	glm::vec3( 0.f,-1.f, 0.f) ,glm::vec3( 0.f, 1.f, 0.f),
 	glm::vec3( 0.f, 0.f,-1.f) ,glm::vec3( 0.f, 0.f, 1.f)};
 	//Get max and Mins
-	glm::vec3 MaxA = Obj0.GetPos() + Obj0.GetEx();
-	glm::vec3 MinA = Obj0.GetPos() - Obj0.GetEx();
+	glm::vec3 MaxA = Obj0.GetPos();
+	glm::vec3 MinA = Obj0.GetPos();
 
-	glm::vec3 MaxB = Obj1.GetPos() + Obj1.GetEx();
-	glm::vec3 MinB = Obj1.GetPos() - Obj1.GetEx();
+	glm::vec3 MaxB = Obj1.GetPos();
+	glm::vec3 MinB = Obj1.GetPos();
 	// Distances From each other
 	float Dis[6] = {(MaxB.x - MinA.x) ,
 					(MaxA.x - MinB.x) ,

@@ -13,5 +13,7 @@ namespace CoatlPhysicsEngine {
 	public:
 		BodyParts();
 		~BodyParts();
+		glm::mat4 GetParMatrix();
+		void UpdateMatrix();
 	};
 }
