@@ -63,7 +63,8 @@ OBB::~OBB()
 
 std::vector<glm::vec3> OBB::GetSegments()
 {
-	glm::mat4 RotMat = glm::mat4_cast(this->QuatAngle);
+	glm::mat4 R = glm::mat4_cast(this->QuatAngle);
+	glm::mat4 T = glm::translate(glm::mat4(1.f), Pos);
 
 	glm::vec3 Positions[] =
 	{
@@ -78,11 +79,8 @@ std::vector<glm::vec3> OBB::GetSegments()
 
 	for (auto& jj : Lines)
 	{
-		glm::vec4 Set = glm::vec4(jj.x, jj.y, jj.z, 1.f);
-		glm::mat4 R = glm::mat4(1.f);
-		R *= RotMat;
-		jj = R * Set;
-		jj = jj + Pos;
+		glm::vec4 Set = glm::vec4(jj, 1.f);
+		jj = T * R * Set;
 	}
 	return Lines;
 }

@@ -35,23 +35,16 @@ float Capsule::Distance(std::vector<glm::vec3> Segment)
 
 std::vector<glm::vec3> Capsule::GetSegment()
 {
-	glm::mat4 T = glm::mat4(1.f);
-	glm::mat4 RotMat = glm::mat4_cast(this->QuatAngle);
-	T *= RotMat;
+	glm::mat4 R = glm::mat4_cast(this->QuatAngle);
+	glm::mat4 T = glm::translate(glm::mat4(1.f), this->Pos);
 	std::vector<glm::vec3> Verx;
 	{
-		glm::vec4 Set = glm::vec4(this->APos.x,
-			this->APos.y, this->APos.z, 
-			1);
-		Verx.push_back(T * Set);
-		Verx[0] = Verx[0] + this->Pos;
+		glm::vec4 Set = glm::vec4(APos,	1.f);
+		Verx.push_back(T * R * Set);
 	}
 	{
-		glm::vec4 Set = glm::vec4(this->BPos.x,
-			this->BPos.y, this->BPos.z,
-			1);
-		Verx.push_back(T * Set);
-		Verx[1] = Verx[1] + this->Pos;
+		glm::vec4 Set = glm::vec4(this->BPos, 1.f);
+		Verx.push_back(T * R * Set);
 	}
 	return Verx;
 }
