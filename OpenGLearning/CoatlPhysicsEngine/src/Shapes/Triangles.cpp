@@ -20,9 +20,11 @@ std::vector<glm::vec3> Triangles::GetSegments()
 	std::vector<glm::vec3> SegPoints;
 	for (auto& jj : Points)
 	{
-		jj = jj + this->Pos;
+		glm::mat4 R = glm::mat4(1.f);
+		R *= RotMat;
+		R = glm::translate(R, this->Pos);
 		glm::vec4 Set = glm::vec4(jj.x, jj.y, jj.z, 0.f);
-		Set = Set * RotMat;
+		Set = R * Set;
 		SegPoints.push_back(glm::vec3(Set.x, Set.y, Set.z));
 	}
 	return SegPoints;

@@ -81,7 +81,7 @@ std::vector<glm::vec3> AABB_Obj::GetPoints()
 	return Lines;
 }
 
-std::vector<glm::vec3> CoatlPhysicsEngine::AABB_Obj::GetSegs()
+std::vector<glm::vec3> AABB_Obj::GetSegs()
 {
     return GetPoints();   
 }
