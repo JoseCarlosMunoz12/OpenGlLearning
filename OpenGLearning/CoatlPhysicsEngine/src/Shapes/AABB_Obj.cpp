@@ -56,11 +56,6 @@ glm::vec3 AABB_Obj::GetLengths()
         this->ZLength);
 }
 
-glm::vec3 CoatlPhysicsEngine::AABB_Obj::GetEx()
-{
-    return glm::vec3(XLength/2,YLength/2,ZLength/2);
-}
-
 std::vector<glm::vec3> AABB_Obj::GetPoints()
 {    
     glm::vec3 L = GetLengths();

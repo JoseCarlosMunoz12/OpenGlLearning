@@ -18,6 +18,7 @@ namespace CoatlPhysicsEngine
 	protected:
 		glm::vec3 Pos;
 		glm::quat QuatAngle;
+		glm::mat4 ParMat;
 	public:
 		ColShapes(glm::vec3 SetPos);
 		virtual ~ColShapes();
@@ -29,5 +30,8 @@ namespace CoatlPhysicsEngine
 		virtual glm::vec3 EPA_Support(glm::vec3 Dir);
 		virtual std::vector<glm::vec3> GetVertices();
 		virtual std::vector<glm::vec3> GetNormals();
+		//functions to get Matrix relative to the Shape
+		virtual glm::mat4 ShapeMatrix() = 0;
+		virtual void SetMatrix(glm::mat4) = 0;
 	};
 }

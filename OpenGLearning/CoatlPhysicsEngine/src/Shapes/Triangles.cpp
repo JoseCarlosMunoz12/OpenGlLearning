@@ -76,3 +76,11 @@ std::vector<glm::vec3> Triangles::GetNormals()
 	return T_N;
 }
 
+glm::mat4 CoatlPhysicsEngine::Triangles::ShapeMatrix()
+{
+	glm::mat4 R = glm::mat4(1.f);
+	glm::mat3 Rot = glm::mat4_cast(this->QuatAngle);
+	R *= Rot;
+	return  glm::translate(R, this->Pos);
+}
+

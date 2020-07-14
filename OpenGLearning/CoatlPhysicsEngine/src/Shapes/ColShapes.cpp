@@ -5,6 +5,7 @@ ColShapes::ColShapes(glm::vec3 SetPos)
 {
 	this->Pos = SetPos;
 	this->QuatAngle = glm::angleAxis(0.f, glm::vec3(0.f, 0.f, 1.f));
+	this->ParMat = glm::mat4(1.f);
 }
 
 ColShapes::~ColShapes()
