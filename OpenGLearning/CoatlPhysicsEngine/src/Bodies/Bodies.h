@@ -2,12 +2,8 @@
 #include <vector>
 #include "../Shapes/ColShapes.h"
 #include "../Physics/Particle.h"
+#include "BodyParts.h"
 namespace CoatlPhysicsEngine {
-	struct BodyParts
-	{
-		std::shared_ptr<ColShapes> BodPart;
-		std::shared_ptr<Particle> BodParticle;
-	};
 	class Bodies
 	{
 	private:
