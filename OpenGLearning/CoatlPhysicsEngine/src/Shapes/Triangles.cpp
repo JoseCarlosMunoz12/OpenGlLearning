@@ -24,7 +24,7 @@ std::vector<glm::vec3> Triangles::GetSegments()
 		R *= RotMat;
 		R = glm::translate(R, this->Pos);
 		glm::vec4 Set = glm::vec4(jj.x, jj.y, jj.z, 0.f);
-		Set = R * Set;
+		Set = this->ParMat * R * Set;
 		SegPoints.push_back(glm::vec3(Set.x, Set.y, Set.z));
 	}
 	return SegPoints;
@@ -76,11 +76,4 @@ std::vector<glm::vec3> Triangles::GetNormals()
 	return T_N;
 }
 
-glm::mat4 CoatlPhysicsEngine::Triangles::ShapeMatrix()
-{
-	glm::mat4 R = glm::mat4(1.f);
-	glm::mat3 Rot = glm::mat4_cast(this->QuatAngle);
-	R *= Rot;
-	return  glm::translate(R, this->Pos);
-}
 

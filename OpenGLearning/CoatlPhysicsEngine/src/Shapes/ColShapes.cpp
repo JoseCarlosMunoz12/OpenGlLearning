@@ -46,3 +46,16 @@ std::vector<glm::vec3> ColShapes::GetNormals()
 {
 	return std::vector<glm::vec3>();
 }
+
+glm::mat4 ColShapes::ShapeMatrix()
+{
+	glm::mat4 R = glm::mat4(1.f);
+	glm::mat4 Rot = glm::mat4_cast(this->QuatAngle);
+	R *= Rot;
+	return glm::translate(R,this->Pos);
+}
+
+void ColShapes::SetMatrix(glm::mat4 P)
+{
+	this->ParMat = P;
+}
