@@ -10,7 +10,6 @@ namespace CoatlPhysicsEngine {
 		float ZLength;
 		float GetPoint(float P, float Max,float Min);
 		float LocPoint(float P, float Max, float Min); 
-		std::vector<glm::vec3> GetSegExt(float Ext);
 	public: 
 		AABB_Obj(glm::vec3 SetPos,float DimXYZ);
 		AABB_Obj(glm::vec3 SetPos,float DimX, float DimYZ);

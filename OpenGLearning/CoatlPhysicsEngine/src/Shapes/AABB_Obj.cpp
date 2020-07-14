@@ -19,36 +19,6 @@ float AABB_Obj::LocPoint(float P, float Max, float Min)
     return 0;
 }
 
-std::vector<glm::vec3> AABB_Obj::GetSegExt(float Ext)
-{
-    glm::mat4 RotMat = glm::mat4_cast(this->QuatAngle);
-    glm::vec3 Exts = this->GetLengths();
-    Exts.x += Ext;
-    Exts.y += Ext;
-    Exts.z += Ext;
-    glm::vec3 Positions[] =
-    {
-        //Bottom Plane
-        glm::vec3(Exts.x,-Exts.y,-Exts.z), glm::vec3(Exts.x, Exts.y,-Exts.z),
-        glm::vec3(-Exts.x, Exts.y,-Exts.z), glm::vec3(-Exts.x,-Exts.y,-Exts.z),
-        //Top Plane 
-        glm::vec3(Exts.x,-Exts.y, Exts.z), glm::vec3(Exts.x, Exts.y, Exts.z),
-        glm::vec3(-Exts.x, Exts.y, Exts.z), glm::vec3(-Exts.x,-Exts.y, Exts.z)
-    };
-    std::vector<glm::vec3> Lines(std::begin(Positions), std::end(Positions));
-    for (auto& jj : Lines)
-    {
-        jj = jj + this->Pos;
-    }
-    for (auto& jj : Lines)
-    {
-        glm::vec4 Set = glm::vec4(jj.x, jj.y, jj.z, 0.f);
-        Set = Set * RotMat;
-        jj = glm::vec3(Set.x, Set.y, Set.z);
-    }
-    return Lines;
-}
-
 AABB_Obj::AABB_Obj(glm::vec3 SetPos, float DimXYZ)
     :ColShapes(SetPos)
 {
