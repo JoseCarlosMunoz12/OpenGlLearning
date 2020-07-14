@@ -41,15 +41,14 @@ std::vector<glm::vec3> Capsule::GetSegment()
 		glm::vec4 Set = glm::vec4(this->APos.x,
 			this->APos.y, this->APos.z, 
 			0);
-		Set = Set * RotMat;
-		Set = Set ;
+		Set = RotMat * Set ;
 		Verx.push_back(glm::vec3(Set.x, Set.y, Set.z) + this->Pos);
 	}
 	{
 		glm::vec4 Set = glm::vec4(this->BPos.x,
 			this->BPos.y, this->BPos.z,
 			0);
-		Set = Set * RotMat;
+		Set = RotMat * Set;
 		Verx.push_back(glm::vec3(Set.x, Set.y, Set.z) + this->Pos);
 	}
 	return Verx;
