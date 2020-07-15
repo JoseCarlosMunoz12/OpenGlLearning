@@ -116,13 +116,16 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
 							Temp->AcumForce(-Gravity * Temp->GetMass());
-							if (glm::abs(Bod_Vel.z) > 0.125f)
+							if (Bod_Vel.z < 0)
 							{
-								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,-Bod_Vel.z/2));
-							}
-							else
-							{
-								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
+								if (glm::abs(Bod_Vel.z) > 0.125f)
+								{
+									Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
+								}
+								else
+								{
+									Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
+								}
 							}
 							jj->SetPosition(PrevPos);
 						}
