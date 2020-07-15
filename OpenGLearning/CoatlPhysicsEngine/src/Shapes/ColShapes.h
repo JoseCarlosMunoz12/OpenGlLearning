@@ -17,6 +17,7 @@ namespace CoatlPhysicsEngine
 	{
 	protected:
 		glm::vec3 Pos;
+		glm::vec3 Scale;
 		glm::quat QuatAngle;
 		glm::mat4 ParMat;
 	public:

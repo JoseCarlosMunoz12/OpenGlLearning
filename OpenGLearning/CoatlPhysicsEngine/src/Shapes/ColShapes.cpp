@@ -4,6 +4,7 @@ using namespace CoatlPhysicsEngine;
 ColShapes::ColShapes(glm::vec3 SetPos)
 {
 	this->Pos = SetPos;
+	this->Scale = glm::vec3(1.f);
 	this->QuatAngle = glm::angleAxis(0.f, glm::vec3(0.f, 0.f, 1.f));
 	this->ParMat = glm::mat4(1.f);
 }
@@ -51,7 +52,8 @@ glm::mat4 ColShapes::ShapeMatrix()
 {
 	glm::mat4 R = glm::mat4(1.f);
 	glm::mat4 Rot =  R * glm::mat4_cast(this->QuatAngle);
-	return glm::translate(R,this->Pos) * Rot;
+	glm::mat4 S = glm::scale(R, Scale);
+	return glm::translate(R,this->Pos) * Rot * S;
 }
 
 glm::mat4 ColShapes::GetParMatrix()
