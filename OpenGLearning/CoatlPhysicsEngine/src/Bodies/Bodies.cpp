@@ -11,8 +11,7 @@ Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
 {
 	this->ID = InitID;
 	int Count = this->BodyInf.size();
-	this->BodyInf.push_back(std::make_shared<BodyParts>()); 
-	this->BodyInf[Count]->BodPart = InitShapes;
+	this->BodyInf.push_back(std::make_shared<BodyParts>(InitShapes)); 
 
 }
 
@@ -22,9 +21,7 @@ Bodies::Bodies( std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
 	int Count = this->BodyInf.size();
 	for (auto& ii : InitShapes)
 	{
-		this->BodyInf.push_back(std::make_shared<BodyParts>());
-		this->BodyInf[Count]->BodPart = ii;
-		Count++;
+		this->BodyInf.push_back(std::make_shared<BodyParts>(ii));
 	}
 }
 
@@ -34,9 +31,7 @@ Bodies::~Bodies()
 
 void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape)
 {
-	this->BodyInf.push_back(std::make_shared<BodyParts>());
-	int Size = this->BodyInf.size() - 1;
-	this->BodyInf[Size]->BodPart = NewShape;
+	this->BodyInf.push_back(std::make_shared<BodyParts>(NewShape));
 }
 
 int Bodies::GetID()
@@ -47,44 +42,40 @@ int Bodies::GetID()
 
 void Bodies::SetPosition(glm::vec3 NewPos)
 {
-	this->BodyInf[0]->BodPart->SetPos(NewPos);
-	if (this->BodyInf[0]->BodParticle)
-		this->BodyInf[0]->BodParticle->SetPos(NewPos);
+	this->BodyInf[0]->SetPos(NewPos);
 
 }
 
 void Bodies::MovePosition(glm::vec3 Add)
 {
-	glm::vec3 OldPos = this->BodyInf[0]->BodPart->GetPos();
+	glm::vec3 OldPos = this->BodyInf[0]->GetPos();
 	OldPos += Add;
 	this->SetPosition(OldPos);
 }
 
 void Bodies::SetParticle(int ShapeID)
 {
-	this->BodyInf[ShapeID]->BodParticle = std::make_shared<Particle>(this->GetPos());
+	this->BodyInf[ShapeID]->AddParticle(std::make_shared<Particle>(this->GetPos()));
 }
 
-void CoatlPhysicsEngine::Bodies::SetQuat(glm::quat NewQuat)
+void Bodies::SetQuat(glm::quat NewQuat)
 {
-	this->BodyInf[0]->BodPart->SetQuat(NewQuat);
-	if (BodyInf[0]->BodParticle)
-		BodyInf[0]->BodParticle->SetQuat(NewQuat);
+	this->BodyInf[0]->SetQuat(NewQuat);
 }
 
 glm::vec3 Bodies::GetPos()
 {
-	return this->BodyInf[0]->BodPart->GetPos();	
+	return this->BodyInf[0]->GetPos();	
 }
 
-glm::quat CoatlPhysicsEngine::Bodies::GetQuat()
+glm::quat Bodies::GetQuat()
 {
-	return this->BodyInf[0]->BodPart->GetQuatAngle();
+	return this->BodyInf[0]->GetQuatAngle();
 }
 
-std::shared_ptr<ColShapes> CoatlPhysicsEngine::Bodies::GetShapes()
+std::shared_ptr<ColShapes> Bodies::GetShapes()
 {
-	return this->BodyInf[0]->BodPart;
+	return this->BodyInf[0]->GetShape();
 }
 
 

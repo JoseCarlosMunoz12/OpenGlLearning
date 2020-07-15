@@ -1739,7 +1739,7 @@ void Game::ImGuiOptions()
 							}
 							if (ImGui::TreeNode("Particle Information"))
 							{
-								std::shared_ptr<CPE::Particle> TempPart = Bod->GetBodyParts()[0]->BodParticle;
+								std::shared_ptr<CPE::Particle> TempPart = Bod->GetBodyParts()[0]->GetParticle();
 								if (TempPart)
 								{
 									glm::vec3 Vel = TempPart->GetVel();
@@ -1774,8 +1774,8 @@ void Game::ImGuiOptions()
 									if (ImGui::Button("Add informaiton to particle"))
 									{
 										Bod->SetParticle(0);
-										Bod->GetSpecificBodyPart(0)->BodParticle->SetVel(glm::vec3(0.f));
-										Bod->GetSpecificBodyPart(0)->BodParticle->SetMass(10.f);
+										Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
+										Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
 									}
 								}
 								ImGui::TreePop();

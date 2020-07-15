@@ -85,7 +85,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Find all Collisions and Calculate its Force Geneartors
 	for (auto& jj : AllBods)
 	{	
-		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
+		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 		{
 			//resetForces on the Object
@@ -191,12 +191,12 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				jj->Bod1->MovePosition(Diff * Norm);
 				break;
 			default:
-				if (jj->Bod0->GetBodyParts()[0]->BodParticle)
+				if (jj->Bod0->GetBodyParts()[0]->GetParticle())
 				{
 					//jj->Bod0->GetBodyParts()[0]->BodParticle->ResetForce();
 					jj->Bod0->MovePosition(Diff * Norm /2.f);
 				}
-				if (jj->Bod1->GetBodyParts()[0]->BodParticle)
+				if (jj->Bod1->GetBodyParts()[0]->GetParticle())
 				{
 					//jj->Bod1->GetBodyParts()[0]->BodParticle->ResetForce();
 					jj->Bod1->MovePosition(-Diff * Norm /2.f);
@@ -209,7 +209,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Update All Physics	
 	for (auto& jj : AllBods)
 	{
-		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->BodParticle;
+		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 		{
 			jj->SetPosition(Temp->UpdatePos(dt));			
