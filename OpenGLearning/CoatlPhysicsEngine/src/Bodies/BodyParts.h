@@ -7,7 +7,6 @@ namespace CoatlPhysicsEngine {
 	{
 	private:
 		std::shared_ptr<BodyParts> Parent;
-		glm::mat4 ParMatrix;
 		std::shared_ptr<ColShapes> BodPart;
 		std::shared_ptr<Particle> BodParticle;
 	public:

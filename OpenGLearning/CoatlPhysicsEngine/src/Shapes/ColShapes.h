@@ -32,6 +32,7 @@ namespace CoatlPhysicsEngine
 		virtual std::vector<glm::vec3> GetNormals();
 		//functions to get Matrix relative to the Shape
 		glm::mat4 ShapeMatrix();
+		glm::mat4 GetParMatrix();
 		void SetMatrix(glm::mat4 P);
 	};
 }

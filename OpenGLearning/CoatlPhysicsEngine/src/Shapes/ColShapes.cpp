@@ -55,6 +55,11 @@ glm::mat4 ColShapes::ShapeMatrix()
 	return glm::translate(R,this->Pos);
 }
 
+glm::mat4 CoatlPhysicsEngine::ColShapes::GetParMatrix()
+{
+	return this->ParMat;
+}
+
 void ColShapes::SetMatrix(glm::mat4 P)
 {
 	this->ParMat = P;

@@ -22,7 +22,7 @@ std::vector<glm::vec3> Triangles::GetSegments()
 	for (auto& jj : Points)
 	{
 		glm::vec4 Set = glm::vec4(jj,1.f);
-		SegPoints.push_back( T * R * Set);
+		SegPoints.push_back(ParMat * T * R * Set);
 	}
 	return SegPoints;
 }

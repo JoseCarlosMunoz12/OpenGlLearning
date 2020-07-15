@@ -40,11 +40,11 @@ std::vector<glm::vec3> Capsule::GetSegment()
 	std::vector<glm::vec3> Verx;
 	{
 		glm::vec4 Set = glm::vec4(APos,	1.f);
-		Verx.push_back(T * R * Set);
+		Verx.push_back(this->ParMat * T * R * Set);
 	}
 	{
 		glm::vec4 Set = glm::vec4(this->BPos, 1.f);
-		Verx.push_back(T * R * Set);
+		Verx.push_back(this->ParMat * T * R * Set);
 	}
 	return Verx;
 }
