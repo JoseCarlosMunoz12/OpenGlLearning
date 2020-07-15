@@ -22,7 +22,7 @@ glm::quat ColShapes::GetQuatAngle()
 	return this->QuatAngle;
 }
 
-void CoatlPhysicsEngine::ColShapes::SetPos(glm::vec3 NewPos)
+void ColShapes::SetPos(glm::vec3 NewPos)
 {
 	this->Pos = NewPos;
 }
@@ -50,12 +50,11 @@ std::vector<glm::vec3> ColShapes::GetNormals()
 glm::mat4 ColShapes::ShapeMatrix()
 {
 	glm::mat4 R = glm::mat4(1.f);
-	glm::mat4 Rot = glm::mat4_cast(this->QuatAngle);
-	R *= Rot;
-	return glm::translate(R,this->Pos);
+	glm::mat4 Rot =  R * glm::mat4_cast(this->QuatAngle);
+	return glm::translate(R,this->Pos) * Rot;
 }
 
-glm::mat4 CoatlPhysicsEngine::ColShapes::GetParMatrix()
+glm::mat4 ColShapes::GetParMatrix()
 {
 	return this->ParMat;
 }
