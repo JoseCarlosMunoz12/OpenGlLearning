@@ -4,11 +4,11 @@
 #include "../Physics/Particle.h"
 #include "BodyParts.h"
 namespace CoatlPhysicsEngine {
-	
 	class Bodies
 	{
 	private:
 		int ID;
+		int Vec_Size;
 		std::vector<std::shared_ptr<BodyParts>> BodyInf;
 	public:
 		Bodies(int InitID);
@@ -17,6 +17,7 @@ namespace CoatlPhysicsEngine {
 		~Bodies();
 		void AddShapes(std::shared_ptr<ColShapes> NewShape);
 		int GetID();
+		//For base Parents
 		void SetPosition(glm::vec3 NewPos);
 		void MovePosition(glm::vec3 Add);
 		void SetParticle(int ShapeID);

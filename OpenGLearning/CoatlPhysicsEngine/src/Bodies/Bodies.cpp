@@ -4,13 +4,15 @@ using namespace CoatlPhysicsEngine;
 Bodies::Bodies(int InitID)
 {
 	this->ID = InitID;
+	this->Vec_Size = BodyInf.size();
 }
 
 Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
 {
 	this->ID = InitID;
 	int Count = this->BodyInf.size();
-	this->BodyInf.push_back(std::make_shared<BodyParts>(InitShapes)); 
+	this->BodyInf.push_back(std::make_shared<BodyParts>(InitShapes));
+	this->Vec_Size = BodyInf.size();
 
 }
 
@@ -22,6 +24,7 @@ Bodies::Bodies( std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
 	{
 		this->BodyInf.push_back(std::make_shared<BodyParts>(ii));
 	}
+	this->Vec_Size = BodyInf.size();
 }
 
 Bodies::~Bodies()
@@ -31,13 +34,13 @@ Bodies::~Bodies()
 void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape)
 {
 	this->BodyInf.push_back(std::make_shared<BodyParts>(NewShape));
+	this->Vec_Size = BodyInf.size();
 }
 
 int Bodies::GetID()
 {
 	return this->ID;
 }
-
 
 void Bodies::SetPosition(glm::vec3 NewPos)
 {

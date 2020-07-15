@@ -43,9 +43,14 @@ void BodyParts::UpdateMatrix()
 	this->BodPart->SetMatrix(P);
 }
 
-glm::vec3 CoatlPhysicsEngine::BodyParts::GetPos()
+glm::vec3 BodyParts::GetPos()
 {
 	return this->BodPart->GetPos();
+}
+
+glm::vec3 BodyParts::GeOffset()
+{
+	return this->GetPos();
 }
 
 glm::quat BodyParts::GetQuatAngle()

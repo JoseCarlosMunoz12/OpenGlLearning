@@ -22,6 +22,7 @@ namespace CoatlPhysicsEngine {
 		void UpdateMatrix();
 		//other General information
 		glm::vec3 GetPos();
+		glm::vec3 GeOffset();
 		glm::quat GetQuatAngle();
 		void SetPos(glm::vec3 NewPos);
 		void SetQuat(glm::quat Q);
