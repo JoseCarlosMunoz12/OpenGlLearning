@@ -1,7 +1,6 @@
 #include "Bodies.h"
 using namespace CoatlPhysicsEngine;
 
-
 Bodies::Bodies(int InitID)
 {
 	this->ID = InitID;
@@ -77,7 +76,6 @@ std::shared_ptr<ColShapes> Bodies::GetShapes()
 {
 	return this->BodyInf[0]->GetShape();
 }
-
 
 std::vector<std::shared_ptr<BodyParts>> Bodies::GetBodyParts()
 {

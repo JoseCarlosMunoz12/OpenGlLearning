@@ -3,7 +3,6 @@
 #include "../Shapes/ColShapes.h"
 #include "../Physics/Particle.h"
 #include "BodyParts.h"
-//#include "BodyParts.h"
 namespace CoatlPhysicsEngine {
 	
 	class Bodies

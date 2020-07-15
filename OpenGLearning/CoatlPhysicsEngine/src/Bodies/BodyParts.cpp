@@ -72,7 +72,7 @@ std::shared_ptr<ColShapes> BodyParts::GetShape()
 	return this->BodPart;
 }
 
-std::shared_ptr<Particle> CoatlPhysicsEngine::BodyParts::GetParticle()
+std::shared_ptr<Particle> BodyParts::GetParticle()
 {
 	return this->BodParticle;
 }
