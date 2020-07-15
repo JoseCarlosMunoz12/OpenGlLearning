@@ -11,7 +11,9 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<Particle> BodParticle;
 	public:
 		BodyParts();
+		BodyParts(std::shared_ptr<BodyParts> InitParent);
 		BodyParts(std::shared_ptr<ColShapes> InitBodPart);
+		BodyParts(std::shared_ptr<BodyParts> InitParent,std::shared_ptr<ColShapes> InitBodPart);
 		~BodyParts();
 		// General class inits and addition
 		void AddShape(std::shared_ptr<ColShapes> InitBodPart);

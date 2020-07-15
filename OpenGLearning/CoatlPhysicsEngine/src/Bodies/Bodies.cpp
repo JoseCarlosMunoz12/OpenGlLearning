@@ -16,7 +16,7 @@ Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
 
 }
 
-Bodies::Bodies( std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
+Bodies::Bodies(std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
 {
 	this->ID = InitID;
 	int Count = this->BodyInf.size();
@@ -31,15 +31,24 @@ Bodies::~Bodies()
 {
 }
 
-void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape)
+void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape, int Parent)
 {
-	this->BodyInf.push_back(std::make_shared<BodyParts>(NewShape));
+	if (Parent  < 0)
+		this->BodyInf.push_back(std::make_shared<BodyParts>(NewShape));
+	else
+		this->BodyInf.push_back(std::make_shared<BodyParts>(NewShape));
 	this->Vec_Size = BodyInf.size();
 }
+
 
 int Bodies::GetID()
 {
 	return this->ID;
+}
+
+int CoatlPhysicsEngine::Bodies::GetVecSize()
+{
+	return this->Vec_Size;
 }
 
 void Bodies::SetPosition(glm::vec3 NewPos)
