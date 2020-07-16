@@ -287,7 +287,9 @@ public:
 	}
 	void SetRelPos(const glm::vec3 SetRePos)
 	{
+		glm::vec3 Diff = RelPos - SetRePos;
 		this->RelPos = SetRePos;
+		this->Origin += Diff;
 	}
 	//Modifiers
 	void Move(glm::vec3 Pos)

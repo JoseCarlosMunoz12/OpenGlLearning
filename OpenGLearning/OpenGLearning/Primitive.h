@@ -514,7 +514,7 @@ private:
 class Prism_M : public Primitive
 {
 public:
-	Prism_M(int DimXYZ) {
+	Prism_M(float DimXYZ) {
 
 		std::vector<Vertex> VertexOfCube;
 		std::vector<GLuint> IndecesOfCube;
@@ -532,11 +532,11 @@ public:
 		glm::vec3 Positions[] =
 		{
 			//Top Plane 
-			glm::vec3((float)DimXYZ/2.f,-(float)DimXYZ/2.f, (float)DimXYZ/2.f), glm::vec3((float)DimXYZ/2.f, (float)DimXYZ/2.f, (float)DimXYZ/2.f),
-			glm::vec3(-(float)DimXYZ/2.f, (float)DimXYZ/2.f, (float)DimXYZ/2.f), glm::vec3(-(float)DimXYZ/2.f,-(float)DimXYZ/2.f, (float)DimXYZ/2.f),
+			glm::vec3(DimXYZ,-DimXYZ, DimXYZ), glm::vec3(DimXYZ, DimXYZ, DimXYZ),
+			glm::vec3(-DimXYZ, DimXYZ, DimXYZ), glm::vec3(-DimXYZ,-DimXYZ, DimXYZ),
 			//Bottom Plane
-			glm::vec3((float)DimXYZ/2.f,-(float)DimXYZ/2.f,-(float)DimXYZ/2.f), glm::vec3((float)DimXYZ/2.f, (float)DimXYZ/2.f,-(float)DimXYZ/2.f),
-			glm::vec3(-(float)DimXYZ/2.f, (float)DimXYZ/2.f,-(float)DimXYZ/2.f), glm::vec3(-(float)DimXYZ/2.f,-(float)DimXYZ/2.f,-(float)DimXYZ/2.f)
+			glm::vec3(DimXYZ,-DimXYZ,-DimXYZ), glm::vec3(DimXYZ, DimXYZ,-DimXYZ),
+			glm::vec3(-DimXYZ, DimXYZ,-DimXYZ), glm::vec3(-DimXYZ,-DimXYZ,-DimXYZ)
 		};
 		int Index[] = { 0,4,1,5 };
 
@@ -585,7 +585,7 @@ public:
 		}
 		this->set(VertexOfCube, IndecesOfCube);
 	}
-	Prism_M(int DimX, int DimYZ) {
+	Prism_M(float DimX, float DimYZ) {
 
 		std::vector<Vertex> VertexOfCube;
 		std::vector<GLuint> IndecesOfCube;
@@ -603,11 +603,11 @@ public:
 		glm::vec3 Positions[] =
 		{
 			//Top Plane 
-			glm::vec3((float)DimX ,-(float)DimYZ , (float)DimYZ ), glm::vec3((float)DimX , (float)DimYZ , (float)DimYZ ),
-			glm::vec3(-(float)DimX , (float)DimYZ , (float)DimYZ ), glm::vec3(-(float)DimX ,-(float)DimYZ , (float)DimYZ ),
+			glm::vec3(DimX ,-DimYZ , DimYZ ), glm::vec3(DimX , DimYZ , DimYZ ),
+			glm::vec3(-DimX , DimYZ , DimYZ ), glm::vec3(-DimX ,-DimYZ , DimYZ ),
 			//Bottom Plane
-			glm::vec3((float)DimX ,-(float)DimYZ ,-(float)DimYZ ), glm::vec3((float)DimX , (float)DimYZ ,-(float)DimYZ ),
-			glm::vec3(-(float)DimX , (float)DimYZ ,-(float)DimYZ ), glm::vec3(-(float)DimX ,-(float)DimYZ ,-(float)DimYZ )
+			glm::vec3(DimX ,-DimYZ ,-DimYZ ), glm::vec3(DimX , DimYZ ,-DimYZ ),
+			glm::vec3(-DimX , DimYZ ,-DimYZ ), glm::vec3(-DimX ,-DimYZ ,-DimYZ )
 		};
 		int Index[] = { 0,4,1,5 };
 
@@ -656,7 +656,7 @@ public:
 		}
 		this->set(VertexOfCube, IndecesOfCube);
 	}
-	Prism_M(int DimX, int DimY, int DimZ) {
+	Prism_M(float DimX, float DimY, float DimZ) {
 
 		std::vector<Vertex> VertexOfCube;
 		std::vector<GLuint> IndecesOfCube;
@@ -674,11 +674,11 @@ public:
 		glm::vec3 Positions[] =
 		{
 			//Top Plane 
-			glm::vec3((float)DimX ,-(float)DimY , (float)DimZ ), glm::vec3((float)DimX , (float)DimY , (float)DimZ ),
-			glm::vec3(-(float)DimX , (float)DimY , (float)DimZ ), glm::vec3(-(float)DimX ,-(float)DimY , (float)DimZ ),
+			glm::vec3(DimX ,-DimY , DimZ ), glm::vec3(DimX , DimY , DimZ ),
+			glm::vec3(-DimX , DimY , DimZ ), glm::vec3(-DimX ,-DimY , DimZ ),
 			//Bottom Plane
-			glm::vec3((float)DimX ,-(float)DimY ,-(float)DimZ ), glm::vec3((float)DimX , (float)DimY ,-(float)DimZ ),
-			glm::vec3(-(float)DimX , (float)DimY ,-(float)DimZ ), glm::vec3(-(float)DimX ,-(float)DimY ,-(float)DimZ )
+			glm::vec3(DimX ,-DimY ,-DimZ ), glm::vec3(DimX , DimY ,-DimZ ),
+			glm::vec3(-DimX , DimY ,-DimZ ), glm::vec3(-DimX ,-DimY ,-DimZ )
 		};
 		int Index[] = { 0,4,1,5 };
 

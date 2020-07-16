@@ -170,7 +170,7 @@ void Game::initModels()
 		new Mesh(&Cone_M(10.f, 10.f, 40.f, 10),
 			"Cone"));
 	meshes.push_back(
-		new Mesh(&Prism_M(4,4,1),
+		new Mesh(&Prism_M(4,4,.5),
 			"Cube"));
 	meshes.push_back(
 		new Mesh(&Capsule_M(1.f,1.f,16,16),
