@@ -525,6 +525,14 @@ void Game::ImGuiOptions()
 								// W_Rel_Origin
 								glm::vec3 W_Vec = ii->GetWOrigin();
 								ImGui::Text("World Position"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", W_Vec.x, W_Vec.y, W_Vec.z);
+								if (ImGui::TreeNode("W_Pos"))
+								{
+									ImGui::SliderFloat("XOr", &W_Vec.x, -10.f, 10.f);
+									ImGui::SliderFloat("YOr", &W_Vec.y, -10.f, 10.f);
+									ImGui::SliderFloat("ZOr", &W_Vec.z, -10.f, 10.f);
+									ii->SetWOrigin(W_Vec);
+									ImGui::TreePop();
+								}
 								//Origin
 								glm::vec3 VecOr = ii->GetOrigin();
 								ImGui::Text("Node Origin", NodeCount); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecOr.x, VecOr.y, VecOr.z);
