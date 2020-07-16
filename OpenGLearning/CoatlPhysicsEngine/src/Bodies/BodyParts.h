@@ -30,5 +30,7 @@ namespace CoatlPhysicsEngine {
 		void SetQuat(glm::quat Q);
 		std::shared_ptr<ColShapes> GetShape();
 		std::shared_ptr<Particle> GetParticle();
+		glm::vec3 GetW_Pos();
+		void SetWolrd_Mod(glm::vec3 W_Pos);
 	};
 }

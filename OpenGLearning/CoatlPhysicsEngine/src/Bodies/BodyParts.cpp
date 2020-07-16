@@ -90,3 +90,16 @@ std::shared_ptr<Particle> BodyParts::GetParticle()
 {
 	return this->BodParticle;
 }
+
+glm::vec3 BodyParts::GetW_Pos()
+{
+	glm::mat4 W_M = this->GetParMatrix() * this->GetMatrix();
+	return W_M * glm::vec4(this->GetPos(), 1.f);
+}
+
+void BodyParts::SetWolrd_Mod(glm::vec3 W_Pos)
+{
+	glm::mat4 W_M = this->GetParMatrix() * this->GetMatrix();
+	W_M = glm::inverse(W_M);
+	this->SetPos(W_M * glm::vec4(W_Pos,1.f));
+}
