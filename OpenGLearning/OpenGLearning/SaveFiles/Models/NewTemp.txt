@@ -1,0 +1,87 @@
+*******Model 0*******
+Model_Name@Terrain
+--Material ID--
+M_Mat_ID@0
+--Meshes--
+M_M@0@Terrain
+--Textures--
+M_T@0@Images/grassy2.png
+M_T@1@Images/mud.png
+M_T@2@Images/grassFlowers.png
+M_T@3@Images/path.png
+M_T@4@Images/blendMap.png
+M_T@5@Shadow0
+M_T@6@Shadow1
+M_T@7@Shadow2
+--Model Position--
+M_P@0.000000$0.000000$0.000000
+--Model Rotation--
+--Model Scale--
+M_S@1.000000$1.000000$1.000000
+--Model Origin--
+M_O@0.000000$0.000000$0.000000
+--Model Nodes Information--
+M_N_Inf@0
+M_N_ID@0
+M_N_M_ID@0
+Node_TexID@0@0-1-2-3-4-5-6-7-
+M_N_P@Node@0@0.000000$0.000000$0.000000
+M_N_S@Node@0@1.000000$1.000000$1.000000
+M_N_O@Node@0@0.000000$0.000000$0.000000
+*----*
+++@
+*******Model 1*******
+Model_Name@Stall Image0
+--Material ID--
+M_Mat_ID@1
+--Meshes--
+M_M@0@Cube
+M_M@1@Cube
+M_M@2@Capsule
+--Textures--
+M_T@0@Images/stallTexture.png
+M_T@1@Images/stallTexture.png
+M_T@2@Shadow0
+M_T@3@Shadow1
+M_T@4@Shadow2
+--Model Position--
+M_P@0.000000$4.000000$1.000000
+--Model Rotation--
+--Model Scale--
+M_S@1.000000$1.000000$1.000000
+--Model Origin--
+M_O@0.000000$4.000000$1.000000
+--Model Nodes Information--
+M_N_Inf@0
+M_N_ID@0
+M_N_M_ID@0
+Node_TexID@0@0-1-2-3-4-
+M_N_P@Node@0@0.000000$4.000000$1.000000
+M_N_S@Node@0@1.000000$1.000000$1.000000
+M_N_O@Node@0@0.000000$4.000000$1.000000
+*----*
+M_N_Inf@1
+M_N_ID@0
+M_N_M_ID@0
+Node_TexID@1@0-1-2-3-4-
+M_N_P@Node@1@0.000000$8.000000$0.000000
+M_N_S@Node@1@1.000000$1.000000$1.000000
+M_N_O@Node@1@0.000000$4.000000$0.000000
+*----*
+M_N_Inf@2
+M_N_ID@0
+M_N_M_ID@2
+Node_TexID@2@0-1-2-3-4-
+M_N_P@Node@2@0.000000$-5.000000$0.500000
+M_N_S@Node@2@1.000000$1.000000$1.000000
+M_N_O@Node@2@0.000000$-5.000000$0.000000
+*----*
+M_N_Inf@3
+M_N_ID@2
+M_N_M_ID@2
+Node_TexID@3@1-0-2-3-4-
+M_N_P@Node@3@0.000000$0.000000$3.000000
+M_N_S@Node@3@1.000000$1.000000$1.000000
+M_N_O@Node@3@0.000000$0.000000$1.200000
+*----*
+++@
