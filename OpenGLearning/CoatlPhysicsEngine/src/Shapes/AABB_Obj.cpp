@@ -57,9 +57,7 @@ glm::vec3 AABB_Obj::GetLengths()
 }
 
 std::vector<glm::vec3> AABB_Obj::GetPoints()
-{    
-    glm::mat4 T = glm::mat4(1.f);
-    T = glm::translate(T, this->Pos);
+{
     glm::vec3 L = GetLengths();
     glm::vec3 Positions[] =
     {
@@ -73,7 +71,7 @@ std::vector<glm::vec3> AABB_Obj::GetPoints()
     std::vector<glm::vec3> Lines(std::begin(Positions),std::end(Positions));
     for (auto& jj : Lines)
     {
-        jj = this->ParMat * T * glm::vec4(jj, 1.f);
+        jj = this->ParMat * this->ShapeMatrix() * glm::vec4(jj, 1.f);
     }
 	return Lines;
 }
