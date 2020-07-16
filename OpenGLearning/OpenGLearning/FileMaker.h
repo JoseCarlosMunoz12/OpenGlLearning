@@ -267,9 +267,9 @@ public:
 			std::vector<std::string> PathDiv;			
 			std::string TempString = entry.path().string();
 			this->ReturnStringArray(TempString, '/', PathDiv);
-			if (!this->FindItem(PathDiv[1]))
+			if (!this->FindItem(PathDiv[2]))
 			{
-				this->Files.push_back(PathDiv[1]);
+				this->Files.push_back(PathDiv[2]);
 			}
 		}
 	}

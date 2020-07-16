@@ -37,9 +37,9 @@ Model_Name@Stall Image0
 --Material ID--
 M_Mat_ID@1
 --Meshes--
-M_M@0@Cone
-M_M@1@Tree
-M_M@2@StallImage
+M_M@0@Cube
+M_M@1@Cube
+M_M@2@Capsule
 --Textures--
 M_T@0@Images/stallTexture.png
 M_T@1@Images/stallTexture.png
