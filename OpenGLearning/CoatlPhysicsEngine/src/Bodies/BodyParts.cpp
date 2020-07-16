@@ -41,7 +41,7 @@ glm::mat4 BodyParts::GetParMatrix()
 
 glm::mat4 BodyParts::GetMatrix()
 {
-	return this->BodPart->ShapeMatrix();;
+	return this->BodPart->ShapeMatrix();
 }
 
 void BodyParts::UpdateMatrix()
