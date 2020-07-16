@@ -522,6 +522,9 @@ void Game::ImGuiOptions()
 							std::string TempNodeId = "Node" + std::to_string(NodeCount);
 							if (ImGui::TreeNode(TempNodeId.c_str()))
 							{	
+								// W_Rel_Origin
+								glm::vec3 W_Vec = ii->GetWOrigin();
+								ImGui::Text("World Position"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", W_Vec.x, W_Vec.y, W_Vec.z);
 								//Origin
 								glm::vec3 VecOr = ii->GetOrigin();
 								ImGui::Text("Node Origin", NodeCount); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecOr.x, VecOr.y, VecOr.z);

@@ -300,4 +300,20 @@ public:
 	{
 		this->Scale += Scale;
 	}
+	//relative modifiers and getters
+	glm::vec3 GetWOrigin()
+	{
+		glm::mat4 W_M = glm::mat4(1.f);
+		if (this->Parent)
+			W_M = this->Parent->GetFinalMat4();
+		return W_M * glm::vec4(this->GetOrigin(), 1.f);
+	}
+	void SetWOrigin(glm::vec3 NewW_Pos)
+	{
+		glm::mat4 W_M = glm::mat4(1.f);
+		if (this->Parent)
+			W_M = this->Parent->GetFinalMat4();
+		W_M = glm::inverse(W_M);
+		this->Origin = W_M * glm::vec4(NewW_Pos,1.f);
+	}
 };
