@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "../Shapes/ColShapes.h"
+#include "../Shapes/AABB_Obj.h"
 #include "../Physics/Particle.h"
 #include "BodyParts.h"
 namespace CoatlPhysicsEngine {
@@ -10,6 +11,7 @@ namespace CoatlPhysicsEngine {
 		int ID;
 		int Vec_Size;
 		std::vector<std::shared_ptr<BodyParts>> BodyInf;
+		std::unique_ptr<AABB_Obj> BodBox;
 	public:
 		Bodies(int InitID);
 		Bodies(std::shared_ptr<ColShapes> InitShapes, int InitID);
@@ -20,6 +22,7 @@ namespace CoatlPhysicsEngine {
 		int GetVecSize();
 		//For base Parents
 		void SetPosition(glm::vec3 NewPos);
+		void UpdateAABB();
 		void MovePosition(glm::vec3 Add);
 		void SetParticle(int ShapeID);
 		void SetQuat(glm::quat NewQuat);

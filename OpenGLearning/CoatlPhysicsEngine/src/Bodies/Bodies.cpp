@@ -57,6 +57,14 @@ void Bodies::SetPosition(glm::vec3 NewPos)
 
 }
 
+void Bodies::UpdateAABB()
+{
+	for (auto& ii : this->BodyInf)
+	{
+
+	}
+}
+
 void Bodies::MovePosition(glm::vec3 Add)
 {
 	glm::vec3 OldPos = this->BodyInf[0]->GetPos();
