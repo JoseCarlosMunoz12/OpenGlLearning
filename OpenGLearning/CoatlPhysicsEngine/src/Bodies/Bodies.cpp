@@ -38,7 +38,7 @@ void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape, int Parent)
 	if (Parent  < 0)
 		this->BodyInf.push_back(std::make_shared<BodyParts>(NewShape));
 	else
-		this->BodyInf.push_back(std::make_shared<BodyParts>(NewShape));
+		this->BodyInf.push_back(std::make_shared<BodyParts>(this->BodyInf[Parent],NewShape));
 	this->Vec_Size = BodyInf.size();
 }
 
