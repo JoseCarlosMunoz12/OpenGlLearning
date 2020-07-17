@@ -998,16 +998,24 @@ void Game::ImGuiOptions()
 			ImGui::TreePop();
 		}
 			if (ImGui::TreeNode("Textures"))
-		{
-			for (auto& ii : this->textures)
 			{
-				if (ImGui::Selectable(ii->GiveChar()))
+				int Count = 0;
+				for (auto& ii : this->textures)
 				{
-					std::cout << ii->GiveChar() << "\n ";
+					if (ImGui::Selectable(ii->GiveChar(),this->CurTex == Count))
+					{
+						this->CurTex = Count;
+					}
+					Count++;
 				}
-			}
+				if (this->CurTex != -1)
+				{
+					GLuint T = this->textures[this->CurTex]->getID();
+					ImVec2 Te = {128,128};
+					ImGui::Image((void*)T, Te);
+				}
 			ImGui::TreePop();
-		}
+			}
 			if (ImGui::TreeNode("Meshes"))
 		{
 			for (auto& ii : this->meshes)
@@ -1822,7 +1830,7 @@ void Game::ImGuiOptions()
 			}
 		}
 		ImGui::End();
-	}
+	} 
 }
 
 void Game::updateUniforms()

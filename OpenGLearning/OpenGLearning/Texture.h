@@ -30,6 +30,8 @@ public:
 	{
 		return this->Name;
 	}
+
+	inline GLuint getID() const { return this->ID; }
 };
 
 class Texture : public GeneralTextInfo
@@ -74,7 +76,6 @@ public:
 		glDeleteTextures(1,&this->ID);
 	}
 
-	inline GLuint getID() const {return this->ID;}
 
 };
 
