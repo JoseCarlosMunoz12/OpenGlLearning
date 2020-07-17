@@ -100,7 +100,7 @@ private:
 	std::vector<GeneralTextInfo*> textures;
 	std::vector<ShadowTex*> Shadows;
 	std::vector<MipMap*> MipMapsData;
-	int CurTex = 0;
+	int CurTex = -1;
 	//Materials
 	//Testing the new mat with Polymorphism
 	std::vector<StdMat*> MatTest;
