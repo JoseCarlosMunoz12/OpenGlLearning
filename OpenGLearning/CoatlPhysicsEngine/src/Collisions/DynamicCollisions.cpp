@@ -88,7 +88,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 		{
-			//resetForces on the Object
+			//resetForces on the Object///////////////////////////////////////////////////////////
 			Temp->ResetForce();
 			//Gravitaional Force
 			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
@@ -101,7 +101,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			glm::vec3 PrevPos = jj->GetPos();
 			glm::vec3 Bod_Vel= Temp->GetVel();
 			float F_dt = dt;
-			//Check Collision with The Terrain
+			//Check Collision with The Terrain////////////////////////////////////////////////////
 			if (!Ter.expired())
 			{
 				std::vector<std::shared_ptr<Bodies>> Quers = Ter.lock()->GetTerrs(jj->GetPos(), 1);
@@ -132,7 +132,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
-			//Check Collision with Static Bodies
+			//Check Collision with Static Bodies//////////////////////////////////////////////////
 			if (Statics)
 			{
 				std::vector<std::shared_ptr<Bodies>> Que = Statics->GetBods(jj);
@@ -156,7 +156,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
-			//Check Collision with Self
+			//Check Collision with Self///////////////////////////////////////////////////////////
 			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
 			for (auto& ii : Quer)
 			{

@@ -2,21 +2,23 @@
 using namespace CoatlPhysicsEngine;
 
 Bodies::Bodies(int InitID)
+	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f))
 {
 	this->ID = InitID;
 	this->Vec_Size = BodyInf.size();
 }
 
 Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
+	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f))
 {
 	this->ID = InitID;
 	int Count = this->BodyInf.size();
 	this->BodyInf.push_back(std::make_shared<BodyParts>(InitShapes));
 	this->Vec_Size = BodyInf.size();
-
 }
 
 Bodies::Bodies(std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
+	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f))
 {
 	this->ID = InitID;
 	int Count = this->BodyInf.size();
@@ -54,25 +56,22 @@ int CoatlPhysicsEngine::Bodies::GetVecSize()
 void Bodies::SetPosition(glm::vec3 NewPos)
 {
 	this->BodyInf[0]->SetPos(NewPos);
-
 }
 
 void Bodies::UpdateAABB()
 {
-	std::vector<glm::vec3> Units = {
-		glm::vec3(0.f, 0.f, 1.f),glm::vec3(0.f, 1.f, 0.f),glm::vec3(1.f, 0.f, 0.f),
-		glm::vec3(0.f, 0.f, -1.f),glm::vec3(0.f, -1.f, 0.f),glm::vec3(-1.f, 0.f, 0.f)
-	};
-	glm::vec3 Max = this->BodyInf[0]->Support(Units[0]);
-	glm::vec3 Min = this->BodyInf[0]->Support(Units[3]);
+	Max = this->BodyInf[0]->Support(Units[0]);
+	Min = this->BodyInf[0]->Support(Units[3]);
 	for (auto& ii : this->BodyInf)
 	{
 		for (auto& jj : Units)
 		{
-			MATH::SetMaxMins(Max, Min, ii->Support(jj));
+			glm::vec3 T = ii->Support(jj);
+			Max = MATH::SetMax(Max, T);
+			Min = MATH::SetMin(Min, T);
 		}
 	}
-
+	glm::vec3 Mid = (Max + Min) / 2.f;
 }
 
 void Bodies::MovePosition(glm::vec3 Add)

@@ -8,10 +8,15 @@ namespace CoatlPhysicsEngine {
 	class Bodies
 	{
 	private:
+		std::vector<glm::vec3> Units = {
+			glm::vec3(0.f, 0.f, 1.f),glm::vec3(0.f, 1.f, 0.f),glm::vec3(1.f, 0.f, 0.f),
+			glm::vec3(0.f, 0.f, -1.f),glm::vec3(0.f, -1.f, 0.f),glm::vec3(-1.f, 0.f, 0.f)
+		};
 		int ID;
 		int Vec_Size;
 		std::vector<std::shared_ptr<BodyParts>> BodyInf;
-		std::unique_ptr<AABB_Obj> BodBox;
+		glm::vec3 Max;
+		glm::vec3 Min;
 	public:
 		Bodies(int InitID);
 		Bodies(std::shared_ptr<ColShapes> InitShapes, int InitID);
