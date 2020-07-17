@@ -476,6 +476,40 @@ void MATH::SetMaxMins(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal)
 	}
 }
 
+glm::vec3 MATH::SetMax(glm::vec3 Max, glm::vec3 NewVal)
+{
+	if (Max.x < NewVal.x)
+	{
+		Max.x = NewVal.x;
+	}
+	if (Max.y < NewVal.y)
+	{
+		Max.y = NewVal.y;
+	}
+	if (Max.z < NewVal.z)
+	{
+		Max.z = NewVal.z;
+	}
+	return Max;
+}
+
+glm::vec3 MATH::SetMin(glm::vec3 Min, glm::vec3 NewVal)
+{
+	if (Min.x > NewVal.x)
+	{
+		Min.x = NewVal.x;
+	}
+	if (Min.y > NewVal.y)
+	{
+		Min.y = NewVal.y;
+	}
+	if (Min.z > NewVal.z)
+	{
+		Min.z = NewVal.z;
+	}
+	return Min;
+}
+
 float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1, float R)
 {
 	//Max Min of Shape 0

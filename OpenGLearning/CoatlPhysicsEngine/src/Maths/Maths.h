@@ -32,6 +32,8 @@ namespace MATH {
 		std::vector<glm::vec3> Pnts0,std::vector<glm::vec3> Pnts1);
 	//Return Changes
 	void SetMaxMins(glm::vec3 &Max, glm::vec3 &Min,glm::vec3 NewVal);
+	glm::vec3 SetMax(glm::vec3 Max, glm::vec3 NewVal);
+	glm::vec3 SetMin(glm::vec3 Min, glm::vec3 NewVal);
 	// SAT Functions
 	float ProjPen(glm::vec3 &Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1,float R);
 	float SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
