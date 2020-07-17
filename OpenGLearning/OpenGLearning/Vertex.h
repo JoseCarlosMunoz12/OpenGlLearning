@@ -308,6 +308,14 @@ public:
 			W_M = this->Parent->GetFinalMat4();
 		return W_M * glm::vec4(this->GetOrigin(), 1.f);
 	}
+	glm::vec3 GetWRel()
+	{
+		glm::mat4 W_M = glm::mat4(1.f);
+		if (this->Parent)
+			W_M = this->Parent->GetFinalMat4();
+		glm::vec3 Or = W_M * glm::vec4(this->GetOrigin(), 1.f);
+		return Or + this->RelPos;
+	}
 	void SetWOrigin(glm::vec3 NewW_Pos)
 	{
 		glm::mat4 W_M = glm::mat4(1.f);

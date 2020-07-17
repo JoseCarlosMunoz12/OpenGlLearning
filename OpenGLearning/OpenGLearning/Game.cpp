@@ -533,6 +533,9 @@ void Game::ImGuiOptions()
 									ii->SetWOrigin(W_Vec);
 									ImGui::TreePop();
 								}
+								//W_Rel_Rel_Pos
+								glm::vec3 W_Rel = ii->GetWRel();
+								ImGui::Text("World Rel Pos"); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", W_Rel.x, W_Rel.y, W_Rel.z);
 								//Origin
 								glm::vec3 VecOr = ii->GetOrigin();
 								ImGui::Text("Node Origin", NodeCount); ImGui::SameLine(); ImGui::Text("(%f,%f,%f)", VecOr.x, VecOr.y, VecOr.z);
