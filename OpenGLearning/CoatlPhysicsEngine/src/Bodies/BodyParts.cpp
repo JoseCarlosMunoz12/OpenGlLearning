@@ -100,3 +100,8 @@ void BodyParts::SetWolrd_Mod(glm::vec3 W_Pos)
 { 
 	this->SetPos(glm::inverse(this->GetParMatrix())* glm::vec4(W_Pos,1.f));
 }
+
+glm::vec3 CoatlPhysicsEngine::BodyParts::Support(glm::vec3 Dir)
+{
+	return this->BodPart->Support(Dir);
+}

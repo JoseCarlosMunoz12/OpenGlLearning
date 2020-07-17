@@ -59,10 +59,25 @@ void Bodies::SetPosition(glm::vec3 NewPos)
 
 void Bodies::UpdateAABB()
 {
+	std::vector<glm::vec3> Units = {
+		glm::vec3(0.f, 0.f, 1.f),glm::vec3(0.f, 0.f, -1.f),
+		glm::vec3(0.f, 1.f, 0.f),glm::vec3(0.f, -1.f, 0.f),
+		glm::vec3(1.f, 0.f, 0.f),glm::vec3(-1.f, 0.f, 0.f)
+	};
+	glm::vec3 Max = glm::vec3(0.f);
+	glm::vec3 Min = glm::vec3(0.f);
+	for (auto& jj : Units)
+	{
+		MATH::SetMaxMins(Max, Min, this->BodyInf[0]->Support(jj));
+	}
 	for (auto& ii : this->BodyInf)
 	{
-
+		for (auto& jj : Units)
+		{
+			MATH::SetMaxMins(Max, Min, ii->Support(jj));
+		}
 	}
+
 }
 
 void Bodies::MovePosition(glm::vec3 Add)

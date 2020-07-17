@@ -32,5 +32,6 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<Particle> GetParticle();
 		glm::vec3 GetW_Pos();
 		void SetWolrd_Mod(glm::vec3 W_Pos);
+		glm::vec3 Support(glm::vec3 Dir);
 	};
 }
