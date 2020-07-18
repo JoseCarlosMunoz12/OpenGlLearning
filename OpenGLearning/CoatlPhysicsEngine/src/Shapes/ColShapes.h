@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "../Maths/Maths.h"
-
+#include "../Physics/Particle.h"
 namespace CoatlPhysicsEngine
 {
 	class ColShapes

@@ -1703,7 +1703,11 @@ void Game::ImGuiOptions()
 							if (ImGui::TreeNode("General Information"))
 							{
 								glm::vec3 Temp = Bod->GetPos();
+								glm::vec3 Max = Bod->GetMax();
+								glm::vec3 Min = Bod->GetMin();
 								QuatParts Q_Angle(Bod->GetQuat());
+								ImGui::Text("MaxAABB %.3f, %.3f, %.3f", Max.x, Max.y, Max.z);
+								ImGui::Text("MinAABB %.3f, %.3f, %.3f", Min.x, Min.y, Min.z);
 								ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
 								if (ImGui::TreeNode("Position"))
 								{
