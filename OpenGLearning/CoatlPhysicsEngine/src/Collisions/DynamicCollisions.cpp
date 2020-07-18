@@ -217,7 +217,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		if (Temp)
 		{
 			jj->SetPosition(Temp->UpdatePos(dt));
-			//jj->UpdateAABB();
+			jj->UpdateAABB();
 		}
 	}
 }
