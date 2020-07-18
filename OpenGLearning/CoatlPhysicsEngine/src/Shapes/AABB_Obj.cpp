@@ -71,7 +71,7 @@ std::vector<glm::vec3> AABB_Obj::GetPoints()
     std::vector<glm::vec3> Lines(std::begin(Positions),std::end(Positions));
     for (auto& jj : Lines)
     {
-        jj = this->ParMat * this->Matrix * glm::vec4(jj, 1.f);
+        jj = jj + this->Pos;
     }
 	return Lines;
 }

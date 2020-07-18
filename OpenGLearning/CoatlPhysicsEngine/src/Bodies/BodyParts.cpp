@@ -50,6 +50,7 @@ void BodyParts::UpdateMatrix()
 	if (this->Parent)
 		P = this->Parent->GetParMatrix() * this->Parent->GetMatrix();
 	this->BodPart->SetMatrix(P);
+	this->BodPart->UpdateMatrix();
 }
 
 glm::vec3 BodyParts::GetPos()

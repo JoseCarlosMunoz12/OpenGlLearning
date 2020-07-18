@@ -76,7 +76,10 @@ void Bodies::UpdateAABB()
 
 void Bodies::UpdateMatrix()
 {
-	this->BodyInf[0]->UpdateMatrix();
+	for (auto& ii : this->BodyInf)
+	{
+		ii->UpdateMatrix();
+	}
 }
 
 void Bodies::MovePosition(glm::vec3 Add)

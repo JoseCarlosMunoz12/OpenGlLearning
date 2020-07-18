@@ -18,7 +18,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 	{
 		float R = Sph0.GetRadius();
 		float Pen = R - glm::distance(glm::vec3(0.f), Vec);
-		glm::vec3 Norm = glm::normalize(Vec);
+		glm::vec3 Norm = -glm::normalize(Vec);
 		Cont->Penetration = Pen;
 		Cont->Normal = Norm;
 		Cont->ContactPoint = Sph0.GetPos() + Pen * Norm;

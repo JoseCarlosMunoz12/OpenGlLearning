@@ -85,7 +85,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Find all Collisions and Calculate its Force Geneartors
 	for (auto& jj : AllBods)
 	{
-		jj->UpdateMatrix();
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 		{
@@ -216,8 +215,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 		{
-			jj->SetPosition(Temp->UpdatePos(dt));
-			jj->UpdateAABB();
+			//jj->SetPosition(Temp->UpdatePos(dt));
+			//jj->UpdateAABB();
 		}
 	}
 }
