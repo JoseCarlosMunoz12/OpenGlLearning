@@ -20,6 +20,7 @@ namespace CoatlPhysicsEngine
 		glm::vec3 Pivot;
 		glm::quat QuatAngle;
 		glm::mat4 ParMat;
+		glm::mat4 Matrix;
 	public:
 		ColShapes(glm::vec3 SetPos);
 		virtual ~ColShapes();
@@ -32,8 +33,9 @@ namespace CoatlPhysicsEngine
 		virtual std::vector<glm::vec3> GetVertices();
 		virtual std::vector<glm::vec3> GetNormals();
 		//functions to get Matrix relative to the Shape
-		glm::mat4 ShapeMatrix();
+		void UpdateMatrix();
 		glm::mat4 GetParMatrix();
 		void SetMatrix(glm::mat4 P);
+		glm::mat4 GetMatrix() { return Matrix; };
 	};
 }
