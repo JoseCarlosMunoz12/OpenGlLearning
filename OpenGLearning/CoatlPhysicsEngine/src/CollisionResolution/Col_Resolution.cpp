@@ -55,7 +55,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		float R = Cap.GetRadius();
 		float Pen = glm::distance(glm::vec3(0.f),vec);
 		Cont->Penetration = R - Pen;
-		Cont->Normal = MATH::Normalize(vec);
+		Cont->Normal = -MATH::Normalize(vec);
 		Cont->ContactPoint = Cap.GetPos() + Pen * Cont->Normal;
 		Temp.push_back(Cont);
 	}
