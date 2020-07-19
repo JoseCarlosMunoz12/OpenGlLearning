@@ -1696,17 +1696,19 @@ void Game::ImGuiOptions()
 					std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempDynamic->GetAllBodies();
 					for (auto& ii : Bods)
 					{
-						int Count = 0;
 						std::shared_ptr<CPE::Bodies> Bod = ii.lock();
-						std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
+						std::string BodID = "Bode Id is " + std::to_string(Bod->GetID());
+						ImGui::Text(BodID.c_str());
 						if (ImGui::TreeNode(BodID.c_str()))
 						{
 							if (ImGui::TreeNode("General Information"))
 							{
 								std::vector<std::shared_ptr<CPE::BodyParts>>R =	Bod->GetBodyParts();
+								int Count = 0;
 								for (auto& kk : R)
 								{
-									if (ImGui::TreeNode("W_Pos"))
+									std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
+									if (ImGui::TreeNode(Sed.c_str()))
 									{
 										glm::vec3 Temp = kk->GetW_Pos();
 										float Ar[3] = { Temp.x,Temp.y,Temp.z };
@@ -1728,29 +1730,16 @@ void Game::ImGuiOptions()
 											Bod->SetPosition(Temp);
 										}
 										ImGui::TreePop();
+										if (ImGui::Button("Add Child"))
+										{
+											this->BodId = Bod->GetID();
+											this->ShapeID = Count;
+											this->AddShape = true;
+										}
 									}
+									Count++;
 								}
 								QuatParts Q_Angle(Bod->GetQuat());
-								//if (ImGui::TreeNode("Position"))
-								//{
-								//	float Ar[3] = { Temp.x,Temp.y,Temp.z };
-								//	if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
-								//	{
-								//		Temp.x = Ar[0];
-								//		Bod->SetPosition(Temp);
-								//	}
-								//	if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
-								//	{
-								//		Temp.y = Ar[1];
-								//		Bod->SetPosition(Temp);
-								//	}
-								//	if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
-								//	{
-								//		Temp.z = Ar[2];
-								//		Bod->SetPosition(Temp);
-								//	}
-								//	ImGui::TreePop();
-								//}
 								ImGui::Text("Angle %.3f", Q_Angle.Angle);
 								ImGui::Text("Unite Vector %.3f,%.3f,%.3f",
 								Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
@@ -1827,6 +1816,7 @@ void Game::ImGuiOptions()
 								}
 								ImGui::TreePop();
 							}
+							ImGui::Separator();
 							ImGui::TreePop();
 						}
 					}
@@ -1857,6 +1847,18 @@ void Game::ImGuiOptions()
 		}
 		ImGui::End();
 	} 
+	if (this->AddShape)
+	{
+		std::string Title = "add shape to Body " + std::to_string(this->BodId);
+		Title += "for parent " + std::to_string(this->ShapeID);
+		ImGui::Begin(Title.c_str());
+		if (ImGui::Button("Close Shape"))
+		{
+			this->AddShape = false;
+		}
+		ImGui::End();
+	}
+
 }
 
 void Game::updateUniforms()

@@ -143,8 +143,11 @@ private:
 	bool BlendAnims = false;
 	bool TransAnims = false;
 	int CurBlend = 0;
-	// Collision and PHysics world
+	// Collision and PHysics world and other informations
 	std::unique_ptr<CPE::CollisionWorld> ColWorld;
+	bool AddShape = false;
+	int  ShapeID;
+	int BodId;
 	//Private Functions
 	void initGLFW();
 	void initWindow(const char* title,bool resizable);
