@@ -54,7 +54,7 @@ void ColShapes::UpdateMatrix()
 	this->Matrix = glm::mat4(1.f);
 	glm::mat4 R = glm::mat4(1.f);
 	glm::mat4 Rot =  R * glm::mat4_cast(this->QuatAngle);
-	this->Matrix = glm::translate(R,this->Pos) * Rot * glm::translate(R, Pivot);
+	this->Matrix = glm::translate(R,this->Pos) * Rot ;
 }
 
 glm::mat4 ColShapes::GetParMatrix()

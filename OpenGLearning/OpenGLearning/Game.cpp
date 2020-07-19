@@ -1696,39 +1696,61 @@ void Game::ImGuiOptions()
 					std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempDynamic->GetAllBodies();
 					for (auto& ii : Bods)
 					{
+						int Count = 0;
 						std::shared_ptr<CPE::Bodies> Bod = ii.lock();
 						std::string BodID = "Bode Id is" + std::to_string(Bod->GetID());
 						if (ImGui::TreeNode(BodID.c_str()))
 						{
 							if (ImGui::TreeNode("General Information"))
 							{
-								glm::vec3 Temp = Bod->GetPos();
-								glm::vec3 Max = Bod->GetMax();
-								glm::vec3 Min = Bod->GetMin();
-								QuatParts Q_Angle(Bod->GetQuat());
-								ImGui::Text("MaxAABB %.3f, %.3f, %.3f", Max.x, Max.y, Max.z);
-								ImGui::Text("MinAABB %.3f, %.3f, %.3f", Min.x, Min.y, Min.z);
-								ImGui::Text("Pos %.3f, %.3f, %.3f", Temp.x, Temp.y, Temp.z);
-								if (ImGui::TreeNode("Position"))
+								std::vector<std::shared_ptr<CPE::BodyParts>>R =	Bod->GetBodyParts();
+								for (auto& kk : R)
 								{
-									float Ar[3] = { Temp.x,Temp.y,Temp.z };
-									if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
+									if (ImGui::TreeNode("W_Pos"))
 									{
-										Temp.x = Ar[0];
-										Bod->SetPosition(Temp);
+										glm::vec3 Temp = kk->GetW_Pos();
+										float Ar[3] = { Temp.x,Temp.y,Temp.z };
+										if (ImGui::SliderFloat("W_pos_X", &Ar[0], -50.f, 50.f))
+										{
+											Temp.x = Ar[0];
+											Bod->SetPosition(Temp);
+										}
+
+										if (ImGui::SliderFloat("W_pos_Y", &Ar[1], -50.f, 50.f))
+										{
+											Temp.y = Ar[1];
+											Bod->SetPosition(Temp);
+										}
+
+										if (ImGui::SliderFloat("W_pos_Z", &Ar[2], -50.f, 50.f))
+										{
+											Temp.z = Ar[2];
+											Bod->SetPosition(Temp);
+										}
+										ImGui::TreePop();
 									}
-									if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
-									{
-										Temp.y = Ar[1];
-										Bod->SetPosition(Temp);
-									}
-									if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
-									{
-										Temp.z = Ar[2];
-										Bod->SetPosition(Temp);
-									}
-									ImGui::TreePop();
 								}
+								QuatParts Q_Angle(Bod->GetQuat());
+								//if (ImGui::TreeNode("Position"))
+								//{
+								//	float Ar[3] = { Temp.x,Temp.y,Temp.z };
+								//	if (ImGui::SliderFloat("One", &Ar[0], -50.f, 50.f))
+								//	{
+								//		Temp.x = Ar[0];
+								//		Bod->SetPosition(Temp);
+								//	}
+								//	if (ImGui::SliderFloat("Two", &Ar[1], -50.f, 50.f))
+								//	{
+								//		Temp.y = Ar[1];
+								//		Bod->SetPosition(Temp);
+								//	}
+								//	if (ImGui::SliderFloat("Three", &Ar[2], -50.f, 50.f))
+								//	{
+								//		Temp.z = Ar[2];
+								//		Bod->SetPosition(Temp);
+								//	}
+								//	ImGui::TreePop();
+								//}
 								ImGui::Text("Angle %.3f", Q_Angle.Angle);
 								ImGui::Text("Unite Vector %.3f,%.3f,%.3f",
 								Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);

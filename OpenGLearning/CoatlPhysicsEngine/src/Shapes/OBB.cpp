@@ -80,7 +80,7 @@ std::vector<glm::vec3> OBB::GetSegments()
 	for (auto& jj : Lines)
 	{
 		glm::vec4 Set = glm::vec4(jj, 1.f);
-		jj = this->ParMat * this->Matrix * Set;
+		jj = T * R * Set;
 	}
 	return Lines;
 }

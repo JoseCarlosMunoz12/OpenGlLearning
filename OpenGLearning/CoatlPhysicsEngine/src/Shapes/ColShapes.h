@@ -32,7 +32,7 @@ namespace CoatlPhysicsEngine
 		virtual glm::vec3 EPA_Support(glm::vec3 Dir);
 		virtual std::vector<glm::vec3> GetVertices();
 		virtual std::vector<glm::vec3> GetNormals();
-		//functions to get Matrix relative to the Shape
+		//functions to get Matrix relative to the S`hape
 		void UpdateMatrix();
 		glm::mat4 GetParMatrix();
 		void SetMatrix(glm::mat4 P);
