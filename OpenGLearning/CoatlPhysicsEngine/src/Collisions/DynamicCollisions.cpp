@@ -43,8 +43,8 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 	float Dis = glm::distance(InitPos0 + Vel0 * t0, InitPos0 + Vel0 * t1);
 	float Contdis = glm::distance(InitPos0 + Vel0 * t0,TempPos0 );
 	float Loc  = 0.f;
-	if (Contdis != 0.f)
-		Loc = Dis / Contdis * (t1 - t0);
+	if (Dis != 0.f)
+		Loc =  Contdis/Dis  * (t1 - t0);
 	Bod1->SetPosition((t0 + Loc) * Vel1);
 	if (!this->ColBods(Bod0, Bod1))
 	{
@@ -55,7 +55,6 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 		return true;
 	}
 	return BinColDetection(Bod0, Bod1, Vel0, Vel1, InitPos0, InitPos1, Mid, t1, NewDt);
-	return false;
 }
 
 void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies> Bod1)
@@ -207,8 +206,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						float F_dt = dt;
 						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,PrevPos,Pos1,0,dt,F_dt))
 						{
-							jj->MovePosition(F_dt * Bod_Vel);
-							ii->MovePosition(F_dt * Bod1_Vel);
 							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
