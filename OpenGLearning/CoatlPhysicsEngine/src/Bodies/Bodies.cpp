@@ -123,3 +123,8 @@ std::shared_ptr<BodyParts> Bodies::GetSpecificBodyPart(int ID)
 {
 	return this->BodyInf[ID];
 }
+
+std::shared_ptr<Particle> CoatlPhysicsEngine::Bodies::GetParticle(int ID)
+{
+	return this->BodyInf[ID]->GetParticle();
+}

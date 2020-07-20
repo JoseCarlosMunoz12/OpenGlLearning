@@ -94,8 +94,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//Gravitaional Force
 			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			// Drag Force
-			//this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
-			//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
+			/*this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
+			Temp->AcumForce(this->F_Manager->GetForce(*Temp));*/
 			// Spring Force
 			this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
 			Temp->AcumForce(this->F_Manager->GetForce(*Temp));
@@ -161,15 +161,22 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
 			for (auto& ii : Quer)
 			{
-				if (jj->GetID() != ii->GetID())
+				if (ii->GetParticle(0) && jj->GetParticle(0))
 				{
-					glm::vec3 Bod_Vel = Temp->GetVel();
-					float F_dt = dt;
-					if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
+					/*this->F_Manager = std::make_unique<Phy_Spring>(10, 20);
+					glm::vec3 F_S = this->F_Manager->GetForce(*ii->GetParticle(0), *jj->GetParticle(0));
+					ii->GetParticle(0)->AcumForce(F_S);
+					jj->GetParticle(0)->AcumForce(-F_S);*/
+					if (jj->GetID() != ii->GetID())
 					{
-						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
-						if (!this->ContainsManifold(ColRel, T))
-							ColRel.push_back(T);
+						glm::vec3 Bod_Vel = Temp->GetVel();
+						float F_dt = dt;
+						if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
+						{
+							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
+							if (!this->ContainsManifold(ColRel, T))
+								ColRel.push_back(T);
+						}
 					}
 				}
 			}

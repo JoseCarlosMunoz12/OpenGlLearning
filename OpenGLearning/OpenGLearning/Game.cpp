@@ -468,6 +468,7 @@ void Game::ImGuiOptions()
 	this->DrawColInfo();
 	if (this->AddShape)
 	{
+		this->DrawColAdd();
 	}
 }
 
@@ -2225,6 +2226,7 @@ void Game::DrawColInfo()
 	}
 	ImGui::End();
 }
+
 void Game::DrawColAdd()
 {
 	std::string Title = "add shape to Body " + std::to_string(this->BodId);

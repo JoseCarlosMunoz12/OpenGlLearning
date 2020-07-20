@@ -9,6 +9,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Lock_Pos;
 	public:
 		Phy_Spring(glm::vec3 SetPos, float InitK, float Damping);
+		Phy_Spring(float InitK, float Damping);
 		~Phy_Spring();
 		glm::vec3 GetForce(Particle P0) override;
 		glm::vec3 GetForce(Particle P0, Particle P1) override;
