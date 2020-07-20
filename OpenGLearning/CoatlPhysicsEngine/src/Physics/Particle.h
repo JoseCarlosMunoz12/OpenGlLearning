@@ -13,14 +13,19 @@ namespace CoatlPhysicsEngine {
 	class Particle 
 	{
 	private:
+		//Linear Information
+		float Damping;
 		glm::vec3 Pos;
 		glm::vec3 Vel;
-		float Damping;
+		//Rotation Information
+		float RotDamping;
+		glm::quat AxisAngle;
+
+		//Other General information
 		float InverMass;
 		glm::vec3 Acum_Force;
-		void UpdateVel(float dt);
 		int PhysicsID;
-		glm::quat AxisAngle;
+		void UpdateVel(float dt);
 	public:
 		Particle(glm::vec3 Pos,glm::vec3 InitVel,float InitDamp);
 		Particle(glm::vec3 Pos,glm::vec3 InitVel);

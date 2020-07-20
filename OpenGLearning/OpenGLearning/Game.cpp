@@ -2080,7 +2080,7 @@ void Game::DrawColInfo()
 					ImGui::Text(BodID.c_str());
 					if (ImGui::TreeNode(BodID.c_str()))
 					{
-						if (ImGui::TreeNode("General Information"))
+						if (ImGui::TreeNode("General & Particle Information"))
 						{
 							std::vector<std::shared_ptr<CPE::BodyParts>>R = Bod->GetBodyParts();
 							int Count = 0;
@@ -2121,8 +2121,7 @@ void Game::DrawColInfo()
 								{
 									QuatParts Q_Angle(kk->GetQuatAngle());
 									ImGui::Text("Angle %.3f", Q_Angle.Angle);
-									ImGui::Text("Unite Vector %.3f,%.3f,%.3f",
-									Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
+									ImGui::Text("Unite Vector %.3f,%.3f,%.3f", Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
 									glm::vec3 U = Q_Angle.UnitVec;
 									float Ar[3] = { U.x, U.y, U.z };
 									if (ImGui::SliderFloat("Axis Angle", &Q_Angle.Angle, 0.f, 180.f))
