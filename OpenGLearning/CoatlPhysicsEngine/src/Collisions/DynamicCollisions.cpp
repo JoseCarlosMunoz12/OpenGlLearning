@@ -45,7 +45,7 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 	float Loc  = 0.f;
 	if (Dis != 0.f)
 		Loc =  Contdis/Dis  * (t1 - t0);
-	Bod1->SetPosition((t0 + Loc) * Vel1);
+	Bod1->SetPosition(InitPos1 + (t0 + Loc) * Vel1);
 	if (!this->ColBods(Bod0, Bod1))
 	{
 		return false;
@@ -118,7 +118,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Find all Collisions and Calculate its Force Geneartors
 	for (auto& jj : AllBods)
 	{
-		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
+		std::shared_ptr<Particle> Temp = jj->GetParticle(0);
 		if (Temp)
 		{
 			//resetForces on the Object///////////////////////////////////////////////////////////
@@ -193,7 +193,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
 			for (auto& ii : Quer)
 			{
-				if (ii->GetParticle(0) && jj->GetParticle(0))
+				if (ii->GetParticle(0))
 				{
 					/*this->F_Manager = std::make_unique<Phy_Spring>(10, 20);
 					glm::vec3 F_S = this->F_Manager->GetForce(*ii->GetParticle(0), *jj->GetParticle(0));
