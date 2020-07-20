@@ -74,13 +74,6 @@ void Bodies::UpdateAABB()
 	glm::vec3 Mid = (Max + Min) / 2.f;
 }
 
-void Bodies::UpdateMatrix()
-{
-	for (auto& ii : this->BodyInf)
-	{
-		ii->UpdateMatrix();
-	}
-}
 
 void Bodies::MovePosition(glm::vec3 Add)
 {

@@ -2087,9 +2087,10 @@ void Game::DrawColInfo()
 							for (auto& kk : R)
 							{
 								std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
+								std::string Sert = "W_Quat0->" + std::to_string(Count) + " information";
 								if (ImGui::TreeNode(Sed.c_str()))
 								{
-									glm::vec3 Temp = kk->GetW_Pos();
+									glm::vec3 Temp = kk->GetPos();
 									float Ar[3] = { Temp.x,Temp.y,Temp.z };
 									if (ImGui::SliderFloat("W_pos_X", &Ar[0], -50.f, 50.f))
 									{
@@ -2116,39 +2117,39 @@ void Game::DrawColInfo()
 										this->AddShape = true;
 									}
 								}
+								if (ImGui::TreeNode(Sert.c_str()))
+								{
+									QuatParts Q_Angle(kk->GetQuatAngle());
+									ImGui::Text("Angle %.3f", Q_Angle.Angle);
+									ImGui::Text("Unite Vector %.3f,%.3f,%.3f",
+									Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
+									glm::vec3 U = Q_Angle.UnitVec;
+									float Ar[3] = { U.x, U.y, U.z };
+									if (ImGui::SliderFloat("Axis Angle", &Q_Angle.Angle, 0.f, 180.f))
+									{
+										Bod->SetQuat(Q_Angle.GetQuat());
+									}
+									if (ImGui::SliderFloat("X-Axis", &Ar[0], -1.f, 1.f))
+									{
+										U.x = Ar[0];
+										Q_Angle.UnitVec = glm::normalize(U);
+										Bod->SetQuat(Q_Angle.GetQuat());
+									}
+									if (ImGui::SliderFloat("Y-Axis", &Ar[1], -1.f, 1.f))
+									{
+										U.y = Ar[1];
+										Q_Angle.UnitVec = glm::normalize(U);
+										Bod->SetQuat(Q_Angle.GetQuat());
+									}
+									if (ImGui::SliderFloat("Z-Axis", &Ar[2], -1.f, 1.f))
+									{
+										U.z = Ar[2];
+										Q_Angle.UnitVec = glm::normalize(U);
+										Bod->SetQuat(Q_Angle.GetQuat());
+									}
+									ImGui::TreePop();
+								}
 								Count++;
-							}
-							QuatParts Q_Angle(Bod->GetQuat());
-							ImGui::Text("Angle %.3f", Q_Angle.Angle);
-							ImGui::Text("Unite Vector %.3f,%.3f,%.3f",
-								Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
-							if (ImGui::TreeNode("Angle and Direction"))
-							{
-								glm::vec3 U = Q_Angle.UnitVec;
-								float Ar[3] = { U.x, U.y, U.z };
-								if (ImGui::SliderFloat("Axis Angle", &Q_Angle.Angle, 0.f, 180.f))
-								{
-									Bod->SetQuat(Q_Angle.GetQuat());
-								}
-								if (ImGui::SliderFloat("X-Axis", &Ar[0], -1.f, 1.f))
-								{
-									U.x = Ar[0];
-									Q_Angle.UnitVec = glm::normalize(U);
-									Bod->SetQuat(Q_Angle.GetQuat());
-								}
-								if (ImGui::SliderFloat("Y-Axis", &Ar[1], -1.f, 1.f))
-								{
-									U.y = Ar[1];
-									Q_Angle.UnitVec = glm::normalize(U);
-									Bod->SetQuat(Q_Angle.GetQuat());
-								}
-								if (ImGui::SliderFloat("Z-Axis", &Ar[2], -1.f, 1.f))
-								{
-									U.z = Ar[2];
-									Q_Angle.UnitVec = glm::normalize(U);
-									Bod->SetQuat(Q_Angle.GetQuat());
-								}
-								ImGui::TreePop();
 							}
 							ImGui::TreePop();
 						}

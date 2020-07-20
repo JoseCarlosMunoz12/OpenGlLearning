@@ -2,12 +2,11 @@
 using namespace CoatlPhysicsEngine;
 
 ColShapes::ColShapes(glm::vec3 SetPos)
-	:Pivot(glm::vec3(0.f)), Matrix(glm::mat4(1.f))
+	:Pivot(glm::vec3(0.f))
 {
 	this->Pos = SetPos;
 	this->QuatAngle = glm::angleAxis(0.f, glm::vec3(0.f, 0.f, 1.f));
-	this->ParMat = glm::mat4(1.f);
-	this->UpdateMatrix();
+
 }
 
 ColShapes::~ColShapes()
@@ -49,20 +48,3 @@ std::vector<glm::vec3> ColShapes::GetNormals()
 	return std::vector<glm::vec3>();
 }
 
-void ColShapes::UpdateMatrix()
-{
-	this->Matrix = glm::mat4(1.f);
-	glm::mat4 R = glm::mat4(1.f);
-	glm::mat4 Rot =  R * glm::mat4_cast(this->QuatAngle);
-	this->Matrix = glm::translate(R,this->Pos) * Rot ;
-}
-
-glm::mat4 ColShapes::GetParMatrix()
-{
-	return this->ParMat;
-}
-
-void ColShapes::SetMatrix(glm::mat4 P)
-{
-	this->ParMat = P;
-}

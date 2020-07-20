@@ -25,7 +25,6 @@ namespace CoatlPhysicsEngine {
 		//For base Parents
 		void SetPosition(glm::vec3 NewPos);
 		void UpdateAABB();
-		void UpdateMatrix();
 		void MovePosition(glm::vec3 Add);
 		void SetParticle(int ShapeID);
 		void SetQuat(glm::quat NewQuat);

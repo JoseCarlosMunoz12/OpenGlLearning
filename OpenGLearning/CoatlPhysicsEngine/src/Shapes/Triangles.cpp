@@ -16,11 +16,13 @@ Triangles::~Triangles()
 
 std::vector<glm::vec3> Triangles::GetSegments()
 {
+	glm::mat4 R = glm::mat4_cast(this->QuatAngle);
+	glm::mat4 T = glm::translate(glm::mat4(1.f), this->Pos);
 	std::vector<glm::vec3> SegPoints;
 	for (auto& jj : Points)
 	{
 		glm::vec4 Set = glm::vec4(jj,1.f);
-		SegPoints.push_back(this->Matrix * Set);
+		SegPoints.push_back(T * R * Set);
 	}
 	return SegPoints;
 }

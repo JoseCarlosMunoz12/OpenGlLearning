@@ -34,33 +34,9 @@ void BodyParts::AddParticle(std::shared_ptr<Particle> InitParticle)
 	this->BodParticle = InitParticle;
 }
 
-glm::mat4 BodyParts::GetParMatrix()
-{
-	return this->BodPart->GetParMatrix();
-}
-
-glm::mat4 BodyParts::GetMatrix()
-{
-	return this->BodPart->GetMatrix();
-}
-
-void BodyParts::UpdateMatrix()
-{
-	glm::mat4 P = glm::mat4(1.f);
-	if (this->Parent)
-		P = this->Parent->GetParMatrix() * this->Parent->GetMatrix();
-	this->BodPart->SetMatrix(P);
-	this->BodPart->UpdateMatrix();
-}
-
 glm::vec3 BodyParts::GetPos()
 {
 	return this->BodPart->GetPos();
-}
-
-glm::vec3 BodyParts::GeOffset()
-{
-	return this->GetPos();
 }
 
 glm::quat BodyParts::GetQuatAngle()
@@ -92,17 +68,7 @@ std::shared_ptr<Particle> BodyParts::GetParticle()
 	return this->BodParticle;
 }
 
-glm::vec3 BodyParts::GetW_Pos()
-{
-	return this->GetParMatrix() * glm::vec4(this->GetPos(), 1.f);
-}
-
-void BodyParts::SetWolrd_Mod(glm::vec3 W_Pos)
-{ 
-	this->SetPos(glm::inverse(this->GetParMatrix())* glm::vec4(W_Pos,1.f));
-}
-
-glm::vec3 CoatlPhysicsEngine::BodyParts::Support(glm::vec3 Dir)
+glm::vec3 BodyParts::Support(glm::vec3 Dir)
 {
 	return this->BodPart->Support(Dir);
 }
