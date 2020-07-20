@@ -17,10 +17,6 @@ namespace CoatlPhysicsEngine {
 		float Damping;
 		glm::vec3 Pos;
 		glm::vec3 Vel;
-		//Rotation Information
-		float RotDamping;
-		glm::quat AxisAngle;
-		glm::vec3 Rot;
 		//Other General information
 		float InverMass;
 		glm::vec3 Acum_Force;
