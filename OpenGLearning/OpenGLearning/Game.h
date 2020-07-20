@@ -176,6 +176,11 @@ private:
 	void updateOpenGLOptions();
 	//Static variables
 	Input CheckCntrl;
+	void DrawGenInf();
+	void DrawFileInfo();
+	void DrawAnimInfo();
+	void DrawColInfo();
+	void DrawColAdd();
 public:
 	//Constructors/destructors
 	Game(const char * title,

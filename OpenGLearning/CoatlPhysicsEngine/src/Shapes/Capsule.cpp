@@ -35,6 +35,7 @@ float Capsule::Distance(std::vector<glm::vec3> Segment)
 
 std::vector<glm::vec3> Capsule::GetSegment()
 {
+
 	std::vector<glm::vec3> Verx;
 	{
 		glm::vec4 Set = glm::vec4(APos,	1.f);
