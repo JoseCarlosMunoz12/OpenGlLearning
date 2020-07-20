@@ -24,6 +24,21 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 	return BinColDetection(Bod0, Bod1, Vel,Pos, Mid, t1, NewDt);
 }
 
+bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
+	glm::vec3 Vel0, glm::vec3 Vel1,
+	glm::vec3 InitPos0, glm::vec3 InitPos1,
+	float t0, float t1, float& NewDt)
+{
+	if ((t1 - t0) < EPSILON)
+	{
+		NewDt = t0;
+		return true;
+	}
+	float Mid = t0 + (t1 - t0) / 2.f;
+
+	return false;
+}
+
 void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies> Bod1)
 {
 
@@ -85,7 +100,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Find all Collisions and Calculate its Force Geneartors
 	for (auto& jj : AllBods)
 	{
-		//jj->UpdateMatrix();
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 		{
@@ -157,7 +171,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
-			//Check Collision with Self///////////////////////////////////////////////////////////
+			//Check Collision with othe Dynamics//////////////////////////////////////////////////
 			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
 			for (auto& ii : Quer)
 			{
@@ -170,6 +184,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					if (jj->GetID() != ii->GetID())
 					{
 						glm::vec3 Bod_Vel = Temp->GetVel();
+						glm::vec3 Bod1_Vel = jj->GetParticle(0)->GetVel();
 						float F_dt = dt;
 						if (this->BinColDetection(jj, ii,Bod_Vel,PrevPos,0,dt,F_dt))
 						{
