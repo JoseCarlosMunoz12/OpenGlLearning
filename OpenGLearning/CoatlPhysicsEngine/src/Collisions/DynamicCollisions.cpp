@@ -40,9 +40,12 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 	MATH::ClosestSeg_Seg({ InitPos0 + Vel0 * t0,InitPos0 + Vel0 * t1 },
 		{ InitPos1 + Vel1 * t0,InitPos1 + Vel1 * t1 },TempPos0,TempPos1);
 	Bod0->SetPosition(TempPos0);
-	glm::vec3 Diff = TempPos0 - InitPos0;
-	float Tdiff = Diff.x / Vel1.x;
-	Bod1->SetPosition(Tdiff * Vel1);
+	float Dis = glm::distance(InitPos0 + Vel0 * t0, InitPos0 + Vel0 * t1);
+	float Contdis = glm::distance(InitPos0 + Vel0 * t0,TempPos0 );
+	float Loc  = 0.f;
+	if (Contdis != 0.f)
+		Loc = Dis / Contdis * (t1 - t0);
+	Bod1->SetPosition((t0 + Loc) * Vel1);
 	if (!this->ColBods(Bod0, Bod1))
 	{
 		return false;
@@ -199,17 +202,19 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					jj->GetParticle(0)->AcumForce(-F_S);*/
 					if (jj->GetID() != ii->GetID())
 					{
-						glm::vec3 Bod0_Vel = Temp->GetVel();
-						glm::vec3 Bod1_Vel = jj->GetParticle(0)->GetVel();
-						glm::vec3 Pos1 = jj->GetPos();
+						glm::vec3 Bod1_Vel = ii->GetParticle(0)->GetVel();
+						glm::vec3 Pos1 = ii->GetPos();
 						float F_dt = dt;
-						if (this->BinColDetection(jj, ii,Bod0_Vel,Bod1_Vel,PrevPos,Pos1,0,dt,F_dt))
+						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,PrevPos,Pos1,0,dt,F_dt))
 						{
+							jj->MovePosition(F_dt * Bod_Vel);
+							ii->MovePosition(F_dt * Bod1_Vel);
 							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
+							ii->SetPosition(Pos1);
+							jj->SetPosition(PrevPos);
 						}
-						jj->SetPosition(Pos1);
 					}
 				}
 			}
@@ -254,7 +259,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 		{
-			jj->SetPosition(Temp->UpdatePos(dt));
+			//jj->SetPosition(Temp->UpdatePos(dt));
 			jj->UpdateAABB();
 		}
 	}
