@@ -5,7 +5,9 @@ namespace CoatlPhysicsEngine {
 	{
 	private:
 	public:
-		RigidBodies();
+		RigidBodies(glm::vec3 Pos);
+		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel);
+		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp);
 		~RigidBodies();
 	};	
 }
