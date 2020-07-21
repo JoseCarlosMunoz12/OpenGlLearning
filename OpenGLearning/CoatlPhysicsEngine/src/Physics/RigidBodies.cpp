@@ -40,6 +40,10 @@ RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
 {
 }
 
+RigidBodies::~RigidBodies()
+{
+}
+
 void RigidBodies::SetInertia(glm::mat3 InitInitertia)
 {
 	this->InvIntertia = glm::inverse(InitInitertia);
@@ -58,8 +62,4 @@ glm::vec3 RigidBodies::UpdatePos(float dt)
 	this->Pos = NewPos;
 
 	return NewPos;
-}
-
-RigidBodies::~RigidBodies()
-{
 }
