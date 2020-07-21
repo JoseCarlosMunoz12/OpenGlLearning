@@ -44,9 +44,9 @@ RigidBodies::~RigidBodies()
 {
 }
 
-void RigidBodies::SetInertia(glm::mat3 InitInitertia)
+void RigidBodies::SetInertia(glm::mat3 InitInertia)
 {
-	this->InvIntertia = glm::inverse(InitInitertia);
+	this->InvInertia = glm::inverse(InitInertia);
 }
 
 void RigidBodies::AddTorque(glm::vec3 Torque)
