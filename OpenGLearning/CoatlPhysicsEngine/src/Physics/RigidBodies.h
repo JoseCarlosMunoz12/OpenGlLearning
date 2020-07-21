@@ -12,6 +12,7 @@ namespace CoatlPhysicsEngine {
 		//Sleep variables
 		bool IsAwake;
 		bool CanSleep;
+		float Motion;
 		void UpdateRot(float dt);
 		void UpdateMatrix();
 		void CalcDerivedData();
@@ -22,6 +23,7 @@ namespace CoatlPhysicsEngine {
 		~RigidBodies();
 		void SetInertia(glm::mat3 InitInertia);
 		void AddTorque(glm::vec3 Torque);
+		void SetAwake(bool Awake);
 		glm::vec3 UpdatePos(float dt) override;
 	};	
 }

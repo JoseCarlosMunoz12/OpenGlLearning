@@ -54,12 +54,39 @@ void RigidBodies::AddTorque(glm::vec3 Torque)
 	this->TorqueAcum += Torque;	
 }
 
+void RigidBodies::SetAwake(bool Awake)
+{
+	if (Awake)
+	{
+		this->IsAwake = true;
+		this->Motion = 0.001f * 2.f;
+	}
+	else
+	{
+		this->IsAwake = false;
+		this->Vel = glm::vec3(0.f);
+		this->RotVel = glm::vec3(0.f);
+	}
+}
+
 glm::vec3 RigidBodies::UpdatePos(float dt)
 {
+	if (this->IsAwake)
+		return this->Pos;
 	this->UpdateVel(dt);
 	this->UpdateRot(dt);
 	glm::vec3 NewPos = Pos + Vel * dt;
 	this->Pos = NewPos;
-
+	if (this->CanSleep)
+	{
+		float CurMotion = glm::dot(this->Vel, this->Vel);
+		CurMotion += glm::dot(this->RotVel, this->RotVel);
+		float Bias = glm::pow(0.f, dt);
+		this->Motion = Bias * this->Motion + (1 - Bias) * CurMotion;
+		if (this->Motion < 0.0001)
+			this->SetAwake(false);
+		else if (this->Motion > 10 * 0.001)
+			Motion = 10 * 0.001;
+	}
 	return NewPos;
 }
