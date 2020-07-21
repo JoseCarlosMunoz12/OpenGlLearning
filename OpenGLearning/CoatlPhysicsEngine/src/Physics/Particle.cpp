@@ -73,8 +73,7 @@ glm::vec3 Particle::GetPos()
 	return this->Pos;
 }
 
-
-float CoatlPhysicsEngine::Particle::GetMass()
+float Particle::GetMass()
 {
 	return 1 / this->InverMass;
 }

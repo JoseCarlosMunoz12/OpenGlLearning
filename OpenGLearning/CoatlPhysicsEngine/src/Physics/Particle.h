@@ -12,7 +12,7 @@
 namespace CoatlPhysicsEngine {
 	class Particle 
 	{
-	private:
+	protected:
 		//Linear Information
 		float Damping;
 		glm::vec3 Pos;

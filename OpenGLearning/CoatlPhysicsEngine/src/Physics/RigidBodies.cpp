@@ -19,9 +19,9 @@ RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
 {
 }
 
-void RigidBodies::SetInertia(glm::mat4 InitInitertia)
+void RigidBodies::SetInertia(glm::mat3 InitInitertia)
 {
-	this->Intertia = InitInitertia;
+	this->InvIntertia = glm::inverse(InitInitertia);
 }
 
 RigidBodies::~RigidBodies()

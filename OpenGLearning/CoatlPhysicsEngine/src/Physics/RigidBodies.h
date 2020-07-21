@@ -4,7 +4,7 @@ namespace CoatlPhysicsEngine {
 	class RigidBodies : public Particle
 	{
 	private:
-		glm::mat4 Intertia;
+		glm::mat3 InvIntertia;
 		glm::vec3 RotVel;
 		glm::vec3 TorqueAcum;
 		float RotDamp;
@@ -12,7 +12,7 @@ namespace CoatlPhysicsEngine {
 		RigidBodies(glm::vec3 Pos);
 		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel);
 		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp);
-		void SetInertia(glm::mat4 InitInitertia);
+		void SetInertia(glm::mat3 InitInitertia);
 		~RigidBodies();
 	};	
 }
