@@ -1,6 +1,11 @@
 #include "RigidBodies.h"
 using namespace CoatlPhysicsEngine;
 
+void RigidBodies::UpdateRot(float dt)
+{
+
+}
+
 void RigidBodies::UpdateMatrix()
 {
 	this->TransformMatrix = glm::mat4(1.f);

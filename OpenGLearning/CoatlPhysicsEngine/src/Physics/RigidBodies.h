@@ -9,6 +9,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 RotVel;
 		glm::vec3 TorqueAcum;
 		float RotDamp;
+		void UpdateRot(float dt);
 		void UpdateMatrix();
 		void CalcDerivedData();
 	public:
