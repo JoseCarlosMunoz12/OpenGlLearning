@@ -3,7 +3,9 @@ using namespace CoatlPhysicsEngine;
 
 void RigidBodies::UpdateRot(float dt)
 {
-
+	glm::vec3 P;
+	glm::vec3 T;
+	T = T % P;
 }
 
 void RigidBodies::UpdateMatrix()
@@ -43,9 +45,15 @@ void RigidBodies::SetInertia(glm::mat3 InitInitertia)
 	this->InvIntertia = glm::inverse(InitInitertia);
 }
 
+void RigidBodies::AddTorque(glm::vec3 Torque)
+{
+	this->TorqueAcum += Torque;	
+}
+
 glm::vec3 RigidBodies::UpdatePos(float dt)
 {
 	this->UpdateVel(dt);
+	this->UpdateRot(dt);
 	glm::vec3 NewPos = Pos + Vel * dt;
 	this->Pos = NewPos;
 
