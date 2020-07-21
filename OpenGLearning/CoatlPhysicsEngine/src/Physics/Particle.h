@@ -28,7 +28,7 @@ namespace CoatlPhysicsEngine {
 		Particle(glm::vec3 Pos,glm::vec3 InitVel);
 		Particle(glm::vec3 Pos);
 		~Particle();
-		glm::vec3 UpdatePos(float dt);
+		virtual glm::vec3 UpdatePos(float dt);
 		void SetVel(glm::vec3 NewVel);
 		glm::vec3 GetVel();
 		glm::vec3 GetPos();

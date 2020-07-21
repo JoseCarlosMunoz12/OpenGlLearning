@@ -25,7 +25,7 @@ Particle::Particle(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
 }
 
 Particle::Particle(glm::vec3 Pos, glm::vec3 InitVel)
-	:Damping(1.f), Acum_Force(glm::vec3(0.f)), PhysicsID(0)
+	:Damping(5.f), Acum_Force(glm::vec3(0.f)), PhysicsID(0)
 {
 	this->AxisAngle = glm::angleAxis(0.f, glm::vec3(0.f, 0.f, 1.f));
 	this->Pos = Pos;
@@ -34,7 +34,7 @@ Particle::Particle(glm::vec3 Pos, glm::vec3 InitVel)
 }
 
 Particle::Particle(glm::vec3 Pos)
-	:Vel(glm::vec3(0.f)), InverMass(10.f),Damping(1.f), Acum_Force(glm::vec3(0.f)), PhysicsID(0)
+	:Vel(glm::vec3(0.f)), InverMass(10.f),Damping(5.f), Acum_Force(glm::vec3(0.f)), PhysicsID(0)
 {
 	this->AxisAngle = glm::angleAxis(0.f, glm::vec3(0.f, 0.f, 1.f));
 	this->Pos = Pos;
