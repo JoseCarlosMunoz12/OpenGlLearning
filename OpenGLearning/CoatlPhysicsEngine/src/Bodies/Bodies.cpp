@@ -42,13 +42,12 @@ void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape, int Parent)
 	this->Vec_Size = BodyInf.size();
 }
 
-
 int Bodies::GetID()
 {
 	return this->ID;
 }
 
-int CoatlPhysicsEngine::Bodies::GetVecSize()
+int Bodies::GetVecSize()
 {
 	return this->Vec_Size;
 }

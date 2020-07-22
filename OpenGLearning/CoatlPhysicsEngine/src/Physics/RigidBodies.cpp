@@ -22,6 +22,11 @@ void RigidBodies::CalcDerivedData()
 
 }
 
+void RigidBodies::TransformInertiaTensor()
+{
+
+}
+
 RigidBodies::RigidBodies(glm::vec3 Pos)
 	:Particle(Pos), TransformMatrix(glm::mat4(1.f)),
 	RotDamp(1),RotVel(glm::vec3(0.f)),TorqueAcum(glm::vec3(0.f))
