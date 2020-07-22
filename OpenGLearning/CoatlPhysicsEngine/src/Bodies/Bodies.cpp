@@ -74,7 +74,6 @@ void Bodies::UpdateAABB()
 	glm::vec3 Mid = (Max + Min) / 2.f;
 }
 
-
 void Bodies::MovePosition(glm::vec3 Add)
 {
 	glm::vec3 OldPos = this->BodyInf[0]->GetPos();
@@ -122,7 +121,7 @@ std::shared_ptr<BodyParts> Bodies::GetSpecificBodyPart(int ID)
 	return this->BodyInf[ID];
 }
 
-std::shared_ptr<Particle> CoatlPhysicsEngine::Bodies::GetParticle(int ID)
+std::shared_ptr<Particle> Bodies::GetParticle(int ID)
 {
 	return this->BodyInf[ID]->GetParticle();
 }

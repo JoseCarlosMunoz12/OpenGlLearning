@@ -2152,7 +2152,7 @@ void Game::DrawColInfo()
 							}
 							ImGui::TreePop();
 						}
-						if (ImGui::TreeNode("Particle Information"))
+						if (ImGui::TreeNode("Physics information"))
 						{
 							std::shared_ptr<CPE::Particle> TempPart = Bod->GetBodyParts()[0]->GetParticle();
 							if (TempPart)
