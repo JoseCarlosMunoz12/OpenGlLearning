@@ -8,7 +8,7 @@ void RigidBodies::UpdateRot(float dt)
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
 	E *= this->GetQuat();
-	this->SetQuat(this->GetQuat() + E * dt);
+	this->SetQuat(this->GetQuat() + E *.5f);
 	
 	this->CalcDerivedData();
 }
