@@ -87,6 +87,11 @@ void Bodies::SetParticle(int ShapeID)
 	this->BodyInf[ShapeID]->AddParticle(std::make_shared<Particle>(this->GetPos()));
 }
 
+void Bodies::SetRigidBody(int ShapeID)
+{
+	this->BodyInf[ShapeID]->AddParticle(std::make_shared<RigidBodies>(this->GetPos()));
+}
+
 void Bodies::SetQuat(glm::quat NewQuat)
 {
 	this->BodyInf[0]->SetQuat(NewQuat);

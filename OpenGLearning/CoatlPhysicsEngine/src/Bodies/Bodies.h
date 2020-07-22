@@ -2,6 +2,7 @@
 #include <vector>
 #include "../Shapes/ColShapes.h"
 #include "../Physics/Particle.h"
+#include "../Physics/RigidBodies.h"
 #include "BodyParts.h"
 namespace CoatlPhysicsEngine {
 	class Bodies
@@ -27,6 +28,7 @@ namespace CoatlPhysicsEngine {
 		void UpdateAABB();
 		void MovePosition(glm::vec3 Add);
 		void SetParticle(int ShapeID);
+		void SetRigidBody(int ShapeID);
 		void SetQuat(glm::quat NewQuat);
 		glm::vec3 GetPos();
 		glm::quat GetQuat();
