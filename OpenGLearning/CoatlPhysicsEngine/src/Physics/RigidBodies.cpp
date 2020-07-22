@@ -6,6 +6,11 @@ void RigidBodies::UpdateRot(float dt)
 	this->AngularAccelration += this->InvInertia * this->TorqueAcum;
 	this->RotVel = this->AngularAccelration * dt;
 	this->RotVel *= glm::pow(this->RotDamp, dt);
+	glm::quat E = glm::quat(0, this->RotVel * dt);
+	E *= this->GetQuat();
+	this->SetQuat(this->GetQuat() + E * dt);
+	
+	this->CalcDerivedData();
 }
 
 void RigidBodies::UpdateMatrix()
