@@ -2194,8 +2194,9 @@ void Game::DrawColInfo()
 								}
 								if (ImGui::Button("Add RigidBody"))
 								{
-
 									Bod->SetRigidBody(0);
+									Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
+									Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
 								}
 							}
 							ImGui::TreePop();

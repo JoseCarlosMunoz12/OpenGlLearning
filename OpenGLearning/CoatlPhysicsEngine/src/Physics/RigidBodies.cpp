@@ -34,20 +34,23 @@ void RigidBodies::TransformInertiaTensor()
 
 RigidBodies::RigidBodies(glm::vec3 Pos)
 	:Particle(Pos), TransformMatrix(glm::mat4(1.f)),
-	RotDamp(1),RotVel(glm::vec3(0.f)),TorqueAcum(glm::vec3(0.f))
+	RotDamp(1),RotVel(glm::vec3(0.f)),TorqueAcum(glm::vec3(0.f)),AngularAccelration(glm::vec3(0.f))
 {
+	this->SetInertia(glm::mat3(1.f));
 }
 
 RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel)
 	:Particle(Pos, InitVel), TransformMatrix(glm::mat4(1.f)),
-	RotDamp(1), RotVel(glm::vec3(0.f)), TorqueAcum(glm::vec3(0.f))
+	RotDamp(1), RotVel(glm::vec3(0.f)), TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
 {
+	this->SetInertia(glm::mat3(1.f));
 }
 
 RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
 	:Particle(Pos, InitVel,InitDamp), TransformMatrix(glm::mat4(1.f)),
-	RotDamp(1), RotVel(glm::vec3(0.f)), TorqueAcum(glm::vec3(0.f))
+	RotDamp(1), RotVel(glm::vec3(0.f)), TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
 {
+	this->SetInertia(glm::mat3(1.f));
 }
 
 RigidBodies::~RigidBodies()
@@ -81,10 +84,10 @@ void RigidBodies::SetAwake(bool Awake)
 
 glm::vec3 RigidBodies::UpdatePos(float dt)
 {
-	if (this->IsAwake)
+	if (!this->IsAwake)
 		return this->Pos;
 	this->UpdateVel(dt);
-	this->UpdateRot(dt);
+	//this->UpdateRot(dt);
 	glm::vec3 NewPos = Pos + Vel * dt;
 	this->Pos = NewPos;
 	if (this->CanSleep)

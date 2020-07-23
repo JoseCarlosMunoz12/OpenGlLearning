@@ -11,8 +11,8 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 AngularAccelration;
 		float RotDamp;
 		//Sleep variables
-		bool IsAwake;
-		bool CanSleep;
+		bool IsAwake = true;
+		bool CanSleep = true;
 		float Motion;
 		void UpdateRot(float dt);
 		void UpdateMatrix();
