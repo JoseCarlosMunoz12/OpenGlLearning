@@ -109,3 +109,8 @@ glm::vec3 RigidBodies::UpdatePos(float dt)
 	}
 	return NewPos;
 }
+
+bool RigidBodies::GetAwakeStatus()
+{
+	return this->IsAwake;
+}
