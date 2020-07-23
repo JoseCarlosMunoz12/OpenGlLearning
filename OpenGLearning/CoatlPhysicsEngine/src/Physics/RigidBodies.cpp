@@ -8,8 +8,7 @@ void RigidBodies::UpdateRot(float dt)
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
 	E *= this->GetQuat();
-	this->SetQuat(this->GetQuat() + E *.5f);
-	
+	this->SetQuat(this->GetQuat() + E *.5f);	
 	this->CalcDerivedData();
 }
 
@@ -65,6 +64,7 @@ void RigidBodies::SetInertia(glm::mat3 InitInertia)
 void RigidBodies::AddTorque(glm::vec3 Torque)
 {
 	this->TorqueAcum += Torque;	
+	this->IsAwake = true;
 }
 
 void RigidBodies::SetAwake(bool Awake)
@@ -93,7 +93,7 @@ glm::vec3 RigidBodies::UpdatePos(float dt)
 	if (!this->IsAwake)
 		return this->Pos;
 	this->UpdateVel(dt);
-	//this->UpdateRot(dt);
+	this->UpdateRot(dt);
 	glm::vec3 NewPos = Pos + Vel * dt;
 	this->Pos = NewPos;
 	if (this->CanSleep)
@@ -113,4 +113,9 @@ glm::vec3 RigidBodies::UpdatePos(float dt)
 bool RigidBodies::GetAwakeStatus()
 {
 	return this->IsAwake;
+}
+
+void RigidBodies::SetCanSleep(bool Can)
+{
+	this->CanSleep = Can;
 }

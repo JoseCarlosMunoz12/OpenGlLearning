@@ -30,5 +30,6 @@ namespace CoatlPhysicsEngine {
 		void AcumForce(glm::vec3 Force) override;
 		glm::vec3 UpdatePos(float dt) override;
 		bool GetAwakeStatus();
+		void SetCanSleep(bool Can);
 	};	
 }
