@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Physics\Bod_Base.h" />
     <ClInclude Include="src\Physics\RigidBodies.h" />
     <ClInclude Include="src\Bodies\BodyParts.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelCapsule.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Physics\Bod_Base.cpp" />
     <ClCompile Include="src\Physics\RigidBodies.cpp" />
     <ClCompile Include="src\Bodies\BodyParts.cpp" />
     <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelCapsule.cpp" />

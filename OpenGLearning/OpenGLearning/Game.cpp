@@ -1927,7 +1927,7 @@ void Game::DrawColInfo()
 			this->MipMapsData[0]->GetVertsAndInd(Vec, Ind);
 			this->ColWorld->SetTerrain(Vec, Ind, Dim);
 		}
-		ImGui::Text("---------");
+		ImGui::Separator();
 		//Static Collision information
 		if (TempStatic)
 		{
@@ -2030,6 +2030,7 @@ void Game::DrawColInfo()
 		{
 			ImGui::Text("No Static Collisions");
 		}
+		ImGui::Separator();
 		//Dynamic Collision Information
 		if (TempDynamic)
 		{
