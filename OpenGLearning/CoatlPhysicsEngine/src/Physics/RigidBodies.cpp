@@ -88,6 +88,12 @@ void RigidBodies::AcumForce(glm::vec3 Force)
 	this->IsAwake = true;
 }
 
+void RigidBodies::ResetForce()
+{
+	this->Acum_Force = glm::vec3(0.f);
+	this->TorqueAcum = glm::vec3(0.f);
+}
+
 glm::vec3 RigidBodies::UpdatePos(float dt)
 {
 	if (!this->IsAwake)
@@ -118,4 +124,6 @@ bool RigidBodies::GetAwakeStatus()
 void RigidBodies::SetCanSleep(bool Can)
 {
 	this->CanSleep = Can;
+	if (!this->CanSleep && !this->IsAwake)
+		this->SetAwake(true);
 }

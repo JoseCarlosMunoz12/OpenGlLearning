@@ -28,6 +28,7 @@ namespace CoatlPhysicsEngine {
 		void AddTorque(glm::vec3 Torque);
 		void SetAwake(bool Awake);
 		void AcumForce(glm::vec3 Force) override;
+		void ResetForce() override;
 		glm::vec3 UpdatePos(float dt) override;
 		bool GetAwakeStatus();
 		void SetCanSleep(bool Can);

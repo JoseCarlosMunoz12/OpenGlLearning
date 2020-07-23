@@ -35,7 +35,7 @@ namespace CoatlPhysicsEngine {
 		glm::quat GetQuat();
 		float GetMass();
 		void ChangeInverseMass(float Mass);
-		void ResetForce();
+		virtual void ResetForce();
 		virtual void AcumForce(glm::vec3 Force);
 		void SetMass(float Mass);
 		void SetPos(glm::vec3 Pos);
