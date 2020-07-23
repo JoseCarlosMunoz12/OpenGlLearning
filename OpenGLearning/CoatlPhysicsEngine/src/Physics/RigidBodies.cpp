@@ -72,7 +72,7 @@ void RigidBodies::SetAwake(bool Awake)
 	if (Awake)
 	{
 		this->IsAwake = true;
-		this->Motion = 0.001f * 2.f;
+		this->Motion = Epsilon * 2.f;
 	}
 	else
 	{
@@ -80,6 +80,12 @@ void RigidBodies::SetAwake(bool Awake)
 		this->Vel = glm::vec3(0.f);
 		this->RotVel = glm::vec3(0.f);
 	}
+}
+
+void RigidBodies::AcumForce(glm::vec3 Force)
+{
+	this->Acum_Force += Force;
+	this->IsAwake = true;
 }
 
 glm::vec3 RigidBodies::UpdatePos(float dt)
@@ -96,10 +102,10 @@ glm::vec3 RigidBodies::UpdatePos(float dt)
 		CurMotion += glm::dot(this->RotVel, this->RotVel);
 		float Bias = glm::pow(0.f, dt);
 		this->Motion = Bias * this->Motion + (1 - Bias) * CurMotion;
-		if (this->Motion < 0.0001)
+		if (this->Motion < Epsilon)
 			this->SetAwake(false);
-		else if (this->Motion > 10 * 0.001)
-			Motion = 10 * 0.001;
+		else if (this->Motion > 10 * Epsilon)
+			Motion = 10 * Epsilon;
 	}
 	return NewPos;
 }

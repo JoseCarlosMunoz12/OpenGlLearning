@@ -4,6 +4,7 @@ namespace CoatlPhysicsEngine {
 	class RigidBodies : public Particle
 	{
 	private:
+		const float Epsilon = 0.00001f;
 		glm::mat4 TransformMatrix;
 		glm::mat3 InvInertia;
 		glm::vec3 RotVel;
@@ -26,6 +27,7 @@ namespace CoatlPhysicsEngine {
 		void SetInertia(glm::mat3 InitInertia);
 		void AddTorque(glm::vec3 Torque);
 		void SetAwake(bool Awake);
+		void AcumForce(glm::vec3 Force) override;
 		glm::vec3 UpdatePos(float dt) override;
 	};	
 }
