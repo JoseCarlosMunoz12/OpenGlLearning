@@ -10,7 +10,7 @@ namespace CoatlPhysicsEngine {
 		Particle(glm::vec3 Pos,glm::vec3 InitVel);
 		Particle(glm::vec3 Pos);
 		~Particle();
-		glm::vec3 UpdatePos(float dt);
+		glm::vec3 UpdatePos(float dt) override;
 		float GetMass();
 		void ChangeInverseMass(float Mass);
 		void ResetForce() override;

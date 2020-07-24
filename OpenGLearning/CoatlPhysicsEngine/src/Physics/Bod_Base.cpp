@@ -39,3 +39,18 @@ void Bod_Base::SetId(int NewId)
 {
 	this->PhysicsID = NewId;
 }
+
+void Bod_Base::SetPos(glm::vec3 NewPos)
+{
+	this->Pos = NewPos;
+}
+
+glm::vec3 Bod_Base::GetPos()
+{
+	return this->Pos;
+}
+
+glm::vec3 Bod_Base::GetVel()
+{
+	return this->Vel;
+}

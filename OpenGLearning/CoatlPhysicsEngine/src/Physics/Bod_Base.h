@@ -29,6 +29,7 @@ namespace CoatlPhysicsEngine {
 		void SetId(int NewId);
 		void SetPos(glm::vec3 NewPos);
 		glm::vec3 GetPos();
+		glm::vec3 GetVel();
 		//Virtual Functions for the Particle and Rigid Bodies
 		virtual glm::vec3 UpdatePos(float dt) { return glm::vec3(0.f); };
 		virtual void ResetForce() { return; };

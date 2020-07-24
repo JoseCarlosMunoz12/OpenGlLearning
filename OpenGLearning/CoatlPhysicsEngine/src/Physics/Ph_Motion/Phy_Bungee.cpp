@@ -14,7 +14,7 @@ Phy_Bungee::~Phy_Bungee()
 
 }
 
-glm::vec3 Phy_Bungee::GetForce(Particle P0)
+glm::vec3 Phy_Bungee::GetForce(Bod_Base P0)
 {
 	glm::vec3 F = (P0.GetPos() - Lock_Pos);
 	float Mag = glm::length(F);
@@ -25,12 +25,12 @@ glm::vec3 Phy_Bungee::GetForce(Particle P0)
 	return -Mag * F - P0.GetVel() * Damping;
 }
 
-glm::vec3 Phy_Bungee::GetForce(Particle P0, Particle P1)
+glm::vec3 Phy_Bungee::GetForce(Bod_Base P0, Bod_Base P1)
 {
 	return glm::vec3();
 }
 
-glm::vec3 Phy_Bungee::GetForce(Particle P0, float dt)
+glm::vec3 Phy_Bungee::GetForce(Bod_Base P0, float dt)
 {
 	return glm::vec3();
 }

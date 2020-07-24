@@ -8,7 +8,7 @@
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
 #include <vector>
-#include "../Particle.h"
+#include "../Bod_Base.h"
 namespace CoatlPhysicsEngine {
 	class Phy_Base
 	{
@@ -19,8 +19,8 @@ namespace CoatlPhysicsEngine {
 		~Phy_Base() {
 
 		}
-		virtual glm::vec3 GetForce(Particle P0, Particle P1) =0;
-		virtual glm::vec3 GetForce(Particle P0) = 0;
-		virtual glm::vec3 GetForce(Particle P0, float dt) = 0;
+		virtual glm::vec3 GetForce(Bod_Base P0, Bod_Base P1) =0;
+		virtual glm::vec3 GetForce(Bod_Base P0) = 0;
+		virtual glm::vec3 GetForce(Bod_Base P0, float dt) = 0;
 	};
 }

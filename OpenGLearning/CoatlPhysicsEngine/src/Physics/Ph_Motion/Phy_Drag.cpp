@@ -16,12 +16,12 @@ Phy_Drag::~Phy_Drag()
 {
 }
 
-glm::vec3 Phy_Drag::GetForce(Particle P0, Particle P1)
+glm::vec3 Phy_Drag::GetForce(Bod_Base P0, Bod_Base P1)
 {
 	return glm::vec3(0.f);
 }
 
-glm::vec3 CoatlPhysicsEngine::Phy_Drag::GetForce(Particle P0)
+glm::vec3 Phy_Drag::GetForce(Bod_Base P0)
 {
 
 
@@ -35,7 +35,7 @@ glm::vec3 CoatlPhysicsEngine::Phy_Drag::GetForce(Particle P0)
 	return F;
 }
 
-glm::vec3 CoatlPhysicsEngine::Phy_Drag::GetForce(Particle P0, float dt)
+glm::vec3 CoatlPhysicsEngine::Phy_Drag::GetForce(Bod_Base P0, float dt)
 {
 	return glm::vec3();
 }
