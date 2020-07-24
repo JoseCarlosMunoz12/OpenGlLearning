@@ -74,10 +74,9 @@ void RigidBodies::SetInertia(glm::mat3 InitInertia)
 	this->InvInertia = glm::inverse(InitInertia);
 }
 
-void RigidBodies::AddTorque(glm::vec3 Torque)
+void RigidBodies::AcumTorque(glm::vec3 Torque)
 {
-	this->TorqueAcum += Torque;	
-	this->IsAwake = true;
+	this->TorqueAcum += Torque;
 }
 
 void RigidBodies::SetAwake(bool Awake)

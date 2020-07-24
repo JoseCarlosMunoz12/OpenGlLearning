@@ -1897,6 +1897,7 @@ void Game::DrawColInfo()
 	{
 		this->ColWorld.reset();
 	}
+	ImGui::Separator();
 	if (ColWorld)
 	{
 		std::string ColName = "Collision world Name is " + this->ColWorld->ShowName();
@@ -2208,6 +2209,7 @@ void Game::DrawColInfo()
 			ImGui::Text("No Dynamic Collisions");
 		}
 	}
+	ImGui::Separator();
 	ImGui::End();
 }
 
