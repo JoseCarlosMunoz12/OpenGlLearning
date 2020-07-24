@@ -253,7 +253,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Update All Physics	
 	for (auto& jj : AllBods)
 	{
-		std::shared_ptr<Particle> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
+		std::shared_ptr<Bod_Base> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 		{
 			jj->SetPosition(Temp->UpdatePos(dt));

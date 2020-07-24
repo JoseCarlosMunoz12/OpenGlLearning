@@ -19,13 +19,13 @@ Phy_Spring::~Phy_Spring()
 {
 }
 
-glm::vec3 Phy_Spring::GetForce(Particle P0)
+glm::vec3 Phy_Spring::GetForce(Bod_Base P0)
 {
 
 	return K * (P0.GetPos() - Lock_Pos) - P0.GetVel() * Damping;
 }
 
-glm::vec3 Phy_Spring::GetForce(Particle P0, Particle P1)
+glm::vec3 Phy_Spring::GetForce(Bod_Base P0, Bod_Base P1)
 {
 	glm::vec3 RelV = P0.GetVel() - P1.GetVel();
 	glm::vec3 Dir = P0.GetPos() - P1.GetPos();
@@ -35,7 +35,7 @@ glm::vec3 Phy_Spring::GetForce(Particle P0, Particle P1)
 	return K * (RelDis - 10) * Dir - RelV * Damping;
 }
 
-glm::vec3 CoatlPhysicsEngine::Phy_Spring::GetForce(Particle P0, float dt)
+glm::vec3 CoatlPhysicsEngine::Phy_Spring::GetForce(Bod_Base P0, float dt)
 {
 	return glm::vec3(0.f);
 }

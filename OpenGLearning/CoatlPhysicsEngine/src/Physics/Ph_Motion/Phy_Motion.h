@@ -5,7 +5,7 @@ namespace CoatlPhysicsEngine {
 	{
 	protected:
 		glm::vec3 UpdateParPos(glm::vec3 Pos, float dt,
-			std::shared_ptr<Particle> Part);
+			std::shared_ptr<Bod_Base> Part);
 	public:
 		Phy_Motion();
 		~Phy_Motion();

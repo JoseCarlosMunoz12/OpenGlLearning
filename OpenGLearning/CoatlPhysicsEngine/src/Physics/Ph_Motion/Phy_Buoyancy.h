@@ -12,8 +12,8 @@ namespace CoatlPhysicsEngine {
 		Phy_Buoyancy(float Floor, float MaxDepth,
 			float Height, float Density = 1000.f);
 		~Phy_Buoyancy();
-		glm::vec3 GetForce(Particle P0) override;
-		glm::vec3 GetForce(Particle P0, Particle P1) override;
-		glm::vec3 GetForce(Particle P0, float dt) override;
+		glm::vec3 GetForce(Bod_Base P0) override;
+		glm::vec3 GetForce(Bod_Base P0, Bod_Base P1) override;
+		glm::vec3 GetForce(Bod_Base P0, float dt) override;
 	};
 }
