@@ -12,6 +12,7 @@ namespace CoatlPhysicsEngine {
 	class Bod_Base
 	{
 	protected:
+		int PhysicsID;
 		glm::vec3 Pos;
 		glm::vec3 AccumForce;
 		glm::vec3 Vel;
@@ -25,6 +26,9 @@ namespace CoatlPhysicsEngine {
 		~Bod_Base();
 		void SetMass(float Mass);
 		void SetVel(glm::vec3 SetVel);
+		void SetId(int NewId);
+		void SetPos(glm::vec3 NewPos);
+		glm::vec3 GetPos();
 		//Virtual Functions for the Particle and Rigid Bodies
 		virtual glm::vec3 UpdatePos(float dt) { return glm::vec3(0.f); };
 		virtual void ResetForce() { return; };

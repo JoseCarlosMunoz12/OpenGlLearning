@@ -1,44 +1,20 @@
 #pragma once
-#include <string>
-#include <iostream>
-#include <glm.hpp>
-#include <vec2.hpp>
-#include <vec3.hpp>
-#include <vec4.hpp>
-#include <mat4x4.hpp>
-#include <gtc\type_ptr.hpp>
-#include <vector>
-
+#include "Bod_Base.h"
 namespace CoatlPhysicsEngine {
-	class Particle 
+	class Particle :public Bod_Base
 	{
 	protected:
-		//Linear Information
-		float Damping;
-		glm::vec3 Pos;
-		glm::vec3 Vel;
-		glm::quat AxisAngle;
-		//Other General information
-		float InverMass;
-		glm::vec3 Acum_Force;
-		int PhysicsID;
-		void UpdateVel(float dt);
+		void UpdateVel(float dt) override;
 	public:
 		Particle(glm::vec3 Pos,glm::vec3 InitVel,float InitDamp);
 		Particle(glm::vec3 Pos,glm::vec3 InitVel);
 		Particle(glm::vec3 Pos);
 		~Particle();
-		virtual glm::vec3 UpdatePos(float dt);
-		void SetVel(glm::vec3 NewVel);
-		glm::vec3 GetVel();
-		glm::vec3 GetPos();
-		glm::quat GetQuat();
+		glm::vec3 UpdatePos(float dt);
 		float GetMass();
 		void ChangeInverseMass(float Mass);
-		virtual void ResetForce();
-		virtual void AcumForce(glm::vec3 Force);
+		void ResetForce() override;
+		void AcumForce(glm::vec3 Force) override;
 		void SetMass(float Mass);
-		void SetPos(glm::vec3 Pos);
-		void SetQuat(glm::quat NewQuat);
 	};
 }
