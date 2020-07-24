@@ -31,6 +31,19 @@ void RigidBodies::TransformInertiaTensor()
 
 }
 
+void RigidBodies::UpdateVel(float dt)
+{
+	if (glm::abs(this->AccumForce.x) < 0.0625f)
+		this->AccumForce.x = 0.f;
+	if (glm::abs(this->AccumForce.y) < 0.0625f)
+		this->AccumForce.y = 0.f;
+	if (glm::abs(this->AccumForce.z) < 0.625f)
+		this->AccumForce.z = 0.f;
+	glm::vec3 Acc = this->AccumForce * InvMass;
+	this->Vel = Acc * dt + Vel;
+	Vel = Vel * glm::pow(LinDamp, dt);
+}
+
 RigidBodies::RigidBodies(glm::vec3 Pos)
 	:Bod_Base(Pos), TransformMatrix(glm::mat4(1.f)),
 	RotDamp(1),RotVel(glm::vec3(0.f)),TorqueAcum(glm::vec3(0.f)),AngularAccelration(glm::vec3(0.f))

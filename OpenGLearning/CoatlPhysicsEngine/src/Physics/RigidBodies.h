@@ -19,6 +19,7 @@ namespace CoatlPhysicsEngine {
 		void UpdateMatrix();
 		void CalcDerivedData();
 		void TransformInertiaTensor();
+		void UpdateVel(float dt) override;
 	public:
 		RigidBodies(glm::vec3 Pos);
 		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel);
