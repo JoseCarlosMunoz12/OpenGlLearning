@@ -12,6 +12,12 @@ Bod_Base::Bod_Base(glm::vec3 InitPos, glm::vec3 InitVel)
 {
 }
 
+Bod_Base::Bod_Base(glm::vec3 InitPos, glm::vec3 InitVel, float InitDamp)
+	: Pos(InitPos), AccumForce(glm::vec3(0.f)), Vel(InitVel),
+	LinDamp(InitDamp), InvMass(0.f)
+{
+}
+
 Bod_Base::~Bod_Base()
 {
 }

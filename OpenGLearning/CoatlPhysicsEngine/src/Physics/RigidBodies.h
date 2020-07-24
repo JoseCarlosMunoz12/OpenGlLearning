@@ -1,7 +1,7 @@
 #pragma once
-#include "Particle.h"
+#include "Bod_Base.h"
 namespace CoatlPhysicsEngine {
-	class RigidBodies : public Particle
+	class RigidBodies : public Bod_Base
 	{
 	private:
 		const float Epsilon = 0.00001f;

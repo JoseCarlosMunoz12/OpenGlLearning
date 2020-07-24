@@ -20,9 +20,15 @@ namespace CoatlPhysicsEngine {
 	public:
 		Bod_Base(glm::vec3 Pos);
 		Bod_Base(glm::vec3 InitPos, glm::vec3 InitVel);
+		Bod_Base(glm::vec3 InitPos, glm::vec3 InitVel, float InitDamp);
 		~Bod_Base();
 		void SetMass(float Mass);
 		void SetVel(glm::vec3 SetVel);
+		//Virtual Functions for the Particle and Rigid Bodies
+		virtual glm::vec3 UpdatePos(float dt) { return glm::vec3(0.f); };
+		virtual void ResetForce() { return; };
+		virtual void AcumForce(glm::vec3 Force) { return; };
+		virtual void AcumTorque(glm::vec3 Torque) { return; };
 	};
 }
 
