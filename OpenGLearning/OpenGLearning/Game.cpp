@@ -2155,6 +2155,8 @@ void Game::DrawColInfo()
 						}
 						if (ImGui::TreeNode("Physics information"))
 						{
+							std::shared_ptr<CPE::Bod_Base> Bods = Bod->GetParticle(0);
+							if (Bods)
 							{
 								ImGui::Text("No partilce information");
 								if (ImGui::Button("Add particle"))
@@ -2168,6 +2170,17 @@ void Game::DrawColInfo()
 									Bod->SetRigidBody(0);
 									Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
 									Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
+								}
+							}
+							else
+							{
+								if (ImGui::Button("Add Particle"))
+								{
+									Bod->SetParticle(0);
+								}
+								if (ImGui::Button(""))
+								{
+									Bod->SetRigidBody(0);
 								}
 							}
 							ImGui::TreePop();
