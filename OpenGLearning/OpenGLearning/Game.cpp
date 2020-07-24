@@ -2155,36 +2155,6 @@ void Game::DrawColInfo()
 						}
 						if (ImGui::TreeNode("Physics information"))
 						{
-							std::shared_ptr<CPE::Particle> TempPart = Bod->GetBodyParts()[0]->GetParticle();
-							if (TempPart)
-							{
-								glm::vec3 Vel = TempPart->GetVel();
-								float Mass = TempPart->GetMass();
-								ImGui::Text("velocity is %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
-								float Ar[3] = { Vel.x,Vel.y,Vel.z };
-								if (ImGui::SliderFloat("One", &Ar[0], -1.f, 1.f))
-								{
-									Vel.x = Ar[0];
-									TempPart->SetVel(Vel);
-								}
-								if (ImGui::SliderFloat("Two", &Ar[1], -1.f, 1.f))
-								{
-									Vel.y = Ar[1];
-									TempPart->SetVel(Vel);
-								}
-								if (ImGui::SliderFloat("Three", &Ar[2], -1.f, 1.f))
-								{
-									Vel.z = Ar[2];
-
-									TempPart->SetVel(Vel);
-								}
-								ImGui::Text("Mass is %.3f", Mass);
-								if (ImGui::SliderFloat("ParticleMass", &Mass, 0.5f, 20.f))
-								{
-									TempPart->SetMass(Mass);
-								}
-							}
-							else
 							{
 								ImGui::Text("No partilce information");
 								if (ImGui::Button("Add particle"))

@@ -29,7 +29,7 @@ void BodyParts::AddShape(std::shared_ptr<ColShapes> InitBodPart)
 	this->BodPart = InitBodPart;
 }
 
-void BodyParts::AddParticle(std::shared_ptr<Particle> InitParticle)
+void BodyParts::AddParticle(std::shared_ptr<Bod_Base> InitParticle)
 {
 	this->BodParticle = InitParticle;
 }
@@ -63,7 +63,7 @@ std::shared_ptr<ColShapes> BodyParts::GetShape()
 	return this->BodPart;
 }
 
-std::shared_ptr<Particle> BodyParts::GetParticle()
+std::shared_ptr<Bod_Base> BodyParts::GetParticle()
 {
 	return this->BodParticle;
 }

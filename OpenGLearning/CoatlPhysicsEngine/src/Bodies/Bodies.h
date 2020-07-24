@@ -35,7 +35,7 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<ColShapes> GetShapes();
 		std::vector<std::shared_ptr<BodyParts>> GetBodyParts();
 		std::shared_ptr<BodyParts> GetSpecificBodyPart(int ID);
-		std::shared_ptr<Particle> GetParticle(int ID);
+		std::shared_ptr<Bod_Base> GetParticle(int ID);
 		//get AABB Hierarchy
 		glm::vec3 GetMax() { return this->Max; }
 		glm::vec3 GetMin() { return this->Min; }
