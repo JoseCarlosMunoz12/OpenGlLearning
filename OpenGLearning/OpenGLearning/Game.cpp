@@ -2160,6 +2160,7 @@ void Game::DrawColInfo()
 							{
 								glm::vec3 Vel = Bods->GetVel();
 								glm::quat Quat = Bods->GetQuat();
+								float Mass = Bods->GetMass();
 							}
 							else
 							{

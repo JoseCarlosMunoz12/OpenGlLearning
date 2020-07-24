@@ -82,6 +82,11 @@ void RigidBodies::SetAwake(bool Awake)
 	}
 }
 
+void RigidBodies::SetQuat(glm::quat NewQuat)
+{
+	this->AxisAngle = NewQuat;
+}
+
 void RigidBodies::AcumForce(glm::vec3 Force)
 {
 	this->AccumForce += Force;

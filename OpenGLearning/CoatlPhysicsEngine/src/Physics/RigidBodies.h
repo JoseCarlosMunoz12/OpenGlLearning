@@ -27,6 +27,7 @@ namespace CoatlPhysicsEngine {
 		void SetInertia(glm::mat3 InitInertia);
 		void AddTorque(glm::vec3 Torque);
 		void SetAwake(bool Awake);
+		void SetQuat(glm::quat NewQuat) override;
 		void AcumForce(glm::vec3 Force) override;
 		void ResetForce() override;
 		glm::vec3 UpdatePos(float dt) override;
