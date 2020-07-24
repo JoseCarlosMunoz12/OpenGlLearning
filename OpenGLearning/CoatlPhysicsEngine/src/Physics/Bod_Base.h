@@ -16,6 +16,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Pos;
 		glm::vec3 AccumForce;
 		glm::vec3 Vel;
+		glm::quat AxisAngle;
 		float LinDamp;
 		float InvMass;
 		virtual void UpdateVel(float dt) { return; };
@@ -29,6 +30,7 @@ namespace CoatlPhysicsEngine {
 		void SetId(int NewId);
 		void SetPos(glm::vec3 NewPos);		
 		virtual void SetQuat(glm::quat NewQuat) { return; };
+		glm::quat GetQuat() { return this->AxisAngle; };
 		glm::vec3 GetPos();
 		glm::vec3 GetVel();
 		int GetPhyID() { return this->PhysicsID; };

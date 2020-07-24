@@ -2158,29 +2158,22 @@ void Game::DrawColInfo()
 							std::shared_ptr<CPE::Bod_Base> Bods = Bod->GetParticle(0);
 							if (Bods)
 							{
-								ImGui::Text("No partilce information");
-								if (ImGui::Button("Add particle"))
-								{
-									Bod->SetParticle(0);
-									Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
-									Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
-								}
-								if (ImGui::Button("Add RigidBody"))
-								{
-									Bod->SetRigidBody(0);
-									Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
-									Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
-								}
+								glm::vec3 Vel = Bods->GetVel();
+								glm::quat Quat = Bods->GetQuat();
 							}
 							else
 							{
 								if (ImGui::Button("Add Particle"))
 								{
 									Bod->SetParticle(0);
+									Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
+									Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
 								}
-								if (ImGui::Button(""))
+								if (ImGui::Button("Add Rigid Body"))
 								{
 									Bod->SetRigidBody(0);
+									Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
+									Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
 								}
 							}
 							ImGui::TreePop();

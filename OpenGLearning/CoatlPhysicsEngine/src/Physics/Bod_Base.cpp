@@ -4,18 +4,21 @@ using namespace CoatlPhysicsEngine;
 Bod_Base::Bod_Base(glm::vec3 InitPos)
 	:Pos(InitPos),AccumForce(glm::vec3(0.f)),Vel(glm::vec3(0.f)), LinDamp(1.f), InvMass(0.f)
 {
+	this->AxisAngle = glm::angleAxis(0.f, glm::vec3(1.f, 0.f, 0.f));
 }
 
 Bod_Base::Bod_Base(glm::vec3 InitPos, glm::vec3 InitVel)
 	: Pos(InitPos), AccumForce(glm::vec3(0.f)), Vel(InitVel),
 	LinDamp(1.f), InvMass(0.f)
 {
+	this->AxisAngle = glm::angleAxis(0.f, glm::vec3(1.f, 0.f, 0.f));
 }
 
 Bod_Base::Bod_Base(glm::vec3 InitPos, glm::vec3 InitVel, float InitDamp)
 	: Pos(InitPos), AccumForce(glm::vec3(0.f)), Vel(InitVel),
 	LinDamp(InitDamp), InvMass(0.f)
 {
+	this->AxisAngle = glm::angleAxis(0.f, glm::vec3(1.f, 0.f, 0.f));
 }
 
 Bod_Base::~Bod_Base()

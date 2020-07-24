@@ -10,7 +10,6 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 RotVel;
 		glm::vec3 TorqueAcum;
 		glm::vec3 AngularAccelration;
-		glm::quat AxisAngle;
 		float RotDamp;
 		//Sleep variables
 		bool IsAwake = true;
