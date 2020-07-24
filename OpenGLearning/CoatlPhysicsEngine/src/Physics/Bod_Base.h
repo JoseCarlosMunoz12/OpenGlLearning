@@ -17,6 +17,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Vel;
 		float LinDamp;
 		float InvMass;
+		virtual void UpdateVel(float dt) { return; };
 	public:
 		Bod_Base(glm::vec3 Pos);
 		Bod_Base(glm::vec3 InitPos, glm::vec3 InitVel);

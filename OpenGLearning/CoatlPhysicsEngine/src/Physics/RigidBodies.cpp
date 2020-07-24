@@ -7,8 +7,8 @@ void RigidBodies::UpdateRot(float dt)
 	this->RotVel = this->AngularAccelration * dt;
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
-	E *= this->GetQuat();
-	this->SetQuat(this->GetQuat() + E *.5f);	
+	E *= this->AxisAngle;
+	this->AxisAngle += E *.5f;	
 	this->CalcDerivedData();
 }
 
@@ -84,13 +84,13 @@ void RigidBodies::SetAwake(bool Awake)
 
 void RigidBodies::AcumForce(glm::vec3 Force)
 {
-	this->Acum_Force += Force;
+	this->AccumForce += Force;
 	this->IsAwake = true;
 }
 
 void RigidBodies::ResetForce()
 {
-	this->Acum_Force = glm::vec3(0.f);
+	this->AccumForce = glm::vec3(0.f);
 	this->TorqueAcum = glm::vec3(0.f);
 }
 
