@@ -128,6 +128,16 @@ void RigidBodies::ResetForce()
 	this->TorqueAcum = glm::vec3(0.f);
 }
 
+glm::vec3 RigidBodies::GetRotVel()
+{
+	return this->RotVel;
+}
+
+void RigidBodies::AddRotVel(glm::vec3 DelRotVel)
+{
+	this->RotVel += DelRotVel;
+}
+
 glm::vec3 RigidBodies::UpdatePos(float dt)
 {
 	if (!this->IsAwake)

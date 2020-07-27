@@ -15,8 +15,8 @@ namespace CoatlPhysicsEngine {
 		void UpdateMatrix();
 		void CalcDerivedData();
 		void TransformInertiaTensor();
-		void AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt);
 		void UpdateVel(float dt) override;
+		void AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt);
 	public:
 		RigidBodies(glm::vec3 Pos);
 		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel);
@@ -28,6 +28,10 @@ namespace CoatlPhysicsEngine {
 		void SetQuat(glm::quat NewQuat) override;
 		void AcumForce(glm::vec3 Force) override;
 		void ResetForce() override;
+		//Rotational functions
+		glm::vec3 GetRotVel() override;
+		void AddRotVel(glm::vec3 DelRotVel) override;
+		//Main function to update physics
 		glm::vec3 UpdatePos(float dt) override;
 		//sleep functions
 		bool GetAwakeStatus() override;
