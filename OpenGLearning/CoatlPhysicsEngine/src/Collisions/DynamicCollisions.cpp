@@ -80,7 +80,7 @@ bool DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Manifold>> 
 
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
 	:BaseCols(Name,InitCols),
-	Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
+	Ext(100.f), AlgoType(Alg_Type::O_T), B_Ex(4.f)
 {
 	this->Col_Rel = std::make_unique<Col_Resolution>();
 	this->Gravity = glm::vec3(0.f, 0.f, -9.81f);
