@@ -56,21 +56,21 @@ void RigidBodies::UpdateVel(float dt)
 
 RigidBodies::RigidBodies(glm::vec3 Pos)
 	:Bod_Base(Pos), TransformMatrix(glm::mat4(1.f)),
-	RotDamp(1),RotVel(glm::vec3(0.f)),TorqueAcum(glm::vec3(0.f)),AngularAccelration(glm::vec3(0.f))
+	RotDamp(1),TorqueAcum(glm::vec3(0.f)),AngularAccelration(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
 }
 
 RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel)
 	:Bod_Base(Pos, InitVel), TransformMatrix(glm::mat4(1.f)),
-	RotDamp(1), RotVel(glm::vec3(0.f)), TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
+	RotDamp(1), TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
 }
 
 RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
 	:Bod_Base(Pos, InitVel,InitDamp), TransformMatrix(glm::mat4(1.f)),
-	RotDamp(1), RotVel(glm::vec3(0.f)), TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
+	RotDamp(1), TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
 }

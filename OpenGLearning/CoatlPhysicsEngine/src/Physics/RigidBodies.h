@@ -8,7 +8,6 @@ namespace CoatlPhysicsEngine {
 		glm::mat4 TransformMatrix;
 		glm::mat4 InvIntertiaWSpace;
 		glm::mat3 InvInertia;
-		glm::vec3 RotVel;
 		glm::vec3 TorqueAcum;
 		glm::vec3 AngularAccelration;
 		float RotDamp;
