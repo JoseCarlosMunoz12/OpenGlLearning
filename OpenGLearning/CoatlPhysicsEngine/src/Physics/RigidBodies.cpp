@@ -4,7 +4,7 @@ using namespace CoatlPhysicsEngine;
 void RigidBodies::UpdateRot(float dt)
 {
 	this->AngularAccelration += this->InvInertia * this->TorqueAcum;
-	this->RotVel = this->AngularAccelration * dt;
+	this->RotVel += this->AngularAccelration * dt;
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
 	E *= this->AxisAngle;
@@ -36,7 +36,7 @@ void RigidBodies::TransformInertiaTensor()
 void RigidBodies::AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt)
 {
 	glm::vec3 Point = Pnt - this->Pos;
-	TorqueAcum += Pnt % Force;
+	TorqueAcum += glm::cross( Point,Force);
 	AccumForce += Force;
 	this->IsAwake = true;
 }

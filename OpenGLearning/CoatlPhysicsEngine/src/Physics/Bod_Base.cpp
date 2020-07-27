@@ -38,6 +38,11 @@ void Bod_Base::SetVel(glm::vec3 SetVel)
 	this->Vel = SetVel;
 }
 
+void Bod_Base::AddVel(glm::vec3 DelVel)
+{
+	this->Vel += DelVel;
+}
+
 void Bod_Base::SetId(int NewId)
 {
 	this->PhysicsID = NewId;

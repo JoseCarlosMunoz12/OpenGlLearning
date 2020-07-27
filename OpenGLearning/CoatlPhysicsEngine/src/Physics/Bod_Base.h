@@ -31,6 +31,7 @@ namespace CoatlPhysicsEngine {
 		~Bod_Base();
 		void SetMass(float Mass);
 		void SetVel(glm::vec3 SetVel);
+		void AddVel(glm::vec3 DelVel);
 		void SetId(int NewId);
 		void SetPos(glm::vec3 NewPos);		
 		virtual void SetQuat(glm::quat NewQuat) { return; };
