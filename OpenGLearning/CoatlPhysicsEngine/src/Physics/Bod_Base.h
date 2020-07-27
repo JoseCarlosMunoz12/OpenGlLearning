@@ -44,7 +44,7 @@ namespace CoatlPhysicsEngine {
 		virtual void ResetForce() { return; };
 		virtual void AcumForce(glm::vec3 Force) { return; };
 		//Rigid Bodies functions
-		virtual void AddforceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt) { return; };
+		virtual void AddForceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt) { return; };
 		virtual void AcumTorque(glm::vec3 Torque) { return; };
 		//Sleep Functions
 		virtual void SetAwake(bool Awake) { return; };

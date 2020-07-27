@@ -33,6 +33,14 @@ void RigidBodies::TransformInertiaTensor()
 	this->InvIntertiaWSpace = RotMat * InvInertia * glm::inverse(RotMat);
 }
 
+void RigidBodies::AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt)
+{
+	glm::vec3 Point = Pnt - this->Pos;
+	TorqueAcum += Pnt % Force;
+	AccumForce += Force;
+	this->IsAwake = true;
+}
+
 void RigidBodies::UpdateVel(float dt)
 {
 	if (glm::abs(this->AccumForce.x) < 0.0625f)
@@ -79,6 +87,13 @@ void RigidBodies::SetInertia(glm::mat3 InitInertia)
 void RigidBodies::AcumTorque(glm::vec3 Torque)
 {
 	this->TorqueAcum += Torque;
+	this->IsAwake = true;
+}
+
+void RigidBodies::AddForceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt)
+{
+	glm::vec3 RelPnt = this->TransformMatrix * glm::vec4(Pnt,1.f);
+	this->AddForceAtPoint(Force, RelPnt);
 }
 
 void RigidBodies::SetAwake(bool Awake)
