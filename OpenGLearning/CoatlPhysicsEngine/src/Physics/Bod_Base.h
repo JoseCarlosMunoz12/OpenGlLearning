@@ -20,6 +20,10 @@ namespace CoatlPhysicsEngine {
 		float LinDamp;
 		float InvMass;
 		virtual void UpdateVel(float dt) { return; };
+		//Sleep variables
+		bool IsAwake = true;
+		bool CanSleep = true;
+		float Motion;
 	public:
 		Bod_Base(glm::vec3 Pos);
 		Bod_Base(glm::vec3 InitPos, glm::vec3 InitVel);
@@ -39,7 +43,13 @@ namespace CoatlPhysicsEngine {
 		virtual glm::vec3 UpdatePos(float dt) { return glm::vec3(0.f); };
 		virtual void ResetForce() { return; };
 		virtual void AcumForce(glm::vec3 Force) { return; };
+		//Rigid Bodies functions
+		virtual void AddforceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt) { return; };
 		virtual void AcumTorque(glm::vec3 Torque) { return; };
+		//Sleep Functions
+		virtual void SetAwake(bool Awake) { return; };
+		virtual bool GetAwakeStatus() { return true; }; 
+		virtual void SetCanSleep(bool Can) { return; };
 	};
 }
 

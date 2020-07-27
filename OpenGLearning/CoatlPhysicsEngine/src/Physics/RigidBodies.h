@@ -6,15 +6,12 @@ namespace CoatlPhysicsEngine {
 	private:
 		const float Epsilon = 0.00001f;
 		glm::mat4 TransformMatrix;
+		glm::mat4 InvIntertiaWSpace;
 		glm::mat3 InvInertia;
 		glm::vec3 RotVel;
 		glm::vec3 TorqueAcum;
 		glm::vec3 AngularAccelration;
 		float RotDamp;
-		//Sleep variables
-		bool IsAwake = true;
-		bool CanSleep = true;
-		float Motion;
 		void UpdateRot(float dt);
 		void UpdateMatrix();
 		void CalcDerivedData();
@@ -27,12 +24,12 @@ namespace CoatlPhysicsEngine {
 		~RigidBodies();
 		void SetInertia(glm::mat3 InitInertia);
 		void AcumTorque(glm::vec3 Torque) override;
-		void SetAwake(bool Awake);
 		void SetQuat(glm::quat NewQuat) override;
 		void AcumForce(glm::vec3 Force) override;
 		void ResetForce() override;
 		glm::vec3 UpdatePos(float dt) override;
-		bool GetAwakeStatus();
-		void SetCanSleep(bool Can);
+		bool GetAwakeStatus() override;
+		void SetCanSleep(bool Can) override;
+		void SetAwake(bool Awake) override;
 	};	
 }

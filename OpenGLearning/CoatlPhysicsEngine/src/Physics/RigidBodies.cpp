@@ -23,12 +23,14 @@ void RigidBodies::CalcDerivedData()
 {
 	this->AxisAngle = glm::normalize(this->AxisAngle);
 	this->UpdateMatrix();
-
+	this->TransformInertiaTensor();
 }
 
 void RigidBodies::TransformInertiaTensor()
 {
-
+	glm::mat4 RotMat = glm::mat4_cast(this->AxisAngle);
+	glm::mat4 InvInertia = glm::mat4(this->InvInertia);
+	this->InvIntertiaWSpace = RotMat * InvInertia * glm::inverse(RotMat);
 }
 
 void RigidBodies::UpdateVel(float dt)
