@@ -3,20 +3,23 @@ using namespace CoatlPhysicsEngine;
 std::vector<std::shared_ptr<Contact>> SphereRelSphere::SphRelSph(Sphere Sph0, Sphere Sph1)
 {
 	std::vector<std::shared_ptr<Contact>> Contacts;
-	std::shared_ptr<Contact> Temp = std::make_shared<Contact>();
-	float Distance = glm::distance(Sph0.GetPos(), Sph1.GetPos());
+	std::shared_ptr<Contact> Temp = std::make_shared<Contact>();	
 	float TotalR = Sph0.GetRadius() + Sph1.GetRadius();
-	glm::vec3 Norm = Sph1.GetPos() - Sph0.GetPos();
-	float ValTest = glm::dot(Norm, Norm);
-	if (ValTest == 0)
+	glm::vec3 MidLine = Sph1.GetPos() - Sph0.GetPos();
+	float Size = glm::length(MidLine);
+	glm::vec3 Norm;
+	if (Size == 0.f)
 	{
 		Norm = glm::vec3(1.f, 0.f, 0.f);
+		Size = TotalR;
 	}
-	Norm = glm::normalize(Norm);
-	glm::vec3 ContactPoint = Sph0.GetPos() - Norm * Sph0.GetRadius();
-	Temp->Penetration = TotalR - Distance;
-	Temp->Normal = -Norm;
-	Temp->ContactPoint = ContactPoint;
+	else
+	{
+		Norm = MidLine / Size;
+	}
+	Temp->Normal = Norm;
+	Temp->Penetration = TotalR - Size;
+	Temp->ContactPoint = Sph1.GetPos() + MidLine * .5f;
 	Contacts.push_back(Temp);
 	return Contacts;
 }
