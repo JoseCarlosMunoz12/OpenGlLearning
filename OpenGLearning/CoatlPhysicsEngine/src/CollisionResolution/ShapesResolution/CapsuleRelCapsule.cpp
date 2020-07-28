@@ -14,13 +14,14 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Ca
 	std::shared_ptr<Contact> Con = std::make_shared<Contact>();
 	glm::vec3 Norm = C_P1 - C_P0;
 	Norm = MATH::Normalize(Norm);
+	std::vector<glm::vec3> Cont;
 	if (Norm != glm::vec3(0.f))
 	{
 		float S = glm::dot(Norm, Dir0);
 		float T = glm::dot(Norm, Dir1);
 		if (S == 0.f && T == 0.f)
 		{
-			MATH::ProjPen(Dir0, C_S0, C_S1,0);
+			Cont = MATH::SAT_Points(Dir0, C_S0, C_S1);
 		}
 	}
 	float Total_R = Cap0.GetRadius() + Cap1.GetRadius();
