@@ -18,6 +18,10 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Ca
 	{
 		float S = glm::dot(Norm, Dir0);
 		float T = glm::dot(Norm, Dir1);
+		if (S == 0.f && T == 0.f)
+		{
+
+		}
 	}
 	float Total_R = Cap0.GetRadius() + Cap1.GetRadius();
 	float dis = glm::distance(C_P0, C_P1);

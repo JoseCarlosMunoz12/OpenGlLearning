@@ -248,6 +248,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				break;
 			}
 		}
+		this->Col_Rel->ResolveContacts(jj);
 		Count++;
 	}
 	//Update All Physics	
