@@ -29,6 +29,9 @@ namespace CoatlPhysicsEngine {
 	public:
 		Col_Resolution();
 		~Col_Resolution();
+		//Create Manifolds
 		 std::shared_ptr<Manifold> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,int ID);
+		//Resolve Manifolds
+		 void ResolveContacts(std::shared_ptr<Manifold> Contact);
 	};
 }

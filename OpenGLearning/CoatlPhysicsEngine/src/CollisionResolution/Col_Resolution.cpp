@@ -132,3 +132,8 @@ std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> B
 	Temp->ID = ID;
 	return Temp;
 }
+
+void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Contact)
+{
+
+}
