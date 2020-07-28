@@ -7,6 +7,8 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Ca
 	glm::vec3 C_P1;
 	std::vector<glm::vec3> C_S0 = Cap0.GetSegment();
 	std::vector<glm::vec3> C_S1 = Cap1.GetSegment();
+	glm::vec3 Dir0 = MATH::CreateNormal(C_S0);
+	glm::vec3 Dir1 = MATH::CreateNormal(C_S1);
 	MATH::ClosestSeg_Seg(C_S0, C_S1, C_P0, C_P1);
 	std::vector<std::shared_ptr<Contact>> Temp;
 	std::shared_ptr<Contact> Con = std::make_shared<Contact>();

@@ -726,6 +726,11 @@ bool MATH::GJK_Algorithm(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt
 	return false;
 }
 
+glm::vec3 MATH::CreateNormal(std::vector<glm::vec3> Seg)
+{
+	return MATH::Normalize(Seg[1] - Seg[0]);
+}
+
 glm::vec3 MATH::Normalize(glm::vec3 Vec)
 {
 	if (glm::dot(Vec, Vec) != 0.f)
