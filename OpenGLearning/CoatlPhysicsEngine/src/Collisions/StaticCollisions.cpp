@@ -2,7 +2,7 @@
 using namespace CoatlPhysicsEngine;
 
 StaticCollisions::StaticCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
-	:BaseCols(Name, InitCols), Ext(100.f), AlgoType(Alg_Type::B_F), B_Ex(4.f)
+	:BaseCols(Name, InitCols), Ext(100.f), AlgoType(Alg_Type::O_T), B_Ex(4.f)
 {
 }
 

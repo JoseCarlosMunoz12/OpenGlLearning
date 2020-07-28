@@ -21,7 +21,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 		glm::vec3 Norm = glm::normalize(Vec);
 		Cont->Penetration = Pen;
 		Cont->Normal = Norm;
-		Cont->ContactPoint = Sph0.GetPos() + Pen * Norm;
+		Cont->ContactPoint = Sph0.GetPos() - R * Norm;
 		Temp.push_back(Cont);
 	}
 	else
@@ -31,7 +31,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(),Norm) + R;
 		Cont->Penetration = Pen;
 		Cont->Normal = -Norm;
-		Cont->ContactPoint = Sph0.GetPos() + Pen * Norm;
+		Cont->ContactPoint = Sph0.GetPos() - Pen * Norm;
 		Temp.push_back(Cont);
 	}
 	return Temp;
