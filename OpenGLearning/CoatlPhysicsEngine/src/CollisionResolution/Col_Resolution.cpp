@@ -48,7 +48,6 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		return this->S_Res->GetContacts(Cap, *Cap0);
 	}
 	std::vector<std::shared_ptr<Contact>> Temp;
-	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	glm::vec3 vec;
 	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), vec))
 	{
@@ -59,15 +58,16 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		glm::vec3 Norm = MATH::Normalize(vec);
 		if (glm::dot(Dir, Norm) != 0.f)
 		{
+			std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 			Cont->Penetration = R - Pen;
 			Cont->Normal = Norm;
 			Cont->ContactPoint = Cap.GetPos() + Pen * Cont->Normal;
+			Temp.push_back(Cont);
 		}
 		else
 		{
 
 		}
-		Temp.push_back(Cont);
 	}
 	else
 	{
