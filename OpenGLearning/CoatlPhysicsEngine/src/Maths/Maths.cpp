@@ -658,6 +658,54 @@ std::vector<glm::vec3> MATH::SAT_Points(glm::vec3 Norm, std::vector<glm::vec3> V
 	return {Min0,Max1 };
 }
 
+glm::vec3 MATH::SAT_Point(glm::vec3 Norm, std::vector<glm::vec3> Vert0, std::vector<glm::vec3> Vert1)
+{
+	//Max Min of Shape 0
+	glm::vec3 Max0;
+	glm::vec3 RejMax0;
+	glm::vec3 Min0;
+	glm::vec3 RejMin0;
+	//Max Min of Shape 1
+	glm::vec3 Max1;
+	glm::vec3 RejMax1;
+	glm::vec3 Min1;
+	glm::vec3 RejMin1;
+
+	glm::vec3 AB = Norm;
+	int Count = 0;
+	for (auto& jj : Vert0)
+	{
+		glm::vec3 AJJ = jj;
+		float Num = glm::dot(AJJ, AB);
+		float Denom = glm::dot(AB, AB);
+		glm::vec3 TempPos = Num / Denom * AB;
+		if (Count == 0)
+		{
+			Max0 = TempPos;
+			Min0 = TempPos;
+			Count++;
+		}
+		MATH::SetRejDir(Max0, Min0, TempPos,RejMax0, RejMin0,Vert0[0]);
+	}
+	Count = 0;
+	for (auto& jj : Vert1)
+	{
+		glm::vec3 AJJ = jj;
+		float Num = glm::dot(AJJ, AB);
+		float Denom = glm::dot(AB, AB);
+		glm::vec3 TempPos = Num / Denom * AB;
+		if (Count == 0)
+		{
+			Max1 = TempPos;
+			Min1 = TempPos;
+			Count++;
+		}
+		MATH::SetRejDir(Max1, Min1, TempPos, RejMax0, RejMin0, Vert0[0]);
+	}
+	float MaxMin0 = glm::distance(Max0, Min1);
+	float MaxMin1 = glm::distance(Max1, Min0);
+}
+
 glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
 {
 	float S = glm::dot(Pnts[0], Dir);
