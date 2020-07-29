@@ -700,10 +700,13 @@ glm::vec3 MATH::SAT_Point(glm::vec3 Norm, std::vector<glm::vec3> Vert0, std::vec
 			Min1 = TempPos;
 			Count++;
 		}
-		MATH::SetRejDir(Max1, Min1, TempPos, RejMax0, RejMin0, Vert0[0]);
+		MATH::SetMaxMins(Max1, Min1, TempPos);
 	}
 	float MaxMin0 = glm::distance(Max0, Min1);
 	float MaxMin1 = glm::distance(Max1, Min0);
+	if (MaxMin0 > MaxMin1)
+		return Max0 - RejMax0;
+	return Min0 - RejMin0;
 }
 
 glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
