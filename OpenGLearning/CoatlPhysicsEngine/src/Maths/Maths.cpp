@@ -510,6 +510,12 @@ glm::vec3 MATH::SetMin(glm::vec3 Min, glm::vec3 NewVal)
 	return Min;
 }
 
+void MATH::SetRejDir(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal, glm::vec3& Rej, glm::vec3 OgSeg)
+{
+	bool ChangedMax = false;
+	bool ChangedMin = false;
+}
+
 float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vector<glm::vec3> Sh_Vert1, float R)
 {
 	//Max Min of Shape 0
@@ -610,10 +616,14 @@ std::vector<glm::vec3> MATH::SAT_Points(glm::vec3 Norm, std::vector<glm::vec3> V
 {
 	//Max Min of Shape 0
 	glm::vec3 Max0;
+	glm::vec3 RejMax0;
 	glm::vec3 Min0;
+	glm::vec3 RejMin1;
 	//Max Min of Shape 1
 	glm::vec3 Max1;
+	glm::vec3 RejMax1;
 	glm::vec3 Min1;
+	glm::vec3 RejMin1;
 
 	glm::vec3 AB = Norm;
 	int Count = 0;
@@ -649,8 +659,8 @@ std::vector<glm::vec3> MATH::SAT_Points(glm::vec3 Norm, std::vector<glm::vec3> V
 	float MaxMin0 = glm::distance(Max0, Min1);
 	float MaxMin1 = glm::distance(Max1, Min0);
 	if (MaxMin0 < MaxMin1)
-		return {Max0, Min1};
-	return {Max1, Min0};
+		return { Min1,Max0};
+	return {Min0,Max1 };
 }
 
 glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
