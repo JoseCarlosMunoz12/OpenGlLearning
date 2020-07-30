@@ -21,7 +21,7 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Ca
 	{
 		float S = glm::dot(Norm, Dir0);
 		float T = glm::dot(Norm, Dir1);
-		if (S == 0.f && T == 0.f)
+		if (S == 0.f && T == 0.f && glm::cross(Dir0, Dir1) == glm::vec3(0.f))
 		{
 			Cont = MATH::SAT_Points(Dir0, C_S0, C_S1);
 			PL0 = MATH::SAT_Points(Norm, C_S0, C_S1);
