@@ -839,8 +839,8 @@ glm::vec3 MATH::CreateNormal(std::vector<glm::vec3> Seg)
 glm::vec3 MATH::Normalize(glm::vec3 Vec)
 {
 	if (glm::dot(Vec, Vec) != 0.f)
-		return glm::normalize(Vec);
-	return Vec;
+		return MATH::ClampLowest(glm::normalize(Vec),0.0001f);
+	return MATH::ClampLowest(Vec, 0.0001f);
 }
 
 glm::vec3 MATH::ClampLowest(glm::vec3 Vec, float Limit)
