@@ -56,38 +56,6 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		glm::vec3 Dir = MATH::CreateNormal(Cap_Seg);
 		float Pen = glm::distance(glm::vec3(0.f),vec);
 		glm::vec3 Norm = MATH::Normalize(vec);
-		if (glm::dot(Dir, Norm) != 0.f)
-		{
-			std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
-			glm::vec3 C_Pnt = MATH::SAT_Point(Norm, Cap_Seg, Bod1->GetShapes()->GetVertices());
-			Cont->Penetration = R - Pen;
-			Cont->Normal = Norm;
-			Cont->ContactPoint = C_Pnt - (R + Pen * .5f) * Cont->Normal;
-			Temp.push_back(Cont);
-		}
-		else
-		{
-			//checks the normals of the capsule with the Box and determines if it is parallel
-			std::vector<glm::vec3> Norms = Bod1->GetShapes()->GetNormals();
-			bool IsParll = false;
-			for (auto& jj : Norms)
-			{
-				if (glm::cross(jj, Dir) == glm::vec3(0.f))
-				{
-					IsParll = true;
-					break;
-				}
-			}
-			// Calculets the Point(s) in contact
-			if (IsParll)
-			{
-
-			}
-			else
-			{
-
-			}
-		}
 	}
 	else
 	{

@@ -43,6 +43,7 @@ namespace MATH {
 		float R);
 	std::vector<glm::vec3> SAT_Points(glm::vec3 Norm, std::vector<glm::vec3> Vert0,std::vector<glm::vec3> Vert1);
 	glm::vec3 SAT_Point(glm::vec3 Norm, std::vector<glm::vec3> Vert0, std::vector<glm::vec3> Vert1);
+	void SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<glm::vec3>& Vert1);
 	//GJK Functions
 	glm::vec3 MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir);
 	glm::vec3 Support(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1, glm::vec3 Dir);

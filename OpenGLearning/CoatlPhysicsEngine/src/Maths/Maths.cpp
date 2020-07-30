@@ -711,6 +711,32 @@ glm::vec3 MATH::SAT_Point(glm::vec3 Norm, std::vector<glm::vec3> Vert0, std::vec
 	return Min0 + RejMin0;
 }
 
+void MATH::SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<glm::vec3>& Vert1)
+{
+	std::vector<glm::vec3> InitV0 = Vert0;
+	std::vector<glm::vec3> InitV1 = Vert1;
+	//Max Min of Shape 0
+	glm::vec3 Max0;
+	glm::vec3 Min0;
+	//Max Min of Shape 1
+	glm::vec3 Max1;
+	glm::vec3 Min1;
+	int Count = 0;
+	for (auto& ii : InitV0)
+	{
+		float Num = glm::dot(ii, Norm);
+		float Denom = glm::dot(Norm, Norm);
+		glm::vec3 TempPos = Num / Denom * Norm;
+		if (Count == 0)
+		{
+			Max0 = TempPos;
+			Min0 = TempPos;
+			Count++;
+		}
+		MATH::SetMaxMins(Max0, Min0, TempPos);
+	}
+}
+
 glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
 {
 	float S = glm::dot(Pnts[0], Dir);
