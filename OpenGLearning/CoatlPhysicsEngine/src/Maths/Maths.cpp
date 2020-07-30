@@ -717,23 +717,110 @@ void MATH::SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vec
 	std::vector<glm::vec3> InitV1 = Vert1;
 	//Max Min of Shape 0
 	glm::vec3 Max0;
+	std::vector<int> MaxID0;
 	glm::vec3 Min0;
+	std::vector<int> MinID0;
 	//Max Min of Shape 1
 	glm::vec3 Max1;
+	std::vector<int> MaxID1;
 	glm::vec3 Min1;
+	std::vector<int> MinID1;
+	//CalcValues
 	int Count = 0;
 	for (auto& ii : InitV0)
 	{
 		float Num = glm::dot(ii, Norm);
 		float Denom = glm::dot(Norm, Norm);
 		glm::vec3 TempPos = Num / Denom * Norm;
-		if (Count == 0)
+		if (Count != 0)
+		{
+			MATH::SAT_MAXMIN_Cul(Max0, Min0, TempPos, Count, MaxID0, MinID0);
+		}
+		else
 		{
 			Max0 = TempPos;
 			Min0 = TempPos;
-			Count++;
+			MaxID0.push_back(Count);
+			MinID0.push_back(Count);
+			MATH::SetMaxMins(Max0, Min0, TempPos);
 		}
-		MATH::SetMaxMins(Max0, Min0, TempPos);
+		Count++;
+	}
+	Count = 0;
+	for (auto& ii : InitV1)
+	{
+		float Num = glm::dot(ii, Norm);
+		float Denom = glm::dot(Norm, Norm);
+		glm::vec3 TempPos = Num / Denom * Norm;
+		if (Count != 0)
+		{
+			MATH::SAT_MAXMIN_Cul(Max1, Min1, TempPos, Count, MaxID1, MinID1);
+		}
+		else
+		{
+			Max1 = TempPos;
+			Min1 = TempPos;
+			MaxID1.push_back(Count);
+			MinID1.push_back(Count);
+			MATH::SetMaxMins(Max1, Min1, TempPos);
+		}
+		Count++;
+	}
+	//Find min Point
+	float MaxMin0 = glm::distance(Max0, Min1);
+	float MaxMin1 = glm::distance(Max1, Min0);
+	//clear points
+	Vert0.clear();
+	Vert1.clear();
+	if (MaxMin0 > MaxMin0)
+	{
+		for (auto& jj : MaxID0)
+		{
+			Vert0.push_back(InitV0[jj]);
+		}
+		for (auto& jj : MinID1)
+		{
+			Vert1.push_back(InitV1[jj]);
+		}
+		return;
+	}
+
+	for (auto& jj : MinID0)
+	{
+		Vert0.push_back(InitV0[jj]);
+	}
+	for (auto& jj : MaxID1)
+	{
+		Vert1.push_back(InitV1[jj]);
+	}
+}
+
+void MATH::SAT_MAXMIN_Cul(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal, int ID, std::vector<int>& ID0, std::vector<int>& ID1)
+{
+
+	if (Max.x < NewVal.x && Max.y < NewVal.y && Max.z < NewVal.z)
+	{
+		Max = NewVal;
+		ID0.clear();
+		ID0.push_back(ID);
+		return;
+	}
+	if (Max == NewVal)
+	{
+		ID0.push_back(ID);
+		return;
+	}
+	//Check if Greater in Min
+	if (Min.x > NewVal.x && Min.y > NewVal.y && Min.z > NewVal.z)
+	{
+		ID1.clear();
+		ID1.push_back(ID);
+		Min = NewVal;
+		return;
+	}
+	if(Min == NewVal)
+	{
+		ID1.push_back(ID);
 	}
 }
 
