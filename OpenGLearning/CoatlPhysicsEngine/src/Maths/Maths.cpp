@@ -613,7 +613,7 @@ std::vector<glm::vec3> MATH::SAT_Points(glm::vec3 Norm, std::vector<glm::vec3> V
 	glm::vec3 Max0;
 	glm::vec3 RejMax0;
 	glm::vec3 Min0;
-	glm::vec3 RejMin1;
+	glm::vec3 RejMin0;
 	//Max Min of Shape 1
 	glm::vec3 Max1;
 	glm::vec3 RejMax1;
@@ -683,6 +683,8 @@ glm::vec3 MATH::SAT_Point(glm::vec3 Norm, std::vector<glm::vec3> Vert0, std::vec
 		{
 			Max0 = TempPos;
 			Min0 = TempPos;
+			RejMax0 = Vert0[0] - Max0;
+			RejMin0 = Vert0[0] - Min0;
 			Count++;
 		}
 		MATH::SetRejDir(Max0, Min0, TempPos,RejMax0, RejMin0,Vert0[0]);
@@ -705,8 +707,8 @@ glm::vec3 MATH::SAT_Point(glm::vec3 Norm, std::vector<glm::vec3> Vert0, std::vec
 	float MaxMin0 = glm::distance(Max0, Min1);
 	float MaxMin1 = glm::distance(Max1, Min0);
 	if (MaxMin0 > MaxMin1)
-		return Max0 - RejMax0;
-	return Min0 - RejMin0;
+		return Max0 + RejMax0;
+	return Min0 + RejMin0;
 }
 
 glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
