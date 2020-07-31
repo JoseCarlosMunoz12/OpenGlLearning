@@ -61,7 +61,9 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		MATH::SAT_Point_Cul(Norm, Cap_Seg, Obj_seg);
 		for (auto& jj : Obj_Norm)
 		{
-			MATH::SAT_Clip(jj, Cap_Seg, Obj_seg);
+			glm::vec3 Dot = glm::cross(jj, Norm);
+			if (Dot != glm::vec3(0.f))
+				MATH::SAT_Clip(jj, Cap_Seg, Obj_seg);
 		}
 		for (auto& jj : Cap_Seg)
 		{
