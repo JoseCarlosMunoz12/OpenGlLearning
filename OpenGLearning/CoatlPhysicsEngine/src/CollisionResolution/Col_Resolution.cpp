@@ -54,10 +54,12 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		float R = Cap.GetRadius();
 		std::vector<glm::vec3> Cap_Seg = Cap.GetSegment();
 		std::vector<glm::vec3> Obj_seg = Bod1->GetShapes()->GetVertices();
+		std::vector<glm::vec3> Obj_Norm = Bod1->GetShapes()->GetNormals();
 		glm::vec3 Dir = MATH::CreateNormal(Cap_Seg);
 		float Pen = glm::distance(glm::vec3(0.f),vec);
 		glm::vec3 Norm = MATH::Normalize(vec);
 		MATH::SAT_Point_Cul(Norm, Cap_Seg, Obj_seg);
+
 	}
 	else
 	{

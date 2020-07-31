@@ -772,7 +772,7 @@ void MATH::SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vec
 	//clear points
 	Vert0.clear();
 	Vert1.clear();
-	if (MaxMin0 > MaxMin0)
+	if (MaxMin0 < MaxMin1)
 	{
 		for (auto& jj : MaxID0)
 		{
@@ -798,29 +798,45 @@ void MATH::SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vec
 void MATH::SAT_MAXMIN_Cul(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal, int ID, std::vector<int>& ID0, std::vector<int>& ID1)
 {
 
-	if (Max.x < NewVal.x && Max.y < NewVal.y && Max.z < NewVal.z)
+	if (Max.x < NewVal.x)
 	{
-		Max = NewVal;
+		Max.x = NewVal.x;
+	}
+	if (Max.y < NewVal.y)
+	{
+		Max.y = NewVal.y;
+	}
+	if (Max.z < NewVal.z)
+	{
+		Max.z = NewVal.z;
 		ID0.clear();
 		ID0.push_back(ID);
-		return;
 	}
 	if (Max == NewVal)
 	{
-		ID0.push_back(ID);
-		return;
+		if (std::find(ID0.begin(), ID0.end(), ID) == ID0.end())
+			ID0.push_back(ID);
 	}
 	//Check if Greater in Min
-	if (Min.x > NewVal.x && Min.y > NewVal.y && Min.z > NewVal.z)
+	if (Min.x > NewVal.x)
 	{
+		Min.x = NewVal.x;
+	}
+	if (Min.y > NewVal.y)
+	{
+		Min.y = NewVal.y;
+	}
+	if (Min.z > NewVal.z)
+	{
+		Min.z = NewVal.z;
 		ID1.clear();
 		ID1.push_back(ID);
-		Min = NewVal;
 		return;
 	}
 	if(Min == NewVal)
 	{
-		ID1.push_back(ID);
+		if (std::find(ID1.begin(),ID1.end(),ID) == ID1.end())
+			ID1.push_back(ID);
 	}
 }
 
