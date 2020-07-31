@@ -563,6 +563,13 @@ float MATH::ProjPen(glm::vec3& Normal, std::vector<glm::vec3> Sh_Vert0, std::vec
 	return  MinL;
 }
 
+glm::vec3 MATH::Proj(glm::vec3 Norm, glm::vec3 Pnt)
+{
+	float Num = glm::dot(Norm, Pnt);
+	float Denom = glm::dot(Norm, Norm);
+	return Num / Denom * Norm;
+}
+
 float MATH::SATContact(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 	std::vector<glm::vec3> Pnts0, std::vector<glm::vec3> Pnts1,
 	glm::vec3 &Norm,float R)
@@ -849,6 +856,16 @@ void MATH::SAT_Clip(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<g
 	glm::vec3 Vec2 = MATH::MaxDot(Vert0, -Norm);
 	glm::vec3 Vec3 = MATH::MaxDot(Vert1, -Norm);
 	glm::vec3 Vec5 = MATH::MaxDot({ Vec2, Vec3 }, Norm);
+
+}
+
+void MATH::SAT_VecChange(glm::vec3 Norm, glm::vec3 Pnt, std::vector<glm::vec3>& Vert)
+{
+	glm::vec3 PntRel = MATH::Proj(Norm, Pnt);
+	for (auto& jj : Vert)
+	{
+
+	}
 }
 
 glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
