@@ -852,13 +852,13 @@ void MATH::SAT_Clip(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<g
 	glm::vec3 Vec0 = MATH::MaxDot(Vert0, Norm);
 	glm::vec3 Vec1 = MATH::MaxDot(Vert1, Norm);
 	glm::vec3 Vec4 = MATH::MaxDot({Vec0, Vec1}, -Norm);
-	MATH::SAT_VecChange(Norm, Vec4, Vert0);
-	MATH::SAT_VecChange(Norm, Vec4, Vert1);
+	MATH::SAT_VecChange(-Norm, Vec4, Vert0);
+	MATH::SAT_VecChange(-Norm, Vec4, Vert1);
 	glm::vec3 Vec2 = MATH::MaxDot(Vert0, -Norm);
 	glm::vec3 Vec3 = MATH::MaxDot(Vert1, -Norm);
 	glm::vec3 Vec5 = MATH::MaxDot({ Vec2, Vec3 }, Norm);
-	MATH::SAT_VecChange(-Norm, Vec5, Vert0);
-	MATH::SAT_VecChange(-Norm, Vec5, Vert1);
+	MATH::SAT_VecChange(Norm, Vec5, Vert0);
+	MATH::SAT_VecChange(Norm, Vec5, Vert1);
 }
 
 void MATH::SAT_VecChange(glm::vec3 Norm, glm::vec3 Pnt, std::vector<glm::vec3>& Vert)
