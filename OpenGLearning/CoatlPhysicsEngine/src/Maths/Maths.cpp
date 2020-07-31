@@ -863,17 +863,23 @@ void MATH::SAT_Clip(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<g
 
 void MATH::SAT_VecChange(glm::vec3 Norm, glm::vec3 Pnt, std::vector<glm::vec3>& Vert)
 {
+	std::vector<glm::vec3> NewPnts;
 	glm::vec3 PntRel = MATH::Proj(Norm, Pnt);
 	for (auto& jj : Vert)
 	{
 		glm::vec3 PntLoc = MATH::Proj(Norm, jj);
 		glm::vec3 relNorm = MATH::Normalize(PntLoc - PntRel);
-		if (glm::dot(Norm, PntLoc) <= 0.f)
+		if (glm::dot(Norm, relNorm) <= 0.f)
 		{
 			float dis = glm::distance(PntLoc, PntRel);
 			jj = jj + dis * Norm;
+			if (std::find(NewPnts.begin(), NewPnts.end(), jj) == NewPnts.end())
+			{
+				NewPnts.push_back(jj);
+			}
 		}
 	}
+	Vert = NewPnts;
 }
 
 glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
