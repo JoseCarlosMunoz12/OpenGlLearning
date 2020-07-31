@@ -8,6 +8,7 @@
 #include <mat4x4.hpp>
 #include <gtc\type_ptr.hpp>
 #include <vector>
+#include <algorithm>
 
 #include "../Shapes/SimpleShapes.h"
 using namespace CoatlPhysicsEngine;
