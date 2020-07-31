@@ -73,11 +73,11 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 				glm::vec3 RelNorm = MATH::Normalize(jj - ii);
 				if (RelNorm == Norm)
 				{
-					/*std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+					std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 					Cont->Normal = Norm;
 					Cont->Penetration = R - Pen;
 					Cont->ContactPoint = (jj + ii) / 2.f;
-					Temp.push_back(Cont);*/
+					Temp.push_back(Cont);
 					break;
 				}
 				Count++;
