@@ -46,6 +46,7 @@ namespace MATH {
 	void SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<glm::vec3>& Vert1);
 	void SAT_MAXMIN_Cul(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal,int ID,
 		std::vector<int>& ID0, std::vector<int>& ID1);
+	void SAT_Clip(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<glm::vec3>& Vert1);
 	//GJK Functions
 	glm::vec3 MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir);
 	glm::vec3 Support(std::vector<glm::vec3> Pnt0, std::vector<glm::vec3> Pnt1, glm::vec3 Dir);

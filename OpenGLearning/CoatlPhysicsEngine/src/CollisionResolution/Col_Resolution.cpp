@@ -59,7 +59,8 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		float Pen = glm::distance(glm::vec3(0.f),vec);
 		glm::vec3 Norm = MATH::Normalize(vec);
 		MATH::SAT_Point_Cul(Norm, Cap_Seg, Obj_seg);
-
+		for (auto& jj : Obj_Norm)
+			MATH::SAT_Clip(jj, Cap_Seg, Obj_seg);
 	}
 	else
 	{
