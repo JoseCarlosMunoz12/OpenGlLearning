@@ -62,7 +62,17 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		for (auto& jj : Obj_Norm)
 			if (glm::cross(jj,Norm) !=glm::vec3(0.f))
 				MATH::SAT_Clip(jj, Cap_Seg, Obj_seg);
+		for (auto& jj : Cap_Seg)
+		{
+			for (auto& ii : Obj_seg)
+			{
+				glm::vec3 RelNorm = MATH::Normalize(jj - ii);
+				if (RelNorm == Norm)
+				{
 
+				}
+			}
+		}
 	}
 	else
 	{
