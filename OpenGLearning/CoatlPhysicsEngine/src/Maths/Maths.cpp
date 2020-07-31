@@ -844,10 +844,11 @@ void MATH::SAT_Clip(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<g
 {
 	glm::vec3 Vec0 = MATH::MaxDot(Vert0, Norm);
 	glm::vec3 Vec1 = MATH::MaxDot(Vert1, Norm);
+	glm::vec3 Vec4 = MATH::MaxDot({Vec0, Vec1}, -Norm);
 
 	glm::vec3 Vec2 = MATH::MaxDot(Vert0, -Norm);
 	glm::vec3 Vec3 = MATH::MaxDot(Vert1, -Norm);
-
+	glm::vec3 Vec5 = MATH::MaxDot({ Vec2, Vec3 }, Norm);
 }
 
 glm::vec3 MATH::MaxDot(std::vector<glm::vec3> Pnts, glm::vec3 Dir)
