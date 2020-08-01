@@ -53,19 +53,19 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 	Faces[0][0] = Vertex[3];
 	Faces[0][1] = Vertex[2];
 	Faces[0][2] = Vertex[1];
-	Faces[0][3] = MATH::Normalize(glm::cross(Vertex[2] - Vertex[3], Vertex[1] - Vertex[3])); //ABC	
+	Faces[0][3] = glm::normalize(glm::cross(Vertex[2] - Vertex[3], Vertex[1] - Vertex[3])); //ABC	
 	Faces[1][0] = Vertex[3];
 	Faces[1][1] = Vertex[1];
 	Faces[1][2] = Vertex[0];
-	Faces[1][3] = MATH::Normalize(glm::cross(Vertex[1] - Vertex[3], Vertex[0] - Vertex[3])); //ACD	
+	Faces[1][3] = glm::normalize(glm::cross(Vertex[1] - Vertex[3], Vertex[0] - Vertex[3])); //ACD	
 	Faces[2][0] = Vertex[3];
 	Faces[2][1] = Vertex[0];
 	Faces[2][2] = Vertex[2];
-	Faces[2][3] = MATH::Normalize(glm::cross(Vertex[0] - Vertex[3], Vertex[2] - Vertex[3])); //ADB	
+	Faces[2][3] = glm::normalize(glm::cross(Vertex[0] - Vertex[3], Vertex[2] - Vertex[3])); //ADB	
 	Faces[3][0] = Vertex[2];
 	Faces[3][1] = Vertex[0];
 	Faces[3][2] = Vertex[1];
-	Faces[3][3] = MATH::Normalize(glm::cross(Vertex[0] - Vertex[2], Vertex[1] - Vertex[2])); //BDC	
+	Faces[3][3] = glm::normalize(glm::cross(Vertex[0] - Vertex[2], Vertex[1] - Vertex[2])); //BDC	
 	int Num_Face = 4;
 	int ClosestFace;
 	for (int It = 0; It < EPA_MAX_NUM_ITERATIONS; It++)
@@ -136,7 +136,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 			Faces[Num_Face][0] = LooseEdges[ii][0];
 			Faces[Num_Face][1] = LooseEdges[ii][1];
 			Faces[Num_Face][2] = P;
-			Faces[Num_Face][3] = MATH::Normalize(glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P));
+			Faces[Num_Face][3] = glm::normalize(glm::cross(LooseEdges[ii][0] - LooseEdges[ii][1], LooseEdges[ii][0] - P));
 			float bias = 0.000001f;
 			float Diff = glm::dot(Faces[Num_Face][0], Faces[Num_Face][3]) + bias;
 			if (Dif < 0)
