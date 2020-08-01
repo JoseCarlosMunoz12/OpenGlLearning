@@ -67,7 +67,6 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 		}
 		for (auto& jj : Cap_Seg)
 		{
-			int Count = 0;
 			for (auto& ii : Obj_seg)
 			{
 				glm::vec3 RelNorm = MATH::Normalize(jj - ii);
@@ -80,9 +79,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 					Temp.push_back(Cont);
 					break;
 				}
-				Count++;
 			}
-			Obj_seg.erase(Obj_seg.begin() + Count);
 		}
 	}
 	else
@@ -127,21 +124,15 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 			if (Dot != glm::vec3(0.f))
 				MATH::SAT_Clip(ii, Obj0_seg, Obj1_seg);
 		}
+		int Count = 0;
 		for (auto& jj : Obj0_seg)
 		{
-			for (auto& ii : Obj1_seg)
-			{
-				glm::vec3 RelNorm = glm::cross(MATH::Normalize(ii - jj),Norm);
-				if (RelNorm == glm::vec3(0.f))
-				{
-					std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
-					Cont->Normal = Norm;
-					Cont->Penetration = Pen;
-					Cont->ContactPoint = (jj + ii) / 2.f;
-					Temp.push_back(Cont);
-					break;
-				}
-			}
+			std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+			Cont->Normal = Norm;
+			Cont->Penetration = Pen;
+			Cont->ContactPoint = (jj + Obj0_seg[Count]) / 2.f;
+			Temp.push_back(Cont);
+			Count++;
 		}
 	}
 	return Temp;
