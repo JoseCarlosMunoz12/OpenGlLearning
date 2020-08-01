@@ -791,7 +791,6 @@ void MATH::SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vec
 		}
 		return;
 	}
-
 	for (auto& jj : MinID0)
 	{
 		Vert0.push_back(InitV0[jj]);

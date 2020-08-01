@@ -115,12 +115,34 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	else
 	{
 		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
-		float Pen = glm::distance(Vec, glm::vec3(0.f));
-		Cont->Penetration = Pen;
-		Vec = MATH::Normalize(Vec);
-		Cont->Normal = Vec;
-		Cont->ContactPoint = Bod0->GetShapes()->GetPos() + Pen * Vec;
-		Temp.push_back(Cont);
+		float Pen = glm::distance(Vec, glm::vec3(0.f));		
+		glm::vec3 Norm = MATH::Normalize(Vec);
+		std::vector<glm::vec3> Obj0_seg = Bod0->GetShapes()->GetVertices();
+		std::vector<glm::vec3> Obj1_seg = Bod1->GetShapes()->GetVertices();
+		std::vector<glm::vec3> Obj1_Norm = Bod1->GetShapes()->GetNormals();
+		MATH::SAT_Point_Cul(Norm,Obj0_seg, Obj1_seg);
+		for (auto& ii : Obj1_Norm)
+		{
+			glm::vec3 Dot = glm::cross(ii, Norm);
+			if (Dot != glm::vec3(0.f))
+				MATH::SAT_Clip(ii, Obj0_seg, Obj1_seg);
+		}
+		for (auto& jj : Obj0_seg)
+		{
+			for (auto& ii : Obj1_seg)
+			{
+				glm::vec3 RelNorm = glm::cross(MATH::Normalize(ii - jj),Norm);
+				if (RelNorm == glm::vec3(0.f))
+				{
+					std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+					Cont->Normal = Norm;
+					Cont->Penetration = Pen;
+					Cont->ContactPoint = (jj + ii) / 2.f;
+					Temp.push_back(Cont);
+					break;
+				}
+			}
+		}
 	}
 	return Temp;
 }
