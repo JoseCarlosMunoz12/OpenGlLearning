@@ -94,7 +94,7 @@ DynamicCollisions::~DynamicCollisions()
 
 void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt)
 {
-	std::vector<std::shared_ptr<Manifold>> ColRel;
+	this->ColRel.clear();
 	//make approriate Algorithm
 	if (AlgoCheck)
 		AlgoCheck->Erase();
@@ -218,7 +218,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		}
 	}
 	//Fix Resolution
-	int Count = 0;
 	for (auto& jj : ColRel)
 	{
 		//(0.f;false
@@ -249,7 +248,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			}
 		}
 		this->Col_Rel->ResolveContacts(jj);
-		Count++;
 	}
 	//Update All Physics	
 	for (auto& jj : AllBods)
@@ -260,7 +258,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		//	jj->SetPosition(Temp->UpdatePos(dt));
 			jj->UpdateAABB();
 		}
-	}
+	}	
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)

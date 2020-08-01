@@ -12,6 +12,7 @@
 #include "../Shapes/ColShapes.h"
 #include "../Bodies/Bodies.h"
 #include "../CollisionManager/CollisionManager.h"
+#include "../CollisionResolution/Col_Resolution.h"
 #include "Terrain.h"
 #include "../OptimizaAlgorithm/QuadTree.h"
 #include "../OptimizaAlgorithm/OctoTree.h"
@@ -39,6 +40,7 @@ namespace CoatlPhysicsEngine {
 		std::weak_ptr<Terrain> Ter;
 		std::unique_ptr<GJK_Alg> S;
 		int NewCurID;
+		std::vector<std::shared_ptr<Manifold>> ColRel;
 		bool ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 	public:
 		BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols);

@@ -45,6 +45,7 @@ BaseCols::BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols)
 	this->Name = Name;
 	this->ColMan = InitCols;
 	this->S = std::make_unique<GJK_Alg>();
+	this->ColRel;
 }
 
 BaseCols::~BaseCols()
