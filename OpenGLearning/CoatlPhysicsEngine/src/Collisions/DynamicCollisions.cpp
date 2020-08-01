@@ -220,10 +220,10 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Fix Resolution
 	for (auto& jj : ColRel)
 	{
-		//(0.f;false
+		//(falsejj->Contacts[0]->Penetration;
 		if (jj->ContactCount > 0)
 		{
-			float Diff = jj->Contacts[0]->Penetration;
+			float Diff = 0.f;
 			if (Diff < 0.001)
 				Diff = 0.f;
 			glm::vec3 Norm = jj->Contacts[0]->Normal;

@@ -52,6 +52,11 @@ BaseCols::~BaseCols()
 {
 }
 
+std::vector<std::shared_ptr<Manifold>> CoatlPhysicsEngine::BaseCols::GetColRel()
+{
+	return this->ColRel;
+}
+
 void BaseCols::SetTerrain(std::shared_ptr<Terrain> NewTer)
 {
 	this->Ter = NewTer;

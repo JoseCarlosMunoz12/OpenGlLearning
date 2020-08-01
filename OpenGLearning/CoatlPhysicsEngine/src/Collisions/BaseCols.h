@@ -45,6 +45,7 @@ namespace CoatlPhysicsEngine {
 	public:
 		BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols);
 		~BaseCols();
+		std::vector<std::shared_ptr<Manifold>> GetColRel();
 		void SetTerrain(std::shared_ptr<Terrain> NewTer);
 	};
 }
