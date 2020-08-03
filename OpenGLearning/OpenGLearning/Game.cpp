@@ -2209,16 +2209,28 @@ void Game::DrawColInfo()
 				}
 				ImGui::TreePop();
 			}
+			ImGui::Separator();
 			if (ImGui::TreeNode("Collision Resolution"))
 			{
 				std::vector<std::shared_ptr<Manifold>> T = TempDynamic->GetColRel();
+				int Count = 0;
 				for (auto& ii : T)
 				{
-					ImGui::Text("%d",ii->ContactCount);
+					std::string ColRelId = "Collision Resolution " + std::to_string(Count);
+					if (ImGui::TreeNode(ColRelId.c_str()))
+					{
+						ImGui::Text("%d", ii->ContactCount);
+						for (auto& jj : ii->Contacts)
+						{
+							glm::vec3 Pnt = jj->ContactPoint;
+							ImGui::Text("%f,%f,%f", Pnt.x, Pnt.y, Pnt.z);
+						}
+						ImGui::TreePop();
+					}
+					Count++;
 				}
 				ImGui::TreePop();
 			}
-
 		}
 		else
 		{
