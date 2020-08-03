@@ -173,7 +173,33 @@ std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> B
 	return Temp;
 }
 
-void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Contact)
+void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
 {
-
+	//(false;Cnt->Contacts[0]->Penetration;
+	if (Cnt->ContactCount > 0)
+	{
+		float Diff = 0.f;
+		if (Diff < 0.001)
+			Diff = 0.f;
+		glm::vec3 Norm = Cnt->Contacts[0]->Normal;
+		switch (Cnt->ID)
+		{
+		case 0:
+			Cnt->Bod0->MovePosition(Diff * Norm);
+			break;
+		case 1:
+			Cnt->Bod1->MovePosition(Diff * Norm);
+			break;
+		default:
+			if (Cnt->Bod0->GetBodyParts()[0]->GetParticle())
+			{
+				Cnt->Bod0->MovePosition(Diff * Norm / 2.f);
+			}
+			if (Cnt->Bod1->GetBodyParts()[0]->GetParticle())
+			{
+				Cnt->Bod1->MovePosition(-Diff * Norm / 2.f);
+			}
+			break;
+		}
+	}
 }

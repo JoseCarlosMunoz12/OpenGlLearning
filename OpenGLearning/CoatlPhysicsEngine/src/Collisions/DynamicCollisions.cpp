@@ -220,33 +220,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Fix Resolution
 	for (auto& jj : ColRel)
 	{
-		//(falsejj->Contacts[0]->Penetration;
-		if (jj->ContactCount > 0)
-		{
-			float Diff = 0.f;
-			if (Diff < 0.001)
-				Diff = 0.f;
-			glm::vec3 Norm = jj->Contacts[0]->Normal;
-			switch (jj->ID)
-			{
-			case 0:
-				jj->Bod0->MovePosition(Diff * Norm);
-				break;
-			case 1:
-				jj->Bod1->MovePosition(Diff * Norm);
-				break;
-			default:
-				if (jj->Bod0->GetBodyParts()[0]->GetParticle())
-				{
-					jj->Bod0->MovePosition(Diff * Norm /2.f);
-				}
-				if (jj->Bod1->GetBodyParts()[0]->GetParticle())
-				{
-					jj->Bod1->MovePosition(-Diff * Norm /2.f);
-				}
-				break;
-			}
-		}
 		this->Col_Rel->ResolveContacts(jj);
 	}
 	//Update All Physics	
