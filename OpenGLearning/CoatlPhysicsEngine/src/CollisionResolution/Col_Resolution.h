@@ -17,6 +17,8 @@ namespace CoatlPhysicsEngine {
 	class Col_Resolution
 	{
 	private:
+		//Resolvoing Contacts
+
 		//Contact creation
 		//
 		std::vector<std::shared_ptr<Contact>> ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);

@@ -175,10 +175,10 @@ std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> B
 
 void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
 {
-	//(false;Cnt->Contacts[0]->Penetration;
+	//(false;Cnt->Contacts[0]->Normal;
 	if (Cnt->ContactCount > 0)
 	{
-		float Diff = 0.f;
+		float Diff = Cnt->Contacts[0]->Penetration;
 		if (Diff < 0.001)
 			Diff = 0.f;
 		glm::vec3 Norm = Cnt->Contacts[0]->Normal;
