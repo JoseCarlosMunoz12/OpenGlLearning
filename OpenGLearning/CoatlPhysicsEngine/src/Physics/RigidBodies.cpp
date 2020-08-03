@@ -3,7 +3,7 @@ using namespace CoatlPhysicsEngine;
 
 void RigidBodies::UpdateRot(float dt)
 {
-	this->AngularAccelration += this->InvInertia * this->TorqueAcum;
+	this->AngularAccelration += this->InvIntertiaWSpace * glm::vec4(this->TorqueAcum,1.f);
 	this->RotVel += this->AngularAccelration * dt;
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
