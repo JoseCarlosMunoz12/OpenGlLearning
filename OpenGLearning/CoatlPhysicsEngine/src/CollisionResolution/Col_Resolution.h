@@ -18,7 +18,7 @@ namespace CoatlPhysicsEngine {
 	{
 	private:
 		//Resolvoing Contacts
-
+		void ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt);
 		//Contact creation
 		//
 		std::vector<std::shared_ptr<Contact>> ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);

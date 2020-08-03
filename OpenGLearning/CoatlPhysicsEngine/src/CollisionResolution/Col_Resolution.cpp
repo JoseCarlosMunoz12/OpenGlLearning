@@ -1,6 +1,14 @@
 #include "Col_Resolution.h"
 using namespace CoatlPhysicsEngine;
 
+void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt)
+{
+	glm::vec3 Norm = Cnt->Contacts[0]->Normal;
+	float Diff = Cnt->Contacts[0]->Penetration;
+	Bod->GetParticle(0)->AddForceAtBodyPoint(glm::vec3(0.f), Cnt->Contacts[0]->ContactPoint);
+	Bod->MovePosition(Diff * Norm);
+}
+
 std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
@@ -185,10 +193,10 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
 		switch (Cnt->ID)
 		{
 		case 0:
-			Cnt->Bod0->MovePosition(Diff * Norm);
+			this->ResolveResolution(Cnt->Bod0, Cnt);
 			break;
 		case 1:
-			Cnt->Bod1->MovePosition(Diff * Norm);
+			this->ResolveResolution(Cnt->Bod1, Cnt);
 			break;
 		default:
 			if (Cnt->Bod0->GetBodyParts()[0]->GetParticle())
