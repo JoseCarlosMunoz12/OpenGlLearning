@@ -24,7 +24,8 @@ namespace CoatlPhysicsEngine {
 		//Simplex for GJK and EPA
 		glm::vec3 Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
 		glm::vec3 EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
-		glm::vec3 EPA(std::vector<glm::vec3> Verts, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1);
+		glm::vec3 EPA(std::vector<glm::vec3> Verts,
+			std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, float& Pen);
 		glm::vec3 ClosestPoint(std::vector<glm::vec3> Verts);
 		std::vector<glm::vec3> NewSimplex(std::vector<glm::vec3> Verts, glm::vec3 NewPoint);
 		float Cl_Dist(std::vector<glm::vec3> Verts);
@@ -36,7 +37,7 @@ namespace CoatlPhysicsEngine {
 		GJK_Alg();
 		~GJK_Alg();
 		bool GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1);
-		bool EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,glm::vec3& DistVect);
+		bool EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,glm::vec3& DistVect,float& Pen);
 
 	};
 }

@@ -43,7 +43,7 @@ glm::vec3 GJK_Alg::EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_pt
 	return Shape0->EPA_Support(Dir) - Shape1->EPA_Support(-Dir);
 }
 
-glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1)
+glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, float& Pen)
 {
 	glm::vec3 Faces[EPA_MAX_NUM_FACES][4];//Array of faces, each with 3 verts and a normal	
 	//A = 3
@@ -89,8 +89,8 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 		float Dif = glm::dot(P, Search_Dir) - Min_Dist;
 		if (Dif < EPA_TOLERANCE)
 		{
-			float S = glm::dot(P, Search_Dir);
-			return Faces[ClosestFace][3] * S;
+			Pen = glm::dot(P, Search_Dir);
+			return Faces[ClosestFace][3];
 		}
 		glm::vec3 LooseEdges[EPA_MAX_NUM_FACES][2];
 		int NumLooseEdge = 0;
@@ -150,8 +150,8 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 			Num_Face++;
 		}
 	}
-	float G = glm::dot(Faces[ClosestFace][0], Faces[ClosestFace][3]);
-	return Faces[ClosestFace][3] * G;
+	Pen = glm::dot(Faces[ClosestFace][0], Faces[ClosestFace][3]);
+	return Faces[ClosestFace][3] ;
 }
 
 glm::vec3 GJK_Alg::ClosestPoint(std::vector<glm::vec3> Verts)
@@ -454,7 +454,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	return false;
 }
 
-bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVec)
+bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVec, float& Pen)
 {
 	std::vector<glm::vec3> Verts;
 	glm::vec3 Dir;
@@ -475,7 +475,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 			break;
 	}
 	if (Col)
-		DistVec = -EPA(Verts, Shape0, Shape1);
+		DistVec = -EPA(Verts, Shape0, Shape1,Pen);
 	else
 		DistVec = C_F_E(Shape0, Shape1);
 	return Col;

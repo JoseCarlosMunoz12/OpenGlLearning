@@ -22,7 +22,8 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 	std::vector<std::shared_ptr<Contact>> Temp;
 	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	glm::vec3 Vec;
-	if (!this->GJK_->EPA_GJK( Bod0->GetShapes(),Bod1->GetShapes(),Vec))
+	float Dis;
+	if (!this->GJK_->EPA_GJK( Bod0->GetShapes(),Bod1->GetShapes(),Vec, Dis))
 	{
 		float R = Sph0.GetRadius();
 		float Pen = R - glm::distance(glm::vec3(0.f), Vec);
@@ -57,14 +58,14 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	}
 	std::vector<std::shared_ptr<Contact>> Temp;
 	glm::vec3 vec;
-	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), vec))
+	float Pen;
+	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), vec,Pen))
 	{
 		float R = Cap.GetRadius();
 		std::vector<glm::vec3> Cap_Seg = Cap.GetSegment();
 		std::vector<glm::vec3> Obj_seg = Bod1->GetShapes()->GetVertices();
 		std::vector<glm::vec3> Obj_Norm = Bod1->GetShapes()->GetNormals();
 		glm::vec3 Dir = MATH::CreateNormal(Cap_Seg);
-		float Pen = glm::distance(glm::vec3(0.f),vec);
 		glm::vec3 Norm = MATH::Normalize(vec);
 		MATH::SAT_Point_Cul(Norm, Cap_Seg, Obj_seg);
 		for (auto& jj : Obj_Norm)
@@ -122,7 +123,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 		
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
 		glm::vec3 Norm = MATH::Normalize(Vec);
-		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
+		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec,Pen);
 		/*float Pen = glm::distance(Vec, glm::vec3(0.f));		
 		glm::vec3 Norm = MATH::Normalize(Vec);
 		std::vector<glm::vec3> Obj0_seg = Bod0->GetShapes()->GetVertices();
