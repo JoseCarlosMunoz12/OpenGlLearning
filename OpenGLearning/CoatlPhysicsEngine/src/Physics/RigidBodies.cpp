@@ -3,7 +3,8 @@ using namespace CoatlPhysicsEngine;
 
 void RigidBodies::UpdateRot(float dt)
 {
-	this->AngularAccelration += this->InvIntertiaWSpace * glm::vec4(this->TorqueAcum,1.f);
+	glm::vec3 T = this->InvIntertiaWSpace * glm::vec4(this->TorqueAcum,1.f);
+	this->AngularAccelration += T;
 	this->RotVel += this->AngularAccelration * dt;
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
@@ -59,6 +60,7 @@ RigidBodies::RigidBodies(glm::vec3 Pos)
 	RotDamp(1),TorqueAcum(glm::vec3(0.f)),AngularAccelration(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
+	this->TransformInertiaTensor();
 }
 
 RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel)
@@ -66,6 +68,7 @@ RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel)
 	RotDamp(1), TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
+	this->TransformInertiaTensor();
 }
 
 RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
@@ -73,6 +76,7 @@ RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
 	RotDamp(1), TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
+	this->TransformInertiaTensor();
 }
 
 RigidBodies::~RigidBodies()
