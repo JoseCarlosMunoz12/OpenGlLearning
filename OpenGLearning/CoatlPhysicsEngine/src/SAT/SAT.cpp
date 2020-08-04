@@ -90,7 +90,7 @@ float SAT::SAT_Algo(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 			glm::vec3 N = glm::cross(ii, jj);
 			if (!(N.x == 0 && N.y == 0 && N.z == 0))
 			{
-				float Temp = ProjPen(jj, Pnts0, Pnts1);
+				float Temp = ProjPen(N, Pnts0, Pnts1);
 				if (Temp < Penetration)
 				{
 					NormF = jj;

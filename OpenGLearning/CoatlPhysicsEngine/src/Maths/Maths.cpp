@@ -447,14 +447,31 @@ bool MATH::SATColCheck(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm
 
 void MATH::SetMaxMins(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal)
 {
-	if (Max.x < NewVal.x && Max.y < NewVal.y && Max.z < NewVal.z)
+	if (Max.x < NewVal.x)
 	{
-		Max = NewVal;
+		Max.x = NewVal.x;
+	}
+	if (Max.y < NewVal.y)
+	{
+		Max.y = NewVal.y;
+	}
+	if (Max.z < NewVal.z)
+	{
+		Max.z = NewVal.z;
 		return;
 	}
 	//Check if Greater in Min
-	if (Min.x > NewVal.x && Min.y > NewVal.y && Min.z > NewVal.z)
+	if (Min.x > NewVal.x)
 	{
+		Min.x = NewVal.x;
+	}
+	if (Min.y > NewVal.y)
+	{
+		Min.y = NewVal.y;
+	}
+	if (Min.z > NewVal.z)
+	{
+		Min.z = NewVal.z;
 		Min = NewVal;
 	}
 }
