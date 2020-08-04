@@ -71,11 +71,11 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 	for (int It = 0; It < EPA_MAX_NUM_ITERATIONS; It++)
 	{
 		//Find Face that's closest to origin	
-		float Min_Dist = glm::abs(glm::dot(Faces[0][0], Faces[0][3]));
+		float Min_Dist = glm::dot(Faces[0][0], Faces[0][3]);
 		ClosestFace = 0;
 		for (int ii = 1; ii < Num_Face; ii++)
 		{
-			float dist = glm::abs(glm::dot(Faces[ii][0], Faces[ii][3]));
+			float dist = glm::dot(Faces[ii][0], Faces[ii][3]);
 			if (dist < Min_Dist)
 			{
 				Min_Dist = dist; 
@@ -85,7 +85,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 		Min_Dist = glm::dot(Faces[ClosestFace][0], Faces[ClosestFace][3]);
 		//search normal to face that's closets to origin	
 		glm::vec3 Search_Dir = Faces[ClosestFace][3];
-		glm::vec3 P = EPA_Support(Shape0, Shape1, Search_Dir);
+		glm::vec3 P = EPA_Support(Shape1, Shape0, Search_Dir);
 		float Dif = glm::dot(P, Search_Dir) - Min_Dist;
 		if (Dif < EPA_TOLERANCE)
 		{
