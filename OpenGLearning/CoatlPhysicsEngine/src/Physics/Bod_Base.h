@@ -19,6 +19,7 @@ namespace CoatlPhysicsEngine {
 		glm::quat AxisAngle;
 		glm::vec3 RotVel;
 		float LinDamp;
+		float RotDamp;
 		float InvMass;
 		virtual void UpdateVel(float dt) { return; };
 		//Sleep variables
