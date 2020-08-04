@@ -2220,10 +2220,15 @@ void Game::DrawColInfo()
 					if (ImGui::TreeNode(ColRelId.c_str()))
 					{
 						ImGui::Text("%d", ii->ContactCount);
+						int ContCount = 0;
 						for (auto& jj : ii->Contacts)
 						{
 							glm::vec3 Pnt = jj->ContactPoint;
-							ImGui::Text("%f,%f,%f", Pnt.x, Pnt.y, Pnt.z);
+							float Pen = jj->Penetration;
+							ImGui::Text("Cnt Pnt - %d", ContCount);
+							ImGui::Text("Pos - %f,%f,%f", Pnt.x, Pnt.y, Pnt.z);
+							ImGui::Text("Pen - %f", Pen);
+							ContCount++;
 						}
 						ImGui::TreePop();
 					}

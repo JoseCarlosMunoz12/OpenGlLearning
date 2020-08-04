@@ -146,7 +146,7 @@ glm::vec3 RigidBodies::UpdatePos(float dt)
 {
 	if (!this->IsAwake)
 		return this->Pos;
-	//this->UpdateVel(dt);
+	this->UpdateVel(dt);
 	this->UpdateRot(dt);
 	glm::vec3 NewPos = Pos + Vel * dt;
 	this->Pos = NewPos;
@@ -154,7 +154,7 @@ glm::vec3 RigidBodies::UpdatePos(float dt)
 	{
 		float CurMotion = glm::dot(this->Vel, this->Vel);
 		CurMotion += glm::dot(this->RotVel, this->RotVel);
-		float Bias = glm::pow(0.f, dt);
+		float Bias = glm::pow(0.5f, dt);
 		this->Motion = Bias * this->Motion + (1 - Bias) * CurMotion;
 		if (this->Motion < Epsilon)
 			this->SetAwake(false);
