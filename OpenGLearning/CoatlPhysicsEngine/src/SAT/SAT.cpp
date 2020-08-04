@@ -103,14 +103,6 @@ float SAT::SAT_Algo(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 	return Penetration;
 }
 
-SAT::SAT()
-{
-}
-
-SAT::~SAT()
-{
-}
-
 float SAT::GetPenetrationContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1, glm::vec3& Norm)
 {
 	std::vector<glm::vec3> Vertex0 = Bod0->GetVertices();

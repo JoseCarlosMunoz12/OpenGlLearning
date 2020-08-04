@@ -115,13 +115,13 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	{
 		return this->ContactCreate(*Cap, Bod1, Bod0);
 	}
-		float Pen = 0.f;
-		glm::vec3 Norm = glm::vec3(0.f);
-		//Uses GJK to get penetration and Direction
-		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Norm,Pen);
-		//uses SAT to get contact points in one shot
-		return this->SAT_->SAT_CreateContacts(Bod0->GetShapes(), Bod1->GetShapes(),
-			Norm, Pen);
+	float Pen = 0.f;
+	glm::vec3 Norm = glm::vec3(0.f);
+	//Uses GJK to get penetration and Direction
+	this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Norm,Pen);
+	//uses SAT to get contact points in one shot
+	return this->SAT_->SAT_CreateContacts(Bod0->GetShapes(), Bod1->GetShapes(),
+		Norm, Pen);
 }
 
 std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
