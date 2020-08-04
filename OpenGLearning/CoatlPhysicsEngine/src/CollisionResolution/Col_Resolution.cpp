@@ -5,7 +5,7 @@ void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_
 {
 	glm::vec3 Norm = Cnt->Contacts[0]->Normal;
 	float Diff = Cnt->Contacts[0]->Penetration;
-	Bod->GetParticle(0)->AddForceAtBodyPoint(glm::vec3(0.f), Cnt->Contacts[0]->ContactPoint);
+	Bod->GetParticle(0)->AddForceAtBodyPoint(glm::vec3(1.f), Cnt->Contacts[0]->ContactPoint);
 	Bod->MovePosition(0.f * Norm);
 }
 

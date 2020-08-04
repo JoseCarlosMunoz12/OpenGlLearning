@@ -146,7 +146,7 @@ glm::vec3 RigidBodies::UpdatePos(float dt)
 {
 	if (!this->IsAwake)
 		return this->Pos;
-	this->UpdateVel(dt);
+	//this->UpdateVel(dt);
 	this->UpdateRot(dt);
 	glm::vec3 NewPos = Pos + Vel * dt;
 	this->Pos = NewPos;
