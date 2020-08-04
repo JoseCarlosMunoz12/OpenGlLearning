@@ -120,10 +120,10 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	else
 	{
 		
-		float S = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
+		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
 		glm::vec3 Norm = MATH::Normalize(Vec);
-		/*this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
-		float Pen = glm::distance(Vec, glm::vec3(0.f));		
+		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
+		/*float Pen = glm::distance(Vec, glm::vec3(0.f));		
 		glm::vec3 Norm = MATH::Normalize(Vec);
 		std::vector<glm::vec3> Obj0_seg = Bod0->GetShapes()->GetVertices();
 		std::vector<glm::vec3> Obj1_seg = Bod1->GetShapes()->GetVertices();

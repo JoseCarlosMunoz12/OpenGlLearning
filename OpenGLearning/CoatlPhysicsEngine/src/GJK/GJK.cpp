@@ -85,7 +85,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 		}
 		//search normal to face that's closets to origin	
 		glm::vec3 Search_Dir = Faces[ClosestFace][3];
-		glm::vec3 P = EPA_Support(Shape1, Shape0, Search_Dir);
+		glm::vec3 P = EPA_Support(Shape0, Shape1, Search_Dir);
 		float Dif = glm::dot(P, Search_Dir) - Min_Dist;
 		if (Dif < EPA_TOLERANCE)
 		{
