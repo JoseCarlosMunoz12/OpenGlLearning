@@ -89,7 +89,7 @@ glm::vec3 GJK_Alg::EPA(std::vector<glm::vec3> Vertex, std::shared_ptr<ColShapes>
 		float Dif = glm::dot(P, Search_Dir) - Min_Dist;
 		if (Dif < EPA_TOLERANCE)
 		{
-			Pen = glm::dot(P, Search_Dir);
+			Pen = MATH::Distance_Tr_Pnt({ Faces[ClosestFace][0] ,Faces[ClosestFace][1] ,Faces[ClosestFace][2] }, Zed, Zed);
 			return Faces[ClosestFace][3];
 		}
 		glm::vec3 LooseEdges[EPA_MAX_NUM_FACES][2];
