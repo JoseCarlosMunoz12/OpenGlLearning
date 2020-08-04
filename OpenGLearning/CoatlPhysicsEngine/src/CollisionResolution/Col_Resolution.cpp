@@ -107,9 +107,6 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 
 std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	std::vector<std::shared_ptr<Contact>> Temp;
-	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
-	glm::vec3 Vec;
 	if (std::shared_ptr<Sphere> Sph = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
 		return this->ContactCreate(*Sph, Bod1, Bod0);
@@ -118,36 +115,13 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 	{
 		return this->ContactCreate(*Cap, Bod1, Bod0);
 	}
-	else
-	{
-		
-		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Vec);
-		glm::vec3 Norm = MATH::Normalize(Vec);
-		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec,Pen);
-		/*float Pen = glm::distance(Vec, glm::vec3(0.f));		
-		glm::vec3 Norm = MATH::Normalize(Vec);
-		std::vector<glm::vec3> Obj0_seg = Bod0->GetShapes()->GetVertices();
-		std::vector<glm::vec3> Obj1_seg = Bod1->GetShapes()->GetVertices();
-		std::vector<glm::vec3> Obj1_Norm = Bod1->GetShapes()->GetNormals();
-		MATH::SAT_Point_Cul(Norm,Obj0_seg, Obj1_seg);
-		for (auto& ii : Obj1_Norm)
-		{
-			glm::vec3 Dot = glm::cross(ii, Norm);
-			if (Dot != glm::vec3(0.f))
-				MATH::SAT_Clip(ii, Obj0_seg, Obj1_seg);
-		}
-		int Count = 0;
-		for (auto& jj : Obj0_seg)
-		{
-			std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
-			Cont->Normal = Norm;
-			Cont->Penetration = Pen;
-			Cont->ContactPoint = (jj + Obj0_seg[Count]) / 2.f;
-			Temp.push_back(Cont);
-			Count++;
-		}*/
-	}
-	return Temp;
+		float Pen = 0.f;
+		glm::vec3 Norm = glm::vec3(0.f);
+		//Uses GJK to get penetration and Direction
+		this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Norm,Pen);
+		//uses SAT to get contact points in one shot
+		return this->SAT_->SAT_CreateContacts(Bod0->GetShapes(), Bod1->GetShapes(),
+			Norm, Pen);
 }
 
 std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)

@@ -128,3 +128,30 @@ bool SAT::SAT_Check(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> 
 	std::vector<glm::vec3> Normals1 = Bod1->GetNormals();
 	return MATH::SATColCheck(Normals0, Normals1, Vertex0, Vertex1);
 }
+
+std::vector<std::shared_ptr<Contact>> SAT::SAT_CreateContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1,
+	glm::vec3 Norm, float Pen)
+{
+	std::vector<std::shared_ptr<Contact>> Temp;
+	std::vector<glm::vec3> Obj0_seg = Bod0->GetVertices();
+	std::vector<glm::vec3> Obj1_seg = Bod1->GetVertices();
+	std::vector<glm::vec3> Obj1_Norm = Bod1->GetNormals();
+	MATH::SAT_Point_Cul(Norm, Obj0_seg, Obj1_seg);
+	for (auto& ii : Obj1_Norm)
+	{
+		glm::vec3 Dot = glm::cross(ii, Norm);
+		if (Dot != glm::vec3(0.f))
+			MATH::SAT_Clip(ii, Obj0_seg, Obj1_seg);
+	}
+	int Count = 0;
+	for (auto& jj : Obj0_seg)
+	{
+		std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+		Cont->Normal = Norm;
+		Cont->Penetration = Pen;
+		Cont->ContactPoint = (jj + Obj0_seg[Count]) / 2.f;
+		Temp.push_back(Cont);
+		Count++;
+	}
+	return Temp;
+}

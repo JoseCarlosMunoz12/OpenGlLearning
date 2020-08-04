@@ -9,6 +9,7 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 #include "../Shapes/ColShapes.h"
+#include "../CollisionResolution/Manifoldsh.h"
 namespace CoatlPhysicsEngine {
 	class SAT
 	{
@@ -22,5 +23,7 @@ namespace CoatlPhysicsEngine {
 		~SAT();
 		float GetPenetrationContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1, glm::vec3& Norm);
 		bool SAT_Check(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1);
+		std::vector<std::shared_ptr<Contact>> SAT_CreateContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1,
+			glm::vec3 Norm, float Pen);
 	};
 }
