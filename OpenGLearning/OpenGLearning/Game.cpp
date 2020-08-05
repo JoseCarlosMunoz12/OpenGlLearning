@@ -2168,6 +2168,9 @@ void Game::DrawColInfo()
 								glm::vec3 Vel = Bods->GetVel();
 								glm::quat Quat = Bods->GetQuat();
 								float Mass = Bods->GetMass();
+								ImGui::Text("Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
+								if (ImGui::SliderFloat("Mass", &Mass, 0.05f, 10.f))
+									Bods->SetMass(Mass);
 							}
 							else
 							{

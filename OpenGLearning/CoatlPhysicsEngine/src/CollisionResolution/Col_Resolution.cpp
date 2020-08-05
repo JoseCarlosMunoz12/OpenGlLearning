@@ -6,8 +6,8 @@ void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_
 	glm::vec3 Norm = Cnt->Contacts[0]->Normal;
 	float Diff = Cnt->Contacts[0]->Penetration;
 	for (auto& jj : Cnt->Contacts)
-		Bod->GetParticle(0)->AddForceAtBodyPoint(glm::vec3(1.f, 0.f,0.f), jj->ContactPoint);
-	Bod->MovePosition(0.f* Norm);
+		Bod->GetParticle(0)->AddForceAtBodyPoint(glm::vec3(0.f, 0.f,1.f), jj->ContactPoint);
+	Bod->MovePosition(Diff * Norm);
 }
 
 std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
