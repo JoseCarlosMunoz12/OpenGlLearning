@@ -2132,7 +2132,7 @@ void Game::DrawColInfo()
 									ImGui::Text("Unite Vector %.3f,%.3f,%.3f", Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
 									glm::vec3 U = Q_Angle.UnitVec;
 									float Ar[3] = { U.x, U.y, U.z };
-									if (ImGui::SliderFloat("Axis Angle", &Q_Angle.Angle, 0.f, 180.f))
+									if (ImGui::SliderFloat("Axis Angle", &Q_Angle.Angle, 0.f, 360.f))
 									{
 										Bod->SetQuat(Q_Angle.GetQuat());
 									}
