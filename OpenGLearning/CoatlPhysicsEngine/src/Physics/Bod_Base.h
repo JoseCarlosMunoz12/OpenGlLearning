@@ -18,6 +18,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Vel;
 		glm::quat AxisAngle;
 		glm::vec3 RotVel;
+		glm::mat3 InvInertia;
 		float LinDamp;
 		float RotDamp;
 		float InvMass;
@@ -50,6 +51,8 @@ namespace CoatlPhysicsEngine {
 		virtual void AddForceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt) { return; };
 		virtual void AcumTorque(glm::vec3 Torque) { return; };
 		virtual glm::vec3 GetRotVel() { return glm::vec3(0.f); };
+		glm::mat3 GetInertia() { return glm::inverse(this->InvInertia);};
+		virtual void SetInertia(glm::mat3 Inertia) { return; };
 		virtual void SetRotVel(glm::vec3 NewRotVel) { return; };
 		virtual void AddRotVel(glm::vec3 DelRotVel) { return; };
 		//Sleep Functions

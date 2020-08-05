@@ -7,7 +7,6 @@ namespace CoatlPhysicsEngine {
 		const float Epsilon = 0.00001f;
 		glm::mat4 TransformMatrix;
 		glm::mat4 InvIntertiaWSpace;
-		glm::mat3 InvInertia;
 		glm::vec3 TorqueAcum;
 		void UpdateRot(float dt);
 		void UpdateMatrix();
@@ -20,7 +19,7 @@ namespace CoatlPhysicsEngine {
 		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel);
 		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp);
 		~RigidBodies();
-		void SetInertia(glm::mat3 InitInertia);
+		void SetInertia(glm::mat3 InitInertia) override;
 		void AcumTorque(glm::vec3 Torque) override;
 		void AddForceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt) override;
 		void SetQuat(glm::quat NewQuat) override;
