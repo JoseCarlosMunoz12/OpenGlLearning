@@ -173,6 +173,11 @@ bool RigidBodies::GetAwakeStatus()
 	return this->IsAwake;
 }
 
+bool RigidBodies::SleepStatus()
+{
+	return this->CanSleep;
+}
+
 void RigidBodies::SetCanSleep(bool Can)
 {
 	this->CanSleep = Can;

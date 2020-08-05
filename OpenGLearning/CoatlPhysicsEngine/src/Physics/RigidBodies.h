@@ -33,6 +33,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 UpdatePos(float dt) override;
 		//sleep functions
 		bool GetAwakeStatus() override;
+		bool SleepStatus() override;
 		void SetCanSleep(bool Can) override;
 		void SetAwake(bool Awake) override;
 	};	

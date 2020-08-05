@@ -59,6 +59,7 @@ namespace CoatlPhysicsEngine {
 		virtual void SetAwake(bool Awake) { return; };
 		virtual bool GetAwakeStatus() { return true; }; 
 		virtual void SetCanSleep(bool Can) { return; };
+		virtual bool SleepStatus() { return true; };
 	};
 }
 

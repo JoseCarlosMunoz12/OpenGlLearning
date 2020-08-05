@@ -2188,11 +2188,11 @@ void Game::DrawColInfo()
 									glm::vec3 RotVel = Bods->GetRotVel();
 									ImGui::Text("RotVel %.3f, %.3f, %.3f", RotVel.x, RotVel.y, RotVel.z);
 									if (ImGui::SliderFloat("X RotVel", &RotVel.x, -10.f, 10.f))
-										Bods->AddRotVel(RotVel);
+										Bods->SetRotVel(RotVel);
 									if (ImGui::SliderFloat("Y RotVel", &RotVel.y, -10.f, 10.f))
-										Bods->AddRotVel(RotVel);
+										Bods->SetRotVel(RotVel);
 									if (ImGui::SliderFloat("Z RotVel", &RotVel.z, -10.f, 10.f))
-										Bods->AddRotVel(RotVel);
+										Bods->SetRotVel(RotVel);
 								}
 								//Body Mass
 								float Mass = Bods->GetMass();
