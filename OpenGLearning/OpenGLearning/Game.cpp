@@ -2165,6 +2165,13 @@ void Game::DrawColInfo()
 							std::shared_ptr<CPE::Bod_Base> Bods = Bod->GetParticle(0);
 							if (Bods)
 							{
+								//Getting Inertia
+								{
+									glm::mat3 Inrt = Bods->GetInertia();
+									ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].x, Inrt[1].x, Inrt[2].x);
+									ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].y, Inrt[1].y, Inrt[2].y);
+									ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].z, Inrt[1].z, Inrt[2].z);
+								}
 								//Linear velocity
 								{	
 									glm::vec3 Vel = Bods->GetVel();
