@@ -9,7 +9,6 @@ namespace CoatlPhysicsEngine {
 		glm::mat4 InvIntertiaWSpace;
 		glm::mat3 InvInertia;
 		glm::vec3 TorqueAcum;
-		glm::vec3 AngularAccelration;
 		void UpdateRot(float dt);
 		void UpdateMatrix();
 		void CalcDerivedData();

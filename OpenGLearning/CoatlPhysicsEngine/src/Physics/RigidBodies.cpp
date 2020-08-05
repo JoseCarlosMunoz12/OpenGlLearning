@@ -3,9 +3,8 @@ using namespace CoatlPhysicsEngine;
 
 void RigidBodies::UpdateRot(float dt)
 {
-	glm::vec3 T = this->InvIntertiaWSpace * glm::vec4(this->TorqueAcum,1.f);
-	this->AngularAccelration = T;
-	this->RotVel += this->AngularAccelration * dt;
+	glm::vec3 AngularAccelration = this->InvIntertiaWSpace * glm::vec4(this->TorqueAcum,1.f);
+	this->RotVel += AngularAccelration * dt;
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
 	E *= this->AxisAngle;
@@ -57,7 +56,7 @@ void RigidBodies::UpdateVel(float dt)
 
 RigidBodies::RigidBodies(glm::vec3 Pos)
 	:Bod_Base(Pos), TransformMatrix(glm::mat4(1.f)),
-	TorqueAcum(glm::vec3(0.f)),AngularAccelration(glm::vec3(0.f))
+	TorqueAcum(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
 	this->TransformInertiaTensor();
@@ -65,7 +64,7 @@ RigidBodies::RigidBodies(glm::vec3 Pos)
 
 RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel)
 	:Bod_Base(Pos, InitVel), TransformMatrix(glm::mat4(1.f)),
-	TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
+	TorqueAcum(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
 	this->TransformInertiaTensor();
@@ -73,7 +72,7 @@ RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel)
 
 RigidBodies::RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp)
 	:Bod_Base(Pos, InitVel,InitDamp), TransformMatrix(glm::mat4(1.f)),
-	TorqueAcum(glm::vec3(0.f)), AngularAccelration(glm::vec3(0.f))
+	TorqueAcum(glm::vec3(0.f))
 {
 	this->SetInertia(glm::mat3(1.f));
 	this->TransformInertiaTensor();
