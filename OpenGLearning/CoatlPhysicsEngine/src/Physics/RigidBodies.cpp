@@ -96,8 +96,8 @@ void RigidBodies::AcumTorque(glm::vec3 Torque)
 
 void RigidBodies::AddForceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt)
 {
-	glm::vec3 RelPnt = this->TransformMatrix * glm::vec4(Pnt,1.f);
-	this->AddForceAtPoint(Force, RelPnt);
+	//glm::vec3 RelPnt = this->TransformMatrix * glm::vec4(Pnt,1.f);
+	this->AddForceAtPoint(Force, Pnt);
 }
 
 void RigidBodies::SetAwake(bool Awake)

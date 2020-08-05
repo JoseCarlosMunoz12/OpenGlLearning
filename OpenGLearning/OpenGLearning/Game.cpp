@@ -2219,7 +2219,10 @@ void Game::DrawColInfo()
 					std::string ColRelId = "Collision Resolution " + std::to_string(Count);
 					if (ImGui::TreeNode(ColRelId.c_str()))
 					{
-						ImGui::Text("%d", ii->ContactCount);
+						int ID0 = ii->Bod0->GetID();
+						int ID1 = ii->Bod1->GetID();
+						ImGui::Text("Bodies Collided are %d and %d", ID0, ID1);
+						ImGui::Text("Totatl Contacts : %d", ii->ContactCount);
 						int ContCount = 0;
 						for (auto& jj : ii->Contacts)
 						{
