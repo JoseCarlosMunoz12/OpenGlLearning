@@ -2165,6 +2165,13 @@ void Game::DrawColInfo()
 							std::shared_ptr<CPE::Bod_Base> Bods = Bod->GetParticle(0);
 							if (Bods)
 							{
+								//Sleep Status of Body
+								bool Sleep = Bods->SleepStatus();
+								if (ImGui::Checkbox("Can Sleep", &Sleep))
+									Bods->SetCanSleep(Sleep);
+								bool Awake = Bods->GetAwakeStatus();
+								if (ImGui::Checkbox("Is Awake", &Awake))
+									Bods->SetAwake(Awake);
 								//Getting Inertia
 								{
 									glm::mat3 Inrt = Bods->GetInertia();
