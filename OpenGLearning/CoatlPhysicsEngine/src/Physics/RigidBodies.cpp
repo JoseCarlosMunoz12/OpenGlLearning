@@ -137,6 +137,11 @@ glm::vec3 RigidBodies::GetRotVel()
 	return this->RotVel;
 }
 
+void RigidBodies::SetRotVel(glm::vec3 NewRotVel)
+{
+	this->RotVel = NewRotVel;
+}
+
 void RigidBodies::AddRotVel(glm::vec3 DelRotVel)
 {
 	this->RotVel += DelRotVel;

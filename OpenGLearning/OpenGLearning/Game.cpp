@@ -2166,9 +2166,25 @@ void Game::DrawColInfo()
 							if (Bods)
 							{
 								glm::vec3 Vel = Bods->GetVel();
-								glm::quat Quat = Bods->GetQuat();
+								glm::vec3 RotVel = Bods->GetRotVel();
 								float Mass = Bods->GetMass();
+								//Linear velocity
 								ImGui::Text("Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
+								if (ImGui::SliderFloat("X Vel", &Vel.x,-10.f, 10.f))
+									Bods->SetVel(Vel);
+								if (ImGui::SliderFloat("Y Vel", &Vel.y, -10.f, 10.f))
+									Bods->SetVel(Vel);
+								if (ImGui::SliderFloat("Z Vel", &Vel.z, -10.f, 10.f))
+									Bods->SetVel(Vel);
+								//Angular velocity
+								ImGui::Text("RotVel %.3f, %.3f, %.3f", RotVel.x, RotVel.y, RotVel.z);
+								if (ImGui::SliderFloat("X RotVel", &RotVel.x, -10.f, 10.f))
+									Bods->AddRotVel(RotVel);
+								if (ImGui::SliderFloat("Y RotVel", &RotVel.y, -10.f, 10.f))
+									Bods->AddRotVel(RotVel);
+								if (ImGui::SliderFloat("Z RotVel", &RotVel.z, -10.f, 10.f))
+									Bods->AddRotVel(RotVel);
+								//Body Mass
 								if (ImGui::SliderFloat("Mass", &Mass, 0.05f, 10.f))
 									Bods->SetMass(Mass);
 							}

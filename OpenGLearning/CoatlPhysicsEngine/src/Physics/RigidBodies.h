@@ -29,6 +29,7 @@ namespace CoatlPhysicsEngine {
 		void ResetForce() override;
 		//Rotational functions
 		glm::vec3 GetRotVel() override;
+		void SetRotVel(glm::vec3 NewRotVel) override;
 		void AddRotVel(glm::vec3 DelRotVel) override;
 		//Main function to update physics
 		glm::vec3 UpdatePos(float dt) override;
