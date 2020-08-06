@@ -2106,24 +2106,12 @@ void Game::DrawColInfo()
 								if (ImGui::TreeNode(Sed.c_str()))
 								{
 									glm::vec3 Temp = kk->GetPos();
-									float Ar[3] = { Temp.x,Temp.y,Temp.z };
-									if (ImGui::SliderFloat("W_pos_X", &Ar[0], -50.f, 50.f))
-									{
-										Temp.x = Ar[0];
+									if (ImGui::SliderFloat("W_pos_X", &Temp.x, -50.f, 50.f))
 										Bod->SetPosition(Temp);
-									}
-
-									if (ImGui::SliderFloat("W_pos_Y", &Ar[1], -50.f, 50.f))
-									{
-										Temp.y = Ar[1];
+									if (ImGui::SliderFloat("W_pos_Y", &Temp.y, -50.f, 50.f))
 										Bod->SetPosition(Temp);
-									}
-
-									if (ImGui::SliderFloat("W_pos_Z", &Ar[2], -50.f, 50.f))
-									{
-										Temp.z = Ar[2];
+									if (ImGui::SliderFloat("W_pos_Z", &Temp.z, -50.f, 50.f))
 										Bod->SetPosition(Temp);
-									}
 									ImGui::TreePop();
 									if (ImGui::Button("Add Child"))
 									{
@@ -2180,12 +2168,14 @@ void Game::DrawColInfo()
 										//Getting Inertia
 										{
 											glm::mat3 Inrt = P_Bod->GetInertia();
+											ImGui::Text("Body Inertia");
 											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].x, Inrt[1].x, Inrt[2].x);
 											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].y, Inrt[1].y, Inrt[2].y);
 											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].z, Inrt[1].z, Inrt[2].z);
 										}
 										{
 											glm::mat3 W_Inrt = P_Bod->GetInertiaWorld();
+											ImGui::Text("Body Inertia in world Space");
 											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].x, W_Inrt[1].x, W_Inrt[2].x);
 											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].y, W_Inrt[1].y, W_Inrt[2].y);
 											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].z, W_Inrt[1].z, W_Inrt[2].z);
@@ -2195,7 +2185,7 @@ void Game::DrawColInfo()
 									//Linear velocity
 									{
 										glm::vec3 Vel = P_Bod->GetVel();
-										ImGui::Text("Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
+										ImGui::Text("Linear Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
 										if (ImGui::SliderFloat("X Vel", &Vel.x, -10.f, 10.f))
 											P_Bod->SetVel(Vel);
 										if (ImGui::SliderFloat("Y Vel", &Vel.y, -10.f, 10.f))
@@ -2243,7 +2233,6 @@ void Game::DrawColInfo()
 				}
 				ImGui::TreePop();
 			}
-			ImGui::Separator();
 			if (ImGui::TreeNode("Change Algorithm Checks"))
 			{
 				Alg_Type val = TempDynamic->GetType();
@@ -2261,7 +2250,6 @@ void Game::DrawColInfo()
 				}
 				ImGui::TreePop();
 			}
-			ImGui::Separator();
 			if (ImGui::TreeNode("Collision Resolution"))
 			{
 				std::vector<std::shared_ptr<Manifold>> T = TempDynamic->GetColRel();
