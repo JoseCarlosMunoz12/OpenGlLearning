@@ -2,14 +2,14 @@
 using namespace CoatlPhysicsEngine;
 
 Bodies::Bodies(int InitID)
-	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f))
+	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f)), Mid(glm::vec3(0.f))
 {
 	this->ID = InitID;
 	this->Vec_Size = BodyInf.size();
 }
 
 Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
-	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f))
+	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f)), Mid(glm::vec3(0.f))
 {
 	this->ID = InitID;
 	int Count = this->BodyInf.size();
@@ -18,7 +18,7 @@ Bodies::Bodies( std::shared_ptr<ColShapes> InitShapes, int InitID)
 }
 
 Bodies::Bodies(std::vector< std::shared_ptr<ColShapes>> InitShapes, int InitID)
-	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f))
+	:Max(glm::vec3(0.f)), Min(glm::vec3(0.f)), Mid(glm::vec3(0.f))
 {
 	this->ID = InitID;
 	int Count = this->BodyInf.size();

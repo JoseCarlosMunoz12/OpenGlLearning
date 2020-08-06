@@ -32,11 +32,11 @@ public:
 	void set(const Vertex* vertices, const unsigned nrofVertices,
 		const GLuint* indices,const unsigned nrOfIndices)
 	{
-		for (size_t i = 0; i < nrofVertices; i++)
+		for (int i = 0; i < nrofVertices; i++)
 		{
 			this->vertices.push_back(vertices[i]);
 		}
-		for (size_t i = 0; i < nrOfIndices; i++)
+		for (int i = 0; i < nrOfIndices; i++)
 		{
 			this->indices.push_back(indices[i]);
 		}
@@ -423,11 +423,11 @@ public:
 		int SizeIndex[] = { Dimension, Dimension, Dimension, Dimension };
 		int DimensionFaces[] = { 0	, Dimension * Dimension, (2*Dimension ) * Dimension ,
 							(3 * Dimension ) * Dimension};
-		for (size_t kk = 0; kk < 4; kk++)
+		for (int kk = 0; kk < 4; kk++)
 		{
-			for (size_t ii = 0; ii < Dimension; ii++)
+			for (int ii = 0; ii < Dimension; ii++)
 			{
-				for (size_t jj = 0; jj < Dimension; jj++)
+				for (int jj = 0; jj < Dimension; jj++)
 				{
 					glm::vec2 TexCord = CalcTexcoords(Dimension - 1, Dimension - 1, Dimension - 1, kk, jj, ii);
 					glm::vec3 Positions = CalculatePosition(Dimension - 1, Dimension - 1, Dimension - 1,
@@ -439,11 +439,11 @@ public:
 		}
 			//Need to Create ALgorithm to make the Indicies of the Box
 			//For each of the four size
-		for (size_t kk = 0; kk < 4; kk++)
+		for (int kk = 0; kk < 4; kk++)
 		{
-			for (size_t ii = 0; ii < Dimension-1;ii++)
+			for (int ii = 0; ii < Dimension-1;ii++)
 			{
-				for (size_t jj = 0; jj < Dimension-1; jj++)
+				for (int jj = 0; jj < Dimension-1; jj++)
 				{
 					GLuint TopRight = (ii * Dimension) + jj + DimensionFaces[kk];
 					GLuint TopLeft = TopRight + 1;
@@ -790,7 +790,7 @@ public:
 									TexCoordsFound[std::atof(out[1].c_str()) - 1],
 									NormalsFound[std::atof(out[2].c_str()) - 1]});
 		}
-		for (size_t ii = 0; ii < VertexFound.size(); ii++)
+		for (int ii = 0; ii < VertexFound.size(); ii++)
 		{
 			IndecesFound.push_back(ii);
 		}
@@ -800,8 +800,8 @@ public:
 private:
 	void ReturnStringArray(std::string const &str, const char delim, std::vector<std::string> &out)
 	{
-		size_t start;
-		size_t end = 0;
+		int start;
+		int end = 0;
 		while((start = str.find_first_not_of(delim, end)) != std::string::npos)
 		{
 			end = str.find(delim, start);

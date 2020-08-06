@@ -427,7 +427,9 @@ void Game::updateController()
 	{
 		std::vector<float> Vals = this->CheckCntrl.GetRightAnalogVals();
 		std::vector<float> Axis_acc = this->CheckCntrl.GetAxisRate();
-		this->camera.updateMouseInput(this->dt, Vals[0] * Axis_acc[0], Vals[1] * Axis_acc[1]);
+		float Val0 =  Vals[0] * Axis_acc[0];
+		float Val1 = Vals[1] * Axis_acc[1];
+		this->camera.updateMouseInput(this->dt,Val0, Val1);
 		this->camera.move(this->dt * this->CheckCntrl.GetLeftAnalogVals()[1], FORWARD);
 		this->camera.move(this->dt * this->CheckCntrl.GetLeftAnalogVals()[0], RIGHT);
 		if (this->CheckCntrl.AButtonPressed())
