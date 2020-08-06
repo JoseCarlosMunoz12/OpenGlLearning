@@ -161,16 +161,16 @@ void Game::initModels()
 			&CustomTerrain_M(100, 100, this->MipMapsData[HEIGHTMAP_1]),
 			"Terrain"));
 	meshes.push_back(
-		new Mesh(&Sphere_M(1, 32, 32),
+		new Mesh(&Sphere_M(1, 32.f, 32.f),
 			"Sphere"));
 	meshes.push_back(
-		new Mesh(&Cylinder_M(1.f, 4.f, 40.f),
+		new Mesh(&Cylinder_M(1.f, 4, 40),
 			"Cylinder"));
 	meshes.push_back(
-		new Mesh(&Cone_M(10.f, 10.f, 40.f, 10),
+		new Mesh(&Cone_M(10.f, 10.f, 40, 10),
 			"Cone"));
 	meshes.push_back(
-		new Mesh(&Prism_M(4,4,1.f),
+		new Mesh(&Prism_M(4.f,4.f,1.f),
 			"Cube"));
 	meshes.push_back(
 		new Mesh(&Capsule_M(1.f,1.f,16,16),
