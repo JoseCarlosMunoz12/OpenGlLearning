@@ -28,9 +28,9 @@ void RigidBodies::CalcDerivedData()
 
 void RigidBodies::TransformInertiaTensor()
 {
-	glm::mat4 RotMat = glm::mat4_cast(this->AxisAngle);
+	glm::mat4 InvRotMat = glm::inverse( glm::mat4_cast(this->AxisAngle));
 	glm::mat4 InvInertia = glm::mat4(this->InvInertia);
-	this->InvIntertiaWSpace = InvInertia * glm::inverse(RotMat);
+	this->InvIntertiaWSpace = glm::transpose(InvRotMat) * InvInertia * InvRotMat;
 }
 
 void RigidBodies::AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt)
