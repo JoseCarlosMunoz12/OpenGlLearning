@@ -2088,13 +2088,13 @@ void Game::DrawColInfo()
 					ImGui::Text(BodID.c_str());
 					if (ImGui::TreeNode(BodID.c_str()))
 					{
-						if (ImGui::TreeNode("General & Particle Information"))
-						{
-							std::vector<std::shared_ptr<CPE::BodyParts>>R = Bod->GetBodyParts();
-							int Count = 0;
-							glm::vec3 MaxExt = Bod->GetMax();
-							glm::vec3 MinExt = Bod->GetMin();
-							for (auto& kk : R)
+						std::vector<std::shared_ptr<CPE::BodyParts>>R = Bod->GetBodyParts();
+						int Count = 0;
+						glm::vec3 Ext = (Bod->GetMax() - Bod->GetMin()) / 2.f;
+						glm::vec3 Mid = Bod->GetMid();
+						ImGui::Text("Mid Pnt : %.3f ,  %.3f, %.3f", Mid.x, Mid.y, Mid.z);
+						ImGui::Text("Extensions (%.3f ,  %.3f, %.3f )", Ext.x, Ext.y, Ext.z);
+						for (auto& kk : R)
 							{
 								std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
 								std::string Sert = "W_Quat0->" + std::to_string(Count) + " information";
@@ -2160,8 +2160,6 @@ void Game::DrawColInfo()
 								}
 								Count++;
 							}
-							ImGui::TreePop();
-						}
 						if (ImGui::TreeNode("Physics information"))
 						{
 							std::shared_ptr<CPE::Bod_Base> Bods = Bod->GetParticle(0);
@@ -2235,7 +2233,6 @@ void Game::DrawColInfo()
 							}
 							ImGui::TreePop();
 						}
-						ImGui::Separator();
 						ImGui::TreePop();
 					}
 				}
