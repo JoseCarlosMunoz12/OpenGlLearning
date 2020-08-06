@@ -70,7 +70,7 @@ void Bodies::UpdateAABB()
 			Min = MATH::SetMin(Min, T);
 		}
 	}
-	glm::vec3 Mid = (Max + Min) / 2.f;
+	this->Mid = (Max + Min) / 2.f;
 }
 
 void Bodies::MovePosition(glm::vec3 Add)
