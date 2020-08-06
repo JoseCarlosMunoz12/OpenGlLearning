@@ -2081,10 +2081,11 @@ void Game::DrawColInfo()
 					ImGui::TreePop();
 				}
 				std::vector<std::weak_ptr<CPE::Bodies>> Bods = TempDynamic->GetAllBodies();
+				ImGui::Separator();
 				for (auto& ii : Bods)
 				{
 					std::shared_ptr<CPE::Bodies> Bod = ii.lock();
-					std::string BodID = "Bode Id is " + std::to_string(Bod->GetID());
+					std::string BodID = "Body Id is " + std::to_string(Bod->GetID());
 					ImGui::Text(BodID.c_str());
 					if (ImGui::TreeNode(BodID.c_str()))
 					{
@@ -2094,10 +2095,14 @@ void Game::DrawColInfo()
 						glm::vec3 Mid = Bod->GetMid();
 						ImGui::Text("Mid Pnt : %.3f ,  %.3f, %.3f", Mid.x, Mid.y, Mid.z);
 						ImGui::Text("Extensions (%.3f ,  %.3f, %.3f )", Ext.x, Ext.y, Ext.z);
-						for (auto& kk : R)
+						ImGui::Separator();
+						if (ImGui::TreeNode("All Sub Bodies in the body"))
+						{
+							for (auto& kk : R)
 							{
 								std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
 								std::string Sert = "W_Quat0->" + std::to_string(Count) + " information";
+								std::shared_ptr<CPE::Bod_Base> P_Bod = kk->GetParticle();
 								if (ImGui::TreeNode(Sed.c_str()))
 								{
 									glm::vec3 Temp = kk->GetPos();
@@ -2158,100 +2163,101 @@ void Game::DrawColInfo()
 									}
 									ImGui::TreePop();
 								}
+								ImGui::Separator();
+								ImGui::Text("Physics Data");
+								if (P_Bod)
+								{
+
+									//Sleep Status of Body
+									bool Sleep = P_Bod->SleepStatus();
+									if (ImGui::Checkbox("Can Sleep", &Sleep))
+										P_Bod->SetCanSleep(Sleep);
+									bool Awake = P_Bod->GetAwakeStatus();
+									if (ImGui::Checkbox("Is Awake", &Awake))
+										P_Bod->SetAwake(Awake);
+									if (ImGui::TreeNode("Matrix information"))
+									{
+										//Getting Inertia
+										{
+											glm::mat3 Inrt = P_Bod->GetInertia();
+											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].x, Inrt[1].x, Inrt[2].x);
+											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].y, Inrt[1].y, Inrt[2].y);
+											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].z, Inrt[1].z, Inrt[2].z);
+										}
+										{
+											glm::mat3 W_Inrt = P_Bod->GetInertiaWorld();
+											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].x, W_Inrt[1].x, W_Inrt[2].x);
+											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].y, W_Inrt[1].y, W_Inrt[2].y);
+											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].z, W_Inrt[1].z, W_Inrt[2].z);
+										}
+										ImGui::TreePop();
+									}
+									//Linear velocity
+									{
+										glm::vec3 Vel = P_Bod->GetVel();
+										ImGui::Text("Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
+										if (ImGui::SliderFloat("X Vel", &Vel.x, -10.f, 10.f))
+											P_Bod->SetVel(Vel);
+										if (ImGui::SliderFloat("Y Vel", &Vel.y, -10.f, 10.f))
+											P_Bod->SetVel(Vel);
+										if (ImGui::SliderFloat("Z Vel", &Vel.z, -10.f, 10.f))
+											P_Bod->SetVel(Vel);
+									}
+									//Angular velocity
+									{
+										glm::vec3 RotVel = P_Bod->GetRotVel();
+										ImGui::Text("RotVel %.3f, %.3f, %.3f", RotVel.x, RotVel.y, RotVel.z);
+										if (ImGui::SliderFloat("X RotVel", &RotVel.x, -10.f, 10.f))
+											P_Bod->SetRotVel(RotVel);
+										if (ImGui::SliderFloat("Y RotVel", &RotVel.y, -10.f, 10.f))
+											P_Bod->SetRotVel(RotVel);
+										if (ImGui::SliderFloat("Z RotVel", &RotVel.z, -10.f, 10.f))
+											P_Bod->SetRotVel(RotVel);
+									}
+									//Body Mass
+									float Mass = P_Bod->GetMass();
+									if (ImGui::SliderFloat("Mass", &Mass, 0.05f, 10.f))
+										P_Bod->SetMass(Mass);
+								}
+								else
+									{
+										if (ImGui::Button("Add Particle"))
+									{
+										Bod->SetParticle(Count);
+										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetVel(glm::vec3(0.f));
+										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetMass(10.f);
+									}
+										if (ImGui::Button("Add Rigid Body"))
+									{
+										Bod->SetRigidBody(Count);
+										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetVel(glm::vec3(0.f));
+										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetMass(10.f);
+									}
+									}
 								Count++;
-							}
-						if (ImGui::TreeNode("Physics information"))
-						{
-							std::shared_ptr<CPE::Bod_Base> Bods = Bod->GetParticle(0);
-							if (Bods)
-							{
-								//Sleep Status of Body
-								bool Sleep = Bods->SleepStatus();
-								if (ImGui::Checkbox("Can Sleep", &Sleep))
-									Bods->SetCanSleep(Sleep);
-								bool Awake = Bods->GetAwakeStatus();
-								if (ImGui::Checkbox("Is Awake", &Awake))
-									Bods->SetAwake(Awake);
-								if (ImGui::TreeNode("Matrix information"))
-								{
-								//Getting Inertia
-									{
-										glm::mat3 Inrt = Bods->GetInertia();
-										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].x, Inrt[1].x, Inrt[2].x);
-										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].y, Inrt[1].y, Inrt[2].y);
-										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].z, Inrt[1].z, Inrt[2].z);
-									}
-									{
-										glm::mat3 W_Inrt = Bods->GetInertiaWorld();
-										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].x, W_Inrt[1].x, W_Inrt[2].x);
-										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].y, W_Inrt[1].y, W_Inrt[2].y);
-										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].z, W_Inrt[1].z, W_Inrt[2].z);
-									}
-									ImGui::TreePop();
-								}
-								//Linear velocity
-								{	
-									glm::vec3 Vel = Bods->GetVel();
-									ImGui::Text("Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
-									if (ImGui::SliderFloat("X Vel", &Vel.x, -10.f, 10.f))
-										Bods->SetVel(Vel);
-									if (ImGui::SliderFloat("Y Vel", &Vel.y, -10.f, 10.f))
-										Bods->SetVel(Vel);
-									if (ImGui::SliderFloat("Z Vel", &Vel.z, -10.f, 10.f))
-										Bods->SetVel(Vel);
-								}
-								//Angular velocity
-								{
-									glm::vec3 RotVel = Bods->GetRotVel();
-									ImGui::Text("RotVel %.3f, %.3f, %.3f", RotVel.x, RotVel.y, RotVel.z);
-									if (ImGui::SliderFloat("X RotVel", &RotVel.x, -10.f, 10.f))
-										Bods->SetRotVel(RotVel);
-									if (ImGui::SliderFloat("Y RotVel", &RotVel.y, -10.f, 10.f))
-										Bods->SetRotVel(RotVel);
-									if (ImGui::SliderFloat("Z RotVel", &RotVel.z, -10.f, 10.f))
-										Bods->SetRotVel(RotVel);
-								}
-								//Body Mass
-								float Mass = Bods->GetMass();
-								if (ImGui::SliderFloat("Mass", &Mass, 0.05f, 10.f))
-									Bods->SetMass(Mass);
-							}
-							else
-							{
-								if (ImGui::Button("Add Particle"))
-								{
-									Bod->SetParticle(0);
-									Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
-									Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
-								}
-								if (ImGui::Button("Add Rigid Body"))
-								{
-									Bod->SetRigidBody(0);
-									Bod->GetSpecificBodyPart(0)->GetParticle()->SetVel(glm::vec3(0.f));
-									Bod->GetSpecificBodyPart(0)->GetParticle()->SetMass(10.f);
-								}
 							}
 							ImGui::TreePop();
 						}
 						ImGui::TreePop();
 					}
 				}
-				if (ImGui::TreeNode("Change Algorithm Checks"))
+				ImGui::TreePop();
+			}
+			ImGui::Separator();
+			if (ImGui::TreeNode("Change Algorithm Checks"))
+			{
+				Alg_Type val = TempDynamic->GetType();
+				if (ImGui::Selectable("Brute Force", Alg_Type::B_F == val))
 				{
-					Alg_Type val = TempDynamic->GetType();
-					if (ImGui::Selectable("Brute Force", Alg_Type::B_F == val))
-					{
-						TempDynamic->SetNewType(Alg_Type::B_F);
-					}
-					if (ImGui::Selectable("QuadTree", Alg_Type::Q_T == val))
-					{
-						TempDynamic->SetNewType(Alg_Type::Q_T);
-					}
-					if (ImGui::Selectable("OctoTree", Alg_Type::O_T == val))
-					{
-						TempDynamic->SetNewType(Alg_Type::O_T);
-					}
-					ImGui::TreePop();
+					TempDynamic->SetNewType(Alg_Type::B_F);
+				}
+				if (ImGui::Selectable("QuadTree", Alg_Type::Q_T == val))
+				{
+					TempDynamic->SetNewType(Alg_Type::Q_T);
+				}
+				if (ImGui::Selectable("OctoTree", Alg_Type::O_T == val))
+				{
+					TempDynamic->SetNewType(Alg_Type::O_T);
 				}
 				ImGui::TreePop();
 			}
