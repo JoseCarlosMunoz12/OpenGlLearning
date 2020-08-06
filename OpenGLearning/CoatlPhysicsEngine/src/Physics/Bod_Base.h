@@ -48,13 +48,14 @@ namespace CoatlPhysicsEngine {
 		virtual void ResetForce() { return; };
 		virtual void AcumForce(glm::vec3 Force) { return; };
 		//Rigid Bodies functions
-		virtual void AddForceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt) { return; };
-		virtual void AcumTorque(glm::vec3 Torque) { return; };
 		virtual glm::vec3 GetRotVel() { return glm::vec3(0.f); };
-		glm::mat3 GetInertia() { return glm::inverse(this->InvInertia);};
-		virtual void SetInertia(glm::mat3 Inertia) { return; };
 		virtual void SetRotVel(glm::vec3 NewRotVel) { return; };
 		virtual void AddRotVel(glm::vec3 DelRotVel) { return; };
+		virtual void AddForceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt) { return; };
+		virtual void AcumTorque(glm::vec3 Torque) { return; };
+		glm::mat3 GetInertia() { return glm::inverse(this->InvInertia);};
+		virtual void SetInertia(glm::mat3 Inertia) { return; };
+		virtual glm::mat3 GetInertiaWorld() { return glm::mat3(0.f); };
 		//Sleep Functions
 		virtual void SetAwake(bool Awake) { return; };
 		virtual bool GetAwakeStatus() { return true; }; 

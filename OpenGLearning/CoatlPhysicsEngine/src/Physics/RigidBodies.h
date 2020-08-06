@@ -20,6 +20,7 @@ namespace CoatlPhysicsEngine {
 		RigidBodies(glm::vec3 Pos, glm::vec3 InitVel, float InitDamp);
 		~RigidBodies();
 		void SetInertia(glm::mat3 InitInertia) override;
+		glm::mat3 GetInertiaWorld() override;
 		void AcumTorque(glm::vec3 Torque) override;
 		void AddForceAtBodyPoint(glm::vec3 Force, glm::vec3 Pnt) override;
 		void SetQuat(glm::quat NewQuat) override;

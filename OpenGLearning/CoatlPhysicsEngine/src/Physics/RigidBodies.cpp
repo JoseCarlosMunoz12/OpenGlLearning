@@ -30,7 +30,7 @@ void RigidBodies::TransformInertiaTensor()
 {
 	glm::mat4 RotMat = glm::mat4_cast(this->AxisAngle);
 	glm::mat4 InvInertia = glm::mat4(this->InvInertia);
-	this->InvIntertiaWSpace = RotMat * InvInertia * glm::inverse(RotMat);
+	this->InvIntertiaWSpace = InvInertia * glm::inverse(RotMat);
 }
 
 void RigidBodies::AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt)
@@ -85,6 +85,11 @@ RigidBodies::~RigidBodies()
 void RigidBodies::SetInertia(glm::mat3 InitInertia)
 {
 	this->InvInertia = glm::inverse(InitInertia);
+}
+
+glm::mat3 CoatlPhysicsEngine::RigidBodies::GetInertiaWorld()
+{
+	return glm::inverse(this->InvIntertiaWSpace);
 }
 
 void RigidBodies::AcumTorque(glm::vec3 Torque)

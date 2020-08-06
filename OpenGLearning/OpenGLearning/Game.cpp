@@ -2172,12 +2172,22 @@ void Game::DrawColInfo()
 								bool Awake = Bods->GetAwakeStatus();
 								if (ImGui::Checkbox("Is Awake", &Awake))
 									Bods->SetAwake(Awake);
-								//Getting Inertia
+								if (ImGui::TreeNode("Matrix information"))
 								{
-									glm::mat3 Inrt = Bods->GetInertia();
-									ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].x, Inrt[1].x, Inrt[2].x);
-									ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].y, Inrt[1].y, Inrt[2].y);
-									ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].z, Inrt[1].z, Inrt[2].z);
+								//Getting Inertia
+									{
+										glm::mat3 Inrt = Bods->GetInertia();
+										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].x, Inrt[1].x, Inrt[2].x);
+										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].y, Inrt[1].y, Inrt[2].y);
+										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].z, Inrt[1].z, Inrt[2].z);
+									}
+									{
+										glm::mat3 W_Inrt = Bods->GetInertiaWorld();
+										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].x, W_Inrt[1].x, W_Inrt[2].x);
+										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].y, W_Inrt[1].y, W_Inrt[2].y);
+										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].z, W_Inrt[1].z, W_Inrt[2].z);
+									}
+									ImGui::TreePop();
 								}
 								//Linear velocity
 								{	
