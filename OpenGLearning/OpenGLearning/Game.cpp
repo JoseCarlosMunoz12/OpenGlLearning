@@ -2092,6 +2092,8 @@ void Game::DrawColInfo()
 						{
 							std::vector<std::shared_ptr<CPE::BodyParts>>R = Bod->GetBodyParts();
 							int Count = 0;
+							glm::vec3 MaxExt = Bod->GetMax();
+							glm::vec3 MinExt = Bod->GetMin();
 							for (auto& kk : R)
 							{
 								std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
