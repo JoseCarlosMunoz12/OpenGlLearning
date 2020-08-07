@@ -117,6 +117,14 @@ std::vector<glm::vec3> Capsule::GetNormals()
 
 glm::mat3 Capsule::GetInertia(float Mass)
 {
+	//Calculates the volme of both Sphere and Cylinder
+	float Height = glm::distance(this->APos, this->BPos);
+	float Vol_C = this->Radius * this->Radius * glm::pi<float>() * Height;
+	float Vol_S = this->Radius * this->Radius * this->Radius * 3 / 4 * glm::pi<float>();
+	float Vol_t = Vol_C + Vol_S;
+	float Density = Mass / Vol_t;
+	//calculates the inertia parts
+
 	glm::vec3 Col0;
 	glm::vec3 Col1;
 	glm::vec3 Col2;
