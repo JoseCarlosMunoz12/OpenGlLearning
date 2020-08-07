@@ -49,6 +49,6 @@ glm::mat3 Sphere::GetInertia(float Mass)
 	glm::vec3 Col0 = glm::vec3(Mid, 0.f, 0.f);
 	glm::vec3 Col1 = glm::vec3(0.f, Mid, 0.f);
 	glm::vec3 Col2 = glm::vec3(0.f, 0.f, Mid);
-	return Mass * glm::mat3(Col0, Col1,Col2);
+	return Mass * glm::mat3(Col0, Col1, Col2);
 }
 	

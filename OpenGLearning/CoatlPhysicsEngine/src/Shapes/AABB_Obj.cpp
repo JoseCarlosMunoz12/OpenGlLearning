@@ -162,3 +162,18 @@ std::vector<glm::vec3> AABB_Obj::GetNormals()
     std::vector<glm::vec3> AABB_N = {glm::vec3(1.f,0.f,0.f),glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f) };
     return AABB_N;
 }
+
+glm::mat3 CoatlPhysicsEngine::AABB_Obj::GetInertia(float Mass)
+{
+    glm::vec3 Ex = GetLengths();
+    float LH2 = (Ex.x * Ex.x + Ex.z * Ex.z) / 3;
+    float HW2 = (Ex.y * Ex.y + Ex.z * Ex.z) / 3;
+    float LW2 = (Ex.x * Ex.x + Ex.y * Ex.y) / 3;
+    float LW = Ex.x * Ex.y / 4;
+    float LH = Ex.x * Ex.z / 4;
+    float HW = Ex.z * Ex.y / 4;
+    glm::vec3 Col0 = glm::vec3(LH2, LW, HW);
+    glm::vec3 Col1 = glm::vec3(LW, HW2, LH);
+    glm::vec3 Col2 = glm::vec3(HW, LH, LW2);
+    return Mass * glm::mat3(Col0, Col1, Col2);
+}
