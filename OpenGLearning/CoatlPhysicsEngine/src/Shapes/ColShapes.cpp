@@ -48,3 +48,8 @@ std::vector<glm::vec3> ColShapes::GetNormals()
 	return std::vector<glm::vec3>();
 }
 
+glm::mat3 ColShapes::GetInertia(float Mass)
+{
+	return glm::mat3(0.f);
+}
+

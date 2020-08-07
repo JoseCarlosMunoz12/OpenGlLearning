@@ -30,5 +30,6 @@ namespace CoatlPhysicsEngine
 		virtual glm::vec3 EPA_Support(glm::vec3 Dir);
 		virtual std::vector<glm::vec3> GetVertices();
 		virtual std::vector<glm::vec3> GetNormals();
+		virtual glm::mat3 GetInertia(float Mass);
 	};
 }
