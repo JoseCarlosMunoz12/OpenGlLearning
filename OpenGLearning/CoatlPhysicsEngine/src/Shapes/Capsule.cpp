@@ -117,16 +117,23 @@ std::vector<glm::vec3> Capsule::GetNormals()
 
 glm::mat3 Capsule::GetInertia(float Mass)
 {
-	//Calculates the volme of both Sphere and Cylinder
+	//Calculates the volumes and mass of both Sphere and Cylinder
 	float Height = glm::distance(this->APos, this->BPos);
 	float Vol_C = this->Radius * this->Radius * glm::pi<float>() * Height;
-	float Vol_S = this->Radius * this->Radius * this->Radius * 3 / 4 * glm::pi<float>();
+	float Vol_S = this->Radius * this->Radius * this->Radius * 4 / 3 * glm::pi<float>();
 	float Vol_t = Vol_C + Vol_S;
 	float Density = Mass / Vol_t;
+	float Cy_M = Density * Vol_C;
+	float Sp_M = Density * Vol_S;
 	//calculates the inertia parts
-
-	glm::vec3 Col0;
-	glm::vec3 Col1;
-	glm::vec3 Col2;
+	float XX = Cy_M *(glm::pow(Height,2)/16 + glm::pow(this->Radius,2) / 4);
+	XX += Sp_M * (2 * glm::pow(this->Radius,2) / 5 + glm::pow(Height, 2) / 2 + 3 * Height *this->Radius / 8);
+	float YY = Cy_M * (glm::pow(this->Radius,2) / 2);
+	YY += Sp_M * (2 * glm::pow(Radius,2) / 5);
+	float ZZ = XX;
+	//builds matrix
+	glm::vec3 Col0(XX, 0.f, 0.f);
+	glm::vec3 Col1(0.f, YY, 0.f);
+	glm::vec3 Col2(0.f, 0.f, ZZ);
 	return glm::mat3(Col0, Col1, Col2);
 }
