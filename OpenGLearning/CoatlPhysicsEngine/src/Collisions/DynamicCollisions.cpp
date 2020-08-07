@@ -132,7 +132,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
 			//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
+			glm::quat PrevQuat = jj->GetQuat();
 			glm::vec3 Bod_Vel= Temp->GetVel();
+			glm::vec3 Bod_RotVel = Temp->GetRotVel();
 			float F_dt = dt;
 			//Check Collision with The Terrain////////////////////////////////////////////////////
 			if (!Ter.expired())
@@ -201,8 +203,11 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					jj->GetParticle(0)->AcumForce(-F_S);*/
 					if (jj->GetID() != ii->GetID())
 					{
+						//Get other body vel, pos, Rot and RotVel
 						glm::vec3 Bod1_Vel = ii->GetParticle(0)->GetVel();
 						glm::vec3 Pos1 = ii->GetPos();
+						glm::vec3 Bod1_RotVel = ii->GetParticle(0)->GetRotVel();
+						glm::quat Bod1_Q = ii->GetQuat();
 						float F_dt = dt;
 						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,PrevPos,Pos1,0,dt,F_dt))
 						{
