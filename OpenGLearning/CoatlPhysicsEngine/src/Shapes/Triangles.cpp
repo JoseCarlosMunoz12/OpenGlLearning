@@ -72,5 +72,3 @@ std::vector<glm::vec3> Triangles::GetNormals()
 		glm::normalize(T[2] - T[0]) };
 	return T_N;
 }
-
-

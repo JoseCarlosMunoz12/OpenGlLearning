@@ -2185,6 +2185,7 @@ void Game::DrawColInfo()
 										ImGui::TreePop();
 									}
 									//Linear velocity
+									if(ImGui::TreeNode("Linear Velocity"))
 									{
 										glm::vec3 Vel = P_Bod->GetVel();
 										ImGui::Text("Linear Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
@@ -2194,8 +2195,10 @@ void Game::DrawColInfo()
 											P_Bod->SetVel(Vel);
 										if (ImGui::SliderFloat("Z Vel", &Vel.z, -10.f, 10.f))
 											P_Bod->SetVel(Vel);
+										ImGui::TreePop();
 									}
 									//Angular velocity
+									if(ImGui::TreeNode("Angular Velocity"))
 									{
 										glm::vec3 RotVel = P_Bod->GetRotVel();
 										ImGui::Text("RotVel %.3f, %.3f, %.3f", RotVel.x, RotVel.y, RotVel.z);
@@ -2205,6 +2208,7 @@ void Game::DrawColInfo()
 											P_Bod->SetRotVel(RotVel);
 										if (ImGui::SliderFloat("Z RotVel", &RotVel.z, -10.f, 10.f))
 											P_Bod->SetRotVel(RotVel);
+										ImGui::TreePop();
 									}
 									//Body Mass
 									float Mass = P_Bod->GetMass();
