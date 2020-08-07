@@ -110,6 +110,14 @@ std::shared_ptr<ColShapes> Bodies::GetShapes()
 	return this->BodyInf[0]->GetShape();
 }
 
+std::vector<std::shared_ptr<ColShapes>> Bodies::GetAllShapes()
+{
+	std::vector<std::shared_ptr<ColShapes>> T;
+	for (auto& ii : this->BodyInf)
+		T.push_back(ii->GetShape());
+	return T;
+}
+
 std::vector<std::shared_ptr<BodyParts>> Bodies::GetBodyParts()
 {
 	return this->BodyInf;

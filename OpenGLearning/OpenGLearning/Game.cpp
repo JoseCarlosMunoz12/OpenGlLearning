@@ -2092,7 +2092,6 @@ void Game::DrawColInfo()
 					if (ImGui::TreeNode(BodID.c_str()))
 					{
 						std::vector<std::shared_ptr<CPE::BodyParts>>R = Bod->GetBodyParts();
-						int Count = 0;
 						glm::vec3 Ext = (Bod->GetMax() - Bod->GetMin()) / 2.f;
 						glm::vec3 Mid = Bod->GetMid();
 						ImGui::Text("Mid Pnt : %.3f ,  %.3f, %.3f", Mid.x, Mid.y, Mid.z);
@@ -2100,6 +2099,7 @@ void Game::DrawColInfo()
 						ImGui::Separator();
 						if (ImGui::TreeNode("All Sub Bodies in the body"))
 						{
+							int Count = 0;
 							for (auto& kk : R)
 							{
 								std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
