@@ -114,3 +114,11 @@ std::vector<glm::vec3> Capsule::GetNormals()
 	Norm = glm::normalize(Norm);
 	return {Norm};
 }
+
+glm::mat3 Capsule::GetInertia(float Mass)
+{
+	glm::vec3 Col0;
+	glm::vec3 Col1;
+	glm::vec3 Col2;
+	return glm::mat3(Col0, Col1, Col2);
+}
