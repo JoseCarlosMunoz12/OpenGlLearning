@@ -2212,20 +2212,22 @@ void Game::DrawColInfo()
 										P_Bod->SetMass(Mass);
 								}
 								else
-									{
-										if (ImGui::Button("Add Particle"))
-									{
-										Bod->SetParticle(Count);
-										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetVel(glm::vec3(0.f));
-										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetMass(10.f);
-									}
-										if (ImGui::Button("Add Rigid Body"))
-									{
+								{
+									if (ImGui::Button("Add Particle"))
+										{
+											Bod->SetParticle(Count);
+											Bod->GetSpecificBodyPart(Count)->GetParticle()->SetVel(glm::vec3(0.f));
+											Bod->GetSpecificBodyPart(Count)->GetParticle()->SetMass(10.f);
+										}
+									if (ImGui::Button("Add Rigid Body"))
+									{											
 										Bod->SetRigidBody(Count);
 										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetVel(glm::vec3(0.f));
 										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetMass(10.f);
+										glm::mat3 Inrt = kk->GetShape()->GetInertia(10.f);
+										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetInertia(Inrt);
 									}
-									}
+								}
 								Count++;
 							}
 							ImGui::TreePop();

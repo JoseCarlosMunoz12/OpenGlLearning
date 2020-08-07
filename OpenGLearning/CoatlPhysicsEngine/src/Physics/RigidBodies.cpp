@@ -88,7 +88,7 @@ void RigidBodies::SetInertia(glm::mat3 InitInertia)
 	this->InvInertia = glm::inverse(InitInertia);
 }
 
-glm::mat3 CoatlPhysicsEngine::RigidBodies::GetInertiaWorld()
+glm::mat3 RigidBodies::GetInertiaWorld()
 {
 	return glm::inverse(this->InvIntertiaWSpace);
 }
