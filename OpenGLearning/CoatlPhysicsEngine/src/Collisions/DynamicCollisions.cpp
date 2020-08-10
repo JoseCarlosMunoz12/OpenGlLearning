@@ -11,8 +11,8 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 		return true;
 	}
 	float Mid = t0 + (t1 - t0) / 2.f;
-	glm::vec3 TempPos0 = glm::vec3(0.f);
-	if (!this->ColBods(Bod0, Bod1, { Vel * t0,Vel * t1 }, {TempPos0, TempPos0}))
+	glm::vec3 Pos = glm::vec3(0.f);
+	if (!this->ColBods(Bod0, Bod1, { Vel * t0,Vel * t1 }, {Pos, Pos}))
 	{
 		return false;
 	}

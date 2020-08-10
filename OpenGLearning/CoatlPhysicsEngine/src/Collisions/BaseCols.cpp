@@ -29,14 +29,6 @@ bool BaseCols::UpdateBodies(Capsule Cap0, std::shared_ptr<Bodies> Bod0, std::sha
 
 bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	//if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
-	//{
-	//	return this->UpdateBodies(*Sphere0,Bod0, Bod1);
-	//}
-	//else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod0->GetShapes()))
-	//{
-	//	return this->UpdateBodies(*Cap0,Bod0, Bod1);
-	//}
 	return S->GJK(Bod0->GetShapes(), Bod1->GetShapes());
 }
 
