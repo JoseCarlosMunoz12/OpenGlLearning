@@ -38,6 +38,12 @@ glm::vec3 GJK_Alg::Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 	return Shape0->Support(Dir) - Shape1->Support(-Dir);
 }
 
+glm::vec3 GJK_Alg::Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
+	std::vector<glm::vec3> Seg0,std::vector<glm::vec3> Seg1, glm::vec3 Dir)
+{
+	return glm::vec3();
+}
+
 glm::vec3 GJK_Alg::EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir)
 {
 	return Shape0->EPA_Support(Dir) - Shape1->EPA_Support(-Dir);

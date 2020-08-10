@@ -23,6 +23,8 @@ namespace CoatlPhysicsEngine {
 		int Tr_Farthest_Point(std::vector<glm::vec3> Vec);
 		//Simplex for GJK and EPA
 		glm::vec3 Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
+		glm::vec3 Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
+			std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1 ,glm::vec3 Dir);
 		glm::vec3 EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
 		glm::vec3 EPA(std::vector<glm::vec3> Verts,
 			std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, float& Pen);
@@ -37,7 +39,7 @@ namespace CoatlPhysicsEngine {
 		GJK_Alg();
 		~GJK_Alg();
 		bool GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1);
-		bool GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, 
+		bool GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 			std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1);
 		bool EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,glm::vec3& DistVect,float& Pen);
 

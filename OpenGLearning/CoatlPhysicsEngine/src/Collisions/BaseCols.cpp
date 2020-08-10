@@ -43,7 +43,7 @@ bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod
 bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
 	std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1)
 {
-	return false;
+	return S->GJK(Bod0->GetShapes(), Bod1->GetShapes(), Seg0, Seg1);
 }
 
 BaseCols::BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols)
