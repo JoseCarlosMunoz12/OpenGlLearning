@@ -454,6 +454,27 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	return false;
 }
 
+bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1)
+{
+	std::vector<glm::vec3> Verts;
+	glm::vec3 Dir;
+	Simplex_Maker(Shape0, Shape1, Verts, Dir);
+	Verts.push_back(Support(Shape0, Shape1, Dir));
+	Simplex_Maker(Shape0, Shape1, Verts, Dir);
+	for (int ii = 0; ii < 20; ii++)
+	{
+		glm::vec3 A = Support(Shape0, Shape1, Dir);
+		if (glm::dot(A, Dir) <= 0.f)
+			return false;
+		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
+			break;
+		Verts.push_back(A);
+		if (Simplex_Maker(Shape0, Shape1, Verts, Dir))
+			return true;
+	}
+	return false;
+}
+
 bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3& DistVec, float& Pen)
 {
 	std::vector<glm::vec3> Verts;

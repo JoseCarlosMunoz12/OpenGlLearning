@@ -40,6 +40,12 @@ bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod
 	return S->GJK(Bod0->GetShapes(), Bod1->GetShapes());
 }
 
+bool BaseCols::ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
+	std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1)
+{
+	return false;
+}
+
 BaseCols::BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols)
 {
 	this->Name = Name;
