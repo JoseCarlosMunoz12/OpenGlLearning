@@ -20,7 +20,7 @@ void StaticCollisions::UpdateCollisionCheck()
 			std::vector<std::shared_ptr<Bodies>> Quer = Ter.lock()->GetTerrs(jj->GetPos(), 1);
 			for (auto& ii : Quer)
 			{
-				this->ColBods(jj, ii);
+				this->ColBods(jj, ii );
 			}
 		}
 	}

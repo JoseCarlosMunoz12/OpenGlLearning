@@ -42,7 +42,7 @@ namespace CoatlPhysicsEngine {
 		int NewCurID;
 		std::vector<std::shared_ptr<Manifold>> ColRel;
 		bool ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
-		bool ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1);
+		bool ColBods(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, std::vector<glm::vec3> Seg0, std::vector<glm::vec3> S);
 	public:
 		BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols);
 		~BaseCols();
