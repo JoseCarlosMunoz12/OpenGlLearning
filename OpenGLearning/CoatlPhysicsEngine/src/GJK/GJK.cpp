@@ -41,7 +41,26 @@ glm::vec3 GJK_Alg::Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Co
 glm::vec3 GJK_Alg::Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 	std::vector<glm::vec3> Seg0,std::vector<glm::vec3> Seg1, glm::vec3 Dir)
 {
-	return glm::vec3();
+	glm::vec3 Sp0 = Support(Seg0, Dir) + Shape0->Support(Dir);
+	glm::vec3 Sp1 = Support(Seg1, -Dir) + Shape1->Support(-Dir);
+	return Sp0 - Sp1;
+}
+
+glm::vec3 GJK_Alg::Support(std::vector<glm::vec3> Seg, glm::vec3 Dir)
+{
+	float S = glm::dot(Seg[0], Dir);
+	glm::vec3 MaxPnt = Seg[0];
+	int Size = Seg.size();
+	for (int ii = 1; ii < Size; ii++)
+	{
+		float T = glm::dot(Seg[ii], Dir);
+		if (T > S)
+		{
+			S = T;
+			MaxPnt = Seg[ii];
+		}
+	}
+	return MaxPnt;
 }
 
 glm::vec3 GJK_Alg::EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir)
@@ -460,7 +479,8 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	return false;
 }
 
-bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1)
+bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
+	std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1)
 {
 	std::vector<glm::vec3> Verts;
 	glm::vec3 Dir;

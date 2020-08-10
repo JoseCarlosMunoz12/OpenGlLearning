@@ -21,10 +21,13 @@ namespace CoatlPhysicsEngine {
 		float F3Box(glm::vec3 A, glm::vec3 B, glm::vec3 C);
 		glm::vec3 TripleCross(glm::vec3 A, glm::vec3 B);
 		int Tr_Farthest_Point(std::vector<glm::vec3> Vec);
-		//Simplex for GJK and EPA
+		//regular Support Function	
 		glm::vec3 Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
+		//sweep test function
 		glm::vec3 Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 			std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1 ,glm::vec3 Dir);
+		glm::vec3 Support(std::vector<glm::vec3> Seg, glm::vec3 Dir);
+		//EPA GJK functions
 		glm::vec3 EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);
 		glm::vec3 EPA(std::vector<glm::vec3> Verts,
 			std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, float& Pen);
@@ -32,6 +35,7 @@ namespace CoatlPhysicsEngine {
 		std::vector<glm::vec3> NewSimplex(std::vector<glm::vec3> Verts, glm::vec3 NewPoint);
 		float Cl_Dist(std::vector<glm::vec3> Verts);
 		glm::vec3 C_F_E(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1);
+		//Simplex for GJK
 		bool Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 			std::vector<glm::vec3>& Verts, glm::vec3& Dir);
 		std::vector<int> C_F_S(std::vector<glm::vec3>& Verts);
