@@ -120,16 +120,16 @@ glm::mat3 Capsule::GetInertia(float Mass)
 	//Calculates the volumes and mass of both Sphere and Cylinder
 	float Height = glm::distance(this->APos, this->BPos);
 	float Vol_C = this->Radius * this->Radius * glm::pi<float>() * Height;
-	float Vol_S = this->Radius * this->Radius * this->Radius * 4 / 3 * glm::pi<float>();
+	float Vol_S = this->Radius * this->Radius * this->Radius * 4.f / 3.f * glm::pi<float>();
 	float Vol_t = Vol_C + Vol_S;
 	float Density = Mass / Vol_t;
 	float Cy_M = Density * Vol_C;
 	float Sp_M = Density * Vol_S;
 	//calculates the inertia parts
-	float XX = Cy_M *(glm::pow(Height,2)/16 + glm::pow(this->Radius,2) / 4);
-	XX += Sp_M * (2 * glm::pow(this->Radius,2) / 5 + glm::pow(Height, 2) / 2 + 3 * Height *this->Radius / 8);
-	float YY = Cy_M * (glm::pow(this->Radius,2) / 2);
-	YY += Sp_M * (2 * glm::pow(Radius,2) / 5);
+	float XX = Cy_M *(glm::pow(Height,2.f)/16.f + glm::pow(this->Radius,2.f) / 4.f);
+	XX += Sp_M * (2 * glm::pow(this->Radius,2.f) / 5 + glm::pow(Height, 2.f) / 2.f + 3.f * Height *this->Radius / 8.f);
+	float YY = Cy_M * (glm::pow(this->Radius,2.f) / 2.f);
+	YY += Sp_M * (2 * glm::pow(Radius,2.f) / 5.f);
 	float ZZ = XX;
 	//builds matrix
 	glm::vec3 Col0(XX, 0.f, 0.f);
