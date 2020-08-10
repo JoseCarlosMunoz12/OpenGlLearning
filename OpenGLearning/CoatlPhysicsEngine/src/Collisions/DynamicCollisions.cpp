@@ -34,18 +34,7 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 		return true;
 	}
 	float Mid = t0 + (t1 - t0) / 2.f;
-	glm::vec3 TempPos0;
-	glm::vec3 TempPos1;
-	MATH::ClosestSeg_Seg({ InitPos0 + Vel0 * t0,InitPos0 + Vel0 * t1 },
-		{ InitPos1 + Vel1 * t0,InitPos1 + Vel1 * t1 },TempPos0,TempPos1);
-	Bod0->SetPosition(TempPos0);
-	float Dis = glm::distance(InitPos0 + Vel0 * t0, InitPos0 + Vel0 * t1);
-	float Contdis = glm::distance(InitPos0 + Vel0 * t0,TempPos0 );
-	float Loc  = 0.f;
-	if (Dis != 0.f)
-		Loc =  Contdis/Dis  * (t1 - t0);
-	Bod1->SetPosition(InitPos1 + (t0 + Loc) * Vel1);
-	if (!this->ColBods(Bod0, Bod1))
+	if (!this->ColBods(Bod0, Bod1, {Vel0 * t0, Vel0 * t1}, {Vel1 * t0, Vel1 * t1}))
 	{
 		return false;
 	}
