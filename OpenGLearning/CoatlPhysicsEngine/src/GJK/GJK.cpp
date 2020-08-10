@@ -63,14 +63,16 @@ glm::vec3 GJK_Alg::Support(std::vector<glm::vec3> Seg, glm::vec3 Dir)
 	return MaxPnt;
 }
 
-bool GJK_Alg::Simplex_Maker(glm::vec3 Pos0, glm::vec3 Pos1,
+bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Pos0, glm::vec3 Pos1,
 	std::vector<glm::vec3>& Verts, glm::vec3& Dir)
 {
 	int Size = Verts.size();
 	switch (Size)
 	{
 	case 0: {
-		Dir = Pos0 - Pos1;
+		glm::vec3 S_Pos0 = Shape0->GetPos() + Pos0;
+		glm::vec3 S_Pos1 = Shape1->GetPos() + Pos1;
+		Dir = S_Pos0 - S_Pos1;
 	}break;
 	case 1: {
 		Dir = -Verts[0];
@@ -633,9 +635,9 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	glm::vec3 Pos0 = (Seg0[1] + Seg0[0]) / 2.f;
 	glm::vec3 Pos1 = (Seg1[1] + Seg1[0]) / 2.f;
 	glm::vec3 Dir;
-	Simplex_Maker(Pos0, Pos1, Verts, Dir);
-	Verts.push_back(Support(Shape0, Shape1, Dir));
-	Simplex_Maker(Pos0, Pos1, Verts, Dir);
+	Simplex_Maker(Shape0, Shape1,Pos0, Pos1, Verts, Dir);
+	Verts.push_back(Support(Shape0, Shape1,Seg0, Seg1, Dir));
+	Simplex_Maker(Shape0, Shape1, Pos0, Pos1, Verts, Dir);
 	for (int ii = 0; ii < 20; ii++)
 	{
 		glm::vec3 A = Support(Shape0, Shape1, Dir);
@@ -644,7 +646,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
 			break;
 		Verts.push_back(A);
-		if (Simplex_Maker(Pos0, Pos1, Verts, Dir))
+		if (Simplex_Maker(Shape0, Shape1, Pos0, Pos1, Verts, Dir))
 			return true;
 	}
 	return false;

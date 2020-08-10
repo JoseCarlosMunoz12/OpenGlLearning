@@ -27,7 +27,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1,
 			std::vector<glm::vec3> Seg0, std::vector<glm::vec3> Seg1 ,glm::vec3 Dir);
 		glm::vec3 Support(std::vector<glm::vec3> Seg, glm::vec3 Dir);
-		bool Simplex_Maker(glm::vec3 Pos0, glm::vec3 Pos1,
+		bool Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Pos0, glm::vec3 Pos1,
 			std::vector<glm::vec3>& Verts, glm::vec3& Dir);
 		//EPA GJK functions
 		glm::vec3 EPA_Support(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> Shape1, glm::vec3 Dir);

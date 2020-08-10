@@ -11,9 +11,8 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 		return true;
 	}
 	float Mid = t0 + (t1 - t0) / 2.f;
-	glm::vec3 TempPos0 = MATH::ClosestPoint_Seg({Pos + Vel * t0,Pos + Vel * t1}, Bod1->GetPos());
-	Bod0->SetPosition(TempPos0);
-	if (!this->ColBods(Bod0, Bod1))
+	glm::vec3 TempPos0 = glm::vec3(0.f);
+	if (!this->ColBods(Bod0, Bod1, { Vel * t0,Vel * t1 }, {TempPos0, TempPos0}))
 	{
 		return false;
 	}
@@ -124,7 +123,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			//resetForces on the Object///////////////////////////////////////////////////////////
 			Temp->ResetForce();
 			//Gravitaional Force
-			//Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
+			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			// Drag Force
 			/*this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
 			Temp->AcumForce(this->F_Manager->GetForce(*Temp));*/
@@ -150,7 +149,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
-							//Temp->AcumForce(-Gravity * Temp->GetMass());
+							Temp->AcumForce(-Gravity * Temp->GetMass());
 							if (Bod_Vel.z < 0)
 							{
 								if (glm::abs(Bod_Vel.z) > 0.125f)
