@@ -3,6 +3,7 @@
 #include <vector>
 #include "DynamicCollisions.h"
 #include "StaticCollisions.h"
+#include "KinematicsCollisions.h"
 #include "../CollisionManager/CollisionManager.h"
 namespace CoatlPhysicsEngine {
 	struct CollisionWorldSetup
@@ -15,6 +16,7 @@ namespace CoatlPhysicsEngine {
 	private:
 		glm::vec3 Gravity;
 		std::shared_ptr<StaticCollisions> Statics;
+		std::shared_ptr<KinematicsCollisions> Kin;
 		std::shared_ptr<DynamicCollisions> Dynamics;
 		std::shared_ptr<CollisionManager> ColMan;
 		std::string WorldName;
@@ -29,8 +31,10 @@ namespace CoatlPhysicsEngine {
 		void ChangeName(std::string NewName);
 		void CreateStaticCol(std::string Name);
 		void CreateDynamicCol(std::string Name);
+		void CreateKinCol(std::string Name);
 		std::shared_ptr<StaticCollisions> GetCollision();
 		std::shared_ptr<DynamicCollisions> GetDynCol();
+		std::shared_ptr<KinematicsCollisions> GetKinCol();
 		void DeleteStatics();
 		void DeleteDynamics();
 		void UpdateWorld(float dt);

@@ -51,6 +51,14 @@ void CollisionWorld::CreateDynamicCol(std::string Name)
 	}
 }
 
+void CollisionWorld::CreateKinCol(std::string Name)
+{
+	if (!this->Kin)
+	{
+
+	}
+}
+
 std::shared_ptr<StaticCollisions> CollisionWorld::GetCollision()
 {
 	if (this->Statics)
@@ -64,6 +72,13 @@ std::shared_ptr<DynamicCollisions> CollisionWorld::GetDynCol()
 {
 	if (this->Dynamics)
 		return this->Dynamics;
+	return NULL;
+}
+
+std::shared_ptr<KinematicsCollisions> CollisionWorld::GetKinCol()
+{
+	if (this->Kin)
+		return this->Kin;
 	return NULL;
 }
 
