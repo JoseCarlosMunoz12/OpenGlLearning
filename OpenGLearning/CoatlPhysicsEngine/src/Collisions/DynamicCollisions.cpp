@@ -2,7 +2,7 @@
 using namespace CoatlPhysicsEngine;
 
 bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
-	glm::vec3 Vel, glm::vec3 Pos,
+	glm::vec3 Vel,
 	float t0, float t1, float& NewDt)
 {
 	if ((t1 - t0 ) < EPSILON)
@@ -16,16 +16,15 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 	{
 		return false;
 	}
-	if (BinColDetection(Bod0, Bod1, Vel,Pos, t0, Mid, NewDt))
+	if (BinColDetection(Bod0, Bod1, Vel, t0, Mid, NewDt))
 	{
 		return true;
 	}
-	return BinColDetection(Bod0, Bod1, Vel,Pos, Mid, t1, NewDt);
+	return BinColDetection(Bod0, Bod1, Vel, Mid, t1, NewDt);
 }
 
 bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
 	glm::vec3 Vel0, glm::vec3 Vel1,
-	glm::vec3 InitPos0, glm::vec3 InitPos1,
 	float t0, float t1, float& NewDt)
 {
 	if ((t1 - t0) < EPSILON)
@@ -38,11 +37,11 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 	{
 		return false;
 	}
-	if (BinColDetection(Bod0, Bod1, Vel0,Vel1, InitPos0,InitPos1, t0, Mid, NewDt))
+	if (BinColDetection(Bod0, Bod1, Vel0,Vel1, t0, Mid, NewDt))
 	{
 		return true;
 	}
-	return BinColDetection(Bod0, Bod1, Vel0, Vel1, InitPos0, InitPos1, Mid, t1, NewDt);
+	return BinColDetection(Bod0, Bod1, Vel0, Vel1, Mid, t1, NewDt);
 }
 
 void DynamicCollisions::CalcPhysics(std::weak_ptr<Bodies> Bod0, std::weak_ptr<Bodies> Bod1)
@@ -132,7 +131,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				{					
 					for (auto& ii : Quers)
 					{
-						if (this->BinColDetection(jj, ii,Bod_Vel, PrevPos, 0, dt, F_dt))
+						if (this->BinColDetection(jj, ii,Bod_Vel,0, dt, F_dt))
 						{
 							jj->MovePosition(F_dt * Bod_Vel);
 							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
@@ -197,7 +196,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						glm::vec3 Bod1_RotVel = ii->GetParticle(0)->GetRotVel();
 						glm::quat Bod1_Q = ii->GetQuat();
 						float F_dt = dt;
-						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,PrevPos,Pos1,0,dt,F_dt))
+						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,0,dt,F_dt))
 						{
 							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
 							if (!this->ContainsManifold(ColRel, T))
