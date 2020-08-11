@@ -15,6 +15,7 @@ namespace CoatlPhysicsEngine {
 		KinematicsCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~KinematicsCollisions();
 		std::vector<std::shared_ptr<Bodies>> GetBods(std::shared_ptr<Bodies> Bod);
+		void UpdateBodies(float dt);
 	};
 }
 

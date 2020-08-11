@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseCols.h"
 #include "StaticCollisions.h"
+#include "KinematicsCollisions.h"
 #include "../Maths/Maths.h"
 #include "../Physics/Phys_Libs.h"
 
@@ -32,7 +33,7 @@ namespace CoatlPhysicsEngine {
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();
-		void CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt);
+		void CheckCollision(std::shared_ptr<StaticCollisions> Statics,std::shared_ptr<KinematicsCollisions> Kin,float dt);
 		//Body information of Class
 		void AddNewBody(std::shared_ptr<ColShapes> NewShape);
 		void AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewShapes);

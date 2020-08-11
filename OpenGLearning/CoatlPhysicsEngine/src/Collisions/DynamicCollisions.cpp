@@ -79,7 +79,7 @@ DynamicCollisions::~DynamicCollisions()
 
 }
 
-void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics,float dt)
+void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics, std::shared_ptr<KinematicsCollisions> Kin, float dt)
 {
 	this->ColRel.clear();
 	//make approriate Algorithm
@@ -175,6 +175,21 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
 						}
 						jj->SetPosition(PrevPos);
+					}
+				}
+			}
+			//Check Collision with Kinemaic Bodies///////////////////////////////////////////////
+			if (Kin)
+			{
+				std::vector<std::shared_ptr<Bodies>> Que = Kin->GetBods(jj);
+				for (auto& ii : Que)
+				{
+					glm::vec3 KinVel = ii->GetParticle(0)->GetVel();
+					if (this->BinColDetection(jj, ii, Bod_Vel, KinVel, 0.f, dt, F_dt))
+					{
+						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
+						if (!this->ContainsManifold(ColRel, T))
+							ColRel.push_back(T);
 					}
 				}
 			}

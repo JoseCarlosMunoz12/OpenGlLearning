@@ -103,7 +103,7 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld(float dt)
 	//moves Kinematic objects
 	if (this->Kin)
 	{
-
+		this->Kin->UpdateBodies(dt);
 	}
 	//Does Physics Maths and Dynamic Collisions
 	if (this->Dynamics)

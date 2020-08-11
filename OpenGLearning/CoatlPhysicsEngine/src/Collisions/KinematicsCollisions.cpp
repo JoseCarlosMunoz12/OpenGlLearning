@@ -34,3 +34,8 @@ std::vector<std::shared_ptr<Bodies>> KinematicsCollisions::GetBods(std::shared_p
 	//get queries and test them
 	return this->AlgoCheck->GetQueries(Bod, Ext);
 }
+
+void KinematicsCollisions::UpdateBodies(float dt)
+{
+
+}
