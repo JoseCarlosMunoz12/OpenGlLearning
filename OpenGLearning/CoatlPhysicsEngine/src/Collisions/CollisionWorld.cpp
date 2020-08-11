@@ -55,6 +55,7 @@ void CollisionWorld::CreateKinCol(std::string Name)
 {
 	if (!this->Kin)
 	{
+		this->Dynamics = std::make_shared<DynamicCollisions>(Name, this->ColMan);
 
 	}
 }
@@ -98,6 +99,11 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld(float dt)
 	if (this->Statics && CheckStatics)
 	{
 		this->Statics->UpdateCollisionCheck();
+	}
+	//moves Kinematic objects
+	if (this->Kin)
+	{
+
 	}
 	//Does Physics Maths and Dynamic Collisions
 	if (this->Dynamics)
