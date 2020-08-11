@@ -132,3 +132,8 @@ std::shared_ptr<Bod_Base> Bodies::GetParticle(int ID)
 {
 	return this->BodyInf[ID]->GetParticle();
 }
+
+void Bodies::MakeJoint(std::shared_ptr<BodyParts> Bod0, std::shared_ptr<BodyParts> Bod1)
+{
+
+}

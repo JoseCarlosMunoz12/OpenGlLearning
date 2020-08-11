@@ -4,6 +4,7 @@
 #include "../Physics/Particle.h"
 #include "../Physics/RigidBodies.h"
 #include "BodyParts.h"
+#include "Joints/Joints.h"
 namespace CoatlPhysicsEngine {
 	class Bodies
 	{
@@ -13,6 +14,7 @@ namespace CoatlPhysicsEngine {
 		int ID;
 		int Vec_Size;
 		std::vector<std::shared_ptr<BodyParts>> BodyInf;
+		std::vector<std::unique_ptr<Joints>> Joints;
 		glm::vec3 Max;
 		glm::vec3 Min;
 		glm::vec3 Mid;
@@ -42,5 +44,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 GetMax() { return this->Max; };
 		glm::vec3 GetMin() { return this->Min; };
 		glm::vec3 GetMid() { return this->Mid; };
+		//Create A joint with the bodies
+		void MakeJoint(std::shared_ptr<BodyParts> Bod0, std::shared_ptr<BodyParts> Bod1);
 	};
 }
