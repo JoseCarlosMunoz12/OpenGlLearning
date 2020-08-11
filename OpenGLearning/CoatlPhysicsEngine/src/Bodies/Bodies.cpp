@@ -137,3 +137,7 @@ void Bodies::MakeJoint(std::shared_ptr<BodyParts> Bod0, std::shared_ptr<BodyPart
 {
 
 }
+
+void Bodies::MakeJoint(int ID0, int ID1)
+{
+}

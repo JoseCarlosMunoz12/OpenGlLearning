@@ -46,5 +46,6 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 GetMid() { return this->Mid; };
 		//Create A joint with the bodies
 		void MakeJoint(std::shared_ptr<BodyParts> Bod0, std::shared_ptr<BodyParts> Bod1);
+		void MakeJoint(int ID0, int ID1);
 	};
 }
