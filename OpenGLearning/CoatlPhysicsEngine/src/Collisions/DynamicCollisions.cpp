@@ -2,28 +2,6 @@
 using namespace CoatlPhysicsEngine;
 
 bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
-	glm::vec3 Vel,
-	float t0, float t1, float& NewDt)
-{
-	if ((t1 - t0 ) < EPSILON)
-	{
-		NewDt = t0;
-		return true;
-	}
-	float Mid = t0 + (t1 - t0) / 2.f;
-	glm::vec3 Pos = glm::vec3(0.f);
-	if (!this->ColBods(Bod0, Bod1, { Vel * t0,Vel * t1 }, {Pos, Pos}))
-	{
-		return false;
-	}
-	if (BinColDetection(Bod0, Bod1, Vel, t0, Mid, NewDt))
-	{
-		return true;
-	}
-	return BinColDetection(Bod0, Bod1, Vel, Mid, t1, NewDt);
-}
-
-bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
 	glm::vec3 Vel0, glm::vec3 Vel1,
 	float t0, float t1, float& NewDt)
 {
