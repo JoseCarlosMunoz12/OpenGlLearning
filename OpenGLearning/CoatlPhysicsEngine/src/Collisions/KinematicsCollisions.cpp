@@ -37,7 +37,13 @@ std::vector<std::shared_ptr<Bodies>> KinematicsCollisions::GetBods(std::shared_p
 
 void KinematicsCollisions::UpdateBodies(float dt)
 {
+	for (auto& ii : this->AllBods)
+	{
 
+		std::shared_ptr<Bod_Base> Temp = ii->GetSpecificBodyPart(0)->GetParticle();
+		if (Temp)
+			Temp->UpdatePos(dt);
+	}
 }
 
 Alg_Type KinematicsCollisions::GetType()
