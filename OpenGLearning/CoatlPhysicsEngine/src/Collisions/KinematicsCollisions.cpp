@@ -39,10 +39,24 @@ void KinematicsCollisions::UpdateBodies(float dt)
 {
 	for (auto& ii : this->AllBods)
 	{
-
 		std::shared_ptr<Bod_Base> Temp = ii->GetSpecificBodyPart(0)->GetParticle();
 		if (Temp)
 			Temp->UpdatePos(dt);
+	}
+}
+
+void KinematicsCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)
+{
+	this->AllBods.push_back(std::make_shared<Bodies>(NewShape, this->NewCurId));
+	this->NewCurId++;
+}
+
+void KinematicsCollisions::AddNewBody(std::vector<std::shared_ptr<ColShapes>> NewShapes)
+{
+	for (auto& ii : NewShapes)
+	{
+		this->AllBods.push_back(std::make_shared<Bodies>(ii, this->NewCurId));
+		this->NewCurId++;
 	}
 }
 

@@ -56,7 +56,6 @@ void CollisionWorld::CreateKinCol(std::string Name)
 	if (!this->Kin)
 	{
 		this->Dynamics = std::make_shared<DynamicCollisions>(Name, this->ColMan);
-
 	}
 }
 
