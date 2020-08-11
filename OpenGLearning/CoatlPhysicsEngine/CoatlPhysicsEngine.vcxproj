@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Bodies\Joints\Joints.h" />
     <ClInclude Include="src\Collisions\KinematicsCollisions.h" />
     <ClInclude Include="src\Physics\Bod_Base.h" />
     <ClInclude Include="src\Physics\RigidBodies.h" />
