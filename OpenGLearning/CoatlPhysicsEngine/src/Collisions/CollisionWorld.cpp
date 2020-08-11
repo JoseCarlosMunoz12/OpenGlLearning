@@ -83,33 +83,32 @@ std::shared_ptr<KinematicsCollisions> CollisionWorld::GetKinCol()
 	return NULL;
 }
 
-void CoatlPhysicsEngine::CollisionWorld::DeleteStatics()
+void CollisionWorld::DeleteStatics()
 {
 	this->Statics.reset();
 }
 
-void CoatlPhysicsEngine::CollisionWorld::DeleteDynamics()
+void CollisionWorld::DeleteDynamics()
 {
 	this->Dynamics.reset();
 }
 
-void CoatlPhysicsEngine::CollisionWorld::UpdateWorld(float dt)
+void CollisionWorld::DeleteKinematics()
+{
+	this->Kin.reset();
+}
+
+void CollisionWorld::UpdateWorld(float dt)
 {
 	//check where the Statics are if touching the Terrain
 	if (this->Statics && CheckStatics)
-	{
 		this->Statics->UpdateCollisionCheck();
-	}
 	//moves Kinematic objects
 	if (this->Kin)
-	{
 		this->Kin->UpdateBodies(dt);
-	}
 	//Does Physics Maths and Dynamic Collisions
 	if (this->Dynamics)
-	{
 		this->Dynamics->CheckCollision(this->Statics,this->Kin,dt);
-	}
 }
 
 void CollisionWorld::SetTerrain(std::vector<glm::vec3> Ver, std::vector<int> Ind, float Dim)

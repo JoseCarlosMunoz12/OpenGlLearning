@@ -37,6 +37,7 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<KinematicsCollisions> GetKinCol();
 		void DeleteStatics();
 		void DeleteDynamics();
+		void DeleteKinematics();
 		void UpdateWorld(float dt);
 		void SetTerrain(std::vector<glm::vec3>Ver, std::vector<int>Ind, float Dim);
 		void ToggleStaticCheck();
