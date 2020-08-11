@@ -1,8 +1,10 @@
 #pragma once
 namespace CoatlPhysicsEngine
 {
-	class Joints
+	class ColJoints
 	{
-
+	public:
+		ColJoints() {};
+		~ColJoints() {};
 	};
 }

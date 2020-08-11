@@ -14,7 +14,7 @@ namespace CoatlPhysicsEngine {
 		int ID;
 		int Vec_Size;
 		std::vector<std::shared_ptr<BodyParts>> BodyInf;
-		std::vector<std::unique_ptr<Joints>> Joints;
+		std::vector<std::unique_ptr<ColJoints>> Joints;
 		glm::vec3 Max;
 		glm::vec3 Min;
 		glm::vec3 Mid;
