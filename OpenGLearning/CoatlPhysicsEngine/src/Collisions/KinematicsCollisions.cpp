@@ -39,3 +39,18 @@ void KinematicsCollisions::UpdateBodies(float dt)
 {
 
 }
+
+Alg_Type KinematicsCollisions::GetType()
+{
+	return  this->AlgoType;
+}
+
+void KinematicsCollisions::SetNewType(Alg_Type NewType)
+{
+	this->AlgoType = NewType;
+}
+
+void KinematicsCollisions::SetTerrain(std::shared_ptr<Terrain> NewTer)
+{
+	this->Ter = NewTer;
+}

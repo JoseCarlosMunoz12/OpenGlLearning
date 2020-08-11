@@ -156,7 +156,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
-			//Check Collision with Kinemaic Bodies///////////////////////////////////////////////
+			//Check Collision with Kinematic Bodies///////////////////////////////////////////////
 			if (Kin)
 			{
 				std::vector<std::shared_ptr<Bodies>> Que = Kin->GetBods(jj);

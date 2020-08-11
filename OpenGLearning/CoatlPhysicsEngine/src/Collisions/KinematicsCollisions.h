@@ -16,6 +16,9 @@ namespace CoatlPhysicsEngine {
 		~KinematicsCollisions();
 		std::vector<std::shared_ptr<Bodies>> GetBods(std::shared_ptr<Bodies> Bod);
 		void UpdateBodies(float dt);
+		Alg_Type GetType();
+		void SetNewType(Alg_Type NewType);
+		void SetTerrain(std::shared_ptr<Terrain> NewTer);
 	};
 }
 

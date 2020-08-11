@@ -108,7 +108,7 @@ void CoatlPhysicsEngine::CollisionWorld::UpdateWorld(float dt)
 	//Does Physics Maths and Dynamic Collisions
 	if (this->Dynamics)
 	{
-		this->Dynamics->CheckCollision(this->Statics,dt);
+		this->Dynamics->CheckCollision(this->Statics,this->Kin,dt);
 	}
 }
 
@@ -119,6 +119,8 @@ void CollisionWorld::SetTerrain(std::vector<glm::vec3> Ver, std::vector<int> Ind
 		this->Statics->SetTerrain(Ter);
 	if (this->Dynamics)
 		this->Dynamics->SetTerrain(Ter);
+	if (this->Kin)
+		this->Kin->SetTerrain(Ter);
 }
 
 void CollisionWorld::ToggleStaticCheck()
