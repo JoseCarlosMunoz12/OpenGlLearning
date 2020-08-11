@@ -5,6 +5,8 @@
 		glm::vec3 ContactPoint;
 		glm::vec3 Normal;
 		float Penetration;
+		float Friction;
+		float Restituion;
 	};
 	struct Manifold
 	{
