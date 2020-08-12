@@ -1914,20 +1914,16 @@ void Game::DrawColInfo()
 		ImGui::Text(ColGrav.c_str(), this->ColWorld->GetGravity().z);
 		std::shared_ptr<CPE::StaticCollisions> TempStatic = this->ColWorld->GetCollision();
 		std::shared_ptr<CPE::DynamicCollisions> TempDynamic = this->ColWorld->GetDynCol();
+		std::shared_ptr<CPE::KinematicsCollisions> TempKin = this->ColWorld->GetKinCol();
 		if (!TempStatic)
-		{
 			if (ImGui::Button("Create Static Collisions"))
-			{
 				this->ColWorld->CreateStaticCol("Stas");
-			}
-		}
 		if (!TempDynamic)
-		{
 			if (ImGui::Button("Create Dynamic Collision"))
-			{
 				this->ColWorld->CreateDynamicCol("Dyn");
-			}
-		}
+		if (!TempKin)
+			if (ImGui::Button("Create Kinematic Collision"))
+				this->ColWorld->CreateKinCol("Kin");
 		if (ImGui::Button("Create Terrain"))
 		{
 			std::vector<glm::vec3> Vec;
@@ -2291,6 +2287,16 @@ void Game::DrawColInfo()
 		else
 		{
 			ImGui::Text("No Dynamic Collisions");
+		}
+		ImGui::Separator();
+		//Kinematic Collision Information
+		if (TempKin)
+		{
+
+		}
+		else
+		{
+			ImGui::Text("No Kinematic Collisions");
 		}
 	}
 	ImGui::Separator();
