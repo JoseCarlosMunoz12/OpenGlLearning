@@ -17,5 +17,6 @@
 		//-1 for both are movable
 		//0 For Bod0 is only Movable
 		//1 For Bod1 is only Movable
+		//2 is for the Joint usage
 		int ID;
 	};

@@ -177,6 +177,8 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
 		case 1:
 			this->ResolveResolution(Cnt->Bod1, Cnt);
 			break;
+		case 2:
+			break;
 		default:
 			if (Cnt->Bod0->GetBodyParts()[0]->GetParticle())
 			{
