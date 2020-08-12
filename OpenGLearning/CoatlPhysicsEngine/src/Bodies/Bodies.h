@@ -49,7 +49,5 @@ namespace CoatlPhysicsEngine {
 		void MakeJoint(std::shared_ptr<BodyParts> Bod0, std::shared_ptr<BodyParts> Bod1);
 		void MakeJoint(int ID0, int ID1);
 		std::vector<std::weak_ptr<ColJoints>> GetAllJoints();
-		//Check if has already collided with
-
 	};
 }
