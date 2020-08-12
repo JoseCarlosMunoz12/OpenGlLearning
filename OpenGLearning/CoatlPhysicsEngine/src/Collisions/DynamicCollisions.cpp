@@ -78,121 +78,125 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Find all Collisions and Calculate its Force Geneartors
 	for (auto& jj : AllBods)
 	{
-		std::shared_ptr<Bod_Base> Temp = jj->GetParticle(0);
-		if (Temp)
+		int SubBodCount = jj->GetVecSize();
+		for (int kk = 0; kk < SubBodCount; kk++)
 		{
-			//resetForces on the Object///////////////////////////////////////////////////////////
-			Temp->ResetForce();
-			//Gravitaional Force
-			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
-			// Drag Force
-			/*this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
-			Temp->AcumForce(this->F_Manager->GetForce(*Temp));*/
-			// Spring Force
-			//this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
-			//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
-			glm::vec3 PrevPos = jj->GetPos();
-			glm::quat PrevQuat = jj->GetQuat();
-			glm::vec3 Bod_Vel= Temp->GetVel();
-			glm::vec3 Bod_RotVel = Temp->GetRotVel();
-			float F_dt = dt;
-			//Check Collision with The Terrain////////////////////////////////////////////////////
-			if (!Ter.expired())
+			std::shared_ptr<Bod_Base> Temp = jj->GetParticle(kk);
+			if (Temp)
 			{
-				std::vector<std::shared_ptr<Bodies>> Quers = Ter.lock()->GetTerrs(jj->GetPos(), 1);
-				if (!this->Ter.expired())
-				{					
-					for (auto& ii : Quers)
-					{
-						if (this->BinColDetection(jj, ii,Bod_Vel,glm::vec3(0.f),0.f, dt, F_dt))
+				//resetForces on the Object///////////////////////////////////////////////////////////
+				Temp->ResetForce();
+				//Gravitaional Force
+				Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
+				// Drag Force
+				/*this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
+				Temp->AcumForce(this->F_Manager->GetForce(*Temp));*/
+				// Spring Force
+				//this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
+				//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
+				glm::vec3 PrevPos = Temp->GetPos();
+				glm::quat PrevQuat = Temp->GetQuat();
+				glm::vec3 Bod_Vel= Temp->GetVel();
+				glm::vec3 Bod_RotVel = Temp->GetRotVel();
+				float F_dt = dt;
+				//Check Collision with The Terrain////////////////////////////////////////////////////
+				if (!Ter.expired())
+				{
+					std::vector<std::shared_ptr<Bodies>> Quers = Ter.lock()->GetTerrs(jj->GetPos(), 1);
+					if (!this->Ter.expired())
+					{					
+						for (auto& ii : Quers)
 						{
-							jj->MovePosition(F_dt * Bod_Vel);
+							if (this->BinColDetection(jj, ii,Bod_Vel,glm::vec3(0.f),0.f, dt, F_dt))
+							{
+								jj->MovePosition(F_dt * Bod_Vel);
+								std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
+								if (!this->ContainsManifold(ColRel, T))
+									ColRel.push_back(T);
+								Temp->AcumForce(-Gravity * Temp->GetMass());
+								if (Bod_Vel.z < 0)
+								{
+									if (glm::abs(Bod_Vel.z) > 0.125f)
+									{
+										Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
+									}
+									else
+									{
+										Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
+									}
+								}
+								jj->SetPosition(PrevPos);
+							}
+						}
+					}
+				}
+				//Check Collision with Static Bodies//////////////////////////////////////////////////
+				if (Statics)
+				{
+					std::vector<std::shared_ptr<Bodies>> Que = Statics->GetBods(jj);
+					for (auto& ii : Que)
+					{
+						if (this->BinColDetection(jj, ii, Bod_Vel,glm::vec3(0.f), 0.f, dt, F_dt))
+						{
 							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
 							Temp->AcumForce(-Gravity * Temp->GetMass());
-							if (Bod_Vel.z < 0)
+							if (glm::abs(Bod_Vel.z) > 0.0625f)
 							{
-								if (glm::abs(Bod_Vel.z) > 0.125f)
-								{
-									Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
-								}
-								else
-								{
-									Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
-								}
+								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, -Bod_Vel.z / 2));
+							}
+							else
+							{
+								Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
 							}
 							jj->SetPosition(PrevPos);
 						}
 					}
 				}
-			}
-			//Check Collision with Static Bodies//////////////////////////////////////////////////
-			if (Statics)
-			{
-				std::vector<std::shared_ptr<Bodies>> Que = Statics->GetBods(jj);
-				for (auto& ii : Que)
+				//Check Collision with Kinematic Bodies///////////////////////////////////////////////
+				if (Kin)
 				{
-					if (this->BinColDetection(jj, ii, Bod_Vel,glm::vec3(0.f), 0.f, dt, F_dt))
+					std::vector<std::shared_ptr<Bodies>> Que = Kin->GetBods(jj);
+					for (auto& ii : Que)
 					{
-						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
-						if (!this->ContainsManifold(ColRel, T))
-							ColRel.push_back(T);
-						Temp->AcumForce(-Gravity * Temp->GetMass());
-						if (glm::abs(Bod_Vel.z) > 0.0625f)
+						glm::vec3 KinVel = ii->GetParticle(0)->GetVel();
+						if (this->BinColDetection(jj, ii, Bod_Vel, KinVel, 0.f, dt, F_dt))
 						{
-							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, -Bod_Vel.z / 2));
-						}
-						else
-						{
-							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
-						}
-						jj->SetPosition(PrevPos);
-					}
-				}
-			}
-			//Check Collision with Kinematic Bodies///////////////////////////////////////////////
-			if (Kin)
-			{
-				std::vector<std::shared_ptr<Bodies>> Que = Kin->GetBods(jj);
-				for (auto& ii : Que)
-				{
-					glm::vec3 KinVel = ii->GetParticle(0)->GetVel();
-					if (this->BinColDetection(jj, ii, Bod_Vel, KinVel, 0.f, dt, F_dt))
-					{
-						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
-						if (!this->ContainsManifold(ColRel, T))
-							ColRel.push_back(T);
-					}
-				}
-			}
-			//Check Collision with othe Dynamics//////////////////////////////////////////////////
-			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
-			for (auto& ii : Quer)
-			{
-				if (ii->GetParticle(0))
-				{
-					/*this->F_Manager = std::make_unique<Phy_Spring>(10, 20);
-					glm::vec3 F_S = this->F_Manager->GetForce(*ii->GetParticle(0), *jj->GetParticle(0));
-					ii->GetParticle(0)->AcumForce(F_S);
-					jj->GetParticle(0)->AcumForce(-F_S);*/
-					if (jj->GetID() != ii->GetID())
-					{
-						//Get other body vel, pos, Rot and RotVel
-						glm::vec3 Bod1_Vel = ii->GetParticle(0)->GetVel();
-						glm::vec3 Pos1 = ii->GetPos();
-						glm::vec3 Bod1_RotVel = ii->GetParticle(0)->GetRotVel();
-						glm::quat Bod1_Q = ii->GetQuat();
-						float F_dt = dt;
-						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,0,dt,F_dt))
-						{
-							jj->MovePosition(Bod_Vel * F_dt);
-							ii->MovePosition(Bod1_Vel * F_dt);
-							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
+							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
-							ii->SetPosition(Pos1);
-							jj->SetPosition(PrevPos);
+						}
+					}
+				}
+				//Check Collision with othe Dynamics//////////////////////////////////////////////////
+				std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
+				for (auto& ii : Quer)
+				{
+					if (ii->GetParticle(0))
+					{
+						/*this->F_Manager = std::make_unique<Phy_Spring>(10, 20);
+						glm::vec3 F_S = this->F_Manager->GetForce(*ii->GetParticle(0), *jj->GetParticle(0));
+						ii->GetParticle(0)->AcumForce(F_S);
+						jj->GetParticle(0)->AcumForce(-F_S);*/
+						if (jj->GetID() != ii->GetID())
+						{
+							//Get other body vel, pos, Rot and RotVel
+							glm::vec3 Bod1_Vel = ii->GetParticle(0)->GetVel();
+							glm::vec3 Pos1 = ii->GetPos();
+							glm::vec3 Bod1_RotVel = ii->GetParticle(0)->GetRotVel();
+							glm::quat Bod1_Q = ii->GetQuat();
+							float F_dt = dt;
+							if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,0,dt,F_dt))
+							{
+								jj->MovePosition(Bod_Vel * F_dt);
+								ii->MovePosition(Bod1_Vel * F_dt);
+								std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, -1);
+								if (!this->ContainsManifold(ColRel, T))
+									ColRel.push_back(T);
+								ii->SetPosition(Pos1);
+								jj->SetPosition(PrevPos);
+							}
 						}
 					}
 				}
