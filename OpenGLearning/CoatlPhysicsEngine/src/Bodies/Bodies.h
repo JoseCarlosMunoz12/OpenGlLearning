@@ -15,6 +15,7 @@ namespace CoatlPhysicsEngine {
 		int Vec_Size;
 		std::vector<std::shared_ptr<BodyParts>> BodyInf;
 		std::vector<std::shared_ptr<ColJoints>> Joints;
+		std::vector<int> Collided;
 		glm::vec3 Max;
 		glm::vec3 Min;
 		glm::vec3 Mid;
@@ -48,5 +49,7 @@ namespace CoatlPhysicsEngine {
 		void MakeJoint(std::shared_ptr<BodyParts> Bod0, std::shared_ptr<BodyParts> Bod1);
 		void MakeJoint(int ID0, int ID1);
 		std::vector<std::weak_ptr<ColJoints>> GetAllJoints();
+		//Check if has already collided with
+
 	};
 }
