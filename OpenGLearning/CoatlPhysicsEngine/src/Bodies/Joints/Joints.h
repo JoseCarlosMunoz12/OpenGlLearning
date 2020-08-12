@@ -8,6 +8,7 @@ namespace CoatlPhysicsEngine
 	protected:
 		std::weak_ptr<BodyParts> BodA;
 		std::weak_ptr<BodyParts> BodB;
+		float Max;
 	public:
 		ColJoints() {};
 		~ColJoints() {};

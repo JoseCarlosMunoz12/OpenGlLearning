@@ -47,5 +47,6 @@ namespace CoatlPhysicsEngine {
 		//Create A joint with the bodies
 		void MakeJoint(std::shared_ptr<BodyParts> Bod0, std::shared_ptr<BodyParts> Bod1);
 		void MakeJoint(int ID0, int ID1);
+		std::vector<std::unique_ptr<ColJoints>> GetAllJoints() { return this->Joints; };
 	};
 }
