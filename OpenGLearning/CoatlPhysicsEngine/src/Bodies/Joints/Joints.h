@@ -21,6 +21,7 @@ namespace CoatlPhysicsEngine
 		virtual void SetAngle(glm::quat NewAngle) { return; };
 		//Get Parameters
 		virtual float GetMax() { return this->Max; };
-
+		virtual float GetMin() { return 0.f; };
+		virtual glm::quat GetAngle() { return glm::quat(1.f, 0.f, 0.f, 0.f); };
 	};
 }
