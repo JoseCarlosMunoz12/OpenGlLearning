@@ -11,6 +11,7 @@
 
 #include "../Shapes/ColShapes.h"
 #include "../Bodies/Bodies.h"
+#include "../Bodies/Joints/Joints.h"
 #include "../CollisionManager/CollisionManager.h"
 #include "../CollisionResolution/Col_Resolution.h"
 #include "Terrain.h"
@@ -36,6 +37,7 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<CollisionManager> ColMan;
 		std::string Name;
 		std::vector<std::shared_ptr<Bodies>> AllBods;
+		std::vector<std::shared_ptr<ColJoints>> AllJoints;
 		std::unique_ptr<Queries> AlgoCheck;
 		std::weak_ptr<Terrain> Ter;
 		std::unique_ptr<GJK_Alg> S;
