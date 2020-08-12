@@ -201,6 +201,9 @@
     <ClInclude Include="src\Bodies\Joints\Joints.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bodies\Joints\J_Joint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">
@@ -369,6 +372,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Collisions\KinematicsCollisions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bodies\Joints\J_Joint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
