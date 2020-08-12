@@ -141,3 +141,11 @@ void Bodies::MakeJoint(std::shared_ptr<BodyParts> Bod0, std::shared_ptr<BodyPart
 void Bodies::MakeJoint(int ID0, int ID1)
 {
 }
+
+std::vector<std::weak_ptr<ColJoints>> Bodies::GetAllJoints()
+{
+	std::vector<std::weak_ptr<ColJoints>> T;
+	for (auto& jj : this->Joints)
+		T.push_back(jj);
+	return T;
+}
