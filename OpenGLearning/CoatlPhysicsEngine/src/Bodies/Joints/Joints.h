@@ -20,5 +20,6 @@ namespace CoatlPhysicsEngine
 		virtual float GetMax() { return this->Max; };
 		virtual float GetMin() { return 0.f; };
 		virtual glm::quat GetAngle() { return glm::quat(1.f, 0.f, 0.f, 0.f); };
+		virtual std::string GetBodId() { return ""; };
 	};
 }

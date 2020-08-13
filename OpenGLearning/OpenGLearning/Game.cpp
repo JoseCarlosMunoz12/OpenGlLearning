@@ -2266,6 +2266,17 @@ void Game::DrawColInfo()
 				}
 				ImGui::TreePop();
 			}
+			if (ImGui::TreeNode("All Collections"))
+			{
+				std::vector<std::shared_ptr<Collection>> T = TempDynamic->GetCollections();
+				for (auto& jj : T)
+				{
+					std::vector<std::shared_ptr<ColJoints>> E = jj->GetJoints();
+					for (auto& ii : E)
+						ii->GetMax();
+				}
+				ImGui::TreePop();
+			}
 		}
 		else
 		{
