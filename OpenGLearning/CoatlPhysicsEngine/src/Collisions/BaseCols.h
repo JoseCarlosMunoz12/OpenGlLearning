@@ -37,7 +37,6 @@ namespace CoatlPhysicsEngine {
 		std::shared_ptr<CollisionManager> ColMan;
 		std::string Name;
 		std::vector<std::shared_ptr<Bodies>> AllBods;
-		std::vector<std::shared_ptr<ColJoints>> AllJoints;
 		std::unique_ptr<Queries> AlgoCheck;
 		std::weak_ptr<Terrain> Ter;
 		std::unique_ptr<GJK_Alg> S;
