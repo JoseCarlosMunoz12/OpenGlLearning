@@ -2273,7 +2273,7 @@ void Game::DrawColInfo()
 				{
 					std::vector<std::shared_ptr<ColJoints>> E = jj->GetJoints();
 					for (auto& ii : E)
-						ii->GetMax();
+						ImGui::Text(ii->GetBodId().c_str());
 				}
 				if (ImGui::Button("Make New Joint"))
 				{

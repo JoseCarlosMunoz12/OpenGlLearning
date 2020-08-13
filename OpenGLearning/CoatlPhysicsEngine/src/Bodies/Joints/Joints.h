@@ -1,5 +1,6 @@
 #pragma once
 #include "../BodyParts.h"
+#include "../../CollisionResolution/Manifoldsh.h"
 namespace CoatlPhysicsEngine
 {
 	class ColJoints
@@ -21,5 +22,6 @@ namespace CoatlPhysicsEngine
 		virtual float GetMin() { return 0.f; };
 		virtual glm::quat GetAngle() { return glm::quat(1.f, 0.f, 0.f, 0.f); };
 		virtual std::string GetBodId() { return ""; };
+		virtual std::shared_ptr<Manifold> GetCorrection() { return std::make_shared<Manifold>(); };
 	};
 }
