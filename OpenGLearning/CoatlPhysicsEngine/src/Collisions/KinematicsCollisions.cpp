@@ -39,7 +39,7 @@ void KinematicsCollisions::UpdateBodies(float dt)
 {
 	for (auto& ii : this->AllBods)
 	{
-		std::shared_ptr<Bod_Base> Temp = ii->GetSpecificBodyPart(0)->GetParticle();
+		std::shared_ptr<Bod_Base> Temp = ii->GetBodyParts()->GetParticle();
 		if (Temp)
 			Temp->UpdatePos(dt);
 	}

@@ -2087,7 +2087,7 @@ void Game::DrawColInfo()
 					ImGui::Text(BodID.c_str());
 					if (ImGui::TreeNode(BodID.c_str()))
 					{
-						std::vector<std::shared_ptr<CPE::BodyParts>>R = Bod->GetBodyParts();
+						std::shared_ptr<CPE::BodyParts> R = Bod->GetBodyParts();
 						glm::vec3 Ext = (Bod->GetMax() - Bod->GetMin()) / 2.f;
 						glm::vec3 Mid = Bod->GetMid();
 						ImGui::Text("Mid Pnt : %.3f ,  %.3f, %.3f", Mid.x, Mid.y, Mid.z);
@@ -2096,14 +2096,12 @@ void Game::DrawColInfo()
 						if (ImGui::TreeNode("All Sub Bodies in the body"))
 						{
 							int Count = 0;
-							for (auto& kk : R)
-							{
 								std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
 								std::string Sert = "W_Quat0->" + std::to_string(Count) + " information";
-								std::shared_ptr<CPE::Bod_Base> P_Bod = kk->GetParticle();
+								std::shared_ptr<CPE::Bod_Base> P_Bod = R->GetParticle();
 								if (ImGui::TreeNode(Sed.c_str()))
 								{
-									glm::vec3 Temp = kk->GetPos();
+									glm::vec3 Temp = R->GetPos();
 									if (ImGui::SliderFloat("W_pos_X", &Temp.x, -50.f, 50.f))
 										Bod->SetPosition(Temp);
 									if (ImGui::SliderFloat("W_pos_Y", &Temp.y, -50.f, 50.f))
@@ -2120,7 +2118,7 @@ void Game::DrawColInfo()
 								}
 								if (ImGui::TreeNode(Sert.c_str()))
 								{
-									QuatParts Q_Angle(kk->GetQuatAngle());
+									QuatParts Q_Angle(R->GetQuatAngle());
 									ImGui::Text("Angle %.3f", Q_Angle.Angle);
 									ImGui::Text("Unite Vector %.3f,%.3f,%.3f", Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
 									glm::vec3 U = Q_Angle.UnitVec;
@@ -2216,20 +2214,18 @@ void Game::DrawColInfo()
 									if (ImGui::Button("Add Particle"))
 										{
 											Bod->SetParticle(Count);
-											Bod->GetSpecificBodyPart(Count)->GetParticle()->SetVel(glm::vec3(0.f));
-											Bod->GetSpecificBodyPart(Count)->GetParticle()->SetMass(10.f);
+											Bod->GetBodyParts()->GetParticle()->SetVel(glm::vec3(0.f));
+											Bod->GetBodyParts()->GetParticle()->SetMass(10.f);
 										}
 									if (ImGui::Button("Add Rigid Body"))
 									{											
 										Bod->SetRigidBody(Count);
-										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetVel(glm::vec3(0.f));
-										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetMass(10.f);
-										glm::mat3 Inrt = kk->GetShape()->GetInertia(10.f);
-										Bod->GetSpecificBodyPart(Count)->GetParticle()->SetInertia(Inrt);
+										Bod->GetBodyParts()->GetParticle()->SetVel(glm::vec3(0.f));
+										Bod->GetBodyParts()->GetParticle()->SetMass(10.f);
+										glm::mat3 Inrt = R->GetShape()->GetInertia(10.f);
+										Bod->GetBodyParts()->GetParticle()->SetInertia(Inrt);
 									}
 								}
-								Count++;
-							}
 							ImGui::TreePop();
 						}
 						ImGui::TreePop();
