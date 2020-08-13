@@ -195,5 +195,7 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
 
 void Col_Resolution::CorrectCollections(std::shared_ptr<Collection> Cllctn)
 {
-
+	std::vector<std::shared_ptr<ColJoints>> T = Cllctn->GetJoints();
+	for (auto& jj : T)
+		jj->GetBodId();
 }
