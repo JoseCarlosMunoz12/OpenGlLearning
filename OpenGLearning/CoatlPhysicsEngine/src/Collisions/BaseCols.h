@@ -61,5 +61,7 @@ namespace CoatlPhysicsEngine {
 		~BaseCols();
 		std::vector<std::shared_ptr<Manifold>> GetColRel();
 		void SetTerrain(std::shared_ptr<Terrain> NewTer);
+		std::vector<std::shared_ptr<Collection>> GetCollections();
+
 	};
 }

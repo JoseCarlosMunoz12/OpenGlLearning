@@ -59,3 +59,8 @@ void BaseCols::SetTerrain(std::shared_ptr<Terrain> NewTer)
 {
 	this->Ter = NewTer;
 }
+
+std::vector<std::shared_ptr<Collection>> CoatlPhysicsEngine::BaseCols::GetCollections()
+{
+	return this->AllCollections;
+}
