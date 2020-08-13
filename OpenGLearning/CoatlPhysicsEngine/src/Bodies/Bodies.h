@@ -33,7 +33,7 @@ namespace CoatlPhysicsEngine {
 		glm::quat GetQuat();
 		std::shared_ptr<ColShapes> GetShapes();
 		std::shared_ptr<BodyParts> GetBodyParts();
-		std::shared_ptr<Bod_Base> GetParticle(int ID);
+		std::shared_ptr<Bod_Base> GetParticle();
 		//get AABB Hierarchy
 		glm::vec3 GetMax() { return this->Max; };
 		glm::vec3 GetMin() { return this->Min; };

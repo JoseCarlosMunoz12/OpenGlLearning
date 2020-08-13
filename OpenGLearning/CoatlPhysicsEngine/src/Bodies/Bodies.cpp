@@ -89,7 +89,7 @@ std::shared_ptr<BodyParts> Bodies::GetBodyParts()
 }
 
 
-std::shared_ptr<Bod_Base> Bodies::GetParticle(int ID)
+std::shared_ptr<Bod_Base> Bodies::GetParticle()
 {
 	return this->BodyInf->GetParticle();
 }

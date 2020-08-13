@@ -78,7 +78,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Find all Collisions and Calculate its Force Geneartors
 	for (auto& jj : AllBods)
 	{
-		std::shared_ptr<Bod_Base> Temp = jj->GetParticle(0);
+		std::shared_ptr<Bod_Base> Temp = jj->GetParticle();
 		if (Temp)
 		{
 			//resetForces on the Object///////////////////////////////////////////////////////////
@@ -157,7 +157,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				std::vector<std::shared_ptr<Bodies>> Que = Kin->GetBods(jj);
 				for (auto& ii : Que)
 				{
-					glm::vec3 KinVel = ii->GetParticle(0)->GetVel();
+					glm::vec3 KinVel = ii->GetParticle()->GetVel();
 					if (this->BinColDetection(jj, ii, Bod_Vel, KinVel, 0.f, dt, F_dt))
 					{
 						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
@@ -170,7 +170,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			std::vector<std::shared_ptr<Bodies>> Quer = this->AlgoCheck->GetQueries(jj, B_Ex);
 			for (auto& ii : Quer)
 			{
-				if (ii->GetParticle(0))
+				if (ii->GetParticle())
 				{
 					/*this->F_Manager = std::make_unique<Phy_Spring>(10, 20);
 					glm::vec3 F_S = this->F_Manager->GetForce(*ii->GetParticle(0), *jj->GetParticle(0));
@@ -179,9 +179,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					if (jj->GetID() != ii->GetID())
 					{
 						//Get other body vel, pos, Rot and RotVel
-						glm::vec3 Bod1_Vel = ii->GetParticle(0)->GetVel();
+						glm::vec3 Bod1_Vel = ii->GetParticle()->GetVel();
 						glm::vec3 Pos1 = ii->GetPos();
-						glm::vec3 Bod1_RotVel = ii->GetParticle(0)->GetRotVel();
+						glm::vec3 Bod1_RotVel = ii->GetParticle()->GetRotVel();
 						glm::quat Bod1_Q = ii->GetQuat();
 						float F_dt = dt;
 						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,0,dt,F_dt))
@@ -210,7 +210,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Update All Physics	
 	for (auto& jj : AllBods)
 	{
-		std::shared_ptr<Bod_Base> Temp = jj->GetSpecificBodyPart(0)->GetParticle();
+		std::shared_ptr<Bod_Base> Temp = jj->GetBodyParts()->GetParticle();
 		if (Temp)
 		{
 			jj->SetPosition(Temp->UpdatePos(dt));
