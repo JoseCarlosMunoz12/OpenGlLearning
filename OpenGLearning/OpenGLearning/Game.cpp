@@ -2275,6 +2275,10 @@ void Game::DrawColInfo()
 					for (auto& ii : E)
 						ii->GetMax();
 				}
+				if (ImGui::Button("Make New Joint"))
+				{
+
+				}
 				ImGui::TreePop();
 			}
 		}
