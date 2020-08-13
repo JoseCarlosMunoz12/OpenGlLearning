@@ -199,14 +199,14 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			}
 		}
 	}
-	//Get all Joint Violation and fixed
-	//--for (auto& jj : AllJoints)
-	//--	jj->GetMax();
 	//Fix Resolution
 	for (auto& jj : ColRel)
 	{
 		this->Col_Rel->ResolveContacts(jj);
 	}
+	//Correct Collections joints
+	for (auto& jj : AllCollections)
+		this->Col_Rel->CorrectCollections(jj);
 	//Update All Physics	
 	for (auto& jj : AllBods)
 	{
