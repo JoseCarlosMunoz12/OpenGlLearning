@@ -9,6 +9,7 @@
 #include <gtc\type_ptr.hpp>
 #include <vector>
 #include "../Bodies/Bodies.h"
+#include "../Bodies/Bod_Collection.h"
 #include "ShapesResolution/ShapeResolution.h"
 #include "Manifoldsh.h"
 #include "../GJK/GJK.h"
@@ -35,5 +36,6 @@ namespace CoatlPhysicsEngine {
 		 std::shared_ptr<Manifold> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,int ID);
 		//Resolve Manifolds
 		 void ResolveContacts(std::shared_ptr<Manifold> Contact);
+		 void CorrectCollections(std::shared_ptr<Collection> Cllctn);
 	};
 }

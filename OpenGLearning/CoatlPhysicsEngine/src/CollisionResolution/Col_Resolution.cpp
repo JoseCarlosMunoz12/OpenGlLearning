@@ -192,3 +192,8 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
 		}
 	}
 }
+
+void Col_Resolution::CorrectCollections(std::shared_ptr<Collection> Cllctn)
+{
+
+}
