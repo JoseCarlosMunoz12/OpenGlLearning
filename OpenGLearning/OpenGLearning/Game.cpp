@@ -2093,139 +2093,126 @@ void Game::DrawColInfo()
 						ImGui::Text("Mid Pnt : %.3f ,  %.3f, %.3f", Mid.x, Mid.y, Mid.z);
 						ImGui::Text("Extensions (%.3f ,  %.3f, %.3f )", Ext.x, Ext.y, Ext.z);
 						ImGui::Separator();
-						if (ImGui::TreeNode("All Sub Bodies in the body"))
+						if (ImGui::TreeNode("Body Information"))
 						{
 							int Count = 0;
-								std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
-								std::string Sert = "W_Quat0->" + std::to_string(Count) + " information";
-								std::shared_ptr<CPE::Bod_Base> P_Bod = R->GetParticle();
-								if (ImGui::TreeNode(Sed.c_str()))
+							std::string Sed = "W_Pos0->" + std::to_string(Count) + " information";
+							std::string Sert = "W_Quat0->" + std::to_string(Count) + " information";
+							std::shared_ptr<CPE::Bod_Base> P_Bod = R->GetParticle();
+							if (ImGui::TreeNode(Sed.c_str()))
+							{
+								glm::vec3 Temp = R->GetPos();
+								if (ImGui::SliderFloat("W_pos_X", &Temp.x, -50.f, 50.f))
+									Bod->SetPosition(Temp);
+								if (ImGui::SliderFloat("W_pos_Y", &Temp.y, -50.f, 50.f))
+									Bod->SetPosition(Temp);
+								if (ImGui::SliderFloat("W_pos_Z", &Temp.z, -50.f, 50.f))
+									Bod->SetPosition(Temp);
+								ImGui::TreePop();
+							}
+							if (ImGui::TreeNode(Sert.c_str()))
+							{
+								QuatParts Q_Angle(R->GetQuatAngle());
+								ImGui::Text("Angle %.3f", Q_Angle.Angle);
+								ImGui::Text("Unite Vector %.3f,%.3f,%.3f", Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
+								glm::vec3 U = Q_Angle.UnitVec;
+								if (ImGui::SliderFloat("Axis Angle", &Q_Angle.Angle, 0.f, 360.f))
+									Bod->SetQuat(Q_Angle.GetQuat());
+								if (ImGui::SliderFloat("X-Axis", &U.x, -1.f, 1.f))
 								{
-									glm::vec3 Temp = R->GetPos();
-									if (ImGui::SliderFloat("W_pos_X", &Temp.x, -50.f, 50.f))
-										Bod->SetPosition(Temp);
-									if (ImGui::SliderFloat("W_pos_Y", &Temp.y, -50.f, 50.f))
-										Bod->SetPosition(Temp);
-									if (ImGui::SliderFloat("W_pos_Z", &Temp.z, -50.f, 50.f))
-										Bod->SetPosition(Temp);
-									ImGui::TreePop();
-									if (ImGui::Button("Add Child"))
-									{
-										this->BodId = Bod->GetID();
-										this->ShapeID = Count;
-										this->AddShape = true;
-									}
+									Q_Angle.UnitVec = glm::normalize(U);
+									Bod->SetQuat(Q_Angle.GetQuat());
 								}
-								if (ImGui::TreeNode(Sert.c_str()))
+								if (ImGui::SliderFloat("Y-Axis", &U.y, -1.f, 1.f))
 								{
-									QuatParts Q_Angle(R->GetQuatAngle());
-									ImGui::Text("Angle %.3f", Q_Angle.Angle);
-									ImGui::Text("Unite Vector %.3f,%.3f,%.3f", Q_Angle.UnitVec.x, Q_Angle.UnitVec.y, Q_Angle.UnitVec.z);
-									glm::vec3 U = Q_Angle.UnitVec;
-									float Ar[3] = { U.x, U.y, U.z };
-									if (ImGui::SliderFloat("Axis Angle", &Q_Angle.Angle, 0.f, 360.f))
+									Q_Angle.UnitVec = glm::normalize(U);
+									Bod->SetQuat(Q_Angle.GetQuat());
+								}
+								if (ImGui::SliderFloat("Z-Axis", &U.z, -1.f, 1.f))
+								{
+									Q_Angle.UnitVec = glm::normalize(U);
+									Bod->SetQuat(Q_Angle.GetQuat());
+								}
+								ImGui::TreePop();
+							}
+							ImGui::Separator();
+							ImGui::Text("Physics Data");
+							if (P_Bod)
+							{
+								//Sleep Status of Body
+								bool Sleep = P_Bod->SleepStatus();
+								if (ImGui::Checkbox("Can Sleep", &Sleep))
+									P_Bod->SetCanSleep(Sleep);
+								bool Awake = P_Bod->GetAwakeStatus();
+								if (ImGui::Checkbox("Is Awake", &Awake))
+									P_Bod->SetAwake(Awake);
+								//Body Mass
+								float Mass = P_Bod->GetMass();
+								if (ImGui::SliderFloat("Mass", &Mass, 0.05f, 10.f))
+									P_Bod->SetMass(Mass);
+								if (ImGui::TreeNode("Matrix information"))
+								{
+									//Getting Inertia
 									{
-										Bod->SetQuat(Q_Angle.GetQuat());
+										glm::mat3 Inrt = P_Bod->GetInertia();
+										ImGui::Text("Body Inertia");
+										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].x, Inrt[1].x, Inrt[2].x);
+										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].y, Inrt[1].y, Inrt[2].y);
+										ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].z, Inrt[1].z, Inrt[2].z);
 									}
-									if (ImGui::SliderFloat("X-Axis", &Ar[0], -1.f, 1.f))
 									{
-										U.x = Ar[0];
-										Q_Angle.UnitVec = glm::normalize(U);
-										Bod->SetQuat(Q_Angle.GetQuat());
-									}
-									if (ImGui::SliderFloat("Y-Axis", &Ar[1], -1.f, 1.f))
-									{
-										U.y = Ar[1];
-										Q_Angle.UnitVec = glm::normalize(U);
-										Bod->SetQuat(Q_Angle.GetQuat());
-									}
-									if (ImGui::SliderFloat("Z-Axis", &Ar[2], -1.f, 1.f))
-									{
-										U.z = Ar[2];
-										Q_Angle.UnitVec = glm::normalize(U);
-										Bod->SetQuat(Q_Angle.GetQuat());
+										glm::mat3 W_Inrt = P_Bod->GetInertiaWorld();
+										ImGui::Text("Body Inertia in world Space");
+										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].x, W_Inrt[1].x, W_Inrt[2].x);
+										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].y, W_Inrt[1].y, W_Inrt[2].y);
+										ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].z, W_Inrt[1].z, W_Inrt[2].z);
 									}
 									ImGui::TreePop();
 								}
-								ImGui::Separator();
-								ImGui::Text("Physics Data");
-								if (P_Bod)
+								//Linear velocity
+								if(ImGui::TreeNode("Linear Velocity"))
 								{
+									glm::vec3 Vel = P_Bod->GetVel();
+									ImGui::Text("Linear Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
+									if (ImGui::SliderFloat("X Vel", &Vel.x, -10.f, 10.f))
+										P_Bod->SetVel(Vel);
+									if (ImGui::SliderFloat("Y Vel", &Vel.y, -10.f, 10.f))
+										P_Bod->SetVel(Vel);
+									if (ImGui::SliderFloat("Z Vel", &Vel.z, -10.f, 10.f))
+										P_Bod->SetVel(Vel);
+									ImGui::TreePop();
+								}
+								//Angular velocity
+								if(ImGui::TreeNode("Angular Velocity"))
+								{
+									glm::vec3 RotVel = P_Bod->GetRotVel();
+									ImGui::Text("RotVel %.3f, %.3f, %.3f", RotVel.x, RotVel.y, RotVel.z);
+									if (ImGui::SliderFloat("X RotVel", &RotVel.x, -10.f, 10.f))
+										P_Bod->SetRotVel(RotVel);
+									if (ImGui::SliderFloat("Y RotVel", &RotVel.y, -10.f, 10.f))
+										P_Bod->SetRotVel(RotVel);
+									if (ImGui::SliderFloat("Z RotVel", &RotVel.z, -10.f, 10.f))
+										P_Bod->SetRotVel(RotVel);
+									ImGui::TreePop();
+								}
 
-									//Sleep Status of Body
-									bool Sleep = P_Bod->SleepStatus();
-									if (ImGui::Checkbox("Can Sleep", &Sleep))
-										P_Bod->SetCanSleep(Sleep);
-									bool Awake = P_Bod->GetAwakeStatus();
-									if (ImGui::Checkbox("Is Awake", &Awake))
-										P_Bod->SetAwake(Awake);
-									if (ImGui::TreeNode("Matrix information"))
-									{
-										//Getting Inertia
-										{
-											glm::mat3 Inrt = P_Bod->GetInertia();
-											ImGui::Text("Body Inertia");
-											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].x, Inrt[1].x, Inrt[2].x);
-											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].y, Inrt[1].y, Inrt[2].y);
-											ImGui::Text("[ %.3f %.3f %.3f ]", Inrt[0].z, Inrt[1].z, Inrt[2].z);
-										}
-										{
-											glm::mat3 W_Inrt = P_Bod->GetInertiaWorld();
-											ImGui::Text("Body Inertia in world Space");
-											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].x, W_Inrt[1].x, W_Inrt[2].x);
-											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].y, W_Inrt[1].y, W_Inrt[2].y);
-											ImGui::Text("[ %.3f %.3f %.3f ]", W_Inrt[0].z, W_Inrt[1].z, W_Inrt[2].z);
-										}
-										ImGui::TreePop();
-									}
-									//Linear velocity
-									if(ImGui::TreeNode("Linear Velocity"))
-									{
-										glm::vec3 Vel = P_Bod->GetVel();
-										ImGui::Text("Linear Vel %.3f, %.3f, %.3f", Vel.x, Vel.y, Vel.z);
-										if (ImGui::SliderFloat("X Vel", &Vel.x, -10.f, 10.f))
-											P_Bod->SetVel(Vel);
-										if (ImGui::SliderFloat("Y Vel", &Vel.y, -10.f, 10.f))
-											P_Bod->SetVel(Vel);
-										if (ImGui::SliderFloat("Z Vel", &Vel.z, -10.f, 10.f))
-											P_Bod->SetVel(Vel);
-										ImGui::TreePop();
-									}
-									//Angular velocity
-									if(ImGui::TreeNode("Angular Velocity"))
-									{
-										glm::vec3 RotVel = P_Bod->GetRotVel();
-										ImGui::Text("RotVel %.3f, %.3f, %.3f", RotVel.x, RotVel.y, RotVel.z);
-										if (ImGui::SliderFloat("X RotVel", &RotVel.x, -10.f, 10.f))
-											P_Bod->SetRotVel(RotVel);
-										if (ImGui::SliderFloat("Y RotVel", &RotVel.y, -10.f, 10.f))
-											P_Bod->SetRotVel(RotVel);
-										if (ImGui::SliderFloat("Z RotVel", &RotVel.z, -10.f, 10.f))
-											P_Bod->SetRotVel(RotVel);
-										ImGui::TreePop();
-									}
-									//Body Mass
-									float Mass = P_Bod->GetMass();
-									if (ImGui::SliderFloat("Mass", &Mass, 0.05f, 10.f))
-										P_Bod->SetMass(Mass);
 								}
-								else
+							else
+							{
+								if (ImGui::Button("Add Particle"))
 								{
-									if (ImGui::Button("Add Particle"))
-										{
-											Bod->SetParticle(Count);
-											Bod->GetBodyParts()->GetParticle()->SetVel(glm::vec3(0.f));
-											Bod->GetBodyParts()->GetParticle()->SetMass(10.f);
-										}
-									if (ImGui::Button("Add Rigid Body"))
-									{											
-										Bod->SetRigidBody(Count);
-										Bod->GetBodyParts()->GetParticle()->SetVel(glm::vec3(0.f));
-										Bod->GetBodyParts()->GetParticle()->SetMass(10.f);
-										glm::mat3 Inrt = R->GetShape()->GetInertia(10.f);
-										Bod->GetBodyParts()->GetParticle()->SetInertia(Inrt);
-									}
+									Bod->GetBodyParts()->GetParticle()->SetVel(glm::vec3(0.f));
+									Bod->GetBodyParts()->GetParticle()->SetMass(10.f);
 								}
+								if (ImGui::Button("Add Rigid Body"))
+								{											
+									Bod->SetRigidBody(Count);
+									Bod->GetBodyParts()->GetParticle()->SetVel(glm::vec3(0.f));
+									Bod->GetBodyParts()->GetParticle()->SetMass(10.f);
+									glm::mat3 Inrt = R->GetShape()->GetInertia(10.f);
+									Bod->GetBodyParts()->GetParticle()->SetInertia(Inrt);
+								}
+							}
 							ImGui::TreePop();
 						}
 						ImGui::TreePop();
