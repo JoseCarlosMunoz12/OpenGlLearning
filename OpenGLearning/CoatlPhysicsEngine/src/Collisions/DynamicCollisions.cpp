@@ -81,14 +81,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		{
 			//resetForces on the Object///////////////////////////////////////////////////////////
 			Temp->ResetForce();
-			//Gravitaional Force
-			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
-			// Drag Force
-			/*this->F_Manager = std::make_unique<Phy_Bungee>(glm::vec3(0.f,0.f,10.f),1000,100,5);
-			Temp->AcumForce(this->F_Manager->GetForce(*Temp));*/
-			// Spring Force
-			//this->F_Manager = std::make_unique<Phy_Drag>(1, 0);
-			//Temp->AcumForce(this->F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			glm::quat PrevQuat = jj->GetQuat();
 			glm::vec3 Bod_Vel= Temp->GetVel();
@@ -175,10 +167,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			{
 				if (ii->GetParticle())
 				{
-					/*this->F_Manager = std::make_unique<Phy_Spring>(10, 20);
-					glm::vec3 F_S = this->F_Manager->GetForce(*ii->GetParticle(0), *jj->GetParticle(0));
-					ii->GetParticle(0)->AcumForce(F_S);
-					jj->GetParticle(0)->AcumForce(-F_S);*/
 					if (jj->GetID() != ii->GetID())
 					{
 						//Get other body vel, pos, Rot and RotVel

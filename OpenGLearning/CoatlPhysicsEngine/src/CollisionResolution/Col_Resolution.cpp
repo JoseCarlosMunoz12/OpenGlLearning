@@ -160,14 +160,14 @@ std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> B
 	return Temp;
 }
 
-std::shared_ptr<Manifold> Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<ColJoints>> BodJoints, float dt)
+std::shared_ptr<Manifold> Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<ColJoints>> BodJoints)
 {
 	for (auto& ii : BodJoints)
 		ii->GetBodId();
 	return std::shared_ptr<Manifold>();
 }
 
-void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
+void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 {
 	//(false;Cnt->Contacts[0]->Normal; Cnt->Contacts[0]->Penetration;
 	if (Cnt->ContactCount > 0)
