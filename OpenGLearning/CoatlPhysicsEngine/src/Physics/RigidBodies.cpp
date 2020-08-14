@@ -50,7 +50,7 @@ void RigidBodies::UpdateVel(float dt)
 		this->AccumForce.y = 0.f;
 	if (glm::abs(this->AccumForce.z) < 0.625f)
 		this->AccumForce.z = 0.f;
-	glm::vec3 Acc = this->AccumForce * InvMass;
+	glm::vec3 Acc = this->Accel + this->AccumForce * InvMass;
 	this->Vel = Acc * dt + Vel;
 	Vel = Vel * glm::pow(LinDamp, dt);
 }
