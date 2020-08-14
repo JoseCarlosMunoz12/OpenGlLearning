@@ -6,8 +6,8 @@ namespace CoatlPhysicsEngine
 	{
 	private:
 	public:
-		J_Joint() {};
-		~J_Joint() {};
+		J_Joint(float SetError);
+		~J_Joint();
 	};
 }
 
