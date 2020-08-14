@@ -2,7 +2,7 @@
 using namespace CoatlPhysicsEngine;
 
 J_Joint::J_Joint(float SetError)
-	:J_Joint(SetError)
+	:ColJoints(SetError)
 {
 }
 

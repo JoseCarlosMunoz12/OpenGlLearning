@@ -6,7 +6,7 @@ namespace CoatlPhysicsEngine {
 	private:
 		const float Epsilon = 0.00001f;
 		glm::mat4 TransformMatrix;
-		glm::mat4 InvIntertiaWSpace;
+		glm::mat3 InvIntertiaWSpace;
 		glm::vec3 TorqueAcum;
 		void UpdateRot(float dt);
 		void UpdateMatrix();

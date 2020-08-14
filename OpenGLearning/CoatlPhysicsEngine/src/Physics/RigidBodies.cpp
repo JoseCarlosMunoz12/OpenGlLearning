@@ -3,7 +3,7 @@ using namespace CoatlPhysicsEngine;
 
 void RigidBodies::UpdateRot(float dt)
 {
-	glm::vec3 AngularAccelration = this->InvIntertiaWSpace * glm::vec4(this->TorqueAcum,1.f);
+	glm::vec3 AngularAccelration = this->InvIntertiaWSpace * this->TorqueAcum;
 	this->RotVel += AngularAccelration * dt;
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
@@ -28,10 +28,26 @@ void RigidBodies::CalcDerivedData()
 
 void RigidBodies::TransformInertiaTensor()
 {
-	glm::mat4 InvRotMat = glm::inverse(glm::mat4_cast(this->AxisAngle));
-	glm::mat4 InvInertia = glm::mat4(this->InvInertia);
-	glm::mat4 tr_InvRotmat = glm::inverse(glm::transpose(glm::mat4_cast(this->AxisAngle)));
-	this->InvIntertiaWSpace =  InvRotMat * InvInertia * tr_InvRotmat;
+	std::vector<float> R;
+	glm::mat3 S = this->InvInertia;
+	for(int ii = 0; ii < 3; ii++)
+		for(int jj = 0; jj <3; jj++)
+		{
+			float Val = this->TransformMatrix[0][ii] * S[jj][0] + 
+				this->TransformMatrix[1][ii] * S[jj][1] + 
+				this->TransformMatrix[2][ii] * S[jj][2] ;
+
+			R.push_back(Val);
+		}
+
+	for (int ii = 0; ii < 3; ii++)
+		for (int jj = 0; jj < 3; jj++)
+		{
+			this->InvIntertiaWSpace[ii][jj] = R[3 * ii + 0] * S[0][jj] +
+											  R[3 * ii + 1] * S[1][jj] +
+											  R[3 * ii + 2] * S[2][jj];
+		}
+
 }
 
 void RigidBodies::AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt)
