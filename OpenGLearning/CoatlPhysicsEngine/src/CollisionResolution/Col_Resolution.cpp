@@ -160,7 +160,7 @@ std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> B
 	return Temp;
 }
 
-std::shared_ptr<Manifold> Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<ColJoints>> BodJoints)
+std::shared_ptr<Manifold> Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<ColJoints>> BodJoints, float dt)
 {
 	for (auto& ii : BodJoints)
 		ii->GetBodId();

@@ -72,10 +72,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	}
 	//Add bodies into Algorithm
 	for (auto& jj : AllBods)
-	{
 		this->AlgoCheck->Insert(jj);
-	}
-	//Find all Collisions and Calculate its Force Geneartors
+	//Find all Collisions and Calculate its Force Generators
 	for (auto& jj : AllBods)
 	{
 		std::shared_ptr<Bod_Base> Temp = jj->GetParticle();
@@ -206,12 +204,10 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	}
 	//Get Manifold from Joints
 	for (auto& jj : AllCollections)
-		this->Col_Rel->MakeJointManifold(jj->GetJoints());
+		ColRel.push_back(this->Col_Rel->MakeJointManifold(jj->GetJoints()));
 	//Fix Resolution
 	for (auto& jj : ColRel)
-	{
-		this->Col_Rel->ResolveContacts(jj);
-	}
+		this->Col_Rel->ResolveContacts(jj, dt);
 	//Update All Physics	
 	for (auto& jj : AllBods)
 	{
