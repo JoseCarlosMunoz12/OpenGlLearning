@@ -204,14 +204,14 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			}
 		}
 	}
+	//Get Manifold from Joints
+	for (auto& jj : AllCollections)
+		this->Col_Rel->MakeJointManifold(jj->GetJoints());
 	//Fix Resolution
 	for (auto& jj : ColRel)
 	{
 		this->Col_Rel->ResolveContacts(jj);
 	}
-	//Correct Collections joints
-	for (auto& jj : AllCollections)
-		this->Col_Rel->CorrectCollections(jj);
 	//Update All Physics	
 	for (auto& jj : AllBods)
 	{

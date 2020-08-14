@@ -160,6 +160,13 @@ std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> B
 	return Temp;
 }
 
+std::shared_ptr<Manifold> Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<ColJoints>> BodJoints)
+{
+	for (auto& ii : BodJoints)
+		ii->GetBodId();
+	return std::shared_ptr<Manifold>();
+}
+
 void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
 {
 	//(false;Cnt->Contacts[0]->Normal; Cnt->Contacts[0]->Penetration;
@@ -191,11 +198,4 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt)
 			break;
 		}
 	}
-}
-
-void Col_Resolution::CorrectCollections(std::shared_ptr<Collection> Cllctn)
-{
-	std::vector<std::shared_ptr<ColJoints>> T = Cllctn->GetJoints();
-	for (auto& jj : T)
-		jj->GetBodId();
 }

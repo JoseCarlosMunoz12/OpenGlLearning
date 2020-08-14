@@ -35,8 +35,8 @@ namespace CoatlPhysicsEngine {
 		~Col_Resolution();
 		//Create Manifolds
 		 std::shared_ptr<Manifold> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,int ID);
+		 std::shared_ptr<Manifold> MakeJointManifold(std::vector<std::shared_ptr<ColJoints>> BodJoints);
 		//Resolve Manifolds
 		 void ResolveContacts(std::shared_ptr<Manifold> Contact);
-		 void CorrectCollections(std::shared_ptr<Collection> Cllctn);
 	};
 }
