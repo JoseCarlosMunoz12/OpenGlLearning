@@ -192,7 +192,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	}
 	//Get Manifold from Joints
 	for (auto& jj : AllCollections)
-		ColRel.push_back(this->Col_Rel->MakeJointManifold(jj->GetJoints()));
+		this->Col_Rel->MakeJointManifold(this->ColRel, jj->GetJoints());
 	//Fix Resolution
 	for (auto& jj : ColRel)
 		this->Col_Rel->ResolveContacts(jj, dt);
@@ -206,7 +206,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			jj->SetQuat(Temp->GetQuat());
 			jj->UpdateAABB();
 		}
-	}	
+	}
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)
