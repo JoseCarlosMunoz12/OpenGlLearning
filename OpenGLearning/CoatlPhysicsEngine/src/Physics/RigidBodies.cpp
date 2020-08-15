@@ -43,9 +43,9 @@ void RigidBodies::TransformInertiaTensor()
 	for (int ii = 0; ii < 3; ii++)
 		for (int jj = 0; jj < 3; jj++)
 		{
-			this->InvIntertiaWSpace[ii][jj] = R[3 * ii + 0] * S[0][jj] +
-											  R[3 * ii + 1] * S[1][jj] +
-											  R[3 * ii + 2] * S[2][jj];
+			this->InvIntertiaWSpace[ii][jj] = R[3 * ii + 0] * this->TransformMatrix[0][jj] +
+											  R[3 * ii + 1] * this->TransformMatrix[1][jj] +
+											  R[3 * ii + 2] * this->TransformMatrix[2][jj];
 		}
 
 }
