@@ -27,27 +27,10 @@ void RigidBodies::CalcDerivedData()
 }
 
 void RigidBodies::TransformInertiaTensor()
-{
-	std::vector<float> R;
+{	
 	glm::mat3 S = this->InvInertia;
-	for(int ii = 0; ii < 3; ii++)
-		for(int jj = 0; jj <3; jj++)
-		{
-			float Val = this->TransformMatrix[0][ii] * S[jj][0] + 
-				this->TransformMatrix[1][ii] * S[jj][1] + 
-				this->TransformMatrix[2][ii] * S[jj][2] ;
-
-			R.push_back(Val);
-		}
-
-	for (int ii = 0; ii < 3; ii++)
-		for (int jj = 0; jj < 3; jj++)
-		{
-			this->InvIntertiaWSpace[ii][jj] = R[3 * ii + 0] * this->TransformMatrix[0][jj] +
-											  R[3 * ii + 1] * this->TransformMatrix[1][jj] +
-											  R[3 * ii + 2] * this->TransformMatrix[2][jj];
-		}
-
+	glm::mat3 InW = glm::mat3_cast(this->AxisAngle);
+	this->InvIntertiaWSpace = glm::transpose(InW) * S * InW;
 }
 
 void RigidBodies::AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt)
