@@ -29,7 +29,7 @@ void RigidBodies::CalcDerivedData()
 void RigidBodies::TransformInertiaTensor()
 {	
 	glm::mat3 S = this->InvInertia;
-	glm::mat3 InW = glm::mat3_cast(this->AxisAngle);
+	glm::mat3 InW = glm::inverse(glm::mat3_cast(this->AxisAngle));
 	this->InvIntertiaWSpace = glm::transpose(InW) * S * InW;
 }
 
