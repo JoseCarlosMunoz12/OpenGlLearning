@@ -9,7 +9,7 @@
 		glm::vec3 RelContact[2];
 		void CalculateContactbasis();
 		glm::vec3 CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float dt);
-		void CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		void CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt);
 	public:
 		Contact();
 		~Contact();

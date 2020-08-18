@@ -45,11 +45,19 @@ glm::vec3 Contact::CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float 
 	return ContactVel;
 }
 
-void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt)
 {
 	const static float VelLimit = 0.25f;
 	float VelFromAcc = 0.f;
 
+	if (Bod0->GetParticle()->GetAwakeStatus())
+		VelFromAcc += dt *(glm::dot( Bod0->GetParticle()->GetAccel(), Normal));
+	if(Bod1->GetParticle() && Bod1->GetParticle()->GetAwakeStatus())
+		VelFromAcc -= dt * (glm::dot(Bod1->GetParticle()->GetAccel(), Normal));
+	float ThisRest = Restituion;
+	if (glm::abs(ContactVelocity.x) < ThisRest)
+		ThisRest = 0.f;
+	this->DesDeltaVel - ContactVelocity.x - ThisRest * (ContactVelocity.x - VelFromAcc);
 }
 
 Contact::Contact()
@@ -69,5 +77,5 @@ void Contact::CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<B
 	this->RelContact[1] = ContactPoint - Bod1->GetPos();
 	this->ContactVelocity = this->CalculateLocalvel(Bod0, 0,dt);
 	this->ContactVelocity -= this->CalculateLocalvel(Bod1, 1,dt);
-	this->CalculateDesVel(Bod0, Bod1);
+	this->CalculateDesVel(Bod0, Bod1, dt);
 }
