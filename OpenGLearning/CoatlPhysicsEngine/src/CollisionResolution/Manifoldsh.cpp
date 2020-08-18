@@ -91,8 +91,47 @@ void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 	float TotalInertia = 0.f;
 	float LinInertia[2];
 	float Anginertia[2];
+	//Calculate inertia of each object in the direction of the contact normal
 	for (int ii = 0; ii < 2; ii++) if (Bods[ii]->GetParticle())
 	{
-
+		glm::mat3 invInert = Bods[ii]->GetParticle()->GetInertiaWorld();
+		invInert = glm::inverse(invInert);
+		glm::vec3 AngInertW = glm::cross(RelContact[ii], Normal);
+		AngInertW = invInert * AngInertW;
+		AngInertW = glm::cross(AngInertW, RelContact[ii]);
+		Anginertia[ii] = glm::dot(AngInertW, Normal);
+		LinInertia[ii] = 1 / Bods[ii]->GetParticle()->GetMass();
+		TotalInertia += LinInertia[ii] + Anginertia[ii];
 	}
+	//loop through again calculating and applying the changes
+	for (int ii = 0; ii < 2; ii++)if (Bods[ii]->GetParticle())
+	{
+		float Sign = (ii == 0) ? 1 : -1;
+		AngM[ii] = Sign * Penetration * (Anginertia[ii] / TotalInertia);
+		LinM[ii] = Sign * Penetration * (LinInertia[ii] / TotalInertia);
+
+		glm::vec3 Proj = RelContact[ii] - Normal * glm::dot(RelContact[ii],Normal);
+		float MaxMag = AngLimit * glm::length(Proj);
+
+		if (AngM[ii] < -MaxMag)
+		{
+			float TtlMv = AngM[ii] + LinM[ii];
+			AngM[ii] = -MaxMag;
+			LinM[ii] = TtlMv - AngM[ii];
+		}
+		else if (AngM[ii] > MaxMag)
+		{
+			float TtlMv = AngM[ii] + LinM[ii];
+			AngM[ii] = MaxMag;
+			LinM[ii] = TtlMv - AngM[ii];
+		}
+
+		if (AngM[ii] == 0)
+			AngChange[ii] = glm::vec3(0.f);
+		else
+		{
+
+		}
+	}
+
 }
