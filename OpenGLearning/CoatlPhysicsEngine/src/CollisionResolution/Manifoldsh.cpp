@@ -83,6 +83,7 @@ void Contact::CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<B
 void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
 	glm::vec3 LinChang[2], glm::vec3 AngChange[2])
 {
+	std::shared_ptr<Bodies> Bods[2] = { Bod0, Bod1 };
 	const float AngLimit = .2f;
 	float AngM[2];
 	float LinM[2];
@@ -90,5 +91,8 @@ void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 	float TotalInertia = 0.f;
 	float LinInertia[2];
 	float Anginertia[2];
+	for (int ii = 0; ii < 2; ii++) if (Bods[ii]->GetParticle())
+	{
 
+	}
 }
