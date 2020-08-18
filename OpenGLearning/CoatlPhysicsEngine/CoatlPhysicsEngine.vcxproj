@@ -211,7 +211,7 @@
   <ItemGroup>
     <ClCompile Include="src\Bodies\Bod_Collection.cpp" />
     <ClCompile Include="src\Bodies\Joints\J_Joint.cpp" />
-    <ClCompile Include="src\CollisionResolution\Manifolds.cpp" />
+    <ClCompile Include="src\CollisionResolution\Manifoldsh.cpp" />
     <ClCompile Include="src\Collisions\KinematicsCollisions.cpp" />
     <ClCompile Include="src\Physics\Bod_Base.cpp" />
     <ClCompile Include="src\Physics\RigidBodies.cpp" />

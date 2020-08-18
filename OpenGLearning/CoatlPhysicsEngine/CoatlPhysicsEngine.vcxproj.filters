@@ -383,7 +383,7 @@
     <ClCompile Include="src\Bodies\Bod_Collection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CollisionResolution\Manifolds.cpp">
+    <ClCompile Include="src\CollisionResolution\Manifoldsh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
