@@ -3,7 +3,11 @@
 	class Contact
 	{
 	private:
-
+		glm::mat3 ContactToWorld;
+		glm::vec3 ContactVelocity;
+		float DesDeltaVel;
+		glm::vec3 RelContact[2];
+		void CalculateContactbasis();
 	public:
 		Contact();
 		~Contact();
@@ -12,6 +16,7 @@
 		float Penetration;
 		float Friction;
 		float Restituion;
+		void CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,float dt);
 	};
 	struct Manifold
 	{
