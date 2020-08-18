@@ -33,9 +33,12 @@ void Contact::CalculateContactbasis()
 
 glm::vec3 Contact::CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float dt)
 {
+	glm::vec3 ContactVel = glm::vec3(0.f);
+	if (!Bod->GetParticle())
+		return ContactVel;
 	glm::vec3 Vel = glm::cross(Bod->GetParticle()->GetRotVel(), RelContact[ID]);
 	Vel += Bod->GetParticle()->GetVel();
-	glm::vec3 ContactVel = this->ContactToWorld * Vel;
+	ContactVel = this->ContactToWorld * Vel;
 	glm::vec3 AccVel = Bod->GetParticle()->GetAccel() * dt;
 	AccVel.x = 0.f;
 	ContactVel += AccVel;
