@@ -19,6 +19,8 @@
 		float Friction;
 		float Restituion;
 		void CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,float dt);
+		void ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, 
+			glm::vec3 LinChang[2],glm::vec3 AngChange[2]);
 	};
 	struct Manifold
 	{
