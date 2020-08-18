@@ -383,5 +383,8 @@
     <ClCompile Include="src\Bodies\Bod_Collection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\CollisionResolution\Manifolds.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

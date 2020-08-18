@@ -1,7 +1,12 @@
 #pragma once
 #include "../Bodies/Bodies.h"
-	struct Contact
+	class Contact
 	{
+	private:
+
+	public:
+		Contact();
+		~Contact();
 		glm::vec3 ContactPoint;
 		glm::vec3 Normal;
 		float Penetration;
