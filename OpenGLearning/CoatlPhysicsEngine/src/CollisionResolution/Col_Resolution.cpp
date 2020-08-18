@@ -5,7 +5,7 @@ void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_
 {
 	glm::vec3 Norm = Cnt->Contacts[0]->Normal;
 	float Diff = Cnt->Contacts[0]->Penetration;
-	for (auto& jj : Cnt->Contacts)
+	for (auto& jj : Cnt->Contacts)		
 		Bod->GetParticle()->AddForceAtBodyPoint(glm::vec3(0.f, 0.f,0.f), jj->ContactPoint);
 	Bod->MovePosition(Diff * Norm);
 }
@@ -187,6 +187,8 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 		case 2:
 			break;
 		default:
+			for (auto& jj : Cnt->Contacts)
+				jj->CalculateInternals(Cnt->Bod0, Cnt->Bod1, dt);
 			if (Cnt->Bod0->GetBodyParts()->GetParticle())
 			{
 				Cnt->Bod0->MovePosition(Diff * Norm / 2.f);
