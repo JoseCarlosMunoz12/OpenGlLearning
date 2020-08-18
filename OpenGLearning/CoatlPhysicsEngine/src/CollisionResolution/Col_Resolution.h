@@ -18,6 +18,10 @@ namespace CoatlPhysicsEngine {
 	class Col_Resolution
 	{
 	private:
+		// Impulse resolition
+		void PrepeareContact(std::shared_ptr<Manifold> Cnt, float dt);
+		void AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt);
+		void AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt);
 		//resolve joints
 
 		//Resolvoing Contacts

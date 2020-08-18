@@ -1,6 +1,21 @@
 #include "Col_Resolution.h"
 using namespace CoatlPhysicsEngine;
 
+void Col_Resolution::PrepeareContact(std::shared_ptr<Manifold> Cnt, float dt)
+{
+	for (auto& jj : Cnt->Contacts)
+		jj->CalculateInternals(Cnt->Bod0, Cnt->Bod1, dt);
+}
+
+void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
+{
+
+}
+
+void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
+{
+}
+
 void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt)
 {
 	glm::vec3 Norm = Cnt->Contacts[0]->Normal;
@@ -172,8 +187,6 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 	//(false;Cnt->Contacts[0]->Normal; Cnt->Contacts[0]->Penetration;
 	if (Cnt->ContactCount > 0)
 	{
-		for (auto& jj : Cnt->Contacts)
-			jj->CalculateInternals(Cnt->Bod0, Cnt->Bod1, dt);
 		float Diff = Cnt->Contacts[0]->Penetration;
 		if (Diff < 0.001)
 			Diff = 0.f;
@@ -200,4 +213,10 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 			break;
 		}
 	}
+	//Prepare bodies for resolution
+	this->PrepeareContact(Cnt, dt);
+	//Adjust the positions
+	this->AdjustPosition(Cnt, dt);
+	//adjust the velocities of the bodies
+	this->AdjustVelocity(Cnt, dt);
 }
