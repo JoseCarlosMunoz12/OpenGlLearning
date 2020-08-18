@@ -45,6 +45,13 @@ glm::vec3 Contact::CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float 
 	return ContactVel;
 }
 
+void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+{
+	const static float VelLimit = 0.25f;
+	float VelFromAcc = 0.f;
+
+}
+
 Contact::Contact()
 	:ContactPoint(glm::vec3(0.f)), Normal(glm::vec3(0.f, 0.f, 1.f)),
 	Penetration(0.f), Friction(1.f),Restituion(1.f)
@@ -62,5 +69,5 @@ void Contact::CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<B
 	this->RelContact[1] = ContactPoint - Bod1->GetPos();
 	this->ContactVelocity = this->CalculateLocalvel(Bod0, 0,dt);
 	this->ContactVelocity -= this->CalculateLocalvel(Bod1, 1,dt);
-
+	this->CalculateDesVel(Bod0, Bod1);
 }
