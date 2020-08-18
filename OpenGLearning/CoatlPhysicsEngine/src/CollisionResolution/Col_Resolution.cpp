@@ -172,6 +172,8 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 	//(false;Cnt->Contacts[0]->Normal; Cnt->Contacts[0]->Penetration;
 	if (Cnt->ContactCount > 0)
 	{
+		for (auto& jj : Cnt->Contacts)
+			jj->CalculateInternals(Cnt->Bod0, Cnt->Bod1, dt);
 		float Diff = Cnt->Contacts[0]->Penetration;
 		if (Diff < 0.001)
 			Diff = 0.f;
@@ -187,8 +189,6 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 		case 2:
 			break;
 		default:
-			for (auto& jj : Cnt->Contacts)
-				jj->CalculateInternals(Cnt->Bod0, Cnt->Bod1, dt);
 			if (Cnt->Bod0->GetBodyParts()->GetParticle())
 			{
 				Cnt->Bod0->MovePosition(Diff * Norm / 2.f);

@@ -31,6 +31,15 @@ void Contact::CalculateContactbasis()
 	this->ContactToWorld = glm::mat3(Normal, ContactTanget[0], ContactTanget[1]);
 }
 
+glm::vec3 Contact::CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float dt)
+{
+	glm::vec3 Vel = glm::cross(Bod->GetParticle()->GetRotVel(), RelContact[ID]);
+	Vel += Bod->GetParticle()->GetVel();
+	glm::vec3 ContactVel = this->ContactToWorld * Vel;
+
+	return ContactVel;
+}
+
 Contact::Contact()
 	:ContactPoint(glm::vec3(0.f)), Normal(glm::vec3(0.f, 0.f, 1.f)),
 	Penetration(0.f), Friction(1.f),Restituion(1.f)
@@ -44,4 +53,9 @@ Contact::~Contact()
 void Contact::CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt)
 {
 	this->CalculateContactbasis();
+	this->RelContact[0] = ContactPoint - Bod0->GetPos();
+	this->RelContact[1] = ContactPoint - Bod1->GetPos();
+	this->ContactVelocity = this->CalculateLocalvel(Bod0, 0,dt);
+	this->ContactVelocity -= this->CalculateLocalvel(Bod1, 1,dt);
+
 }
