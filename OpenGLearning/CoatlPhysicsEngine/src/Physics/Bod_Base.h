@@ -19,6 +19,7 @@ namespace CoatlPhysicsEngine {
 		glm::quat AxisAngle;
 		glm::vec3 RotVel;
 		glm::mat3 InvInertia;
+		glm::vec3 PrevAccel;
 		float LinDamp;
 		float RotDamp;
 		float InvMass;
@@ -56,6 +57,7 @@ namespace CoatlPhysicsEngine {
 		glm::mat3 GetInertia() { return glm::inverse(this->InvInertia);};
 		virtual void SetInertia(glm::mat3 Inertia) { return; };
 		virtual glm::mat3 GetInertiaWorld() { return glm::mat3(0.f); };
+		glm::vec3 GetAccel() { return this->PrevAccel; };
 		//Sleep Functions
 		virtual void SetAwake(bool Awake) { return; };
 		virtual bool GetAwakeStatus() { return true; }; 
