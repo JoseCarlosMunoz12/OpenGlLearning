@@ -9,11 +9,42 @@ void Col_Resolution::PrepeareContact(std::shared_ptr<Manifold> Cnt, float dt)
 
 void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
 {
+	int Index;
+	glm::vec3 LinChng[2],AngCh[2];
+	float Max;
+	glm::vec3 DelPos;
+	int ItUsed = 0;
+	while (ItUsed < Posit)
+	{
+		int NumCount = Cnt->ContactCount;
+		Index = Cnt->ContactCount;
+		Max = 0.0001f;
+		for (int ii = 0; ii < NumCount; ii++)
+		{
+			if (Cnt->Contacts[ii]->Penetration > Max)
+			{
+				Max = Cnt->Contacts[ii]->Penetration;
+				Index = ii;
+			}
+		}
+		if (Index == NumCount) break;
+		//Reseolve Penetration
+		Cnt->Contacts[Index]->ApplyPositionChange(Cnt->Bod0, Cnt->Bod1, LinChng, AngCh);
 
+		ItUsed++;
+	}
 }
 
 void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
 {
+	int Index;
+	glm::vec3 VelChng[2], RotCh[2];
+	float Max;
+	glm::vec3 DelPos;
+	int ItUsed = 0;
+	while (ItUsed < VelIt)
+	{
+	}
 
 }
 
