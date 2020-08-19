@@ -130,8 +130,23 @@ void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 			AngChange[ii] = glm::vec3(0.f);
 		else
 		{
-
+			glm::vec3 TargetAngDir = glm::cross(RelContact[ii], Normal);
+			glm::mat3 invIn = Bods[ii]->GetParticle()->GetInertiaWorld();
+			invIn = glm::inverse(invIn);
+			AngChange[ii] = invIn * TargetAngDir * (AngM[ii] / Anginertia[ii]);
 		}
+
+		LinChang[ii] = Normal * LinM[ii];
+
+		glm::vec3 Pos = Bods[ii]->GetPos();
+		Pos += Normal * LinM[ii];
+		Bods[ii]->SetPosition(Pos);
+
+		glm::quat Q = Bods[ii]->GetQuat();
+		glm::quat R = glm::quat(0.f, AngChange[ii]);
+		R *=Q;
+		Q += 0.5f * R;
+		Bods[ii]->SetQuat(Q);
 	}
 
 }
