@@ -10,7 +10,6 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 TorqueAcum;
 		void UpdateRot(float dt);
 		void UpdateMatrix();
-		void CalcDerivedData();
 		void TransformInertiaTensor();
 		void UpdateVel(float dt) override;
 		void AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt);
@@ -26,6 +25,7 @@ namespace CoatlPhysicsEngine {
 		void SetQuat(glm::quat NewQuat) override;
 		void AcumForce(glm::vec3 Force) override;
 		void ResetForce() override;
+		void CalcDerivedData() override;
 		//Rotational functions
 		glm::vec3 GetRotVel() override;
 		void SetRotVel(glm::vec3 NewRotVel) override;

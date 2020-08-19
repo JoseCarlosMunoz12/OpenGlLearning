@@ -147,6 +147,8 @@ void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 		R *=Q;
 		Q += 0.5f * R;
 		Bods[ii]->SetQuat(Q);
-	}
+		if (!Bods[ii]->GetParticle()->GetAwakeStatus())
+			Bods[ii]->GetParticle()->CalcDerivedData();
 
+	}
 }

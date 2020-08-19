@@ -58,6 +58,7 @@ namespace CoatlPhysicsEngine {
 		virtual void SetInertia(glm::mat3 Inertia) { return; };
 		virtual glm::mat3 GetInertiaWorld() { return glm::mat3(0.f); };
 		glm::vec3 GetAccel() { return this->PrevAccel; };
+		virtual void CalcDerivedData() { return; };
 		//Sleep Functions
 		virtual void SetAwake(bool Awake) { return; };
 		virtual bool GetAwakeStatus() { return true; }; 
