@@ -54,11 +54,25 @@ void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
 {
 	int Index;
 	glm::vec3 VelChng[2], RotCh[2];
-	float Max;
+	
 	glm::vec3 DelPos;
 	int ItUsed = 0;
+	int NumContacts = Cnt->ContactCount;
 	while (ItUsed < VelIt)
 	{
+		int Index = NumContacts;
+		float Max = 0.0001;
+		for (int ii = 0; ii < NumContacts; ii++)
+		{
+			if (Cnt->Contacts[ii]->DesDeltaVel > Max)
+			{
+				Max = Cnt->Contacts[ii]->DesDeltaVel;
+				Index = ii;
+			}
+		}
+		if (Index == NumContacts)break;
+		Cnt->Contacts[Index]->ApplyVelocityChange(Cnt->Bods, VelChng, RotCh);
+		for(int ii = 0; ii < NumContacts; ii++)
 		ItUsed++;
 	}
 
