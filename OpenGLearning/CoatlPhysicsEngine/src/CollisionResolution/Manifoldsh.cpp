@@ -1,5 +1,13 @@
 #include "Manifoldsh.h"
 
+glm::mat3 Contact::MakeSkew(glm::vec3 Vec)
+{
+	glm::vec3 Col0(   0.f,  Vec.z,-Vec.y);
+	glm::vec3 Col1(-Vec.z,    0.f, Vec.x);
+	glm::vec3 Col2( Vec.y, -Vec.x,   0.f);
+	return glm::mat3(Col0, Col1,Col2);
+}
+
 void Contact::CalculateContactbasis()
 {
 	glm::vec3 ContactTanget[2];
@@ -60,8 +68,11 @@ void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodi
 	this->DesDeltaVel - ContactVelocity.x - ThisRest * (ContactVelocity.x - VelFromAcc);
 }
 
-glm::vec3 Contact::CalcFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2])
+glm::vec3 Contact::CalcFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3 InvInTn[2])
 {
+	glm::vec3 ImpContact;
+	float InvMass = 1.f / Bods[0]->GetParticle()->GetMass();
+
 	return glm::vec3();
 }
 
@@ -75,7 +86,7 @@ Contact::Contact()
 	Penetration(0.f), Friction(1.f),Restituion(1.f)
 {
 }
-
+	
 Contact::~Contact()
 {
 }

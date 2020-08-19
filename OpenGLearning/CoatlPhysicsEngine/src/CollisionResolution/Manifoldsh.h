@@ -7,11 +7,12 @@
 		glm::vec3 ContactVelocity;
 		float DesDeltaVel;
 		glm::vec3 RelContact[2];
+		glm::mat3 MakeSkew(glm::vec3 Vec);
 		void CalculateContactbasis();
 		glm::vec3 CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float dt);
 		void CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt);
-		glm::vec3 CalcFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2]);
-		glm::vec3 CalcNonFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2]);
+		glm::vec3 CalcFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3 InvInTn[2]);
+		glm::vec3 CalcNonFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3 InvInTn[2]);
 	public:
 		Contact();
 		~Contact();
