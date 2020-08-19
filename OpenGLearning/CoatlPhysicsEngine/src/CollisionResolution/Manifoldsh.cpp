@@ -60,6 +60,16 @@ void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodi
 	this->DesDeltaVel - ContactVelocity.x - ThisRest * (ContactVelocity.x - VelFromAcc);
 }
 
+glm::vec3 Contact::CalcFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2])
+{
+	return glm::vec3();
+}
+
+glm::vec3 Contact::CalcNonFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2])
+{
+	return glm::vec3();
+}
+
 Contact::Contact()
 	:ContactPoint(glm::vec3(0.f)), Normal(glm::vec3(0.f, 0.f, 1.f)),
 	Penetration(0.f), Friction(1.f),Restituion(1.f)
@@ -151,4 +161,24 @@ void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 			Bods[ii]->GetParticle()->CalcDerivedData();
 
 	}
+}
+
+void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
+	glm::vec3 VelChang[2], glm::vec3 RotChange[2])
+{
+	glm::mat3 InvInertia[2];
+	std::shared_ptr<Bodies> Bods[2] = { Bod0, Bod1 };
+	//Get Inertia Tensor
+	InvInertia[0] = glm::inverse(Bods[0]->GetParticle()->GetInertiaWorld());
+	if(Bods[0]->GetParticle())
+		InvInertia[1] = glm::inverse(Bods[1]->GetParticle()->GetInertiaWorld());
+	//Calc Impulse
+	glm::vec3 ImpulseCont;
+	if (Friction != 0)
+		ImpulseCont = this->CalcFricImpulse(Bods, InvInertia);
+	else
+		ImpulseCont = this->CalcNonFricImpulse(Bods, InvInertia);
+
+	glm::vec3 Impulse = this->ContactToWorld * ImpulseCont;
+
 }

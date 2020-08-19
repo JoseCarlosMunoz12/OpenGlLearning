@@ -10,6 +10,8 @@
 		void CalculateContactbasis();
 		glm::vec3 CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float dt);
 		void CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt);
+		glm::vec3 CalcFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2]);
+		glm::vec3 CalcNonFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2]);
 	public:
 		Contact();
 		~Contact();
@@ -19,8 +21,11 @@
 		float Friction;
 		float Restituion;
 		void CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,float dt);
+		//applies changes and resolutions
 		void ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, 
 			glm::vec3 LinChang[2],glm::vec3 AngChange[2]);
+		void ApplyVelocityChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
+			glm::vec3 VelChang[2], glm::vec3 RotChange[2]);
 	};
 	struct Manifold
 	{
