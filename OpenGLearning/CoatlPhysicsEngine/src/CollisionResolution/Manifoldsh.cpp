@@ -70,10 +70,54 @@ void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodi
 
 glm::vec3 Contact::CalcFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3 InvInTn[2])
 {
-	glm::vec3 ImpContact;
+	glm::vec3 ImpContact = glm::vec3(0.f);
 	float InvMass = 1.f / Bods[0]->GetParticle()->GetMass();
+	glm::mat3 ImpToTorque = this->MakeSkew(RelContact[0]);
 
-	return glm::vec3();
+	glm::mat3 DelVelWorld0 = ImpToTorque;
+	DelVelWorld0 *= InvInTn[0];
+	DelVelWorld0 *= ImpToTorque;
+	DelVelWorld0 *= -1;
+
+	if (Bods[1]->GetParticle())
+	{
+		ImpToTorque = this->MakeSkew(RelContact[1]);
+		glm::mat3 DelVelWorld1 = ImpToTorque;
+		DelVelWorld1 *= InvInTn[1];
+		DelVelWorld1 *= ImpToTorque;
+		DelVelWorld1 *= -1;
+		DelVelWorld0 += DelVelWorld1;
+		InvMass += (1 / Bods[1]->GetParticle()->GetMass());
+	}
+
+	glm::mat3 DelVel = glm::transpose(ContactToWorld);
+	DelVel *= DelVelWorld0;
+	DelVel *= ContactToWorld;
+
+	DelVel[0].x += InvMass;
+	DelVel[1].y += InvMass;
+	DelVel[2].z += InvMass;
+
+	glm::mat3 ImpMatrix = glm::inverse(DelVel);
+
+	glm::vec3 VelKill(DesDeltaVel, -ContactVelocity.y, -ContactVelocity.z);
+	ImpContact = ImpMatrix * VelKill;
+
+	float PlanarImpulse = glm::sqrt(ImpContact.y * ImpContact.y + ImpContact.z * ImpContact.z);
+	if (PlanarImpulse > (ImpContact.x * Friction))
+	{
+		ImpContact.y /= PlanarImpulse;
+		ImpContact.z /= PlanarImpulse;
+
+		ImpContact.x = DelVel[0].x +
+			DelVel[1].x * Friction * ImpContact.y +
+			DelVel[2].x * Friction * ImpContact.z;
+
+		ImpContact.x = DesDeltaVel / ImpContact.x;
+		ImpContact.y *= Friction * ImpContact.x;
+		ImpContact.z *= Friction * ImpContact.x;
+	}
+	return ImpContact;
 }
 
 glm::vec3 Contact::CalcNonFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2])
@@ -170,7 +214,6 @@ void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 		Bods[ii]->SetQuat(Q);
 		if (!Bods[ii]->GetParticle()->GetAwakeStatus())
 			Bods[ii]->GetParticle()->CalcDerivedData();
-
 	}
 }
 
@@ -192,8 +235,8 @@ void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 	//Convert impule to World Coordinates
 	glm::vec3 Impulse = this->ContactToWorld * ImpulseCont;
 	//Split impulse to linear and roation parts
-	glm::vec3 ImTrque = glm::cross(RelContact[0], Impulse);
-	RotChange[0] = InvInertia[0] * ImTrque;
+	glm::vec3 ImTrque0 = glm::cross(RelContact[0], Impulse);
+	RotChange[0] = InvInertia[0] * ImTrque0;
 	VelChang[0] = glm::vec3(0.f);
 	VelChang[0] = Impulse * 1.f / Bods[0]->GetParticle()->GetMass();
 
@@ -205,8 +248,8 @@ void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 	if (Bods[1]->GetParticle())
 	{
 		//Split impulse to linear and roation parts
-		glm::vec3 ImTrque = glm::cross(RelContact[1], Impulse);
-		RotChange[1] = InvInertia[1] * ImTrque;
+		glm::vec3 ImTrque1 = glm::cross(RelContact[1], Impulse);
+		RotChange[1] = InvInertia[1] * ImTrque1;
 		VelChang[1] = glm::vec3(0.f);
 		VelChang[1] = Impulse * -1.f / Bods[1]->GetParticle()->GetMass();
 		//Apply Changes

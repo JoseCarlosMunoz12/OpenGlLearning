@@ -22,8 +22,6 @@ void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_
 	float Diff = Cnt->Contacts[0]->Penetration;
 	if (Diff < 0.001)
 		Diff = 0.f;
-	for (auto& jj : Cnt->Contacts)		
-		Bod->GetParticle()->AddForceAtBodyPoint(glm::vec3(0.f, 0.f,0.f), jj->ContactPoint);
 	Bod->MovePosition(Diff * Norm);
 }
 
