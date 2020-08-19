@@ -18,12 +18,13 @@ namespace CoatlPhysicsEngine {
 	class Col_Resolution
 	{
 	private:
+		//Iterations Count
+		int VelIt;
+		int Posit;
 		// Impulse resolition
 		void PrepeareContact(std::shared_ptr<Manifold> Cnt, float dt);
 		void AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt);
 		void AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt);
-		//resolve joints
-
 		//Resolvoing Contacts
 		void ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt);
 		//Contact creation
@@ -35,7 +36,7 @@ namespace CoatlPhysicsEngine {
 		std::unique_ptr<GJK_Alg> GJK_;
 		std::unique_ptr<SAT> SAT_;
 	public:
-		Col_Resolution();
+		Col_Resolution(int VelInit, int PosInit);
 		~Col_Resolution();
 		//Create Manifolds
 		 std::shared_ptr<Manifold> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,int ID);

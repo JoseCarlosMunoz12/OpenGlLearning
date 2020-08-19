@@ -65,7 +65,7 @@ void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodi
 	float ThisRest = Restituion;
 	if (glm::abs(ContactVelocity.x) < ThisRest)
 		ThisRest = 0.f;
-	this->DesDeltaVel - ContactVelocity.x - ThisRest * (ContactVelocity.x - VelFromAcc);
+	this->DesDeltaVel = ContactVelocity.x - ThisRest * (ContactVelocity.x - VelFromAcc);
 }
 
 glm::vec3 Contact::CalcFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3 InvInTn[2])

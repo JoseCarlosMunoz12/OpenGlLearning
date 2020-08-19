@@ -21,8 +21,6 @@ void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_
 {
 	glm::vec3 Norm = Cnt->Contacts[0]->Normal;
 	float Diff = Cnt->Contacts[0]->Penetration;
-	if (Diff < 0.001)
-		Diff = 0.f;
 	Bod->MovePosition(Diff * Norm);
 }
 
@@ -154,7 +152,8 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_p
 	return this->ContactCreate(Bod0, Bod1);	
 }
 
-Col_Resolution::Col_Resolution()
+Col_Resolution::Col_Resolution(int VelInit,int PosInit)
+	:VelIt(VelInit), Posit(PosInit)
 {
 	this->S_Res = std::make_unique<ShapeResolution>();
 	this->GJK_ = std::make_unique<GJK_Alg>();
