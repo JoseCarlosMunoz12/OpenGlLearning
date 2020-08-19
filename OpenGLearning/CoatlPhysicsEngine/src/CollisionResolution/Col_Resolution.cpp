@@ -33,7 +33,18 @@ void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
 		//May change the penetration, so update those contacts
 		for (int ii = 0; ii < NumCount; ii++)
 		{
-
+			for (int bb = 0; bb < 2; bb++) if (Cnt->Bods[bb]->GetParticle())
+			{
+				for (int dd = 0; dd < 2; dd++)
+				{
+					if (Cnt->Bods[bb]->GetID() == Cnt->Bods[dd]->GetID())
+					{
+						DelPos = LinChng[dd] +
+							glm::cross(AngCh[dd], Cnt->Contacts[ii]->RelContact[bb]);
+						Cnt->Contacts[ii]->Penetration += glm::dot(DelPos, Cnt->Contacts[ii]->Normal) * (bb ? 1 : -1);
+					}
+				}
+			}
 		}
 		ItUsed++;
 	}

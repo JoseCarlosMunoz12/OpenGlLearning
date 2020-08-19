@@ -6,7 +6,6 @@
 		glm::mat3 ContactToWorld;
 		glm::vec3 ContactVelocity;
 		float DesDeltaVel;
-		glm::vec3 RelContact[2];
 		glm::mat3 MakeSkew(glm::vec3 Vec);
 		void CalculateContactbasis();
 		glm::vec3 CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float dt);
@@ -21,6 +20,7 @@
 		float Penetration;
 		float Friction;
 		float Restituion;
+		glm::vec3 RelContact[2];
 		void CalculateInternals(std::shared_ptr<Bodies> Bods[2],float dt);
 		//applies changes and resolutions
 		void ApplyPositionChange(std::shared_ptr<Bodies> Bods[2],
