@@ -178,7 +178,28 @@ void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 		ImpulseCont = this->CalcFricImpulse(Bods, InvInertia);
 	else
 		ImpulseCont = this->CalcNonFricImpulse(Bods, InvInertia);
-
+	//Convert impule to World Coordinates
 	glm::vec3 Impulse = this->ContactToWorld * ImpulseCont;
+	//Split impulse to linear and roation parts
+	glm::vec3 ImTrque = glm::cross(RelContact[0], Impulse);
+	RotChange[0] = InvInertia[0] * ImTrque;
+	VelChang[0] = glm::vec3(0.f);
+	VelChang[0] = Impulse * 1.f / Bods[0]->GetParticle()->GetMass();
 
+	//Apply Changes
+	Bods[0]->GetParticle()->AddVel(VelChang[0]);
+	Bods[0]->GetParticle()->AddRotVel(RotChange[0]);
+
+	//Body 2 changes
+	if (Bods[1]->GetParticle())
+	{
+		//Split impulse to linear and roation parts
+		glm::vec3 ImTrque = glm::cross(RelContact[1], Impulse);
+		RotChange[1] = InvInertia[1] * ImTrque;
+		VelChang[1] = glm::vec3(0.f);
+		VelChang[1] = Impulse * -1.f / Bods[1]->GetParticle()->GetMass();
+		//Apply Changes
+		Bods[1]->GetParticle()->AddVel(VelChang[1]);
+		Bods[1]->GetParticle()->AddRotVel(RotChange[1]);
+	}
 }
