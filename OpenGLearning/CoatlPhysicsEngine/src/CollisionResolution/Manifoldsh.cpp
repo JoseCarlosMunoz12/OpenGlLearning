@@ -120,9 +120,30 @@ glm::vec3 Contact::CalcFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3 In
 	return ImpContact;
 }
 
-glm::vec3 Contact::CalcNonFricImpulse(std::shared_ptr<Bodies> Bod0[2], glm::mat3 InvInTn[2])
+glm::vec3 Contact::CalcNonFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3 InvInTn[2])
 {
-	return glm::vec3();
+	glm::vec3 ImpContact = glm::vec3(0.f);
+	glm::vec3 DelVelWorld = glm::cross(RelContact[0], Normal);
+	DelVelWorld = InvInTn[0] * DelVelWorld;
+	DelVelWorld = glm::cross(DelVelWorld, RelContact[0]);
+
+	float DelVel = glm::dot(DelVelWorld ,Normal);
+	DelVel += (1.f / Bods[0]->GetParticle()->GetMass());
+
+	if (Bods[1]->GetParticle())
+	{
+		glm::vec3 DelVelWorld0 = glm::cross(RelContact[1], Normal);
+		DelVelWorld0 = InvInTn[1] * DelVelWorld0;
+		DelVelWorld0 = glm::cross(DelVelWorld0, RelContact[1]);
+		DelVel += glm::dot(DelVelWorld0, Normal);
+		DelVel += (1.f / Bods[1]->GetParticle()->GetMass());
+	}
+
+	ImpContact.x = DesDeltaVel / DelVel;
+	ImpContact.y = 0.f;
+	ImpContact.z = 0.f;
+
+	return ImpContact;
 }
 
 Contact::Contact()

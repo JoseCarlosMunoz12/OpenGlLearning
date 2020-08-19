@@ -14,6 +14,7 @@ void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
 
 void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
 {
+
 }
 
 void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt)
