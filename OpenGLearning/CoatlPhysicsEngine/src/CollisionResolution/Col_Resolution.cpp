@@ -4,7 +4,7 @@ using namespace CoatlPhysicsEngine;
 void Col_Resolution::PrepeareContact(std::shared_ptr<Manifold> Cnt, float dt)
 {
 	for (auto& jj : Cnt->Contacts)
-		jj->CalculateInternals(Cnt->Bod0, Cnt->Bod1, dt);
+		jj->CalculateInternals(Cnt->Bods, dt);
 }
 
 void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
@@ -29,8 +29,12 @@ void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
 		}
 		if (Index == NumCount) break;
 		//Reseolve Penetration
-		Cnt->Contacts[Index]->ApplyPositionChange(Cnt->Bod0, Cnt->Bod1, LinChng, AngCh);
+		Cnt->Contacts[Index]->ApplyPositionChange(Cnt->Bods, LinChng, AngCh);
+		//May change the penetration, so update those contacts
+		for (int ii = 0; ii < NumCount; ii++)
+		{
 
+		}
 		ItUsed++;
 	}
 }
@@ -44,6 +48,7 @@ void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
 	int ItUsed = 0;
 	while (ItUsed < VelIt)
 	{
+		ItUsed++;
 	}
 
 }
@@ -198,8 +203,8 @@ Col_Resolution::~Col_Resolution()
 std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, int ID)
 {
 	std::shared_ptr<Manifold> Temp = std::make_shared<Manifold>();
-	Temp->Bod0 = Bod0;
-	Temp->Bod1 = Bod1;
+	Temp->Bods[0] = Bod0;
+	Temp->Bods[1] = Bod1;
 	Temp->Contacts = MakeContacts(Bod0, Bod1);
 	Temp->ContactCount = Temp->Contacts.size();
 	Temp->ID = ID;
@@ -225,21 +230,21 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 		switch (Cnt->ID)
 		{
 		case 0:
-			this->ResolveResolution(Cnt->Bod0, Cnt);
+			this->ResolveResolution(Cnt->Bods[0], Cnt);
 			break;
 		case 1:
-			this->ResolveResolution(Cnt->Bod1, Cnt);
+			this->ResolveResolution(Cnt->Bods[1], Cnt);
 			break;
 		case 2:
 			break;
 		default:
-			if (Cnt->Bod0->GetBodyParts()->GetParticle())
+			if (Cnt->Bods[0]->GetBodyParts()->GetParticle())
 			{
-				Cnt->Bod0->MovePosition(Diff * Norm / 2.f);
+				Cnt->Bods[0]->MovePosition(Diff * Norm / 2.f);
 			}
-			if (Cnt->Bod1->GetBodyParts()->GetParticle())
+			if (Cnt->Bods[1]->GetBodyParts()->GetParticle())
 			{
-				Cnt->Bod1->MovePosition(-Diff * Norm / 2.f);
+				Cnt->Bods[1]->MovePosition(-Diff * Norm / 2.f);
 			}
 			break;
 		}

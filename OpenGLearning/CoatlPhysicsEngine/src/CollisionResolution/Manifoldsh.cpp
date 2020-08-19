@@ -156,20 +156,19 @@ Contact::~Contact()
 {
 }
 
-void Contact::CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt)
+void Contact::CalculateInternals(std::shared_ptr<Bodies> Bods[2], float dt)
 {
 	this->CalculateContactbasis();
-	this->RelContact[0] = ContactPoint - Bod0->GetPos();
-	this->RelContact[1] = ContactPoint - Bod1->GetPos();
-	this->ContactVelocity = this->CalculateLocalvel(Bod0, 0,dt);
-	this->ContactVelocity -= this->CalculateLocalvel(Bod1, 1,dt);
-	this->CalculateDesVel(Bod0, Bod1, dt);
+	this->RelContact[0] = ContactPoint - Bods[0]->GetPos();
+	this->RelContact[1] = ContactPoint - Bods[1]->GetPos();
+	this->ContactVelocity = this->CalculateLocalvel(Bods[0], 0,dt);
+	this->ContactVelocity -= this->CalculateLocalvel(Bods[1], 1,dt);
+	this->CalculateDesVel(Bods[0], Bods[1], dt);
 }
 
-void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
+void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bods[2],
 	glm::vec3 LinChang[2], glm::vec3 AngChange[2])
 {
-	std::shared_ptr<Bodies> Bods[2] = { Bod0, Bod1 };
 	const float AngLimit = .2f;
 	float AngM[2];
 	float LinM[2];
@@ -238,11 +237,10 @@ void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<
 	}
 }
 
-void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
+void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bods[2],
 	glm::vec3 VelChang[2], glm::vec3 RotChange[2])
 {
 	glm::mat3 InvInertia[2];
-	std::shared_ptr<Bodies> Bods[2] = { Bod0, Bod1 };
 	//Get Inertia Tensor
 	InvInertia[0] = glm::inverse(Bods[0]->GetParticle()->GetInertiaWorld());
 	if(Bods[0]->GetParticle())

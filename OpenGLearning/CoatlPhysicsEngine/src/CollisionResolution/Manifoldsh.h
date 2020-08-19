@@ -21,19 +21,18 @@
 		float Penetration;
 		float Friction;
 		float Restituion;
-		void CalculateInternals(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,float dt);
+		void CalculateInternals(std::shared_ptr<Bodies> Bods[2],float dt);
 		//applies changes and resolutions
-		void ApplyPositionChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, 
+		void ApplyPositionChange(std::shared_ptr<Bodies> Bods[2],
 			glm::vec3 LinChang[2],glm::vec3 AngChange[2]);
-		void ApplyVelocityChange(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
+		void ApplyVelocityChange(std::shared_ptr<Bodies> Bods[2],
 			glm::vec3 VelChang[2], glm::vec3 RotChange[2]);
 	};
 	struct Manifold
 	{
 		std::vector<std::shared_ptr<Contact>> Contacts;
 		unsigned ContactCount;
-		std::shared_ptr<Bodies> Bod0;
-		std::shared_ptr<Bodies> Bod1;
+		std::shared_ptr<Bodies> Bods[2];
 		//-1 for both are movable
 		//0 For Bod0 is only Movable
 		//1 For Bod1 is only Movable

@@ -28,9 +28,9 @@ bool DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Manifold>> 
 	{
 		bool F_Same = false;
 		bool S_Same = false;
-		if (jj->Bod0->GetID() == NewMan->Bod0->GetID() || jj->Bod1->GetID() == NewMan->Bod0->GetID())
+		if (jj->Bods[0]->GetID() == NewMan->Bods[0]->GetID() || jj->Bods[1]->GetID() == NewMan->Bods[0]->GetID())
 			F_Same = true;
-		if (jj->Bod0->GetID() == NewMan->Bod1->GetID() || jj->Bod1->GetID() == NewMan->Bod1->GetID())
+		if (jj->Bods[0]->GetID() == NewMan->Bods[1]->GetID() || jj->Bods[1]->GetID() == NewMan->Bods[1]->GetID())
 			S_Same = true;
 		if (S_Same && F_Same)
 			return true;
