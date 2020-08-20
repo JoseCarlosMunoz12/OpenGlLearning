@@ -156,6 +156,19 @@ Contact::~Contact()
 {
 }
 
+void Contact::MatchAwakeState(std::shared_ptr<Bodies> Bods[2])
+{
+	if (!Bods[1]->GetParticle())
+		return;
+	bool Bod0Awake = Bods[0]->GetParticle()->GetAwakeStatus();
+	bool Bod1Awake = Bods[1]->GetParticle()->GetAwakeStatus();
+	if (Bod0Awake ^ Bod1Awake)
+		if (Bod0Awake)
+			Bods[1]->GetParticle()->SetAwake(true);
+		else
+			Bods[0]->GetParticle()->SetAwake(true);
+}
+
 void Contact::CalculateInternals(std::shared_ptr<Bodies> Bods[2], float dt)
 {
 	this->CalculateContactbasis();

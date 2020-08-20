@@ -21,6 +21,7 @@
 		float Friction;
 		float Restituion;
 		glm::vec3 RelContact[2];
+		void MatchAwakeState(std::shared_ptr<Bodies> Bods[2]);
 		void CalculateInternals(std::shared_ptr<Bodies> Bods[2],float dt);
 		//applies changes and resolutions
 		void ApplyPositionChange(std::shared_ptr<Bodies> Bods[2],

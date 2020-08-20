@@ -28,6 +28,7 @@ void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
 			}
 		}
 		if (Index == NumCount) break;
+		Cnt->Contacts[Index]->MatchAwakeState(Cnt->Bods);
 		//Reseolve Penetration
 		Cnt->Contacts[Index]->ApplyPositionChange(Cnt->Bods, LinChng, AngCh);
 		//May change the penetration, so update those contacts
@@ -71,6 +72,7 @@ void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
 			}
 		}
 		if (Index == NumContacts)break;
+		Cnt->Contacts[Index]->MatchAwakeState(Cnt->Bods);
 		Cnt->Contacts[Index]->ApplyVelocityChange(Cnt->Bods, VelChng, RotCh);
 		for (int ii = 0; ii < NumContacts; ii++)
 		{
@@ -262,35 +264,7 @@ void Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<Manifold>> &R
 
 void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 {
-	//(false;Cnt->Contacts[0]->Normal; Cnt->Contacts[0]->Penetration;
-	/*if (Cnt->ContactCount > 0)
-	{
-		float Diff = Cnt->Contacts[0]->Penetration;
-		if (Diff < 0.001)
-			Diff = 0.f;
-		glm::vec3 Norm = Cnt->Contacts[0]->Normal;
-		switch (Cnt->ID)
-		{
-		case 0:
-			this->ResolveResolution(Cnt->Bods[0], Cnt);
-			break;
-		case 1:
-			this->ResolveResolution(Cnt->Bods[1], Cnt);
-			break;
-		case 2:
-			break;
-		default:
-			if (Cnt->Bods[0]->GetBodyParts()->GetParticle())
-			{
-				Cnt->Bods[0]->MovePosition(Diff * Norm / 2.f);
-			}
-			if (Cnt->Bods[1]->GetBodyParts()->GetParticle())
-			{
-				Cnt->Bods[1]->MovePosition(-Diff * Norm / 2.f);
-			}
-			break;
-		}
-	}*/
+	
 	//Prepare bodies for resolution
 	this->PrepeareContact(Cnt, dt);
 	//Adjust the positions

@@ -154,8 +154,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						//Get other body vel, pos, Rot and RotVel
 						glm::vec3 Bod1_Vel = ii->GetParticle()->GetVel();
 						glm::vec3 Pos1 = ii->GetPos();
-						glm::vec3 Bod1_RotVel = ii->GetParticle()->GetRotVel();
-						glm::quat Bod1_Q = ii->GetQuat();
 						float F_dt = dt;
 						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,0,dt,F_dt))
 						{
