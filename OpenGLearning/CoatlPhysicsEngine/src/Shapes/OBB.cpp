@@ -169,9 +169,9 @@ glm::mat3 OBB::GetInertia(float Mass)
 	float LH2 = (Ex.x *Ex.x + Ex.z * Ex.z)/3.f;
 	float HW2 = (Ex.y * Ex.y + Ex.z * Ex.z) / 3.f;
 	float LW2 = (Ex.x * Ex.x + Ex.y * Ex.y) / 3.f;
-	float LW = Ex.x * Ex.y / 4.f;
-	float LH = Ex.x * Ex.z / 4.f;
-	float HW = Ex.z * Ex.y / 4.f;
+	float LW = 0.f;
+	float LH = 0.f;
+	float HW = 0.f;
 	glm::vec3 Col0 = glm::vec3(LH2,LW,HW);
 	glm::vec3 Col1 = glm::vec3(LW,HW2,LH);
 	glm::vec3 Col2 = glm::vec3(HW,LH,LW2);

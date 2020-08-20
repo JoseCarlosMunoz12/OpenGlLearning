@@ -257,7 +257,7 @@ void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bods[2],
 	//Get Inertia Tensor
 	InvInertia[0] = glm::inverse(Bods[0]->GetParticle()->GetInertiaWorld());
 	if(Bods[1]->GetParticle())
-		InvInertia[1] = glm::inverse(Bods[0]->GetParticle()->GetInertiaWorld());
+		InvInertia[1] = glm::inverse(Bods[1]->GetParticle()->GetInertiaWorld());
 	//Calc Impulse
 	glm::vec3 ImpulseCont;
 	if (Friction != 0)
