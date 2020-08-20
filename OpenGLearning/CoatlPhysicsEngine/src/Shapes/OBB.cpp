@@ -166,9 +166,9 @@ std::vector<glm::vec3> OBB::GetNormals()
 
 glm::mat3 OBB::GetInertia(float Mass)
 {
-	float LH2 = (Ex.x *Ex.x + Ex.z * Ex.z)/3.f;
-	float HW2 = (Ex.y * Ex.y + Ex.z * Ex.z) / 3.f;
-	float LW2 = (Ex.x * Ex.x + Ex.y * Ex.y) / 3.f;
+	float LH2 = (Ex.x * Ex.x + Ex.z * Ex.z) / 12.f;
+	float HW2 = (Ex.y * Ex.y + Ex.z * Ex.z) / 12.f;
+	float LW2 = (Ex.x * Ex.x + Ex.y * Ex.y) / 12.f;
 	float LW = 0.f;
 	float LH = 0.f;
 	float HW = 0.f;
