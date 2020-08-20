@@ -42,7 +42,7 @@ DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<Collision
 	:BaseCols(Name,InitCols),
 	Ext(100.f), AlgoType(Alg_Type::O_T), B_Ex(4.f)
 {
-	this->Col_Rel = std::make_unique<Col_Resolution>(4,4);
+	this->Col_Rel = std::make_unique<Col_Resolution>(10,10);
 	this->Gravity = glm::vec3(0.f, 0.f, -9.81f);
 	this->Grav_F_Manager = std::make_unique<Phy_Grav>(this->Gravity);
 }
@@ -101,18 +101,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
 							if (!this->ContainsManifold(ColRel, T))
 								ColRel.push_back(T);
-							Temp->AcumForce(-Gravity * Temp->GetMass());
-							if (Bod_Vel.z < 0)
-							{
-								if (glm::abs(Bod_Vel.z) > 0.125f)
-								{
-									Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y,glm::abs(Bod_Vel.z/2)));
-								}
-								else
-								{
-									Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
-								}
-							}
+							Temp->AcumForce(-Gravity * Temp->GetMass());							
 							jj->SetPosition(PrevPos);
 						}
 					}
@@ -130,14 +119,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						if (!this->ContainsManifold(ColRel, T))
 							ColRel.push_back(T);
 						Temp->AcumForce(-Gravity * Temp->GetMass());
-						if (glm::abs(Bod_Vel.z) > 0.0625f)
-						{
-							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, -Bod_Vel.z / 2));
-						}
-						else
-						{
-							Temp->SetVel(glm::vec3(Bod_Vel.x, Bod_Vel.y, 0.f));
-						}
 						jj->SetPosition(PrevPos);
 					}
 				}

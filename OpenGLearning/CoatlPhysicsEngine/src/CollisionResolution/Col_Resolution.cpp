@@ -72,10 +72,26 @@ void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
 		}
 		if (Index == NumContacts)break;
 		Cnt->Contacts[Index]->ApplyVelocityChange(Cnt->Bods, VelChng, RotCh);
-		for(int ii = 0; ii < NumContacts; ii++)
+		for (int ii = 0; ii < NumContacts; ii++)
+		{
+			for (int bb = 0; bb < 2; bb++)if (Cnt->Bods[bb]->GetParticle())
+			{
+				for (int dd = 0; dd < 2; dd++)
+				{
+					if (Cnt->Bods[bb]->GetID() == Cnt->Bods[dd]->GetID())
+					{
+						DelPos = VelChng[dd] +
+							glm::cross(RotCh[dd], Cnt->Contacts[ii]->RelContact[bb]);
+						glm::vec3 V = Cnt->Contacts[ii]->ContactToWorld * DelPos ;
+						V = (bb ? -1.f : 1.f) * V;
+						Cnt->Contacts[ii]->ContactVelocity += V;
+						Cnt->Contacts[ii]->CalculateDesVel(Cnt->Bods, dt);
+					}
+				}
+			}
+		}
 		ItUsed++;
 	}
-
 }
 
 void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt)
@@ -246,7 +262,7 @@ void Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<Manifold>> &R
 void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 {
 	//(false;Cnt->Contacts[0]->Normal; Cnt->Contacts[0]->Penetration;
-	if (Cnt->ContactCount > 0)
+	/*if (Cnt->ContactCount > 0)
 	{
 		float Diff = Cnt->Contacts[0]->Penetration;
 		if (Diff < 0.001)
@@ -273,7 +289,7 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 			}
 			break;
 		}
-	}
+	}*/
 	//Prepare bodies for resolution
 	this->PrepeareContact(Cnt, dt);
 	//Adjust the positions

@@ -53,19 +53,19 @@ glm::vec3 Contact::CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float 
 	return ContactVel;
 }
 
-void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt)
+void Contact::CalculateDesVel(std::shared_ptr<Bodies> Bods[2], float dt)
 {
 	const static float VelLimit = 0.25f;
 	float VelFromAcc = 0.f;
 
-	if (Bod0->GetParticle()->GetAwakeStatus())
-		VelFromAcc += dt *(glm::dot( Bod0->GetParticle()->GetAccel(), Normal));
-	if(Bod1->GetParticle() && Bod1->GetParticle()->GetAwakeStatus())
-		VelFromAcc -= dt * (glm::dot(Bod1->GetParticle()->GetAccel(), Normal));
+	if (Bods[0]->GetParticle()->GetAwakeStatus())
+		VelFromAcc += dt *(glm::dot(Bods[0]->GetParticle()->GetAccel(), Normal));
+	if(Bods[1]->GetParticle() && Bods[1]->GetParticle()->GetAwakeStatus())
+		VelFromAcc -= dt * (glm::dot(Bods[1]->GetParticle()->GetAccel(), Normal));
 	float ThisRest = Restituion;
-	if (glm::abs(ContactVelocity.x) < ThisRest)
+	if (glm::abs(ContactVelocity.x) < VelLimit)
 		ThisRest = 0.f;
-	this->DesDeltaVel = ContactVelocity.x - ThisRest * (ContactVelocity.x - VelFromAcc);
+	this->DesDeltaVel = -ContactVelocity.x - ThisRest * (ContactVelocity.x - VelFromAcc);
 }
 
 glm::vec3 Contact::CalcFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3 InvInTn[2])
@@ -148,7 +148,7 @@ glm::vec3 Contact::CalcNonFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3
 
 Contact::Contact()
 	:ContactPoint(glm::vec3(0.f)), Normal(glm::vec3(0.f, 0.f, 1.f)),
-	Penetration(0.f), Friction(1.f),Restituion(1.f)
+	Penetration(0.f), Friction(1.f),Restituion(.5f)
 {
 }
 	
@@ -163,7 +163,7 @@ void Contact::CalculateInternals(std::shared_ptr<Bodies> Bods[2], float dt)
 	this->RelContact[1] = ContactPoint - Bods[1]->GetPos();
 	this->ContactVelocity = this->CalculateLocalvel(Bods[0], 0,dt);
 	this->ContactVelocity -= this->CalculateLocalvel(Bods[1], 1,dt);
-	this->CalculateDesVel(Bods[0], Bods[1], dt);
+	this->CalculateDesVel(Bods, dt);
 }
 
 void Contact::ApplyPositionChange(std::shared_ptr<Bodies> Bods[2],
@@ -243,8 +243,8 @@ void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bods[2],
 	glm::mat3 InvInertia[2];
 	//Get Inertia Tensor
 	InvInertia[0] = glm::inverse(Bods[0]->GetParticle()->GetInertiaWorld());
-	if(Bods[0]->GetParticle())
-		InvInertia[1] = glm::inverse(Bods[1]->GetParticle()->GetInertiaWorld());
+	if(Bods[1]->GetParticle())
+		InvInertia[1] = glm::inverse(Bods[0]->GetParticle()->GetInertiaWorld());
 	//Calc Impulse
 	glm::vec3 ImpulseCont;
 	if (Friction != 0)
