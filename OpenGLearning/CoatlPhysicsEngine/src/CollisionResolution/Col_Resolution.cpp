@@ -154,6 +154,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), vec,Pen))
 	{
 		float R = Cap.GetRadius();
+		Pen = glm::distance(glm::vec3(0.f), vec);
 		std::vector<glm::vec3> Cap_Seg = Cap.GetSegment();
 		std::vector<glm::vec3> Obj_seg = Bod1->GetShapes()->GetVertices();
 		std::vector<glm::vec3> Obj_Norm = Bod1->GetShapes()->GetNormals();
