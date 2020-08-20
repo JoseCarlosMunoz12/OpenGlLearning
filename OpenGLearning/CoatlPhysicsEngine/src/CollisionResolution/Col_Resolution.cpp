@@ -266,7 +266,7 @@ void Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<Manifold>> &R
 
 void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 {
-	if (Cnt->ContactCount > 0)
+	/*if (Cnt->ContactCount > 0)
 	{
 		float Diff = Cnt->Contacts[0]->Penetration;
 		if (Diff < 0.0001)
@@ -293,12 +293,12 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 			}
 			break;
 		}
-	}
+	}*/
 
-	/*/Prepare bodies for resolution
+	//Prepare bodies for resolution
 	this->PrepeareContact(Cnt, dt);
 	//Adjust the positions
 	this->AdjustPosition(Cnt, dt);
 	//adjust the velocities of the bodies
-	this->AdjustVelocity(Cnt, dt);*/
+	this->AdjustVelocity(Cnt, dt);
 }
