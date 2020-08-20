@@ -100,6 +100,8 @@ void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_
 {
 	glm::vec3 Norm = Cnt->Contacts[0]->Normal;
 	float Diff = Cnt->Contacts[0]->Penetration;
+	if (Diff < 0.0001)
+		Diff = 0.f;
 	Bod->MovePosition(Diff * Norm);
 }
 
@@ -264,11 +266,39 @@ void Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<Manifold>> &R
 
 void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 {
-	
-	//Prepare bodies for resolution
+	if (Cnt->ContactCount > 0)
+	{
+		float Diff = Cnt->Contacts[0]->Penetration;
+		if (Diff < 0.0001)
+			Diff = 0.f;
+		glm::vec3 Norm = Cnt->Contacts[0]->Normal;
+		switch (Cnt->ID)
+		{
+		case 0:
+			this->ResolveResolution(Cnt->Bods[0], Cnt);
+			break;
+		case 1:
+			this->ResolveResolution(Cnt->Bods[1], Cnt);
+			break;
+		case 2:
+			break;
+		default:
+			if (Cnt->Bods[0]->GetBodyParts()->GetParticle())
+			{
+				Cnt->Bods[0]->MovePosition(Diff * Norm / 2.f);
+			}
+			if (Cnt->Bods[1]->GetBodyParts()->GetParticle())
+			{
+				Cnt->Bods[1]->MovePosition(-Diff * Norm / 2.f);
+			}
+			break;
+		}
+	}
+
+	/*/Prepare bodies for resolution
 	this->PrepeareContact(Cnt, dt);
 	//Adjust the positions
 	this->AdjustPosition(Cnt, dt);
 	//adjust the velocities of the bodies
-	this->AdjustVelocity(Cnt, dt);
+	this->AdjustVelocity(Cnt, dt);*/
 }

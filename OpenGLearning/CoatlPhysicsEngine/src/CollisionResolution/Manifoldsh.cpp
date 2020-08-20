@@ -148,7 +148,7 @@ glm::vec3 Contact::CalcNonFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3
 
 Contact::Contact()
 	:ContactPoint(glm::vec3(0.f)), Normal(glm::vec3(0.f, 0.f, 1.f)),
-	Penetration(0.f), Friction(0.f),Restituion(1.f)
+	Penetration(0.f), Friction(100.f),Restituion(.01f)
 {
 }
 	
@@ -264,7 +264,7 @@ void Contact::ApplyVelocityChange(std::shared_ptr<Bodies> Bods[2],
 		ImpulseCont = this->CalcFricImpulse(Bods, InvInertia);
 	else
 		ImpulseCont = this->CalcNonFricImpulse(Bods, InvInertia);
-	//Convert impule to World Coordinates
+	//Convert impulse to World Coordinates
 	glm::vec3 Impulse = this->ContactToWorld * ImpulseCont;
 	//Split impulse to linear and roation parts
 	glm::vec3 ImTrque0 = glm::cross(RelContact[0], Impulse);
