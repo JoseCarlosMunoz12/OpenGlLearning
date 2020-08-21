@@ -396,7 +396,7 @@ glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Col
 		float Cur_Dis = glm::distance(Zed, NewDir);
 		if (Cur_Dis < Cl_Dis)
 			Cl_Dis = Cur_Dis;
-		else if (Cur_Dis == Cl_Dis)
+		else if ((Cur_Dis - Cl_Dis) < 0.00001f)
 			break;
 		A = EPA_Support(Shape0, Shape1, -NewDir);
 	}
