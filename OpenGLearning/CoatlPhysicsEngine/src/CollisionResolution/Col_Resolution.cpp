@@ -84,7 +84,7 @@ void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
 					{
 						DelPos = VelChng[dd] +
 							glm::cross(RotCh[dd], Cnt->Contacts[ii]->RelContact[bb]);
-						glm::vec3 V = Cnt->Contacts[ii]->ContactToWorld * DelPos ;
+						glm::vec3 V = glm::transpose(Cnt->Contacts[ii]->ContactToWorld) * DelPos ;
 						V = (bb ? -1.f : 1.f) * V;
 						Cnt->Contacts[ii]->ContactVelocity += V;
 						Cnt->Contacts[ii]->CalculateDesVel(Cnt->Bods, dt);

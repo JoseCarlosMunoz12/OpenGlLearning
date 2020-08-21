@@ -46,7 +46,7 @@ glm::vec3 Contact::CalculateLocalvel(std::shared_ptr<Bodies> Bod, int ID, float 
 		return ContactVel;
 	glm::vec3 Vel = glm::cross(Bod->GetParticle()->GetRotVel(), RelContact[ID]);
 	Vel += Bod->GetParticle()->GetVel();
-	ContactVel = this->ContactToWorld * Vel;
+	ContactVel = glm::transpose(this->ContactToWorld) * Vel;
 	glm::vec3 AccVel = Bod->GetParticle()->GetAccel() * dt;
 	AccVel.x = 0.f;
 	ContactVel += AccVel;
@@ -148,7 +148,7 @@ glm::vec3 Contact::CalcNonFricImpulse(std::shared_ptr<Bodies> Bods[2], glm::mat3
 
 Contact::Contact()
 	:ContactPoint(glm::vec3(0.f)), Normal(glm::vec3(0.f, 0.f, 1.f)),
-	Penetration(0.f), Friction(100.f),Restituion(.00f)
+	Penetration(0.f), Friction(0.f),Restituion(.00f)
 {
 }
 	
