@@ -88,22 +88,19 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 			glm::vec3 Bod_RotVel = Temp->GetRotVel();
 			float F_dt = dt;
 			//Check Collision with The Terrain////////////////////////////////////////////////////
-			if (!Ter.expired())
+			if (!this->Ter.expired())
 			{
 				std::vector<std::shared_ptr<Bodies>> Quers = Ter.lock()->GetTerrs(jj->GetPos(), 1);
-				if (!this->Ter.expired())
-				{					
-					for (auto& ii : Quers)
+				for (auto& ii : Quers)
+				{
+					if (this->BinColDetection(jj, ii,Bod_Vel,glm::vec3(0.f),0.f, dt, F_dt))
 					{
-						if (this->BinColDetection(jj, ii,Bod_Vel,glm::vec3(0.f),0.f, dt, F_dt))
-						{
-							jj->MovePosition(F_dt * Bod_Vel);
-							std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
-							if (!this->ContainsManifold(ColRel, T))
-								ColRel.push_back(T);
-							Temp->AcumForce(-Gravity * Temp->GetMass());							
-							jj->SetPosition(PrevPos);
-						}
+						jj->MovePosition(F_dt * Bod_Vel);
+						std::shared_ptr<Manifold> T = this->Col_Rel->MakeManifold(jj, ii, 0);
+						if (!this->ContainsManifold(ColRel, T))
+							ColRel.push_back(T);
+						Temp->AcumForce(-Gravity * Temp->GetMass());							
+						jj->SetPosition(PrevPos);
 					}
 				}
 			}
