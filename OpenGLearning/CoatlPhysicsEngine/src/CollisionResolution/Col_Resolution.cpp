@@ -1,13 +1,13 @@
 #include "Col_Resolution.h"
 using namespace CoatlPhysicsEngine;
 
-void Col_Resolution::PrepeareContact(std::shared_ptr<Manifold> Cnt, float dt)
+void Col_Resolution::PrepeareContact(std::vector<std::shared_ptr<Contacts>> Cnt, float dt)
 {
-	for (auto& jj : Cnt->Contacts)
-		jj->CalculateInternals(Cnt->Bods, dt);
+	for (auto& jj : Cnt)
+		jj->CalculateInternals(dt);
 }
 
-void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
+void Col_Resolution::AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, float dt)
 {
 	int Index;
 	glm::vec3 LinChng[2],AngCh[2];
@@ -16,33 +16,33 @@ void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
 	int ItUsed = 0;
 	while (ItUsed < Posit)
 	{
-		int NumCount = Cnt->ContactCount;
-		Index = Cnt->ContactCount;
+		int NumCount = Cnt.size();
+		Index = NumCount;
 		Max = 0.01f;
 		for (int ii = 0; ii < NumCount; ii++)
 		{
-			if (Cnt->Contacts[ii]->Penetration > Max)
+			if (Cnt[ii]->Penetration > Max)
 			{
-				Max = Cnt->Contacts[ii]->Penetration;
+				Max = Cnt[ii]->Penetration;
 				Index = ii;
 			}
 		}
 		if (Index == NumCount) break;
-		Cnt->Contacts[Index]->MatchAwakeState(Cnt->Bods);
+		Cnt[Index]->MatchAwakeState();
 		//Reseolve Penetration
-		Cnt->Contacts[Index]->ApplyPositionChange(Cnt->Bods, LinChng, AngCh);
+		Cnt[Index]->ApplyPositionChange(LinChng, AngCh);
 		//May change the penetration, so update those contacts
 		for (int ii = 0; ii < NumCount; ii++)
 		{
-			for (int bb = 0; bb < 2; bb++) if (Cnt->Bods[bb]->GetParticle())
+			for (int bb = 0; bb < 2; bb++) if (Cnt[ii]->Bods[bb]->GetParticle())
 			{
 				for (int dd = 0; dd < 2; dd++)
 				{
-					if (Cnt->Bods[bb]->GetID() == Cnt->Bods[dd]->GetID())
+					if (Cnt[ii]->Bods[bb]->GetID() == Cnt[Index]->Bods[dd]->GetID())
 					{
 						DelPos = LinChng[dd] +
-							glm::cross(AngCh[dd], Cnt->Contacts[ii]->RelContact[bb]);
-						Cnt->Contacts[ii]->Penetration += glm::dot(DelPos, Cnt->Contacts[ii]->Normal) * (bb ? 1 : -1);
+							glm::cross(AngCh[dd], Cnt[ii]->RelContact[bb]);
+						Cnt[ii]->Penetration += glm::dot(DelPos, Cnt[ii]->Normal) * (bb ? 1 : -1);
 					}
 				}
 			}
@@ -51,58 +51,49 @@ void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
 	}
 }
 
-void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
+void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, float dt)
 {
 	int Index;
 	glm::vec3 VelChng[2], RotCh[2];
 	
 	glm::vec3 DelPos;
 	int ItUsed = 0;
-	int NumContacts = Cnt->ContactCount;
+	int NumContacts = Cnt.size();
 	while (ItUsed < VelIt)
 	{
 		int Index = NumContacts;
 		float Max = 0.01;
 		for (int ii = 0; ii < NumContacts; ii++)
 		{
-			if (Cnt->Contacts[ii]->DesDeltaVel > Max)
+			if (Cnt[ii]->DesDeltaVel > Max)
 			{
-				Max = Cnt->Contacts[ii]->DesDeltaVel;
+				Max = Cnt[ii]->DesDeltaVel;
 				Index = ii;
 			}
 		}
 		if (Index == NumContacts)break;
-		Cnt->Contacts[Index]->MatchAwakeState(Cnt->Bods);
-		Cnt->Contacts[Index]->ApplyVelocityChange(Cnt->Bods, VelChng, RotCh);
+		Cnt[Index]->MatchAwakeState();
+		Cnt[Index]->ApplyVelocityChange(VelChng, RotCh);
 		for (int ii = 0; ii < NumContacts; ii++)
 		{
-			for (int bb = 0; bb < 2; bb++)if (Cnt->Bods[bb]->GetParticle())
+			for (int bb = 0; bb < 2; bb++)if (Cnt[ii]->Bods[bb]->GetParticle())
 			{
 				for (int dd = 0; dd < 2; dd++)
 				{
-					if (Cnt->Bods[bb]->GetID() == Cnt->Bods[dd]->GetID())
+					if (Cnt[ii]->Bods[bb]->GetID() == Cnt[Index]->Bods[dd]->GetID())
 					{
 						DelPos = VelChng[dd] +
-							glm::cross(RotCh[dd], Cnt->Contacts[ii]->RelContact[bb]);
-						glm::vec3 V = glm::transpose(Cnt->Contacts[ii]->ContactToWorld) * DelPos ;
+							glm::cross(RotCh[dd], Cnt[ii]->RelContact[bb]);
+						glm::vec3 V = glm::transpose(Cnt[ii]->ContactToWorld) * DelPos ;
 						V = (bb ? -1.f : 1.f) * V;
-						Cnt->Contacts[ii]->ContactVelocity += V;
-						Cnt->Contacts[ii]->CalculateDesVel(Cnt->Bods, dt);
+						Cnt[ii]->ContactVelocity += V;
+						Cnt[ii]->CalculateDesVel(dt);
 					}
 				}
 			}
 		}
 		ItUsed++;
 	}
-}
-
-void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt)
-{
-	glm::vec3 Norm = Cnt->Contacts[0]->Normal;
-	float Diff = Cnt->Contacts[0]->Penetration;
-	if (Diff < 0.0001)
-		Diff = 0.f;
-	Bod->MovePosition(Diff * Norm);
 }
 
 std::vector<std::shared_ptr<Contacts>> Col_Resolution::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)

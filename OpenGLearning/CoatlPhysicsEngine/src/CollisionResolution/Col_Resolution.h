@@ -49,11 +49,9 @@ namespace CoatlPhysicsEngine {
 		int VelIt;
 		int Posit;
 		// Impulse resolition
-		void PrepeareContact(std::shared_ptr<Manifold> Cnt, float dt);
-		void AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt);
-		void AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt);
-		//Resolvoing Contacts
-		void ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt);
+		void PrepeareContact(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
+		void AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
+		void AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 		//Contact creation
 		std::vector<std::shared_ptr<Contacts>> ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 		std::vector<std::shared_ptr<Contacts>> ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);

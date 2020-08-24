@@ -158,7 +158,6 @@
     <ClInclude Include="src\CollisionResolution\ShapesResolution\AABBRelAABB.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\SphereRelAABB.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\ShapeResolution.h" />
-    <ClInclude Include="src\CollisionResolution\Manifoldsh.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\SphereRelSphere.h" />
     <ClInclude Include="src\CollisionResolution\Col_Resolution.h" />
     <ClInclude Include="src\Physics\Ph_Motion\Phy_Buoyancy.h" />
@@ -211,7 +210,6 @@
   <ItemGroup>
     <ClCompile Include="src\Bodies\Bod_Collection.cpp" />
     <ClCompile Include="src\Bodies\Joints\J_Joint.cpp" />
-    <ClCompile Include="src\CollisionResolution\Manifoldsh.cpp" />
     <ClCompile Include="src\Collisions\KinematicsCollisions.cpp" />
     <ClCompile Include="src\Physics\Bod_Base.cpp" />
     <ClCompile Include="src\Physics\RigidBodies.cpp" />

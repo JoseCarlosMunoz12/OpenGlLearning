@@ -121,10 +121,10 @@ bool SAT::SAT_Check(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> 
 	return MATH::SATColCheck(Normals0, Normals1, Vertex0, Vertex1);
 }
 
-std::vector<std::shared_ptr<Contact>> SAT::SAT_CreateContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1,
+std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1,
 	glm::vec3 Norm, float Pen)
 {
-	std::vector<std::shared_ptr<Contact>> Temp;
+	std::vector<std::shared_ptr<Contacts>> Temp;
 	std::vector<glm::vec3> Obj0_seg = Bod0->GetVertices();
 	std::vector<glm::vec3> Obj1_seg = Bod1->GetVertices();
 	std::vector<glm::vec3> Obj1_Norm = Bod1->GetNormals();
@@ -138,7 +138,7 @@ std::vector<std::shared_ptr<Contact>> SAT::SAT_CreateContacts(std::shared_ptr<Co
 	int Count = 0;
 	for (auto& jj : Obj0_seg)
 	{
-		std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+		std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
 		Cont->Normal = Norm;
 		Cont->Penetration = Pen;
 		Cont->ContactPoint = (jj + Obj0_seg[Count]) / 2.f;
