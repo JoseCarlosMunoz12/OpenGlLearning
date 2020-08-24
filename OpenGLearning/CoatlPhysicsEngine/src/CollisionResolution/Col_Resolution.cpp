@@ -18,7 +18,7 @@ void Col_Resolution::AdjustPosition(std::shared_ptr<Manifold> Cnt, float dt)
 	{
 		int NumCount = Cnt->ContactCount;
 		Index = Cnt->ContactCount;
-		Max = 0.0001f;
+		Max = 0.01f;
 		for (int ii = 0; ii < NumCount; ii++)
 		{
 			if (Cnt->Contacts[ii]->Penetration > Max)
@@ -62,7 +62,7 @@ void Col_Resolution::AdjustVelocity(std::shared_ptr<Manifold> Cnt, float dt)
 	while (ItUsed < VelIt)
 	{
 		int Index = NumContacts;
-		float Max = 0.0001;
+		float Max = 0.01;
 		for (int ii = 0; ii < NumContacts; ii++)
 		{
 			if (Cnt->Contacts[ii]->DesDeltaVel > Max)
