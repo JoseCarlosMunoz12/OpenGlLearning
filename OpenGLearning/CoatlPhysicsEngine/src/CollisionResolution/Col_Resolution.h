@@ -19,9 +19,28 @@ namespace CoatlPhysicsEngine {
 	class Contacts {
 		friend class Col_Resolution;
 	private:
-
+		glm::mat3 MakeSkew(glm::vec3 Vec);
+		void CalculateContactbasis();
+		glm::vec3 CalculateLocalvel( int ID, float dt);
+		glm::vec3 CalcFricImpulse(glm::mat3 InvInTn[2]);
+		glm::vec3 CalcNonFricImpulse( glm::mat3 InvInTn[2]);
+		void CalculateDesVel(float dt);
+		void MatchAwakeState();
+		void CalculateInternals( float dt);
+		//applies changes and resolutions
+		void ApplyPositionChange(glm::vec3 LinChang[2], glm::vec3 AngChange[2]);
+		void ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]);
+		glm::mat3 ContactToWorld;
+		glm::vec3 ContactVelocity;
+		float DesDeltaVel;
+		glm::vec3 RelContact[2];
 	public:
-
+		std::shared_ptr<Bodies> Bods[2];
+		glm::vec3 ContactPoint;
+		glm::vec3 Normal;
+		float Penetration;
+		float Friction;
+		float Restituion;
 	};
 	class Col_Resolution
 	{
