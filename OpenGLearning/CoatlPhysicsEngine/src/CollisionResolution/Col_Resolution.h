@@ -11,7 +11,7 @@
 #include "../Bodies/Bodies.h"
 #include "../Bodies/Bod_Collection.h"
 #include "ShapesResolution/ShapeResolution.h"
-#include "Manifoldsh.h"
+#include "Col_Resolution.h"
 #include "../GJK/GJK.h"
 #include "../SAT/SAT.h"
 namespace CoatlPhysicsEngine {
@@ -55,11 +55,11 @@ namespace CoatlPhysicsEngine {
 		//Resolvoing Contacts
 		void ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_ptr<Manifold> Cnt);
 		//Contact creation
-		std::vector<std::shared_ptr<Contact>> ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
-		std::vector<std::shared_ptr<Contact>> ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
-		std::vector<std::shared_ptr<Contact>> ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		std::vector<std::shared_ptr<Contacts>> ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		std::vector<std::shared_ptr<Contacts>> ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		std::vector<std::shared_ptr<Contacts>> ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 		std::unique_ptr<ShapeResolution> S_Res;
-		std::vector<std::shared_ptr<Contact>> MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
+		std::vector<std::shared_ptr<Contacts>> MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
 		std::unique_ptr<GJK_Alg> GJK_;
 		std::unique_ptr<SAT> SAT_;
 	public:

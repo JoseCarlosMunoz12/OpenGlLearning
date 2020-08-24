@@ -1,10 +1,10 @@
 #include "CapsuleRelAABB.h"
 using namespace CoatlPhysicsEngine;
 
-std::vector<std::shared_ptr<Contact>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AABB_Obj Obj)
+std::vector<std::shared_ptr<Contacts>> CapsuleRelAABB::CapRelAABB(Capsule Cap, AABB_Obj Obj)
 {
-	std::vector<std::shared_ptr<Contact>> Temp;
-	std::shared_ptr<Contact> Cnt = std::make_shared<Contact>();
+	std::vector<std::shared_ptr<Contacts>> Temp;
+	std::shared_ptr<Contacts> Cnt = std::make_shared<Contacts>();
 
 	std::vector<glm::vec3> CapSegs = Cap.GetSegment();
 	std::vector<glm::vec3> Obj_Segs = Obj.GetSegs();

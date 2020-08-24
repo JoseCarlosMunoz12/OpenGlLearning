@@ -105,7 +105,7 @@ void Col_Resolution::ResolveResolution(std::shared_ptr<Bodies> Bod, std::shared_
 	Bod->MovePosition(Diff * Norm);
 }
 
-std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contacts>> Col_Resolution::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
@@ -115,8 +115,8 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 	{
 		return this->S_Res->GetContacts(Sph0, *Cap0);
 	}
-	std::vector<std::shared_ptr<Contact>> Temp;
-	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+	std::vector<std::shared_ptr<Contacts>> Temp;
+	std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
 	glm::vec3 Vec;
 	float Dis;
 	if (!this->GJK_->EPA_GJK( Bod0->GetShapes(),Bod1->GetShapes(),Vec, Dis))
@@ -142,7 +142,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Sphere Sph0,
 	return Temp;
 }
 
-std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contacts>> Col_Resolution::ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
@@ -152,7 +152,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	{
 		return this->S_Res->GetContacts(Cap, *Cap0);
 	}
-	std::vector<std::shared_ptr<Contact>> Temp;
+	std::vector<std::shared_ptr<Contacts>> Temp;
 	glm::vec3 vec;
 	float Pen;
 	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), vec,Pen))
@@ -178,7 +178,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 				glm::vec3 RelNorm = MATH::Normalize(jj - ii);
 				if (RelNorm == Norm)
 				{
-					std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+					std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
 					Cont->Normal = Norm;
 					Cont->Penetration = R - Pen;
 					Cont->ContactPoint = (jj + ii) / 2.f;
@@ -190,7 +190,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	}
 	else
 	{
-		std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
+		std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
 		glm::vec3 Norm;
 		float R = Cap.GetRadius();
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
@@ -202,7 +202,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(Capsule Cap,
 	return Temp;
 }
 
-std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contacts>> Col_Resolution::ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sph = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
@@ -221,7 +221,7 @@ std::vector<std::shared_ptr<Contact>> Col_Resolution::ContactCreate(std::shared_
 		Norm, Pen);
 }
 
-std::vector<std::shared_ptr<Contact>> Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contacts>> Col_Resolution::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
 	{
@@ -249,11 +249,14 @@ Col_Resolution::~Col_Resolution()
 std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, int ID)
 {
 	std::shared_ptr<Manifold> Temp = std::make_shared<Manifold>();
-	Temp->Bods[0] = Bod0;
-	Temp->Bods[1] = Bod1;
-	Temp->Contacts = MakeContacts(Bod0, Bod1);
-	Temp->ContactCount = Temp->Contacts.size();
-	Temp->ID = ID;
+	std::vector<std::shared_ptr<Contacts>> T = MakeContacts(Bod0, Bod1);
+	for (auto& ii : T)
+	{
+		ii->Bods[0] = Bod0;
+		ii->Bods[1] = Bod1;
+	}
+
+
 	return Temp;
 }
 
@@ -273,8 +276,9 @@ void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
 	//adjust the velocities of the bodies
 	this->AdjustVelocity(Cnt, dt);
 }
+
 /////////////////////////////////////////////////////////////////////////
-//Contact class
+//----------------------------Contact class----------------------------//
 /////////////////////////////////////////////////////////////////////////
 
 glm::mat3 Contacts::MakeSkew(glm::vec3 Vec)

@@ -1,7 +1,7 @@
 #include "AABBRelAABB.h"
 using namespace CoatlPhysicsEngine;
 
-std::vector<std::shared_ptr<Contact>> AABBRelAABB::AABB_Rel(AABB_Obj Obj0, AABB_Obj Obj1)
+std::vector<std::shared_ptr<Contacts>> AABBRelAABB::AABB_Rel(AABB_Obj Obj0, AABB_Obj Obj1)
 {
 	//Possible NormalVectors
 	static const glm::vec3 Faces[6] = {
@@ -31,8 +31,8 @@ std::vector<std::shared_ptr<Contact>> AABBRelAABB::AABB_Rel(AABB_Obj Obj0, AABB_
 			Norm = Faces[ii];
 		}
 	}
-	std::vector<std::shared_ptr<Contact>> Temp;
-	std::shared_ptr<Contact> S = std::make_shared<Contact>();
+	std::vector<std::shared_ptr<Contacts>> Temp;
+	std::shared_ptr<Contacts> S = std::make_shared<Contacts>();
 	S->ContactPoint = Obj0.GetPos();
 	S->Normal = Norm;
 	S->Penetration = Penetration;

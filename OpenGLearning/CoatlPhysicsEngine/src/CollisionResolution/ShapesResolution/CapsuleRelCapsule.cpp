@@ -1,7 +1,7 @@
 #include "CapsuleRelCapsule.h"
 using namespace CoatlPhysicsEngine;
 
-std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Capsule Cap1)
+std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, Capsule Cap1)
 {
 	glm::vec3 C_P0;
 	glm::vec3 C_P1;
@@ -10,8 +10,8 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Ca
 	glm::vec3 Dir0 = MATH::CreateNormal(C_S0);
 	glm::vec3 Dir1 = MATH::CreateNormal(C_S1);
 	MATH::ClosestSeg_Seg(C_S0, C_S1, C_P0, C_P1);
-	std::vector<std::shared_ptr<Contact>> Temp;
-	std::shared_ptr<Contact> Con = std::make_shared<Contact>();
+	std::vector<std::shared_ptr<Contacts>> Temp;
+	std::shared_ptr<Contacts> Con = std::make_shared<Contacts>();
 	glm::vec3 Norm = C_P1 - C_P0;
 	Norm = MATH::Normalize(Norm);
 	std::vector<glm::vec3> Cont;
@@ -30,13 +30,13 @@ std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Ca
 			float dis = glm::distance(C_P0, C_P1);
 			for (auto& ii : Cont)
 			{
-				std::shared_ptr<Contact> Contacts = std::make_shared<Contact>();
+				std::shared_ptr<Contacts> Contact = std::make_shared<Contacts>();
 				glm::vec3 R =( PL0[0] + PL0[1]) / 2.f;
 				glm::vec3 T = (PL1[0] + PL1[1]) / 2.f;
-				Contacts->ContactPoint = ii + R +T;
-				Contacts->Normal = -Norm;
-				Contacts->Penetration = Total_R - dis;
-				Temp.push_back(Contacts);
+				Contact->ContactPoint = ii + R +T;
+				Contact->Normal = -Norm;
+				Contact->Penetration = Total_R - dis;
+				Temp.push_back(Contact);
 			}
 		}
 		else
