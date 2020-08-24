@@ -15,6 +15,14 @@
 #include "../GJK/GJK.h"
 #include "../SAT/SAT.h"
 namespace CoatlPhysicsEngine {
+	class Col_Resolution;
+	class Contacts {
+		friend class Col_Resolution;
+	private:
+
+	public:
+
+	};
 	class Col_Resolution
 	{
 	private:
