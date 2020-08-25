@@ -2239,27 +2239,21 @@ void Game::DrawColInfo()
 			}
 			if (ImGui::TreeNode("Collision Resolution"))
 			{
-				std::vector<std::shared_ptr<Manifold>> T = TempDynamic->GetColRel();
+				std::vector<std::shared_ptr<Contacts>> T = TempDynamic->GetColRel();
 				int Count = 0;
+				ImGui::Text("Totatl Contacts : %d", T.size());
 				for (auto& ii : T)
 				{
-					std::string ColRelId = "Collision Resolution " + std::to_string(Count);
+					std::string ColRelId = "Contact Point " + std::to_string(Count);
 					if (ImGui::TreeNode(ColRelId.c_str()))
 					{
 						int ID0 = ii->Bods[0]->GetID();
 						int ID1 = ii->Bods[1]->GetID();
 						ImGui::Text("Bodies Collided are %d and %d", ID0, ID1);
-						ImGui::Text("Totatl Contacts : %d", ii->ContactCount);
-						int ContCount = 0;
-						for (auto& jj : ii->Contacts)
-						{
-							glm::vec3 Pnt = jj->ContactPoint;
-							float Pen = jj->Penetration;
-							ImGui::Text("Cnt Pnt - %d", ContCount);
-							ImGui::Text("Pos - %f,%f,%f", Pnt.x, Pnt.y, Pnt.z);
-							ImGui::Text("Pen - %f", Pen);
-							ContCount++;
-						}
+						glm::vec3 Pnt = ii->ContactPoint;
+						float Pen = ii->Penetration;
+						ImGui::Text("Pos - %f,%f,%f", Pnt.x, Pnt.y, Pnt.z);
+						ImGui::Text("Pen - %f", Pen);
 						ImGui::TreePop();
 					}
 					Count++;
