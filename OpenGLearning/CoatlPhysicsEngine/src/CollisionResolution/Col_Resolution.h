@@ -10,10 +10,6 @@
 #include <vector>
 #include "../Bodies/Bodies.h"
 #include "../Bodies/Bod_Collection.h"
-#include "ShapesResolution/ShapeResolution.h"
-#include "Col_Resolution.h"
-#include "../GJK/GJK.h"
-#include "../SAT/SAT.h"
 namespace CoatlPhysicsEngine {
 	class Col_Resolution;
 	class Contacts {
@@ -35,6 +31,8 @@ namespace CoatlPhysicsEngine {
 		float DesDeltaVel;
 		glm::vec3 RelContact[2];
 	public:
+		Contacts();
+		~Contacts();
 		std::shared_ptr<Bodies> Bods[2];
 		glm::vec3 ContactPoint;
 		glm::vec3 Normal;
@@ -52,20 +50,9 @@ namespace CoatlPhysicsEngine {
 		void PrepeareContact(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 		void AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 		void AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
-		//Contact creation
-		std::vector<std::shared_ptr<Contacts>> ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
-		std::vector<std::shared_ptr<Contacts>> ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
-		std::vector<std::shared_ptr<Contacts>> ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
-		std::unique_ptr<ShapeResolution> S_Res;
-		std::vector<std::shared_ptr<Contacts>> MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1);
-		std::unique_ptr<GJK_Alg> GJK_;
-		std::unique_ptr<SAT> SAT_;
 	public:
-		Col_Resolution(int VelInit, int PosInit);
+		Col_Resolution();
 		~Col_Resolution();
-		//Create Manifolds
-		 std::vector<std::shared_ptr<Contacts>> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,int ID);
-		 void MakeJointManifold(std::vector<std::shared_ptr<Contacts>> &R,std::vector<std::shared_ptr<ColJoints>> BodJoints);
 		//Resolve Manifolds
 		 void ResolveContacts(std::vector<std::shared_ptr<Contacts>> Contact, float dt);
 	};

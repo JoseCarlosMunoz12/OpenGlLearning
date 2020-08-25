@@ -21,6 +21,7 @@
 #include "../OptimizaAlgorithm/B_Force.h"
 #include "../OptimizaAlgorithm/B_Force_Self.h"
 #include "../GJK/GJK.h"
+#include "../CollisionResolution/ContactCreation.h"
 
 namespace CoatlPhysicsEngine {
 	enum class Alg_Type
@@ -45,6 +46,7 @@ namespace CoatlPhysicsEngine {
 		std::unique_ptr<Queries> AlgoCheck;
 		std::weak_ptr<Terrain> Ter;
 		std::unique_ptr<GJK_Alg> S;
+		std::unique_ptr<ContactCreation> ContCrt;
 		int NewCurID;
 		//collision manifolds
 		std::vector<std::shared_ptr<Contacts>> ColRel;

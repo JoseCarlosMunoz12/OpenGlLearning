@@ -44,13 +44,14 @@ BaseCols::BaseCols(std::string Name, std::shared_ptr<CollisionManager> InitCols)
 	this->ColMan = InitCols;
 	this->S = std::make_unique<GJK_Alg>();
 	this->ColRel;
+	this->ContCrt = std::make_unique<ContactCreation>();
 }
 
 BaseCols::~BaseCols()
 {
 }
 
-std::vector<std::shared_ptr<Manifold>> CoatlPhysicsEngine::BaseCols::GetColRel()
+std::vector<std::shared_ptr<Contacts>> CoatlPhysicsEngine::BaseCols::GetColRel()
 {
 	return this->ColRel;
 }
