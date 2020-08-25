@@ -24,7 +24,7 @@ namespace CoatlPhysicsEngine {
 			glm::vec3 Vel0, glm::vec3 Vel1,
 			float t0, float t1,
 			float& NewDt);
-		bool ContainsManifold(std::vector<std::shared_ptr<Manifold>> ColRel, std::shared_ptr<Manifold> NewMan);
+		bool ContainsManifold(std::vector<std::shared_ptr<Contacts>> ColRel, std::shared_ptr<Contacts> NewMan);
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();

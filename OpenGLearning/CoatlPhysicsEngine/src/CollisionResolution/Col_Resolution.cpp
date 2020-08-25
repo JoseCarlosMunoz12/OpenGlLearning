@@ -237,9 +237,8 @@ Col_Resolution::~Col_Resolution()
 {
 }
 
-std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, int ID)
+std::vector<std::shared_ptr<Contacts>>Col_Resolution::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, int ID)
 {
-	std::shared_ptr<Manifold> Temp = std::make_shared<Manifold>();
 	std::vector<std::shared_ptr<Contacts>> T = MakeContacts(Bod0, Bod1);
 	for (auto& ii : T)
 	{
@@ -248,17 +247,16 @@ std::shared_ptr<Manifold> Col_Resolution::MakeManifold(std::shared_ptr<Bodies> B
 	}
 
 
-	return Temp;
+	return T;
 }
 
-void Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<Manifold>> &R,std::vector<std::shared_ptr<ColJoints>> BodJoints)
+void Col_Resolution::MakeJointManifold(std::vector<std::shared_ptr<Contacts>>&R,std::vector<std::shared_ptr<ColJoints>> BodJoints)
 {
-	std::shared_ptr<Manifold> Temp = std::make_shared<Manifold>();
 	for (auto& ii : BodJoints)
 		ii->GetBodId();
 }
 
-void Col_Resolution::ResolveContacts(std::shared_ptr<Manifold> Cnt,float dt)
+void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,float dt)
 {
 	//Prepare bodies for resolution
 	this->PrepeareContact(Cnt, dt);
