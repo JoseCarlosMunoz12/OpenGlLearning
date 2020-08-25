@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CollisionResolution\ContactCreation.h" />
     <ClInclude Include="src\Bodies\Bod_Collection.h" />
     <ClInclude Include="src\Bodies\Joints\J_Joint.h" />
     <ClInclude Include="src\Bodies\Joints\Joints.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CollisionResolution\ContactCreation.cpp" />
     <ClCompile Include="src\Bodies\Bod_Collection.cpp" />
     <ClCompile Include="src\Bodies\Joints\J_Joint.cpp" />
     <ClCompile Include="src\Collisions\KinematicsCollisions.cpp" />
