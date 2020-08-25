@@ -97,8 +97,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					{
 						jj->MovePosition(F_dt * Bod_Vel);
 						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, 0);
-						for(auto& pp : T)
-							if (!this->ContainsManifold(ColRel, pp))
+						if (!this->ContainsManifold(ColRel, T[0]))
+							for(auto& pp : T)
 								ColRel.push_back(pp);
 						Temp->AcumForce(-Gravity * Temp->GetMass());							
 						jj->SetPosition(PrevPos);
@@ -114,8 +114,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					if (this->BinColDetection(jj, ii, Bod_Vel,glm::vec3(0.f), 0.f, dt, F_dt))
 					{
 						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, 0);
-						for(auto& pp : T)
-							if (!this->ContainsManifold(ColRel, pp))
+						if (!this->ContainsManifold(ColRel, T[0]))
+							for(auto& pp : T)
 								ColRel.push_back(pp);
 						Temp->AcumForce(-Gravity * Temp->GetMass());
 						jj->SetPosition(PrevPos);
@@ -135,8 +135,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						jj->MovePosition(F_dt * Bod_Vel);
 						ii->MovePosition(F_dt* KinVel);
 						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, 0);
-						for (auto& pp : T)
-							if (!this->ContainsManifold(ColRel, pp))
+						if (!this->ContainsManifold(ColRel, T[0]))
+							for (auto& pp : T)
 								ColRel.push_back(pp);;
 						ii->SetPosition(KinPos);
 						jj->SetPosition(PrevPos);
