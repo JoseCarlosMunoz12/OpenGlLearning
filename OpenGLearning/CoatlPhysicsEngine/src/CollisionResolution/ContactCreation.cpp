@@ -159,9 +159,9 @@ ContactCreation::~ContactCreation()
 
 std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, int ID)
 {
-	std::vector<std::shared_ptr<Contacts>> T = MakeContacts(Bod0, Bod1);
 	float Fric = GetLowestFric(Bod0, Bod1);
 	float Rest = GetLowestRest(Bod0, Bod1);
+	std::vector<std::shared_ptr<Contacts>> T = MakeContacts(Bod0, Bod1);
 	for (auto& ii : T)
 	{
 		ii->Bods[0] = Bod0;
