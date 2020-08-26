@@ -369,7 +369,7 @@ void Contacts::ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]
 		InvInertia[1] = glm::inverse(Bods[1]->GetParticle()->GetInertiaWorld());
 	//Calc Impulse
 	glm::vec3 ImpulseCont;
-	if (Friction != 0)
+	if (Friction != 0.f)
 		ImpulseCont = this->CalcFricImpulse(InvInertia);
 	else
 		ImpulseCont = this->CalcNonFricImpulse(InvInertia);
@@ -389,7 +389,7 @@ void Contacts::ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]
 	if (Bods[1]->GetParticle())
 	{
 		//Split impulse to linear and roation parts
-		glm::vec3 ImTrque1 = glm::cross(RelContact[1], Impulse);
+		glm::vec3 ImTrque1 = glm::cross(Impulse,RelContact[1]);
 		RotChange[1] = InvInertia[1] * ImTrque1;
 		VelChang[1] = glm::vec3(0.f);
 		VelChang[1] = Impulse * -1.f / Bods[1]->GetParticle()->GetMass();
