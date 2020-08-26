@@ -13,6 +13,7 @@ namespace CoatlPhysicsEngine {
 	{
 	protected:
 		int PhysicsID;
+		//Body features
 		glm::vec3 Pos;
 		glm::vec3 AccumForce;
 		glm::vec3 Vel;
@@ -23,6 +24,9 @@ namespace CoatlPhysicsEngine {
 		float LinDamp;
 		float RotDamp;
 		float InvMass;
+		float Friction;
+		float Restitution;
+		//-------------
 		virtual void UpdateVel(float dt) { return; };
 		//Sleep variables
 		bool IsAwake = true;
@@ -59,6 +63,10 @@ namespace CoatlPhysicsEngine {
 		virtual glm::mat3 GetInertiaWorld() { return glm::mat3(0.f); };
 		glm::vec3 GetAccel() { return this->PrevAccel; };
 		virtual void CalcDerivedData() { return; };
+		float GetFriction() { return this->Friction; };
+		void SetFriction(float NewFric) { this->Friction = NewFric; };
+		float GetRestitution() { return this->Restitution; };
+		void SetResitution(float NewRest) { this->Restitution = NewRest; };
 		//Sleep Functions
 		virtual void SetAwake(bool Awake) { return; };
 		virtual bool GetAwakeStatus() { return true; }; 
