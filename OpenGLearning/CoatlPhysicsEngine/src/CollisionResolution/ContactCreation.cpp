@@ -144,10 +144,14 @@ ContactCreation::~ContactCreation()
 std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, int ID)
 {
 	std::vector<std::shared_ptr<Contacts>> T = MakeContacts(Bod0, Bod1);
+	float Fric[2] = { Bod0->GetParticle()->GetFriction(),Bod1->GetParticle()->GetFriction()};
+	float Rest[2] = { Bod0->GetParticle()->GetRestitution(),Bod1->GetParticle()->GetRestitution() };
 	for (auto& ii : T)
 	{
 		ii->Bods[0] = Bod0;
 		ii->Bods[1] = Bod1;
+		ii->Friction = (Fric[0] < Fric[1] ? Fric[0] : Fric[1]);
+		ii->Restituion = (Rest[0] < Rest[1] ? Rest[0] : Rest[1]);
 	}
 
 
