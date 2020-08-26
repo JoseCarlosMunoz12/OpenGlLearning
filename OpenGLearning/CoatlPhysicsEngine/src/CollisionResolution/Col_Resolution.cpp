@@ -96,7 +96,8 @@ void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, 
 	}
 }
 
-Col_Resolution::Col_Resolution()
+Col_Resolution::Col_Resolution(int InitVel, int InitPos)
+	:VelIt(InitVel), Posit(InitPos)
 {
 }
 

@@ -51,7 +51,7 @@ namespace CoatlPhysicsEngine {
 		void AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 		void AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 	public:
-		Col_Resolution();
+		Col_Resolution(int InitVel, int InitPos);
 		~Col_Resolution();
 		//Resolve Manifolds
 		 void ResolveContacts(std::vector<std::shared_ptr<Contacts>> Contact, float dt);
