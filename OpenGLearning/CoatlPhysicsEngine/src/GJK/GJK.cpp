@@ -73,6 +73,7 @@ bool GJK_Alg::Simplex_Maker(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<C
 		glm::vec3 S_Pos0 = Shape0->GetPos() + Pos0;
 		glm::vec3 S_Pos1 = Shape1->GetPos() + Pos1;
 		Dir = S_Pos0 - S_Pos1;
+		Dir = glm::vec3(1.f);
 	}break;
 	case 1: {
 		Dir = -Verts[0];
