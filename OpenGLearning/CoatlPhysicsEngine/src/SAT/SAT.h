@@ -18,6 +18,7 @@ namespace CoatlPhysicsEngine {
 		float SAT_Algo(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 			std::vector<glm::vec3> Pnts0, std::vector<glm::vec3> Pnts1,
 			glm::vec3& Norm);
+		void SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<glm::vec3>& Vert1);
 	public:
 		SAT() {};
 		~SAT() {};

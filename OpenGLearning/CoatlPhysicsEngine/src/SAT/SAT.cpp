@@ -103,6 +103,22 @@ float SAT::SAT_Algo(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 	return Penetration;
 }
 
+void SAT::SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<glm::vec3>& Vert1)
+{
+	for (auto& ii : Vert0)
+	{
+		float Num = glm::dot(ii, Norm);
+		float Denom = glm::dot(Norm, Norm);
+		std::cout << Num << "\n";
+	}
+	for (auto& ii : Vert1)
+	{
+		float Num = glm::dot(ii, Norm);
+		float Denom = glm::dot(Norm, Norm);
+		std::cout << Num << "\n";
+	}
+}
+
 float SAT::GetPenetrationContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1, glm::vec3& Norm)
 {
 	std::vector<glm::vec3> Vertex0 = Bod0->GetVertices();
@@ -128,6 +144,7 @@ std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<C
 	std::vector<glm::vec3> Obj0_seg = Bod0->GetVertices();
 	std::vector<glm::vec3> Obj1_seg = Bod1->GetVertices();
 	std::vector<glm::vec3> Obj1_Norm = Bod1->GetNormals();
+	this->SAT_Point_Cul(Norm, Obj0_seg, Obj1_seg);
 	MATH::SAT_Point_Cul(Norm, Obj0_seg, Obj1_seg);
 	for (auto& ii : Obj1_Norm)
 	{
