@@ -105,18 +105,43 @@ float SAT::SAT_Algo(std::vector<glm::vec3> Norm0, std::vector<glm::vec3> Norm1,
 
 void SAT::SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<glm::vec3>& Vert1)
 {
+	std::vector<glm::vec3> InitV0;
+	std::vector<glm::vec3> InitV1;
+	float Bias = 0.001f;
+	float Max = glm::dot(Vert0[0], -Norm);
 	for (auto& ii : Vert0)
 	{
-		float Num = glm::dot(ii, Norm);
-		float Denom = glm::dot(Norm, Norm);
-		std::cout << Num << "\n";
+		float Num = glm::dot(ii, -Norm);
+		if (glm::abs(Num - Max) < Bias)
+		{
+			Max = Num;
+			InitV0.push_back(ii);
+		}
+		else if (Num > Max)
+		{
+			Max = Num;
+			InitV0.clear();
+			InitV0.push_back(ii);
+		}
 	}
+	Max = glm::dot(Vert1[0], Norm);
 	for (auto& ii : Vert1)
 	{
 		float Num = glm::dot(ii, Norm);
-		float Denom = glm::dot(Norm, Norm);
-		std::cout << Num << "\n";
+		if (glm::abs(Num - Max) < Bias)
+		{
+			Max = Num;
+			InitV1.push_back(ii);
+		}
+		else if (Num > Max)
+		{
+			Max = Num;
+			InitV1.clear();
+			InitV1.push_back(ii);
+		}
 	}
+	Vert0 = InitV0;
+	Vert1 = InitV1;
 }
 
 float SAT::GetPenetrationContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1, glm::vec3& Norm)
@@ -145,7 +170,6 @@ std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<C
 	std::vector<glm::vec3> Obj1_seg = Bod1->GetVertices();
 	std::vector<glm::vec3> Obj1_Norm = Bod1->GetNormals();
 	this->SAT_Point_Cul(Norm, Obj0_seg, Obj1_seg);
-	MATH::SAT_Point_Cul(Norm, Obj0_seg, Obj1_seg);
 	for (auto& ii : Obj1_Norm)
 	{
 		glm::vec3 Dot = glm::cross(ii, Norm);
