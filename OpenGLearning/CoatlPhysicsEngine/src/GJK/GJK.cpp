@@ -385,7 +385,7 @@ glm::vec3 GJK_Alg::C_F_E( std::shared_ptr<ColShapes> Shape0, std::shared_ptr<Col
 	NewDir = this->ClosestPoint(Verts);
 	float Cl_Dis = glm::distance(Zed, NewDir);
 	glm::vec3 A = EPA_Support(Shape0, Shape1, -NewDir);
-	while (true)
+	for(int ii = 0; ii < 20; ii++)
 	{
 		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())
 			break;
