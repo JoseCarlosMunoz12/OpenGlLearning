@@ -835,6 +835,7 @@ void MATH::SAT_MAXMIN_Cul(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal, int 
 		ID0.clear();
 		ID0.push_back(ID);
 	}
+
 	if (Max == NewVal)
 	{
 		if (std::find(ID0.begin(), ID0.end(), ID) == ID0.end())
