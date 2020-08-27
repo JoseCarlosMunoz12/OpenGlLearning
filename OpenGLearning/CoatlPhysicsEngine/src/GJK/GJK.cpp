@@ -640,7 +640,7 @@ bool GJK_Alg::GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShapes> 
 	Simplex_Maker(Shape0, Shape1, Pos0, Pos1, Verts, Dir);
 	for (int ii = 0; ii < 20; ii++)
 	{
-		glm::vec3 A = Support(Shape0, Shape1, Dir);
+		glm::vec3 A = Support(Shape0, Shape1, Seg0, Seg1, Dir);
 		if (glm::dot(A, Dir) <= 0.f)
 			return false;
 		if (std::find(Verts.begin(), Verts.end(), A) != Verts.end())

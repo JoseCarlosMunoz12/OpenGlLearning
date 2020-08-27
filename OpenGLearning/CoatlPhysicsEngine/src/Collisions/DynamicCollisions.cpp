@@ -81,7 +81,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		{
 			//resetForces on the Object///////////////////////////////////////////////////////////
 			Temp->ResetForce();
-			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
+			//Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			glm::quat PrevQuat = jj->GetQuat();
 			glm::vec3 Bod_Vel= Temp->GetVel();
@@ -100,7 +100,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						if (!this->ContainsManifold(ColRel, T[0]))
 							for(auto& pp : T)
 								ColRel.push_back(pp);
-						Temp->AcumForce(-Gravity * Temp->GetMass());							
+						//Temp->AcumForce(-Gravity * Temp->GetMass());							
 						jj->SetPosition(PrevPos);
 					}
 				}
@@ -160,8 +160,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							jj->MovePosition(Bod_Vel * F_dt);
 							ii->MovePosition(Bod1_Vel * F_dt);
 							std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, 0);
-							for (auto& pp : T)
-								if (!this->ContainsManifold(ColRel, pp))
+							if (!this->ContainsManifold(ColRel, T[0]))
+								for (auto& pp : T)
 									ColRel.push_back(pp);
 							ii->SetPosition(Pos1);
 							jj->SetPosition(PrevPos);
