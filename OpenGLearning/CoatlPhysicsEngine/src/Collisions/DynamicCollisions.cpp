@@ -42,7 +42,7 @@ DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<Collision
 	:BaseCols(Name,InitCols),
 	Ext(100.f), AlgoType(Alg_Type::O_T), B_Ex(4.f)
 {
-	this->Col_Rel = std::make_unique<Col_Resolution>(16,16);
+	this->Col_Rel = std::make_unique<Col_Resolution>(8,8);
 	this->Gravity = glm::vec3(0.f, 0.f, -9.81f);
 	this->Grav_F_Manager = std::make_unique<Phy_Grav>(this->Gravity);
 }
@@ -92,7 +92,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		{
 			//resetForces on the Object///////////////////////////////////////////////////////////
 			Temp->ResetForce();
-			//Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
+			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			glm::quat PrevQuat = jj->GetQuat();
 			glm::vec3 Bod_Vel= Temp->GetVel();

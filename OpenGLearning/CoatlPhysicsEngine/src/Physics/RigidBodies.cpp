@@ -30,7 +30,7 @@ void RigidBodies::TransformInertiaTensor()
 {	
 	glm::mat3 S = this->InvInertia;
 	glm::mat3 InW = glm::inverse(glm::mat3_cast(this->AxisAngle));
-	this->InvIntertiaWSpace = glm::transpose(InW) * S * InW;
+	this->InvIntertiaWSpace =InW  * S * glm::transpose(InW);
 }
 
 void RigidBodies::AddForceAtPoint(glm::vec3 Force, glm::vec3 Pnt)
@@ -50,8 +50,7 @@ void RigidBodies::UpdateVel(float dt)
 	if (glm::abs(this->AccumForce.z) < 0.625f)
 		this->AccumForce.z = 0.f;
 	glm::vec3 Acc = this->AccumForce * InvMass;
-	glm::vec3 Grav = glm::vec3(0.f, 0.f, -9.81);
-	this->PrevAccel = Grav + Acc;
+	this->PrevAccel = Acc;
 	this->Vel = PrevAccel * dt + Vel;
 	Vel = Vel * glm::pow(LinDamp, dt);
 }
