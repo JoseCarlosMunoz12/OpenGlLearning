@@ -81,7 +81,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		{
 			//resetForces on the Object///////////////////////////////////////////////////////////
 			Temp->ResetForce();
-			Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
+			//Temp->AcumForce(this->Grav_F_Manager->GetForce(*Temp));
 			glm::vec3 PrevPos = jj->GetPos();
 			glm::quat PrevQuat = jj->GetQuat();
 			glm::vec3 Bod_Vel= Temp->GetVel();
