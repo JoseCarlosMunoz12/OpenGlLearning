@@ -673,11 +673,13 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		if (Col)
 			break;
 	}
+
 	if (Col)
 		DistVec = -EPA(Verts, Shape0, Shape1,Pen);
 	else
 		DistVec = C_F_E(Shape0, Shape1);
-	DistVec = glm::normalize(DistVec);
+	if (DistVec != glm::vec3(0.f))
+		DistVec = glm::normalize(DistVec);
 	return Col;
 }
 

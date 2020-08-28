@@ -170,6 +170,8 @@ std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<C
 	std::vector<glm::vec3> Obj1_seg = Bod1->GetVertices();
 	std::vector<glm::vec3> Obj1_Norm = Bod1->GetNormals();
 	this->SAT_Point_Cul(Norm, Obj0_seg, Obj1_seg);
+	if (Obj0_seg.size() == 0)
+		float arc = 0.f;
 	for (auto& ii : Obj1_Norm)
 	{
 		glm::vec3 Dot = glm::cross(ii, Norm);
