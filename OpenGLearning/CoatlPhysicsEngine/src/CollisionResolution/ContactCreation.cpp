@@ -18,7 +18,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec, Dis))
 	{
 		float R = Sph0.GetRadius();
-		float Pen = R - glm::distance(glm::vec3(0.f), Vec);
+		float Pen = R - Dis;
 		glm::vec3 Norm = glm::normalize(Vec);
 		Cont->Penetration = glm::abs(Pen);
 		Cont->Normal = Norm;
