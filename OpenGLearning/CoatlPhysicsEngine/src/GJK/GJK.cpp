@@ -661,6 +661,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 	Verts.push_back(EPA_Support(Shape0, Shape1, Dir));
 	Simplex_Maker(Shape0, Shape1, Verts, Dir);
 	bool Col = false;
+	glm::vec3 Zed = glm::vec3(0.f);
 	for (int ii = 0; ii < 20; ii++)
 	{
 		glm::vec3 A = EPA_Support(Shape0, Shape1, Dir);
@@ -678,6 +679,7 @@ bool GJK_Alg::EPA_GJK(std::shared_ptr<ColShapes> Shape0, std::shared_ptr<ColShap
 		DistVec = -EPA(Verts, Shape0, Shape1,Pen);
 	else
 		DistVec = C_F_E(Shape0, Shape1);
+	Pen = glm::distance(Zed, DistVec);
 	if (DistVec != glm::vec3(0.f))
 		DistVec = glm::normalize(DistVec);
 	return Col;

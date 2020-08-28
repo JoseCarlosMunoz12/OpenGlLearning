@@ -107,12 +107,15 @@ Col_Resolution::~Col_Resolution()
 
 void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,float dt)
 {
-	//Prepare bodies for resolution
-	this->PrepeareContact(Cnt, dt);
-	//Adjust the positions
-	this->AdjustPosition(Cnt, dt);
-	//adjust the velocities of the bodies
-	this->AdjustVelocity(Cnt, dt);
+	if (Cnt.size() != 0)
+	{
+		//Prepare bodies for resolution
+		this->PrepeareContact(Cnt, dt);
+		//Adjust the positions
+		this->AdjustPosition(Cnt, dt);
+		//adjust the velocities of the bodies
+		this->AdjustVelocity(Cnt, dt);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////
