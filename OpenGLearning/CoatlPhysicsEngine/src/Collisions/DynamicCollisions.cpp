@@ -74,6 +74,17 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	for (auto& jj : AllBods)
 		this->AlgoCheck->Insert(jj);
 	//Find all Collisions and Calculate its Force Generators
+	//Update All Physics	
+	for (auto& jj : AllBods)
+	{
+		std::shared_ptr<Bod_Base> Temp = jj->GetBodyParts()->GetParticle();
+		if (Temp)
+		{
+			jj->SetPosition(Temp->UpdatePos(dt));
+			jj->SetQuat(Temp->GetQuat());
+			jj->UpdateAABB();
+		}
+	}
 	for (auto& jj : AllBods)
 	{
 		std::shared_ptr<Bod_Base> Temp = jj->GetParticle();
@@ -180,17 +191,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		this->ContCrt->MakeJointManifold(this->ColRel, jj->GetJoints());
 	//Fix Resolution
 	this->Col_Rel->ResolveContacts(this->ColRel, dt);
-	//Update All Physics	
-	for (auto& jj : AllBods)
-	{
-		std::shared_ptr<Bod_Base> Temp = jj->GetBodyParts()->GetParticle();
-		if (Temp)
-		{
-			jj->SetPosition(Temp->UpdatePos(dt));
-			jj->SetQuat(Temp->GetQuat());
-			jj->UpdateAABB();
-		}
-	}
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)

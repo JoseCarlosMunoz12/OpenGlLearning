@@ -308,7 +308,9 @@ void Contacts::ApplyPositionChange(glm::vec3 LinChang[2], glm::vec3 AngChange[2]
 		AngInertW = invInert * AngInertW;
 		AngInertW = glm::cross(AngInertW, RelContact[ii]);
 		Anginertia[ii] = glm::dot(AngInertW, Normal);
+		//
 		LinInertia[ii] = 1 / Bods[ii]->GetParticle()->GetMass();
+		//
 		TotalInertia += LinInertia[ii] + Anginertia[ii];
 	}
 	//loop through again calculating and applying the changes
