@@ -7,7 +7,7 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 {
 	if ((t1 - t0) < EPSILON)
 	{
-		NewDt = t0;
+		NewDt = t1;
 		return true;
 	}
 	float Mid = t0 + (t1 - t0) / 2.f;
@@ -42,7 +42,7 @@ DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<Collision
 	:BaseCols(Name,InitCols),
 	Ext(100.f), AlgoType(Alg_Type::O_T), B_Ex(4.f)
 {
-	this->Col_Rel = std::make_unique<Col_Resolution>(100,100);
+	this->Col_Rel = std::make_unique<Col_Resolution>(16,16);
 	this->Gravity = glm::vec3(0.f, 0.f, -9.81f);
 	this->Grav_F_Manager = std::make_unique<Phy_Grav>(this->Gravity);
 }
@@ -163,9 +163,10 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							jj->MovePosition(Bod_Vel * F_dt);
 							ii->MovePosition(Bod1_Vel * F_dt);
 							std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, 0);
-							if (!this->ContainsManifold(ColRel, T[0]))
-								for (auto& pp : T)
-									ColRel.push_back(pp);
+							if(T.size() !=0)
+								if (!this->ContainsManifold(ColRel, T[0]))
+									for (auto& pp : T)
+										ColRel.push_back(pp);
 							ii->SetPosition(Pos1);
 							jj->SetPosition(PrevPos);
 						}

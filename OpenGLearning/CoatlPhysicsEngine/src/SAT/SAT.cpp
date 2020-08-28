@@ -107,7 +107,7 @@ void SAT::SAT_Point_Cul(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vect
 {
 	std::vector<glm::vec3> InitV0;
 	std::vector<glm::vec3> InitV1;
-	float Bias = 0.001f;
+	float Bias = 0.01f;
 	float Max = glm::dot(Vert0[0], -Norm);
 	for (auto& ii : Vert0)
 	{

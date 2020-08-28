@@ -865,6 +865,10 @@ void MATH::SAT_MAXMIN_Cul(glm::vec3& Max, glm::vec3& Min, glm::vec3 NewVal, int 
 
 void MATH::SAT_Clip(glm::vec3 Norm, std::vector<glm::vec3>& Vert0, std::vector<glm::vec3>& Vert1)
 {
+	if (Vert0.size() == 0)
+	{
+		float s = 45;
+	}
 	glm::vec3 Vec0 = MATH::MaxDot(Vert0, Norm);
 	glm::vec3 Vec1 = MATH::MaxDot(Vert1, Norm);
 	glm::vec3 Vec4 = MATH::MaxDot({Vec0, Vec1}, -Norm);
