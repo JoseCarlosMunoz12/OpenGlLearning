@@ -113,7 +113,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(std::share
 	//Uses GJK to get penetration and Direction
 	this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Norm, Pen);
 	if (Norm == glm::vec3(0.f))
-		float Arg = 0.9f;
+		Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm);
 	//uses SAT to get contact points in one shot
 	return this->SAT_->SAT_CreateContacts(Bod0->GetShapes(), Bod1->GetShapes(),
 		Norm, Pen);
