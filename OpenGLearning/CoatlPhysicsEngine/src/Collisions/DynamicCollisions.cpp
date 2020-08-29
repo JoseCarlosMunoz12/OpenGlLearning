@@ -54,7 +54,7 @@ DynamicCollisions::~DynamicCollisions()
 
 void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics, std::shared_ptr<KinematicsCollisions> Kin, float dt)
 {
-	if (false)
+	if (!this->it)
 		return;
 	this->ColRel.clear();
 	//make approriate Algorithm
