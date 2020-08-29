@@ -49,6 +49,7 @@ void Col_Resolution::AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, 
 		}
 		ItUsed++;
 	}
+	Took = ItUsed;
 }
 
 void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, float dt)
@@ -107,6 +108,7 @@ Col_Resolution::~Col_Resolution()
 
 void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,float dt)
 {
+	Took = 0;
 	if (Cnt.size() != 0)
 	{
 		//Prepare bodies for resolution

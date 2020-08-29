@@ -2241,6 +2241,8 @@ void Game::DrawColInfo()
 			{
 				std::vector<std::shared_ptr<Contacts>> T = TempDynamic->GetColRel();
 				int Count = 0;
+				int Iter = TempDynamic->IterTook();
+				ImGui::Text("Took %d iterations", Iter);
 				ImGui::Text("Totatl Contacts : %d", T.size());
 				for (auto& ii : T)
 				{

@@ -20,6 +20,7 @@ namespace CoatlPhysicsEngine {
 		float B_Ex;
 		Alg_Type AlgoType;
 		const float EPSILON = 0.000017f;
+		bool it = true;
 		bool BinColDetection(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1,
 			glm::vec3 Vel0, glm::vec3 Vel1,
 			float t0, float t1,
@@ -38,6 +39,7 @@ namespace CoatlPhysicsEngine {
 		//change and check type of CollisionCheckAlgoritm
 		Alg_Type GetType();
 		void SetNewType(Alg_Type NewType);
-		void SetTerrain(std::shared_ptr<Terrain> NewTer);		
+		void SetTerrain(std::shared_ptr<Terrain> NewTer);
+		int IterTook() { return this->Col_Rel->GetTook(); };
 	};
 }
