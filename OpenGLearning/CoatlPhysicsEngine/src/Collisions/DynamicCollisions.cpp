@@ -104,7 +104,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 								for(auto& pp : T)
 									ColRel.push_back(pp);
 						Temp->AcumForce(-Gravity * Temp->GetMass());							
-						jj->SetPosition(PrevPos);
+						//jj->SetPosition(PrevPos);
 					}
 				}
 			}
@@ -169,8 +169,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 								if (!this->ContainsManifold(ColRel, T[0]))
 									for (auto& pp : T)
 										ColRel.push_back(pp);
-							ii->SetPosition(Pos1);
-							jj->SetPosition(PrevPos);
+							//ii->SetPosition(Pos1);
+							//jj->SetPosition(PrevPos);
+							std::cout << "--------------------------------\n";
 							this->it = false;
 						}
 					}

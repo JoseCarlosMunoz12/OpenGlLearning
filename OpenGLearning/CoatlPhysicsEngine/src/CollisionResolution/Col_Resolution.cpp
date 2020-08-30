@@ -356,7 +356,8 @@ void Contacts::ApplyPositionChange(glm::vec3 LinChang[2], glm::vec3 AngChange[2]
 		glm::vec3 Pos = Bods[ii]->GetPos();
 		Pos += Normal * LinM[ii];
 		Bods[ii]->SetPosition(Pos);
-
+		std::cout << Bods[0]->GetID() << "\n";
+		std::cout << Pos.x << "-" << Pos.y << "-" << Pos.z;
 		glm::quat Q = Bods[ii]->GetQuat();
 		glm::quat R = glm::quat(0.f, AngChange[ii]);
 		R *= Q;
