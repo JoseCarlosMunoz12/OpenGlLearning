@@ -7,7 +7,7 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 {
 	if ((t1 - t0) < EPSILON)
 	{
-		NewDt = t1;
+		NewDt = t0;
 		return true;
 	}
 	float Mid = t0 + (t1 - t0) / 2.f;
@@ -75,17 +75,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Add bodies into Algorithm
 	for (auto& jj : AllBods)
 		this->AlgoCheck->Insert(jj);
-	//Update All Physics	
-	for (auto& jj : AllBods)
-	{
-		std::shared_ptr<Bod_Base> Temp = jj->GetBodyParts()->GetParticle();
-		if (Temp)
-		{
-			jj->SetPosition(Temp->UpdatePos(dt));
-			jj->SetQuat(Temp->GetQuat());
-			jj->UpdateAABB();
-		}
-	}
 	//Find all Collisions and Calculate its Force Generators
 	for (auto& jj : AllBods)
 	{
@@ -182,7 +171,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 										ColRel.push_back(pp);
 							//ii->SetPosition(Pos1);
 							//jj->SetPosition(PrevPos);
-							std::cout << "--------------------------------\n";
 							this->it = false;
 						}
 					}
@@ -195,6 +183,19 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		this->ContCrt->MakeJointManifold(this->ColRel, jj->GetJoints());
 	//Fix Resolution
 	this->Col_Rel->ResolveContacts(this->ColRel, dt);
+	//Update All Physics	
+	if (!this->it)
+		return;
+	for (auto& jj : AllBods)
+	{
+		std::shared_ptr<Bod_Base> Temp = jj->GetBodyParts()->GetParticle();
+		if (Temp)
+		{
+			jj->SetPosition(Temp->UpdatePos(dt));
+			jj->SetQuat(Temp->GetQuat());
+			jj->UpdateAABB();
+		}
+	}
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)

@@ -66,7 +66,7 @@ void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, 
 		float Max = 0.0001;
 		for (int ii = 0; ii < NumContacts; ii++)
 		{
-			if (Cnt[ii]->DesDeltaVel > Max)
+			if (glm::abs(Cnt[ii]->DesDeltaVel) > Max)
 			{
 				Max = Cnt[ii]->DesDeltaVel;
 				Index = ii;
