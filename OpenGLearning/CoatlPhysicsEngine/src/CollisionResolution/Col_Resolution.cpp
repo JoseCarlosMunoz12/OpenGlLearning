@@ -21,7 +21,7 @@ void Col_Resolution::AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, 
 		Max = 0.0001f;
 		for (int ii = 0; ii < NumCount; ii++)
 		{
-			if (Cnt[ii]->Penetration > Max)
+			if (glm::abs(Cnt[ii]->Penetration) > Max)
 			{
 				Max = Cnt[ii]->Penetration;
 				Index = ii;
@@ -356,8 +356,6 @@ void Contacts::ApplyPositionChange(glm::vec3 LinChang[2], glm::vec3 AngChange[2]
 		glm::vec3 Pos = Bods[ii]->GetPos();
 		Pos += Normal * LinM[ii];
 		Bods[ii]->SetPosition(Pos);
-		std::cout << Bods[0]->GetID() << "\n";
-		std::cout << Pos.x << "-" << Pos.y << "-" << Pos.z << "\n";
 		glm::quat Q = Bods[ii]->GetQuat();
 		glm::quat R = glm::quat(0.f, AngChange[ii]);
 		R *= Q;
