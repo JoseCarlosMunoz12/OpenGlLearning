@@ -34,7 +34,7 @@ void Col_Resolution::AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, 
 		//May change the penetration, so update those contacts
 		for (int ii = 0; ii < NumCount; ii++)
 		{
-		for (int bb = 0; bb < 2; bb++) if (Cnt[ii]->Bods[bb]->GetParticle())
+			for (int bb = 0; bb < 2; bb++) if (Cnt[ii]->Bods[bb]->GetParticle())
 			{
 				for (int dd = 0; dd < 2; dd++)
 				{
@@ -95,6 +95,7 @@ void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, 
 		}
 		ItUsed++;
 	}
+	VelTook = ItUsed;
 }
 
 Col_Resolution::Col_Resolution(int InitVel, int InitPos)
@@ -109,6 +110,7 @@ Col_Resolution::~Col_Resolution()
 void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,float dt)
 {
 	Took = 0;
+	VelTook = 0;
 	if (Cnt.size() != 0)
 	{
 		//Prepare bodies for resolution
@@ -215,6 +217,8 @@ glm::vec3 Contacts::CalcFricImpulse(glm::mat3 InvInTn[2])
 	ImpContact = ImpMatrix * VelKill;
 
 	float PlanarImpulse = glm::sqrt(ImpContact.y * ImpContact.y + ImpContact.z * ImpContact.z);
+	if (PlanarImpulse == 0.f)
+		return ImpContact;
 	if (PlanarImpulse > (ImpContact.x * Friction))
 	{
 		ImpContact.y /= PlanarImpulse;

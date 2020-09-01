@@ -47,12 +47,14 @@ namespace CoatlPhysicsEngine {
 		int VelIt;
 		int Posit;
 		int Took = 0;
+		int VelTook = 0;
 		// Impulse resolition
 		void PrepeareContact(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 		void AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 		void AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 	public:
 		int GetTook() { return this->Took; };
+		int GetVelTook() { return this->VelTook; };
 		Col_Resolution(int InitVel, int InitPos);
 		~Col_Resolution();
 		//Resolve Manifolds
