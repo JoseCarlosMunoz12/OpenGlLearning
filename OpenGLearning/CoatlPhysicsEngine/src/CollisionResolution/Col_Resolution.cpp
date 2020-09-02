@@ -100,12 +100,15 @@ void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, 
 
 void Col_Resolution::AdjustVelV1(std::vector<std::shared_ptr<Contacts>> Cnt, float dt)
 {
-	int Id = 0;
+	float Id = 0;
+	glm::vec3 T_Cnt(0.f);
 	for (auto& ii : Cnt)
 	{
-		ii->RelContact[0];
+		T_Cnt += ii->RelContact[0];
 		Id++;
 	}
+	T_Cnt = T_Cnt * 1.f / Id;
+	float R3 = 0.f;
 }
 
 Col_Resolution::Col_Resolution(int InitVel, int InitPos)
