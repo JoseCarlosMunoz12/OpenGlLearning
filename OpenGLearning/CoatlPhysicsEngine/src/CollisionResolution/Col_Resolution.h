@@ -52,6 +52,7 @@ namespace CoatlPhysicsEngine {
 		void PrepeareContact(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 		void AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 		void AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
+		void AdjustVelV1(std::vector<std::shared_ptr<Contacts>> Cnt, float dt);
 	public:
 		int GetTook() { return this->Took; };
 		int GetVelTook() { return this->VelTook; };

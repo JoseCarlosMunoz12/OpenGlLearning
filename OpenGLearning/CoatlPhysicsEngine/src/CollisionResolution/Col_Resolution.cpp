@@ -98,6 +98,16 @@ void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, 
 	VelTook = ItUsed;
 }
 
+void Col_Resolution::AdjustVelV1(std::vector<std::shared_ptr<Contacts>> Cnt, float dt)
+{
+	int Id = 0;
+	for (auto& ii : Cnt)
+	{
+		ii->RelContact[0];
+		Id++;
+	}
+}
+
 Col_Resolution::Col_Resolution(int InitVel, int InitPos)
 	:VelIt(InitVel), Posit(InitPos)
 {
@@ -117,8 +127,11 @@ void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,
 		this->PrepeareContact(Cnt, dt);
 		//Adjust the positions
 		this->AdjustPosition(Cnt, dt);
+		//Debug Test
+		this->AdjustVelV1(Cnt, dt);
 		//adjust the velocities of the bodies
 		this->AdjustVelocity(Cnt, dt);
+
 	}
 }
 

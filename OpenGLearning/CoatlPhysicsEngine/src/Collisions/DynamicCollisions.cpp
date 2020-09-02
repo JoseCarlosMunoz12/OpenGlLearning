@@ -105,6 +105,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 									ColRel.push_back(pp);
 						Temp->AcumForce(-Gravity * Temp->GetMass());							
 						//jj->SetPosition(PrevPos);
+						this->it = false;
 					}
 				}
 			}
