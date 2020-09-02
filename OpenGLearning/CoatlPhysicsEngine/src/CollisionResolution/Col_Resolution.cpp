@@ -406,7 +406,7 @@ void Contacts::ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]
 		//Apply Changes
 		Bods[1]->GetParticle()->AddVel(VelChang[1]);
 		Bods[1]->GetParticle()->AddRotVel(RotChange[1]);
-		glm::vec3 Vel = Bods[1]->GetParticle()->GetVel();
+		//glm::vec3 Vel = Bods[1]->GetParticle()->GetVel();
 		//std::cout << Bods[1]->GetID() << "\n";
 		//std::cout << Vel.x << "-" << Vel.y << "-" << Vel.z << "\n";
 	}
