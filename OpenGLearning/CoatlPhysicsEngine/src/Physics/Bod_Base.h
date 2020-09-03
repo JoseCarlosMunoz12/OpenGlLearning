@@ -48,8 +48,7 @@ namespace CoatlPhysicsEngine {
 		glm::quat GetQuat() { return this->AxisAngle; };
 		glm::vec3 GetPos();
 		glm::vec3 GetVel();
-		glm::vec3 GetAccel() { return this->Accel + PrevAccel; };
-		glm::vec3 GetFallAccel() { return this->Accel; };
+		glm::vec3 GetAccel() { return this->Accel; };
 		int GetPhyID() { return this->PhysicsID; };
 		float GetMass() { return 1 / this->InvMass; };
 		//Virtual Functions for the Particle and Rigid Bodies
