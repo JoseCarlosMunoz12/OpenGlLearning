@@ -55,7 +55,7 @@ namespace CoatlPhysicsEngine {
 		virtual glm::vec3 UpdatePos(float dt) { return glm::vec3(0.f); };
 		virtual void ResetForce() { return; };
 		virtual void AcumForce(glm::vec3 Force) { return; };
-		//Rigid Bodies functions
+		//Rigid Bodies functions	
 		virtual glm::vec3 GetRotVel() { return glm::vec3(0.f); };
 		virtual void SetRotVel(glm::vec3 NewRotVel) { return; };
 		virtual void AddRotVel(glm::vec3 DelRotVel) { return; };
