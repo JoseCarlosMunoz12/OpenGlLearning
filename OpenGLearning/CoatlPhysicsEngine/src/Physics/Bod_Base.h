@@ -17,6 +17,7 @@ namespace CoatlPhysicsEngine {
 		glm::vec3 Pos;
 		glm::vec3 AccumForce;
 		glm::vec3 Vel;
+		glm::vec3 Accel;
 		glm::quat AxisAngle;
 		glm::vec3 RotVel;
 		glm::mat3 InvInertia;
@@ -40,12 +41,15 @@ namespace CoatlPhysicsEngine {
 		void SetMass(float Mass);
 		void SetVel(glm::vec3 SetVel);
 		void AddVel(glm::vec3 DelVel);
+		void SetAccel(glm::vec3 SetAcc) { this->Accel = SetAcc; };
 		void SetId(int NewId);
 		void SetPos(glm::vec3 NewPos);
 		virtual void SetQuat(glm::quat NewQuat) { return; };
 		glm::quat GetQuat() { return this->AxisAngle; };
 		glm::vec3 GetPos();
 		glm::vec3 GetVel();
+		glm::vec3 GetAccel() { return this->Accel + PrevAccel; };
+		glm::vec3 GetFallAccel() { return this->Accel; };
 		int GetPhyID() { return this->PhysicsID; };
 		float GetMass() { return 1 / this->InvMass; };
 		//Virtual Functions for the Particle and Rigid Bodies
