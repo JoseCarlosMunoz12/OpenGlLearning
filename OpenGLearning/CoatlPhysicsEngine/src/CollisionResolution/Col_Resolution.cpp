@@ -132,7 +132,7 @@ void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,
 		//Adjust the positions
 		this->AdjustPosition(Cnt, dt);
 		//Debug Test
-		this->AdjustVelV1(Cnt, dt);
+		//this->AdjustVelV1(Cnt, dt);
 		//adjust the velocities of the bodies
 		this->AdjustVelocity(Cnt, dt);
 
@@ -423,9 +423,9 @@ void Contacts::ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]
 		//Apply Changes
 		Bods[1]->GetParticle()->AddVel(VelChang[1]);
 		Bods[1]->GetParticle()->AddRotVel(RotChange[1]);
-		//glm::vec3 Vel = Bods[1]->GetParticle()->GetVel();
-		//std::cout << Bods[1]->GetID() << "\n";
-		//std::cout << Vel.x << "-" << Vel.y << "-" << Vel.z << "\n";
+		glm::vec3 Vel = Bods[1]->GetParticle()->GetVel();
+		std::cout << Bods[1]->GetID() << "\n";
+		std::cout << Vel.x << "-" << Vel.y << "-" << Vel.z << "\n";
 	}
 }
 
