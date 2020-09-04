@@ -176,9 +176,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 								if (!this->ContainsManifold(ColRel, T[0]))
 									for (auto& pp : T)
 										ColRel.push_back(pp);
-							ii->SetPosition(Pos1);
-							jj->SetPosition(PrevPos);
-							this->it = false;
+							//ii->SetPosition(Pos1);
+							//jj->SetPosition(PrevPos);
+							//this->it = false;
 						}
 					}
 				}
