@@ -409,11 +409,8 @@ void Contacts::ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]
 	VelChang[0] = Impulse * 1.f / Bods[0]->GetParticle()->GetMass();
 
 	//Apply Changes
-	glm::vec3 Vel0 = Bods[0]->GetParticle()->GetVel();
 	Bods[0]->GetParticle()->AddVel(VelChang[0]);
 	Bods[0]->GetParticle()->AddRotVel(RotChange[0]);
-	std::cout << Bods[0]->GetID() << "\n";
-	std::cout << Vel0.x << "-" << Vel0.y << "-" << Vel0.z << "\n";
 
 	//Body 2 changes
 	if (Bods[1]->GetParticle())
@@ -426,9 +423,6 @@ void Contacts::ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]
 		//Apply Changes
 		Bods[1]->GetParticle()->AddVel(VelChang[1]);
 		Bods[1]->GetParticle()->AddRotVel(RotChange[1]);
-		glm::vec3 Vel = Bods[1]->GetParticle()->GetVel();
-		std::cout << Bods[1]->GetID() << "\n";
-		std::cout << Vel.x << "-" << Vel.y << "-" << Vel.z << "\n";
 	}
 }
 
