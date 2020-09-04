@@ -66,7 +66,7 @@ void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, 
 		float Max = 0.001;
 		for (int ii = 0; ii < NumContacts; ii++)
 		{
-			if (glm::abs(Cnt[ii]->DesDeltaVel) > Max)
+			if (Cnt[ii]->DesDeltaVel > Max)
 			{
 				Max = Cnt[ii]->DesDeltaVel;
 				Index = ii;
@@ -409,8 +409,11 @@ void Contacts::ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]
 	VelChang[0] = Impulse * 1.f / Bods[0]->GetParticle()->GetMass();
 
 	//Apply Changes
+	glm::vec3 Vel0 = Bods[0]->GetParticle()->GetVel();
 	Bods[0]->GetParticle()->AddVel(VelChang[0]);
 	Bods[0]->GetParticle()->AddRotVel(RotChange[0]);
+	std::cout << Bods[0]->GetID() << "\n";
+	std::cout << Vel0.x << "-" << Vel0.y << "-" << Vel0.z << "\n";
 
 	//Body 2 changes
 	if (Bods[1]->GetParticle())
