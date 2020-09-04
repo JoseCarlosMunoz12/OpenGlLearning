@@ -168,8 +168,8 @@ glm::mat3 OBB::GetInertia(float Mass)
 {
 	glm::vec3 Tex = 2.f * Ex;
 	float LH2 = (Tex.x * Tex.x + Tex.z * Tex.z) / 12.f;
-	float HW2 = (Tex.y * Tex.y + Tex.z * Tex.z) / 12.f;
-	float LW2 = (Tex.x * Tex.x + Tex.y * Tex.y) / 12.f;
+	float HW2 = (Tex.y * Tex.y + Tex.x * Tex.x) / 12.f;
+	float LW2 = (Tex.z * Tex.z + Tex.y * Tex.y) / 12.f;
 	float LW = 0.f;
 	float LH = 0.f;
 	float HW = 0.f;
