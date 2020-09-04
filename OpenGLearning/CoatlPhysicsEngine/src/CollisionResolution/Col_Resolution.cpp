@@ -18,7 +18,7 @@ void Col_Resolution::AdjustPosition(std::vector<std::shared_ptr<Contacts>> Cnt, 
 	{
 		int NumCount = Cnt.size();
 		Index = NumCount;
-		Max = 0.0001f;
+		Max = 0.01f;
 		for (int ii = 0; ii < NumCount; ii++)
 		{
 			if (glm::abs(Cnt[ii]->Penetration) > Max)
@@ -63,7 +63,7 @@ void Col_Resolution::AdjustVelocity(std::vector<std::shared_ptr<Contacts>> Cnt, 
 	while (ItUsed < VelIt)
 	{
 		int Index = NumContacts;
-		float Max = 0.0001;
+		float Max = 0.01;
 		for (int ii = 0; ii < NumContacts; ii++)
 		{
 			if (glm::abs(Cnt[ii]->DesDeltaVel) > Max)
