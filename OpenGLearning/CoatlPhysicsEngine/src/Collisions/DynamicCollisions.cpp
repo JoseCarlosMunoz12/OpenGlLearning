@@ -75,17 +75,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Add bodies into Algorithm
 	for (auto& jj : AllBods)
 		this->AlgoCheck->Insert(jj);
-	//Update All Physics	
-	for (auto& jj : AllBods)
-	{
-		std::shared_ptr<Bod_Base> Temp = jj->GetBodyParts()->GetParticle();
-		if (Temp)
-		{
-			jj->SetPosition(Temp->UpdatePos(dt));
-			jj->SetQuat(Temp->GetQuat());
-			jj->UpdateAABB();
-		}
-	}
 	//Find all Collisions and Calculate its Force Generators
 	for (auto& jj : AllBods)
 	{
@@ -114,8 +103,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							if (!this->ContainsManifold(ColRel, T[0]))
 								for(auto& pp : T)
 									ColRel.push_back(pp);
-						//Temp->AcumForce(-Gravity * Temp->GetMass());							
-						//jj->SetPosition(PrevPos);
+						Temp->AcumForce(-Gravity * Temp->GetMass());							
+						jj->SetPosition(PrevPos);
 						//this->it = false;
 					}
 				}
@@ -181,9 +170,9 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 								if (!this->ContainsManifold(ColRel, T[0]))
 									for (auto& pp : T)
 										ColRel.push_back(pp);
-							//ii->SetPosition(Pos1);
-							//jj->SetPosition(PrevPos);
-							//this->it = false;
+							ii->SetPosition(Pos1);
+							jj->SetPosition(PrevPos);
+							this->it = false;
 						}
 					}
 				}
@@ -195,6 +184,19 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		this->ContCrt->MakeJointManifold(this->ColRel, jj->GetJoints());
 	//Fix Resolution
 	this->Col_Rel->ResolveContacts(this->ColRel, dt);
+	if (!this->it)
+		return;
+	//Update All Physics	
+	for (auto& jj : AllBods)
+	{
+		std::shared_ptr<Bod_Base> Temp = jj->GetBodyParts()->GetParticle();
+		if (Temp)
+		{
+			jj->SetPosition(Temp->UpdatePos(dt));
+			jj->SetQuat(Temp->GetQuat());
+			jj->UpdateAABB();
+		}
+	}
 }
 
 void DynamicCollisions::AddNewBody(std::shared_ptr<ColShapes> NewShape)
