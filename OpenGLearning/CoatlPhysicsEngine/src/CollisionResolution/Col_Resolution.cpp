@@ -328,8 +328,7 @@ void Contacts::ApplyPositionChange(glm::vec3 LinChang[2], glm::vec3 AngChange[2]
 	//Calculate inertia of each object in the direction of the contact normal
 	for (int ii = 0; ii < 2; ii++) if (Bods[ii]->GetParticle())
 	{
-		glm::mat3 invInert = Bods[ii]->GetParticle()->GetInertiaWorld();
-		invInert = glm::inverse(invInert);
+		glm::mat3 invInert = glm::inverse(Bods[ii]->GetParticle()->GetInertiaWorld());
 		glm::vec3 AngInertW = glm::cross(RelContact[ii], Normal);
 		AngInertW = invInert * AngInertW;
 		AngInertW = glm::cross(AngInertW, RelContact[ii]);
@@ -404,6 +403,7 @@ void Contacts::ApplyVelocityChange(glm::vec3 VelChang[2], glm::vec3 RotChange[2]
 	glm::vec3 Impulse = this->ContactToWorld * ImpulseCont;
 	//Split impulse to linear and roation parts
 	glm::vec3 ImTrque0 = glm::cross(RelContact[0], Impulse);
+	
 	RotChange[0] = InvInertia[0] * ImTrque0;
 	VelChang[0] = glm::vec3(0.f);
 	VelChang[0] = Impulse * 1.f / Bods[0]->GetParticle()->GetMass();

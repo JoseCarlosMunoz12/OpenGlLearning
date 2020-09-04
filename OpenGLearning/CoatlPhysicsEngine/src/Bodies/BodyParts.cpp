@@ -53,6 +53,8 @@ void BodyParts::SetPos(glm::vec3 NewPos)
 
 void BodyParts::SetQuat(glm::quat Q)
 {
+	if (isnan(glm::length(Q)))
+		return;
 	this->BodPart->SetQuat(Q);
 	if (this->BodParticle)
 		this->BodParticle->SetQuat(Q);
