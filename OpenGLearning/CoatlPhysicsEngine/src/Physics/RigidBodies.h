@@ -4,7 +4,7 @@ namespace CoatlPhysicsEngine {
 	class RigidBodies : public Bod_Base
 	{
 	private:
-		const float Epsilon = 0.00001f;
+		const float Epsilon = 0.12f;
 		glm::mat4 TransformMatrix;
 		glm::mat3 InvIntertiaWSpace;
 		glm::vec3 TorqueAcum;
