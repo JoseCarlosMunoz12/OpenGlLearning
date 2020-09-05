@@ -109,7 +109,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 							if (!this->ContainsManifold(ColRel, T[0]))
 								for(auto& pp : T)
 									ColRel.push_back(pp);
-						Temp->AcumForce(-Gravity * Temp->GetMass());							
+						//Temp->AcumForce(-Gravity * Temp->GetMass());							
 						jj->SetPosition(PrevPos);
 						//this->it = false;
 					}
