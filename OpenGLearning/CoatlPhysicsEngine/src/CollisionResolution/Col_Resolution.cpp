@@ -127,15 +127,13 @@ void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,
 	VelTook = 0;
 	if (Cnt.size() != 0)
 	{
-		//Prepare bodies for resolution
-		this->PrepeareContact(Cnt, dt);
-		//Adjust the positions
-		this->AdjustPosition(Cnt, dt);
-		//Debug Test
-		//this->AdjustVelV1(Cnt, dt);
-		//adjust the velocities of the bodies
-		this->AdjustVelocity(Cnt, dt);
-
+		if (Cnt[0]->Bods[0]->GetParticle())
+		{
+			Cnt[0]->Bods[0]->GetParticle()->SetVel(glm::vec3(0.f));
+			glm::vec3 Pos = Cnt[0]->Bods[0]->GetParticle()->GetPos();
+			glm::vec3 Norm = Cnt[0]->Normal * Cnt[0]->Penetration;
+			Cnt[0]->Bods[0]->GetParticle()->SetPos(Pos + Norm);
+		}
 	}
 }
 
