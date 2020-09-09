@@ -18,7 +18,7 @@ Bodies::~Bodies()
 {
 }
 
-void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape, int Parent)
+void Bodies::AddShapes(std::shared_ptr<ColShapes> NewShape)
 {
 	this->BodyInf = std::make_shared<BodyParts>(NewShape);
 }

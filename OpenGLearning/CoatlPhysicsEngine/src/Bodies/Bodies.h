@@ -20,7 +20,7 @@ namespace CoatlPhysicsEngine {
 		Bodies(int InitID);
 		Bodies(std::shared_ptr<ColShapes> InitShapes, int InitID);
 		~Bodies();
-		void AddShapes(std::shared_ptr<ColShapes> NewShape, int Parent);
+		void AddShapes(std::shared_ptr<ColShapes> NewShape);
 		int GetID();
 		//For base Parents
 		void SetPosition(glm::vec3 NewPos);

@@ -88,7 +88,6 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		if (Temp)
 		{
 			Temp->UpdatePos(dt);
-			Temp->GetQuat();
 			jj->UpdateAABB();
 		}
 	}
@@ -196,6 +195,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
+			//Updated the position of the current body
 			jj->MovePosition(F_dt * Bod_Vel);
 		}
 	}
