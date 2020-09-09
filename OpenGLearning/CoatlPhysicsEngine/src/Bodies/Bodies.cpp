@@ -68,6 +68,18 @@ void Bodies::SetQuat(glm::quat NewQuat)
 	this->BodyInf->SetQuat(NewQuat);
 }
 
+bool Bodies::HasId(std::shared_ptr<Bodies> OtherBod)
+{
+	if(std::find(BoolId.begin(), BoolId.end(), OtherBod->GetID()) != BoolId.end())
+		return true;
+	return false;
+}
+
+void Bodies::AddId(int NewId)
+{
+	this->BoolId.push_back(NewId);
+}
+
 glm::vec3 Bodies::GetPos()
 {
 	return this->BodyInf->GetPos();	

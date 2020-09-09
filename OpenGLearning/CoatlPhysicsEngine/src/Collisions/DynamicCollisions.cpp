@@ -74,7 +74,10 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	}
 	//Add bodies into Algorithm
 	for (auto& jj : AllBods)
+	{
 		this->AlgoCheck->Insert(jj);
+		jj->ResetBools();
+	}
 	//////-----------Physics Loop-----------------\\\\\\\\\\
 	//1) Force generators
 	//2) Calc Physics
@@ -111,6 +114,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				std::vector<std::shared_ptr<Bodies>> Quers = Ter.lock()->GetTerrs(jj->GetPos(), 1);
 				for (auto& ii : Quers)
 				{
+					if(!jj->HasId(ii))
 					if (this->BinColDetection(jj, ii,Bod_Vel,glm::vec3(0.f),0.f, dt, F_dt))
 					{
 						jj->MovePosition(F_dt * Bod_Vel);

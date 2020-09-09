@@ -9,10 +9,11 @@ namespace CoatlPhysicsEngine {
 	class Bodies
 	{
 	private:
-		std::vector<glm::vec3> Units = {glm::vec3( 0.f, 0.f, 1.f),glm::vec3( 0.f, 1.f, 0.f),glm::vec3( 1.f, 0.f, 0.f),
-										glm::vec3( 0.f, 0.f,-1.f),glm::vec3( 0.f,-1.f, 0.f),glm::vec3(-1.f, 0.f, 0.f)};
+		std::vector<glm::vec3> Units = { glm::vec3(0.f, 0.f, 1.f),glm::vec3(0.f, 1.f, 0.f),glm::vec3(1.f, 0.f, 0.f),
+										glm::vec3(0.f, 0.f,-1.f),glm::vec3(0.f,-1.f, 0.f),glm::vec3(-1.f, 0.f, 0.f) };
 		int ID;
 		std::shared_ptr<BodyParts> BodyInf;
+		std::vector<int> BoolId;
 		glm::vec3 Max;
 		glm::vec3 Min;
 		glm::vec3 Mid;
@@ -29,6 +30,9 @@ namespace CoatlPhysicsEngine {
 		void SetParticle(int ShapeID);
 		void SetRigidBody(int ShapeID);
 		void SetQuat(glm::quat NewQuat);
+		void ResetBools() { this->BoolId.clear(); };
+		bool HasId(std::shared_ptr<Bodies> OtherBod);
+		void AddId(int NewId);
 		glm::vec3 GetPos();
 		glm::quat GetQuat();
 		std::shared_ptr<ColShapes> GetShapes();
