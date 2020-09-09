@@ -3,16 +3,7 @@ using namespace CoatlPhysicsEngine;
 
 BodyParts::BodyParts()
 {
-
 }
-BodyParts::BodyParts()
-{
-}
-BodyParts::BodyParts(std::shared_ptr<ColShapes> InitBodPart)
-{
-	this->BodPart = InitBodPart;
-}
-
 BodyParts::BodyParts(std::shared_ptr<ColShapes> InitBodPart)
 {
 	this->BodPart = InitBodPart;
