@@ -129,10 +129,11 @@ void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,
 	{
 		if (Cnt[0]->Bods[0]->GetParticle())
 		{
-			Cnt[0]->Bods[0]->GetParticle()->SetVel(glm::vec3(0.f));
-			glm::vec3 Pos = Cnt[0]->Bods[0]->GetParticle()->GetPos();
-			glm::vec3 Norm = Cnt[0]->Normal * Cnt[0]->Penetration;
-			Cnt[0]->Bods[0]->GetParticle()->SetPos(Pos + Norm);
+			glm::vec3 Vec = Cnt[0]->Bods[0]->GetParticle()->GetVel();
+			glm::vec3 Pos = Cnt[0]->ContactPoint;
+			Vec.z = -(.03f / dt) * Pos.z;
+			Cnt[0]->Bods[0]->GetParticle()->SetVel(Vec);
+			Cnt[0]->Bods[0]->GetParticle()->SetPos(Pos + Vec * dt);
 		}
 	}
 }

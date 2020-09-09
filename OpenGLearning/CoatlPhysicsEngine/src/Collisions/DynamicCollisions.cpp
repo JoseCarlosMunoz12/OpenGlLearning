@@ -121,14 +121,11 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 								for(auto& pp : T)
 									ColRel.push_back(pp);
 						//Temp->AcumForce(-Gravity * Temp->GetMass());							
-						//jj->SetPosition(PrevPos);
+						jj->SetPosition(PrevPos);
 						//this->it = false;
 					}
 					else
-					{
-
-						jj->MovePosition(dt* Bod_Vel);
-					}
+						F_dt = dt;
 				}
 			}
 			//Check Collision with Static Bodies//////////////////////////////////////////////////
@@ -199,6 +196,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					}
 				}
 			}
+			jj->MovePosition(F_dt * Bod_Vel);
 		}
 	}
 	//Get Manifold from Joints
