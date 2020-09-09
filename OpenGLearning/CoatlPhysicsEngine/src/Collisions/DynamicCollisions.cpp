@@ -206,6 +206,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	//Get Manifold from Joints
 	for (auto& jj : AllCollections)
 		this->ContCrt->MakeJointManifold(this->ColRel, jj->GetJoints());
+	//Cull Manifolds and get rid of repeats
+
 	//Fix Resolution
 	this->Col_Rel->ResolveContacts(this->ColRel, dt);
 }
