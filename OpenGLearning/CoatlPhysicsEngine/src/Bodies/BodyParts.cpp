@@ -5,13 +5,11 @@ BodyParts::BodyParts()
 {
 
 }
-BodyParts::BodyParts(std::shared_ptr<BodyParts> InitParent)
+BodyParts::BodyParts()
 {
-	this->Parent = InitParent;
 }
-BodyParts::BodyParts(std::shared_ptr<BodyParts> InitParent, std::shared_ptr<ColShapes> InitBodPart)
+BodyParts::BodyParts(std::shared_ptr<ColShapes> InitBodPart)
 {
-	this->Parent = InitParent;
 	this->BodPart = InitBodPart;
 }
 
