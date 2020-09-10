@@ -2260,8 +2260,8 @@ void Game::DrawColInfo()
 						int ID0 = ii->Bods[0]->GetID();
 						int ID1 = ii->Bods[1]->GetID();
 						ImGui::Text("Bodies Collided are %d and %d", ID0, ID1);
-						glm::vec3 Pnt = ii->ContactPoint;
-						ImGui::Text("Pos - %f,%f,%f", Pnt.x, Pnt.y, Pnt.z);
+						for(auto& kk : ii->ContactPoint)
+							ImGui::Text("Pos - %f,%f,%f", kk.x, kk.y, kk.z);
 						ImGui::Text("Pen - %f", ii->Penetration);
 						ImGui::Text("Friction - %f", ii->Friction);
 						ImGui::Text("Restitution - %f", ii->Restituion);

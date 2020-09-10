@@ -28,16 +28,16 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 			PL1 = MATH::SAT_Points(glm::cross(Dir0, Norm), C_S0, C_S1);
 			float Total_R = Cap0.GetRadius() + Cap1.GetRadius();
 			float dis = glm::distance(C_P0, C_P1);
+			std::shared_ptr<Contacts> Contact = std::make_shared<Contacts>();
+			Contact->Normal = -Norm;
+			Contact->Penetration = Total_R - dis;
 			for (auto& ii : Cont)
 			{
-				std::shared_ptr<Contacts> Contact = std::make_shared<Contacts>();
 				glm::vec3 R =( PL0[0] + PL0[1]) / 2.f;
 				glm::vec3 T = (PL1[0] + PL1[1]) / 2.f;
-				Contact->ContactPoint = ii + R +T;
-				Contact->Normal = -Norm;
-				Contact->Penetration = Total_R - dis;
-				Temp.push_back(Contact);
+				Contact->ContactPoint.push_back(ii + R +T);
 			}
+			Temp.push_back(Contact);
 		}
 		else
 		{
@@ -45,7 +45,7 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 			float dis = glm::distance(C_P0, C_P1);
 			Con->Penetration = Total_R - dis;
 			Con->Normal = -Norm;
-			Con->ContactPoint = C_P0 - Norm * Con->Penetration;
+			Con->ContactPoint.push_back(C_P0 - Norm * Con->Penetration);
 			Temp.push_back(Con);
 		}
 	}

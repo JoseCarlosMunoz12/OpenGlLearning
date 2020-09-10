@@ -2,7 +2,7 @@
 using namespace CoatlPhysicsEngine;
 
 CoatlPhysicsEngine::ShapeResolution::ShapeResolution()
-	:SphereRelSphere(),CapsuleRelSphere()
+	:SphereRelSphere(),CapsuleRelSphere(),CapsuleRelCapsule()
 {
 }
 
