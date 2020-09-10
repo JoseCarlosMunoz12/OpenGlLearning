@@ -179,14 +179,14 @@ std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<C
 			MATH::SAT_Clip(ii, Obj0_seg, Obj1_seg);
 	}
 	int Count = 0;
-	for (auto& jj : Obj0_seg)
-	{
 		std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
 		Cont->Normal = Norm;
 		Cont->Penetration = Pen;
-		Cont->ContactPoint = (jj + Obj0_seg[Count]) / 2.f;
-		Temp.push_back(Cont);
+	for (auto& jj : Obj0_seg)
+	{
+		Cont->ContactPoint.push_back((jj + Obj0_seg[Count]) / 2.f);
 		Count++;
 	}
+	Temp.push_back(Cont);
 	return Temp;
 }

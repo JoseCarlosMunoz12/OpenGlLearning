@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<Contacts>> SphereRelSphere::SphRelSph(Sphere Sph0, S
 	}
 	Temp->Normal = -Norm;
 	Temp->Penetration = TotalR - Size;
-	Temp->ContactPoint = Sph1.GetPos() - MidLine * .5f;
+	Temp->ContactPoint.push_back(Sph1.GetPos() - MidLine * .5f);
 	Contact.push_back(Temp);
 	return Contact;
 }

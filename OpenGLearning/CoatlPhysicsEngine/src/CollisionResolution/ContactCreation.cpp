@@ -77,7 +77,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 				glm::vec3 RelNorm = MATH::Normalize(jj - ii);
 				if (RelNorm == Norm)
 				{
-					Cont->ContactPoint = (jj + ii) / 2.f;
+					Cont->ContactPoint.push_back((jj + ii) / 2.f);
 					break;
 				}
 			}
@@ -92,7 +92,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
 		Cont->Penetration = Pen;
 		Cont->Normal = Norm;
-		Cont->ContactPoint = Cap.GetPos() + Pen * Norm;
+		Cont->ContactPoint.push_back(Cap.GetPos() + Pen * Norm);
 		Temp.push_back(Cont);
 	}
 	return Temp;
