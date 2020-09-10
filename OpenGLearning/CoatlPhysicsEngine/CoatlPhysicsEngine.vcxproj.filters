@@ -162,16 +162,7 @@
     <ClInclude Include="src\CollisionResolution\ShapesResolution\ShapeResolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CollisionResolution\ShapesResolution\SphereRelAABB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CollisionResolution\ShapesResolution\AABBRelAABB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelSphere.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelAABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GJK\GJK.h">
@@ -344,16 +335,7 @@
     <ClCompile Include="src\CollisionResolution\ShapesResolution\ShapeResolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CollisionResolution\ShapesResolution\SphereRelAABB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CollisionResolution\ShapesResolution\AABBRelAABB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelSphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelAABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GJK\GJK.cpp">

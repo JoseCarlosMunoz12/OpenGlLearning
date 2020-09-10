@@ -13,7 +13,7 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelSphere::CapRelSph(Capsule Cap, 
 	glm::vec3 ContactPoint = Sph0.GetPos() + Norm * Sph0.GetRadius();
 	Cont->Penetration = Total_R - DisSqr;
 	Cont->Normal = -Norm;
-	Cont->ContactPoint = ContactPoint;
+	Cont->ContactPoint.push_back(ContactPoint);
 	Temp.push_back(Cont);
 	return Temp;
 }

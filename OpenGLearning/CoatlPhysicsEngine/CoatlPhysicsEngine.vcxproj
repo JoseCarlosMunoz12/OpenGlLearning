@@ -154,10 +154,7 @@
     <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelCapsule.h" />
     <ClInclude Include="src\SAT\SAT.h" />
     <ClInclude Include="src\GJK\GJK.h" />
-    <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelAABB.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\CapsuleRelSphere.h" />
-    <ClInclude Include="src\CollisionResolution\ShapesResolution\AABBRelAABB.h" />
-    <ClInclude Include="src\CollisionResolution\ShapesResolution\SphereRelAABB.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\ShapeResolution.h" />
     <ClInclude Include="src\CollisionResolution\ShapesResolution\SphereRelSphere.h" />
     <ClInclude Include="src\CollisionResolution\Col_Resolution.h" />
@@ -219,10 +216,7 @@
     <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelCapsule.cpp" />
     <ClCompile Include="src\SAT\SAT.cpp" />
     <ClCompile Include="src\GJK\GJK.cpp" />
-    <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelAABB.cpp" />
     <ClCompile Include="src\CollisionResolution\ShapesResolution\CapsuleRelSphere.cpp" />
-    <ClCompile Include="src\CollisionResolution\ShapesResolution\AABBRelAABB.cpp" />
-    <ClCompile Include="src\CollisionResolution\ShapesResolution\SphereRelAABB.cpp" />
     <ClCompile Include="src\CollisionResolution\ShapesResolution\ShapeResolution.cpp" />
     <ClCompile Include="src\CollisionResolution\ShapesResolution\SphereRelSphere.cpp" />
     <ClCompile Include="src\CollisionResolution\Col_Resolution.cpp" />
