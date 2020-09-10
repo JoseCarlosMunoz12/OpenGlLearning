@@ -22,7 +22,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 		glm::vec3 Norm = glm::normalize(Vec);
 		Cont->Penetration = glm::abs(Pen);
 		Cont->Normal = Norm;
-		Cont->ContactPoint = Sph0.GetPos() - R * Norm;
+		Cont->ContactPoint.push_back(Sph0.GetPos() - R * Norm);
 		Temp.push_back(Cont);
 	}
 	else
@@ -32,7 +32,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
 		Cont->Penetration = Pen;
 		Cont->Normal = -Norm;
-		Cont->ContactPoint = Sph0.GetPos() - Pen * Norm;
+		Cont->ContactPoint.push_back(Sph0.GetPos() - Pen * Norm);
 		Temp.push_back(Cont);
 	}
 	return Temp;
@@ -67,6 +67,9 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 			if (Dot != glm::vec3(0.f))
 				MATH::SAT_Clip(jj, Cap_Seg, Obj_seg);
 		}
+		std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
+		Cont->Normal = Norm;
+		Cont->Penetration = R - Pen;
 		for (auto& jj : Cap_Seg)
 		{
 			for (auto& ii : Obj_seg)
@@ -74,15 +77,12 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 				glm::vec3 RelNorm = MATH::Normalize(jj - ii);
 				if (RelNorm == Norm)
 				{
-					std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
-					Cont->Normal = Norm;
-					Cont->Penetration = R - Pen;
 					Cont->ContactPoint = (jj + ii) / 2.f;
-					Temp.push_back(Cont);
 					break;
 				}
 			}
 		}
+		Temp.push_back(Cont);
 	}
 	else
 	{
