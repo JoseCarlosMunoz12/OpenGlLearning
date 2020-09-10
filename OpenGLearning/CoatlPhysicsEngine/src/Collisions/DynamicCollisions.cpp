@@ -38,6 +38,10 @@ bool DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Contacts>> 
 	return false;
 }
 
+void DynamicCollisions::CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cnt )
+{
+}
+
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
 	:BaseCols(Name,InitCols),
 	Ext(100.f), AlgoType(Alg_Type::O_T), B_Ex(4.f)
