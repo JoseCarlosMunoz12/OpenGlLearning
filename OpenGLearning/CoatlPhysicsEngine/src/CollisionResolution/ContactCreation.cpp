@@ -179,4 +179,3 @@ void ContactCreation::MakeJointManifold(std::vector<std::shared_ptr<Contacts>>& 
 	for (auto& ii : BodJoints)
 		ii->GetBodId();
 }
-
