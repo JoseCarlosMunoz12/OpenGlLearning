@@ -18,6 +18,9 @@ namespace CoatlPhysicsEngine {
 		~Contacts();
 		std::shared_ptr<Bodies> Bods[2];
 		std::vector<glm::vec3> ContactPoint;
+		//relative contact Locations
+		std::vector<glm::vec3> Bod0_Cnt;
+		std::vector<glm::vec3> Bod1_Cnt;
 		float dt;
 		glm::vec3 Normal;
 		float Penetration;
