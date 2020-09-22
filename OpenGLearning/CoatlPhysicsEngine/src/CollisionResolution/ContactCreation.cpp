@@ -50,15 +50,21 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 
 std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
+	std::vector<std::shared_ptr<Contacts>> Temp;
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
-		return this->S_Res->GetContacts(Cap, *Sphere0);
+		Temp = this->S_Res->GetContacts(Cap, *Sphere0);
+		Temp[0]->Bods[0] = Bod1;
+		Temp[0]->Bods[1] = Bod0;
+		return Temp;
 	}
 	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
 	{
-		return this->S_Res->GetContacts(Cap, *Cap0);
+		Temp = this->S_Res->GetContacts(Cap, *Cap0);
+		Temp[0]->Bods[0] = Bod0;
+		Temp[0]->Bods[1] = Bod1;
+		return Temp;
 	}
-	std::vector<std::shared_ptr<Contacts>> Temp;
 	glm::vec3 vec;
 	float Pen;
 	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), vec, Pen))
