@@ -3,15 +3,21 @@ using namespace CoatlPhysicsEngine;
 
 std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
+	std::vector<std::shared_ptr<Contacts>> Temp;
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
-		return this->S_Res->GetContacts(Sph0, *Sphere0);
+		Temp = this->S_Res->GetContacts(Sph0, *Sphere0);
+		Temp[0]->Bods[0] = Bod0;
+		Temp[0]->Bods[1] = Bod1;
+		return Temp;
 	}
 	else if (std::shared_ptr<Capsule> Cap0 = std::dynamic_pointer_cast<Capsule>(Bod1->GetShapes()))
 	{
-		return this->S_Res->GetContacts(Sph0, *Cap0);
+		Temp = this->S_Res->GetContacts(Sph0, *Cap0);
+		Temp[0]->Bods[0] = Bod0;
+		Temp[0]->Bods[1] = Bod1;
+		return Temp;
 	}
-	std::vector<std::shared_ptr<Contacts>> Temp;
 	std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
 	glm::vec3 Vec;
 	float Dis;
@@ -20,6 +26,8 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 		float R = Sph0.GetRadius();
 		float Pen = R - Dis;
 		glm::vec3 Norm = glm::normalize(Vec);
+		Cont->Bods[0] = Bod0;
+		Cont->Bods[1] = Bod1;
 		Cont->Penetration = glm::abs(Pen);
 		Cont->Normal = Norm;
 		Cont->ContactPoint.push_back(Sph0.GetPos() - R * Norm);
@@ -30,6 +38,8 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 		glm::vec3 Norm;
 		float R = Sph0.GetRadius();
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
+		Cont->Bods[0] = Bod0;
+		Cont->Bods[1] = Bod1;
 		Cont->Penetration = Pen;
 		Cont->Normal = -Norm;
 		Cont->ContactPoint.push_back(Sph0.GetPos() - Pen * Norm);
@@ -166,8 +176,6 @@ std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_
 	std::vector<std::shared_ptr<Contacts>> T = MakeContacts(Bod0, Bod1);
 	for (auto& ii : T)
 	{
-		ii->Bods[0] = Bod0;
-		ii->Bods[1] = Bod1;
 		ii->Friction = Fric;
 		ii->Restituion = Rest;
 	}
