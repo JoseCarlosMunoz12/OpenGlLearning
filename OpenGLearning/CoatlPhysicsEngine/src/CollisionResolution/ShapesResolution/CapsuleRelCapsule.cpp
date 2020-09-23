@@ -38,8 +38,6 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 				glm::vec3 V = (PL1[0] + PL1[1]) / 2.f;
 				Contact->ContactPoint.push_back(ii + R + V);
 			}
-			Contact->R0.push_back(Cont[0] + PL0[0] + PL1[0] - Norm * Cap0.GetRadius() - Cap0.GetPos());
-			Contact->R1.push_back(Cont[1] + PL0[1] + PL1[1] - Norm * Cap1.GetRadius() - Cap1.GetPos());
 			Temp.push_back(Contact);
 		}
 		else
