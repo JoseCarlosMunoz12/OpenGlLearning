@@ -99,6 +99,8 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 				if (RelNorm == Norm)
 				{
 					Cont->ContactPoint.push_back((jj + ii) / 2.f);
+					Cont->R0.push_back(jj - Cap.GetRadius() * Norm - Cap.GetPos());
+					Cont->R1.push_back(ii - Bod1->GetPos());
 					break;
 				}
 			}
