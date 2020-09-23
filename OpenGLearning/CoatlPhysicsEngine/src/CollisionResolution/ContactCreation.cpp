@@ -31,6 +31,8 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 		Cont->Penetration = glm::abs(Pen);
 		Cont->Normal = Norm;
 		Cont->ContactPoint.push_back(Sph0.GetPos() - R * Norm);
+		Cont->R0.push_back(-R * Norm);
+		Cont->R1.push_back(Sph0.GetPos() - R*Norm - Bod1->GetPos());
 		Temp.push_back(Cont);
 	}
 	else
