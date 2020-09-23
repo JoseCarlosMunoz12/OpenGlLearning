@@ -39,12 +39,15 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 	{
 		glm::vec3 Norm;
 		float R = Sph0.GetRadius();
-		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
+		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm);
+		Norm = -Norm;
 		Cont->Bods[0] = Bod0;
 		Cont->Bods[1] = Bod1;
-		Cont->Penetration = Pen;
-		Cont->Normal = -Norm;
-		Cont->ContactPoint.push_back(Sph0.GetPos() - Pen * Norm);
+		Cont->Penetration = Pen + R;
+		Cont->Normal = Norm;
+		Cont->ContactPoint.push_back(Sph0.GetPos() + (Pen + R) * Norm);
+		Cont->R0.push_back(-R * Norm);
+		Cont->R1.push_back(Cont->ContactPoint[0] - Bod1->GetPos());
 		Temp.push_back(Cont);
 	}
 	return Temp;
