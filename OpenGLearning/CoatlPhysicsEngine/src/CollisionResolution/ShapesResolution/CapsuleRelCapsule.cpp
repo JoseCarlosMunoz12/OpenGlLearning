@@ -32,11 +32,15 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 			std::shared_ptr<Contacts> Contact = std::make_shared<Contacts>();
 			Contact->Normal = Norm;
 			Contact->Penetration = Total_R - dis;
+			int jj = 0;
 			for (auto& ii : Cont)
 			{
 				glm::vec3 R = (PL0[0] + PL0[1]) / 2.f;
 				glm::vec3 V = (PL1[0] + PL1[1]) / 2.f;
 				Contact->ContactPoint.push_back(ii + R + V);
+				Contact->R0.push_back(Contact->ContactPoint[jj] - Norm * (Contact->Penetration/2) - Cap0.GetPos());
+				Contact->R1.push_back(Contact->ContactPoint[jj] + Norm * (Contact->Penetration / 2) - Cap1.GetPos());
+				ii++;
 			}
 			Temp.push_back(Contact);
 		}
