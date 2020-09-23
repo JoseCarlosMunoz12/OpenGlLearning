@@ -34,9 +34,9 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 			Contact->Penetration = Total_R - dis;
 			for (auto& ii : Cont)
 			{
-				glm::vec3 R =( PL0[0] + PL0[1]) / 2.f;
-				glm::vec3 T = (PL1[0] + PL1[1]) / 2.f;
-				Contact->ContactPoint.push_back(ii + R +T);
+				glm::vec3 R = (PL0[0] + PL0[1]) / 2.f;
+				glm::vec3 V = (PL1[0] + PL1[1]) / 2.f;
+				Contact->ContactPoint.push_back(ii + R + V);
 			}
 			Temp.push_back(Contact);
 		}
