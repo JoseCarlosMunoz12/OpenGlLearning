@@ -13,7 +13,8 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 	std::vector<std::shared_ptr<Contacts>> Temp;
 	std::shared_ptr<Contacts> Con = std::make_shared<Contacts>();
 	glm::vec3 Norm = C_P1 - C_P0;
-	Norm = MATH::Normalize(Norm);
+	if (glm::length(Norm) >0)
+		Norm = Norm / glm::length(Norm);
 	std::vector<glm::vec3> Cont;
 	std::vector<glm::vec3> PL0;
 	std::vector<glm::vec3> PL1;
@@ -44,10 +45,10 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 			float Total_R = Cap0.GetRadius() + Cap1.GetRadius();
 			float dis = glm::distance(C_P0, C_P1);
 			Con->Penetration = Total_R - dis;
-			Con->Normal = Norm;
+			Con->Normal = -Norm;
 			Con->ContactPoint.push_back(C_P0 + Norm * Con->Penetration);
-			Con->R0.push_back(C_P0 + Norm * Cap0.GetRadius() - Cap0.GetPos());
-			Con->R1.push_back(C_P1 - Norm * Cap1.GetRadius() - Cap1.GetPos());
+			Con->R0.push_back(C_P0 - Norm * Cap0.GetRadius() - Cap0.GetPos());
+			Con->R1.push_back(C_P1 + Norm * Cap1.GetRadius() - Cap1.GetPos());
 			Temp.push_back(Con);
 		}
 	}

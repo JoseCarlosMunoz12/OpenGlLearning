@@ -9,16 +9,16 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelSphere::CapRelSph(Capsule Cap, 
 	glm::vec3 Pos = MATH::ClosestPoint_Seg(Cap.GetSegment(), Sph0.GetPos());
 	float Total_R = Cap.GetRadius() + Sph0.GetRadius();
 	glm::vec3 Norm = Pos - Sph0.GetPos();
-	Norm = MATH::Normalize(Norm);
+	Norm = -Norm / glm::length(Norm);
 	glm::vec3 ContactPoint = Sph0.GetPos() + Norm * Sph0.GetRadius();
 	Cont->Penetration = Total_R - DisSqr;
 	Cont->Normal = Norm;
 	Cont->ContactPoint.push_back(ContactPoint);
 	//gets sphere contact location
-	glm::vec3 R0 = Norm * Sph0.GetRadius();
+	glm::vec3 R0 = -Norm * Sph0.GetRadius();
 	Cont->R0.push_back(R0);
 	//Gets Capsule Contact Location
- 	glm::vec3 R1 = (Sph0.GetPos() + R0 - Cont->Penetration * Norm) - Cap.GetPos();
+ 	glm::vec3 R1 = (Sph0.GetPos() + R0 + Cont->Penetration * Norm) - Cap.GetPos();
 	Cont->R1.push_back(R1);
 	Temp.push_back(Cont);
 	return Temp;
