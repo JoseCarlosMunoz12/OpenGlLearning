@@ -182,8 +182,6 @@ std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<C
 	std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
 	Cont->Normal = Norm;
 	Cont->Penetration = Pen;
-	Cont->Bods[0] = Bod0;
-	Cont->Bods[1] = Bod1;
 	glm::vec3 Pos0 = Bod0->GetPos();
 	glm::vec3 Pos1 = Bod1->GetPos();
 	for (auto& jj : Obj0_seg)

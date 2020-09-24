@@ -142,8 +142,11 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(std::share
 	if (Norm == glm::vec3(0.f) || isnan(glm::length(Norm)))
 		Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm);
 	//uses SAT to get contact points in one shot
-	return this->SAT_->SAT_CreateContacts(Bod0->GetShapes(), Bod1->GetShapes(),
+	std::vector<std::shared_ptr<Contacts>> Temp = this->SAT_->SAT_CreateContacts(Bod0->GetShapes(), Bod1->GetShapes(),
 		Norm, Pen);
+	Temp[0]->Bods[0] = Bod0;
+	Temp[0]->Bods[1] = Bod1;
+	return Temp;
 }
 
 std::vector<std::shared_ptr<Contacts>> ContactCreation::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
