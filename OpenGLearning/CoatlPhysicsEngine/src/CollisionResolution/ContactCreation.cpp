@@ -89,6 +89,8 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 				MATH::SAT_Clip(jj, Cap_Seg, Obj_seg);
 		}
 		std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
+		Cont->Bods[0] = Bod0;
+		Cont->Bods[1] = Bod1;
 		Cont->Normal = Norm;
 		Cont->Penetration = R - Pen;
 		for (auto& jj : Cap_Seg)
@@ -113,6 +115,8 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 		glm::vec3 Norm;
 		float R = Cap.GetRadius();
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
+		Cont->Bods[0] = Bod0;
+		Cont->Bods[1] = Bod1;
 		Cont->Penetration = Pen;
 		Cont->Normal = Norm;
 		Cont->ContactPoint.push_back(Cap.GetPos() + Pen * Norm);

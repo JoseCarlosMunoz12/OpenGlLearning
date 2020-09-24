@@ -179,12 +179,18 @@ std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<C
 			MATH::SAT_Clip(ii, Obj0_seg, Obj1_seg);
 	}
 	int Count = 0;
-		std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
-		Cont->Normal = Norm;
-		Cont->Penetration = Pen;
+	std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
+	Cont->Normal = Norm;
+	Cont->Penetration = Pen;
+	Cont->Bods[0] = Bod0;
+	Cont->Bods[1] = Bod1;
+	glm::vec3 Pos0 = Bod0->GetPos();
+	glm::vec3 Pos1 = Bod1->GetPos();
 	for (auto& jj : Obj0_seg)
 	{
-		Cont->ContactPoint.push_back((jj + Obj0_seg[Count]) / 2.f);
+		Cont->ContactPoint.push_back((jj + Obj1_seg[Count]) / 2.f);
+		Cont->R0.push_back(jj - Pos0);
+		Cont->R1.push_back(Obj1_seg[Count] - Pos1);
 		Count++;
 	}
 	Temp.push_back(Cont);
