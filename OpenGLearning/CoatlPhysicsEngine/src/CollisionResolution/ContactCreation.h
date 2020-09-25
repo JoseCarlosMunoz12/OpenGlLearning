@@ -22,7 +22,7 @@ namespace CoatlPhysicsEngine
 		ContactCreation();
 		~ContactCreation();
 		//Create Manifolds
-		std::vector<std::shared_ptr<Contacts>> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt0, float dt1);
+		std::vector<std::shared_ptr<Contacts>> MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt);
 		void MakeJointManifold(std::vector<std::shared_ptr<Contacts>>& R, std::vector<std::shared_ptr<ColJoints>> BodJoints);
 	};
 }
