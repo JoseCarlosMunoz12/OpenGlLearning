@@ -120,7 +120,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					if (this->BinColDetection(jj, ii,Bod_Vel,glm::vec3(0.f),0.f, dt, F_dt))
 					{
 						jj->MovePosition(F_dt * Bod_Vel);
-						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, dt - F_dt);
+						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, dt, dt - F_dt);
 						if(T.size() != 0)
 							if (!this->ContainsManifold(ColRel, T[0]))
 								for(auto& pp : T)
@@ -141,7 +141,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 				{
 					if (this->BinColDetection(jj, ii, Bod_Vel,glm::vec3(0.f), 0.f, dt, F_dt))
 					{
-						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, 0);
+						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, dt, dt - F_dt);
 						if (T.size() != 0)
 							if (!this->ContainsManifold(ColRel, T[0]))
 								for(auto& pp : T)
@@ -163,7 +163,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					{
 						jj->MovePosition(F_dt * Bod_Vel);
 						ii->MovePosition(F_dt* KinVel);
-						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, F_dt);
+						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, dt, dt - F_dt);
 						if (T.size() != 0)
 							if (!this->ContainsManifold(ColRel, T[0]))
 								for (auto& pp : T)
@@ -186,13 +186,13 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 						glm::vec3 Pos1 = ii->GetPos();
 						float F_dt = dt;
 						if(!jj->HasId(ii))
-						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,0,dt,F_dt))
+						if (this->BinColDetection(jj, ii,Bod_Vel,Bod1_Vel,0,dt, F_dt))
 						{
 							jj->AddId(ii->GetID());
 							ii->AddId(jj->GetID());
 							jj->MovePosition(Bod_Vel * F_dt);
 							ii->MovePosition(Bod1_Vel * F_dt);
-							std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, F_dt);
+							std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, dt, dt - F_dt);
 							if(T.size() !=0)
 								if (!this->ContainsManifold(ColRel, T[0]))
 									for (auto& pp : T)

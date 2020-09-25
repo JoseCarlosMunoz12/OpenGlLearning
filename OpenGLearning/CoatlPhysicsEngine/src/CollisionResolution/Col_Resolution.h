@@ -21,7 +21,8 @@ namespace CoatlPhysicsEngine {
 		//relative contact Locations
 		std::vector<glm::vec3> R0;
 		std::vector<glm::vec3> R1;
-		float dt;
+		float dt0;//time of contact
+		float dt1;//time left in the frame
 		glm::vec3 Normal;
 		float Penetration;
 		float Friction;
