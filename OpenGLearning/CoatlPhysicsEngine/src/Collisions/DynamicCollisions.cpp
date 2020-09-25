@@ -120,7 +120,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 					if (this->BinColDetection(jj, ii,Bod_Vel,glm::vec3(0.f),0.f, dt, F_dt))
 					{
 						jj->MovePosition(F_dt * Bod_Vel);
-						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, F_dt);
+						std::vector <std::shared_ptr<Contacts>> T = this->ContCrt->MakeManifold(jj, ii, dt - F_dt);
 						if(T.size() != 0)
 							if (!this->ContainsManifold(ColRel, T[0]))
 								for(auto& pp : T)
