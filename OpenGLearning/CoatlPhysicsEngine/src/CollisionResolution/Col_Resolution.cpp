@@ -15,20 +15,18 @@ void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,
 	Took = 0;
 	VelTook = 0;
 	if (Cnt.size() != 0)
-	{
 		if (Cnt[0]->Bods[0]->GetParticle())
 		{
-			glm::vec3 Vec = Cnt[0]->Bods[0]->GetParticle()->GetVel();
+			glm::vec3 Vec0 = Cnt[0]->Bods[0]->GetParticle()->GetVel();
 			glm::vec3 Pos0 = Cnt[0]->Bods[0]->GetPos();
 			glm::vec3 Pos1 = Cnt[0]->Bods[1]->GetPos();
 			glm::vec3 C = (Cnt[0]->R1[0] + Pos1) - (Cnt[0]->R0[0] + Pos0);
 			float CN =  glm::dot(C, Cnt[0]->Normal);
 			float B = .3f;
-			Vec.z = (B / dt) * CN;
-			Cnt[0]->Bods[0]->GetParticle()->SetVel(Vec);
-			Cnt[0]->Bods[0]->GetParticle()->SetPos(Pos0 + Vec * dt);
+			Vec0.z = (B / dt) * CN;
+			Cnt[0]->Bods[0]->GetParticle()->SetVel(Vec0);
+			Cnt[0]->Bods[0]->GetParticle()->SetPos(Pos0 + Vec0 * Cnt[0]->dt);
 		}
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////

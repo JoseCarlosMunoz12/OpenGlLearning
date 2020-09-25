@@ -198,6 +198,7 @@ std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_
 	{
 		ii->Friction = Fric;
 		ii->Restituion = Rest;
+		ii->dt = dt;
 	}
 	return T;
 }
