@@ -7,7 +7,7 @@ bool DynamicCollisions::BinColDetection(std::shared_ptr<Bodies> Bod0, std::share
 {
 	if ((t1 - t0) < EPSILON)
 	{
-		NewDt = t0;
+		NewDt = t1;
 		return true;
 	}
 	float Mid = t0 + (t1 - t0) / 2.f;
@@ -81,8 +81,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		this->AlgoCheck->Insert(jj);
 		jj->ResetBools();
 	}
-	if (!this->it)
-		return;
+	//if (!this->it)
+	//	return;
 	//////-----------Physics Loop-----------------\\\\\\\\\\
 	//1) Force generators
 	//2) Calc Physics
