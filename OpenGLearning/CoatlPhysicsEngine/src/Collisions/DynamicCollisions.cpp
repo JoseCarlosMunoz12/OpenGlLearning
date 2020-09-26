@@ -81,6 +81,8 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 		this->AlgoCheck->Insert(jj);
 		jj->ResetBools();
 	}
+	if (!this->it)
+		return;
 	//////-----------Physics Loop-----------------\\\\\\\\\\
 	//1) Force generators
 	//2) Calc Physics
@@ -128,7 +130,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 									ColRel.push_back(pp);
 						//Temp->AcumForce(-Gravity * Temp->GetMass());							
 						jj->SetPosition(PrevPos);
-						//this->it = false;
+						this->it = false;
 					}
 				}
 			}
