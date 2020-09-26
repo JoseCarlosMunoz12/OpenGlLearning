@@ -189,7 +189,7 @@ ContactCreation::~ContactCreation()
 {
 }
 
-std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt)
+std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt0, float dt1)
 {
 	float Fric = GetLowestFric(Bod0, Bod1);
 	float Rest = GetLowestRest(Bod0, Bod1);
@@ -198,7 +198,8 @@ std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_
 	{
 		ii->Friction = Fric;
 		ii->Restituion = Rest;
-		ii->dt = dt;
+		ii->dt0 = dt0;
+		ii->dt1 = dt1;
 	}
 	return T;
 }

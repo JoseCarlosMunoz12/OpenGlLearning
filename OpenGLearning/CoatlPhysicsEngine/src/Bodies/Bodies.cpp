@@ -73,6 +73,11 @@ bool Bodies::HasId(std::shared_ptr<Bodies> OtherBod)
 	return std::find(BoolId.begin(), BoolId.end(), OtherBod->GetID()) != BoolId.end();
 }
 
+bool Bodies::HasCollided()
+{
+	return this->BoolId.size();
+}
+
 void Bodies::AddId(int NewId)
 {
 	this->BoolId.push_back(NewId);
