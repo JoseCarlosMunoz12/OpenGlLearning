@@ -70,14 +70,19 @@ void Bodies::SetQuat(glm::quat NewQuat)
 
 bool Bodies::HasId(std::shared_ptr<Bodies> OtherBod)
 {
-	if(std::find(BoolId.begin(), BoolId.end(), OtherBod->GetID()) != BoolId.end())
-		return true;
-	return false;
+	return std::find(BoolId.begin(), BoolId.end(), OtherBod->GetID()) != BoolId.end();
 }
 
 void Bodies::AddId(int NewId)
 {
 	this->BoolId.push_back(NewId);
+}
+
+void Bodies::RemoveID(int RevId)
+{
+	std::vector<int>::iterator it = std::find(this->BoolId.begin(), this->BoolId.end(), RevId);
+	if (it != this->BoolId.end())
+		this->BoolId.erase(it);
 }
 
 glm::vec3 Bodies::GetPos()

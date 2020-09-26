@@ -33,6 +33,7 @@ namespace CoatlPhysicsEngine {
 		void ResetBools() { this->BoolId.clear(); };
 		bool HasId(std::shared_ptr<Bodies> OtherBod);
 		void AddId(int NewId);
+		void RemoveID(int RevId);
 		glm::vec3 GetPos();
 		glm::quat GetQuat();
 		std::shared_ptr<ColShapes> GetShapes();
