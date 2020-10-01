@@ -47,11 +47,14 @@ void DynamicCollisions::CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cn
 			int R = std::distance(Cnt.begin(), ii);
 			int C = std::distance(Cnt.begin(), jj);
 			float Diff = glm::abs(Cnt[R]->dt0 - Cnt[C]->dt0);
-			if (Diff > 0.f)
-			{
-				jj = Cnt.erase(ii);
-				ii = jj + 1;
-			}
+			bool Contains = Cnt[R]->Bods[0] == Cnt[C]->Bods[0] || Cnt[R]->Bods[1] == Cnt[C]->Bods[0]
+				|| Cnt[R]->Bods[1] == Cnt[C]->Bods[0] || Cnt[R]->Bods[1] == Cnt[C]->Bods[1];
+			if (Contains)
+				if (Diff)
+				{
+					jj = Cnt.erase(ii);
+					ii = jj + 1;
+				}
 		}
 }
 
