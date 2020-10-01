@@ -41,8 +41,7 @@ bool DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Contacts>> 
 void DynamicCollisions::CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cnt )
 {
 	std::sort(Cnt.begin(), Cnt.end(), CompStrct);
-	for (auto jj = Cnt.begin(); jj != Cnt.end();)
-	{
+	for (auto jj = Cnt.begin(); jj != Cnt.end();++jj)
 		for (auto ii = jj + 1; ii != Cnt.end();)
 		{
 			int R = std::distance(Cnt.begin(), ii);
@@ -54,8 +53,6 @@ void DynamicCollisions::CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cn
 				ii = jj + 1;
 			}
 		}
-		++jj;
-	}
 }
 
 bool DynamicCollisions::CompStrct(const std::shared_ptr<Contacts>& A, const std::shared_ptr<Contacts>& B)
