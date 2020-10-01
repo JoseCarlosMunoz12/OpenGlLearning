@@ -40,7 +40,12 @@ bool DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Contacts>> 
 
 void DynamicCollisions::CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cnt )
 {
+	std::sort(Cnt.begin(), Cnt.end(), CompStrct);
+}
 
+bool DynamicCollisions::CompStrct(const std::shared_ptr<Contacts>& A, const std::shared_ptr<Contacts>& B)
+{
+	return A->dt0 < B->dt0;
 }
 
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
@@ -215,7 +220,7 @@ void DynamicCollisions::CheckCollision(std::shared_ptr<StaticCollisions> Statics
 	for (auto& jj : AllCollections)
 		this->ContCrt->MakeJointManifold(this->ColRel, jj->GetJoints());
 	//Cull Manifolds and get rid of repeats
-
+	this->CullManifolds(this->ColRel);
 	//Fix Resolution
 	this->Col_Rel->ResolveContacts(this->ColRel, dt);
 	//Move non contact bodies
