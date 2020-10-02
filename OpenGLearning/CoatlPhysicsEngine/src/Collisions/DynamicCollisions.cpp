@@ -40,27 +40,25 @@ bool DynamicCollisions::ContainsManifold(std::vector<std::shared_ptr<Contacts>> 
 
 void DynamicCollisions::CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cnt )
 {
+	//Verifies that there is no repeats of later collisions.
+	//Ignores the terrain coordinates
 	std::sort(Cnt.begin(), Cnt.end(), CompStrct);
 	for (auto jj = Cnt.begin(); jj != Cnt.end();++jj)
 		for (auto ii = jj + 1; ii != Cnt.end();)
 		{
-			int R = std::distance(Cnt.begin(), ii);
-			int C = std::distance(Cnt.begin(), jj);
-			float Diff = glm::abs(Cnt[R]->dt0 - Cnt[C]->dt0);
-			bool Contains = Cnt[R]->Bods[0] == Cnt[C]->Bods[0] || Cnt[R]->Bods[1] == Cnt[C]->Bods[0]
-				|| Cnt[R]->Bods[1] == Cnt[C]->Bods[0] || Cnt[R]->Bods[1] == Cnt[C]->Bods[1];
-			if (Contains)
-				if (Diff)
-				{
-					jj = Cnt.erase(ii);
-					ii = jj + 1;
-				}
+
 		}
 }
 
 bool DynamicCollisions::CompStrct(const std::shared_ptr<Contacts>& A, const std::shared_ptr<Contacts>& B)
 {
-	return A->dt0 < B->dt0;
+	int ID0 = A->Bods[0]->GetID();
+	int ID1 = B->Bods[0]->GetID();
+	if (ID0 == ID1)
+	{
+
+	}
+	return ID0 < ID1;
 }
 
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)
