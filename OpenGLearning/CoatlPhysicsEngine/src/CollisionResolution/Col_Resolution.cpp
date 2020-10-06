@@ -24,7 +24,7 @@ void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,
 			float CN =  glm::dot(C, Cnt[0]->Normal);
 			float B = 0.3f;
 			float R = Cnt[0]->Restituion * glm::dot( -Vec0, Cnt[0]->Normal);
-			Vec0.z = 0.f;//R + (B / Cnt[0]->dt1) * CN;
+			Vec0.z = R + (B / Cnt[0]->dt1) * CN;
 			Cnt[0]->Bods[0]->GetParticle()->SetVel(Vec0);
 			Pos0 += Cnt[0]->dt1 * Vec0;
 			Cnt[0]->Bods[0]->SetPosition(Pos0);
