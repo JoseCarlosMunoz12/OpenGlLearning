@@ -650,7 +650,6 @@ Game::Game(const char * title,
 	this-> worldUp = glm::vec3(0.f, 0.f, 1.f);
 	this-> camFront = glm::vec3(0.f, 0.f,-1.f);
 
-
 	this-> fov = 90.f;
 	this-> nearPlane = .1f;
 	this-> farPlane = 1000.f;

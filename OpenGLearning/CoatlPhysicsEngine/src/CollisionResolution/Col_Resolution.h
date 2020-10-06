@@ -11,11 +11,7 @@
 #include "../Bodies/Bodies.h"
 #include "../Bodies/Bod_Collection.h"
 namespace CoatlPhysicsEngine {
-	class Contacts {
-	private:
-	public:
-		Contacts();
-		~Contacts();
+	struct Contacts{
 		std::shared_ptr<Bodies> Bods[2];
 		std::vector<glm::vec3> ContactPoint;
 		//relative contact Locations
@@ -27,6 +23,14 @@ namespace CoatlPhysicsEngine {
 		float Penetration;
 		float Friction;
 		float Restituion;
+		inline bool operator< (const Contacts& B)
+		{
+			int IDA = Bods[0]->GetID();
+			int IDB = B.Bods[0]->GetID();
+			if (IDA == IDB)
+				return dt0 < B.dt0;
+			return IDA < IDB;
+		}
 	};
 	class Col_Resolution
 	{

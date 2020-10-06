@@ -43,7 +43,7 @@ void DynamicCollisions::CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cn
 	//Verifies that there is no repeats of later collisions.
 	//Ignores the terrain coordinates
 	//erased any repeats that are above the threshold
-	std::sort(Cnt.begin(), Cnt.end(), CompStrct);
+	std::sort(Cnt.begin(), Cnt.end());
 	for (auto jj = Cnt.begin(); jj != Cnt.end();++jj)
 		for (auto ii = jj + 1; ii != Cnt.end();)
 		{
@@ -60,17 +60,6 @@ void DynamicCollisions::CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cn
 			else
 				break;
 		}
-}
-
-bool DynamicCollisions::CompStrct(const std::shared_ptr<Contacts>& A, const std::shared_ptr<Contacts>& B)
-{
-	int ID0 = A->Bods[0]->GetID();
-	int ID1 = B->Bods[0]->GetID();
-	if (ID0 == ID1)
-	{
-		return A->dt0 < B->dt0;
-	}
-	return ID0 < ID1;
 }
 
 DynamicCollisions::DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols)

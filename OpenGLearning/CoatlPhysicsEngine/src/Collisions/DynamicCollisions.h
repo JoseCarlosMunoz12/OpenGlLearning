@@ -28,7 +28,6 @@ namespace CoatlPhysicsEngine {
 			float& NewDt);
 		bool ContainsManifold(std::vector<std::shared_ptr<Contacts>> ColRel, std::shared_ptr<Contacts> NewMan);
 		void CullManifolds(std::vector<std::shared_ptr<Contacts>>& Cnt );
-		bool CompStrct(const std::shared_ptr<Contacts> &A, const std::shared_ptr<Contacts> &B);
 	public:
 		DynamicCollisions(std::string Name, std::shared_ptr<CollisionManager>InitCols);
 		~DynamicCollisions();
