@@ -14,6 +14,10 @@ void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,
 {
 	Took = 0;
 	VelTook = 0;
+	for (auto& jj : Cnt)
+	{
+
+	}
 	if (Cnt.size() != 0)
 		if (Cnt[0]->Bods[0]->GetParticle())
 		{

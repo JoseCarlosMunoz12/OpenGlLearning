@@ -11,7 +11,12 @@
 #include "../Bodies/Bodies.h"
 #include "../Bodies/Bod_Collection.h"
 namespace CoatlPhysicsEngine {
-	struct Contacts{
+	class  Col_Resolution;
+	class Contacts{
+		friend class Col_Resolution;
+	private:
+		int Test;
+	public:
 		std::shared_ptr<Bodies> Bods[2];
 		std::vector<glm::vec3> ContactPoint;
 		//relative contact Locations
