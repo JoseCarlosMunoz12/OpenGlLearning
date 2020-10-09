@@ -7,8 +7,7 @@ void RigidBodies::UpdateRot(float dt)
 	this->RotVel += AngularAccelration * dt;
 	this->RotVel *= glm::pow(this->RotDamp, dt);
 	glm::quat E = glm::quat(0, this->RotVel * dt);
-	E *= this->AxisAngle;
-	this->AxisAngle += E *.5f;	
+	this->AxisAngle =this->AxisAngle * E *.5f + this->AxisAngle;	
 	this->CalcDerivedData();
 }
 
