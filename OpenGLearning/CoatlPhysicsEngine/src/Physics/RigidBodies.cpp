@@ -114,8 +114,8 @@ void RigidBodies::SetAwake(bool Awake)
 	else
 	{
 		this->IsAwake = false;
-		this->Vel = glm::vec3(0.f);
-		this->RotVel = glm::vec3(0.f);
+		this->SetVel(glm::vec3(0.f));
+		this->SetRotVel(glm::vec3(0.f));
 	}
 }
 
