@@ -51,7 +51,7 @@ BaseCols::~BaseCols()
 {
 }
 
-std::vector<std::shared_ptr<Contacts>> CoatlPhysicsEngine::BaseCols::GetColRel()
+std::vector<std::shared_ptr<Contact>> CoatlPhysicsEngine::BaseCols::GetColRel()
 {
 	return this->ColRel;
 }

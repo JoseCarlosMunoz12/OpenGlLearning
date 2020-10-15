@@ -10,7 +10,7 @@ Col_Resolution::~Col_Resolution()
 {
 }
 
-void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contacts>> Cnt,float dt)
+void Col_Resolution::ResolveContacts(std::vector<std::shared_ptr<Contact>> Cnt,float dt)
 {
 	for (auto& jj : Cnt)
 		if(jj->Bods[0]->GetParticle()->GetAwakeStatus())

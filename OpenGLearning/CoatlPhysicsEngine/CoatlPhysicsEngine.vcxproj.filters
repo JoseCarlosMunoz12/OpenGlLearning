@@ -198,6 +198,9 @@
     <ClInclude Include="src\CollisionResolution\ContactCreation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CollisionResolution\Contact.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collisions\StaticCollisions.cpp">

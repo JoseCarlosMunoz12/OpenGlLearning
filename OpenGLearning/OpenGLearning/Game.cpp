@@ -2244,7 +2244,7 @@ void Game::DrawColInfo()
 			}
 			if (ImGui::TreeNode("Collision Resolution"))
 			{
-				std::vector<std::shared_ptr<Contacts>> T = TempDynamic->GetColRel();
+				std::vector<std::shared_ptr<Contact>> T = TempDynamic->GetColRel();
 				int Count = 0;
 				int Iter = TempDynamic->IterTook();
 				int VelIter = TempDynamic->VelIter();

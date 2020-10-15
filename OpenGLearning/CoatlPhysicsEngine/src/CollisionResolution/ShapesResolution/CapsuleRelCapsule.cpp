@@ -1,7 +1,7 @@
 #include "CapsuleRelCapsule.h"
 using namespace CoatlPhysicsEngine;
 
-std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, Capsule Cap1)
+std::vector<std::shared_ptr<Contact>> CapsuleRelCapsule::CapRel(Capsule Cap0, Capsule Cap1)
 {
 	glm::vec3 C_P0;
 	glm::vec3 C_P1;
@@ -10,8 +10,8 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 	glm::vec3 Dir0 = MATH::CreateNormal(C_S0);
 	glm::vec3 Dir1 = MATH::CreateNormal(C_S1);
 	MATH::ClosestSeg_Seg(C_S0, C_S1, C_P0, C_P1);
-	std::vector<std::shared_ptr<Contacts>> Temp;
-	std::shared_ptr<Contacts> Con = std::make_shared<Contacts>();
+	std::vector<std::shared_ptr<Contact>> Temp;
+	std::shared_ptr<Contact> Con = std::make_shared<Contact>();
 	glm::vec3 Norm = C_P1 - C_P0;
 	if (glm::length(Norm) > 0)
 		Norm = -Norm / glm::length(Norm);
@@ -29,20 +29,20 @@ std::vector<std::shared_ptr<Contacts>> CapsuleRelCapsule::CapRel(Capsule Cap0, C
 			PL1 = MATH::SAT_Points(glm::cross(Dir0, Norm), C_S0, C_S1);
 			float Total_R = Cap0.GetRadius() + Cap1.GetRadius();
 			float dis = glm::distance(C_P0, C_P1);
-			std::shared_ptr<Contacts> Contact = std::make_shared<Contacts>();
-			Contact->Normal = Norm;
-			Contact->Penetration = Total_R - dis;
+			std::shared_ptr<Contact> Contacts = std::make_shared<Contact>();
+			Contacts->Normal = Norm;
+			Contacts->Penetration = Total_R - dis;
 			int jj = 0;
 			for (auto& ii : Cont)
 			{
 				glm::vec3 R = (PL0[0] + PL0[1]) / 2.f;
 				glm::vec3 V = (PL1[0] + PL1[1]) / 2.f;
-				Contact->ContactPoint.push_back(ii + R + V);
-				Contact->R0.push_back(Contact->ContactPoint[jj] - Norm * (Contact->Penetration/2) - Cap0.GetPos());
-				Contact->R1.push_back(Contact->ContactPoint[jj] + Norm * (Contact->Penetration / 2) - Cap1.GetPos());
+				Contacts->ContactPoint.push_back(ii + R + V);
+				Contacts->R0.push_back(Contacts->ContactPoint[jj] - Norm * (Contacts->Penetration/2) - Cap0.GetPos());
+				Contacts->R1.push_back(Contacts->ContactPoint[jj] + Norm * (Contacts->Penetration / 2) - Cap1.GetPos());
 				ii++;
 			}
-			Temp.push_back(Contact);
+			Temp.push_back(Contacts);
 		}
 		else
 		{

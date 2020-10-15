@@ -162,10 +162,10 @@ bool SAT::SAT_Check(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> 
 	return MATH::SATColCheck(Normals0, Normals1, Vertex0, Vertex1);
 }
 
-std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1,
+std::vector<std::shared_ptr<Contact>> SAT::SAT_CreateContacts(std::shared_ptr<ColShapes> Bod0, std::shared_ptr<ColShapes> Bod1,
 	glm::vec3 Norm, float Pen)
 {
-	std::vector<std::shared_ptr<Contacts>> Temp;
+	std::vector<std::shared_ptr<Contact>> Temp;
 	std::vector<glm::vec3> Obj0_seg = Bod0->GetVertices();
 	std::vector<glm::vec3> Obj1_seg = Bod1->GetVertices();
 	std::vector<glm::vec3> Obj1_Norm = Bod1->GetNormals();
@@ -179,7 +179,7 @@ std::vector<std::shared_ptr<Contacts>> SAT::SAT_CreateContacts(std::shared_ptr<C
 			MATH::SAT_Clip(ii, Obj0_seg, Obj1_seg);
 	}
 	int Count = 0;
-	std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
+	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	Cont->Normal = Norm;
 	Cont->Penetration = Pen;
 	glm::vec3 Pos0 = Bod0->GetPos();

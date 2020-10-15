@@ -1,9 +1,9 @@
 #include "ContactCreation.h"
 using namespace CoatlPhysicsEngine;
 
-std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contact>> ContactCreation::ContactCreate(Sphere Sph0, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	std::vector<std::shared_ptr<Contacts>> Temp;
+	std::vector<std::shared_ptr<Contact>> Temp;
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
 		Temp = this->S_Res->GetContacts(Sph0, *Sphere0);
@@ -18,7 +18,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 		Temp[0]->Bods[1] = Bod1;
 		return Temp;
 	}
-	std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
+	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	glm::vec3 Vec;
 	float Dis;
 	if (!this->GJK_->EPA_GJK(Bod0->GetShapes(), Bod1->GetShapes(), Vec, Dis))
@@ -53,9 +53,9 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Sphere Sph
 	return Temp;
 }
 
-std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contact>> ContactCreation::ContactCreate(Capsule Cap, std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
-	std::vector<std::shared_ptr<Contacts>> Temp;
+	std::vector<std::shared_ptr<Contact>> Temp;
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
 		Temp = this->S_Res->GetContacts(Cap, *Sphere0);
@@ -88,7 +88,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 			if (Dot != glm::vec3(0.f))
 				MATH::SAT_Clip(jj, Cap_Seg, Obj_seg);
 		}
-		std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
+		std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 		Cont->Bods[0] = Bod0;
 		Cont->Bods[1] = Bod1;
 		Cont->Normal = Norm;
@@ -111,7 +111,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 	}
 	else
 	{
-		std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
+		std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 		glm::vec3 Norm;
 		float R = Cap.GetRadius();
 		float Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm) + R;
@@ -125,7 +125,7 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(Capsule Ca
 	return Temp;
 }
 
-std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contact>> ContactCreation::ContactCreate(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sph = std::dynamic_pointer_cast<Sphere>(Bod1->GetShapes()))
 	{
@@ -142,14 +142,14 @@ std::vector<std::shared_ptr<Contacts>> ContactCreation::ContactCreate(std::share
 	if (Norm == glm::vec3(0.f) || isnan(glm::length(Norm)))
 		Pen = this->SAT_->GetPenetrationContacts(Bod0->GetShapes(), Bod1->GetShapes(), Norm);
 	//uses SAT to get contact points in one shot
-	std::vector<std::shared_ptr<Contacts>> Temp = this->SAT_->SAT_CreateContacts(Bod0->GetShapes(), Bod1->GetShapes(),
+	std::vector<std::shared_ptr<Contact>> Temp = this->SAT_->SAT_CreateContacts(Bod0->GetShapes(), Bod1->GetShapes(),
 		Norm, Pen);
 	Temp[0]->Bods[0] = Bod0;
 	Temp[0]->Bods[1] = Bod1;
 	return Temp;
 }
 
-std::vector<std::shared_ptr<Contacts>> ContactCreation::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
+std::vector<std::shared_ptr<Contact>> ContactCreation::MakeContacts(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1)
 {
 	if (std::shared_ptr<Sphere> Sphere0 = std::dynamic_pointer_cast<Sphere>(Bod0->GetShapes()))
 	{
@@ -189,11 +189,11 @@ ContactCreation::~ContactCreation()
 {
 }
 
-std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt0, float dt1)
+std::vector<std::shared_ptr<Contact>>ContactCreation::MakeManifold(std::shared_ptr<Bodies> Bod0, std::shared_ptr<Bodies> Bod1, float dt0, float dt1)
 {
 	float Fric = GetLowestFric(Bod0, Bod1);
 	float Rest = GetLowestRest(Bod0, Bod1);
-	std::vector<std::shared_ptr<Contacts>> T = MakeContacts(Bod0, Bod1);
+	std::vector<std::shared_ptr<Contact>> T = MakeContacts(Bod0, Bod1);
 	for (auto& ii : T)
 	{
 		ii->Friction = Fric;
@@ -204,7 +204,7 @@ std::vector<std::shared_ptr<Contacts>>ContactCreation::MakeManifold(std::shared_
 	return T;
 }
 
-void ContactCreation::MakeJointManifold(std::vector<std::shared_ptr<Contacts>>& R, std::vector<std::shared_ptr<ColJoints>> BodJoints)
+void ContactCreation::MakeJointManifold(std::vector<std::shared_ptr<Contact>>& R, std::vector<std::shared_ptr<ColJoints>> BodJoints)
 {
 	for (auto& ii : BodJoints)
 		ii->GetBodId();

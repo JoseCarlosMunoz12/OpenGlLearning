@@ -1,10 +1,10 @@
 #include "CapsuleRelSphere.h"
 using namespace CoatlPhysicsEngine;
 
-std::vector<std::shared_ptr<Contacts>> CapsuleRelSphere::CapRelSph(Capsule Cap, Sphere Sph0)
+std::vector<std::shared_ptr<Contact>> CapsuleRelSphere::CapRelSph(Capsule Cap, Sphere Sph0)
 {
-	std::vector<std::shared_ptr<Contacts>> Temp;
-	std::shared_ptr<Contacts> Cont = std::make_shared<Contacts>();
+	std::vector<std::shared_ptr<Contact>> Temp;
+	std::shared_ptr<Contact> Cont = std::make_shared<Contact>();
 	float DisSqr = Cap.Distance(Sph0.GetPos());
 	glm::vec3 Pos = MATH::ClosestPoint_Seg(Cap.GetSegment(), Sph0.GetPos());
 	float Total_R = Cap.GetRadius() + Sph0.GetRadius();

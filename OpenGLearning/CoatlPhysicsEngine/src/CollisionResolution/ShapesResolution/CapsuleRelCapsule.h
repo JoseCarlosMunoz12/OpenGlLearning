@@ -1,5 +1,5 @@
 #pragma once
-#include "../Col_Resolution.h"
+#include "../Contact.h"
 #include "../../Shapes/Capsule.h"
 #include "../../GJK/GJK.h"
 namespace CoatlPhysicsEngine {
@@ -8,7 +8,7 @@ namespace CoatlPhysicsEngine {
 	private:
 
 	public:
-		std::vector<std::shared_ptr<Contacts>> CapRel(Capsule Cap0, Capsule Cap1);
+		std::vector<std::shared_ptr<Contact>> CapRel(Capsule Cap0, Capsule Cap1);
 		CapsuleRelCapsule();
 		~CapsuleRelCapsule();
 	};	

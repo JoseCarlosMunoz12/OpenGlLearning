@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CollisionResolution\Contact.h" />
     <ClInclude Include="src\CollisionResolution\ContactCreation.h" />
     <ClInclude Include="src\Bodies\Bod_Collection.h" />
     <ClInclude Include="src\Bodies\Joints\J_Joint.h" />
