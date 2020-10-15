@@ -4,7 +4,7 @@ namespace CoatlPhysicsEngine {
 	class ContactConstraint
 	{
 		glm::vec3 CreateOrtho(glm::vec3 Norm);
-		std::vector<glm::vec3> U_Creation(glm::vec3 Norm);
+		std::vector<glm::vec3> U_Creation(glm::vec3 Norm, glm::vec3 DivVel);
 	public:
 		ContactConstraint() {};
 		~ContactConstraint() {};

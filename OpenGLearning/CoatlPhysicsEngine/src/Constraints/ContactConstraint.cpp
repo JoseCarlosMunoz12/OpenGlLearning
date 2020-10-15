@@ -1,8 +1,19 @@
 #include "ContactConstraint.h"
+#include <math.h>
 using namespace CoatlPhysicsEngine;
 
-std::vector<glm::vec3> ContactConstraint::U_Creation(glm::vec3 Norm)
+std::vector<glm::vec3> ContactConstraint::U_Creation(glm::vec3 Norm, glm::vec3 DivVel)
 {
+	std::vector<glm::vec3> Us;
+	glm::vec3 NormVel = DivVel * Norm * Norm;
+	glm::vec3 TanVel = DivVel - NormVel;
+	float T = TanVel.length();
+	if (T > std::numeric_limits<float>::epsilon())
+		Us.push_back(TanVel / T);
+	else
+		Us.push_back(glm::normalize(this->CreateOrtho(Norm)));
+	Us.push_back(glm::cross(Norm, Us[0]));
+	return Us;
 }
 
 glm::vec3 ContactConstraint::CreateOrtho(glm::vec3 Norm)
