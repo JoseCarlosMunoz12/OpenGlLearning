@@ -1,6 +1,41 @@
 #include "ContactConstraint.h"
 using namespace CoatlPhysicsEngine;
 
-void ContactConstraint::SolveContactConstraint(std::vector<Contact> CntLst)
+std::vector<glm::vec3> ContactConstraint::U_Creation(glm::vec3 Norm)
 {
+}
+
+glm::vec3 ContactConstraint::CreateOrtho(glm::vec3 Norm)
+{
+	std::vector<float> R;
+	R.push_back(Norm.x);
+	R.push_back(Norm.y);
+	R.push_back(Norm.z);
+	int ID = 0;
+	for (int ii = 1; ii < 3; ii++)
+	{
+		if (glm::abs(R[ii]) < glm::abs(R[ID]))
+			ID = ii;
+	}
+	float Den;
+	if (ID == 0)
+	{
+		Den = glm::sqrt(Norm.y * Norm.y + Norm.z * Norm.z);
+		return glm::vec3(0.f, -Norm.z / Den, Norm.y / Den);
+	}
+	else if (ID == 1)
+	{
+		Den = glm::sqrt(Norm.x * Norm.x + Norm.z * Norm.z);
+		return glm::vec3(-Norm.z / Den,0.f, Norm.x / Den);
+	}
+	Den = glm::sqrt(Norm.x * Norm.x + Norm.y * Norm.y);
+	return glm::vec3(-Norm.y / Den, Norm.x / Den, 0.f);
+}
+
+void ContactConstraint::SolveContactConstraint(std::vector<std::shared_ptr<Contact>> CntLst)
+{
+	for (auto& jj : CntLst)
+	{
+		jj->Bods[0];
+	}
 }
