@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Constraints\ContactConstraint.h" />
     <ClInclude Include="src\CollisionResolution\Contact.h" />
     <ClInclude Include="src\CollisionResolution\ContactCreation.h" />
     <ClInclude Include="src\Bodies\Bod_Collection.h" />
@@ -207,6 +208,7 @@
     <ClInclude Include="src\Collisions\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Constraints\ContactConstraint.cpp" />
     <ClCompile Include="src\CollisionResolution\ContactCreation.cpp" />
     <ClCompile Include="src\Bodies\Bod_Collection.cpp" />
     <ClCompile Include="src\Bodies\Joints\J_Joint.cpp" />
