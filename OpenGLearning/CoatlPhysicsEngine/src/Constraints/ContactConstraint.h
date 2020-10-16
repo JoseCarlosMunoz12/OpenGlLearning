@@ -5,6 +5,7 @@ namespace CoatlPhysicsEngine {
 	{
 		glm::vec3 CreateOrtho(glm::vec3 Norm);
 		std::vector<glm::vec3> U_Creation(glm::vec3 Norm, glm::vec3 DivVel);
+		void ResolveContact(std::shared_ptr<Contact> Cnt);
 	public:
 		ContactConstraint() {};
 		~ContactConstraint() {};

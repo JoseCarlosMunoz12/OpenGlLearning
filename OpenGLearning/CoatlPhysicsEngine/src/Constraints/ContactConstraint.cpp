@@ -16,6 +16,37 @@ std::vector<glm::vec3> ContactConstraint::U_Creation(glm::vec3 Norm, glm::vec3 D
 	return Us;
 }
 
+void ContactConstraint::ResolveContact(std::shared_ptr<Contact> Cnt)
+{
+	if (Cnt->Bods[0]->GetParticle()->GetAwakeStatus())
+	{
+		//Contact Normals and other variables
+		glm::vec3 Norm = Cnt->Normal;
+		//Default Vels and Rots Needed for body 0
+		glm::vec3 Vel0 = Cnt->Bods[0]->GetParticle()->GetVel();
+		glm::vec3 RotVel0 = Cnt->Bods[0]->GetParticle()->GetRotVel();
+		glm::vec3 R0 = Cnt->R0[0];
+		float InvMass0 = 1.f / Cnt->Bods[0]->GetParticle()->GetMass();
+		glm::mat3 InvIner0 = glm::inverse(Cnt->Bods[0]->GetParticle()->GetInertiaWorld());
+		glm::vec3 N = glm::cross(R0, Norm);
+		float M_E = InvMass0 + glm::dot(N * InvIner0,N);
+		//Calculate delVel
+		glm::vec3 DelVel = -Vel0 - glm::cross(RotVel0,R0);
+		if (Cnt->Bods[1]->GetParticle())
+		{
+			glm::vec3 Vel1 = Cnt->Bods[1]->GetParticle()->GetVel();
+			glm::vec3 RotVel1 = Cnt->Bods[1]->GetParticle()->GetRotVel();
+			glm::vec3 R1 = Cnt->R1[0];
+			float InvMass1 = 1.f / Cnt->Bods[1]->GetParticle()->GetMass();
+			glm::mat3 InvIner1 = glm::inverse(Cnt->Bods[1]->GetParticle()->GetInertiaWorld());
+			glm::vec3 M = glm::cross(R1, Norm);
+			M_E += InvMass1 + glm::dot(M * InvIner1,M);
+			DelVel += Vel1 + glm::cross(RotVel1, R1);
+		}
+
+	}
+}
+
 glm::vec3 ContactConstraint::CreateOrtho(glm::vec3 Norm)
 {
 	std::vector<float> R;
@@ -47,6 +78,6 @@ void ContactConstraint::SolveContactConstraint(std::vector<std::shared_ptr<Conta
 {
 	for (auto& jj : CntLst)
 	{
-		jj->Bods[0];
+		this->ResolveContact(jj);
 	}
 }
