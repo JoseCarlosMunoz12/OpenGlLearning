@@ -158,8 +158,8 @@ void Game::initModels()
 	//Meshes Made to be use
 	meshes.push_back(
 		new Mesh(
-			&CustomTerrain_M(100, 100, this->MipMapsData[HEIGHTMAP_1]),
-			"Terrain"));
+			new CustomTerrain_M(100, 100, this->MipMapsData[HEIGHTMAP_1]),
+			"Terrain"));/*
 	meshes.push_back(
 		new Mesh(&Sphere_M(1, 32.f, 32.f),
 			"Sphere"));
@@ -177,7 +177,7 @@ void Game::initModels()
 			"Capsule"));
 	meshes.push_back(
 		new Mesh(&Triangle_M(Set),
-			"Triangle" ));
+			"Triangle" ));*/
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({"model_Running.dae"}), "Test0"));
 	//animMeshes.push_back(new AnimMesh(&MulClanimlr({ "Snek_Up.dae", "Snek_Side.dae" }), "Test1"));
 	//animMeshes.push_back(new AnimMesh(&ClAnimLr("Snek_Up.dae",this->AnimRdrMk.ReadFile("AnimeTest.txt")), "Test2"));
