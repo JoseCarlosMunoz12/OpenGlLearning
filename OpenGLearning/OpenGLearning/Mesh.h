@@ -63,7 +63,7 @@ private:
 		shader->setMat4fv(FinalMatrix, "ModelMatrix");
 	}
 public:
-	Mesh(Primitive* primitive,
+	Mesh(std::unique_ptr<Primitive> primitive,
 		std::string Name)
 	{
 		this->NameOfMesh = Name;
